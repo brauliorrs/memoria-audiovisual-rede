@@ -1,0 +1,39 @@
+name: Pipeline IASA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 10 * * 1"
+
+jobs:
+  crawler-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright browsers
+        run: playwright install --with-deps chromium
+
+      - name: Run pipeline
+        run: python scripts/run_pipeline.py
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: iasa-reports
+          path: data/output/
