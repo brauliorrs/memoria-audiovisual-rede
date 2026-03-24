@@ -1,7 +1,9 @@
 from pathlib import Path
+from urllib.parse import urlparse
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -40,6 +42,16 @@ def render_integrity_badge(value):
     )
 
 
+def get_vimeo_embed_url(url):
+    parsed = urlparse(url)
+    if parsed.netloc.lower().startswith("player.vimeo.com") and "/video/" in parsed.path:
+        return url
+    path_parts = [part for part in parsed.path.split("/") if part]
+    if parsed.netloc.lower().endswith("vimeo.com") and path_parts and path_parts[-1].isdigit():
+        return f"https://player.vimeo.com/video/{path_parts[-1]}"
+    return None
+
+
 summary_df = load_csv("iasa_v32_resumo_instituicoes.csv")
 links_df = load_csv("iasa_v32_links_video.csv")
 internal_df = load_csv("iasa_v32_paginas_internas.csv")
@@ -74,7 +86,12 @@ selected_slug = st.sidebar.selectbox(
 query_params["arquivo"] = selected_slug
 
 selected_summary = summary_df.loc[summary_df["slug"] == selected_slug].iloc[0]
-selected_links = links_df.loc[links_df["slug"] == selected_slug].copy()
+selected_links = (
+    links_df.loc[links_df["slug"] == selected_slug]
+    .drop_duplicates(subset=["platform", "video_link"])
+    .sort_values(["platform", "video_link"])
+    .copy()
+)
 
 if sidebar_mode == "Visao geral":
     total = len(summary_df)
@@ -181,10 +198,14 @@ else:
             st.link_button(f"Abrir {row['video_link']}", row["video_link"])
             if "youtube.com" in row["video_link"] or "youtu.be" in row["video_link"]:
                 st.video(row["video_link"])
+            else:
+                vimeo_embed = get_vimeo_embed_url(row["video_link"])
+                if vimeo_embed:
+                    components.iframe(vimeo_embed, height=360)
             st.code(row["video_link"], language=None)
 
     if not internal_df.empty:
-        selected_internal = internal_df.loc[internal_df["institution"] == selected_summary["institution"]]
+        selected_internal = internal_df.loc[internal_df["slug"] == selected_slug]
         if not selected_internal.empty:
             st.markdown("### Paginas internas analisadas")
             st.dataframe(selected_internal, use_container_width=True)

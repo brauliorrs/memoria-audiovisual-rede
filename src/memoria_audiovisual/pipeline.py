@@ -39,6 +39,7 @@ def run_pipeline():
         rows_internal_pages,
         [
             "institution",
+            "slug",
             "partner_site",
             "internal_page",
             "status",

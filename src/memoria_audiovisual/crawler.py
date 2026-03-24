@@ -1,6 +1,7 @@
 import re
 import time
-from urllib.parse import quote, urljoin, urlparse
+from html import unescape
+from urllib.parse import parse_qs, quote, urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -24,6 +25,29 @@ from .config import (
 SESSION = requests.Session()
 SESSION.headers.update(HEADERS)
 
+STOP_SECTION_TITLES = {"pages"}
+SKIP_URL_SCHEMES = ("mailto:", "tel:", "javascript:", "#")
+GENERIC_URL_TOKENS = (
+    "privacy",
+    "policy",
+    "policies",
+    "cookie",
+    "cookies",
+    "terms",
+    "about",
+    "help",
+    "faq",
+    "support",
+    "signup",
+    "register",
+    "login",
+    "logout",
+    "sharer",
+    "share.php",
+    "player.js",
+)
+EMBED_HINTS = ("/embed/", "/player/", "/video/", "/videos/", "/watch/", "/reel/")
+
 
 def get_soup(url):
     response = SESSION.get(url, timeout=REQUEST_TIMEOUT, allow_redirects=True)
@@ -39,6 +63,18 @@ def normalize_domain(url):
         return netloc
     except Exception:
         return ""
+
+
+def clean_url(raw_url):
+    if not raw_url:
+        return ""
+    cleaned = unescape(raw_url).strip()
+    if not cleaned:
+        return ""
+    lowered = cleaned.lower()
+    if lowered.startswith(SKIP_URL_SCHEMES):
+        return ""
+    return cleaned
 
 
 def classify_platform(url):
@@ -62,6 +98,109 @@ def looks_like_video_url(url):
     return classify_platform(url) is not None
 
 
+def is_generic_platform_url(url):
+    lowered = url.lower()
+    return any(token in lowered for token in GENERIC_URL_TOKENS)
+
+
+def is_probably_video_link(url, platform=None):
+    cleaned = clean_url(url)
+    if not cleaned:
+        return False
+
+    lowered = cleaned.lower()
+    parsed = urlparse(cleaned)
+    path = parsed.path.lower()
+    query = parse_qs(parsed.query)
+    platform = platform or classify_platform(cleaned)
+
+    if any(ext in lowered for ext in VIDEO_FILE_EXTENSIONS):
+        return True
+    if is_generic_platform_url(cleaned):
+        return False
+
+    if platform == "YouTube":
+        return (
+            parsed.netloc.lower().endswith("youtu.be")
+            or ("watch" in path and "v" in query)
+            or path.startswith("/shorts/")
+            or path.startswith("/embed/")
+            or path.startswith("/live/")
+        )
+
+    if platform == "Vimeo":
+        return (
+            parsed.netloc.lower().startswith("player.vimeo.com")
+            and path.startswith("/video/")
+        ) or bool(re.fullmatch(r"/\d+", path))
+
+    if platform == "Facebook":
+        return (
+            "/videos/" in path
+            or path.startswith("/watch") and "v" in query
+            or path.startswith("/reel/")
+            or "/share/v/" in path
+        )
+
+    if platform == "Instagram":
+        return path.startswith("/reel/") or path.startswith("/p/") or path.startswith("/tv/")
+
+    if platform == "Dailymotion":
+        return "/video/" in path
+
+    if platform == "Internet Archive":
+        return "/details/" in path or "/embed/" in path
+
+    if platform == "SoundCloud":
+        return False
+
+    return any(hint in path for hint in EMBED_HINTS)
+
+
+def sanitize_final_url(requested_url, candidate_url):
+    cleaned_candidate = clean_url(candidate_url)
+    if not cleaned_candidate:
+        return requested_url
+    lowered = cleaned_candidate.lower()
+    if lowered.startswith("chrome-error://") or lowered == "about:blank":
+        return requested_url
+    return cleaned_candidate
+
+
+def extract_entry_block(heading):
+    nodes = []
+    node = heading.next_sibling
+    while node:
+        if getattr(node, "name", None) == "h2":
+            break
+        nodes.append(node)
+        node = node.next_sibling
+    return nodes
+
+
+def block_text(nodes):
+    parts = []
+    for node in nodes:
+        text = getattr(node, "get_text", lambda *args, **kwargs: str(node))(" ", strip=True)
+        if text:
+            parts.append(text)
+    return " ".join(parts)
+
+
+def extract_external_url_from_block(nodes):
+    for node in nodes:
+        if getattr(node, "name", None) == "a":
+            href = clean_url(node.get("href", ""))
+            if href.startswith("http") and "iasa-web.org" not in href:
+                return href
+
+        for anchor in getattr(node, "select", lambda *args, **kwargs: [])("a[href]"):
+            href = clean_url(anchor.get("href", ""))
+            if href.startswith("http") and "iasa-web.org" not in href:
+                return href
+    return None
+
+
 def find_next_iasa_page(soup):
     for anchor in soup.select("a[href]"):
         text = anchor.get_text(" ", strip=True).lower()
@@ -79,23 +218,15 @@ def extract_entry_links_from_iasa_page(soup):
         name = heading.get_text(" ", strip=True)
         if not name:
             continue
+        if name.lower() in STOP_SECTION_TITLES:
+            break
 
-        external_url = None
-        node = heading.find_next()
-        steps = 0
+        nodes = extract_entry_block(heading)
+        text = block_text(nodes).lower()
+        if "url:" not in text or "country:" not in text:
+            continue
 
-        while node and steps < 40:
-            if getattr(node, "name", None) == "a":
-                href = node.get("href", "").strip()
-                if href.startswith("http") and "iasa-web.org" not in href:
-                    external_url = href
-                    break
-
-            if getattr(node, "name", None) == "h2":
-                break
-
-            node = node.find_next()
-            steps += 1
+        external_url = extract_external_url_from_block(nodes)
 
         if external_url:
             key = (name, external_url)
@@ -135,11 +266,12 @@ def safe_goto(page, url):
     try:
         response = page.goto(url, wait_until="domcontentloaded", timeout=PLAYWRIGHT_TIMEOUT)
         page.wait_for_timeout(1500)
-        return response
+        final_url = sanitize_final_url(url, page.url)
+        return response, final_url
     except PlaywrightTimeoutError:
-        return None
+        return None, url
     except Exception:
-        return None
+        return None, url
 
 
 def extract_links_from_dom(page, base_url):
@@ -153,15 +285,22 @@ def extract_links_from_dom(page, base_url):
         return links
 
     for href in hrefs:
-        links.add(urljoin(base_url, href))
+        cleaned = clean_url(href)
+        if cleaned:
+            links.add(urljoin(base_url, cleaned))
     return links
 
 
 def detect_embeds(page, base_url):
     detected = []
-    selectors = ["iframe[src]", "video[src]", "audio[src]", "source[src]"]
+    selector_rules = {
+        "iframe[src]": False,
+        "video[src]": True,
+        "audio[src]": True,
+        "source[src]": True,
+    }
 
-    for selector in selectors:
+    for selector, allow_media_tag in selector_rules.items():
         try:
             srcs = page.eval_on_selector_all(
                 selector,
@@ -171,7 +310,13 @@ def detect_embeds(page, base_url):
             continue
 
         for src in srcs:
-            detected.append(urljoin(base_url, src))
+            cleaned = clean_url(src)
+            if not cleaned:
+                continue
+            full_url = urljoin(base_url, cleaned)
+            platform = classify_platform(full_url)
+            if allow_media_tag or is_probably_video_link(full_url, platform):
+                detected.append(full_url)
 
     return list(dict.fromkeys(detected))
 
@@ -194,7 +339,15 @@ def detect_json_video_hints(page):
     hints = []
     for pattern in patterns:
         hints.extend(re.findall(pattern, html, flags=re.IGNORECASE))
-    return list(dict.fromkeys(hints))
+    filtered = []
+    for hint in hints:
+        cleaned = clean_url(hint)
+        if not cleaned:
+            continue
+        platform = classify_platform(cleaned)
+        if is_probably_video_link(cleaned, platform):
+            filtered.append(cleaned)
+    return list(dict.fromkeys(filtered))
 
 
 def analyze_page_with_playwright(page, url):
@@ -209,8 +362,7 @@ def analyze_page_with_playwright(page, url):
         "error": "",
     }
 
-    response = safe_goto(page, url)
-    final_url = page.url
+    response, final_url = safe_goto(page, url)
 
     if response is None:
         result["final_url"] = final_url
@@ -242,14 +394,14 @@ def analyze_page_with_playwright(page, url):
     candidate_internal_pages = []
     for full_url in all_links:
         platform = classify_platform(full_url)
-        if platform:
+        if platform and is_probably_video_link(full_url, platform):
             platform_links.append((platform, full_url))
         if is_internal_to_site(final_url, full_url) and looks_like_video_url(full_url):
             candidate_internal_pages.append(full_url)
 
     for full_url in result["embedded_video_links"]:
         platform = classify_platform(full_url)
-        if platform:
+        if platform and is_probably_video_link(full_url, platform):
             platform_links.append((platform, full_url))
 
     result["video_platform_links"] = list(dict.fromkeys(platform_links))
@@ -294,6 +446,7 @@ def analyze_institution(page, institution_name, external_url):
         internal_results.append(
             {
                 "institution": institution_name,
+                "slug": slugify(institution_name),
                 "partner_site": external_url,
                 "internal_page": subpage["final_url"],
                 "status": subpage["status"],
@@ -347,13 +500,13 @@ def collect_dataset():
 
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
-        page = browser.new_page()
 
         for index, entry in enumerate(entries, start=1):
             name = entry["name"]
             slug = entry["slug"]
             external_url = entry["external_url"]
             print(f"[{index}/{len(entries)}] {name} -> {external_url}")
+            page = browser.new_page()
 
             try:
                 summary, video_rows, internal_rows = analyze_institution(page, name, external_url)
@@ -375,12 +528,12 @@ def collect_dataset():
                 }
                 video_rows = []
                 internal_rows = []
+            finally:
+                page.close()
 
             rows_summary.append(summary)
             rows_video_links.extend(video_rows)
             rows_internal_pages.extend(internal_rows)
             time.sleep(SLEEP_BETWEEN_REQUESTS)
-
-        browser.close()
 
     return entries, rows_summary, rows_video_links, rows_internal_pages

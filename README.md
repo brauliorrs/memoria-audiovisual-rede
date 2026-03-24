@@ -72,8 +72,8 @@ O arquivo `iasa_v32_resumo_instituicoes.csv` passa a incluir:
 2. Cada link institucional e testado e classificado por integridade.
 3. Quando o link funciona, a coleta tenta localizar links de video e paginas internas relacionadas.
 4. A app Streamlit oferece:
-   Visao geral da integridade dos links.
-   Pagina dedicada por arquivo com os links de video detectados.
+   - Visao geral da integridade dos links.
+   - Pagina dedicada por arquivo com os links de video detectados.
 
 ## Proximos passos sugeridos
 

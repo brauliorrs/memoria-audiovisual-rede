@@ -3,5 +3,7 @@ __pycache__/
 .pytest_cache/
 .streamlit/secrets.toml
 data/output/
+iasa-reports/
+iasa-reports.zip
 playwright-report/
 *.pyc
