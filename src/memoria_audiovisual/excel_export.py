@@ -80,6 +80,7 @@ def save_excel_report(path, payload, rows_summary, rows_video_links, rows_intern
             "embedded_video_signals_total",
             "candidate_internal_pages",
             "priority_review",
+            "warning",
             "error",
         ],
     )
@@ -102,6 +103,7 @@ def save_excel_report(path, payload, rows_summary, rows_video_links, rows_intern
             "http_code",
             "video_links_found",
             "embedded_signals",
+            "warning",
             "error",
         ],
     )

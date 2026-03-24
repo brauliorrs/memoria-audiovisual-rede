@@ -26,6 +26,7 @@ def render_integrity_badge(value):
     colors = {
         "integro": "#2f7d32",
         "acessivel": "#4c8bf5",
+        "suspeito": "#8e44ad",
         "restrito": "#d97706",
         "quebrado": "#c62828",
         "instavel": "#6b7280",
@@ -52,6 +53,46 @@ def get_vimeo_embed_url(url):
     return None
 
 
+def build_audiovisual_sites_df(summary_df, links_df):
+    ranked = summary_df.loc[summary_df["video_links_found_total"] > 0].copy()
+
+    platforms_df = pd.DataFrame(columns=["slug", "platforms_detectadas"])
+    if not links_df.empty:
+        platforms_df = (
+            links_df.groupby("slug")["platform"]
+            .apply(lambda values: ", ".join(sorted(pd.unique(values))))
+            .reset_index(name="platforms_detectadas")
+        )
+
+    ranked = ranked.merge(platforms_df, on="slug", how="left")
+    ranked["platforms_detectadas"] = ranked["platforms_detectadas"].fillna("")
+
+    curated = ranked.sort_values(
+        [
+            "video_links_found_total",
+            "embedded_video_signals_total",
+            "integrity_status",
+            "institution",
+        ],
+        ascending=[False, False, True, True],
+    )
+
+    return curated[
+        [
+            "institution",
+            "integrity_status",
+            "status",
+            "video_links_found_total",
+            "embedded_video_signals_total",
+            "platforms_detectadas",
+            "partner_domain",
+            "final_url",
+            "warning",
+            "slug",
+        ]
+    ]
+
+
 summary_df = load_csv("iasa_v32_resumo_instituicoes.csv")
 links_df = load_csv("iasa_v32_links_video.csv")
 internal_df = load_csv("iasa_v32_paginas_internas.csv")
@@ -65,6 +106,10 @@ if summary_df is None:
 
 links_df = links_df if links_df is not None else pd.DataFrame(columns=["institution", "slug", "platform", "video_link"])
 internal_df = internal_df if internal_df is not None else pd.DataFrame()
+if "warning" not in summary_df.columns:
+    summary_df["warning"] = ""
+if "warning" not in internal_df.columns:
+    internal_df["warning"] = ""
 
 query_params = st.query_params
 requested_slug = query_params.get("arquivo")
@@ -95,72 +140,102 @@ selected_links = (
 
 if sidebar_mode == "Visao geral":
     total = len(summary_df)
-    ok_count = int((summary_df["status"] == "ok").sum())
     with_video = int((summary_df["video_links_found_total"] > 0).sum())
     integral_count = int((summary_df["integrity_status"] == "integro").sum())
+    review_count = int(
+        summary_df["integrity_status"].isin(["quebrado", "restrito", "instavel", "suspeito"]).sum()
+    )
+    audiovisual_sites_df = build_audiovisual_sites_df(summary_df, links_df)
 
     metric_cols = st.columns(4)
     metric_cols[0].metric("Arquivos IASA", total)
     metric_cols[1].metric("Links integros", integral_count)
-    metric_cols[2].metric("Sites OK", ok_count)
+    metric_cols[2].metric("Precisam revisao", review_count)
     metric_cols[3].metric("Com links de video", with_video)
+    tab_dashboard, tab_sites, tab_base = st.tabs(
+        ["Painel", f"Sites com links de video ({with_video})", "Base consolidada"]
+    )
 
-    left, right = st.columns([1.2, 1])
+    with tab_dashboard:
+        left, right = st.columns([1.2, 1])
 
-    with left:
-        st.subheader("Integridade dos links institucionais")
-        integrity_counts = (
-            summary_df["integrity_status"]
-            .value_counts()
-            .rename_axis("integrity_status")
-            .reset_index(name="total")
-        )
-        st.bar_chart(integrity_counts.set_index("integrity_status"))
+        with left:
+            st.subheader("Integridade dos links institucionais")
+            integrity_counts = (
+                summary_df["integrity_status"]
+                .value_counts()
+                .rename_axis("integrity_status")
+                .reset_index(name="total")
+            )
+            st.bar_chart(integrity_counts.set_index("integrity_status"))
 
-        st.subheader("Arquivos para revisao")
-        review_df = summary_df.sort_values(
-            ["priority_review", "video_links_found_total", "embedded_video_signals_total"],
-            ascending=[True, False, False],
-        )
+            st.subheader("Arquivos para revisao")
+            review_df = summary_df.sort_values(
+                ["priority_review", "video_links_found_total", "embedded_video_signals_total"],
+                ascending=[True, False, False],
+            )
+            st.dataframe(
+                review_df[
+                    [
+                        "institution",
+                        "integrity_status",
+                        "status",
+                        "priority_review",
+                        "video_links_found_total",
+                        "partner_domain",
+                        "warning",
+                    ]
+                ],
+                use_container_width=True,
+            )
+
+        with right:
+            st.subheader("Plataformas detectadas")
+            if not links_df.empty:
+                platform_counts = (
+                    links_df["platform"]
+                    .value_counts()
+                    .rename_axis("platform")
+                    .reset_index(name="total")
+                )
+                st.bar_chart(platform_counts.set_index("platform"))
+            else:
+                st.info("Nenhum link de video foi detectado ainda.")
+
+            st.subheader("Arquivos gerados")
+            for file_path in sorted(OUTPUT_DIR.glob("iasa_v32_*")):
+                st.write(file_path.name)
+
+    with tab_sites:
+        st.subheader(f"Instituicoes com links de video detectados ({with_video})")
+        st.caption("Lista direta das instituicoes em que a coleta encontrou pelo menos um link de video.")
         st.dataframe(
-            review_df[
-                [
-                    "institution",
-                    "integrity_status",
-                    "status",
-                    "priority_review",
-                    "video_links_found_total",
-                    "partner_domain",
-                ]
-            ],
+            audiovisual_sites_df.drop(columns=["slug"]),
             use_container_width=True,
         )
 
-    with right:
-        st.subheader("Plataformas detectadas")
-        if not links_df.empty:
-            platform_counts = (
-                links_df["platform"]
-                .value_counts()
-                .rename_axis("platform")
-                .reset_index(name="total")
-            )
-            st.bar_chart(platform_counts.set_index("platform"))
-        else:
-            st.info("Nenhum link de video foi detectado ainda.")
+        for _, row in audiovisual_sites_df.iterrows():
+            with st.expander(row["institution"]):
+                render_integrity_badge(row["integrity_status"])
+                st.write(f"Dominio: {row['partner_domain']}")
+                st.write(f"Status tecnico: {row['status']}")
+                st.write(f"Links de video: {int(row['video_links_found_total'])}")
+                st.write(f"Sinais embutidos: {int(row['embedded_video_signals_total'])}")
+                if row["platforms_detectadas"]:
+                    st.write(f"Plataformas detectadas: {row['platforms_detectadas']}")
+                if pd.notna(row.get("warning")) and str(row.get("warning")).strip():
+                    st.warning(str(row["warning"]))
+                st.markdown(f"[Abrir site institucional]({row['final_url']})")
 
-        st.subheader("Arquivos gerados")
-        for file_path in sorted(OUTPUT_DIR.glob("iasa_v32_*")):
-            st.write(file_path.name)
-
-    st.subheader("Base consolidada")
-    integrity_filter = st.multiselect(
-        "Filtrar por integridade",
-        options=sorted(summary_df["integrity_status"].dropna().unique().tolist()),
-        default=sorted(summary_df["integrity_status"].dropna().unique().tolist()),
-    )
-    filtered = summary_df[summary_df["integrity_status"].isin(integrity_filter)]
-    st.dataframe(filtered, use_container_width=True)
+    with tab_base:
+        st.subheader("Base consolidada")
+        integrity_filter = st.multiselect(
+            "Filtrar por integridade",
+            options=sorted(summary_df["integrity_status"].dropna().unique().tolist()),
+            default=sorted(summary_df["integrity_status"].dropna().unique().tolist()),
+        )
+        filtered = summary_df[summary_df["integrity_status"].isin(integrity_filter)]
+        st.dataframe(filtered, use_container_width=True)
 
 else:
     st.subheader(selected_summary["institution"])
@@ -184,10 +259,15 @@ else:
     st.markdown("### Pagina do arquivo")
     if selected_summary["integrity_status"] in {"integro", "acessivel"}:
         st.success("O link institucional respondeu. Esta pagina pode servir como base para a navegacao publica do arquivo.")
+    elif selected_summary["integrity_status"] == "suspeito":
+        st.warning("O link respondeu, mas a pagina final parece generica ou suspensa. Revise antes de publicar.")
     elif selected_summary["integrity_status"] == "restrito":
         st.warning("O arquivo respondeu com restricao. Pode ser necessario acesso autenticado ou revisao manual.")
     else:
         st.error("O link institucional nao respondeu de forma confiavel. Este arquivo precisa de revisao antes de ser publicado.")
+
+    if pd.notna(selected_summary.get("warning")) and str(selected_summary.get("warning")).strip():
+        st.info(str(selected_summary["warning"]))
 
     st.markdown("### Links de video encontrados")
     if selected_links.empty:

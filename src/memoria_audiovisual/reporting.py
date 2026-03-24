@@ -86,6 +86,15 @@ def save_txt_report(path, payload, rows_summary):
             )
         file_handle.write("\n")
 
+        suspeitos = [row for row in rows_summary if row["integrity_status"] == "suspeito"]
+        if suspeitos:
+            file_handle.write("Instituicoes suspeitas (respondem, mas parecem paginas genericas):\n")
+            for row in suspeitos:
+                file_handle.write(
+                    f"  - {row['institution']} | url={row['final_url']} | aviso={row['warning']}\n"
+                )
+            file_handle.write("\n")
+
         file_handle.write("Instituicoes com erro ou restricao:\n")
         for row in rows_summary:
             if row["status"] in {"erro", "restrito", "http_error"}:

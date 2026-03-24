@@ -47,6 +47,20 @@ GENERIC_URL_TOKENS = (
     "player.js",
 )
 EMBED_HINTS = ("/embed/", "/player/", "/video/", "/videos/", "/watch/", "/reel/")
+GENERIC_FINAL_URL_TOKENS = (
+    "cgi-sys/suspendedpage.cgi",
+    "cgi-sys/defaultwebpage.cgi",
+    "/fehler-404",
+    "/404",
+)
+GENERIC_PAGE_TITLE_TOKENS = (
+    "404",
+    "not found",
+    "suspended",
+    "default webpage",
+    "coming soon",
+    "under construction",
+)
 
 
 def get_soup(url):
@@ -69,8 +83,16 @@ def clean_url(raw_url):
     if not raw_url:
         return ""
     cleaned = unescape(raw_url).strip()
+    cleaned = cleaned.replace("\\u0026", "&").replace("\\u003d", "=").replace("\\/", "/")
+    cleaned = cleaned.rstrip("\\")
+    cleaned = cleaned.strip(' "\'<>')
     if not cleaned:
         return ""
+
+    protocol_matches = list(re.finditer(r"https?://", cleaned, flags=re.IGNORECASE))
+    if len(protocol_matches) > 1:
+        cleaned = cleaned[: protocol_matches[1].start()]
+
     lowered = cleaned.lower()
     if lowered.startswith(SKIP_URL_SCHEMES):
         return ""
@@ -120,18 +142,21 @@ def is_probably_video_link(url, platform=None):
         return False
 
     if platform == "YouTube":
+        path_parts = [part for part in path.split("/") if part]
         return (
-            parsed.netloc.lower().endswith("youtu.be")
-            or ("watch" in path and "v" in query)
-            or path.startswith("/shorts/")
-            or path.startswith("/embed/")
-            or path.startswith("/live/")
+            (parsed.netloc.lower().endswith("youtu.be") and bool(path_parts))
+            or ("watch" in path and bool(query.get("v")))
+            or (path.startswith("/shorts/") and len(path_parts) >= 2)
+            or (path.startswith("/embed/") and len(path_parts) >= 2)
+            or (path.startswith("/live/") and len(path_parts) >= 2)
         )
 
     if platform == "Vimeo":
+        path_parts = [part for part in path.split("/") if part]
         return (
             parsed.netloc.lower().startswith("player.vimeo.com")
             and path.startswith("/video/")
+            and len(path_parts) >= 2
         ) or bool(re.fullmatch(r"/\d+", path))
 
     if platform == "Facebook":
@@ -165,6 +190,17 @@ def sanitize_final_url(requested_url, candidate_url):
     if lowered.startswith("chrome-error://") or lowered == "about:blank":
         return requested_url
     return cleaned_candidate
+
+
+def detect_page_warning(final_url, page_title):
+    lowered_url = (final_url or "").lower()
+    lowered_title = (page_title or "").lower()
+
+    if any(token in lowered_url for token in GENERIC_FINAL_URL_TOKENS):
+        return "Pagina generica, suspensa ou de erro apesar de responder."
+    if any(token in lowered_title for token in GENERIC_PAGE_TITLE_TOKENS):
+        return "Titulo da pagina sugere erro ou landing page generica."
+    return ""
 
 
 def extract_entry_block(heading):
@@ -327,14 +363,7 @@ def detect_json_video_hints(page):
     except Exception:
         return []
 
-    patterns = [
-        r'https?://[^\s"\']+youtube\.com[^\s"\']*',
-        r'https?://[^\s"\']+youtu\.be[^\s"\']*',
-        r'https?://[^\s"\']+vimeo\.com[^\s"\']*',
-        r'https?://[^\s"\']+archive\.org[^\s"\']*',
-        r'https?://[^\s"\']+dailymotion\.com[^\s"\']*',
-        r'https?://[^\s"\']+\.(?:mp4|m3u8|webm|mp3|wav|m4v)',
-    ]
+    patterns = [r'https?://[^\s"\'<>]+']
 
     hints = []
     for pattern in patterns:
@@ -355,6 +384,8 @@ def analyze_page_with_playwright(page, url):
         "status": "erro",
         "http_code": "",
         "final_url": url,
+        "page_title": "",
+        "warning": "",
         "video_platform_links": [],
         "embedded_video_links": [],
         "embedded_video_signals": 0,
@@ -376,6 +407,11 @@ def analyze_page_with_playwright(page, url):
 
     result["http_code"] = status_code
     result["final_url"] = final_url
+    try:
+        result["page_title"] = page.title()
+    except Exception:
+        result["page_title"] = ""
+    result["warning"] = detect_page_warning(final_url, result["page_title"])
 
     if status_code in (401, 403):
         result["status"] = "restrito"
@@ -409,7 +445,9 @@ def analyze_page_with_playwright(page, url):
     return result
 
 
-def compute_priority(status, video_links_found_total, embedded_total):
+def compute_priority(status, video_links_found_total, embedded_total, warning=""):
+    if warning:
+        return "alta"
     if status in {"erro", "restrito", "http_error"}:
         return "alta"
     if video_links_found_total > 0 or embedded_total > 0:
@@ -418,6 +456,12 @@ def compute_priority(status, video_links_found_total, embedded_total):
 
 
 def classify_integrity(status, http_code):
+    return classify_integrity_with_warning(status, http_code, "")
+
+
+def classify_integrity_with_warning(status, http_code, warning):
+    if status == "ok" and warning:
+        return "suspeito"
     if status == "ok" and http_code == 200:
         return "integro"
     if status == "ok":
@@ -453,6 +497,7 @@ def analyze_institution(page, institution_name, external_url):
                 "http_code": subpage["http_code"],
                 "video_links_found": len(subpage["video_platform_links"]),
                 "embedded_signals": subpage["embedded_video_signals"],
+                "warning": subpage["warning"],
                 "error": subpage["error"],
             }
         )
@@ -469,12 +514,17 @@ def analyze_institution(page, institution_name, external_url):
         "partner_domain": normalize_domain(home["final_url"] or external_url),
         "status": home["status"],
         "http_code": home["http_code"],
-        "integrity_status": classify_integrity(home["status"], home["http_code"]),
+        "integrity_status": classify_integrity_with_warning(
+            home["status"], home["http_code"], home["warning"]
+        ),
         "final_url": home["final_url"],
         "video_links_found_total": len(all_video_links),
         "embedded_video_signals_total": embedded_total,
         "candidate_internal_pages": len(home["candidate_internal_pages"]),
-        "priority_review": compute_priority(home["status"], len(all_video_links), embedded_total),
+        "priority_review": compute_priority(
+            home["status"], len(all_video_links), embedded_total, home["warning"]
+        ),
+        "warning": home["warning"],
         "error": home["error"],
     }
 
@@ -524,6 +574,7 @@ def collect_dataset():
                     "embedded_video_signals_total": 0,
                     "candidate_internal_pages": 0,
                     "priority_review": "alta",
+                    "warning": "",
                     "error": str(error),
                 }
                 video_rows = []

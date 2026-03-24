@@ -26,6 +26,7 @@ def run_pipeline():
             "embedded_video_signals_total",
             "candidate_internal_pages",
             "priority_review",
+            "warning",
             "error",
         ],
     )
@@ -46,6 +47,7 @@ def run_pipeline():
             "http_code",
             "video_links_found",
             "embedded_signals",
+            "warning",
             "error",
         ],
     )
