@@ -587,10 +587,35 @@ def collect_sites_dataset(entries):
         for index, entry in enumerate(entries, start=1):
             name = entry["name"]
             slug = entry.get("slug") or slugify(name)
-            external_url = entry["external_url"]
+            external_url = clean_url(entry.get("external_url", ""))
             country = entry.get("country", "")
             continent = entry.get("continent", "")
-            print(f"[{index}/{len(entries)}] {name} -> {external_url}")
+            print(f"[{index}/{len(entries)}] {name} -> {external_url or '(sem site externo)'}")
+
+            if not external_url:
+                rows_summary.append(
+                    {
+                        "institution": name,
+                        "slug": slug,
+                        "country": country,
+                        "continent": continent,
+                        "partner_site": "",
+                        "partner_domain": "",
+                        "status": "sem_site",
+                        "http_code": "",
+                        "integrity_status": "sem_site",
+                        "final_url": entry.get("detail_url", ""),
+                        "video_links_found_total": 0,
+                        "embedded_video_signals_total": 0,
+                        "candidate_internal_pages": 0,
+                        "priority_review": "media",
+                        "warning": "Instituicao sem webpage externa informada na base consultada.",
+                        "error": "",
+                    }
+                )
+                time.sleep(SLEEP_BETWEEN_REQUESTS)
+                continue
+
             page = browser.new_page()
 
             try:

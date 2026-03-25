@@ -1,9 +1,11 @@
 # Plataforma aberta de curadoria e acesso a memoria audiovisual em rede
 
-Projeto inicial para mapear links institucionais da IASA, detectar presenca de video em plataformas parceiras e publicar relatorios exploratorios em uma interface Streamlit.
+Projeto inicial para mapear links institucionais do Archives Portal Europe e da IASA, detectar presenca de video em plataformas parceiras e publicar relatorios exploratorios em uma interface Streamlit.
 
 ## Escopo atual
 
+- Coleta de instituicoes do Archives Portal Europe a partir do PDF oficial de instituicoes com conteudo publicado.
+- Extrai `Webpage`, `Country` e `Type of archive` das paginas de detalhe do APE.
 - Coleta da categoria `National archives` da IASA.
 - Verifica a integridade do link institucional de cada arquivo listado.
 - Visita sites parceiros com Playwright quando o link responde.
@@ -63,6 +65,13 @@ Os arquivos gerados ficam em `data/output/`:
 - `iasa_v32_relatorio.json`
 - `iasa_v32_relatorio.txt`
 - `iasa_v32_relatorio.xlsx`
+- `ape_instituicoes.csv`
+- `ape_resumo_instituicoes.csv`
+- `ape_links_video.csv`
+- `ape_paginas_internas.csv`
+- `ape_relatorio.json`
+- `ape_relatorio.txt`
+- `ape_relatorio.xlsx`
 - `ccaaa_membros.csv`
 - `ccaaa_membros.json`
 - `ccaaa_resumo_sites.csv`
@@ -78,12 +87,12 @@ O arquivo `iasa_v32_resumo_instituicoes.csv` passa a incluir:
 
 ## Fluxo de produto
 
-1. A pipeline coleta os arquivos listados na IASA.
+1. A pipeline coleta instituicoes do APE e da IASA.
 2. Cada link institucional e testado e classificado por integridade.
 3. Quando o link funciona, a coleta tenta localizar links de video e paginas internas relacionadas.
 4. A app Streamlit oferece:
-   - Visao geral da integridade dos links.
-   - Pagina dedicada por arquivo com os links de video detectados.
+   - Visao separada por base: APE, IASA e CCAAA.
+   - Pagina dedicada por arquivo da IASA com os links de video detectados.
    - Organizacao geografica dos arquivos com conteudo audiovisual.
    - Aba da rede CCAAA com status dos sites e links audiovisuais detectados.
 

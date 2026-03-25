@@ -30,6 +30,59 @@ def append_sheet(workbook, title, rows, fieldnames):
     return worksheet
 
 
+def save_basic_excel_report(path, payload, rows_summary, rows_video_links, rows_internal_pages, extra_sheets=None):
+    workbook = Workbook()
+    dashboard = workbook.active
+    dashboard.title = "Dashboard"
+    dashboard.append(["Metrica", "Valor"])
+    style_header(dashboard[1])
+    dashboard.append(["Fonte", payload["source"]])
+    dashboard.append(["Total de instituicoes", payload["total_institutions"]])
+    dashboard.append(["Sites OK", payload["ok_count"]])
+    dashboard.append(["Com links de video", payload["with_video_count"]])
+    dashboard.append(["Com midia embutida", payload["with_embeds_count"]])
+    for status, count in payload["status_summary"].items():
+        dashboard.append([f"Status: {status}", count])
+    for status, count in payload["integrity_summary"].items():
+        dashboard.append([f"Integridade: {status}", count])
+    autosize_worksheet(dashboard)
+
+    append_sheet(
+        workbook,
+        "Ranking",
+        payload["top_institutions"],
+        [
+            "institution",
+            "slug",
+            "status",
+            "integrity_status",
+            "priority_review",
+            "video_links_found_total",
+            "embedded_video_signals_total",
+            "partner_domain",
+            "final_url",
+        ],
+    )
+    append_sheet(workbook, "Summary", rows_summary, list(rows_summary[0].keys()) if rows_summary else [])
+    append_sheet(
+        workbook,
+        "Video Links",
+        rows_video_links,
+        list(rows_video_links[0].keys()) if rows_video_links else [],
+    )
+    append_sheet(
+        workbook,
+        "Internal Pages",
+        rows_internal_pages,
+        list(rows_internal_pages[0].keys()) if rows_internal_pages else [],
+    )
+
+    for sheet in extra_sheets or []:
+        append_sheet(workbook, sheet["title"], sheet["rows"], sheet["fieldnames"])
+
+    workbook.save(path)
+
+
 def save_excel_report(
     path,
     payload,

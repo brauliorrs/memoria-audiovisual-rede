@@ -4,3 +4,4 @@ playwright
 openpyxl
 pandas
 streamlit
+pypdf

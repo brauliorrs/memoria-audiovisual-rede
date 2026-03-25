@@ -30,6 +30,7 @@ def render_integrity_badge(value):
         "restrito": "#d97706",
         "quebrado": "#c62828",
         "instavel": "#6b7280",
+        "sem_site": "#475569",
     }
     color = colors.get(str(value), "#6b7280")
     st.markdown(
@@ -93,7 +94,7 @@ def build_detected_sites_df(summary_df, links_df):
     ]
     optional_columns = [
         column
-        for column in ["abbreviation", "role", "member_source"]
+        for column in ["abbreviation", "role", "member_source", "archive_type", "ape_detail_url", "website_available"]
         if column in curated.columns
     ]
 
@@ -134,6 +135,10 @@ def build_platform_summary(links_df):
 summary_df = load_csv("iasa_v32_resumo_instituicoes.csv")
 links_df = load_csv("iasa_v32_links_video.csv")
 internal_df = load_csv("iasa_v32_paginas_internas.csv")
+ape_catalog_df = load_csv("ape_instituicoes.csv")
+ape_summary_df = load_csv("ape_resumo_instituicoes.csv")
+ape_links_df = load_csv("ape_links_video.csv")
+ape_internal_df = load_csv("ape_paginas_internas.csv")
 ccaaa_df = load_csv("ccaaa_membros.csv")
 ccaaa_summary_df = load_csv("ccaaa_resumo_sites.csv")
 ccaaa_links_df = load_csv("ccaaa_links_video.csv")
@@ -141,8 +146,8 @@ ccaaa_internal_df = load_csv("ccaaa_paginas_internas.csv")
 
 st.title("Plataforma aberta de curadoria e acesso a memoria audiovisual em rede")
 st.caption(
-    "A plataforma trabalha hoje com duas camadas distintas: IASA (arquivos listados) e CCAAA "
-    "(rede de comites e associacoes). Cada aba indica explicitamente qual base esta sendo exibida."
+    "A plataforma trabalha hoje com tres camadas distintas: Archives Portal Europe (APE), "
+    "IASA e CCAAA. Cada aba indica explicitamente qual base esta sendo exibida."
 )
 
 if summary_df is None:
@@ -151,6 +156,12 @@ if summary_df is None:
 
 links_df = links_df if links_df is not None else pd.DataFrame(columns=["institution", "slug", "platform", "video_link"])
 internal_df = internal_df if internal_df is not None else pd.DataFrame()
+ape_catalog_df = ape_catalog_df if ape_catalog_df is not None else pd.DataFrame()
+ape_summary_df = ape_summary_df if ape_summary_df is not None else pd.DataFrame()
+ape_links_df = ape_links_df if ape_links_df is not None else pd.DataFrame(
+    columns=["institution", "slug", "platform", "video_link"]
+)
+ape_internal_df = ape_internal_df if ape_internal_df is not None else pd.DataFrame()
 ccaaa_df = ccaaa_df if ccaaa_df is not None else pd.DataFrame(
     columns=["organization", "abbreviation", "role", "website", "domain", "description", "source"]
 )
@@ -171,6 +182,20 @@ if "country" not in internal_df.columns:
     internal_df["country"] = ""
 if "continent" not in internal_df.columns:
     internal_df["continent"] = "Nao classificado"
+for frame in [ape_summary_df, ape_internal_df]:
+    if "warning" not in frame.columns:
+        frame["warning"] = ""
+for frame in [ape_catalog_df, ape_summary_df, ape_links_df, ape_internal_df]:
+    if "archive_type" not in frame.columns:
+        frame["archive_type"] = ""
+    if "ape_detail_url" not in frame.columns:
+        frame["ape_detail_url"] = ""
+    if "website_available" not in frame.columns:
+        frame["website_available"] = False
+    if "country" not in frame.columns:
+        frame["country"] = ""
+    if "continent" not in frame.columns:
+        frame["continent"] = "Nao classificado"
 for frame in [ccaaa_summary_df, ccaaa_internal_df]:
     if "warning" not in frame.columns:
         frame["warning"] = ""
@@ -214,10 +239,29 @@ if sidebar_mode == "Visao geral":
     with_video = int((summary_df["video_links_found_total"] > 0).sum())
     integral_count = int((summary_df["integrity_status"] == "integro").sum())
     review_count = int(
-        summary_df["integrity_status"].isin(["quebrado", "restrito", "instavel", "suspeito"]).sum()
+        summary_df["integrity_status"].isin(["quebrado", "restrito", "instavel", "suspeito", "sem_site"]).sum()
     )
     audiovisual_sites_df = build_detected_sites_df(summary_df, links_df)
     continent_counts, country_counts = build_geography_summaries(audiovisual_sites_df)
+    iasa_platform_counts = build_platform_summary(links_df)
+
+    ape_total = len(ape_summary_df)
+    ape_with_video = int((ape_summary_df["video_links_found_total"] > 0).sum()) if not ape_summary_df.empty else 0
+    ape_integral_count = int((ape_summary_df["integrity_status"] == "integro").sum()) if not ape_summary_df.empty else 0
+    ape_review_count = (
+        int(
+            ape_summary_df["integrity_status"].isin(["quebrado", "restrito", "instavel", "suspeito", "sem_site"]).sum()
+        )
+        if not ape_summary_df.empty
+        else 0
+    )
+    ape_detected_sites_df = build_detected_sites_df(ape_summary_df, ape_links_df) if not ape_summary_df.empty else pd.DataFrame()
+    ape_continent_counts, ape_country_counts = build_geography_summaries(ape_detected_sites_df) if not ape_detected_sites_df.empty else (
+        pd.DataFrame(columns=["continent", "instituicoes"]),
+        pd.DataFrame(columns=["country", "instituicoes"]),
+    )
+    ape_platform_counts = build_platform_summary(ape_links_df)
+
     ccaaa_members_count = int((ccaaa_df["role"] == "member").sum()) if not ccaaa_df.empty else 0
     ccaaa_observer_count = int((ccaaa_df["role"] == "observer").sum()) if not ccaaa_df.empty else 0
     ccaaa_sites_ok_count = int((ccaaa_summary_df["status"] == "ok").sum()) if not ccaaa_summary_df.empty else 0
@@ -225,29 +269,132 @@ if sidebar_mode == "Visao geral":
         int((ccaaa_summary_df["video_links_found_total"] > 0).sum()) if not ccaaa_summary_df.empty else 0
     )
     ccaaa_detected_sites_df = build_detected_sites_df(ccaaa_summary_df, ccaaa_links_df) if not ccaaa_summary_df.empty else pd.DataFrame()
-    iasa_platform_counts = build_platform_summary(links_df)
     ccaaa_platform_counts = build_platform_summary(ccaaa_links_df)
 
-    metric_cols = st.columns(4)
-    metric_cols[0].metric("Arquivos IASA", total)
-    metric_cols[1].metric("Links integros IASA", integral_count)
-    metric_cols[2].metric("Revisao IASA", review_count)
-    metric_cols[3].metric("Com links de video IASA", with_video)
-    tab_dashboard, tab_sites, tab_geo, tab_ccaaa, tab_base = st.tabs(
+    st.info(
+        "A base principal agora inclui uma camada especifica do Archives Portal Europe (APE), "
+        "separada da IASA e da rede CCAAA."
+    )
+    top_row_ape = st.columns(4)
+    top_row_ape[0].metric("Instituicoes APE", ape_total)
+    top_row_ape[1].metric("Links integros APE", ape_integral_count)
+    top_row_ape[2].metric("Revisao APE", ape_review_count)
+    top_row_ape[3].metric("Com links de video APE", ape_with_video)
+
+    top_row_iasa = st.columns(4)
+    top_row_iasa[0].metric("Arquivos IASA", total)
+    top_row_iasa[1].metric("Links integros IASA", integral_count)
+    top_row_iasa[2].metric("Revisao IASA", review_count)
+    top_row_iasa[3].metric("Com links de video IASA", with_video)
+
+    tab_ape, tab_iasa, tab_ccaaa, tab_bases = st.tabs(
         [
-            "IASA: Painel",
-            f"IASA: Sites com links de video ({with_video})",
-            "IASA: Geografia",
-            "CCAAA: Rede",
-            "IASA: Base consolidada",
+            f"APE ({ape_with_video} com video)",
+            f"IASA ({with_video} com video)",
+            f"CCAAA ({ccaaa_with_video_count} com video)",
+            "Bases e Arquivos",
         ]
     )
 
-    with tab_dashboard:
-        st.info(
-            "Este painel mostra apenas os dados da IASA. Os resultados da rede CCAAA ficam separados na aba "
-            "`CCAAA: Rede`."
+    with tab_ape:
+        st.subheader("Archives Portal Europe")
+        st.caption(
+            "Fonte oficial usada: PDF de instituicoes com conteudo publicado no APE, complementado pela "
+            "pagina de detalhe de cada instituicao para capturar `Webpage`, `Country` e `Type of archive`."
         )
+
+        ape_left, ape_right = st.columns([1.2, 1])
+        with ape_left:
+            st.subheader("APE: Integridade dos sites institucionais")
+            if not ape_summary_df.empty:
+                ape_integrity_counts = (
+                    ape_summary_df["integrity_status"]
+                    .value_counts()
+                    .rename_axis("integrity_status")
+                    .reset_index(name="total")
+                )
+                st.bar_chart(ape_integrity_counts.set_index("integrity_status"))
+
+                st.subheader("APE: Instituicoes para revisao")
+                ape_review_df = ape_summary_df.sort_values(
+                    ["priority_review", "video_links_found_total", "embedded_video_signals_total"],
+                    ascending=[True, False, False],
+                )
+                st.dataframe(
+                    ape_review_df[
+                        [
+                            "institution",
+                            "archive_type",
+                            "integrity_status",
+                            "status",
+                            "website_available",
+                            "video_links_found_total",
+                            "partner_domain",
+                            "warning",
+                        ]
+                    ],
+                    use_container_width=True,
+                )
+            else:
+                st.info("A coleta do APE ainda nao foi executada.")
+
+        with ape_right:
+            st.subheader("APE: Plataformas detectadas")
+            if not ape_platform_counts.empty:
+                st.bar_chart(ape_platform_counts.set_index("platform"))
+            else:
+                st.info("Nenhum link de video foi detectado ainda no APE.")
+
+            if not ape_detected_sites_df.empty:
+                st.subheader("APE: Organizacao geografica")
+                if not ape_continent_counts.empty:
+                    st.bar_chart(ape_continent_counts.set_index("continent"))
+
+        if not ape_detected_sites_df.empty:
+            st.subheader(f"APE: Instituicoes com links de video detectados ({ape_with_video})")
+            st.dataframe(
+                ape_detected_sites_df[
+                    [
+                        "institution",
+                        "archive_type",
+                        "integrity_status",
+                        "video_links_found_total",
+                        "embedded_video_signals_total",
+                        "platforms_detectadas",
+                        "country",
+                        "continent",
+                        "partner_domain",
+                        "warning",
+                        "final_url",
+                    ]
+                ],
+                use_container_width=True,
+            )
+
+            for _, row in ape_detected_sites_df.iterrows():
+                with st.expander(row["institution"]):
+                    render_integrity_badge(row["integrity_status"])
+                    if pd.notna(row.get("archive_type")) and str(row.get("archive_type")).strip():
+                        st.write(f"Tipo de arquivo: {row['archive_type']}")
+                    st.write(f"Dominio: {row['partner_domain']}")
+                    st.write(f"Status tecnico: {row['status']}")
+                    st.write(f"Links de video: {int(row['video_links_found_total'])}")
+                    st.write(f"Sinais embutidos: {int(row['embedded_video_signals_total'])}")
+                    if row["platforms_detectadas"]:
+                        st.write(f"Plataformas detectadas: {row['platforms_detectadas']}")
+                    if pd.notna(row.get("warning")) and str(row.get("warning")).strip():
+                        st.warning(str(row["warning"]))
+                    if pd.notna(row.get("ape_detail_url")) and str(row.get("ape_detail_url")).strip():
+                        st.markdown(f"[Abrir ficha no APE]({row['ape_detail_url']})")
+                    st.markdown(f"[Abrir site institucional]({row['final_url']})")
+
+        if not ape_summary_df.empty:
+            st.subheader("APE: Base consolidada")
+            st.dataframe(ape_summary_df, use_container_width=True)
+
+    with tab_iasa:
+        st.subheader("IASA")
+        st.caption("Coleta da categoria `National archives` da IASA, com verificacao do site institucional e deteccao de plataformas de video.")
         left, right = st.columns([1.2, 1])
 
         with left:
@@ -287,19 +434,11 @@ if sidebar_mode == "Visao geral":
             else:
                 st.info("Nenhum link de video foi detectado ainda na IASA.")
 
-            st.subheader("Arquivos gerados pela coleta")
-            iasa_outputs = sorted(OUTPUT_DIR.glob("iasa_v32_*"))
-            ccaaa_outputs = sorted(OUTPUT_DIR.glob("ccaaa_*"))
-            with st.expander("Arquivos IASA", expanded=False):
-                for file_path in iasa_outputs:
-                    st.write(file_path.name)
-            with st.expander("Arquivos CCAAA", expanded=False):
-                for file_path in ccaaa_outputs:
-                    st.write(file_path.name)
+            st.subheader("IASA: Organizacao geografica")
+            if not continent_counts.empty:
+                st.bar_chart(continent_counts.set_index("continent"))
 
-    with tab_sites:
         st.subheader(f"IASA: Instituicoes com links de video detectados ({with_video})")
-        st.caption("Lista direta das instituicoes da IASA em que a coleta encontrou pelo menos um link de video.")
         st.dataframe(
             audiovisual_sites_df.drop(columns=["slug"]),
             use_container_width=True,
@@ -318,41 +457,14 @@ if sidebar_mode == "Visao geral":
                     st.warning(str(row["warning"]))
                 st.markdown(f"[Abrir site institucional]({row['final_url']})")
 
-    with tab_geo:
-        st.subheader("IASA: Organizacao geografica dos arquivos com conteudo audiovisual")
-        geo_left, geo_right = st.columns(2)
-
-        with geo_left:
-            st.caption("Distribuicao por continente")
-            st.bar_chart(continent_counts.set_index("continent"))
-
-        with geo_right:
-            st.caption("Distribuicao por pais")
-            st.bar_chart(country_counts.set_index("country"))
-
-        continent_filter = st.multiselect(
-            "Filtrar continentes",
-            options=continent_counts["continent"].tolist(),
-            default=continent_counts["continent"].tolist(),
-            key="geo_continent_filter",
+        st.subheader("IASA: Base consolidada")
+        integrity_filter = st.multiselect(
+            "Filtrar por integridade",
+            options=sorted(summary_df["integrity_status"].dropna().unique().tolist()),
+            default=sorted(summary_df["integrity_status"].dropna().unique().tolist()),
         )
-        geo_filtered = audiovisual_sites_df[
-            audiovisual_sites_df["continent"].fillna("Nao classificado").replace("", "Nao classificado").isin(continent_filter)
-        ]
-        st.dataframe(
-            geo_filtered[
-                [
-                    "institution",
-                    "continent",
-                    "country",
-                    "integrity_status",
-                    "video_links_found_total",
-                    "platforms_detectadas",
-                    "final_url",
-                ]
-            ],
-            use_container_width=True,
-        )
+        filtered = summary_df[summary_df["integrity_status"].isin(integrity_filter)]
+        st.dataframe(filtered, use_container_width=True)
 
     with tab_ccaaa:
         st.subheader("Rede CCAAA")
@@ -463,16 +575,20 @@ if sidebar_mode == "Visao geral":
                                     link_row["video_link"],
                                 )
 
-    with tab_base:
-        st.subheader("IASA: Base consolidada")
-        st.caption("Esta tabela consolida apenas a base principal da IASA.")
-        integrity_filter = st.multiselect(
-            "Filtrar por integridade",
-            options=sorted(summary_df["integrity_status"].dropna().unique().tolist()),
-            default=sorted(summary_df["integrity_status"].dropna().unique().tolist()),
-        )
-        filtered = summary_df[summary_df["integrity_status"].isin(integrity_filter)]
-        st.dataframe(filtered, use_container_width=True)
+    with tab_bases:
+        st.subheader("Arquivos gerados pela coleta")
+        ape_outputs = sorted(OUTPUT_DIR.glob("ape_*"))
+        iasa_outputs = sorted(OUTPUT_DIR.glob("iasa_v32_*"))
+        ccaaa_outputs = sorted(OUTPUT_DIR.glob("ccaaa_*"))
+        with st.expander("Arquivos APE", expanded=True):
+            for file_path in ape_outputs:
+                st.write(file_path.name)
+        with st.expander("Arquivos IASA", expanded=False):
+            for file_path in iasa_outputs:
+                st.write(file_path.name)
+        with st.expander("Arquivos CCAAA", expanded=False):
+            for file_path in ccaaa_outputs:
+                st.write(file_path.name)
 
 else:
     st.subheader(f"IASA: {selected_summary['institution']}")
