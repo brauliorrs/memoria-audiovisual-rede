@@ -120,6 +120,17 @@ def build_geography_summaries(audiovisual_sites_df):
     return continent_counts, country_counts
 
 
+def build_platform_summary(links_df):
+    if links_df.empty:
+        return pd.DataFrame(columns=["platform", "total"])
+    return (
+        links_df["platform"]
+        .value_counts()
+        .rename_axis("platform")
+        .reset_index(name="total")
+    )
+
+
 summary_df = load_csv("iasa_v32_resumo_instituicoes.csv")
 links_df = load_csv("iasa_v32_links_video.csv")
 internal_df = load_csv("iasa_v32_paginas_internas.csv")
@@ -129,7 +140,10 @@ ccaaa_links_df = load_csv("ccaaa_links_video.csv")
 ccaaa_internal_df = load_csv("ccaaa_paginas_internas.csv")
 
 st.title("Plataforma aberta de curadoria e acesso a memoria audiovisual em rede")
-st.caption("Primeiro passo: verificar a integridade dos links da IASA e abrir uma pagina de consulta para cada arquivo.")
+st.caption(
+    "A plataforma trabalha hoje com duas camadas distintas: IASA (arquivos listados) e CCAAA "
+    "(rede de comites e associacoes). Cada aba indica explicitamente qual base esta sendo exibida."
+)
 
 if summary_df is None:
     st.warning("Nenhum relatorio foi gerado ainda. Execute `python scripts/run_pipeline.py` primeiro.")
@@ -211,21 +225,33 @@ if sidebar_mode == "Visao geral":
         int((ccaaa_summary_df["video_links_found_total"] > 0).sum()) if not ccaaa_summary_df.empty else 0
     )
     ccaaa_detected_sites_df = build_detected_sites_df(ccaaa_summary_df, ccaaa_links_df) if not ccaaa_summary_df.empty else pd.DataFrame()
+    iasa_platform_counts = build_platform_summary(links_df)
+    ccaaa_platform_counts = build_platform_summary(ccaaa_links_df)
 
     metric_cols = st.columns(4)
     metric_cols[0].metric("Arquivos IASA", total)
-    metric_cols[1].metric("Links integros", integral_count)
-    metric_cols[2].metric("Precisam revisao", review_count)
-    metric_cols[3].metric("Com links de video", with_video)
+    metric_cols[1].metric("Links integros IASA", integral_count)
+    metric_cols[2].metric("Revisao IASA", review_count)
+    metric_cols[3].metric("Com links de video IASA", with_video)
     tab_dashboard, tab_sites, tab_geo, tab_ccaaa, tab_base = st.tabs(
-        ["Painel", f"Sites com links de video ({with_video})", "Geografia", "Rede CCAAA", "Base consolidada"]
+        [
+            "IASA: Painel",
+            f"IASA: Sites com links de video ({with_video})",
+            "IASA: Geografia",
+            "CCAAA: Rede",
+            "IASA: Base consolidada",
+        ]
     )
 
     with tab_dashboard:
+        st.info(
+            "Este painel mostra apenas os dados da IASA. Os resultados da rede CCAAA ficam separados na aba "
+            "`CCAAA: Rede`."
+        )
         left, right = st.columns([1.2, 1])
 
         with left:
-            st.subheader("Integridade dos links institucionais")
+            st.subheader("IASA: Integridade dos links institucionais")
             integrity_counts = (
                 summary_df["integrity_status"]
                 .value_counts()
@@ -234,7 +260,7 @@ if sidebar_mode == "Visao geral":
             )
             st.bar_chart(integrity_counts.set_index("integrity_status"))
 
-            st.subheader("Arquivos para revisao")
+            st.subheader("IASA: Arquivos para revisao")
             review_df = summary_df.sort_values(
                 ["priority_review", "video_links_found_total", "embedded_video_signals_total"],
                 ascending=[True, False, False],
@@ -255,25 +281,25 @@ if sidebar_mode == "Visao geral":
             )
 
         with right:
-            st.subheader("Plataformas detectadas")
-            if not links_df.empty:
-                platform_counts = (
-                    links_df["platform"]
-                    .value_counts()
-                    .rename_axis("platform")
-                    .reset_index(name="total")
-                )
-                st.bar_chart(platform_counts.set_index("platform"))
+            st.subheader("IASA: Plataformas detectadas")
+            if not iasa_platform_counts.empty:
+                st.bar_chart(iasa_platform_counts.set_index("platform"))
             else:
-                st.info("Nenhum link de video foi detectado ainda.")
+                st.info("Nenhum link de video foi detectado ainda na IASA.")
 
-            st.subheader("Arquivos gerados")
-            for file_path in sorted(OUTPUT_DIR.glob("*")):
-                st.write(file_path.name)
+            st.subheader("Arquivos gerados pela coleta")
+            iasa_outputs = sorted(OUTPUT_DIR.glob("iasa_v32_*"))
+            ccaaa_outputs = sorted(OUTPUT_DIR.glob("ccaaa_*"))
+            with st.expander("Arquivos IASA", expanded=False):
+                for file_path in iasa_outputs:
+                    st.write(file_path.name)
+            with st.expander("Arquivos CCAAA", expanded=False):
+                for file_path in ccaaa_outputs:
+                    st.write(file_path.name)
 
     with tab_sites:
-        st.subheader(f"Instituicoes com links de video detectados ({with_video})")
-        st.caption("Lista direta das instituicoes em que a coleta encontrou pelo menos um link de video.")
+        st.subheader(f"IASA: Instituicoes com links de video detectados ({with_video})")
+        st.caption("Lista direta das instituicoes da IASA em que a coleta encontrou pelo menos um link de video.")
         st.dataframe(
             audiovisual_sites_df.drop(columns=["slug"]),
             use_container_width=True,
@@ -293,7 +319,7 @@ if sidebar_mode == "Visao geral":
                 st.markdown(f"[Abrir site institucional]({row['final_url']})")
 
     with tab_geo:
-        st.subheader("Organizacao geografica dos arquivos com conteudo audiovisual")
+        st.subheader("IASA: Organizacao geografica dos arquivos com conteudo audiovisual")
         geo_left, geo_right = st.columns(2)
 
         with geo_left:
@@ -330,12 +356,15 @@ if sidebar_mode == "Visao geral":
 
     with tab_ccaaa:
         st.subheader("Rede CCAAA")
-        st.caption("Rede internacional de associacoes de arquivos audiovisuais, com membros extraidos automaticamente e varredura de links de video em seus sites institucionais.")
+        st.caption(
+            "Rede internacional de associacoes de arquivos audiovisuais, com membros extraidos "
+            "automaticamente e varredura separada dos sites institucionais da CCAAA."
+        )
         top_cols = st.columns(4)
-        top_cols[0].metric("Membros", ccaaa_members_count)
-        top_cols[1].metric("Observadores", ccaaa_observer_count)
-        top_cols[2].metric("Sites OK", ccaaa_sites_ok_count)
-        top_cols[3].metric("Com links de video", ccaaa_with_video_count)
+        top_cols[0].metric("Membros CCAAA", ccaaa_members_count)
+        top_cols[1].metric("Observadores CCAAA", ccaaa_observer_count)
+        top_cols[2].metric("Sites CCAAA OK", ccaaa_sites_ok_count)
+        top_cols[3].metric("Sites CCAAA com video", ccaaa_with_video_count)
 
         if ccaaa_df.empty:
             st.info("Nenhum membro da CCAAA foi coletado ainda.")
@@ -346,6 +375,23 @@ if sidebar_mode == "Visao geral":
         if ccaaa_summary_df.empty:
             st.info("A verificacao audiovisual dos sites da CCAAA ainda nao foi executada.")
         else:
+            ccaaa_left, ccaaa_right = st.columns(2)
+            with ccaaa_left:
+                st.subheader("CCAAA: Status dos sites da rede")
+                ccaaa_status_counts = (
+                    ccaaa_summary_df["integrity_status"]
+                    .value_counts()
+                    .rename_axis("integrity_status")
+                    .reset_index(name="total")
+                )
+                st.bar_chart(ccaaa_status_counts.set_index("integrity_status"))
+            with ccaaa_right:
+                st.subheader("CCAAA: Plataformas detectadas")
+                if not ccaaa_platform_counts.empty:
+                    st.bar_chart(ccaaa_platform_counts.set_index("platform"))
+                else:
+                    st.info("Nenhum link de video foi detectado ainda nos sites da CCAAA.")
+
             st.subheader("Status dos sites da rede")
             st.dataframe(
                 ccaaa_summary_df[
@@ -418,7 +464,8 @@ if sidebar_mode == "Visao geral":
                                 )
 
     with tab_base:
-        st.subheader("Base consolidada")
+        st.subheader("IASA: Base consolidada")
+        st.caption("Esta tabela consolida apenas a base principal da IASA.")
         integrity_filter = st.multiselect(
             "Filtrar por integridade",
             options=sorted(summary_df["integrity_status"].dropna().unique().tolist()),
@@ -428,7 +475,7 @@ if sidebar_mode == "Visao geral":
         st.dataframe(filtered, use_container_width=True)
 
 else:
-    st.subheader(selected_summary["institution"])
+    st.subheader(f"IASA: {selected_summary['institution']}")
     col1, col2, col3 = st.columns([1, 1, 2])
     with col1:
         st.caption("Integridade")
