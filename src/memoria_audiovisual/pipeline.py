@@ -1,4 +1,5 @@
 from .config import OUTPUT_DIR, OUTPUT_PREFIX, START_URL
+from .ccaaa import collect_ccaaa_members
 from .crawler import collect_dataset
 from .excel_export import save_excel_report
 from .reporting import build_report_payload, save_csv, save_json_report, save_txt_report
@@ -8,6 +9,8 @@ def run_pipeline():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     print("=== ETAPA 1: Coletando instituicoes da IASA ===")
     entries, rows_summary, rows_video_links, rows_internal_pages = collect_dataset()
+    print("=== ETAPA 2: Coletando membros da CCAAA ===")
+    ccaaa_members = collect_ccaaa_members()
     payload = build_report_payload(START_URL, len(entries), rows_summary, rows_video_links)
 
     save_csv(
@@ -55,7 +58,13 @@ def run_pipeline():
             "error",
         ],
     )
+    save_csv(
+        OUTPUT_DIR / "ccaaa_membros.csv",
+        ccaaa_members,
+        ["organization", "abbreviation", "role", "website", "domain", "description", "source"],
+    )
     save_json_report(OUTPUT_DIR / f"{OUTPUT_PREFIX}_relatorio.json", payload)
+    save_json_report(OUTPUT_DIR / "ccaaa_membros.json", ccaaa_members)
     save_txt_report(OUTPUT_DIR / f"{OUTPUT_PREFIX}_relatorio.txt", payload, rows_summary)
     save_excel_report(
         OUTPUT_DIR / f"{OUTPUT_PREFIX}_relatorio.xlsx",
@@ -63,6 +72,7 @@ def run_pipeline():
         rows_summary,
         rows_video_links,
         rows_internal_pages,
+        ccaaa_members,
     )
 
     print("\nArquivos gerados:")
@@ -72,3 +82,5 @@ def run_pipeline():
     print(f" - {OUTPUT_DIR / f'{OUTPUT_PREFIX}_relatorio.json'}")
     print(f" - {OUTPUT_DIR / f'{OUTPUT_PREFIX}_relatorio.txt'}")
     print(f" - {OUTPUT_DIR / f'{OUTPUT_PREFIX}_relatorio.xlsx'}")
+    print(f" - {OUTPUT_DIR / 'ccaaa_membros.csv'}")
+    print(f" - {OUTPUT_DIR / 'ccaaa_membros.json'}")

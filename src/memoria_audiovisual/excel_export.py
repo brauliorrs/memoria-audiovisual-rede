@@ -30,7 +30,7 @@ def append_sheet(workbook, title, rows, fieldnames):
     return worksheet
 
 
-def save_excel_report(path, payload, rows_summary, rows_video_links, rows_internal_pages):
+def save_excel_report(path, payload, rows_summary, rows_video_links, rows_internal_pages, ccaaa_members):
     workbook = Workbook()
     dashboard = workbook.active
     dashboard.title = "Dashboard"
@@ -110,6 +110,12 @@ def save_excel_report(path, payload, rows_summary, rows_video_links, rows_intern
             "warning",
             "error",
         ],
+    )
+    append_sheet(
+        workbook,
+        "CCAAA Members",
+        ccaaa_members,
+        ["organization", "abbreviation", "role", "website", "domain", "description", "source"],
     )
 
     workbook.save(path)

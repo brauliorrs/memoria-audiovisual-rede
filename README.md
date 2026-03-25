@@ -11,6 +11,7 @@ Projeto inicial para mapear links institucionais da IASA, detectar presenca de v
 - Gera relatorios em CSV, JSON, TXT e XLSX.
 - Exibe uma visao geral e uma pagina por arquivo na app Streamlit.
 - Organiza geograficamente os arquivos por pais e continente.
+- Extrai automaticamente a rede de membros da CCAAA.
 - Inclui pipeline basico para GitHub Actions.
 
 ## Estrutura
@@ -61,6 +62,8 @@ Os arquivos gerados ficam em `data/output/`:
 - `iasa_v32_relatorio.json`
 - `iasa_v32_relatorio.txt`
 - `iasa_v32_relatorio.xlsx`
+- `ccaaa_membros.csv`
+- `ccaaa_membros.json`
 
 O arquivo `iasa_v32_resumo_instituicoes.csv` passa a incluir:
 

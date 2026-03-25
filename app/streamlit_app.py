@@ -118,6 +118,7 @@ def build_geography_summaries(audiovisual_sites_df):
 summary_df = load_csv("iasa_v32_resumo_instituicoes.csv")
 links_df = load_csv("iasa_v32_links_video.csv")
 internal_df = load_csv("iasa_v32_paginas_internas.csv")
+ccaaa_df = load_csv("ccaaa_membros.csv")
 
 st.title("Plataforma aberta de curadoria e acesso a memoria audiovisual em rede")
 st.caption("Primeiro passo: verificar a integridade dos links da IASA e abrir uma pagina de consulta para cada arquivo.")
@@ -128,6 +129,9 @@ if summary_df is None:
 
 links_df = links_df if links_df is not None else pd.DataFrame(columns=["institution", "slug", "platform", "video_link"])
 internal_df = internal_df if internal_df is not None else pd.DataFrame()
+ccaaa_df = ccaaa_df if ccaaa_df is not None else pd.DataFrame(
+    columns=["organization", "abbreviation", "role", "website", "domain", "description", "source"]
+)
 if "warning" not in summary_df.columns:
     summary_df["warning"] = ""
 if "warning" not in internal_df.columns:
@@ -177,14 +181,16 @@ if sidebar_mode == "Visao geral":
     )
     audiovisual_sites_df = build_audiovisual_sites_df(summary_df, links_df)
     continent_counts, country_counts = build_geography_summaries(audiovisual_sites_df)
+    ccaaa_members_count = int((ccaaa_df["role"] == "member").sum()) if not ccaaa_df.empty else 0
+    ccaaa_observer_count = int((ccaaa_df["role"] == "observer").sum()) if not ccaaa_df.empty else 0
 
     metric_cols = st.columns(4)
     metric_cols[0].metric("Arquivos IASA", total)
     metric_cols[1].metric("Links integros", integral_count)
     metric_cols[2].metric("Precisam revisao", review_count)
     metric_cols[3].metric("Com links de video", with_video)
-    tab_dashboard, tab_sites, tab_geo, tab_base = st.tabs(
-        ["Painel", f"Sites com links de video ({with_video})", "Geografia", "Base consolidada"]
+    tab_dashboard, tab_sites, tab_geo, tab_ccaaa, tab_base = st.tabs(
+        ["Painel", f"Sites com links de video ({with_video})", "Geografia", "Rede CCAAA", "Base consolidada"]
     )
 
     with tab_dashboard:
@@ -293,6 +299,29 @@ if sidebar_mode == "Visao geral":
             ],
             use_container_width=True,
         )
+
+    with tab_ccaaa:
+        st.subheader("Membros da CCAAA")
+        st.caption("Rede internacional de associacoes de arquivos audiovisuais, extraida automaticamente do site da CCAAA com apoio da pagina da IASA.")
+        top_cols = st.columns(2)
+        top_cols[0].metric("Membros", ccaaa_members_count)
+        top_cols[1].metric("Observadores", ccaaa_observer_count)
+
+        if ccaaa_df.empty:
+            st.info("Nenhum membro da CCAAA foi coletado ainda.")
+        else:
+            st.dataframe(ccaaa_df, use_container_width=True)
+            for _, row in ccaaa_df.iterrows():
+                with st.expander(row["organization"]):
+                    if pd.notna(row["abbreviation"]) and str(row["abbreviation"]).strip():
+                        st.write(f"Sigla: {row['abbreviation']}")
+                    st.write(f"Tipo: {row['role']}")
+                    if pd.notna(row["domain"]) and str(row["domain"]).strip():
+                        st.write(f"Dominio: {row['domain']}")
+                    if pd.notna(row["description"]) and str(row["description"]).strip():
+                        st.write(str(row["description"]))
+                    if pd.notna(row["website"]) and str(row["website"]).strip():
+                        st.markdown(f"[Abrir site]({row['website']})")
 
     with tab_base:
         st.subheader("Base consolidada")

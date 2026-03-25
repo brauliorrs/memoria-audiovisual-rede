@@ -3,6 +3,9 @@ from pathlib import Path
 
 BASE_URL = "https://www.iasa-web.org"
 START_URL = "https://www.iasa-web.org/category/links-categories/national-archives"
+IASA_CCAAA_URL = "https://www.iasa-web.org/links/ccaaa"
+CCAAA_HOME_URL = "https://www.ccaaa.org/"
+CCAAA_MEMBERS_URL = "https://www.ccaaa.org/pages/who-we-are/list-of-current-members.html"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; IASA-Link-Explorer/3.2)"
 }
