@@ -59,4 +59,5 @@ VIDEO_FILE_EXTENSIONS = (
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 OUTPUT_PREFIX = "iasa_v32"
+CCAAA_OUTPUT_PREFIX = "ccaaa"
 OUTPUT_DIR = ROOT_DIR / "data" / "output"

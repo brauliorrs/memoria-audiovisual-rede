@@ -30,7 +30,17 @@ def append_sheet(workbook, title, rows, fieldnames):
     return worksheet
 
 
-def save_excel_report(path, payload, rows_summary, rows_video_links, rows_internal_pages, ccaaa_members):
+def save_excel_report(
+    path,
+    payload,
+    rows_summary,
+    rows_video_links,
+    rows_internal_pages,
+    ccaaa_members,
+    ccaaa_rows_summary,
+    ccaaa_rows_video_links,
+    ccaaa_rows_internal_pages,
+):
     workbook = Workbook()
     dashboard = workbook.active
     dashboard.title = "Dashboard"
@@ -116,6 +126,65 @@ def save_excel_report(path, payload, rows_summary, rows_video_links, rows_intern
         "CCAAA Members",
         ccaaa_members,
         ["organization", "abbreviation", "role", "website", "domain", "description", "source"],
+    )
+    append_sheet(
+        workbook,
+        "CCAAA Summary",
+        ccaaa_rows_summary,
+        [
+            "institution",
+            "slug",
+            "abbreviation",
+            "role",
+            "partner_site",
+            "partner_domain",
+            "status",
+            "http_code",
+            "integrity_status",
+            "final_url",
+            "video_links_found_total",
+            "embedded_video_signals_total",
+            "candidate_internal_pages",
+            "priority_review",
+            "warning",
+            "member_source",
+            "error",
+        ],
+    )
+    append_sheet(
+        workbook,
+        "CCAAA Video Links",
+        ccaaa_rows_video_links,
+        [
+            "institution",
+            "slug",
+            "abbreviation",
+            "role",
+            "partner_site",
+            "platform",
+            "video_link",
+            "member_source",
+        ],
+    )
+    append_sheet(
+        workbook,
+        "CCAAA Internal",
+        ccaaa_rows_internal_pages,
+        [
+            "institution",
+            "slug",
+            "abbreviation",
+            "role",
+            "partner_site",
+            "internal_page",
+            "status",
+            "http_code",
+            "video_links_found",
+            "embedded_signals",
+            "warning",
+            "member_source",
+            "error",
+        ],
     )
 
     workbook.save(path)

@@ -576,8 +576,7 @@ def analyze_institution(page, institution_name, external_url, country="", contin
     return summary, video_rows, internal_results
 
 
-def collect_dataset():
-    entries = crawl_iasa_category()
+def collect_sites_dataset(entries):
     rows_summary = []
     rows_video_links = []
     rows_internal_pages = []
@@ -587,7 +586,7 @@ def collect_dataset():
 
         for index, entry in enumerate(entries, start=1):
             name = entry["name"]
-            slug = entry["slug"]
+            slug = entry.get("slug") or slugify(name)
             external_url = entry["external_url"]
             country = entry.get("country", "")
             continent = entry.get("continent", "")
@@ -631,4 +630,10 @@ def collect_dataset():
             rows_internal_pages.extend(internal_rows)
             time.sleep(SLEEP_BETWEEN_REQUESTS)
 
+    return rows_summary, rows_video_links, rows_internal_pages
+
+
+def collect_dataset():
+    entries = crawl_iasa_category()
+    rows_summary, rows_video_links, rows_internal_pages = collect_sites_dataset(entries)
     return entries, rows_summary, rows_video_links, rows_internal_pages

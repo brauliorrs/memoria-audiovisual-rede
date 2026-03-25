@@ -53,7 +53,7 @@ def get_vimeo_embed_url(url):
     return None
 
 
-def build_audiovisual_sites_df(summary_df, links_df):
+def build_detected_sites_df(summary_df, links_df):
     ranked = summary_df.loc[summary_df["video_links_found_total"] > 0].copy()
 
     platforms_df = pd.DataFrame(columns=["slug", "platforms_detectadas"])
@@ -119,6 +119,9 @@ summary_df = load_csv("iasa_v32_resumo_instituicoes.csv")
 links_df = load_csv("iasa_v32_links_video.csv")
 internal_df = load_csv("iasa_v32_paginas_internas.csv")
 ccaaa_df = load_csv("ccaaa_membros.csv")
+ccaaa_summary_df = load_csv("ccaaa_resumo_sites.csv")
+ccaaa_links_df = load_csv("ccaaa_links_video.csv")
+ccaaa_internal_df = load_csv("ccaaa_paginas_internas.csv")
 
 st.title("Plataforma aberta de curadoria e acesso a memoria audiovisual em rede")
 st.caption("Primeiro passo: verificar a integridade dos links da IASA e abrir uma pagina de consulta para cada arquivo.")
@@ -132,6 +135,11 @@ internal_df = internal_df if internal_df is not None else pd.DataFrame()
 ccaaa_df = ccaaa_df if ccaaa_df is not None else pd.DataFrame(
     columns=["organization", "abbreviation", "role", "website", "domain", "description", "source"]
 )
+ccaaa_summary_df = ccaaa_summary_df if ccaaa_summary_df is not None else pd.DataFrame()
+ccaaa_links_df = ccaaa_links_df if ccaaa_links_df is not None else pd.DataFrame(
+    columns=["institution", "slug", "abbreviation", "role", "platform", "video_link"]
+)
+ccaaa_internal_df = ccaaa_internal_df if ccaaa_internal_df is not None else pd.DataFrame()
 if "warning" not in summary_df.columns:
     summary_df["warning"] = ""
 if "warning" not in internal_df.columns:
@@ -144,6 +152,16 @@ if "country" not in internal_df.columns:
     internal_df["country"] = ""
 if "continent" not in internal_df.columns:
     internal_df["continent"] = "Nao classificado"
+for frame in [ccaaa_summary_df, ccaaa_internal_df]:
+    if "warning" not in frame.columns:
+        frame["warning"] = ""
+for frame in [ccaaa_summary_df, ccaaa_links_df, ccaaa_internal_df]:
+    if "abbreviation" not in frame.columns:
+        frame["abbreviation"] = ""
+    if "role" not in frame.columns:
+        frame["role"] = ""
+    if "member_source" not in frame.columns:
+        frame["member_source"] = ""
 
 query_params = st.query_params
 requested_slug = query_params.get("arquivo")
@@ -179,10 +197,15 @@ if sidebar_mode == "Visao geral":
     review_count = int(
         summary_df["integrity_status"].isin(["quebrado", "restrito", "instavel", "suspeito"]).sum()
     )
-    audiovisual_sites_df = build_audiovisual_sites_df(summary_df, links_df)
+    audiovisual_sites_df = build_detected_sites_df(summary_df, links_df)
     continent_counts, country_counts = build_geography_summaries(audiovisual_sites_df)
     ccaaa_members_count = int((ccaaa_df["role"] == "member").sum()) if not ccaaa_df.empty else 0
     ccaaa_observer_count = int((ccaaa_df["role"] == "observer").sum()) if not ccaaa_df.empty else 0
+    ccaaa_sites_ok_count = int((ccaaa_summary_df["status"] == "ok").sum()) if not ccaaa_summary_df.empty else 0
+    ccaaa_with_video_count = (
+        int((ccaaa_summary_df["video_links_found_total"] > 0).sum()) if not ccaaa_summary_df.empty else 0
+    )
+    ccaaa_detected_sites_df = build_detected_sites_df(ccaaa_summary_df, ccaaa_links_df) if not ccaaa_summary_df.empty else pd.DataFrame()
 
     metric_cols = st.columns(4)
     metric_cols[0].metric("Arquivos IASA", total)
@@ -240,7 +263,7 @@ if sidebar_mode == "Visao geral":
                 st.info("Nenhum link de video foi detectado ainda.")
 
             st.subheader("Arquivos gerados")
-            for file_path in sorted(OUTPUT_DIR.glob("iasa_v32_*")):
+            for file_path in sorted(OUTPUT_DIR.glob("*")):
                 st.write(file_path.name)
 
     with tab_sites:
@@ -301,27 +324,93 @@ if sidebar_mode == "Visao geral":
         )
 
     with tab_ccaaa:
-        st.subheader("Membros da CCAAA")
-        st.caption("Rede internacional de associacoes de arquivos audiovisuais, extraida automaticamente do site da CCAAA com apoio da pagina da IASA.")
-        top_cols = st.columns(2)
+        st.subheader("Rede CCAAA")
+        st.caption("Rede internacional de associacoes de arquivos audiovisuais, com membros extraidos automaticamente e varredura de links de video em seus sites institucionais.")
+        top_cols = st.columns(4)
         top_cols[0].metric("Membros", ccaaa_members_count)
         top_cols[1].metric("Observadores", ccaaa_observer_count)
+        top_cols[2].metric("Sites OK", ccaaa_sites_ok_count)
+        top_cols[3].metric("Com links de video", ccaaa_with_video_count)
 
         if ccaaa_df.empty:
             st.info("Nenhum membro da CCAAA foi coletado ainda.")
         else:
+            st.subheader("Membros e observadores")
             st.dataframe(ccaaa_df, use_container_width=True)
-            for _, row in ccaaa_df.iterrows():
-                with st.expander(row["organization"]):
-                    if pd.notna(row["abbreviation"]) and str(row["abbreviation"]).strip():
-                        st.write(f"Sigla: {row['abbreviation']}")
-                    st.write(f"Tipo: {row['role']}")
-                    if pd.notna(row["domain"]) and str(row["domain"]).strip():
-                        st.write(f"Dominio: {row['domain']}")
-                    if pd.notna(row["description"]) and str(row["description"]).strip():
-                        st.write(str(row["description"]))
-                    if pd.notna(row["website"]) and str(row["website"]).strip():
-                        st.markdown(f"[Abrir site]({row['website']})")
+
+        if ccaaa_summary_df.empty:
+            st.info("A verificacao audiovisual dos sites da CCAAA ainda nao foi executada.")
+        else:
+            st.subheader("Status dos sites da rede")
+            st.dataframe(
+                ccaaa_summary_df[
+                    [
+                        "institution",
+                        "abbreviation",
+                        "role",
+                        "integrity_status",
+                        "status",
+                        "video_links_found_total",
+                        "embedded_video_signals_total",
+                        "partner_domain",
+                        "warning",
+                        "final_url",
+                    ]
+                ],
+                use_container_width=True,
+            )
+
+            st.subheader(f"Sites da CCAAA com links de video detectados ({ccaaa_with_video_count})")
+            if ccaaa_detected_sites_df.empty:
+                st.info("Nenhum link de video foi detectado ainda nos sites da CCAAA.")
+            else:
+                st.dataframe(
+                    ccaaa_detected_sites_df[
+                        [
+                            "institution",
+                            "abbreviation",
+                            "role",
+                            "integrity_status",
+                            "video_links_found_total",
+                            "embedded_video_signals_total",
+                            "platforms_detectadas",
+                            "partner_domain",
+                            "warning",
+                            "final_url",
+                        ]
+                    ],
+                    use_container_width=True,
+                )
+
+                for _, row in ccaaa_detected_sites_df.iterrows():
+                    selected_ccaaa_links = (
+                        ccaaa_links_df.loc[ccaaa_links_df["slug"] == row["slug"]]
+                        .drop_duplicates(subset=["platform", "video_link"])
+                        .sort_values(["platform", "video_link"])
+                    )
+                    with st.expander(row["institution"]):
+                        if pd.notna(row["abbreviation"]) and str(row["abbreviation"]).strip():
+                            st.write(f"Sigla: {row['abbreviation']}")
+                        if pd.notna(row["role"]) and str(row["role"]).strip():
+                            st.write(f"Tipo: {row['role']}")
+                        render_integrity_badge(row["integrity_status"])
+                        st.write(f"Dominio: {row['partner_domain']}")
+                        st.write(f"Status tecnico: {row['status']}")
+                        st.write(f"Links de video: {int(row['video_links_found_total'])}")
+                        st.write(f"Sinais embutidos: {int(row['embedded_video_signals_total'])}")
+                        if row["platforms_detectadas"]:
+                            st.write(f"Plataformas detectadas: {row['platforms_detectadas']}")
+                        if pd.notna(row.get("warning")) and str(row.get("warning")).strip():
+                            st.warning(str(row["warning"]))
+                        st.markdown(f"[Abrir site]({row['final_url']})")
+
+                        if not selected_ccaaa_links.empty:
+                            st.markdown("**Links detectados**")
+                            for _, link_row in selected_ccaaa_links.iterrows():
+                                st.link_button(
+                                    f"Abrir {link_row['platform']}: {link_row['video_link']}",
+                                    link_row["video_link"],
+                                )
 
     with tab_base:
         st.subheader("Base consolidada")

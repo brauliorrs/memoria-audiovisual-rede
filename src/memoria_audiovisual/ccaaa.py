@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from .config import CCAAA_MEMBERS_URL, HEADERS, IASA_CCAAA_URL
+from .crawler import collect_sites_dataset, slugify
 
 
 SESSION = requests.Session()
@@ -194,3 +195,60 @@ def collect_ccaaa_members():
     iasa_rows = parse_iasa_ccaaa_page()
     ccaaa_rows = parse_ccaaa_members_page()
     return merge_member_rows(iasa_rows, ccaaa_rows)
+
+
+def build_ccaaa_site_entries(ccaaa_members):
+    entries = []
+
+    for row in ccaaa_members:
+        website = normalize_url(row.get("website", ""))
+        if not website:
+            continue
+
+        entries.append(
+            {
+                "name": row["organization"],
+                "slug": slugify(row["organization"]),
+                "external_url": website,
+                "country": "",
+                "continent": "",
+                "abbreviation": row.get("abbreviation", ""),
+                "role": row.get("role", ""),
+                "member_source": row.get("source", ""),
+            }
+        )
+
+    return entries
+
+
+def enrich_ccaaa_rows(rows, entry_lookup):
+    enriched = []
+    for row in rows:
+        extra = entry_lookup.get(row.get("slug"), {})
+        merged = row.copy()
+        merged["abbreviation"] = extra.get("abbreviation", "")
+        merged["role"] = extra.get("role", "")
+        merged["member_source"] = extra.get("member_source", "")
+        enriched.append(merged)
+    return enriched
+
+
+def collect_ccaaa_dataset(ccaaa_members=None):
+    members = ccaaa_members or collect_ccaaa_members()
+    entries = build_ccaaa_site_entries(members)
+    rows_summary, rows_video_links, rows_internal_pages = collect_sites_dataset(entries)
+    entry_lookup = {
+        entry["slug"]: {
+            "abbreviation": entry.get("abbreviation", ""),
+            "role": entry.get("role", ""),
+            "member_source": entry.get("member_source", ""),
+        }
+        for entry in entries
+    }
+
+    return (
+        entries,
+        enrich_ccaaa_rows(rows_summary, entry_lookup),
+        enrich_ccaaa_rows(rows_video_links, entry_lookup),
+        enrich_ccaaa_rows(rows_internal_pages, entry_lookup),
+    )

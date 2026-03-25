@@ -12,6 +12,7 @@ Projeto inicial para mapear links institucionais da IASA, detectar presenca de v
 - Exibe uma visao geral e uma pagina por arquivo na app Streamlit.
 - Organiza geograficamente os arquivos por pais e continente.
 - Extrai automaticamente a rede de membros da CCAAA.
+- Verifica a existencia de links de video nos sites dos membros e observadores da CCAAA.
 - Inclui pipeline basico para GitHub Actions.
 
 ## Estrutura
@@ -64,6 +65,11 @@ Os arquivos gerados ficam em `data/output/`:
 - `iasa_v32_relatorio.xlsx`
 - `ccaaa_membros.csv`
 - `ccaaa_membros.json`
+- `ccaaa_resumo_sites.csv`
+- `ccaaa_links_video.csv`
+- `ccaaa_paginas_internas.csv`
+- `ccaaa_relatorio.json`
+- `ccaaa_relatorio.txt`
 
 O arquivo `iasa_v32_resumo_instituicoes.csv` passa a incluir:
 
@@ -79,6 +85,7 @@ O arquivo `iasa_v32_resumo_instituicoes.csv` passa a incluir:
    - Visao geral da integridade dos links.
    - Pagina dedicada por arquivo com os links de video detectados.
    - Organizacao geografica dos arquivos com conteudo audiovisual.
+   - Aba da rede CCAAA com status dos sites e links audiovisuais detectados.
 
 ## Proximos passos sugeridos
 

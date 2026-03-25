@@ -57,9 +57,9 @@ def save_json_report(path, payload):
         json.dump(payload, file_handle, ensure_ascii=False, indent=2)
 
 
-def save_txt_report(path, payload, rows_summary):
+def save_txt_report(path, payload, rows_summary, report_title="RELATORIO - IASA NATIONAL ARCHIVES"):
     with path.open("w", encoding="utf-8") as file_handle:
-        file_handle.write("RELATORIO - IASA NATIONAL ARCHIVES\n")
+        file_handle.write(report_title + "\n")
         file_handle.write("=" * 60 + "\n\n")
         file_handle.write(f"Fonte: {payload['source']}\n")
         file_handle.write(f"Total de instituicoes analisadas: {payload['total_institutions']}\n")
