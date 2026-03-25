@@ -1,21 +1,21 @@
 # Plataforma aberta de curadoria e acesso a memoria audiovisual em rede
 
-Projeto inicial para mapear links institucionais do Archives Portal Europe e da IASA, detectar presenca de video em plataformas parceiras e publicar relatorios exploratorios em uma interface Streamlit.
+Projeto focado no Archives Portal Europe (APE) para:
+
+- identificar instituicoes com conteudo publicado no portal;
+- capturar a `Webpage` externa de cada instituicao a partir da ficha do APE;
+- verificar a integridade desses sites;
+- detectar links de video e sinais de midia embutida;
+- organizar os resultados em relatorios e em uma interface Streamlit.
 
 ## Escopo atual
 
-- Coleta de instituicoes do Archives Portal Europe a partir do PDF oficial de instituicoes com conteudo publicado.
-- Extrai `Webpage`, `Country` e `Type of archive` das paginas de detalhe do APE.
-- Coleta da categoria `National archives` da IASA.
-- Verifica a integridade do link institucional de cada arquivo listado.
-- Visita sites parceiros com Playwright quando o link responde.
-- Detecta links para plataformas de video e sinais de midia embutida.
-- Gera relatorios em CSV, JSON, TXT e XLSX.
-- Exibe uma visao geral e uma pagina por arquivo na app Streamlit.
-- Organiza geograficamente os arquivos por pais e continente.
-- Extrai automaticamente a rede de membros da CCAAA.
-- Verifica a existencia de links de video nos sites dos membros e observadores da CCAAA.
-- Inclui pipeline basico para GitHub Actions.
+- Coleta das instituicoes com conteudo publicado no Archives Portal Europe.
+- Leitura da ficha de cada instituicao no APE para obter `Country`, `Webpage` e `Type of archive`.
+- Verificacao de integridade do site institucional externo.
+- Deteccao de links para plataformas de video e sinais de midia embutida.
+- Geracao de relatorios em CSV, JSON, TXT e XLSX.
+- Interface Streamlit com visao geral e pagina individual por instituicao.
 
 ## Estrutura
 
@@ -31,14 +31,13 @@ Projeto inicial para mapear links institucionais do Archives Portal Europe e da 
 |-- src/
 |   `-- memoria_audiovisual/
 |       |-- __init__.py
+|       |-- ape.py
 |       |-- config.py
 |       |-- crawler.py
 |       |-- excel_export.py
+|       |-- geography.py
 |       |-- pipeline.py
 |       `-- reporting.py
-|-- .github/
-|   `-- workflows/
-|       `-- pipeline.yml
 |-- pyproject.toml
 +-- requirements.txt
 ```
@@ -46,25 +45,19 @@ Projeto inicial para mapear links institucionais do Archives Portal Europe e da 
 ## Como executar localmente
 
 ```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-pip install -e .
-playwright install
-python scripts\run_pipeline.py
-streamlit run app\streamlit_app.py
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -e .
+.\.venv\Scripts\python.exe -m playwright install
+.\.venv\Scripts\python.exe scripts\run_pipeline.py
+.\.venv\Scripts\python.exe -m streamlit run app\streamlit_app.py
 ```
 
 ## Saidas esperadas
 
 Os arquivos gerados ficam em `data/output/`:
 
-- `iasa_v32_resumo_instituicoes.csv`
-- `iasa_v32_links_video.csv`
-- `iasa_v32_paginas_internas.csv`
-- `iasa_v32_relatorio.json`
-- `iasa_v32_relatorio.txt`
-- `iasa_v32_relatorio.xlsx`
 - `ape_instituicoes.csv`
 - `ape_resumo_instituicoes.csv`
 - `ape_links_video.csv`
@@ -72,33 +65,19 @@ Os arquivos gerados ficam em `data/output/`:
 - `ape_relatorio.json`
 - `ape_relatorio.txt`
 - `ape_relatorio.xlsx`
-- `ccaaa_membros.csv`
-- `ccaaa_membros.json`
-- `ccaaa_resumo_sites.csv`
-- `ccaaa_links_video.csv`
-- `ccaaa_paginas_internas.csv`
-- `ccaaa_relatorio.json`
-- `ccaaa_relatorio.txt`
-
-O arquivo `iasa_v32_resumo_instituicoes.csv` passa a incluir:
-
-- `integrity_status`: `integro`, `acessivel`, `restrito`, `quebrado` ou `instavel`
-- `slug`: identificador para abrir a pagina individual do arquivo
 
 ## Fluxo de produto
 
-1. A pipeline coleta instituicoes do APE e da IASA.
-2. Cada link institucional e testado e classificado por integridade.
-3. Quando o link funciona, a coleta tenta localizar links de video e paginas internas relacionadas.
-4. A app Streamlit oferece:
-   - Visao separada por base: APE, IASA e CCAAA.
-   - Pagina dedicada por arquivo da IASA com os links de video detectados.
-   - Organizacao geografica dos arquivos com conteudo audiovisual.
-   - Aba da rede CCAAA com status dos sites e links audiovisuais detectados.
+1. A pipeline coleta as instituicoes listadas no APE com conteudo publicado.
+2. A ficha de cada instituicao no APE e lida para localizar a `Webpage` externa.
+3. O site institucional externo e testado e classificado por integridade.
+4. Quando o site responde, a coleta tenta localizar links de video e paginas internas relacionadas.
+5. A app Streamlit oferece:
+   - visao geral da integridade dos sites;
+   - lista das instituicoes com links de video detectados;
+   - organizacao geografica;
+   - pagina individual por instituicao.
 
-## Proximos passos sugeridos
+## Proximo passo sugerido
 
-1. Publicar o repositorio no GitHub.
-2. Configurar deploy da app Streamlit.
-3. Adicionar persistencia em banco e historico de execucoes.
-4. Expandir para novas categorias e novas estrategias de deteccao.
+Expandir a coleta da lista `instituicoes com conteudo publicado` para o universo completo de instituicoes representadas no APE.
