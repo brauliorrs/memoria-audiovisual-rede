@@ -10,6 +10,7 @@ Projeto inicial para mapear links institucionais da IASA, detectar presenca de v
 - Detecta links para plataformas de video e sinais de midia embutida.
 - Gera relatorios em CSV, JSON, TXT e XLSX.
 - Exibe uma visao geral e uma pagina por arquivo na app Streamlit.
+- Organiza geograficamente os arquivos por pais e continente.
 - Inclui pipeline basico para GitHub Actions.
 
 ## Estrutura
@@ -74,6 +75,7 @@ O arquivo `iasa_v32_resumo_instituicoes.csv` passa a incluir:
 4. A app Streamlit oferece:
    - Visao geral da integridade dos links.
    - Pagina dedicada por arquivo com os links de video detectados.
+   - Organizacao geografica dos arquivos com conteudo audiovisual.
 
 ## Proximos passos sugeridos
 

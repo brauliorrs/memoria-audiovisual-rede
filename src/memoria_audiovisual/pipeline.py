@@ -16,6 +16,8 @@ def run_pipeline():
         [
             "institution",
             "slug",
+            "country",
+            "continent",
             "partner_site",
             "partner_domain",
             "status",
@@ -33,7 +35,7 @@ def run_pipeline():
     save_csv(
         OUTPUT_DIR / f"{OUTPUT_PREFIX}_links_video.csv",
         rows_video_links,
-        ["institution", "slug", "partner_site", "platform", "video_link"],
+        ["institution", "slug", "country", "continent", "partner_site", "platform", "video_link"],
     )
     save_csv(
         OUTPUT_DIR / f"{OUTPUT_PREFIX}_paginas_internas.csv",
@@ -41,6 +43,8 @@ def run_pipeline():
         [
             "institution",
             "slug",
+            "country",
+            "continent",
             "partner_site",
             "internal_page",
             "status",

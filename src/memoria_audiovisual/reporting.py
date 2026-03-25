@@ -15,6 +15,14 @@ def build_report_payload(source_url, total_institutions, rows_summary, rows_vide
     integrity_counter = Counter(row["integrity_status"] for row in rows_summary)
     platform_counter = Counter(row["platform"] for row in rows_video_links)
     domain_counter = Counter(row["partner_domain"] for row in rows_summary)
+    continent_counter = Counter(
+        row["continent"] for row in rows_summary if row.get("continent")
+    )
+    video_continent_counter = Counter(
+        row["continent"]
+        for row in rows_summary
+        if row.get("continent") and int(row["video_links_found_total"]) > 0
+    )
 
     ok_count = sum(1 for row in rows_summary if row["status"] == "ok")
     with_video = sum(1 for row in rows_summary if int(row["video_links_found_total"]) > 0)
@@ -38,6 +46,8 @@ def build_report_payload(source_url, total_institutions, rows_summary, rows_vide
         "integrity_summary": dict(integrity_counter.most_common()),
         "platform_summary": dict(platform_counter.most_common()),
         "top_domains": domain_counter.most_common(20),
+        "continent_summary": dict(continent_counter.most_common()),
+        "video_continent_summary": dict(video_continent_counter.most_common()),
         "top_institutions": ranking[:20],
     }
 
@@ -75,6 +85,16 @@ def save_txt_report(path, payload, rows_summary):
         file_handle.write("Dominios parceiros mais frequentes:\n")
         for domain, count in payload["top_domains"]:
             file_handle.write(f"  - {domain}: {count}\n")
+        file_handle.write("\n")
+
+        file_handle.write("Distribuicao continental das instituicoes:\n")
+        for continent, count in payload["continent_summary"].items():
+            file_handle.write(f"  - {continent}: {count}\n")
+        file_handle.write("\n")
+
+        file_handle.write("Instituicoes com links de video por continente:\n")
+        for continent, count in payload["video_continent_summary"].items():
+            file_handle.write(f"  - {continent}: {count}\n")
         file_handle.write("\n")
 
         file_handle.write("Top 20 instituicoes com mais links de video detectados:\n")

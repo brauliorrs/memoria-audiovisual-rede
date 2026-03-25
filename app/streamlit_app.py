@@ -85,12 +85,34 @@ def build_audiovisual_sites_df(summary_df, links_df):
             "video_links_found_total",
             "embedded_video_signals_total",
             "platforms_detectadas",
+            "country",
+            "continent",
             "partner_domain",
             "final_url",
             "warning",
             "slug",
         ]
     ]
+
+
+def build_geography_summaries(audiovisual_sites_df):
+    continent_counts = (
+        audiovisual_sites_df["continent"]
+        .fillna("Nao classificado")
+        .replace("", "Nao classificado")
+        .value_counts()
+        .rename_axis("continent")
+        .reset_index(name="instituicoes")
+    )
+    country_counts = (
+        audiovisual_sites_df["country"]
+        .fillna("Nao classificado")
+        .replace("", "Nao classificado")
+        .value_counts()
+        .rename_axis("country")
+        .reset_index(name="instituicoes")
+    )
+    return continent_counts, country_counts
 
 
 summary_df = load_csv("iasa_v32_resumo_instituicoes.csv")
@@ -110,6 +132,14 @@ if "warning" not in summary_df.columns:
     summary_df["warning"] = ""
 if "warning" not in internal_df.columns:
     internal_df["warning"] = ""
+if "country" not in summary_df.columns:
+    summary_df["country"] = ""
+if "continent" not in summary_df.columns:
+    summary_df["continent"] = "Nao classificado"
+if "country" not in internal_df.columns:
+    internal_df["country"] = ""
+if "continent" not in internal_df.columns:
+    internal_df["continent"] = "Nao classificado"
 
 query_params = st.query_params
 requested_slug = query_params.get("arquivo")
@@ -146,14 +176,15 @@ if sidebar_mode == "Visao geral":
         summary_df["integrity_status"].isin(["quebrado", "restrito", "instavel", "suspeito"]).sum()
     )
     audiovisual_sites_df = build_audiovisual_sites_df(summary_df, links_df)
+    continent_counts, country_counts = build_geography_summaries(audiovisual_sites_df)
 
     metric_cols = st.columns(4)
     metric_cols[0].metric("Arquivos IASA", total)
     metric_cols[1].metric("Links integros", integral_count)
     metric_cols[2].metric("Precisam revisao", review_count)
     metric_cols[3].metric("Com links de video", with_video)
-    tab_dashboard, tab_sites, tab_base = st.tabs(
-        ["Painel", f"Sites com links de video ({with_video})", "Base consolidada"]
+    tab_dashboard, tab_sites, tab_geo, tab_base = st.tabs(
+        ["Painel", f"Sites com links de video ({with_video})", "Geografia", "Base consolidada"]
     )
 
     with tab_dashboard:
@@ -227,6 +258,42 @@ if sidebar_mode == "Visao geral":
                     st.warning(str(row["warning"]))
                 st.markdown(f"[Abrir site institucional]({row['final_url']})")
 
+    with tab_geo:
+        st.subheader("Organizacao geografica dos arquivos com conteudo audiovisual")
+        geo_left, geo_right = st.columns(2)
+
+        with geo_left:
+            st.caption("Distribuicao por continente")
+            st.bar_chart(continent_counts.set_index("continent"))
+
+        with geo_right:
+            st.caption("Distribuicao por pais")
+            st.bar_chart(country_counts.set_index("country"))
+
+        continent_filter = st.multiselect(
+            "Filtrar continentes",
+            options=continent_counts["continent"].tolist(),
+            default=continent_counts["continent"].tolist(),
+            key="geo_continent_filter",
+        )
+        geo_filtered = audiovisual_sites_df[
+            audiovisual_sites_df["continent"].fillna("Nao classificado").replace("", "Nao classificado").isin(continent_filter)
+        ]
+        st.dataframe(
+            geo_filtered[
+                [
+                    "institution",
+                    "continent",
+                    "country",
+                    "integrity_status",
+                    "video_links_found_total",
+                    "platforms_detectadas",
+                    "final_url",
+                ]
+            ],
+            use_container_width=True,
+        )
+
     with tab_base:
         st.subheader("Base consolidada")
         integrity_filter = st.multiselect(
@@ -249,6 +316,13 @@ else:
     with col3:
         st.caption("Link institucional")
         st.markdown(f"[{selected_summary['final_url']}]({selected_summary['final_url']})")
+
+    geo_cols = st.columns(2)
+    geo_cols[0].metric("Pais", selected_summary["country"] if pd.notna(selected_summary["country"]) and selected_summary["country"] else "-")
+    geo_cols[1].metric(
+        "Continente",
+        selected_summary["continent"] if pd.notna(selected_summary["continent"]) and selected_summary["continent"] else "Nao classificado",
+    )
 
     info_cols = st.columns(4)
     info_cols[0].metric("HTTP", selected_summary["http_code"] if pd.notna(selected_summary["http_code"]) else "-")

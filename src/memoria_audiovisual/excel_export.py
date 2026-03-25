@@ -70,6 +70,8 @@ def save_excel_report(path, payload, rows_summary, rows_video_links, rows_intern
         [
             "institution",
             "slug",
+            "country",
+            "continent",
             "partner_site",
             "partner_domain",
             "status",
@@ -88,7 +90,7 @@ def save_excel_report(path, payload, rows_summary, rows_video_links, rows_intern
         workbook,
         "Video Links",
         rows_video_links,
-        ["institution", "slug", "partner_site", "platform", "video_link"],
+        ["institution", "slug", "country", "continent", "partner_site", "platform", "video_link"],
     )
     append_sheet(
         workbook,
@@ -97,6 +99,8 @@ def save_excel_report(path, payload, rows_summary, rows_video_links, rows_intern
         [
             "institution",
             "slug",
+            "country",
+            "continent",
             "partner_site",
             "internal_page",
             "status",

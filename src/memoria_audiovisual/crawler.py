@@ -20,6 +20,7 @@ from .config import (
     VIDEO_HINTS_IN_URL,
     VIDEO_PLATFORMS,
 )
+from .geography import country_to_continent, normalize_country
 
 
 SESSION = requests.Session()
@@ -237,6 +238,30 @@ def extract_external_url_from_block(nodes):
     return None
 
 
+def extract_field_from_block(nodes, field_name, stop_labels=None):
+    stop_labels = stop_labels or []
+    text = block_text(nodes)
+    escaped_stops = "|".join(re.escape(label) for label in stop_labels)
+    if escaped_stops:
+        pattern = rf"{re.escape(field_name)}\s*(.*?)\s*(?:{escaped_stops}|$)"
+    else:
+        pattern = rf"{re.escape(field_name)}\s*(.*)$"
+
+    match = re.search(pattern, text, flags=re.IGNORECASE)
+    if not match:
+        return ""
+    return match.group(1).strip()
+
+
+def extract_country_from_block(nodes):
+    raw_country = extract_field_from_block(
+        nodes,
+        "country:",
+        stop_labels=["links categories:", "language:", "url:", "description:"],
+    )
+    return normalize_country(raw_country)
+
+
 def find_next_iasa_page(soup):
     for anchor in soup.select("a[href]"):
         text = anchor.get_text(" ", strip=True).lower()
@@ -263,6 +288,7 @@ def extract_entry_links_from_iasa_page(soup):
             continue
 
         external_url = extract_external_url_from_block(nodes)
+        country = extract_country_from_block(nodes)
 
         if external_url:
             key = (name, external_url)
@@ -273,6 +299,8 @@ def extract_entry_links_from_iasa_page(soup):
                         "name": name,
                         "slug": slugify(name),
                         "external_url": external_url,
+                        "country": country,
+                        "continent": country_to_continent(country),
                     }
                 )
 
@@ -479,7 +507,7 @@ def slugify(value):
     return normalized.strip("-") or quote(value.strip())
 
 
-def analyze_institution(page, institution_name, external_url):
+def analyze_institution(page, institution_name, external_url, country="", continent=""):
     home = analyze_page_with_playwright(page, external_url)
     internal_results = []
     all_video_links = list(home["video_platform_links"])
@@ -491,6 +519,8 @@ def analyze_institution(page, institution_name, external_url):
             {
                 "institution": institution_name,
                 "slug": slugify(institution_name),
+                "country": country,
+                "continent": continent,
                 "partner_site": external_url,
                 "internal_page": subpage["final_url"],
                 "status": subpage["status"],
@@ -510,6 +540,8 @@ def analyze_institution(page, institution_name, external_url):
     summary = {
         "institution": institution_name,
         "slug": slugify(institution_name),
+        "country": country,
+        "continent": continent,
         "partner_site": external_url,
         "partner_domain": normalize_domain(home["final_url"] or external_url),
         "status": home["status"],
@@ -532,6 +564,8 @@ def analyze_institution(page, institution_name, external_url):
         {
             "institution": institution_name,
             "slug": slugify(institution_name),
+            "country": country,
+            "continent": continent,
             "partner_site": external_url,
             "platform": platform,
             "video_link": link,
@@ -555,15 +589,25 @@ def collect_dataset():
             name = entry["name"]
             slug = entry["slug"]
             external_url = entry["external_url"]
+            country = entry.get("country", "")
+            continent = entry.get("continent", "")
             print(f"[{index}/{len(entries)}] {name} -> {external_url}")
             page = browser.new_page()
 
             try:
-                summary, video_rows, internal_rows = analyze_institution(page, name, external_url)
+                summary, video_rows, internal_rows = analyze_institution(
+                    page,
+                    name,
+                    external_url,
+                    country=country,
+                    continent=continent,
+                )
             except Exception as error:
                 summary = {
                     "institution": name,
                     "slug": slug,
+                    "country": country,
+                    "continent": continent,
                     "partner_site": external_url,
                     "partner_domain": normalize_domain(external_url),
                     "status": "erro",
