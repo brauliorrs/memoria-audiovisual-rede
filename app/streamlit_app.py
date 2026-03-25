@@ -152,9 +152,23 @@ for frame in [catalog_df, summary_df, links_df, internal_df]:
     if "warning" not in frame.columns:
         frame["warning"] = ""
 
+if summary_df.empty:
+    st.warning(
+        "O relatorio do APE foi gerado, mas veio sem instituicoes. Revise a execucao do "
+        "`scripts/run_pipeline.py` e confira o arquivo `data/output/ape_relatorio.txt`."
+    )
+    st.stop()
+
 query_params = st.query_params
 requested_slug = query_params.get("instituicao")
 available_slugs = summary_df["slug"].dropna().tolist()
+if not available_slugs:
+    st.warning(
+        "O relatorio do APE nao trouxe slugs de instituicao. Revise o CSV "
+        "`data/output/ape_resumo_instituicoes.csv` antes de abrir a interface."
+    )
+    st.stop()
+
 default_slug = requested_slug if requested_slug in available_slugs else available_slugs[0]
 
 sidebar_mode = st.sidebar.radio(
