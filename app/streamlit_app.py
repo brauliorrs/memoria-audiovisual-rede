@@ -77,22 +77,27 @@ def build_detected_sites_df(summary_df, links_df):
         ascending=[False, False, True, True],
     )
 
-    return curated[
-        [
-            "institution",
-            "integrity_status",
-            "status",
-            "video_links_found_total",
-            "embedded_video_signals_total",
-            "platforms_detectadas",
-            "country",
-            "continent",
-            "partner_domain",
-            "final_url",
-            "warning",
-            "slug",
-        ]
+    base_columns = [
+        "institution",
+        "integrity_status",
+        "status",
+        "video_links_found_total",
+        "embedded_video_signals_total",
+        "platforms_detectadas",
+        "country",
+        "continent",
+        "partner_domain",
+        "final_url",
+        "warning",
+        "slug",
     ]
+    optional_columns = [
+        column
+        for column in ["abbreviation", "role", "member_source"]
+        if column in curated.columns
+    ]
+
+    return curated[base_columns + optional_columns]
 
 
 def build_geography_summaries(audiovisual_sites_df):
