@@ -1,11 +1,12 @@
 # Plataforma aberta de curadoria e acesso a memoria audiovisual em rede
 
-Projeto focado no Archives Portal Europe (APE) para:
+Projeto focado nesta etapa no Archives Portal Europe (APE) para:
 
 - identificar instituicoes com conteudo publicado no portal;
 - capturar a `Webpage` externa de cada instituicao a partir da ficha do APE;
 - verificar a integridade desses sites;
 - detectar links de video e sinais de midia embutida;
+- enriquecer links de video com titulo, assunto, descricao curta e data publicada quando disponivel;
 - organizar os resultados em relatorios e em uma interface Streamlit.
 
 ## Escopo atual
@@ -14,6 +15,7 @@ Projeto focado no Archives Portal Europe (APE) para:
 - Leitura da ficha de cada instituicao no APE para obter `Country`, `Webpage` e `Type of archive`.
 - Verificacao de integridade do site institucional externo.
 - Deteccao de links para plataformas de video e sinais de midia embutida.
+- Enriquecimento de links de video com metadados basicos da pagina do video.
 - Geracao de relatorios em CSV, JSON, TXT e XLSX.
 - Interface Streamlit com visao geral e pagina individual por instituicao.
 
@@ -69,10 +71,11 @@ Os arquivos gerados ficam em `data/output/`:
 ## Fluxo de produto
 
 1. A pipeline coleta as instituicoes listadas no APE com conteudo publicado.
-2. A ficha de cada instituicao no APE e lida para localizar a `Webpage` externa.
+2. A ficha de cada instituicao no APE e lida para localizar `Country`, `Webpage` e `Type of archive`.
 3. O site institucional externo e testado e classificado por integridade.
 4. Quando o site responde, a coleta tenta localizar links de video e paginas internas relacionadas.
-5. A app Streamlit oferece:
+5. Cada link de video detectado pode ser enriquecido com titulo, assunto, descricao curta e data publicada.
+6. A app Streamlit oferece:
    - visao geral da integridade dos sites;
    - lista das instituicoes com links de video detectados;
    - organizacao geografica;
@@ -80,4 +83,4 @@ Os arquivos gerados ficam em `data/output/`:
 
 ## Proximo passo sugerido
 
-Expandir a coleta da lista `instituicoes com conteudo publicado` para o universo completo de instituicoes representadas no APE.
+Fechar a etapa APE com geografia consistente e metadados de video confiaveis antes de expandir para outras redes e portais internacionais.

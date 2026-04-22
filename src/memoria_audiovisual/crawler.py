@@ -21,6 +21,7 @@ from .config import (
     VIDEO_PLATFORMS,
 )
 from .geography import country_to_continent, normalize_country
+from .video_metadata import fetch_video_metadata
 
 
 SESSION = requests.Session()
@@ -507,11 +508,19 @@ def slugify(value):
     return normalized.strip("-") or quote(value.strip())
 
 
-def analyze_institution(page, institution_name, external_url, country="", continent=""):
+def get_video_metadata(video_url, metadata_cache):
+    if video_url not in metadata_cache:
+        metadata_cache[video_url] = fetch_video_metadata(video_url)
+    return metadata_cache[video_url]
+
+
+def analyze_institution(page, institution_name, external_url, country="", continent="", metadata_cache=None):
     home = analyze_page_with_playwright(page, external_url)
     internal_results = []
     all_video_links = list(home["video_platform_links"])
     embedded_total = home["embedded_video_signals"]
+    if metadata_cache is None:
+        metadata_cache = {}
 
     for internal_url in home["candidate_internal_pages"][:MAX_INTERNAL_PAGES]:
         subpage = analyze_page_with_playwright(page, internal_url)
@@ -569,6 +578,7 @@ def analyze_institution(page, institution_name, external_url, country="", contin
             "partner_site": external_url,
             "platform": platform,
             "video_link": link,
+            **get_video_metadata(link, metadata_cache),
         }
         for platform, link in all_video_links
     ]
@@ -580,6 +590,7 @@ def collect_sites_dataset(entries):
     rows_summary = []
     rows_video_links = []
     rows_internal_pages = []
+    metadata_cache = {}
 
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
@@ -625,6 +636,7 @@ def collect_sites_dataset(entries):
                     external_url,
                     country=country,
                     continent=continent,
+                    metadata_cache=metadata_cache,
                 )
             except Exception as error:
                 summary = {

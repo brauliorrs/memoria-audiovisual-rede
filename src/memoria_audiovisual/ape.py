@@ -170,6 +170,30 @@ def parse_ape_institution_links_from_pdf(url=APE_CONTENT_PDF_URL):
 
 
 def extract_text_between(soup, start_label, stop_labels):
+    normalized_start = start_label.strip().lower()
+    normalized_stops = {label.strip().lower() for label in stop_labels}
+    strings = [
+        normalize_pdf_line(text)
+        for text in soup.stripped_strings
+        if normalize_pdf_line(text)
+    ]
+
+    collecting = False
+    collected = []
+    for text in strings:
+        lowered = text.lower()
+        if not collecting:
+            if lowered == normalized_start:
+                collecting = True
+            continue
+
+        if lowered in normalized_stops:
+            break
+        collected.append(text)
+
+    if collected:
+        return normalize_pdf_line(" ".join(collected))
+
     text = soup.get_text("\n", strip=True)
     escaped_stops = "|".join(re.escape(label) for label in stop_labels)
     pattern = rf"{re.escape(start_label)}\s*(.*?)\s*(?:{escaped_stops}|$)"
@@ -179,28 +203,90 @@ def extract_text_between(soup, start_label, stop_labels):
     return normalize_pdf_line(match.group(1))
 
 
+def extract_table_value(soup, label):
+    normalized_label = label.strip().lower().rstrip(":")
+    for header in soup.select("td.header, th.header"):
+        header_text = normalize_pdf_line(header.get_text(" ", strip=True)).lower().rstrip(":")
+        if header_text != normalized_label:
+            continue
+
+        value_cell = header.find_next_sibling(["td", "th"])
+        if value_cell is None:
+            continue
+
+        return normalize_pdf_line(value_cell.get_text(" ", strip=True))
+    return ""
+
+
+def sanitize_ape_country(value):
+    cleaned = normalize_pdf_line(value)
+    if not cleaned:
+        return ""
+
+    noise_markers = [
+        "E-mail Address:",
+        "Email Address:",
+        "Contact this institution",
+        "Contact this archive",
+        "Last update:",
+        "Webpage:",
+    ]
+    for marker in noise_markers:
+        if marker.lower() in cleaned.lower():
+            cleaned = re.split(re.escape(marker), cleaned, maxsplit=1, flags=re.IGNORECASE)[0].strip()
+
+    return normalize_country(cleaned)
+
+
+def sanitize_ape_archive_type(value):
+    cleaned = normalize_pdf_line(value)
+    if not cleaned:
+        return ""
+
+    noise_markers = [
+        "Country:",
+        "Webpage:",
+        "Contact this institution",
+        "Contact this archive",
+        "Last update:",
+    ]
+    for marker in noise_markers:
+        if marker.lower() in cleaned.lower():
+            cleaned = re.split(re.escape(marker), cleaned, maxsplit=1, flags=re.IGNORECASE)[0].strip()
+
+    return cleaned
+
+
 def extract_ape_website(soup):
-    marker = soup.find(string=lambda text: text and text.strip().lower() == "webpage:")
-    if not marker:
-        return ""
+    for header in soup.select("td.header, th.header"):
+        header_text = normalize_pdf_line(header.get_text(" ", strip=True)).lower().rstrip(":")
+        if header_text != "webpage":
+            continue
 
-    search_root = marker.parent if getattr(marker, "parent", None) is not None else soup
-    anchor = search_root.find_next("a", href=True)
-    if not anchor:
-        return ""
+        value_cell = header.find_next_sibling(["td", "th"])
+        if value_cell is None:
+            continue
 
-    href = clean_url(anchor.get("href", ""))
-    if not href.startswith("http"):
-        return ""
-    if "archivesportaleurope.net" in href:
-        return ""
-    return href
+        for anchor in value_cell.select("a[href]"):
+            href = clean_url(anchor.get("href", ""))
+            if not href.startswith("http"):
+                continue
+            if "archivesportaleurope.net" in href:
+                continue
+            return href
+    return ""
 
 
 def extract_ape_name(soup):
     heading = soup.select_one("h1")
     if heading:
         return normalize_pdf_line(heading.get_text(" ", strip=True))
+
+    for script in soup.find_all("script"):
+        text = script.get_text(" ", strip=True)
+        match = re.search(r'document\.title\s*=\s*"([^"]+)"', text)
+        if match:
+            return normalize_pdf_line(match.group(1))
 
     title = soup.title.get_text(" ", strip=True) if soup.title else ""
     if title:
@@ -212,21 +298,25 @@ def enrich_ape_institution(record):
     soup = get_soup(record["ape_detail_url"])
     institution_name = extract_ape_name(soup)
     website = extract_ape_website(soup)
-    country = extract_text_between(
-        soup,
-        "Country:",
-        stop_labels=["Webpage:", "ACCESS & SERVICE INFORMATION", "ARCHIVAL MATERIALS", "Other information"],
+    country = sanitize_ape_country(extract_table_value(soup, "Country")) or sanitize_ape_country(
+        extract_text_between(
+            soup,
+            "Country:",
+            stop_labels=["Webpage:", "ACCESS & SERVICE INFORMATION", "ARCHIVAL MATERIALS", "Other information"],
+        )
     ) or record.get("country", "")
-    archive_type = extract_text_between(
-        soup,
-        "Type of archive:",
-        stop_labels=["Last update:", "Contact this institution", "Contact this archive"],
+    archive_type = sanitize_ape_archive_type(extract_table_value(soup, "Type of archive")) or sanitize_ape_archive_type(
+        extract_text_between(
+            soup,
+            "Type of archive:",
+            stop_labels=["Country:", "Webpage:", "Last update:", "Contact this institution", "Contact this archive"],
+        )
     )
 
     enriched = record.copy()
     enriched["institution"] = institution_name or record.get("institution", "")
     enriched["slug"] = slugify(enriched["institution"]) if enriched["institution"] else record.get("slug", "")
-    enriched["country"] = normalize_country(country or record.get("country", ""))
+    enriched["country"] = sanitize_ape_country(country or record.get("country", ""))
     enriched["continent"] = country_to_continent(enriched["country"])
     enriched["archive_type"] = archive_type
     enriched["external_url"] = website

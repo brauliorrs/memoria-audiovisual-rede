@@ -4,6 +4,90 @@ from .excel_export import save_basic_excel_report
 from .reporting import build_report_payload, save_csv, save_json_report, save_txt_report
 
 
+APE_INSTITUTION_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "ape_detail_url",
+    "archive_type",
+    "external_url",
+    "website_available",
+    "content_available_in_ape",
+]
+
+APE_SUMMARY_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "ape_detail_url",
+    "content_available_in_ape",
+    "website_available",
+    "partner_site",
+    "partner_domain",
+    "status",
+    "http_code",
+    "integrity_status",
+    "final_url",
+    "video_links_found_total",
+    "embedded_video_signals_total",
+    "candidate_internal_pages",
+    "priority_review",
+    "warning",
+    "error",
+]
+
+APE_VIDEO_LINK_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "ape_detail_url",
+    "content_available_in_ape",
+    "website_available",
+    "partner_site",
+    "platform",
+    "video_link",
+    "video_title",
+    "video_subject",
+    "video_description",
+    "video_published_at",
+]
+
+APE_INTERNAL_PAGE_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "ape_detail_url",
+    "content_available_in_ape",
+    "website_available",
+    "partner_site",
+    "internal_page",
+    "status",
+    "http_code",
+    "video_links_found",
+    "embedded_signals",
+    "warning",
+    "error",
+]
+
+
+def ensure_fields(rows, fieldnames):
+    normalized = []
+    for row in rows:
+        normalized.append({field: row.get(field, "") for field in fieldnames})
+    return normalized
+
+
 def run_pipeline():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     print("=== ETAPA 1: Coletando instituicoes do Archives Portal Europe ===")
@@ -17,87 +101,23 @@ def run_pipeline():
 
     save_csv(
         OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_instituicoes.csv",
-        ape_institutions,
-        [
-            "institution",
-            "slug",
-            "country",
-            "continent",
-            "repository_code",
-            "ape_detail_url",
-            "archive_type",
-            "external_url",
-            "website_available",
-            "content_available_in_ape",
-        ],
+        ensure_fields(ape_institutions, APE_INSTITUTION_FIELDS),
+        APE_INSTITUTION_FIELDS,
     )
     save_csv(
         OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_resumo_instituicoes.csv",
-        ape_rows_summary,
-        [
-            "institution",
-            "slug",
-            "country",
-            "continent",
-            "repository_code",
-            "archive_type",
-            "ape_detail_url",
-            "content_available_in_ape",
-            "website_available",
-            "partner_site",
-            "partner_domain",
-            "status",
-            "http_code",
-            "integrity_status",
-            "final_url",
-            "video_links_found_total",
-            "embedded_video_signals_total",
-            "candidate_internal_pages",
-            "priority_review",
-            "warning",
-            "error",
-        ],
+        ensure_fields(ape_rows_summary, APE_SUMMARY_FIELDS),
+        APE_SUMMARY_FIELDS,
     )
     save_csv(
         OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_links_video.csv",
-        ape_rows_video_links,
-        [
-            "institution",
-            "slug",
-            "country",
-            "continent",
-            "repository_code",
-            "archive_type",
-            "ape_detail_url",
-            "content_available_in_ape",
-            "website_available",
-            "partner_site",
-            "platform",
-            "video_link",
-        ],
+        ensure_fields(ape_rows_video_links, APE_VIDEO_LINK_FIELDS),
+        APE_VIDEO_LINK_FIELDS,
     )
     save_csv(
         OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_paginas_internas.csv",
-        ape_rows_internal_pages,
-        [
-            "institution",
-            "slug",
-            "country",
-            "continent",
-            "repository_code",
-            "archive_type",
-            "ape_detail_url",
-            "content_available_in_ape",
-            "website_available",
-            "partner_site",
-            "internal_page",
-            "status",
-            "http_code",
-            "video_links_found",
-            "embedded_signals",
-            "warning",
-            "error",
-        ],
+        ensure_fields(ape_rows_internal_pages, APE_INTERNAL_PAGE_FIELDS),
+        APE_INTERNAL_PAGE_FIELDS,
     )
     save_json_report(OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_relatorio.json", ape_payload)
     save_txt_report(
@@ -115,19 +135,8 @@ def run_pipeline():
         extra_sheets=[
             {
                 "title": "APE Institutions",
-                "rows": ape_institutions,
-                "fieldnames": [
-                    "institution",
-                    "slug",
-                    "country",
-                    "continent",
-                    "repository_code",
-                    "ape_detail_url",
-                    "archive_type",
-                    "external_url",
-                    "website_available",
-                    "content_available_in_ape",
-                ],
+                "rows": ensure_fields(ape_institutions, APE_INSTITUTION_FIELDS),
+                "fieldnames": APE_INSTITUTION_FIELDS,
             }
         ],
     )
