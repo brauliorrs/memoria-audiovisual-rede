@@ -1,7 +1,13 @@
+import pandas as pd
+
 from .ape import collect_ape_dataset
-from .config import APE_CONTENT_PDF_URL, APE_OUTPUT_PREFIX, OUTPUT_DIR
+from .ape_exports import build_ape_analysis_extra_sheets
+from .ape_exports import write_ape_analysis_outputs
+from .config import APE_CONTENT_PDF_URL, OUTPUT_DIR
 from .excel_export import save_basic_excel_report
+from .output_files import APE_OUTPUT_FILES
 from .reporting import build_report_payload, save_csv, save_json_report, save_txt_report
+from .snapshot_metadata import write_ape_snapshot_metadata
 
 
 APE_INSTITUTION_FIELDS = [
@@ -98,36 +104,43 @@ def run_pipeline():
         ape_rows_summary,
         ape_rows_video_links,
     )
+    summary_df = pd.DataFrame(ape_rows_summary)
+    links_df = pd.DataFrame(ape_rows_video_links)
+    analysis_frames = write_ape_analysis_outputs(
+        OUTPUT_DIR,
+        summary_df,
+        links_df,
+    )
 
     save_csv(
-        OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_instituicoes.csv",
+        OUTPUT_DIR / APE_OUTPUT_FILES["institutions"],
         ensure_fields(ape_institutions, APE_INSTITUTION_FIELDS),
         APE_INSTITUTION_FIELDS,
     )
     save_csv(
-        OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_resumo_instituicoes.csv",
+        OUTPUT_DIR / APE_OUTPUT_FILES["summary"],
         ensure_fields(ape_rows_summary, APE_SUMMARY_FIELDS),
         APE_SUMMARY_FIELDS,
     )
     save_csv(
-        OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_links_video.csv",
+        OUTPUT_DIR / APE_OUTPUT_FILES["video_links"],
         ensure_fields(ape_rows_video_links, APE_VIDEO_LINK_FIELDS),
         APE_VIDEO_LINK_FIELDS,
     )
     save_csv(
-        OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_paginas_internas.csv",
+        OUTPUT_DIR / APE_OUTPUT_FILES["internal_pages"],
         ensure_fields(ape_rows_internal_pages, APE_INTERNAL_PAGE_FIELDS),
         APE_INTERNAL_PAGE_FIELDS,
     )
-    save_json_report(OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_relatorio.json", ape_payload)
+    save_json_report(OUTPUT_DIR / APE_OUTPUT_FILES["report_json"], ape_payload)
     save_txt_report(
-        OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_relatorio.txt",
+        OUTPUT_DIR / APE_OUTPUT_FILES["report_txt"],
         ape_payload,
         ape_rows_summary,
         report_title="RELATORIO - ARCHIVES PORTAL EUROPE",
     )
     save_basic_excel_report(
-        OUTPUT_DIR / f"{APE_OUTPUT_PREFIX}_relatorio.xlsx",
+        OUTPUT_DIR / APE_OUTPUT_FILES["report_xlsx"],
         ape_payload,
         ape_rows_summary,
         ape_rows_video_links,
@@ -137,15 +150,18 @@ def run_pipeline():
                 "title": "APE Institutions",
                 "rows": ensure_fields(ape_institutions, APE_INSTITUTION_FIELDS),
                 "fieldnames": APE_INSTITUTION_FIELDS,
-            }
+            },
+            *build_ape_analysis_extra_sheets(analysis_frames),
         ],
+    )
+    write_ape_snapshot_metadata(
+        OUTPUT_DIR,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by="scripts/run_pipeline.py",
     )
 
     print("\nArquivos gerados:")
-    print(f" - {OUTPUT_DIR / f'{APE_OUTPUT_PREFIX}_instituicoes.csv'}")
-    print(f" - {OUTPUT_DIR / f'{APE_OUTPUT_PREFIX}_resumo_instituicoes.csv'}")
-    print(f" - {OUTPUT_DIR / f'{APE_OUTPUT_PREFIX}_links_video.csv'}")
-    print(f" - {OUTPUT_DIR / f'{APE_OUTPUT_PREFIX}_paginas_internas.csv'}")
-    print(f" - {OUTPUT_DIR / f'{APE_OUTPUT_PREFIX}_relatorio.json'}")
-    print(f" - {OUTPUT_DIR / f'{APE_OUTPUT_PREFIX}_relatorio.txt'}")
-    print(f" - {OUTPUT_DIR / f'{APE_OUTPUT_PREFIX}_relatorio.xlsx'}")
+    for filename in APE_OUTPUT_FILES.values():
+        print(f" - {OUTPUT_DIR / filename}")

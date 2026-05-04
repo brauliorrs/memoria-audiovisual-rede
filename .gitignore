@@ -9,3 +9,5 @@ iasa-reports/
 iasa-reports.zip
 playwright-report/
 *.pyc
+.bootstrap/
+.playwright/
