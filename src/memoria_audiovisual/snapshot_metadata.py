@@ -5,8 +5,8 @@ from datetime import UTC, datetime
 import pandas as pd
 
 from .analysis import filter_curatorial_video_catalog
-from .config import APE_CONTENT_PDF_URL
-from .output_files import APE_OUTPUT_FILES
+from .config import APE_CONTENT_PDF_URL, EUSCREEN_COLLECTIONS_URL, INA_INSTITUTION_URL
+from .output_files import APE_OUTPUT_FILES, EUSCREEN_OUTPUT_FILES, INA_OUTPUT_FILES
 
 
 RAW_OUTPUT_KEYS = [
@@ -46,6 +46,11 @@ def _extract_source_status_date(source_url):
     return f"{year}-{month}-{day}"
 
 
+def _build_observation_key(dataset, raw_outputs_last_modified_at, analytic_outputs_last_modified_at, source_status_date):
+    stable_anchor = raw_outputs_last_modified_at or analytic_outputs_last_modified_at or source_status_date or _utcnow_iso()
+    return f"{dataset}:{stable_anchor}"
+
+
 def _safe_count(frame):
     if frame is None or frame.empty:
         return 0
@@ -64,10 +69,10 @@ def _count_distinct(frame, column):
     return int(frame[column].dropna().astype(str).str.strip().replace("", pd.NA).dropna().nunique())
 
 
-def _timestamp_from_keys(output_dir, keys):
+def _timestamp_from_keys(output_dir, output_files, keys):
     timestamps = []
     for key in keys:
-        path = output_dir / APE_OUTPUT_FILES[key]
+        path = output_dir / output_files[key]
         if path.exists():
             timestamps.append(
                 datetime.fromtimestamp(path.stat().st_mtime, UTC)
@@ -78,9 +83,9 @@ def _timestamp_from_keys(output_dir, keys):
     return max(timestamps) if timestamps else ""
 
 
-def _build_file_manifest(output_dir):
+def _build_file_manifest(output_dir, output_files):
     manifest = {}
-    for key, filename in APE_OUTPUT_FILES.items():
+    for key, filename in output_files.items():
         path = output_dir / filename
         manifest[key] = {
             "filename": filename,
@@ -98,25 +103,37 @@ def _build_file_manifest(output_dir):
     return manifest
 
 
-def build_ape_snapshot_metadata(
+def build_snapshot_metadata(
     output_dir,
     *,
+    dataset,
+    source_url,
+    output_files,
     summary_df,
     links_df,
     analysis_frames,
     generated_by,
 ):
+    raw_outputs_last_modified_at = _timestamp_from_keys(output_dir, output_files, RAW_OUTPUT_KEYS)
+    analytic_outputs_last_modified_at = _timestamp_from_keys(output_dir, output_files, ANALYTIC_OUTPUT_KEYS)
+    source_status_date = _extract_source_status_date(source_url)
     curatorial_catalog_df = filter_curatorial_video_catalog(
         analysis_frames.get("analytic_video_catalog", pd.DataFrame())
     )
     return {
-        "dataset": "ape",
+        "dataset": dataset,
         "generated_at": _utcnow_iso(),
         "generated_by": generated_by,
-        "source_url": APE_CONTENT_PDF_URL,
-        "source_status_date": _extract_source_status_date(APE_CONTENT_PDF_URL),
-        "raw_outputs_last_modified_at": _timestamp_from_keys(output_dir, RAW_OUTPUT_KEYS),
-        "analytic_outputs_last_modified_at": _timestamp_from_keys(output_dir, ANALYTIC_OUTPUT_KEYS),
+        "observation_key": _build_observation_key(
+            dataset,
+            raw_outputs_last_modified_at,
+            analytic_outputs_last_modified_at,
+            source_status_date,
+        ),
+        "source_url": source_url,
+        "source_status_date": source_status_date,
+        "raw_outputs_last_modified_at": raw_outputs_last_modified_at,
+        "analytic_outputs_last_modified_at": analytic_outputs_last_modified_at,
         "counts": {
             "institutions": _safe_count(summary_df),
             "institutions_with_website": _safe_sum(summary_df, "website_available"),
@@ -136,8 +153,68 @@ def build_ape_snapshot_metadata(
             "platforms_detected": _count_distinct(links_df, "platform"),
             "countries_with_videos": _count_distinct(curatorial_catalog_df, "country"),
         },
-        "files": _build_file_manifest(output_dir),
+        "files": _build_file_manifest(output_dir, output_files),
     }
+
+
+def save_snapshot_metadata_payload(output_dir, *, output_files, payload):
+    path = output_dir / output_files["snapshot_metadata"]
+    payload["files"] = _build_file_manifest(output_dir, output_files)
+    with path.open("w", encoding="utf-8") as file_handle:
+        json.dump(payload, file_handle, ensure_ascii=False, indent=2)
+
+    payload["files"] = _build_file_manifest(output_dir, output_files)
+    with path.open("w", encoding="utf-8") as file_handle:
+        json.dump(payload, file_handle, ensure_ascii=False, indent=2)
+    return payload
+
+
+def write_snapshot_metadata(
+    output_dir,
+    *,
+    dataset,
+    source_url,
+    output_files,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    payload = build_snapshot_metadata(
+        output_dir,
+        dataset=dataset,
+        source_url=source_url,
+        output_files=output_files,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+    return save_snapshot_metadata_payload(
+        output_dir,
+        output_files=output_files,
+        payload=payload,
+    )
+
+
+def build_ape_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="ape",
+        source_url=APE_CONTENT_PDF_URL,
+        output_files=APE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
 
 
 def write_ape_snapshot_metadata(
@@ -148,25 +225,108 @@ def write_ape_snapshot_metadata(
     analysis_frames,
     generated_by,
 ):
-    path = output_dir / APE_OUTPUT_FILES["snapshot_metadata"]
-    payload = build_ape_snapshot_metadata(
+    return write_snapshot_metadata(
         output_dir,
+        dataset="ape",
+        source_url=APE_CONTENT_PDF_URL,
+        output_files=APE_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
         generated_by=generated_by,
     )
-    with path.open("w", encoding="utf-8") as file_handle:
-        json.dump(payload, file_handle, ensure_ascii=False, indent=2)
-    payload["files"] = _build_file_manifest(output_dir)
-    with path.open("w", encoding="utf-8") as file_handle:
-        json.dump(payload, file_handle, ensure_ascii=False, indent=2)
-    return payload
+
+
+def build_ina_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="ina",
+        source_url=INA_INSTITUTION_URL,
+        output_files=INA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_euscreen_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="euscreen",
+        source_url=EUSCREEN_COLLECTIONS_URL,
+        output_files=EUSCREEN_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_euscreen_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="euscreen",
+        source_url=EUSCREEN_COLLECTIONS_URL,
+        output_files=EUSCREEN_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_ina_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="ina",
+        source_url=INA_INSTITUTION_URL,
+        output_files=INA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
 
 
 __all__ = [
     "ANALYTIC_OUTPUT_KEYS",
     "RAW_OUTPUT_KEYS",
     "build_ape_snapshot_metadata",
+    "build_euscreen_snapshot_metadata",
+    "build_ina_snapshot_metadata",
+    "build_snapshot_metadata",
+    "save_snapshot_metadata_payload",
     "write_ape_snapshot_metadata",
+    "write_euscreen_snapshot_metadata",
+    "write_ina_snapshot_metadata",
+    "write_snapshot_metadata",
 ]

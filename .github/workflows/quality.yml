@@ -31,11 +31,24 @@ jobs:
           python -m py_compile src/memoria_audiovisual/analysis.py
           python -m py_compile src/memoria_audiovisual/ape_exports.py
           python -m py_compile src/memoria_audiovisual/dashboard_data.py
+          python -m py_compile src/memoria_audiovisual/discovery.py
+          python -m py_compile src/memoria_audiovisual/euscreen.py
+          python -m py_compile src/memoria_audiovisual/euscreen_exports.py
           python -m py_compile src/memoria_audiovisual/output_files.py
+          python -m py_compile src/memoria_audiovisual/organism.py
           python -m py_compile src/memoria_audiovisual/pipeline.py
           python -m py_compile src/memoria_audiovisual/snapshot_metadata.py
+          python -m py_compile src/memoria_audiovisual/timeline.py
           python -m py_compile scripts/build_ape_analytics.py
+          python -m py_compile scripts/build_euscreen_analytics.py
+          python -m py_compile scripts/build_ina_analytics.py
           python -m py_compile scripts/check_ape_outputs.py
+          python -m py_compile scripts/check_euscreen_outputs.py
+          python -m py_compile scripts/check_ina_outputs.py
+          python -m py_compile scripts/check_observatory_cycle.py
+          python -m py_compile scripts/run_euscreen_pipeline.py
+          python -m py_compile scripts/run_ina_pipeline.py
+          python -m py_compile scripts/run_observatory_cycle.py
 
       - name: Run unit tests
         run: python -m unittest discover -s tests -v

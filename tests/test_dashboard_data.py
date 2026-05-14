@@ -119,6 +119,9 @@ class DashboardDataTests(unittest.TestCase):
         self.assertEqual(base_data.available_slugs, ["a", "b", "c"])
         self.assertEqual(len(base_data.video_catalog_df), len(self.links_df))
         self.assertIn("video_theme", base_data.video_catalog_df.columns)
+        self.assertIn("access_surface", base_data.video_catalog_df.columns)
+        self.assertIn("access_regime", base_data.summary_analysis_df.columns)
+        self.assertIn("access_modalities_detected", base_data.summary_analysis_df.columns)
 
     def test_overview_data_rebuilds_invalid_precomputed_summaries(self):
         base_data = build_dashboard_base_data(

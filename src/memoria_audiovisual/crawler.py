@@ -181,6 +181,19 @@ def is_probably_video_link(url, platform=None):
     if platform == "SoundCloud":
         return False
 
+    if platform == "Madelen":
+        return path.startswith("/content/") or path.startswith("/serie/") or path.startswith("/collection/")
+
+    if platform == "Podcasts INA":
+        return "/emission/" in path or "/podcast/" in path or "/episode/" in path
+
+    if platform == "Mediaclip INA":
+        return "/product/view/" in path or "/theme/view/" in path or "/video/" in path
+
+    if platform == "EUscreen":
+        query = parse_qs(parsed.query)
+        return bool(query.get("item_id")) or path.endswith("/item.html")
+
     return any(hint in path for hint in EMBED_HINTS)
 
 
@@ -514,15 +527,89 @@ def get_video_metadata(video_url, metadata_cache):
     return metadata_cache[video_url]
 
 
-def analyze_institution(page, institution_name, external_url, country="", continent="", metadata_cache=None):
-    home = analyze_page_with_playwright(page, external_url)
+def analyze_institution(
+    page,
+    institution_name,
+    external_url,
+    country="",
+    continent="",
+    metadata_cache=None,
+    seed_urls=None,
+):
+    return analyze_institution_with_seeds(
+        page,
+        institution_name,
+        external_url,
+        country=country,
+        continent=continent,
+        metadata_cache=metadata_cache,
+        seed_urls=seed_urls,
+    )
+
+
+def analyze_institution_with_seeds(
+    page,
+    institution_name,
+    external_url,
+    country="",
+    continent="",
+    metadata_cache=None,
+    seed_urls=None,
+):
+    cleaned_seed_urls = []
+    for candidate_url in [external_url, *(seed_urls or [])]:
+        cleaned_candidate = clean_url(candidate_url)
+        if cleaned_candidate and cleaned_candidate not in cleaned_seed_urls:
+            cleaned_seed_urls.append(cleaned_candidate)
+
+    if not cleaned_seed_urls:
+        cleaned_seed_urls = [external_url]
+
+    home = analyze_page_with_playwright(page, cleaned_seed_urls[0])
     internal_results = []
-    all_video_links = list(home["video_platform_links"])
-    embedded_total = home["embedded_video_signals"]
     if metadata_cache is None:
         metadata_cache = {}
 
-    for internal_url in home["candidate_internal_pages"][:MAX_INTERNAL_PAGES]:
+    seed_results = [home]
+    analyzed_support_pages = {home["final_url"], cleaned_seed_urls[0]}
+
+    for seed_url in cleaned_seed_urls[1:]:
+        seed_result = analyze_page_with_playwright(page, seed_url)
+        seed_results.append(seed_result)
+        analyzed_support_pages.add(seed_url)
+        analyzed_support_pages.add(seed_result["final_url"])
+        internal_results.append(
+            {
+                "institution": institution_name,
+                "slug": slugify(institution_name),
+                "country": country,
+                "continent": continent,
+                "partner_site": external_url,
+                "internal_page": seed_result["final_url"],
+                "status": seed_result["status"],
+                "http_code": seed_result["http_code"],
+                "video_links_found": len(seed_result["video_platform_links"]),
+                "embedded_signals": seed_result["embedded_video_signals"],
+                "warning": seed_result["warning"] or "Pagina complementar semeada explicitamente para o corpus.",
+                "error": seed_result["error"],
+            }
+        )
+        time.sleep(0.4)
+
+    all_video_links = []
+    embedded_total = 0
+    candidate_internal_urls = []
+    for seed_result in seed_results:
+        all_video_links.extend(seed_result["video_platform_links"])
+        embedded_total += seed_result["embedded_video_signals"]
+        for internal_url in seed_result["candidate_internal_pages"]:
+            cleaned_internal_url = clean_url(internal_url)
+            if cleaned_internal_url and cleaned_internal_url not in analyzed_support_pages:
+                candidate_internal_urls.append(cleaned_internal_url)
+
+    candidate_internal_urls = list(dict.fromkeys(candidate_internal_urls))[:MAX_INTERNAL_PAGES]
+
+    for internal_url in candidate_internal_urls:
         subpage = analyze_page_with_playwright(page, internal_url)
         internal_results.append(
             {
@@ -561,7 +648,7 @@ def analyze_institution(page, institution_name, external_url, country="", contin
         "final_url": home["final_url"],
         "video_links_found_total": len(all_video_links),
         "embedded_video_signals_total": embedded_total,
-        "candidate_internal_pages": len(home["candidate_internal_pages"]),
+        "candidate_internal_pages": len(internal_results),
         "priority_review": compute_priority(
             home["status"], len(all_video_links), embedded_total, home["warning"]
         ),
@@ -637,6 +724,7 @@ def collect_sites_dataset(entries):
                     country=country,
                     continent=continent,
                     metadata_cache=metadata_cache,
+                    seed_urls=entry.get("seed_urls"),
                 )
             except Exception as error:
                 summary = {

@@ -16,6 +16,8 @@ DASHBOARD_SOURCE_KEYS = (
     "availability_reasons",
     "archive_type_summary",
     "visibility_summary",
+    "access_surface_summary",
+    "access_regime_summary",
     "theme_summary",
     "theme_country",
     "theme_platform",
@@ -26,7 +28,10 @@ DASHBOARD_SOURCE_KEYS = (
 _BASE_FRAME_DEFAULTS = {
     "archive_type": "",
     "ape_detail_url": "",
+    "ina_detail_url": "",
     "website_available": False,
+    "content_available_in_ape": False,
+    "content_available_in_source": False,
     "country": "",
     "continent": "Não classificado",
     "warning": "",
@@ -63,6 +68,8 @@ class DashboardOverviewData:
     availability_reasons: pd.DataFrame
     archive_type_counts: pd.DataFrame
     visibility_counts: pd.DataFrame
+    access_surface_counts: pd.DataFrame
+    access_regime_counts: pd.DataFrame
     detected_sites_df: pd.DataFrame
     continent_counts: pd.DataFrame
     country_counts: pd.DataFrame
@@ -166,26 +173,30 @@ def build_dashboard_base_data(
     prepared_links_df = _ensure_base_columns(_copy_or_empty(links_df, columns=_EMPTY_LINKS_COLUMNS))
     prepared_internal_df = _ensure_base_columns(_copy_or_empty(internal_df))
 
-    summary_analysis_df = _prefer_precomputed(
-        summary_analysis_source_df,
-        lambda: analysis_utils.build_institution_segments(prepared_summary_df),
-        required_columns=[
-            "availability_group",
-            "availability_reason",
-            "audiovisual_visibility",
-            "institution_segment",
-        ],
-        validator=lambda candidate: _summary_analysis_is_consistent(candidate, prepared_summary_df),
-    )
     video_catalog_df = _prefer_precomputed(
         video_catalog_source_df,
         lambda: analysis_utils.build_video_catalog_df(prepared_links_df),
         required_columns=[
             "video_theme",
+            "access_surface",
             "video_title_display",
             "video_date_display",
         ],
         validator=lambda candidate: _video_catalog_is_consistent(candidate, prepared_links_df),
+    )
+
+    summary_analysis_df = _prefer_precomputed(
+        summary_analysis_source_df,
+        lambda: analysis_utils.build_institution_segments(prepared_summary_df, video_catalog_df),
+        required_columns=[
+            "availability_group",
+            "availability_reason",
+            "audiovisual_visibility",
+            "institution_segment",
+            "access_modalities_detected",
+            "access_regime",
+        ],
+        validator=lambda candidate: _summary_analysis_is_consistent(candidate, prepared_summary_df),
     )
 
     available_slugs = [
@@ -213,6 +224,8 @@ def build_dashboard_overview_data(
     availability_reasons_source_df=None,
     archive_type_counts_source_df=None,
     visibility_counts_source_df=None,
+    access_surface_counts_source_df=None,
+    access_regime_counts_source_df=None,
     theme_counts_source_df=None,
     theme_country_counts_source_df=None,
     theme_platform_counts_source_df=None,
@@ -251,13 +264,25 @@ def build_dashboard_overview_data(
         required_columns=["tipo_institucional", "total"],
         validator=lambda candidate: _summary_total_is_consistent(candidate, len(summary_df)),
     )
+    curatorial_video_total = len(analysis_utils.filter_curatorial_video_catalog(video_catalog_df))
     visibility_counts = _prefer_precomputed(
         visibility_counts_source_df,
         lambda: analysis_utils.build_visibility_summary(summary_df)[1],
         required_columns=["situacao", "total"],
         validator=lambda candidate: _summary_total_is_consistent(candidate, len(summary_df)),
     )
-    curatorial_video_total = len(analysis_utils.filter_curatorial_video_catalog(video_catalog_df))
+    access_surface_counts = _prefer_precomputed(
+        access_surface_counts_source_df,
+        lambda: analysis_utils.build_access_surface_summary(video_catalog_df),
+        required_columns=["modalidade", "total"],
+        validator=lambda candidate: _summary_total_is_consistent(candidate, curatorial_video_total),
+    )
+    access_regime_counts = _prefer_precomputed(
+        access_regime_counts_source_df,
+        lambda: analysis_utils.build_access_regime_summary(summary_df, video_catalog_df),
+        required_columns=["regime", "total"],
+        validator=lambda candidate: _summary_total_is_consistent(candidate, len(summary_df)),
+    )
     theme_counts = _prefer_precomputed(
         theme_counts_source_df,
         lambda: analysis_utils.build_theme_summary(video_catalog_df),
@@ -313,6 +338,8 @@ def build_dashboard_overview_data(
         availability_reasons=availability_reasons,
         archive_type_counts=archive_type_counts,
         visibility_counts=visibility_counts,
+        access_surface_counts=access_surface_counts,
+        access_regime_counts=access_regime_counts,
         detected_sites_df=detected_sites_df,
         continent_counts=continent_counts,
         country_counts=country_counts,

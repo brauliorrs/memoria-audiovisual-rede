@@ -12,8 +12,8 @@ PLAYWRIGHT_DIR = ROOT_DIR / ".playwright"
 if PLAYWRIGHT_DIR.exists() and "PLAYWRIGHT_BROWSERS_PATH" not in os.environ:
     os.environ["PLAYWRIGHT_BROWSERS_PATH"] = str(PLAYWRIGHT_DIR)
 
-from memoria_audiovisual.pipeline import run_pipeline
+from memoria_audiovisual.pipeline import run_ina_pipeline
 
 
 if __name__ == "__main__":
-    run_pipeline()
+    run_ina_pipeline()

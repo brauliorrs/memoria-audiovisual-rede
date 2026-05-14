@@ -9,11 +9,11 @@ SRC_DIR = ROOT_DIR / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from memoria_audiovisual.ape_exports import write_ape_analysis_outputs
 from memoria_audiovisual.config import OUTPUT_DIR
-from memoria_audiovisual.output_files import APE_OUTPUT_FILES
+from memoria_audiovisual.ina_exports import write_ina_analysis_outputs
+from memoria_audiovisual.output_files import INA_OUTPUT_FILES
 from memoria_audiovisual.snapshot_metadata import (
-    build_ape_snapshot_metadata,
+    build_ina_snapshot_metadata,
     save_snapshot_metadata_payload,
 )
 from memoria_audiovisual.timeline import write_timeline_outputs
@@ -27,39 +27,39 @@ def load_required_csv(filename):
 
 
 def main():
-    summary_df = load_required_csv(APE_OUTPUT_FILES["summary"])
-    links_df = load_required_csv(APE_OUTPUT_FILES["video_links"])
+    summary_df = load_required_csv(INA_OUTPUT_FILES["summary"])
+    links_df = load_required_csv(INA_OUTPUT_FILES["video_links"])
 
     if summary_df.empty:
         raise ValueError(
-            f"O arquivo {APE_OUTPUT_FILES['summary']} está vazio e não permite reconstruir a camada analítica."
+            f"O arquivo {INA_OUTPUT_FILES['summary']} está vazio e não permite reconstruir a camada analítica."
         )
 
-    analysis_frames = write_ape_analysis_outputs(OUTPUT_DIR, summary_df, links_df)
-    snapshot_payload = build_ape_snapshot_metadata(
+    analysis_frames = write_ina_analysis_outputs(OUTPUT_DIR, summary_df, links_df)
+    snapshot_payload = build_ina_snapshot_metadata(
         OUTPUT_DIR,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
-        generated_by="scripts/build_ape_analytics.py",
+        generated_by="scripts/build_ina_analytics.py",
     )
     write_timeline_outputs(
         OUTPUT_DIR,
         dataset=snapshot_payload["dataset"],
-        output_files=APE_OUTPUT_FILES,
+        output_files=INA_OUTPUT_FILES,
         snapshot_metadata=snapshot_payload,
         summary_df=summary_df,
         analysis_frames=analysis_frames,
     )
     save_snapshot_metadata_payload(
         OUTPUT_DIR,
-        output_files=APE_OUTPUT_FILES,
+        output_files=INA_OUTPUT_FILES,
         payload=snapshot_payload,
     )
 
-    print("Saídas analíticas do APE atualizadas a partir dos CSVs brutos:")
+    print("Saídas analíticas do INA atualizadas a partir dos CSVs brutos:")
     for key, dataframe in analysis_frames.items():
-        print(f"- {APE_OUTPUT_FILES[key]} | linhas={len(dataframe)}")
+        print(f"- {INA_OUTPUT_FILES[key]} | linhas={len(dataframe)}")
 
 
 if __name__ == "__main__":

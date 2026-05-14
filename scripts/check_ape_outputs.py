@@ -1,5 +1,5 @@
-import sys
 import json
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -102,10 +102,15 @@ def main():
     if snapshot_metadata:
         print("- metadados da rodada:")
         print(f"  - fonte APE com status de {snapshot_metadata.get('source_status_date', '-')}")
+        print(f"  - chave de observação: {snapshot_metadata.get('observation_key', '-')}")
         print(f"  - camada analítica atualizada em {snapshot_metadata.get('analytic_outputs_last_modified_at', '-')}")
         print(f"  - metadados gerados em {snapshot_metadata.get('generated_at', '-')}")
     else:
         print(f"- arquivo de metadados ausente: {APE_OUTPUT_FILES['snapshot_metadata']}")
+
+    for key in ["timeline_corpus", "timeline_institutions", "extinction_signals"]:
+        path = OUTPUT_DIR / APE_OUTPUT_FILES[key]
+        print(f"- {'presente' if path.exists() else 'ausente'}: {APE_OUTPUT_FILES[key]}")
 
     return 0
 
