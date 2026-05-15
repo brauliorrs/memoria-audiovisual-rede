@@ -30,6 +30,7 @@ from memoria_audiovisual.discovery import (
     build_expansion_queue,
 )
 from memoria_audiovisual.european_aggregators import (
+    EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME,
     EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
     EUROPEAN_AGGREGATOR_PROBES_FILENAME,
     EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
@@ -789,6 +790,7 @@ def render_observatory_overview_tab():
     discovery_registry_df = load_csv(DISCOVERY_REGISTRY_FILENAME)
     discovery_queue_df = load_csv(DISCOVERY_QUEUE_FILENAME)
     discovery_summary_df = load_csv(DISCOVERY_SUMMARY_FILENAME)
+    european_aggregator_access_routes_df = load_csv(EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME)
     european_aggregator_evaluation_df = load_csv(EUROPEAN_AGGREGATOR_EVALUATION_FILENAME)
     european_aggregator_probes_df = load_csv(EUROPEAN_AGGREGATOR_PROBES_FILENAME)
     european_aggregator_protocols_df = load_csv(EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME)
@@ -1323,6 +1325,49 @@ def render_observatory_overview_tab():
                 hide_index=True,
             )
 
+        if european_aggregator_access_routes_df is not None and not european_aggregator_access_routes_df.empty:
+            with st.expander("Rotas oficiais candidatas para resolver protocolos", expanded=False):
+                st.caption(
+                    "Estas rotas não promovem automaticamente uma fonte a corpus ativo. Elas registram "
+                    "caminhos oficiais ou documentados que podem ser testados antes da incorporação."
+                )
+                access_route_display_df = european_aggregator_access_routes_df.rename(
+                    columns={
+                        "label": "agregador",
+                        "country_scope": "país/escopo",
+                        "route_type": "tipo de rota",
+                        "route_url": "URL da rota",
+                        "source_reference_url": "referência oficial",
+                        "source_reference_note": "nota da referência",
+                        "http_status": "HTTP",
+                        "content_type": "tipo de conteúdo",
+                        "access_status": "status de acesso",
+                        "route_viability": "viabilidade da rota",
+                        "audiovisual_use": "uso audiovisual possível",
+                        "methodological_note": "nota metodológica",
+                    }
+                )
+                st.dataframe(
+                    access_route_display_df[
+                        [
+                            "agregador",
+                            "país/escopo",
+                            "tipo de rota",
+                            "HTTP",
+                            "tipo de conteúdo",
+                            "status de acesso",
+                            "viabilidade da rota",
+                            "uso audiovisual possível",
+                            "nota metodológica",
+                            "URL da rota",
+                            "referência oficial",
+                            "nota da referência",
+                        ]
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
         with st.expander("Ver sondagens técnicas executadas", expanded=False):
             st.caption(
                 f"As sondagens registram códigos HTTP, bloqueios por JS/cookies, problemas de TLS "
@@ -1346,7 +1391,7 @@ def render_observatory_overview_tab():
                     }
                 )
                 st.dataframe(probe_display_df, use_container_width=True, hide_index=True)
-        european_download_cols = st.columns(4)
+        european_download_cols = st.columns(5)
         with european_download_cols[0]:
             render_csv_download(
                 "Baixar avaliação dos agregadores europeus",
@@ -1363,12 +1408,19 @@ def render_observatory_overview_tab():
             )
         with european_download_cols[2]:
             render_csv_download(
+                "Baixar rotas candidatas",
+                european_aggregator_access_routes_df,
+                EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME,
+                "Exporta rotas oficiais ou documentadas para resolver protocolos de acesso.",
+            )
+        with european_download_cols[3]:
+            render_csv_download(
                 "Baixar protocolos europeus",
                 european_aggregator_protocols_df,
                 EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
                 "Exporta a matriz de protocolos e decisões metodológicas por agregador candidato.",
             )
-        with european_download_cols[3]:
+        with european_download_cols[4]:
             render_csv_download(
                 "Baixar resumo da avaliação europeia",
                 european_aggregator_summary_df,

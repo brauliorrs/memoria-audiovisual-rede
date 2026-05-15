@@ -16,6 +16,7 @@ from .config import HEADERS, OUTPUT_DIR, REQUEST_TIMEOUT
 
 
 EUROPEAN_AGGREGATOR_EVALUATION_FILENAME = "observatorio_avaliacao_agregadores_europa.csv"
+EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME = "observatorio_rotas_acesso_agregadores_europa.csv"
 EUROPEAN_AGGREGATOR_PROBES_FILENAME = "observatorio_probes_agregadores_europa.csv"
 EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME = "observatorio_protocolos_agregadores_europa.csv"
 EUROPEAN_AGGREGATOR_SUMMARY_FILENAME = "observatorio_resumo_agregadores_europa.csv"
@@ -89,6 +90,26 @@ PROTOCOL_COLUMNS = [
     "rule_version",
 ]
 
+ACCESS_ROUTE_COLUMNS = [
+    "code",
+    "label",
+    "country_scope",
+    "route_type",
+    "route_url",
+    "source_reference_url",
+    "source_reference_note",
+    "http_status",
+    "final_url",
+    "content_type",
+    "access_status",
+    "route_viability",
+    "audiovisual_use",
+    "methodological_note",
+    "evaluated_at",
+    "rule_version",
+    "error",
+]
+
 
 @dataclass(frozen=True)
 class AggregatorCandidate:
@@ -99,6 +120,19 @@ class AggregatorCandidate:
     source_url: str
     search_url_template: str
     query_terms: tuple[str, ...]
+    methodological_note: str
+
+
+@dataclass(frozen=True)
+class AggregatorAccessRoute:
+    code: str
+    label: str
+    country_scope: str
+    route_type: str
+    route_url: str
+    source_reference_url: str
+    source_reference_note: str
+    audiovisual_use: str
     methodological_note: str
 
 
@@ -140,6 +174,113 @@ EUROPEAN_AGGREGATOR_CANDIDATES = [
         methodological_note=(
             "Agregador nacional geral. A avaliação usa a busca pública do PARES para "
             "identificar sinais preliminares de materiais audiovisuais."
+        ),
+    ),
+]
+
+EUROPEAN_AGGREGATOR_ACCESS_ROUTES = [
+    AggregatorAccessRoute(
+        code="archives-hub",
+        label="Archives Hub",
+        country_scope="Reino Unido",
+        route_type="SRU",
+        route_url="https://archiveshub.jisc.ac.uk/sru/",
+        source_reference_url="https://blog.archiveshub.jisc.ac.uk/category/apis/",
+        source_reference_note=(
+            "O blog do Archives Hub registra SRU como interface de busca usada pela API do Hub."
+        ),
+        audiovisual_use=(
+            "Sondar descrições EAD por termos audiovisuais e, depois, procurar sinais como dao, "
+            "digital object, film, video e sound recording."
+        ),
+        methodological_note=(
+            "Rota documentada, mas a disponibilidade deve ser confirmada antes de promover o "
+            "Archives Hub a corpus ativo."
+        ),
+    ),
+    AggregatorAccessRoute(
+        code="archives-hub",
+        label="Archives Hub",
+        country_scope="Reino Unido",
+        route_type="OAI-PMH",
+        route_url="https://archiveshub.jisc.ac.uk/oaipmh/",
+        source_reference_url="https://blog.archiveshub.jisc.ac.uk/category/apis/",
+        source_reference_note=(
+            "O blog do Archives Hub registra OAI-PMH como uma das interfaces para acesso às descrições."
+        ),
+        audiovisual_use=(
+            "Avaliar colheita incremental de metadados e filtrar descrições com sinais "
+            "audiovisuais sem depender da busca pública bloqueada."
+        ),
+        methodological_note=(
+            "Rota útil para protocolo de ingestão estável caso a interface responda sem bloqueio."
+        ),
+    ),
+    AggregatorAccessRoute(
+        code="francearchives",
+        label="FranceArchives",
+        country_scope="França",
+        route_type="Open Data",
+        route_url="https://francearchives.gouv.fr/fr/open_data",
+        source_reference_url="https://francearchives.gouv.fr/fr/open_data",
+        source_reference_note=(
+            "A página oficial de dados abertos informa que inventários do portal são oferecidos "
+            "para reutilização em formatos abertos."
+        ),
+        audiovisual_use=(
+            "Mapear conjuntos de metadados reutilizáveis antes de buscar evidência audiovisual "
+            "em registros descritivos."
+        ),
+        methodological_note=(
+            "Rota institucional de referência; não equivale, por si só, a acesso direto a vídeos."
+        ),
+    ),
+    AggregatorAccessRoute(
+        code="francearchives",
+        label="FranceArchives",
+        country_scope="França",
+        route_type="Dataset XML APE-EAD",
+        route_url="https://data-dump.francearchives.gouv.fr/ape-ead-eac/francearchives_ape_ead.zip",
+        source_reference_url=(
+            "https://data.culture.gouv.fr/explore/dataset/"
+            "inventaires-des-archives-publiques-francearchives/"
+        ),
+        source_reference_note=(
+            "A ficha de dados do Ministério da Cultura descreve os inventários FranceArchives "
+            "convertidos em XML APE-EAD."
+        ),
+        audiovisual_use=(
+            "Baixar em etapa posterior, indexar XML APE-EAD localmente e separar registros com "
+            "vocabulário audiovisual, objetos digitais e links externos."
+        ),
+        methodological_note=(
+            "Rota mais promissora para FranceArchives, mas deve entrar como protótipo próprio "
+            "para evitar coleta pesada no ciclo mensal."
+        ),
+    ),
+    AggregatorAccessRoute(
+        code="francearchives",
+        label="FranceArchives",
+        country_scope="França",
+        route_type="API de dataset",
+        route_url=(
+            "https://data.culture.gouv.fr/api/explore/v2.1/catalog/datasets/"
+            "inventaires-des-archives-publiques-francearchives/records?limit=1"
+        ),
+        source_reference_url=(
+            "https://data.culture.gouv.fr/explore/dataset/"
+            "inventaires-des-archives-publiques-francearchives/"
+        ),
+        source_reference_note=(
+            "A plataforma data.culture.gouv.fr expõe aba/API do dataset usado como referência."
+        ),
+        audiovisual_use=(
+            "Testar se a API pública oferece metadados suficientes para triagem leve antes "
+            "de baixar o pacote XML."
+        ),
+        methodological_note=(
+            "Rota auxiliar: uma API acessível com retorno vazio ainda pode coexistir com pacote "
+            "XML disponível para download."
         ),
     ),
 ]
@@ -250,6 +391,71 @@ def fetch_probe(url):
     }
 
 
+def fetch_route_probe(url, sample_bytes=65536):
+    tls_verification_failed = False
+    error = ""
+    response = None
+    try:
+        response = requests.get(
+            url,
+            headers=HEADERS,
+            timeout=REQUEST_TIMEOUT,
+            allow_redirects=True,
+            stream=True,
+        )
+    except SSLError as exc:
+        tls_verification_failed = True
+        error = str(exc)
+        try:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            response = requests.get(
+                url,
+                headers=HEADERS,
+                timeout=REQUEST_TIMEOUT,
+                allow_redirects=True,
+                verify=False,
+                stream=True,
+            )
+            error = ""
+        except Exception as retry_error:
+            error = str(retry_error)
+    except Exception as exc:
+        error = str(exc)
+
+    if response is None:
+        return {
+            "http_status": "",
+            "final_url": url,
+            "content_type": "",
+            "title": "",
+            "text": "",
+            "tls_verification_failed": tls_verification_failed,
+            "error": error,
+        }
+
+    text = ""
+    title = ""
+    try:
+        content_type = response.headers.get("content-type", "")
+        if "text" in content_type or "html" in content_type or "json" in content_type or "xml" in content_type:
+            sample = response.raw.read(sample_bytes, decode_content=True)
+            text = sample.decode(response.encoding or "utf-8", errors="replace")
+            soup = BeautifulSoup(text, "html.parser")
+            title = _normalize_space(soup.title.get_text(" ", strip=True) if soup.title else "")
+    finally:
+        response.close()
+
+    return {
+        "http_status": int(response.status_code),
+        "final_url": response.url,
+        "content_type": response.headers.get("content-type", ""),
+        "title": title,
+        "text": _normalize_space(text),
+        "tls_verification_failed": tls_verification_failed,
+        "error": error,
+    }
+
+
 def _build_probe_row(candidate, probe_type, query, url, fetcher=fetch_probe):
     fetched = fetcher(url)
     text = fetched.get("text", "")
@@ -287,6 +493,67 @@ def _build_probe_row(candidate, probe_type, query, url, fetcher=fetch_probe):
         "methodological_note": candidate.methodological_note,
         "error": fetched.get("error", ""),
     }
+
+
+def _classify_route_viability(route, access_status, content_type):
+    normalized_content_type = str(content_type or "").lower()
+    if access_status == "acessivel":
+        if route.route_type == "Dataset XML APE-EAD":
+            return "rota_de_download_documentada_e_acessivel"
+        if "json" in normalized_content_type:
+            return "rota_api_acessivel_para_teste_controlado"
+        return "rota_publica_acessivel"
+    if route.code == "archives-hub" and access_status in {"bloqueado_por_js_ou_cookies", "restrito_ou_bloqueado"}:
+        return "rota_documentada_mas_bloqueada_na_sondagem_simples"
+    if access_status == "falha_tecnica":
+        return "rota_documentada_com_falha_tecnica_na_rodada"
+    return "rota_documentada_sem_confirmacao_de_acesso"
+
+
+def _build_access_route_row(route, evaluated_at, fetcher=fetch_route_probe):
+    fetched = fetcher(route.route_url)
+    text = fetched.get("text", "")
+    title = fetched.get("title", "")
+    js_cookie_required = detect_js_cookie_requirement(text, title)
+    access_status = classify_probe_access_status(
+        fetched.get("http_status"),
+        js_cookie_required,
+        fetched.get("error", ""),
+    )
+    route_viability = _classify_route_viability(
+        route,
+        access_status,
+        fetched.get("content_type", ""),
+    )
+
+    return {
+        "code": route.code,
+        "label": route.label,
+        "country_scope": route.country_scope,
+        "route_type": route.route_type,
+        "route_url": route.route_url,
+        "source_reference_url": route.source_reference_url,
+        "source_reference_note": route.source_reference_note,
+        "http_status": fetched.get("http_status", ""),
+        "final_url": fetched.get("final_url", route.route_url),
+        "content_type": fetched.get("content_type", ""),
+        "access_status": access_status,
+        "route_viability": route_viability,
+        "audiovisual_use": route.audiovisual_use,
+        "methodological_note": route.methodological_note,
+        "evaluated_at": evaluated_at,
+        "rule_version": EUROPEAN_AGGREGATOR_RULE_VERSION,
+        "error": fetched.get("error", ""),
+    }
+
+
+def build_european_aggregator_access_routes(fetcher=fetch_route_probe, evaluated_at=None):
+    evaluated_at = evaluated_at or utcnow_iso()
+    rows = [
+        _build_access_route_row(route, evaluated_at=evaluated_at, fetcher=fetcher)
+        for route in EUROPEAN_AGGREGATOR_ACCESS_ROUTES
+    ]
+    return pd.DataFrame(rows, columns=ACCESS_ROUTE_COLUMNS)
 
 
 def build_european_aggregator_probe_rows(fetcher=fetch_probe):
@@ -494,7 +761,7 @@ def build_european_aggregator_protocols(evaluation_df):
     return pd.DataFrame(rows, columns=PROTOCOL_COLUMNS)
 
 
-def build_european_aggregator_evaluation(fetcher=fetch_probe, evaluated_at=None):
+def build_european_aggregator_evaluation(fetcher=fetch_probe, route_fetcher=fetch_route_probe, evaluated_at=None):
     evaluated_at = evaluated_at or utcnow_iso()
     probe_rows = build_european_aggregator_probe_rows(fetcher=fetcher)
     probes_df = pd.DataFrame(probe_rows, columns=PROBE_COLUMNS)
@@ -518,7 +785,12 @@ def build_european_aggregator_evaluation(fetcher=fetch_probe, evaluated_at=None)
         .reset_index(drop=True)
     )
     protocols_df = build_european_aggregator_protocols(evaluation_df)
+    access_routes_df = build_european_aggregator_access_routes(
+        fetcher=route_fetcher,
+        evaluated_at=evaluated_at,
+    )
     return {
+        "access_routes": access_routes_df,
         "evaluation": evaluation_df,
         "probes": probes_df,
         "protocols": protocols_df,
@@ -526,9 +798,21 @@ def build_european_aggregator_evaluation(fetcher=fetch_probe, evaluated_at=None)
     }
 
 
-def write_european_aggregator_evaluation(output_dir: Path = OUTPUT_DIR, fetcher=fetch_probe):
+def write_european_aggregator_evaluation(
+    output_dir: Path = OUTPUT_DIR,
+    fetcher=fetch_probe,
+    route_fetcher=fetch_route_probe,
+):
     output_dir.mkdir(parents=True, exist_ok=True)
-    outputs = build_european_aggregator_evaluation(fetcher=fetcher)
+    outputs = build_european_aggregator_evaluation(
+        fetcher=fetcher,
+        route_fetcher=route_fetcher,
+    )
+    outputs["access_routes"].to_csv(
+        output_dir / EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
     outputs["evaluation"].to_csv(
         output_dir / EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
         index=False,
@@ -553,12 +837,16 @@ def write_european_aggregator_evaluation(output_dir: Path = OUTPUT_DIR, fetcher=
 
 
 __all__ = [
+    "ACCESS_ROUTE_COLUMNS",
+    "EUROPEAN_AGGREGATOR_ACCESS_ROUTES",
+    "EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME",
     "EUROPEAN_AGGREGATOR_CANDIDATES",
     "EUROPEAN_AGGREGATOR_EVALUATION_FILENAME",
     "EUROPEAN_AGGREGATOR_PROBES_FILENAME",
     "EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME",
     "EUROPEAN_AGGREGATOR_RULE_VERSION",
     "EUROPEAN_AGGREGATOR_SUMMARY_FILENAME",
+    "build_european_aggregator_access_routes",
     "build_european_aggregator_evaluation",
     "build_european_aggregator_probe_rows",
     "build_european_aggregator_protocols",

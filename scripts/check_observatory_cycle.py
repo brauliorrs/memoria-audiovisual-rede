@@ -18,6 +18,7 @@ from memoria_audiovisual.discovery import (
     DISCOVERY_SUMMARY_FILENAME,
 )
 from memoria_audiovisual.european_aggregators import (
+    EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME,
     EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
     EUROPEAN_AGGREGATOR_PROBES_FILENAME,
     EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
@@ -46,6 +47,7 @@ def main():
     discovery_registry_path = OUTPUT_DIR / DISCOVERY_REGISTRY_FILENAME
     discovery_queue_path = OUTPUT_DIR / DISCOVERY_QUEUE_FILENAME
     discovery_summary_path = OUTPUT_DIR / DISCOVERY_SUMMARY_FILENAME
+    european_aggregator_access_routes_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME
     european_aggregator_evaluation_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_EVALUATION_FILENAME
     european_aggregator_probes_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_PROBES_FILENAME
     european_aggregator_protocols_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME
@@ -59,6 +61,7 @@ def main():
         (discovery_registry_path, "Registro de candidatos a expansao"),
         (discovery_queue_path, "Fila automatica de expansao"),
         (discovery_summary_path, "Resumo da fila de expansao"),
+        (european_aggregator_access_routes_path, "Rotas oficiais dos agregadores europeus candidatos"),
         (european_aggregator_evaluation_path, "Avaliacao dos agregadores europeus candidatos"),
         (european_aggregator_probes_path, "Sondagens dos agregadores europeus candidatos"),
         (european_aggregator_protocols_path, "Protocolos dos agregadores europeus candidatos"),
@@ -76,6 +79,7 @@ def main():
     discovery_registry_df = pd.read_csv(discovery_registry_path)
     discovery_queue_df = pd.read_csv(discovery_queue_path)
     discovery_summary_df = pd.read_csv(discovery_summary_path)
+    european_aggregator_access_routes_df = pd.read_csv(european_aggregator_access_routes_path)
     european_aggregator_evaluation_df = pd.read_csv(european_aggregator_evaluation_path)
     european_aggregator_probes_df = pd.read_csv(european_aggregator_probes_path)
     european_aggregator_protocols_df = pd.read_csv(european_aggregator_protocols_path)
@@ -97,6 +101,7 @@ def main():
     print(f"- candidatos registrados para expansao: {len(discovery_registry_df)}")
     print(f"- itens na fila automatica de expansao: {len(discovery_queue_df)}")
     print(f"- decisoes automaticas sumarizadas: {len(discovery_summary_df)}")
+    print(f"- rotas oficiais europeias registradas: {len(european_aggregator_access_routes_df)}")
     print(f"- agregadores europeus avaliados: {len(european_aggregator_evaluation_df)}")
     print(f"- sondagens europeias registradas: {len(european_aggregator_probes_df)}")
     print(f"- protocolos europeus registrados: {len(european_aggregator_protocols_df)}")
@@ -127,6 +132,10 @@ def main():
 
     if european_aggregator_evaluation_df.empty:
         print("- a avaliacao dos agregadores europeus esta vazia")
+        return 1
+
+    if european_aggregator_access_routes_df.empty:
+        print("- as rotas oficiais dos agregadores europeus estao vazias")
         return 1
 
     if european_aggregator_protocols_df.empty:

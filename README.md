@@ -112,6 +112,7 @@ Artefatos globais do organismo:
 - `data/output/observatorio_candidatos_descoberta.csv`
 - `data/output/observatorio_fila_expansao.csv`
 - `data/output/observatorio_resumo_fila_expansao.csv`
+- `data/output/observatorio_rotas_acesso_agregadores_europa.csv`
 - `data/output/observatorio_avaliacao_agregadores_europa.csv`
 - `data/output/observatorio_probes_agregadores_europa.csv`
 - `data/output/observatorio_protocolos_agregadores_europa.csv`
@@ -321,7 +322,7 @@ O `EUscreen`, o `PARES` e o `INA` seguem a mesma convenção de nomes, trocando 
 10. A preparação dos dataframes do dashboard fica concentrada em `src/memoria_audiovisual/dashboard_data.py`, para reduzir lógica duplicada na interface.
 11. Os nomes das saídas do APE, do EUscreen, do PARES e do INA ficam centralizados em `src/memoria_audiovisual/output_files.py`, para manter pipeline e interface sincronizadas.
 12. O ciclo mensal do organismo fica centralizado em `scripts/run_observatory_cycle.py`, com manifesto global em `data/output/observatorio_ciclo_mensal.json`.
-13. A avaliação europeia materializa uma matriz de protocolos para diferenciar agregadores prontos para pipeline experimental, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
+13. A avaliação europeia materializa rotas oficiais candidatas e uma matriz de protocolos para diferenciar agregadores prontos para pipeline experimental, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
 
 ## Qualidade do repositório
 

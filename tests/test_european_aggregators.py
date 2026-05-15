@@ -4,11 +4,13 @@ from pathlib import Path
 
 from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_CANDIDATES,
+    EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME,
     EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
     EUROPEAN_AGGREGATOR_PROBES_FILENAME,
     EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
     build_european_aggregator_evaluation,
+    build_european_aggregator_access_routes,
     detect_js_cookie_requirement,
     parse_result_count,
     write_european_aggregator_evaluation,
@@ -59,6 +61,7 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
 
         outputs = build_european_aggregator_evaluation(
             fetcher=fake_fetcher,
+            route_fetcher=fake_fetcher,
             evaluated_at="2026-05-14T00:00:00Z",
         )
         evaluation_df = outputs["evaluation"]
@@ -86,6 +89,46 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
             "pode_ser_tratado_como_corpus_experimental",
         )
 
+    def test_build_access_routes_records_documented_alternatives(self):
+        def fake_route_fetcher(url):
+            if "archiveshub" in url:
+                return {
+                    "http_status": 403,
+                    "final_url": url,
+                    "content_type": "text/html",
+                    "title": "Forbidden",
+                    "text": "Forbidden",
+                    "tls_verification_failed": False,
+                    "error": "",
+                }
+            return {
+                "http_status": 200,
+                "final_url": url,
+                "content_type": "application/json",
+                "title": "",
+                "text": "{}",
+                "tls_verification_failed": False,
+                "error": "",
+            }
+
+        routes_df = build_european_aggregator_access_routes(
+            fetcher=fake_route_fetcher,
+            evaluated_at="2026-05-14T00:00:00Z",
+        )
+        archives_hub_routes = routes_df.loc[routes_df["code"] == "archives-hub"]
+        francearchives_routes = routes_df.loc[routes_df["code"] == "francearchives"]
+
+        self.assertFalse(archives_hub_routes.empty)
+        self.assertFalse(francearchives_routes.empty)
+        self.assertIn(
+            "rota_documentada_mas_bloqueada_na_sondagem_simples",
+            set(archives_hub_routes["route_viability"]),
+        )
+        self.assertIn(
+            "rota_api_acessivel_para_teste_controlado",
+            set(francearchives_routes["route_viability"]),
+        )
+
     def test_write_evaluation_materializes_expected_files(self):
         def fake_fetcher(url):
             return {
@@ -100,12 +143,18 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             output_dir = Path(tmp_dir)
-            outputs = write_european_aggregator_evaluation(output_dir, fetcher=fake_fetcher)
+            outputs = write_european_aggregator_evaluation(
+                output_dir,
+                fetcher=fake_fetcher,
+                route_fetcher=fake_fetcher,
+            )
 
+            self.assertTrue((output_dir / EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME).exists())
             self.assertTrue((output_dir / EUROPEAN_AGGREGATOR_EVALUATION_FILENAME).exists())
             self.assertTrue((output_dir / EUROPEAN_AGGREGATOR_PROBES_FILENAME).exists())
             self.assertTrue((output_dir / EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME).exists())
             self.assertTrue((output_dir / EUROPEAN_AGGREGATOR_SUMMARY_FILENAME).exists())
+            self.assertFalse(outputs["access_routes"].empty)
             self.assertFalse(outputs["evaluation"].empty)
             self.assertFalse(outputs["probes"].empty)
             self.assertFalse(outputs["protocols"].empty)

@@ -13,12 +13,14 @@ from memoria_audiovisual.european_aggregators import write_european_aggregator_e
 
 def main():
     outputs = write_european_aggregator_evaluation(OUTPUT_DIR)
+    access_routes_df = outputs["access_routes"]
     evaluation_df = outputs["evaluation"]
     probes_df = outputs["probes"]
     protocols_df = outputs["protocols"]
 
     print("Avaliação dos agregadores europeus candidatos atualizada:")
     print(f"- agregadores avaliados: {len(evaluation_df)}")
+    print(f"- rotas oficiais candidatas: {len(access_routes_df)}")
     print(f"- sondagens executadas: {len(probes_df)}")
     print(f"- protocolos metodológicos registrados: {len(protocols_df)}")
     for _, row in evaluation_df.iterrows():
