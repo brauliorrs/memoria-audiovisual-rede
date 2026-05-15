@@ -36,6 +36,7 @@ from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
 )
+from memoria_audiovisual.european_protocols import FRANCEARCHIVES_PROTOCOL_FILENAME
 from memoria_audiovisual.dashboard_data import (
     DASHBOARD_SOURCE_KEYS,
     build_dashboard_base_data,
@@ -795,6 +796,7 @@ def render_observatory_overview_tab():
     european_aggregator_probes_df = load_csv(EUROPEAN_AGGREGATOR_PROBES_FILENAME)
     european_aggregator_protocols_df = load_csv(EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME)
     european_aggregator_summary_df = load_csv(EUROPEAN_AGGREGATOR_SUMMARY_FILENAME)
+    francearchives_protocol_df = load_csv(FRANCEARCHIVES_PROTOCOL_FILENAME)
     cycle_timeline_df = load_csv(ORGANISM_CYCLE_TIMELINE_FILENAME)
     cycle_results_df = load_csv(ORGANISM_CYCLE_RESULTS_FILENAME)
     global_corpus_timeline_df = build_cross_corpus_history_frame("timeline_corpus")
@@ -1368,6 +1370,49 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
 
+        if francearchives_protocol_df is not None and not francearchives_protocol_df.empty:
+            with st.expander("Protótipo leve do protocolo FranceArchives", expanded=False):
+                st.caption(
+                    "Este quadro testa sinais mínimos de viabilidade técnica para FranceArchives "
+                    "sem baixar o pacote XML e sem transformar a fonte em corpus ativo."
+                )
+                francearchives_protocol_display_df = francearchives_protocol_df.rename(
+                    columns={
+                        "probe_label": "sondagem",
+                        "method": "método",
+                        "http_status": "HTTP",
+                        "content_type": "tipo de conteúdo",
+                        "content_length": "tamanho informado",
+                        "access_status": "status de acesso",
+                        "evidence_signal": "sinal observado",
+                        "observed_value": "valor observado",
+                        "protocol_conclusion": "conclusão do protocolo",
+                        "next_step": "próximo passo",
+                        "methodological_note": "nota metodológica",
+                        "url": "URL",
+                    }
+                )
+                st.dataframe(
+                    francearchives_protocol_display_df[
+                        [
+                            "sondagem",
+                            "método",
+                            "HTTP",
+                            "tipo de conteúdo",
+                            "tamanho informado",
+                            "status de acesso",
+                            "sinal observado",
+                            "valor observado",
+                            "conclusão do protocolo",
+                            "próximo passo",
+                            "nota metodológica",
+                            "URL",
+                        ]
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
         with st.expander("Ver sondagens técnicas executadas", expanded=False):
             st.caption(
                 f"As sondagens registram códigos HTTP, bloqueios por JS/cookies, problemas de TLS "
@@ -1391,7 +1436,7 @@ def render_observatory_overview_tab():
                     }
                 )
                 st.dataframe(probe_display_df, use_container_width=True, hide_index=True)
-        european_download_cols = st.columns(5)
+        european_download_cols = st.columns(6)
         with european_download_cols[0]:
             render_csv_download(
                 "Baixar avaliação dos agregadores europeus",
@@ -1421,6 +1466,13 @@ def render_observatory_overview_tab():
                 "Exporta a matriz de protocolos e decisões metodológicas por agregador candidato.",
             )
         with european_download_cols[4]:
+            render_csv_download(
+                "Baixar protocolo FranceArchives",
+                francearchives_protocol_df,
+                FRANCEARCHIVES_PROTOCOL_FILENAME,
+                "Exporta o protótipo leve de validação técnica do FranceArchives.",
+            )
+        with european_download_cols[5]:
             render_csv_download(
                 "Baixar resumo da avaliação europeia",
                 european_aggregator_summary_df,

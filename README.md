@@ -101,6 +101,7 @@ Scripts principais:
 - `python scripts/run_observatory_cycle.py`
 - `python scripts/run_observatory_cycle.py --corpus ina`
 - `python scripts/evaluate_european_aggregators.py`
+- `python scripts/prototype_francearchives_protocol.py`
 - `python scripts/check_observatory_cycle.py`
 
 Artefatos globais do organismo:
@@ -117,6 +118,7 @@ Artefatos globais do organismo:
 - `data/output/observatorio_probes_agregadores_europa.csv`
 - `data/output/observatorio_protocolos_agregadores_europa.csv`
 - `data/output/observatorio_resumo_agregadores_europa.csv`
+- `data/output/observatorio_protocolo_francearchives.csv`
 
 ## Fila automática de expansão
 
@@ -323,6 +325,7 @@ O `EUscreen`, o `PARES` e o `INA` seguem a mesma convenção de nomes, trocando 
 11. Os nomes das saídas do APE, do EUscreen, do PARES e do INA ficam centralizados em `src/memoria_audiovisual/output_files.py`, para manter pipeline e interface sincronizadas.
 12. O ciclo mensal do organismo fica centralizado em `scripts/run_observatory_cycle.py`, com manifesto global em `data/output/observatorio_ciclo_mensal.json`.
 13. A avaliação europeia materializa rotas oficiais candidatas e uma matriz de protocolos para diferenciar agregadores prontos para pipeline experimental, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
+14. O protótipo `FranceArchives` testa página oficial, ficha do dataset, API e cabeçalho do dump por amostras leves, sem baixar o pacote XML nem ativar um novo corpus.
 
 ## Qualidade do repositório
 

@@ -15,6 +15,7 @@ from memoria_audiovisual.config import OUTPUT_DIR
 from memoria_audiovisual.corpora import list_active_corpora
 from memoria_audiovisual.discovery import write_discovery_outputs
 from memoria_audiovisual.european_aggregators import write_european_aggregator_evaluation
+from memoria_audiovisual.european_protocols import write_francearchives_protocol_probe
 from memoria_audiovisual.organism import (
     load_snapshot_metadata,
     write_active_corpora_registry,
@@ -62,6 +63,7 @@ def main():
     write_active_corpora_registry(OUTPUT_DIR)
     write_discovery_outputs(OUTPUT_DIR)
     write_european_aggregator_evaluation(OUTPUT_DIR)
+    write_francearchives_protocol_probe(OUTPUT_DIR)
 
     active_corpora = list_active_corpora(monthly_only=True)
     if args.corpora:
