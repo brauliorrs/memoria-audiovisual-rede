@@ -32,6 +32,7 @@ from memoria_audiovisual.discovery import (
 from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
     EUROPEAN_AGGREGATOR_PROBES_FILENAME,
+    EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
 )
 from memoria_audiovisual.dashboard_data import (
@@ -790,6 +791,7 @@ def render_observatory_overview_tab():
     discovery_summary_df = load_csv(DISCOVERY_SUMMARY_FILENAME)
     european_aggregator_evaluation_df = load_csv(EUROPEAN_AGGREGATOR_EVALUATION_FILENAME)
     european_aggregator_probes_df = load_csv(EUROPEAN_AGGREGATOR_PROBES_FILENAME)
+    european_aggregator_protocols_df = load_csv(EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME)
     european_aggregator_summary_df = load_csv(EUROPEAN_AGGREGATOR_SUMMARY_FILENAME)
     cycle_timeline_df = load_csv(ORGANISM_CYCLE_TIMELINE_FILENAME)
     cycle_results_df = load_csv(ORGANISM_CYCLE_RESULTS_FILENAME)
@@ -1277,6 +1279,50 @@ def render_observatory_overview_tab():
             hide_index=True,
         )
 
+        if european_aggregator_protocols_df is not None and not european_aggregator_protocols_df.empty:
+            st.markdown("#### Matriz de protocolos de incorporação")
+            st.caption(
+                "Esta matriz separa decisão metodológica de disponibilidade técnica: uma fonte pode "
+                "ser relevante para o fechamento europeu e, ainda assim, permanecer fora dos corpora "
+                "ativos até existir uma rota estável de acesso."
+            )
+            protocol_display_df = european_aggregator_protocols_df.rename(
+                columns={
+                    "label": "agregador",
+                    "country_scope": "país/escopo",
+                    "candidate_status": "status metodológico",
+                    "access_model": "modelo observado",
+                    "protocol_needed": "exige protocolo",
+                    "protocol_status": "estado do protocolo",
+                    "evidence_summary": "evidência observada",
+                    "methodological_risk": "risco metodológico",
+                    "recommended_protocol": "protocolo recomendado",
+                    "incorporation_decision": "decisão de incorporação",
+                    "priority": "prioridade",
+                    "next_review_trigger": "gatilho de revisão",
+                }
+            )
+            st.dataframe(
+                protocol_display_df[
+                    [
+                        "agregador",
+                        "país/escopo",
+                        "status metodológico",
+                        "modelo observado",
+                        "exige protocolo",
+                        "estado do protocolo",
+                        "evidência observada",
+                        "risco metodológico",
+                        "protocolo recomendado",
+                        "decisão de incorporação",
+                        "prioridade",
+                        "gatilho de revisão",
+                    ]
+                ],
+                use_container_width=True,
+                hide_index=True,
+            )
+
         with st.expander("Ver sondagens técnicas executadas", expanded=False):
             st.caption(
                 f"As sondagens registram códigos HTTP, bloqueios por JS/cookies, problemas de TLS "
@@ -1300,7 +1346,7 @@ def render_observatory_overview_tab():
                     }
                 )
                 st.dataframe(probe_display_df, use_container_width=True, hide_index=True)
-        european_download_cols = st.columns(3)
+        european_download_cols = st.columns(4)
         with european_download_cols[0]:
             render_csv_download(
                 "Baixar avaliação dos agregadores europeus",
@@ -1316,6 +1362,13 @@ def render_observatory_overview_tab():
                 "Exporta cada sondagem executada nas superfícies públicas dos agregadores.",
             )
         with european_download_cols[2]:
+            render_csv_download(
+                "Baixar protocolos europeus",
+                european_aggregator_protocols_df,
+                EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
+                "Exporta a matriz de protocolos e decisões metodológicas por agregador candidato.",
+            )
+        with european_download_cols[3]:
             render_csv_download(
                 "Baixar resumo da avaliação europeia",
                 european_aggregator_summary_df,

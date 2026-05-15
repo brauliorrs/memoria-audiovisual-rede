@@ -20,6 +20,7 @@ from memoria_audiovisual.discovery import (
 from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
     EUROPEAN_AGGREGATOR_PROBES_FILENAME,
+    EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
 )
 from memoria_audiovisual.organism import (
@@ -47,6 +48,7 @@ def main():
     discovery_summary_path = OUTPUT_DIR / DISCOVERY_SUMMARY_FILENAME
     european_aggregator_evaluation_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_EVALUATION_FILENAME
     european_aggregator_probes_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_PROBES_FILENAME
+    european_aggregator_protocols_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME
     european_aggregator_summary_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_SUMMARY_FILENAME
 
     required_paths = [
@@ -59,6 +61,7 @@ def main():
         (discovery_summary_path, "Resumo da fila de expansao"),
         (european_aggregator_evaluation_path, "Avaliacao dos agregadores europeus candidatos"),
         (european_aggregator_probes_path, "Sondagens dos agregadores europeus candidatos"),
+        (european_aggregator_protocols_path, "Protocolos dos agregadores europeus candidatos"),
         (european_aggregator_summary_path, "Resumo dos agregadores europeus candidatos"),
     ]
     for path, label in required_paths:
@@ -75,6 +78,7 @@ def main():
     discovery_summary_df = pd.read_csv(discovery_summary_path)
     european_aggregator_evaluation_df = pd.read_csv(european_aggregator_evaluation_path)
     european_aggregator_probes_df = pd.read_csv(european_aggregator_probes_path)
+    european_aggregator_protocols_df = pd.read_csv(european_aggregator_protocols_path)
     european_aggregator_summary_df = pd.read_csv(european_aggregator_summary_path)
     active_corpora = list_active_corpora(monthly_only=True)
 
@@ -95,6 +99,7 @@ def main():
     print(f"- decisoes automaticas sumarizadas: {len(discovery_summary_df)}")
     print(f"- agregadores europeus avaliados: {len(european_aggregator_evaluation_df)}")
     print(f"- sondagens europeias registradas: {len(european_aggregator_probes_df)}")
+    print(f"- protocolos europeus registrados: {len(european_aggregator_protocols_df)}")
     print(f"- estados europeus sumarizados: {len(european_aggregator_summary_df)}")
 
     result_codes = {result["code"] for result in manifest.get("cycle_results", [])}
@@ -124,9 +129,13 @@ def main():
         print("- a avaliacao dos agregadores europeus esta vazia")
         return 1
 
+    if european_aggregator_protocols_df.empty:
+        print("- a matriz de protocolos dos agregadores europeus esta vazia")
+        return 1
+
     print("- todos os corpora ativos aparecem no manifesto do ciclo")
     print("- a fila automatica de expansao foi materializada com sucesso")
-    print("- a avaliacao dos agregadores europeus foi materializada com sucesso")
+    print("- a avaliacao e os protocolos dos agregadores europeus foram materializados com sucesso")
     return 0
 
 

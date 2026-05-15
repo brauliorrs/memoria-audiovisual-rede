@@ -15,10 +15,12 @@ def main():
     outputs = write_european_aggregator_evaluation(OUTPUT_DIR)
     evaluation_df = outputs["evaluation"]
     probes_df = outputs["probes"]
+    protocols_df = outputs["protocols"]
 
     print("Avaliação dos agregadores europeus candidatos atualizada:")
     print(f"- agregadores avaliados: {len(evaluation_df)}")
     print(f"- sondagens executadas: {len(probes_df)}")
+    print(f"- protocolos metodológicos registrados: {len(protocols_df)}")
     for _, row in evaluation_df.iterrows():
         print(
             f"- {row['label']}: {row['candidate_status']} | "

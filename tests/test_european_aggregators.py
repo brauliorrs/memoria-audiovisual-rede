@@ -6,6 +6,7 @@ from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_CANDIDATES,
     EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
     EUROPEAN_AGGREGATOR_PROBES_FILENAME,
+    EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
     build_european_aggregator_evaluation,
     detect_js_cookie_requirement,
@@ -70,6 +71,21 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
         self.assertGreater(int(pares_row["search_result_count_total"]), 0)
         self.assertEqual(archives_hub_row["candidate_status"], "requer_protocolo_de_acesso")
 
+        protocols_df = outputs["protocols"]
+        archives_hub_protocol = protocols_df.loc[protocols_df["code"] == "archives-hub"].iloc[0]
+        pares_protocol = protocols_df.loc[protocols_df["code"] == "pares"].iloc[0]
+
+        self.assertTrue(bool(archives_hub_protocol["protocol_needed"]))
+        self.assertEqual(
+            archives_hub_protocol["incorporation_decision"],
+            "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel",
+        )
+        self.assertFalse(bool(pares_protocol["protocol_needed"]))
+        self.assertEqual(
+            pares_protocol["incorporation_decision"],
+            "pode_ser_tratado_como_corpus_experimental",
+        )
+
     def test_write_evaluation_materializes_expected_files(self):
         def fake_fetcher(url):
             return {
@@ -88,9 +104,11 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
 
             self.assertTrue((output_dir / EUROPEAN_AGGREGATOR_EVALUATION_FILENAME).exists())
             self.assertTrue((output_dir / EUROPEAN_AGGREGATOR_PROBES_FILENAME).exists())
+            self.assertTrue((output_dir / EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME).exists())
             self.assertTrue((output_dir / EUROPEAN_AGGREGATOR_SUMMARY_FILENAME).exists())
             self.assertFalse(outputs["evaluation"].empty)
             self.assertFalse(outputs["probes"].empty)
+            self.assertFalse(outputs["protocols"].empty)
             self.assertFalse(outputs["summary"].empty)
 
 

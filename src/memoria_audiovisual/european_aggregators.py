@@ -17,6 +17,7 @@ from .config import HEADERS, OUTPUT_DIR, REQUEST_TIMEOUT
 
 EUROPEAN_AGGREGATOR_EVALUATION_FILENAME = "observatorio_avaliacao_agregadores_europa.csv"
 EUROPEAN_AGGREGATOR_PROBES_FILENAME = "observatorio_probes_agregadores_europa.csv"
+EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME = "observatorio_protocolos_agregadores_europa.csv"
 EUROPEAN_AGGREGATOR_SUMMARY_FILENAME = "observatorio_resumo_agregadores_europa.csv"
 EUROPEAN_AGGREGATOR_RULE_VERSION = "2026-05-fechamento-europa-v1"
 
@@ -68,6 +69,24 @@ SUMMARY_COLUMNS = [
     "status",
     "total",
     "recommended_next_step",
+]
+
+PROTOCOL_COLUMNS = [
+    "code",
+    "label",
+    "country_scope",
+    "candidate_status",
+    "access_model",
+    "protocol_needed",
+    "protocol_status",
+    "evidence_summary",
+    "methodological_risk",
+    "recommended_protocol",
+    "incorporation_decision",
+    "priority",
+    "next_review_trigger",
+    "evaluated_at",
+    "rule_version",
 ]
 
 
@@ -385,6 +404,96 @@ def _build_candidate_summary(candidate, candidate_probe_df, evaluated_at):
     }
 
 
+def _build_protocol_row(evaluation_row):
+    status = str(evaluation_row.get("candidate_status", ""))
+    access_model = str(evaluation_row.get("access_model", ""))
+    total_results = int(evaluation_row.get("search_result_count_total") or 0)
+    blocked_count = int(evaluation_row.get("blocked_probe_count") or 0)
+    failed_count = int(evaluation_row.get("failed_probe_count") or 0)
+    successful_terms = str(evaluation_row.get("successful_probe_terms") or "").strip()
+    blocked_terms = str(evaluation_row.get("blocked_probe_terms") or "").strip()
+
+    if status == "pronto_para_pipeline_experimental":
+        protocol_needed = False
+        protocol_status = "rota_publica_suficiente_para_pipeline_experimental"
+        evidence_summary = (
+            f"A busca pública retornou {total_results} resultados preliminares"
+            + (f" nos termos: {successful_terms}." if successful_terms else ".")
+        )
+        methodological_risk = (
+            "A contagem inicial indica evidência pública detectável, mas ainda exige validação "
+            "qualitativa para separar registro descritivo, objeto digital e reprodução audiovisual."
+        )
+        recommended_protocol = "executar_pipeline_experimental_e_validar_amostras"
+        incorporation_decision = "pode_ser_tratado_como_corpus_experimental"
+        priority = "alta"
+        next_review_trigger = "nova_rodada_mensal_ou_mudanca_no_formato_da_busca"
+    elif status == "requer_protocolo_de_acesso":
+        protocol_needed = True
+        protocol_status = "protocolo_tecnico_pendente"
+        evidence_summary = (
+            f"Foram observadas {blocked_count} sondagens bloqueadas ou dependentes de JS/cookies"
+            + (f" nos termos: {blocked_terms}." if blocked_terms else ".")
+        )
+        methodological_risk = (
+            "A coleta por requisição simples pode produzir falso retorno zero. A fonte deve "
+            "permanecer como candidata, sem ser confundida com corpus ativo."
+        )
+        recommended_protocol = "testar_api_exportacao_sitemap_ou_navegacao_controlada_com_browser"
+        incorporation_decision = "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel"
+        priority = "media"
+        next_review_trigger = "identificacao_de_api_exportacao_sitemap_ou_rota_publica_estavel"
+    elif status == "fonte_de_pesquisa_com_retorno_zero_preliminar":
+        protocol_needed = False
+        protocol_status = "revisao_vocabular_pendente"
+        evidence_summary = "A fonte respondeu, mas não retornou resultados quantificados na sondagem inicial."
+        methodological_risk = (
+            "Retorno zero em fonte geral não prova ausência de acervo audiovisual; pode indicar "
+            "vocabulário inadequado, metadados pouco granulares ou baixa visibilidade pública."
+        )
+        recommended_protocol = "ampliar_vocabulario_multilingue_e_reexecutar_sondagem"
+        incorporation_decision = "manter_como_fonte_de_pesquisa_sem_pipeline_ativo"
+        priority = "baixa"
+        next_review_trigger = "ampliacao_de_termos_ou_nova_evidencia_publica"
+    else:
+        protocol_needed = True
+        protocol_status = "monitoramento_tecnico"
+        evidence_summary = f"A rodada registrou {failed_count} falhas técnicas e não produziu rota confiável."
+        methodological_risk = (
+            "Sem resposta técnica estável, a ausência de resultados não pode ser interpretada "
+            "como ausência de audiovisual."
+        )
+        recommended_protocol = "retestar_em_rodada_posterior_e_documentar_falhas"
+        incorporation_decision = "monitorar_sem_ingestao_imediata"
+        priority = "baixa"
+        next_review_trigger = "normalizacao_da_resposta_http_ou_disponibilidade_da_fonte"
+
+    return {
+        "code": evaluation_row.get("code", ""),
+        "label": evaluation_row.get("label", ""),
+        "country_scope": evaluation_row.get("country_scope", ""),
+        "candidate_status": status,
+        "access_model": access_model,
+        "protocol_needed": protocol_needed,
+        "protocol_status": protocol_status,
+        "evidence_summary": evidence_summary,
+        "methodological_risk": methodological_risk,
+        "recommended_protocol": recommended_protocol,
+        "incorporation_decision": incorporation_decision,
+        "priority": priority,
+        "next_review_trigger": next_review_trigger,
+        "evaluated_at": evaluation_row.get("evaluated_at", ""),
+        "rule_version": evaluation_row.get("rule_version", EUROPEAN_AGGREGATOR_RULE_VERSION),
+    }
+
+
+def build_european_aggregator_protocols(evaluation_df):
+    if evaluation_df is None or evaluation_df.empty:
+        return pd.DataFrame(columns=PROTOCOL_COLUMNS)
+    rows = [_build_protocol_row(row) for _, row in evaluation_df.iterrows()]
+    return pd.DataFrame(rows, columns=PROTOCOL_COLUMNS)
+
+
 def build_european_aggregator_evaluation(fetcher=fetch_probe, evaluated_at=None):
     evaluated_at = evaluated_at or utcnow_iso()
     probe_rows = build_european_aggregator_probe_rows(fetcher=fetcher)
@@ -408,9 +517,11 @@ def build_european_aggregator_evaluation(fetcher=fetch_probe, evaluated_at=None)
         .sort_values(["total", "status"], ascending=[False, True])
         .reset_index(drop=True)
     )
+    protocols_df = build_european_aggregator_protocols(evaluation_df)
     return {
         "evaluation": evaluation_df,
         "probes": probes_df,
+        "protocols": protocols_df,
         "summary": summary_df,
     }
 
@@ -428,6 +539,11 @@ def write_european_aggregator_evaluation(output_dir: Path = OUTPUT_DIR, fetcher=
         index=False,
         encoding="utf-8-sig",
     )
+    outputs["protocols"].to_csv(
+        output_dir / EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
     outputs["summary"].to_csv(
         output_dir / EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
         index=False,
@@ -440,10 +556,12 @@ __all__ = [
     "EUROPEAN_AGGREGATOR_CANDIDATES",
     "EUROPEAN_AGGREGATOR_EVALUATION_FILENAME",
     "EUROPEAN_AGGREGATOR_PROBES_FILENAME",
+    "EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME",
     "EUROPEAN_AGGREGATOR_RULE_VERSION",
     "EUROPEAN_AGGREGATOR_SUMMARY_FILENAME",
     "build_european_aggregator_evaluation",
     "build_european_aggregator_probe_rows",
+    "build_european_aggregator_protocols",
     "classify_probe_access_status",
     "detect_js_cookie_requirement",
     "parse_result_count",
