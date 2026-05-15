@@ -1,0 +1,451 @@
+from __future__ import annotations
+
+import re
+from dataclasses import dataclass
+from datetime import UTC, datetime
+from pathlib import Path
+from urllib.parse import quote
+
+import pandas as pd
+import requests
+import urllib3
+from bs4 import BeautifulSoup
+from requests.exceptions import SSLError
+
+from .config import HEADERS, OUTPUT_DIR, REQUEST_TIMEOUT
+
+
+EUROPEAN_AGGREGATOR_EVALUATION_FILENAME = "observatorio_avaliacao_agregadores_europa.csv"
+EUROPEAN_AGGREGATOR_PROBES_FILENAME = "observatorio_probes_agregadores_europa.csv"
+EUROPEAN_AGGREGATOR_SUMMARY_FILENAME = "observatorio_resumo_agregadores_europa.csv"
+EUROPEAN_AGGREGATOR_RULE_VERSION = "2026-05-fechamento-europa-v1"
+
+EVALUATION_COLUMNS = [
+    "code",
+    "label",
+    "country_scope",
+    "coverage_level",
+    "source_url",
+    "evaluation_stage",
+    "access_model",
+    "candidate_status",
+    "audiovisual_probe_terms",
+    "probe_attempts",
+    "accessible_probe_count",
+    "blocked_probe_count",
+    "failed_probe_count",
+    "search_result_count_total",
+    "successful_probe_terms",
+    "blocked_probe_terms",
+    "best_probe_url",
+    "ingestion_recommendation",
+    "next_step",
+    "evaluated_at",
+    "rule_version",
+]
+
+PROBE_COLUMNS = [
+    "code",
+    "label",
+    "probe_type",
+    "query",
+    "url",
+    "http_status",
+    "final_url",
+    "content_type",
+    "title",
+    "access_status",
+    "js_cookie_required",
+    "cloudflare_challenge",
+    "tls_verification_failed",
+    "result_count",
+    "audiovisual_evidence_signal_count",
+    "methodological_note",
+    "error",
+]
+
+SUMMARY_COLUMNS = [
+    "status",
+    "total",
+    "recommended_next_step",
+]
+
+
+@dataclass(frozen=True)
+class AggregatorCandidate:
+    code: str
+    label: str
+    country_scope: str
+    coverage_level: str
+    source_url: str
+    search_url_template: str
+    query_terms: tuple[str, ...]
+    methodological_note: str
+
+
+EUROPEAN_AGGREGATOR_CANDIDATES = [
+    AggregatorCandidate(
+        code="archives-hub",
+        label="Archives Hub",
+        country_scope="Reino Unido",
+        coverage_level="agregador nacional",
+        source_url="https://archiveshub.jisc.ac.uk/",
+        search_url_template="https://archiveshub.jisc.ac.uk/search/?terms={query}",
+        query_terms=("audiovisual", "film", "video", "sound recording"),
+        methodological_note=(
+            "Agregador nacional geral. A avaliação verifica se a busca pública permite "
+            "sondar materiais audiovisuais antes da incorporação como corpus."
+        ),
+    ),
+    AggregatorCandidate(
+        code="francearchives",
+        label="FranceArchives",
+        country_scope="França",
+        coverage_level="agregador nacional",
+        source_url="https://francearchives.gouv.fr/",
+        search_url_template="https://francearchives.gouv.fr/fr/search?es_escategory=archives&q={query}",
+        query_terms=("audiovisuel", "film", "vidéo", "archives sonores"),
+        methodological_note=(
+            "Agregador nacional geral. A avaliação verifica a superfície pública de busca "
+            "e registra quando a fonte exige navegação com JavaScript ou cookies."
+        ),
+    ),
+    AggregatorCandidate(
+        code="pares",
+        label="PARES",
+        country_scope="Espanha",
+        coverage_level="agregador nacional",
+        source_url="https://pares.cultura.gob.es/",
+        search_url_template="https://pares.mcu.es/ParesBusquedas20/catalogo/find?nm=&texto={query}",
+        query_terms=("audiovisual", "film", "video", "sonoro"),
+        methodological_note=(
+            "Agregador nacional geral. A avaliação usa a busca pública do PARES para "
+            "identificar sinais preliminares de materiais audiovisuais."
+        ),
+    ),
+]
+
+
+def utcnow_iso():
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def _normalize_space(value):
+    return re.sub(r"\s+", " ", str(value or "")).strip()
+
+
+def parse_result_count(text):
+    normalized = _normalize_space(text)
+    patterns = [
+        r"Resultados\s+\d+\s*-\s*\d+\s+de\s+([\d\.]+)",
+        r"Résultats?\s+\d+\s*-\s*\d+\s+sur\s+([\d\s]+)",
+        r"([\d\s]+)\s+résultats?",
+        r"([\d,]+)\s+results?",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, normalized, flags=re.IGNORECASE)
+        if match:
+            return int(re.sub(r"\D", "", match.group(1)) or 0)
+    return 0
+
+
+def detect_js_cookie_requirement(text, title=""):
+    normalized = f"{title} {text}".lower()
+    return (
+        "requires js enabled and cookies" in normalized
+        or "enable javascript and cookies" in normalized
+        or "just a moment" in normalized
+    )
+
+
+def detect_cloudflare_challenge(text, title=""):
+    normalized = f"{title} {text}".lower()
+    return "cloudflare" in normalized or "cf-browser-verification" in normalized
+
+
+def classify_probe_access_status(http_status, js_cookie_required, error):
+    if error:
+        return "falha_tecnica"
+    if js_cookie_required:
+        return "bloqueado_por_js_ou_cookies"
+    if http_status in {401, 403}:
+        return "restrito_ou_bloqueado"
+    if http_status and 200 <= int(http_status) < 300:
+        return "acessivel"
+    if http_status:
+        return f"resposta_http_{http_status}"
+    return "sem_resposta"
+
+
+def fetch_probe(url):
+    tls_verification_failed = False
+    error = ""
+    response = None
+    try:
+        response = requests.get(
+            url,
+            headers=HEADERS,
+            timeout=REQUEST_TIMEOUT,
+            allow_redirects=True,
+        )
+    except SSLError as exc:
+        tls_verification_failed = True
+        error = str(exc)
+        try:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            response = requests.get(
+                url,
+                headers=HEADERS,
+                timeout=REQUEST_TIMEOUT,
+                allow_redirects=True,
+                verify=False,
+            )
+            error = ""
+        except Exception as retry_error:
+            error = str(retry_error)
+    except Exception as exc:
+        error = str(exc)
+
+    if response is None:
+        return {
+            "http_status": "",
+            "final_url": url,
+            "content_type": "",
+            "title": "",
+            "text": "",
+            "tls_verification_failed": tls_verification_failed,
+            "error": error,
+        }
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    title = _normalize_space(soup.title.get_text(" ", strip=True) if soup.title else "")
+    text = _normalize_space(soup.get_text(" ", strip=True))
+    return {
+        "http_status": int(response.status_code),
+        "final_url": response.url,
+        "content_type": response.headers.get("content-type", ""),
+        "title": title,
+        "text": text,
+        "tls_verification_failed": tls_verification_failed,
+        "error": error,
+    }
+
+
+def _build_probe_row(candidate, probe_type, query, url, fetcher=fetch_probe):
+    fetched = fetcher(url)
+    text = fetched.get("text", "")
+    title = fetched.get("title", "")
+    js_cookie_required = detect_js_cookie_requirement(text, title)
+    cloudflare_challenge = detect_cloudflare_challenge(text, title)
+    result_count = parse_result_count(text)
+    evidence_signal_count = sum(
+        text.lower().count(term.lower())
+        for term in candidate.query_terms
+        if term
+    )
+    access_status = classify_probe_access_status(
+        fetched.get("http_status"),
+        js_cookie_required,
+        fetched.get("error", ""),
+    )
+
+    return {
+        "code": candidate.code,
+        "label": candidate.label,
+        "probe_type": probe_type,
+        "query": query,
+        "url": url,
+        "http_status": fetched.get("http_status", ""),
+        "final_url": fetched.get("final_url", url),
+        "content_type": fetched.get("content_type", ""),
+        "title": title,
+        "access_status": access_status,
+        "js_cookie_required": js_cookie_required,
+        "cloudflare_challenge": cloudflare_challenge,
+        "tls_verification_failed": bool(fetched.get("tls_verification_failed", False)),
+        "result_count": result_count,
+        "audiovisual_evidence_signal_count": evidence_signal_count,
+        "methodological_note": candidate.methodological_note,
+        "error": fetched.get("error", ""),
+    }
+
+
+def build_european_aggregator_probe_rows(fetcher=fetch_probe):
+    rows = []
+    for candidate in EUROPEAN_AGGREGATOR_CANDIDATES:
+        rows.append(
+            _build_probe_row(
+                candidate,
+                probe_type="home",
+                query="",
+                url=candidate.source_url,
+                fetcher=fetcher,
+            )
+        )
+        for term in candidate.query_terms:
+            search_url = candidate.search_url_template.format(query=quote(term))
+            rows.append(
+                _build_probe_row(
+                    candidate,
+                    probe_type="search",
+                    query=term,
+                    url=search_url,
+                    fetcher=fetcher,
+                )
+            )
+    return rows
+
+
+def _build_candidate_summary(candidate, candidate_probe_df, evaluated_at):
+    search_probe_df = candidate_probe_df.loc[candidate_probe_df["probe_type"] == "search"].copy()
+    accessible_probe_count = int((candidate_probe_df["access_status"] == "acessivel").sum())
+    blocked_probe_count = int(
+        candidate_probe_df["access_status"].isin(
+            {"bloqueado_por_js_ou_cookies", "restrito_ou_bloqueado"}
+        ).sum()
+    )
+    failed_probe_count = int((candidate_probe_df["access_status"] == "falha_tecnica").sum())
+    result_total = int(pd.to_numeric(search_probe_df["result_count"], errors="coerce").fillna(0).sum())
+    successful_terms = sorted(
+        search_probe_df.loc[
+            pd.to_numeric(search_probe_df["result_count"], errors="coerce").fillna(0) > 0,
+            "query",
+        ]
+        .dropna()
+        .astype(str)
+        .unique()
+        .tolist()
+    )
+    blocked_terms = sorted(
+        search_probe_df.loc[
+            search_probe_df["access_status"].isin(
+                {"bloqueado_por_js_ou_cookies", "restrito_ou_bloqueado"}
+            ),
+            "query",
+        ]
+        .dropna()
+        .astype(str)
+        .unique()
+        .tolist()
+    )
+    best_probe_row = (
+        search_probe_df.sort_values("result_count", ascending=False).head(1)
+        if not search_probe_df.empty
+        else pd.DataFrame()
+    )
+    best_probe_url = (
+        str(best_probe_row.iloc[0].get("final_url") or best_probe_row.iloc[0].get("url"))
+        if not best_probe_row.empty and int(best_probe_row.iloc[0].get("result_count") or 0) > 0
+        else ""
+    )
+
+    if result_total > 0:
+        access_model = "busca_publica_com_resultados"
+        candidate_status = "pronto_para_pipeline_experimental"
+        ingestion_recommendation = "priorizar_pipeline_de_coleta_com_busca_publica"
+        next_step = "implementar_corpus_experimental_do_agregador"
+    elif accessible_probe_count > 0 and blocked_probe_count == 0:
+        access_model = "acesso_publico_sem_sinal_audiovisual_quantificado"
+        candidate_status = "fonte_de_pesquisa_com_retorno_zero_preliminar"
+        ingestion_recommendation = "manter_como_fonte_geral_e_testar_termos_adicionais"
+        next_step = "ampliar_vocabulario_de_busca_antes_de_incorporar"
+    elif blocked_probe_count > 0:
+        access_model = "exige_js_cookies_ou_superficie_bloqueada"
+        candidate_status = "requer_protocolo_de_acesso"
+        ingestion_recommendation = "avaliar_api_exportacao_ou_navegacao_com_browser"
+        next_step = "mapear_rota_tecnica_estavel_antes_do_pipeline"
+    else:
+        access_model = "falha_tecnica_ou_sem_resposta"
+        candidate_status = "monitoramento_tecnico"
+        ingestion_recommendation = "retestar_em_rodada_posterior"
+        next_step = "monitorar_sem_ingestao_imediata"
+
+    return {
+        "code": candidate.code,
+        "label": candidate.label,
+        "country_scope": candidate.country_scope,
+        "coverage_level": candidate.coverage_level,
+        "source_url": candidate.source_url,
+        "evaluation_stage": "fechamento_europa",
+        "access_model": access_model,
+        "candidate_status": candidate_status,
+        "audiovisual_probe_terms": "; ".join(candidate.query_terms),
+        "probe_attempts": len(candidate_probe_df),
+        "accessible_probe_count": accessible_probe_count,
+        "blocked_probe_count": blocked_probe_count,
+        "failed_probe_count": failed_probe_count,
+        "search_result_count_total": result_total,
+        "successful_probe_terms": "; ".join(successful_terms),
+        "blocked_probe_terms": "; ".join(blocked_terms),
+        "best_probe_url": best_probe_url,
+        "ingestion_recommendation": ingestion_recommendation,
+        "next_step": next_step,
+        "evaluated_at": evaluated_at,
+        "rule_version": EUROPEAN_AGGREGATOR_RULE_VERSION,
+    }
+
+
+def build_european_aggregator_evaluation(fetcher=fetch_probe, evaluated_at=None):
+    evaluated_at = evaluated_at or utcnow_iso()
+    probe_rows = build_european_aggregator_probe_rows(fetcher=fetcher)
+    probes_df = pd.DataFrame(probe_rows, columns=PROBE_COLUMNS)
+    evaluation_rows = []
+    for candidate in EUROPEAN_AGGREGATOR_CANDIDATES:
+        candidate_probe_df = probes_df.loc[probes_df["code"] == candidate.code].copy()
+        evaluation_rows.append(_build_candidate_summary(candidate, candidate_probe_df, evaluated_at))
+
+    evaluation_df = pd.DataFrame(evaluation_rows, columns=EVALUATION_COLUMNS)
+    summary_df = (
+        evaluation_df.groupby(["candidate_status", "next_step"], dropna=False)
+        .size()
+        .reset_index(name="total")
+        .rename(
+            columns={
+                "candidate_status": "status",
+                "next_step": "recommended_next_step",
+            }
+        )
+        .sort_values(["total", "status"], ascending=[False, True])
+        .reset_index(drop=True)
+    )
+    return {
+        "evaluation": evaluation_df,
+        "probes": probes_df,
+        "summary": summary_df,
+    }
+
+
+def write_european_aggregator_evaluation(output_dir: Path = OUTPUT_DIR, fetcher=fetch_probe):
+    output_dir.mkdir(parents=True, exist_ok=True)
+    outputs = build_european_aggregator_evaluation(fetcher=fetcher)
+    outputs["evaluation"].to_csv(
+        output_dir / EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
+    outputs["probes"].to_csv(
+        output_dir / EUROPEAN_AGGREGATOR_PROBES_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
+    outputs["summary"].to_csv(
+        output_dir / EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
+    return outputs
+
+
+__all__ = [
+    "EUROPEAN_AGGREGATOR_CANDIDATES",
+    "EUROPEAN_AGGREGATOR_EVALUATION_FILENAME",
+    "EUROPEAN_AGGREGATOR_PROBES_FILENAME",
+    "EUROPEAN_AGGREGATOR_RULE_VERSION",
+    "EUROPEAN_AGGREGATOR_SUMMARY_FILENAME",
+    "build_european_aggregator_evaluation",
+    "build_european_aggregator_probe_rows",
+    "classify_probe_access_status",
+    "detect_js_cookie_requirement",
+    "parse_result_count",
+    "write_european_aggregator_evaluation",
+]

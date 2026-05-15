@@ -5,8 +5,8 @@ from datetime import UTC, datetime
 import pandas as pd
 
 from .analysis import filter_curatorial_video_catalog
-from .config import APE_CONTENT_PDF_URL, EUSCREEN_COLLECTIONS_URL, INA_INSTITUTION_URL
-from .output_files import APE_OUTPUT_FILES, EUSCREEN_OUTPUT_FILES, INA_OUTPUT_FILES
+from .config import APE_CONTENT_PDF_URL, EUSCREEN_COLLECTIONS_URL, INA_INSTITUTION_URL, PARES_HOME_URL
+from .output_files import APE_OUTPUT_FILES, EUSCREEN_OUTPUT_FILES, INA_OUTPUT_FILES, PARES_OUTPUT_FILES
 
 
 RAW_OUTPUT_KEYS = [
@@ -277,6 +277,26 @@ def build_euscreen_snapshot_metadata(
     )
 
 
+def build_pares_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="pares",
+        source_url=PARES_HOME_URL,
+        output_files=PARES_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_euscreen_snapshot_metadata(
     output_dir,
     *,
@@ -290,6 +310,26 @@ def write_euscreen_snapshot_metadata(
         dataset="euscreen",
         source_url=EUSCREEN_COLLECTIONS_URL,
         output_files=EUSCREEN_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_pares_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="pares",
+        source_url=PARES_HOME_URL,
+        output_files=PARES_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
@@ -323,10 +363,12 @@ __all__ = [
     "build_ape_snapshot_metadata",
     "build_euscreen_snapshot_metadata",
     "build_ina_snapshot_metadata",
+    "build_pares_snapshot_metadata",
     "build_snapshot_metadata",
     "save_snapshot_metadata_payload",
     "write_ape_snapshot_metadata",
     "write_euscreen_snapshot_metadata",
     "write_ina_snapshot_metadata",
+    "write_pares_snapshot_metadata",
     "write_snapshot_metadata",
 ]

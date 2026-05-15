@@ -22,6 +22,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn("ape", registry_df["code"].tolist())
         self.assertIn("ina", registry_df["code"].tolist())
         self.assertIn("euscreen", registry_df["code"].tolist())
+        self.assertIn("pares", registry_df["code"].tolist())
         self.assertIn("archivegrid", registry_df["code"].tolist())
 
     def test_expansion_queue_prioritizes_stage_1_aggregators(self):
@@ -31,6 +32,7 @@ class DiscoveryTests(unittest.TestCase):
         first_decision = queue_df.iloc[0]["automatic_decision"]
         self.assertEqual(first_decision, "fechamento_europa_agregador_nacional")
         self.assertNotIn("euscreen", queue_df["code"].tolist())
+        self.assertNotIn("pares", queue_df["code"].tolist())
 
     def test_european_institution_candidate_is_kept_as_gap_or_exception(self):
         candidate = {

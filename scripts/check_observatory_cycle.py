@@ -17,6 +17,11 @@ from memoria_audiovisual.discovery import (
     DISCOVERY_REGISTRY_FILENAME,
     DISCOVERY_SUMMARY_FILENAME,
 )
+from memoria_audiovisual.european_aggregators import (
+    EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
+    EUROPEAN_AGGREGATOR_PROBES_FILENAME,
+    EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
+)
 from memoria_audiovisual.organism import (
     ORGANISM_ACTIVE_CORPORA_FILENAME,
     ORGANISM_CYCLE_RESULTS_FILENAME,
@@ -40,6 +45,9 @@ def main():
     discovery_registry_path = OUTPUT_DIR / DISCOVERY_REGISTRY_FILENAME
     discovery_queue_path = OUTPUT_DIR / DISCOVERY_QUEUE_FILENAME
     discovery_summary_path = OUTPUT_DIR / DISCOVERY_SUMMARY_FILENAME
+    european_aggregator_evaluation_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_EVALUATION_FILENAME
+    european_aggregator_probes_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_PROBES_FILENAME
+    european_aggregator_summary_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_SUMMARY_FILENAME
 
     required_paths = [
         (cycle_manifest_path, "Manifesto do ciclo mensal"),
@@ -49,6 +57,9 @@ def main():
         (discovery_registry_path, "Registro de candidatos a expansao"),
         (discovery_queue_path, "Fila automatica de expansao"),
         (discovery_summary_path, "Resumo da fila de expansao"),
+        (european_aggregator_evaluation_path, "Avaliacao dos agregadores europeus candidatos"),
+        (european_aggregator_probes_path, "Sondagens dos agregadores europeus candidatos"),
+        (european_aggregator_summary_path, "Resumo dos agregadores europeus candidatos"),
     ]
     for path, label in required_paths:
         if not path.exists():
@@ -62,6 +73,9 @@ def main():
     discovery_registry_df = pd.read_csv(discovery_registry_path)
     discovery_queue_df = pd.read_csv(discovery_queue_path)
     discovery_summary_df = pd.read_csv(discovery_summary_path)
+    european_aggregator_evaluation_df = pd.read_csv(european_aggregator_evaluation_path)
+    european_aggregator_probes_df = pd.read_csv(european_aggregator_probes_path)
+    european_aggregator_summary_df = pd.read_csv(european_aggregator_summary_path)
     active_corpora = list_active_corpora(monthly_only=True)
 
     print("Validacao do ciclo mensal do organismo")
@@ -79,6 +93,9 @@ def main():
     print(f"- candidatos registrados para expansao: {len(discovery_registry_df)}")
     print(f"- itens na fila automatica de expansao: {len(discovery_queue_df)}")
     print(f"- decisoes automaticas sumarizadas: {len(discovery_summary_df)}")
+    print(f"- agregadores europeus avaliados: {len(european_aggregator_evaluation_df)}")
+    print(f"- sondagens europeias registradas: {len(european_aggregator_probes_df)}")
+    print(f"- estados europeus sumarizados: {len(european_aggregator_summary_df)}")
 
     result_codes = {result["code"] for result in manifest.get("cycle_results", [])}
     expected_codes = set(
@@ -103,8 +120,13 @@ def main():
         print("- a fila automatica de expansao esta vazia")
         return 1
 
+    if european_aggregator_evaluation_df.empty:
+        print("- a avaliacao dos agregadores europeus esta vazia")
+        return 1
+
     print("- todos os corpora ativos aparecem no manifesto do ciclo")
     print("- a fila automatica de expansao foi materializada com sucesso")
+    print("- a avaliacao dos agregadores europeus foi materializada com sucesso")
     return 0
 
 

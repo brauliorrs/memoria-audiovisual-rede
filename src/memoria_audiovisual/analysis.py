@@ -366,6 +366,16 @@ def infer_video_theme(row):
         if text_has_any_keyword(normalized, keywords):
             return theme_name
 
+    platform = normalize_optional_text(row.get("platform"))
+    if platform == "PARES":
+        if "objeto digital detectado" in normalized:
+            return "Digitalização e acesso"
+        if re.search(r"\b(archivo|archivos|coleccion|colección|fondo|fondos)\b", normalized):
+            return "Acervo e patrimônio"
+        if re.search(r"\b(audiovisual|film|cine|video|vídeo|cinta|sonoro|sonora)\b", normalized):
+            return "Registro audiovisual em catálogo"
+        return "Registro arquivístico recuperado"
+
     if re.search(r"\b(memory|memoria|memoire|legacy|historique)\b", normalized):
         return "Memória institucional"
     if re.search(
@@ -388,6 +398,7 @@ def infer_video_theme(row):
 def classify_access_surface(row):
     platform = normalize_optional_text(row.get("platform"))
     video_link = normalize_optional_text(row.get("video_link")).lower()
+    video_description = normalize_optional_text(row.get("video_description")).lower()
 
     if platform == "Madelen":
         return "Streaming curatorial"
@@ -397,6 +408,12 @@ def classify_access_surface(row):
         return "Catálogo comercial de licenciamento"
     if platform == "EUscreen":
         return "Agregador audiovisual europeu"
+    if platform == "PARES":
+        if "objeto digital detectado" in video_description:
+            return "Objeto digital em agregador arquivístico nacional"
+        if "registro descritivo recuperado" in video_description:
+            return "Registro descritivo em agregador arquivístico nacional"
+        return "Agregador arquivístico nacional"
     if platform == "Vimeo" and "ina.fr" in video_link:
         return "Vídeo institucional incorporado"
     if platform in {"YouTube", "Vimeo", "Dailymotion", "Facebook", "Instagram"}:
@@ -430,6 +447,9 @@ def classify_access_regime(modalities, audiovisual_visibility):
             "Catálogo comercial de licenciamento": "Acesso comercial/licenciamento",
             "Vídeo institucional incorporado": "Acesso institucional incorporado",
             "Agregador audiovisual europeu": "Acesso por agregador audiovisual europeu",
+            "Agregador arquivístico nacional": "Acesso por agregador arquivístico nacional",
+            "Objeto digital em agregador arquivístico nacional": "Acesso a objeto digital em agregador arquivístico nacional",
+            "Registro descritivo em agregador arquivístico nacional": "Acesso descritivo por agregador arquivístico nacional",
             "Plataforma externa de vídeo": "Acesso por plataforma externa",
             "Plataforma externa especializada": "Acesso por plataforma externa especializada",
             "Outra superfície de acesso": "Outra forma pública de acesso",
@@ -437,7 +457,13 @@ def classify_access_regime(modalities, audiovisual_visibility):
         return single_mode_map.get(modality, "Outra forma pública de acesso")
 
     institutional_modalities = {"Streaming curatorial", "Podcast público", "Vídeo institucional incorporado"}
-    aggregator_modalities = {"Agregador audiovisual europeu"}
+    european_av_aggregator_modalities = {"Agregador audiovisual europeu"}
+    national_archival_aggregator_modalities = {
+        "Agregador arquivístico nacional",
+        "Objeto digital em agregador arquivístico nacional",
+        "Registro descritivo em agregador arquivístico nacional",
+    }
+    aggregator_modalities = european_av_aggregator_modalities | national_archival_aggregator_modalities
     commercial_modalities = {"Catálogo comercial de licenciamento"}
     external_modalities = {"Plataforma externa de vídeo", "Plataforma externa especializada", "Outra superfície de acesso"}
 
@@ -446,6 +472,13 @@ def classify_access_regime(modalities, audiovisual_visibility):
     has_aggregator = bool(unique_set & aggregator_modalities)
     has_commercial = bool(unique_set & commercial_modalities)
     has_external = bool(unique_set & external_modalities)
+
+    if unique_set and unique_set <= national_archival_aggregator_modalities:
+        if unique_set == {"Objeto digital em agregador arquivístico nacional"}:
+            return "Acesso a objeto digital em agregador arquivístico nacional"
+        if unique_set == {"Registro descritivo em agregador arquivístico nacional"}:
+            return "Acesso descritivo por agregador arquivístico nacional"
+        return "Acesso misto descritivo/digital em agregador arquivístico nacional"
 
     if has_aggregator and not has_institutional and not has_commercial and not has_external:
         return "Acesso por agregador audiovisual europeu"

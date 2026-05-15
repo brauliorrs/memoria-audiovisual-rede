@@ -3,7 +3,7 @@ import pandas as pd
 from .ape import collect_ape_dataset
 from .ape_exports import build_ape_analysis_extra_sheets
 from .ape_exports import write_ape_analysis_outputs
-from .config import APE_CONTENT_PDF_URL, EUSCREEN_COLLECTIONS_URL, INA_INSTITUTION_URL, OUTPUT_DIR
+from .config import APE_CONTENT_PDF_URL, EUSCREEN_COLLECTIONS_URL, INA_INSTITUTION_URL, OUTPUT_DIR, PARES_HOME_URL
 from .excel_export import save_basic_excel_report
 from .euscreen import collect_euscreen_dataset
 from .euscreen_exports import build_euscreen_analysis_extra_sheets
@@ -11,12 +11,16 @@ from .euscreen_exports import write_euscreen_analysis_outputs
 from .ina import collect_ina_dataset
 from .ina_exports import build_ina_analysis_extra_sheets
 from .ina_exports import write_ina_analysis_outputs
-from .output_files import APE_OUTPUT_FILES, EUSCREEN_OUTPUT_FILES, INA_OUTPUT_FILES
+from .output_files import APE_OUTPUT_FILES, EUSCREEN_OUTPUT_FILES, INA_OUTPUT_FILES, PARES_OUTPUT_FILES
+from .pares import collect_pares_dataset
+from .pares_exports import build_pares_analysis_extra_sheets
+from .pares_exports import write_pares_analysis_outputs
 from .reporting import build_report_payload, save_csv, save_json_report, save_txt_report
 from .snapshot_metadata import (
     build_ape_snapshot_metadata,
     build_euscreen_snapshot_metadata,
     build_ina_snapshot_metadata,
+    build_pares_snapshot_metadata,
     save_snapshot_metadata_payload,
 )
 from .timeline import write_timeline_outputs
@@ -250,6 +254,82 @@ EUSCREEN_INTERNAL_PAGE_FIELDS = [
     "error",
 ]
 
+PARES_INSTITUTION_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "pares_detail_url",
+    "archive_type",
+    "external_url",
+    "website_available",
+    "content_available_in_source",
+]
+
+PARES_SUMMARY_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "pares_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "partner_domain",
+    "status",
+    "http_code",
+    "integrity_status",
+    "final_url",
+    "video_links_found_total",
+    "embedded_video_signals_total",
+    "candidate_internal_pages",
+    "priority_review",
+    "warning",
+    "error",
+]
+
+PARES_VIDEO_LINK_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "pares_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "platform",
+    "video_link",
+    "video_title",
+    "video_subject",
+    "video_description",
+    "video_published_at",
+]
+
+PARES_INTERNAL_PAGE_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "pares_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "internal_page",
+    "status",
+    "http_code",
+    "video_links_found",
+    "embedded_signals",
+    "warning",
+    "error",
+]
+
 
 def ensure_fields(rows, fieldnames):
     normalized = []
@@ -417,4 +497,23 @@ def run_euscreen_pipeline():
     )
 
 
-__all__ = ["run_pipeline", "run_ina_pipeline", "run_euscreen_pipeline"]
+def run_pares_pipeline():
+    _run_corpus_pipeline(
+        source_label="PARES",
+        source_url=PARES_HOME_URL,
+        collect_dataset=collect_pares_dataset,
+        institution_fields=PARES_INSTITUTION_FIELDS,
+        summary_fields=PARES_SUMMARY_FIELDS,
+        video_link_fields=PARES_VIDEO_LINK_FIELDS,
+        internal_page_fields=PARES_INTERNAL_PAGE_FIELDS,
+        output_files=PARES_OUTPUT_FILES,
+        analysis_output_writer=write_pares_analysis_outputs,
+        analysis_extra_sheets_builder=build_pares_analysis_extra_sheets,
+        snapshot_builder=build_pares_snapshot_metadata,
+        report_title="RELATORIO - PARES",
+        institutions_sheet_title="PARES Institutions",
+        generated_by="scripts/run_pares_pipeline.py",
+    )
+
+
+__all__ = ["run_pipeline", "run_ina_pipeline", "run_euscreen_pipeline", "run_pares_pipeline"]

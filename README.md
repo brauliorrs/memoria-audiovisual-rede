@@ -1,6 +1,6 @@
 # Plataforma aberta de curadoria e acesso à memória audiovisual em rede
 
-Projeto focado, nesta etapa, no fechamento europeu do observatório a partir do Archives Portal Europe (APE), do EUscreen e do Institut national de l'audiovisuel (INA) para:
+Projeto focado, nesta etapa, no fechamento europeu do observatório a partir do Archives Portal Europe (APE), do EUscreen, do PARES e do Institut national de l'audiovisuel (INA) para:
 
 - identificar instituições com conteúdo publicado no portal;
 - capturar a `Webpage` externa de cada instituição a partir da ficha do APE;
@@ -32,12 +32,13 @@ No observatório, essa pergunta é operacionalizada por variáveis como hospedag
 
 - `Corpus 1` — `APE`: agregador arquivístico continental europeu, composto por arquivos gerais com conteúdo publicado no Archives Portal Europe.
 - `Corpus 2` — `EUscreen`: agregador audiovisual europeu, usado para observar circulação transnacional em uma plataforma temática especializada.
-- `Corpus 3` — `INA`: corpus especializado em audiovisual, estruturado a partir do Institut national de l'audiovisuel.
+- `Corpus 3` — `PARES`: agregador nacional espanhol em modo experimental, incorporado após avaliação técnica da busca pública. Neste corpus, o resultado detectado pode ser `registro descritivo recuperado` ou `objeto digital detectado`.
+- `Corpus 4` — `INA`: corpus especializado em audiovisual, estruturado a partir do Institut national de l'audiovisuel.
 - Verificação de integridade do site institucional externo de cada corpus.
 - Detecção de links para plataformas de vídeo e sinais de mídia embutida.
 - Enriquecimento de links de vídeo com metadados básicos da página do vídeo.
 - Geração de relatórios em CSV, JSON, TXT e XLSX para cada corpus.
-- Interface Streamlit organizada por corpus, com abas próprias para `APE`, `EUscreen` e `INA`, além de uma visão geral comparativa do observatório.
+- Interface Streamlit organizada por corpus, com abas próprias para `APE`, `EUscreen`, `PARES` e `INA`, além de uma visão geral comparativa do observatório.
 
 ## Estratégia de expansão
 
@@ -63,6 +64,7 @@ No estado atual:
 
 - `APE` está enquadrado como `agregador arquivístico`;
 - `EUscreen` está enquadrado como `agregador audiovisual europeu`;
+- `PARES` está enquadrado como `agregador nacional europeu em modo experimental`;
 - `INA` está enquadrado como `arquivo/instituição arquivística`;
 - a interface permite trabalhar com o todo, por categoria analítica e por corpus individual, sem fundir esses níveis de análise.
 
@@ -98,6 +100,7 @@ Scripts principais:
 
 - `python scripts/run_observatory_cycle.py`
 - `python scripts/run_observatory_cycle.py --corpus ina`
+- `python scripts/evaluate_european_aggregators.py`
 - `python scripts/check_observatory_cycle.py`
 
 Artefatos globais do organismo:
@@ -109,6 +112,9 @@ Artefatos globais do organismo:
 - `data/output/observatorio_candidatos_descoberta.csv`
 - `data/output/observatorio_fila_expansao.csv`
 - `data/output/observatorio_resumo_fila_expansao.csv`
+- `data/output/observatorio_avaliacao_agregadores_europa.csv`
+- `data/output/observatorio_probes_agregadores_europa.csv`
+- `data/output/observatorio_resumo_agregadores_europa.csv`
 
 ## Fila automática de expansão
 
@@ -150,13 +156,17 @@ Decisões automáticas atuais:
 |   |-- build_ape_analytics.py
 |   |-- build_euscreen_analytics.py
 |   |-- build_ina_analytics.py
+|   |-- build_pares_analytics.py
 |   |-- check_ape_outputs.py
 |   |-- check_euscreen_outputs.py
 |   |-- check_ina_outputs.py
 |   |-- check_observatory_cycle.py
+|   |-- check_pares_outputs.py
+|   |-- evaluate_european_aggregators.py
 |   |-- run_euscreen_pipeline.py
 |   |-- run_ina_pipeline.py
 |   |-- run_observatory_cycle.py
+|   |-- run_pares_pipeline.py
 |   `-- run_pipeline.py
 |-- src/
 |   `-- memoria_audiovisual/
@@ -170,12 +180,15 @@ Decisões automáticas atuais:
 |       |-- crawler.py
 |       |-- dashboard_data.py
 |       |-- excel_export.py
+|       |-- european_aggregators.py
 |       |-- euscreen.py
 |       |-- euscreen_exports.py
 |       |-- geography.py
 |       |-- ina.py
 |       |-- ina_exports.py
 |       |-- output_files.py
+|       |-- pares.py
+|       |-- pares_exports.py
 |       |-- pipeline.py
 |       |-- snapshot_metadata.py
 |       |-- organism.py
@@ -195,13 +208,17 @@ py -m venv .venv
 .\.venv\Scripts\python.exe -m playwright install
 .\.venv\Scripts\python.exe scripts\run_pipeline.py
 .\.venv\Scripts\python.exe scripts\run_euscreen_pipeline.py
+.\\.venv\Scripts\python.exe scripts\run_pares_pipeline.py
 .\\.venv\Scripts\python.exe scripts\run_ina_pipeline.py
 .\.venv\Scripts\python.exe scripts\build_ape_analytics.py
 .\\.venv\Scripts\python.exe scripts\build_euscreen_analytics.py
+.\\.venv\Scripts\python.exe scripts\build_pares_analytics.py
 .\\.venv\Scripts\python.exe scripts\build_ina_analytics.py
 .\.venv\Scripts\python.exe scripts\check_ape_outputs.py
 .\\.venv\Scripts\python.exe scripts\check_euscreen_outputs.py
+.\\.venv\Scripts\python.exe scripts\check_pares_outputs.py
 .\\.venv\Scripts\python.exe scripts\check_ina_outputs.py
+.\.venv\Scripts\python.exe scripts\evaluate_european_aggregators.py
 .\.venv\Scripts\python.exe scripts\run_observatory_cycle.py
 .\.venv\Scripts\python.exe scripts\check_observatory_cycle.py
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
@@ -237,7 +254,7 @@ Os arquivos gerados ficam em `data/output/`:
 - `ape_relatorio.txt`
 - `ape_relatorio.xlsx`
 
-O `EUscreen` e o `INA` seguem a mesma convenção de nomes, trocando o prefixo `ape_` por `euscreen_` ou `ina_`, por exemplo:
+O `EUscreen`, o `PARES` e o `INA` seguem a mesma convenção de nomes, trocando o prefixo `ape_` por `euscreen_`, `pares_` ou `ina_`, por exemplo:
 
 - `euscreen_instituicoes.csv`
 - `euscreen_resumo_instituicoes.csv`
@@ -252,6 +269,20 @@ O `EUscreen` e o `INA` seguem a mesma convenção de nomes, trocando o prefixo `
 - `euscreen_sinais_possivel_extincao.csv`
 - `euscreen_snapshot_metadata.json`
 - `euscreen_relatorio.xlsx`
+
+- `pares_instituicoes.csv`
+- `pares_resumo_instituicoes.csv`
+- `pares_links_video.csv`
+- `pares_paginas_internas.csv`
+- `pares_resumo_instituicoes_analitico.csv`
+- `pares_catalogo_videos_analitico.csv`
+- `pares_resumo_modalidades_acesso.csv`
+- `pares_resumo_regimes_acesso.csv`
+- `pares_linha_do_tempo_corpus.csv`
+- `pares_linha_do_tempo_instituicoes.csv`
+- `pares_sinais_possivel_extincao.csv`
+- `pares_snapshot_metadata.json`
+- `pares_relatorio.xlsx`
 
 - `ina_instituicoes.csv`
 - `ina_resumo_instituicoes.csv`
@@ -287,7 +318,7 @@ O `EUscreen` e o `INA` seguem a mesma convenção de nomes, trocando o prefixo `
    - quadros históricos para acompanhar a linha do tempo das fontes e dos sinais de possível extinção.
 9. Quando os CSVs analíticos já existem em `data/output/`, a app prioriza essas saídas prontas e usa cálculo local apenas como fallback.
 10. A preparação dos dataframes do dashboard fica concentrada em `src/memoria_audiovisual/dashboard_data.py`, para reduzir lógica duplicada na interface.
-11. Os nomes das saídas do APE, do EUscreen e do INA ficam centralizados em `src/memoria_audiovisual/output_files.py`, para manter pipeline e interface sincronizadas.
+11. Os nomes das saídas do APE, do EUscreen, do PARES e do INA ficam centralizados em `src/memoria_audiovisual/output_files.py`, para manter pipeline e interface sincronizadas.
 12. O ciclo mensal do organismo fica centralizado em `scripts/run_observatory_cycle.py`, com manifesto global em `data/output/observatorio_ciclo_mensal.json`.
 
 ## Qualidade do repositório
@@ -301,4 +332,4 @@ O `EUscreen` e o `INA` seguem a mesma convenção de nomes, trocando o prefixo `
 
 ## Próximo passo sugerido
 
-Concluir a leitura europeia com `Archives Hub`, `FranceArchives` e `PARES`, mantendo cada fonte como unidade separada e avaliando se retorna evidência audiovisual detectável antes de abrir a América do Sul.
+Validar o corpus experimental `PARES` em mais rodadas e, depois, resolver os protocolos técnicos de `Archives Hub` e `FranceArchives` antes de abrir sistematicamente a América do Sul.

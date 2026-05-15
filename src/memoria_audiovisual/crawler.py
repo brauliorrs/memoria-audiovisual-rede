@@ -194,6 +194,9 @@ def is_probably_video_link(url, platform=None):
         query = parse_qs(parsed.query)
         return bool(query.get("item_id")) or path.endswith("/item.html")
 
+    if platform == "PARES":
+        return "/paresbusquedas20/catalogo/description/" in path or "/paresbusquedas20/catalogo/show/" in path
+
     return any(hint in path for hint in EMBED_HINTS)
 
 

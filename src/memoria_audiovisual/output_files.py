@@ -1,4 +1,4 @@
-from .config import APE_OUTPUT_PREFIX, EUSCREEN_OUTPUT_PREFIX, INA_OUTPUT_PREFIX
+from .config import APE_OUTPUT_PREFIX, EUSCREEN_OUTPUT_PREFIX, INA_OUTPUT_PREFIX, PARES_OUTPUT_PREFIX
 
 
 def _csv(prefix, name):
@@ -53,6 +53,7 @@ def list_output_filenames(output_files):
 APE_OUTPUT_FILES = build_output_files(APE_OUTPUT_PREFIX)
 INA_OUTPUT_FILES = build_output_files(INA_OUTPUT_PREFIX)
 EUSCREEN_OUTPUT_FILES = build_output_files(EUSCREEN_OUTPUT_PREFIX)
+PARES_OUTPUT_FILES = build_output_files(PARES_OUTPUT_PREFIX)
 
 
 def list_ape_output_filenames():
@@ -67,13 +68,19 @@ def list_euscreen_output_filenames():
     return list_output_filenames(EUSCREEN_OUTPUT_FILES)
 
 
+def list_pares_output_filenames():
+    return list_output_filenames(PARES_OUTPUT_FILES)
+
+
 __all__ = [
     "APE_OUTPUT_FILES",
     "EUSCREEN_OUTPUT_FILES",
     "INA_OUTPUT_FILES",
+    "PARES_OUTPUT_FILES",
     "build_output_files",
     "list_ape_output_filenames",
     "list_euscreen_output_filenames",
     "list_ina_output_filenames",
+    "list_pares_output_filenames",
     "list_output_filenames",
 ]

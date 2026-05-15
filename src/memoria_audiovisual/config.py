@@ -21,6 +21,8 @@ EUSCREEN_COLLECTIONS_URL = "https://euscreen.eu/collections/"
 EUSCREEN_EUROPEANA_URL = "https://euscreen.eu/europeana/"
 EUSCREEN_COLLECTION_GRID_URL_TEMPLATE = "https://euscreen.eu/collection-grid-{index}/?btn={index}&gridcols=3"
 EUSCREEN_ITEM_URL_TEMPLATE = "https://www.euscreen.eu/?page_id=388&item_id={item_id}"
+PARES_HOME_URL = "https://pares.cultura.gob.es/"
+PARES_SEARCH_URL_TEMPLATE = "https://pares.mcu.es/ParesBusquedas20/catalogo/find?nm=&texto={query}"
 APE_FIND_URL = "https://www.archivesportaleurope.net/find-an-institution/"
 APE_CONTENT_PDF_URL = "https://www.archivesportaleurope.net/uploads/files/20251215_OnlyInstitutionsWithContent.pdf"
 APE_ALL_INSTITUTIONS_PDF_URL = "https://www.archivesportaleurope.net/uploads/files/20251215_AllInstitutions.pdf"
@@ -54,6 +56,8 @@ VIDEO_PLATFORMS = {
     "mediaclip.ina.fr": "Mediaclip INA",
     "euscreen.eu": "EUscreen",
     "www.euscreen.eu": "EUscreen",
+    "pares.mcu.es": "PARES",
+    "pares.cultura.gob.es": "PARES",
 }
 
 VIDEO_HINTS_IN_URL = [
@@ -90,4 +94,5 @@ CCAAA_OUTPUT_PREFIX = "ccaaa"
 APE_OUTPUT_PREFIX = "ape"
 INA_OUTPUT_PREFIX = "ina"
 EUSCREEN_OUTPUT_PREFIX = "euscreen"
+PARES_OUTPUT_PREFIX = "pares"
 OUTPUT_DIR = ROOT_DIR / "data" / "output"

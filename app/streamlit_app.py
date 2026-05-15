@@ -29,6 +29,11 @@ from memoria_audiovisual.discovery import (
     build_discovery_summary,
     build_expansion_queue,
 )
+from memoria_audiovisual.european_aggregators import (
+    EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
+    EUROPEAN_AGGREGATOR_PROBES_FILENAME,
+    EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
+)
 from memoria_audiovisual.dashboard_data import (
     DASHBOARD_SOURCE_KEYS,
     build_dashboard_base_data,
@@ -783,6 +788,9 @@ def render_observatory_overview_tab():
     discovery_registry_df = load_csv(DISCOVERY_REGISTRY_FILENAME)
     discovery_queue_df = load_csv(DISCOVERY_QUEUE_FILENAME)
     discovery_summary_df = load_csv(DISCOVERY_SUMMARY_FILENAME)
+    european_aggregator_evaluation_df = load_csv(EUROPEAN_AGGREGATOR_EVALUATION_FILENAME)
+    european_aggregator_probes_df = load_csv(EUROPEAN_AGGREGATOR_PROBES_FILENAME)
+    european_aggregator_summary_df = load_csv(EUROPEAN_AGGREGATOR_SUMMARY_FILENAME)
     cycle_timeline_df = load_csv(ORGANISM_CYCLE_TIMELINE_FILENAME)
     cycle_results_df = load_csv(ORGANISM_CYCLE_RESULTS_FILENAME)
     global_corpus_timeline_df = build_cross_corpus_history_frame("timeline_corpus")
@@ -1183,6 +1191,137 @@ def render_observatory_overview_tab():
             DISCOVERY_REGISTRY_FILENAME,
             "Exporta o registro completo de candidatos e unidades já incorporadas ao organismo.",
         )
+
+    st.markdown("### Avaliação técnica dos agregadores europeus candidatos")
+    st.caption(
+        "Esta camada não incorpora novos corpora automaticamente. Ela observa a superfície pública de "
+        "Archives Hub, FranceArchives e PARES para decidir, com evidência registrada, qual fonte pode "
+        "seguir para pipeline experimental e qual exige protocolo técnico adicional."
+    )
+    if european_aggregator_evaluation_df is None or european_aggregator_evaluation_df.empty:
+        st.info(
+            "A avaliação técnica dos agregadores europeus ainda não foi materializada. "
+            "Execute `python scripts/evaluate_european_aggregators.py` ou o ciclo do organismo."
+        )
+    else:
+        ready_count = int(
+            (
+                european_aggregator_evaluation_df.get("candidate_status", pd.Series(dtype="object"))
+                == "pronto_para_pipeline_experimental"
+            ).sum()
+        )
+        protocol_count = int(
+            (
+                european_aggregator_evaluation_df.get("candidate_status", pd.Series(dtype="object"))
+                == "requer_protocolo_de_acesso"
+            ).sum()
+        )
+        result_total = int(
+            pd.to_numeric(
+                european_aggregator_evaluation_df.get("search_result_count_total", pd.Series(dtype="int")),
+                errors="coerce",
+            )
+            .fillna(0)
+            .sum()
+        )
+        blocked_probe_total = int(
+            pd.to_numeric(
+                european_aggregator_evaluation_df.get("blocked_probe_count", pd.Series(dtype="int")),
+                errors="coerce",
+            )
+            .fillna(0)
+            .sum()
+        )
+        european_eval_metric_cols = st.columns(4)
+        european_eval_metric_cols[0].metric("Agregadores avaliados", len(european_aggregator_evaluation_df))
+        european_eval_metric_cols[1].metric("Prontos para pipeline experimental", ready_count)
+        european_eval_metric_cols[2].metric("Exigem protocolo técnico", protocol_count)
+        european_eval_metric_cols[3].metric("Resultados preliminares", result_total)
+
+        evaluation_display_df = european_aggregator_evaluation_df.rename(
+            columns={
+                "label": "agregador",
+                "country_scope": "país/escopo",
+                "coverage_level": "escala",
+                "access_model": "modelo de acesso observado",
+                "candidate_status": "status metodológico",
+                "audiovisual_probe_terms": "termos sondados",
+                "search_result_count_total": "resultados preliminares",
+                "successful_probe_terms": "termos com resultado",
+                "blocked_probe_terms": "termos bloqueados",
+                "ingestion_recommendation": "recomendação de ingestão",
+                "next_step": "próximo passo",
+                "evaluated_at": "avaliado em",
+                "best_probe_url": "melhor URL de sondagem",
+            }
+        )
+        st.dataframe(
+            evaluation_display_df[
+                [
+                    "agregador",
+                    "país/escopo",
+                    "escala",
+                    "modelo de acesso observado",
+                    "status metodológico",
+                    "termos sondados",
+                    "resultados preliminares",
+                    "termos com resultado",
+                    "termos bloqueados",
+                    "recomendação de ingestão",
+                    "próximo passo",
+                    "avaliado em",
+                    "melhor URL de sondagem",
+                ]
+            ],
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        with st.expander("Ver sondagens técnicas executadas", expanded=False):
+            st.caption(
+                f"As sondagens registram códigos HTTP, bloqueios por JS/cookies, problemas de TLS "
+                f"e contagens preliminares. Total de sondagens bloqueadas: {blocked_probe_total}."
+            )
+            if european_aggregator_summary_df is not None and not european_aggregator_summary_df.empty:
+                st.dataframe(european_aggregator_summary_df, use_container_width=True, hide_index=True)
+            if european_aggregator_probes_df is not None and not european_aggregator_probes_df.empty:
+                probe_display_df = european_aggregator_probes_df.rename(
+                    columns={
+                        "label": "agregador",
+                        "probe_type": "tipo de sondagem",
+                        "query": "termo",
+                        "http_status": "HTTP",
+                        "access_status": "status de acesso",
+                        "js_cookie_required": "exige JS/cookies",
+                        "tls_verification_failed": "falha TLS",
+                        "result_count": "resultados",
+                        "final_url": "URL final",
+                        "methodological_note": "nota metodológica",
+                    }
+                )
+                st.dataframe(probe_display_df, use_container_width=True, hide_index=True)
+        european_download_cols = st.columns(3)
+        with european_download_cols[0]:
+            render_csv_download(
+                "Baixar avaliação dos agregadores europeus",
+                european_aggregator_evaluation_df,
+                EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
+                "Exporta a síntese metodológica por agregador europeu candidato.",
+            )
+        with european_download_cols[1]:
+            render_csv_download(
+                "Baixar sondagens técnicas",
+                european_aggregator_probes_df,
+                EUROPEAN_AGGREGATOR_PROBES_FILENAME,
+                "Exporta cada sondagem executada nas superfícies públicas dos agregadores.",
+            )
+        with european_download_cols[2]:
+            render_csv_download(
+                "Baixar resumo da avaliação europeia",
+                european_aggregator_summary_df,
+                EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
+                "Exporta a síntese dos estados metodológicos observados.",
+            )
 
     chart_cols = st.columns(3)
     chart_base = overview_df.set_index("corpus")
