@@ -3014,11 +3014,16 @@ def render_corpus_tab(corpus_def):
         f"Unidade do observatório: {corpus_def['scope']}."
     )
     if snapshot_metadata:
-        source_status_date = normalize_optional_text(snapshot_metadata.get("source_status_date")) or "-"
+        source_status_date = normalize_optional_text(snapshot_metadata.get("source_status_date"))
+        source_status_text = (
+            f"Fonte-base com status de {source_status_date}."
+            if source_status_date
+            else "Fonte-base sem data pública de status declarada nos metadados."
+        )
         analytic_updated_at = format_snapshot_timestamp(snapshot_metadata.get("analytic_outputs_last_modified_at")) or "-"
         metadata_generated_at = format_snapshot_timestamp(snapshot_metadata.get("generated_at")) or "-"
         st.caption(
-            f"Fonte-base com status de {source_status_date}. "
+            f"{source_status_text} "
             f"Camada analítica atualizada em {analytic_updated_at}. "
             f"Metadados da rodada gerados em {metadata_generated_at}."
         )
