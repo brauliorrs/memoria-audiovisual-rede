@@ -36,7 +36,10 @@ from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
 )
-from memoria_audiovisual.european_protocols import FRANCEARCHIVES_PROTOCOL_FILENAME
+from memoria_audiovisual.european_protocols import (
+    ARCHIVESHUB_PROTOCOL_FILENAME,
+    FRANCEARCHIVES_PROTOCOL_FILENAME,
+)
 from memoria_audiovisual.dashboard_data import (
     DASHBOARD_SOURCE_KEYS,
     build_dashboard_base_data,
@@ -796,6 +799,7 @@ def render_observatory_overview_tab():
     european_aggregator_probes_df = load_csv(EUROPEAN_AGGREGATOR_PROBES_FILENAME)
     european_aggregator_protocols_df = load_csv(EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME)
     european_aggregator_summary_df = load_csv(EUROPEAN_AGGREGATOR_SUMMARY_FILENAME)
+    archiveshub_protocol_df = load_csv(ARCHIVESHUB_PROTOCOL_FILENAME)
     francearchives_protocol_df = load_csv(FRANCEARCHIVES_PROTOCOL_FILENAME)
     cycle_timeline_df = load_csv(ORGANISM_CYCLE_TIMELINE_FILENAME)
     cycle_results_df = load_csv(ORGANISM_CYCLE_RESULTS_FILENAME)
@@ -1370,6 +1374,49 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
 
+        if archiveshub_protocol_df is not None and not archiveshub_protocol_df.empty:
+            with st.expander("Protótipo leve do protocolo Archives Hub", expanded=False):
+                st.caption(
+                    "Este quadro testa SRU e OAI-PMH em modo mínimo, sem promover o Archives Hub "
+                    "a corpus ativo enquanto a rota de acesso não estiver estável."
+                )
+                archiveshub_protocol_display_df = archiveshub_protocol_df.rename(
+                    columns={
+                        "probe_label": "sondagem",
+                        "method": "método",
+                        "http_status": "HTTP",
+                        "content_type": "tipo de conteúdo",
+                        "content_length": "tamanho informado",
+                        "access_status": "status de acesso",
+                        "evidence_signal": "sinal observado",
+                        "observed_value": "valor observado",
+                        "protocol_conclusion": "conclusão do protocolo",
+                        "next_step": "próximo passo",
+                        "methodological_note": "nota metodológica",
+                        "url": "URL",
+                    }
+                )
+                st.dataframe(
+                    archiveshub_protocol_display_df[
+                        [
+                            "sondagem",
+                            "método",
+                            "HTTP",
+                            "tipo de conteúdo",
+                            "tamanho informado",
+                            "status de acesso",
+                            "sinal observado",
+                            "valor observado",
+                            "conclusão do protocolo",
+                            "próximo passo",
+                            "nota metodológica",
+                            "URL",
+                        ]
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
         if francearchives_protocol_df is not None and not francearchives_protocol_df.empty:
             with st.expander("Protótipo leve do protocolo FranceArchives", expanded=False):
                 st.caption(
@@ -1436,7 +1483,7 @@ def render_observatory_overview_tab():
                     }
                 )
                 st.dataframe(probe_display_df, use_container_width=True, hide_index=True)
-        european_download_cols = st.columns(6)
+        european_download_cols = st.columns(7)
         with european_download_cols[0]:
             render_csv_download(
                 "Baixar avaliação dos agregadores europeus",
@@ -1467,12 +1514,19 @@ def render_observatory_overview_tab():
             )
         with european_download_cols[4]:
             render_csv_download(
+                "Baixar protocolo Archives Hub",
+                archiveshub_protocol_df,
+                ARCHIVESHUB_PROTOCOL_FILENAME,
+                "Exporta o protótipo leve de validação técnica do Archives Hub.",
+            )
+        with european_download_cols[5]:
+            render_csv_download(
                 "Baixar protocolo FranceArchives",
                 francearchives_protocol_df,
                 FRANCEARCHIVES_PROTOCOL_FILENAME,
                 "Exporta o protótipo leve de validação técnica do FranceArchives.",
             )
-        with european_download_cols[5]:
+        with european_download_cols[6]:
             render_csv_download(
                 "Baixar resumo da avaliação europeia",
                 european_aggregator_summary_df,

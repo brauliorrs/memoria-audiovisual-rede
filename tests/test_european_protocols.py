@@ -3,11 +3,14 @@ import unittest
 from pathlib import Path
 
 from memoria_audiovisual.european_protocols import (
+    ARCHIVESHUB_PROTOCOL_FILENAME,
     FRANCEARCHIVES_PROTOCOL_FILENAME,
+    build_archiveshub_protocol_probe,
     build_francearchives_protocol_probe,
     detect_dump_url,
     detect_js_redirect,
     parse_api_observation,
+    write_archiveshub_protocol_probe,
     write_francearchives_protocol_probe,
 )
 
@@ -99,6 +102,56 @@ class EuropeanProtocolsTests(unittest.TestCase):
             set(protocol_df["protocol_conclusion"]),
         )
 
+    def test_build_archiveshub_protocol_probe_classifies_blocked_routes(self):
+        def fake_fetcher(url, method="GET"):
+            return {
+                "http_status": 403,
+                "final_url": url,
+                "content_type": "text/html",
+                "content_length": "128",
+                "text": "Forbidden",
+                "tls_verification_failed": False,
+                "error": "",
+            }
+
+        protocol_df = build_archiveshub_protocol_probe(
+            fetcher=fake_fetcher,
+            evaluated_at="2026-05-15T00:00:00Z",
+        )
+
+        self.assertEqual(len(protocol_df), 5)
+        self.assertIn(
+            "sru_documentado_mas_bloqueado_na_sondagem_simples",
+            set(protocol_df["protocol_conclusion"]),
+        )
+        self.assertIn(
+            "oaipmh_documentado_mas_bloqueado_na_sondagem_simples",
+            set(protocol_df["protocol_conclusion"]),
+        )
+
+    def test_build_archiveshub_protocol_probe_recognizes_accessible_api_reference(self):
+        def fake_fetcher(url, method="GET"):
+            return {
+                "http_status": 200,
+                "final_url": url,
+                "content_type": "text/html",
+                "content_length": "128",
+                "text": "The Archives Hub APIs include SRU and OAI-PMH.",
+                "tls_verification_failed": False,
+                "error": "",
+            }
+
+        protocol_df = build_archiveshub_protocol_probe(
+            fetcher=fake_fetcher,
+            evaluated_at="2026-05-15T00:00:00Z",
+        )
+        reference_row = protocol_df.loc[protocol_df["probe"] == "api_reference_page"].iloc[0]
+
+        self.assertEqual(
+            reference_row["protocol_conclusion"],
+            "documentacao_publica_confirma_sru_e_oaipmh",
+        )
+
     def test_write_francearchives_protocol_probe_creates_csv(self):
         def fake_fetcher(url, method="GET"):
             return {
@@ -116,6 +169,25 @@ class EuropeanProtocolsTests(unittest.TestCase):
             protocol_df = write_francearchives_protocol_probe(output_dir, fetcher=fake_fetcher)
 
             self.assertTrue((output_dir / FRANCEARCHIVES_PROTOCOL_FILENAME).exists())
+            self.assertFalse(protocol_df.empty)
+
+    def test_write_archiveshub_protocol_probe_creates_csv(self):
+        def fake_fetcher(url, method="GET"):
+            return {
+                "http_status": 403,
+                "final_url": url,
+                "content_type": "text/html",
+                "content_length": "128",
+                "text": "Forbidden",
+                "tls_verification_failed": False,
+                "error": "",
+            }
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_dir = Path(tmp_dir)
+            protocol_df = write_archiveshub_protocol_probe(output_dir, fetcher=fake_fetcher)
+
+            self.assertTrue((output_dir / ARCHIVESHUB_PROTOCOL_FILENAME).exists())
             self.assertFalse(protocol_df.empty)
 
 

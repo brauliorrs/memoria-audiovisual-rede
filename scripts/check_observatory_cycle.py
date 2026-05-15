@@ -24,7 +24,10 @@ from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
 )
-from memoria_audiovisual.european_protocols import FRANCEARCHIVES_PROTOCOL_FILENAME
+from memoria_audiovisual.european_protocols import (
+    ARCHIVESHUB_PROTOCOL_FILENAME,
+    FRANCEARCHIVES_PROTOCOL_FILENAME,
+)
 from memoria_audiovisual.organism import (
     ORGANISM_ACTIVE_CORPORA_FILENAME,
     ORGANISM_CYCLE_RESULTS_FILENAME,
@@ -53,6 +56,7 @@ def main():
     european_aggregator_probes_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_PROBES_FILENAME
     european_aggregator_protocols_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME
     european_aggregator_summary_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_SUMMARY_FILENAME
+    archiveshub_protocol_path = OUTPUT_DIR / ARCHIVESHUB_PROTOCOL_FILENAME
     francearchives_protocol_path = OUTPUT_DIR / FRANCEARCHIVES_PROTOCOL_FILENAME
 
     required_paths = [
@@ -68,6 +72,7 @@ def main():
         (european_aggregator_probes_path, "Sondagens dos agregadores europeus candidatos"),
         (european_aggregator_protocols_path, "Protocolos dos agregadores europeus candidatos"),
         (european_aggregator_summary_path, "Resumo dos agregadores europeus candidatos"),
+        (archiveshub_protocol_path, "Prototipo de protocolo Archives Hub"),
         (francearchives_protocol_path, "Prototipo de protocolo FranceArchives"),
     ]
     for path, label in required_paths:
@@ -87,6 +92,7 @@ def main():
     european_aggregator_probes_df = pd.read_csv(european_aggregator_probes_path)
     european_aggregator_protocols_df = pd.read_csv(european_aggregator_protocols_path)
     european_aggregator_summary_df = pd.read_csv(european_aggregator_summary_path)
+    archiveshub_protocol_df = pd.read_csv(archiveshub_protocol_path)
     francearchives_protocol_df = pd.read_csv(francearchives_protocol_path)
     active_corpora = list_active_corpora(monthly_only=True)
 
@@ -110,6 +116,7 @@ def main():
     print(f"- sondagens europeias registradas: {len(european_aggregator_probes_df)}")
     print(f"- protocolos europeus registrados: {len(european_aggregator_protocols_df)}")
     print(f"- estados europeus sumarizados: {len(european_aggregator_summary_df)}")
+    print(f"- sondagens do protocolo Archives Hub: {len(archiveshub_protocol_df)}")
     print(f"- sondagens do protocolo FranceArchives: {len(francearchives_protocol_df)}")
 
     result_codes = {result["code"] for result in manifest.get("cycle_results", [])}
@@ -147,6 +154,10 @@ def main():
         print("- a matriz de protocolos dos agregadores europeus esta vazia")
         return 1
 
+    if archiveshub_protocol_df.empty:
+        print("- o prototipo de protocolo Archives Hub esta vazio")
+        return 1
+
     if francearchives_protocol_df.empty:
         print("- o prototipo de protocolo FranceArchives esta vazio")
         return 1
@@ -154,6 +165,7 @@ def main():
     print("- todos os corpora ativos aparecem no manifesto do ciclo")
     print("- a fila automatica de expansao foi materializada com sucesso")
     print("- a avaliacao e os protocolos dos agregadores europeus foram materializados com sucesso")
+    print("- o prototipo de protocolo Archives Hub foi materializado com sucesso")
     print("- o prototipo de protocolo FranceArchives foi materializado com sucesso")
     return 0
 
