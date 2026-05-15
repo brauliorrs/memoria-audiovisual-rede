@@ -24,6 +24,10 @@ from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
 )
+from memoria_audiovisual.europe_closure import (
+    EUROPE_CLOSURE_MATRIX_FILENAME,
+    EUROPE_CLOSURE_SUMMARY_FILENAME,
+)
 from memoria_audiovisual.european_protocols import (
     ARCHIVESHUB_PROTOCOL_FILENAME,
     FRANCEARCHIVES_PROTOCOL_FILENAME,
@@ -58,6 +62,8 @@ def main():
     european_aggregator_summary_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_SUMMARY_FILENAME
     archiveshub_protocol_path = OUTPUT_DIR / ARCHIVESHUB_PROTOCOL_FILENAME
     francearchives_protocol_path = OUTPUT_DIR / FRANCEARCHIVES_PROTOCOL_FILENAME
+    europe_closure_matrix_path = OUTPUT_DIR / EUROPE_CLOSURE_MATRIX_FILENAME
+    europe_closure_summary_path = OUTPUT_DIR / EUROPE_CLOSURE_SUMMARY_FILENAME
 
     required_paths = [
         (cycle_manifest_path, "Manifesto do ciclo mensal"),
@@ -74,6 +80,8 @@ def main():
         (european_aggregator_summary_path, "Resumo dos agregadores europeus candidatos"),
         (archiveshub_protocol_path, "Prototipo de protocolo Archives Hub"),
         (francearchives_protocol_path, "Prototipo de protocolo FranceArchives"),
+        (europe_closure_matrix_path, "Matriz de fechamento europeu"),
+        (europe_closure_summary_path, "Resumo de fechamento europeu"),
     ]
     for path, label in required_paths:
         if not path.exists():
@@ -94,6 +102,8 @@ def main():
     european_aggregator_summary_df = pd.read_csv(european_aggregator_summary_path)
     archiveshub_protocol_df = pd.read_csv(archiveshub_protocol_path)
     francearchives_protocol_df = pd.read_csv(francearchives_protocol_path)
+    europe_closure_matrix_df = pd.read_csv(europe_closure_matrix_path)
+    europe_closure_summary_df = pd.read_csv(europe_closure_summary_path)
     active_corpora = list_active_corpora(monthly_only=True)
 
     print("Validacao do ciclo mensal do organismo")
@@ -118,6 +128,8 @@ def main():
     print(f"- estados europeus sumarizados: {len(european_aggregator_summary_df)}")
     print(f"- sondagens do protocolo Archives Hub: {len(archiveshub_protocol_df)}")
     print(f"- sondagens do protocolo FranceArchives: {len(francearchives_protocol_df)}")
+    print(f"- unidades na matriz de fechamento europeu: {len(europe_closure_matrix_df)}")
+    print(f"- criterios de fechamento europeu: {len(europe_closure_summary_df)}")
 
     result_codes = {result["code"] for result in manifest.get("cycle_results", [])}
     expected_codes = set(
@@ -162,11 +174,16 @@ def main():
         print("- o prototipo de protocolo FranceArchives esta vazio")
         return 1
 
+    if europe_closure_matrix_df.empty or europe_closure_summary_df.empty:
+        print("- o fechamento europeu nao foi materializado corretamente")
+        return 1
+
     print("- todos os corpora ativos aparecem no manifesto do ciclo")
     print("- a fila automatica de expansao foi materializada com sucesso")
     print("- a avaliacao e os protocolos dos agregadores europeus foram materializados com sucesso")
     print("- o prototipo de protocolo Archives Hub foi materializado com sucesso")
     print("- o prototipo de protocolo FranceArchives foi materializado com sucesso")
+    print("- o fechamento europeu foi materializado com sucesso")
     return 0
 
 

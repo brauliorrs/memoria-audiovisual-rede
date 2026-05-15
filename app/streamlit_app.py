@@ -36,6 +36,10 @@ from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
 )
+from memoria_audiovisual.europe_closure import (
+    EUROPE_CLOSURE_MATRIX_FILENAME,
+    EUROPE_CLOSURE_SUMMARY_FILENAME,
+)
 from memoria_audiovisual.european_protocols import (
     ARCHIVESHUB_PROTOCOL_FILENAME,
     FRANCEARCHIVES_PROTOCOL_FILENAME,
@@ -799,6 +803,8 @@ def render_observatory_overview_tab():
     european_aggregator_probes_df = load_csv(EUROPEAN_AGGREGATOR_PROBES_FILENAME)
     european_aggregator_protocols_df = load_csv(EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME)
     european_aggregator_summary_df = load_csv(EUROPEAN_AGGREGATOR_SUMMARY_FILENAME)
+    europe_closure_matrix_df = load_csv(EUROPE_CLOSURE_MATRIX_FILENAME)
+    europe_closure_summary_df = load_csv(EUROPE_CLOSURE_SUMMARY_FILENAME)
     archiveshub_protocol_df = load_csv(ARCHIVESHUB_PROTOCOL_FILENAME)
     francearchives_protocol_df = load_csv(FRANCEARCHIVES_PROTOCOL_FILENAME)
     cycle_timeline_df = load_csv(ORGANISM_CYCLE_TIMELINE_FILENAME)
@@ -1533,6 +1539,64 @@ def render_observatory_overview_tab():
                 EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
                 "Exporta a síntese dos estados metodológicos observados.",
             )
+
+    st.markdown("### Fechamento europeu")
+    st.caption(
+        "Este quadro explicita o estado metodológico da etapa Europa. Ele não afirma que todo "
+        "audiovisual europeu foi localizado; registra quais unidades já operam como corpus e quais "
+        "permanecem como protocolos rastreados."
+    )
+    if europe_closure_summary_df is None or europe_closure_summary_df.empty:
+        st.info(
+            "O relatório de fechamento europeu ainda não foi materializado. "
+            "Execute `python scripts/build_europe_closure_report.py` ou o ciclo do organismo."
+        )
+    else:
+        closure_status = (
+            europe_closure_summary_df.loc[
+                europe_closure_summary_df["criterion"] == "abertura_do_proximo_continente",
+                "status",
+            ]
+            .astype(str)
+            .head(1)
+            .tolist()
+        )
+        active_units = 0
+        pending_units = 0
+        if europe_closure_matrix_df is not None and not europe_closure_matrix_df.empty:
+            active_units = int((europe_closure_matrix_df["unit_type"] == "corpus_ativo").sum())
+            pending_units = int((europe_closure_matrix_df["unit_type"] == "agregador_candidato").sum())
+
+        closure_cols = st.columns(3)
+        closure_cols[0].metric("Corpora europeus ativos", active_units)
+        closure_cols[1].metric("Candidatos com protocolo", pending_units)
+        closure_cols[2].metric(
+            "Próxima etapa",
+            closure_status[0].replace("_", " ") if closure_status else "-",
+        )
+
+        closure_tab_summary, closure_tab_matrix = st.tabs(
+            ["Critérios de fechamento", "Matriz europeia"]
+        )
+        with closure_tab_summary:
+            st.dataframe(europe_closure_summary_df, use_container_width=True, hide_index=True)
+            render_csv_download(
+                "Baixar resumo de fechamento europeu",
+                europe_closure_summary_df,
+                EUROPE_CLOSURE_SUMMARY_FILENAME,
+                "Exporta os critérios metodológicos usados para liberar a próxima etapa continental.",
+            )
+        with closure_tab_matrix:
+            if europe_closure_matrix_df is None or europe_closure_matrix_df.empty:
+                st.info("A matriz de fechamento europeu ainda não foi materializada.")
+            else:
+                st.dataframe(europe_closure_matrix_df, use_container_width=True, hide_index=True)
+                render_csv_download(
+                    "Baixar matriz de fechamento europeu",
+                    europe_closure_matrix_df,
+                    EUROPE_CLOSURE_MATRIX_FILENAME,
+                    "Exporta a situação de cada corpus ou candidato europeu.",
+                )
 
     chart_cols = st.columns(3)
     chart_base = overview_df.set_index("corpus")

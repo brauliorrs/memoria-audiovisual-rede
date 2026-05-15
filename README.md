@@ -101,6 +101,7 @@ Scripts principais:
 - `python scripts/run_observatory_cycle.py`
 - `python scripts/run_observatory_cycle.py --corpus ina`
 - `python scripts/evaluate_european_aggregators.py`
+- `python scripts/build_europe_closure_report.py`
 - `python scripts/prototype_archiveshub_protocol.py`
 - `python scripts/prototype_francearchives_protocol.py`
 - `python scripts/check_observatory_cycle.py`
@@ -111,6 +112,8 @@ Artefatos globais do organismo:
 - `data/output/observatorio_corpora_ativos.csv`
 - `data/output/observatorio_linha_do_tempo_ciclos.csv`
 - `data/output/observatorio_resultados_ciclos.csv`
+- `data/output/observatorio_fechamento_europa.csv`
+- `data/output/observatorio_resumo_fechamento_europa.csv`
 - `data/output/observatorio_candidatos_descoberta.csv`
 - `data/output/observatorio_fila_expansao.csv`
 - `data/output/observatorio_resumo_fila_expansao.csv`
@@ -329,6 +332,7 @@ O `EUscreen`, o `PARES` e o `INA` seguem a mesma convenção de nomes, trocando 
 13. A avaliação europeia materializa rotas oficiais candidatas e uma matriz de protocolos para diferenciar agregadores prontos para pipeline experimental, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
 14. O protótipo `Archives Hub` testa a referência pública de APIs, SRU e OAI-PMH por chamadas leves, sem ativar o agregador como corpus.
 15. O protótipo `FranceArchives` testa página oficial, ficha do dataset, API e cabeçalho do dump por amostras leves, sem baixar o pacote XML nem ativar um novo corpus.
+16. O relatório de fechamento europeu separa corpora ativos de candidatos com protocolo pendente e autoriza a próxima etapa continental com cautela metodológica.
 
 ## Qualidade do repositório
 
@@ -341,4 +345,4 @@ O `EUscreen`, o `PARES` e o `INA` seguem a mesma convenção de nomes, trocando 
 
 ## Próximo passo sugerido
 
-Validar o corpus experimental `PARES` em mais rodadas e usar a matriz de protocolos para resolver `Archives Hub` e `FranceArchives` antes de abrir sistematicamente a América do Sul.
+Abrir a etapa América do Sul preservando, em paralelo, o monitoramento europeu de `Archives Hub`, `FranceArchives` e novas rodadas do `PARES`.

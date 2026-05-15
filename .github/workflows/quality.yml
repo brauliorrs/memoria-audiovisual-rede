@@ -33,6 +33,7 @@ jobs:
           python -m py_compile src/memoria_audiovisual/dashboard_data.py
           python -m py_compile src/memoria_audiovisual/discovery.py
           python -m py_compile src/memoria_audiovisual/european_aggregators.py
+          python -m py_compile src/memoria_audiovisual/europe_closure.py
           python -m py_compile src/memoria_audiovisual/european_protocols.py
           python -m py_compile src/memoria_audiovisual/euscreen.py
           python -m py_compile src/memoria_audiovisual/euscreen_exports.py
@@ -47,6 +48,7 @@ jobs:
           python -m py_compile scripts/build_euscreen_analytics.py
           python -m py_compile scripts/build_ina_analytics.py
           python -m py_compile scripts/build_pares_analytics.py
+          python -m py_compile scripts/build_europe_closure_report.py
           python -m py_compile scripts/check_ape_outputs.py
           python -m py_compile scripts/check_euscreen_outputs.py
           python -m py_compile scripts/check_ina_outputs.py
