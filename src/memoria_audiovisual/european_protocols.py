@@ -21,6 +21,12 @@ ARCHIVESHUB_PROTOCOL_RULE_VERSION = "2026-05-archiveshub-protocol-v1"
 FRANCEARCHIVES_PROTOCOL_FILENAME = "observatorio_protocolo_francearchives.csv"
 FRANCEARCHIVES_PROTOCOL_RULE_VERSION = "2026-05-francearchives-protocol-v1"
 
+EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME = "observatorio_protocolo_european_film_gateway.csv"
+EUROPEAN_FILM_GATEWAY_PROTOCOL_RULE_VERSION = "2026-05-european-film-gateway-protocol-v1"
+
+EUROPEANA_PROTOCOL_FILENAME = "observatorio_protocolo_europeana.csv"
+EUROPEANA_PROTOCOL_RULE_VERSION = "2026-05-europeana-protocol-v1"
+
 ARCHIVESHUB_API_REFERENCE_URL = "https://blog.archiveshub.jisc.ac.uk/category/apis/"
 ARCHIVESHUB_SRU_BASE_URL = "https://archiveshub.jisc.ac.uk/sru/"
 ARCHIVESHUB_SRU_SAMPLE_URL = (
@@ -42,6 +48,14 @@ FRANCEARCHIVES_DATASET_API_URL = (
 FRANCEARCHIVES_DUMP_URL = (
     "https://data-dump.francearchives.gouv.fr/ape-ead-eac/francearchives_ape_ead.zip"
 )
+
+EUROPEAN_FILM_GATEWAY_HOME_URL = "https://www.europeanfilmgateway.eu/"
+EUROPEAN_FILM_GATEWAY_SEARCH_FILM_URL = "https://www.europeanfilmgateway.eu/search-efg?searchString=film"
+EUROPEAN_FILM_GATEWAY_SEARCH_VIDEO_URL = "https://www.europeanfilmgateway.eu/search-efg?searchString=video"
+
+EUROPEANA_HOME_URL = "https://www.europeana.eu/"
+EUROPEANA_MEDIA_SEARCH_URL = "https://www.europeana.eu/en/search?query=film&media=true"
+EUROPEANA_API_REFERENCE_URL = "https://pro.europeana.eu/page/apis"
 
 FRANCEARCHIVES_PROTOCOL_COLUMNS = [
     "code",
@@ -66,6 +80,8 @@ FRANCEARCHIVES_PROTOCOL_COLUMNS = [
 ]
 
 ARCHIVESHUB_PROTOCOL_COLUMNS = FRANCEARCHIVES_PROTOCOL_COLUMNS
+EUROPEAN_FILM_GATEWAY_PROTOCOL_COLUMNS = FRANCEARCHIVES_PROTOCOL_COLUMNS
+EUROPEANA_PROTOCOL_COLUMNS = FRANCEARCHIVES_PROTOCOL_COLUMNS
 
 
 @dataclass(frozen=True)
@@ -79,6 +95,24 @@ class FranceArchivesProbe:
 
 @dataclass(frozen=True)
 class ArchivesHubProbe:
+    probe: str
+    probe_label: str
+    method: str
+    url: str
+    methodological_note: str
+
+
+@dataclass(frozen=True)
+class EuropeanFilmGatewayProbe:
+    probe: str
+    probe_label: str
+    method: str
+    url: str
+    methodological_note: str
+
+
+@dataclass(frozen=True)
+class EuropeanaProbe:
     probe: str
     probe_label: str
     method: str
@@ -175,6 +209,68 @@ FRANCEARCHIVES_PROTOCOL_PROBES = [
 ]
 
 
+EUROPEAN_FILM_GATEWAY_PROTOCOL_PROBES = [
+    EuropeanFilmGatewayProbe(
+        probe="home_page",
+        probe_label="Página inicial do European Film Gateway",
+        method="GET",
+        url=EUROPEAN_FILM_GATEWAY_HOME_URL,
+        methodological_note=(
+            "Verifica se o agregador audiovisual europeu responde por requisição simples."
+        ),
+    ),
+    EuropeanFilmGatewayProbe(
+        probe="search_film_sample",
+        probe_label="Busca pública pelo termo film",
+        method="GET",
+        url=EUROPEAN_FILM_GATEWAY_SEARCH_FILM_URL,
+        methodological_note=(
+            "Testa uma busca pública leve para verificar presença de resultados e categorias audiovisuais."
+        ),
+    ),
+    EuropeanFilmGatewayProbe(
+        probe="search_video_sample",
+        probe_label="Busca pública pelo termo video",
+        method="GET",
+        url=EUROPEAN_FILM_GATEWAY_SEARCH_VIDEO_URL,
+        methodological_note=(
+            "Testa termo complementar para distinguir ausência de resultado de fragilidade de indexação."
+        ),
+    ),
+]
+
+
+EUROPEANA_PROTOCOL_PROBES = [
+    EuropeanaProbe(
+        probe="home_page",
+        probe_label="Página inicial da Europeana",
+        method="GET",
+        url=EUROPEANA_HOME_URL,
+        methodological_note=(
+            "Verifica se o agregador cultural europeu responde por requisição simples."
+        ),
+    ),
+    EuropeanaProbe(
+        probe="media_search_sample",
+        probe_label="Busca pública com filtro de mídia",
+        method="GET",
+        url=EUROPEANA_MEDIA_SEARCH_URL,
+        methodological_note=(
+            "Testa a superfície pública com filtro de mídia, sem confundir acervo cultural geral com audiovisual."
+        ),
+    ),
+    EuropeanaProbe(
+        probe="api_reference_page",
+        probe_label="Documentação oficial de APIs",
+        method="GET",
+        url=EUROPEANA_API_REFERENCE_URL,
+        methodological_note=(
+            "Verifica se há rota técnica documentada para futura coleta controlada por API."
+        ),
+    ),
+]
+
+
 def utcnow_iso():
     return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
@@ -206,6 +302,29 @@ def parse_api_observation(text):
     results = payload.get("results", payload.get("records", []))
     result_count = len(results) if isinstance(results, list) else 0
     return f"total_count={total_count}; sample_records={result_count}"
+
+
+def parse_efg_observation(text):
+    normalized_text = _normalize_space(text)
+    video_match = re.search(r"Videos?\s*\(([\d,\.]+)\s+Results?\)", normalized_text, re.IGNORECASE)
+    if video_match:
+        return f"video_results={video_match.group(1)}"
+    if "your single access point" in normalized_text.lower() and "film archives across europe" in normalized_text.lower():
+        return "portal_declares_european_film_archive_aggregation"
+    return "sem_contagem_publica_detectada"
+
+
+def parse_europeana_observation(text):
+    normalized_text = _normalize_space(text)
+    result_match = re.search(r"([\d,\.]+)\s+results?", normalized_text, re.IGNORECASE)
+    if result_match:
+        return f"public_search_results={result_match.group(1)}"
+    lowered = normalized_text.lower()
+    if "api" in lowered and "europeana" in lowered:
+        return "api_documentation_detected"
+    if "media" in lowered or "film" in lowered:
+        return "media_surface_detected"
+    return "sem_sinal_especifico_detectado"
 
 
 def fetch_protocol_probe(url, method="GET", sample_bytes=524288):
@@ -339,6 +458,48 @@ def _build_archiveshub_protocol_conclusion(probe, access_status, content_type, t
     return "rota_sem_confirmacao_estavel", "retestar_em_rodada_posterior"
 
 
+def _build_european_film_gateway_protocol_conclusion(probe, access_status, content_type, text, observed_value):
+    normalized_text = str(text or "").lower()
+    if access_status == "acessivel":
+        if probe.probe == "home_page":
+            if "film archives across europe" in normalized_text or "european film gateway" in normalized_text:
+                return "portal_audiovisual_europeu_confirmado", "manter_como_agregador_audiovisual_prioritario"
+            return "pagina_inicial_acessivel_sem_autodeclaracao_suficiente", "revisar_evidencia_institucional"
+        if probe.probe.startswith("search_"):
+            if "video_results=" in observed_value:
+                return "busca_publica_responde_com_categoria_de_video", "prototipar_extracao_controlada_de_resultados"
+            return "busca_publica_acessivel_sem_contagem_detectada", "validar_parseamento_por_browser_ou_html_alternativo"
+        return "rota_acessivel_para_documentacao", "manter_rota_como_referencia_metodologica"
+
+    if access_status in {"bloqueado_por_js_ou_cookies", "restrito_ou_bloqueado"}:
+        return "rota_publica_bloqueada_na_sondagem_simples", "validar_por_browser_antes_de_decidir_ingestao"
+    if access_status == "falha_tecnica":
+        return "rota_publica_com_falha_tecnica_na_rodada", "retestar_e_separar_timeout_de_bloqueio"
+    return "rota_sem_confirmacao_estavel", "retestar_em_rodada_posterior"
+
+
+def _build_europeana_protocol_conclusion(probe, access_status, content_type, text, observed_value):
+    normalized_text = str(text or "").lower()
+    if access_status == "acessivel":
+        if probe.probe == "api_reference_page":
+            if "api" in normalized_text and "europeana" in normalized_text:
+                return "documentacao_publica_confirma_apis", "prototipar_consulta_controlada_por_midia_e_tipo_de_objeto"
+            return "pagina_api_acessivel_sem_sinal_suficiente", "revisar_referencia_documental"
+        if probe.probe == "media_search_sample":
+            if "public_search_results=" in observed_value or "media_surface_detected" in observed_value:
+                return "busca_publica_com_filtro_de_midia_confirmada", "separar_corpus_cultural_amplo_de_recorte_audiovisual"
+            return "busca_publica_acessivel_sem_sinal_de_midia_detectado", "validar_parseamento_por_browser_ou_api"
+        if probe.probe == "home_page":
+            return "portal_europeu_amplo_confirmado", "manter_como_agregador_supranacional_a_protocolar"
+        return "rota_acessivel_para_documentacao", "manter_rota_como_referencia_metodologica"
+
+    if access_status in {"bloqueado_por_js_ou_cookies", "restrito_ou_bloqueado"}:
+        return "rota_publica_bloqueada_na_sondagem_simples", "validar_por_browser_ou_api_documentada"
+    if access_status == "falha_tecnica":
+        return "rota_publica_com_falha_tecnica_na_rodada", "retestar_e_separar_timeout_de_bloqueio"
+    return "rota_sem_confirmacao_estavel", "retestar_em_rodada_posterior"
+
+
 def _build_archiveshub_protocol_row(probe, evaluated_at, fetcher=fetch_protocol_probe):
     fetched = fetcher(probe.url, probe.method)
     text = fetched.get("text", "")
@@ -451,6 +612,95 @@ def _build_francearchives_protocol_row(probe, evaluated_at, fetcher=fetch_protoc
     }
 
 
+def _build_european_film_gateway_protocol_row(probe, evaluated_at, fetcher=fetch_protocol_probe):
+    fetched = fetcher(probe.url, probe.method)
+    text = fetched.get("text", "")
+    access_status = classify_probe_access_status(
+        fetched.get("http_status"),
+        detect_js_cookie_requirement(text) or detect_js_redirect(text),
+        fetched.get("error", ""),
+    )
+
+    evidence_signal = "efg_public_search" if probe.probe.startswith("search_") else "page_access"
+    observed_value = parse_efg_observation(text) if access_status == "acessivel" else access_status
+    protocol_conclusion, next_step = _build_european_film_gateway_protocol_conclusion(
+        probe,
+        access_status,
+        fetched.get("content_type", ""),
+        text,
+        observed_value,
+    )
+
+    return {
+        "code": "european-film-gateway",
+        "label": "European Film Gateway",
+        "probe": probe.probe,
+        "probe_label": probe.probe_label,
+        "method": probe.method,
+        "url": probe.url,
+        "http_status": fetched.get("http_status", ""),
+        "final_url": fetched.get("final_url", probe.url),
+        "content_type": fetched.get("content_type", ""),
+        "content_length": fetched.get("content_length", ""),
+        "access_status": access_status,
+        "evidence_signal": evidence_signal,
+        "observed_value": observed_value,
+        "protocol_conclusion": protocol_conclusion,
+        "next_step": next_step,
+        "methodological_note": probe.methodological_note,
+        "evaluated_at": evaluated_at,
+        "rule_version": EUROPEAN_FILM_GATEWAY_PROTOCOL_RULE_VERSION,
+        "error": fetched.get("error", ""),
+    }
+
+
+def _build_europeana_protocol_row(probe, evaluated_at, fetcher=fetch_protocol_probe):
+    fetched = fetcher(probe.url, probe.method)
+    text = fetched.get("text", "")
+    access_status = classify_probe_access_status(
+        fetched.get("http_status"),
+        detect_js_cookie_requirement(text) or detect_js_redirect(text),
+        fetched.get("error", ""),
+    )
+
+    if probe.probe == "api_reference_page":
+        evidence_signal = "api_reference"
+    elif probe.probe == "media_search_sample":
+        evidence_signal = "media_search"
+    else:
+        evidence_signal = "page_access"
+    observed_value = parse_europeana_observation(text) if access_status == "acessivel" else access_status
+    protocol_conclusion, next_step = _build_europeana_protocol_conclusion(
+        probe,
+        access_status,
+        fetched.get("content_type", ""),
+        text,
+        observed_value,
+    )
+
+    return {
+        "code": "europeana",
+        "label": "Europeana",
+        "probe": probe.probe,
+        "probe_label": probe.probe_label,
+        "method": probe.method,
+        "url": probe.url,
+        "http_status": fetched.get("http_status", ""),
+        "final_url": fetched.get("final_url", probe.url),
+        "content_type": fetched.get("content_type", ""),
+        "content_length": fetched.get("content_length", ""),
+        "access_status": access_status,
+        "evidence_signal": evidence_signal,
+        "observed_value": observed_value,
+        "protocol_conclusion": protocol_conclusion,
+        "next_step": next_step,
+        "methodological_note": probe.methodological_note,
+        "evaluated_at": evaluated_at,
+        "rule_version": EUROPEANA_PROTOCOL_RULE_VERSION,
+        "error": fetched.get("error", ""),
+    }
+
+
 def build_archiveshub_protocol_probe(fetcher=fetch_protocol_probe, evaluated_at=None):
     evaluated_at = evaluated_at or utcnow_iso()
     rows = [
@@ -491,20 +741,74 @@ def write_francearchives_protocol_probe(output_dir: Path = OUTPUT_DIR, fetcher=f
     return protocol_df
 
 
+def build_european_film_gateway_protocol_probe(fetcher=fetch_protocol_probe, evaluated_at=None):
+    evaluated_at = evaluated_at or utcnow_iso()
+    rows = [
+        _build_european_film_gateway_protocol_row(probe, evaluated_at, fetcher=fetcher)
+        for probe in EUROPEAN_FILM_GATEWAY_PROTOCOL_PROBES
+    ]
+    return pd.DataFrame(rows, columns=EUROPEAN_FILM_GATEWAY_PROTOCOL_COLUMNS)
+
+
+def write_european_film_gateway_protocol_probe(output_dir: Path = OUTPUT_DIR, fetcher=fetch_protocol_probe):
+    output_dir.mkdir(parents=True, exist_ok=True)
+    protocol_df = build_european_film_gateway_protocol_probe(fetcher=fetcher)
+    protocol_df.to_csv(
+        output_dir / EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
+    return protocol_df
+
+
+def build_europeana_protocol_probe(fetcher=fetch_protocol_probe, evaluated_at=None):
+    evaluated_at = evaluated_at or utcnow_iso()
+    rows = [
+        _build_europeana_protocol_row(probe, evaluated_at, fetcher=fetcher)
+        for probe in EUROPEANA_PROTOCOL_PROBES
+    ]
+    return pd.DataFrame(rows, columns=EUROPEANA_PROTOCOL_COLUMNS)
+
+
+def write_europeana_protocol_probe(output_dir: Path = OUTPUT_DIR, fetcher=fetch_protocol_probe):
+    output_dir.mkdir(parents=True, exist_ok=True)
+    protocol_df = build_europeana_protocol_probe(fetcher=fetcher)
+    protocol_df.to_csv(
+        output_dir / EUROPEANA_PROTOCOL_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
+    return protocol_df
+
+
 __all__ = [
     "ARCHIVESHUB_PROTOCOL_COLUMNS",
     "ARCHIVESHUB_PROTOCOL_FILENAME",
     "ARCHIVESHUB_PROTOCOL_PROBES",
     "ARCHIVESHUB_PROTOCOL_RULE_VERSION",
+    "EUROPEAN_FILM_GATEWAY_PROTOCOL_COLUMNS",
+    "EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME",
+    "EUROPEAN_FILM_GATEWAY_PROTOCOL_PROBES",
+    "EUROPEAN_FILM_GATEWAY_PROTOCOL_RULE_VERSION",
+    "EUROPEANA_PROTOCOL_COLUMNS",
+    "EUROPEANA_PROTOCOL_FILENAME",
+    "EUROPEANA_PROTOCOL_PROBES",
+    "EUROPEANA_PROTOCOL_RULE_VERSION",
     "FRANCEARCHIVES_PROTOCOL_COLUMNS",
     "FRANCEARCHIVES_PROTOCOL_FILENAME",
     "FRANCEARCHIVES_PROTOCOL_PROBES",
     "FRANCEARCHIVES_PROTOCOL_RULE_VERSION",
     "build_archiveshub_protocol_probe",
+    "build_european_film_gateway_protocol_probe",
+    "build_europeana_protocol_probe",
     "build_francearchives_protocol_probe",
     "detect_dump_url",
     "detect_js_redirect",
     "parse_api_observation",
+    "parse_efg_observation",
+    "parse_europeana_observation",
     "write_archiveshub_protocol_probe",
+    "write_european_film_gateway_protocol_probe",
+    "write_europeana_protocol_probe",
     "write_francearchives_protocol_probe",
 ]

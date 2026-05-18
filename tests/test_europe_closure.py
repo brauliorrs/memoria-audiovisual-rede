@@ -145,6 +145,64 @@ class EuropeClosureTests(unittest.TestCase):
 
         self.assertEqual(status, "nao_autorizada")
 
+    def test_build_europe_closure_accepts_protocolled_efg_and_europeana_candidates(self):
+        evaluation_df = pd.DataFrame(
+            [
+                {
+                    "code": "european-film-gateway",
+                    "label": "European Film Gateway",
+                    "coverage_level": "agregador audiovisual europeu",
+                    "candidate_status": "monitoramento_tecnico",
+                    "access_model": "busca_publica_com_resultados",
+                },
+                {
+                    "code": "europeana",
+                    "label": "Europeana",
+                    "coverage_level": "agregador cultural europeu",
+                    "candidate_status": "pronto_para_pipeline_experimental",
+                    "access_model": "busca_publica_com_resultados",
+                },
+            ]
+        )
+        archiveshub_protocol_df = pd.DataFrame(
+            [{"protocol_conclusion": "sru_documentado_mas_bloqueado_na_sondagem_simples"}]
+        )
+        francearchives_protocol_df = pd.DataFrame(
+            [{"protocol_conclusion": "dump_publico_documentado_na_ficha_do_dataset"}]
+        )
+        european_film_gateway_protocol_df = pd.DataFrame(
+            [{"protocol_conclusion": "busca_publica_responde_com_categoria_de_video"}]
+        )
+        europeana_protocol_df = pd.DataFrame(
+            [{"protocol_conclusion": "documentacao_publica_confirma_apis"}]
+        )
+
+        outputs = build_europe_closure_outputs(
+            evaluation_df=evaluation_df,
+            archiveshub_protocol_df=archiveshub_protocol_df,
+            francearchives_protocol_df=francearchives_protocol_df,
+            european_film_gateway_protocol_df=european_film_gateway_protocol_df,
+            europeana_protocol_df=europeana_protocol_df,
+        )
+        summary_df = outputs["summary"]
+        status = summary_df.loc[
+            summary_df["criterion"] == "abertura_do_proximo_continente",
+            "status",
+        ].iloc[0]
+
+        self.assertEqual(status, "autorizada_com_cautela")
+
+        matrix_df = outputs["matrix"]
+        status_by_code = dict(zip(matrix_df["unit_code"], matrix_df["protocol_status"]))
+        self.assertEqual(
+            status_by_code["european-film-gateway"],
+            "prototipo_leve_confirma_busca_publica_audiovisual",
+        )
+        self.assertEqual(
+            status_by_code["europeana"],
+            "prototipo_leve_materializado",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

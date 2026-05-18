@@ -12,6 +12,8 @@ from .european_aggregators import (
 )
 from .european_protocols import (
     ARCHIVESHUB_PROTOCOL_FILENAME,
+    EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME,
+    EUROPEANA_PROTOCOL_FILENAME,
     FRANCEARCHIVES_PROTOCOL_FILENAME,
 )
 
@@ -101,10 +103,37 @@ def _protocol_status_for_candidate(code, specific_protocol_df):
     if code == "francearchives":
         if conclusions.str.contains("dump_publico_documentado", case=False, na=False).any():
             return "prototipo_leve_indica_dump_documentado_mas_download_a_validar"
+    if code == "european-film-gateway":
+        if conclusions.str.contains("falha_tecnica", case=False, na=False).all():
+            return "prototipo_leve_indica_falha_tecnica_na_rodada"
+        if conclusions.str.contains("busca_publica_responde_com_categoria_de_video", case=False, na=False).any():
+            return "prototipo_leve_confirma_busca_publica_audiovisual"
+    if code == "europeana":
+        has_media_search = conclusions.str.contains(
+            "busca_publica_com_filtro_de_midia_confirmada",
+            case=False,
+            na=False,
+        ).any()
+        has_api_block = conclusions.str.contains(
+            "rota_publica_bloqueada_na_sondagem_simples",
+            case=False,
+            na=False,
+        ).any()
+        if has_media_search and has_api_block:
+            return "prototipo_leve_confirma_busca_publica_mas_api_bloqueada"
+        if has_media_search:
+            return "prototipo_leve_confirma_busca_publica_com_midia"
     return "prototipo_leve_materializado"
 
 
-def _candidate_rows(evaluation_df, protocols_df, archiveshub_protocol_df, francearchives_protocol_df):
+def _candidate_rows(
+    evaluation_df,
+    protocols_df,
+    archiveshub_protocol_df,
+    francearchives_protocol_df,
+    european_film_gateway_protocol_df,
+    europeana_protocol_df,
+):
     if evaluation_df is None or evaluation_df.empty:
         return []
 
@@ -125,6 +154,10 @@ def _candidate_rows(evaluation_df, protocols_df, archiveshub_protocol_df, france
             if code == "archives-hub"
             else francearchives_protocol_df
             if code == "francearchives"
+            else european_film_gateway_protocol_df
+            if code == "european-film-gateway"
+            else europeana_protocol_df
+            if code == "europeana"
             else pd.DataFrame()
         )
         protocol_status = _protocol_status_for_candidate(code, specific_protocol_df)
@@ -168,11 +201,17 @@ def build_europe_closure_outputs(
     protocols_df=None,
     archiveshub_protocol_df=None,
     francearchives_protocol_df=None,
+    european_film_gateway_protocol_df=None,
+    europeana_protocol_df=None,
 ):
     evaluation_df = evaluation_df if evaluation_df is not None else pd.DataFrame()
     protocols_df = protocols_df if protocols_df is not None else pd.DataFrame()
     archiveshub_protocol_df = archiveshub_protocol_df if archiveshub_protocol_df is not None else pd.DataFrame()
     francearchives_protocol_df = francearchives_protocol_df if francearchives_protocol_df is not None else pd.DataFrame()
+    european_film_gateway_protocol_df = (
+        european_film_gateway_protocol_df if european_film_gateway_protocol_df is not None else pd.DataFrame()
+    )
+    europeana_protocol_df = europeana_protocol_df if europeana_protocol_df is not None else pd.DataFrame()
 
     matrix_rows = _active_corpus_rows()
     matrix_rows.extend(
@@ -181,6 +220,8 @@ def build_europe_closure_outputs(
             protocols_df,
             archiveshub_protocol_df,
             francearchives_protocol_df,
+            european_film_gateway_protocol_df,
+            europeana_protocol_df,
         )
     )
     matrix_df = pd.DataFrame(matrix_rows, columns=EUROPE_CLOSURE_MATRIX_COLUMNS)
@@ -192,7 +233,12 @@ def build_europe_closure_outputs(
         if not matrix_df.empty and "can_open_next_continent" in matrix_df.columns
         else 0
     )
-    protocol_rows = _protocol_count(archiveshub_protocol_df) + _protocol_count(francearchives_protocol_df)
+    protocol_rows = (
+        _protocol_count(archiveshub_protocol_df)
+        + _protocol_count(francearchives_protocol_df)
+        + _protocol_count(european_film_gateway_protocol_df)
+        + _protocol_count(europeana_protocol_df)
+    )
 
     summary_rows = [
         {
@@ -254,6 +300,8 @@ def write_europe_closure_outputs(output_dir: Path = OUTPUT_DIR):
         protocols_df=_load_csv_if_exists(output_dir, EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME),
         archiveshub_protocol_df=_load_csv_if_exists(output_dir, ARCHIVESHUB_PROTOCOL_FILENAME),
         francearchives_protocol_df=_load_csv_if_exists(output_dir, FRANCEARCHIVES_PROTOCOL_FILENAME),
+        european_film_gateway_protocol_df=_load_csv_if_exists(output_dir, EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME),
+        europeana_protocol_df=_load_csv_if_exists(output_dir, EUROPEANA_PROTOCOL_FILENAME),
     )
     outputs["matrix"].to_csv(
         output_dir / EUROPE_CLOSURE_MATRIX_FILENAME,

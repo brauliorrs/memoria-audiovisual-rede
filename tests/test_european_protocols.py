@@ -4,13 +4,21 @@ from pathlib import Path
 
 from memoria_audiovisual.european_protocols import (
     ARCHIVESHUB_PROTOCOL_FILENAME,
+    EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME,
+    EUROPEANA_PROTOCOL_FILENAME,
     FRANCEARCHIVES_PROTOCOL_FILENAME,
     build_archiveshub_protocol_probe,
+    build_european_film_gateway_protocol_probe,
+    build_europeana_protocol_probe,
     build_francearchives_protocol_probe,
     detect_dump_url,
     detect_js_redirect,
     parse_api_observation,
+    parse_efg_observation,
+    parse_europeana_observation,
     write_archiveshub_protocol_probe,
+    write_european_film_gateway_protocol_probe,
+    write_europeana_protocol_probe,
     write_francearchives_protocol_probe,
 )
 
@@ -36,6 +44,16 @@ class EuropeanProtocolsTests(unittest.TestCase):
         observation = parse_api_observation('{"total_count": 0, "results": []}')
 
         self.assertEqual(observation, "total_count=0; sample_records=0")
+
+    def test_parse_efg_observation_detects_video_result_count(self):
+        observation = parse_efg_observation("Videos (1 Results) Vater ist im Kriege")
+
+        self.assertEqual(observation, "video_results=1")
+
+    def test_parse_europeana_observation_detects_api_documentation(self):
+        observation = parse_europeana_observation("Europeana APIs provide access to data.")
+
+        self.assertEqual(observation, "api_documentation_detected")
 
     def test_build_francearchives_protocol_probe_classifies_routes(self):
         def fake_fetcher(url, method="GET"):
@@ -152,6 +170,49 @@ class EuropeanProtocolsTests(unittest.TestCase):
             "documentacao_publica_confirma_sru_e_oaipmh",
         )
 
+    def test_build_european_film_gateway_protocol_probe_classifies_public_search(self):
+        def fake_fetcher(url, method="GET"):
+            return {
+                "http_status": 200,
+                "final_url": url,
+                "content_type": "text/html",
+                "content_length": "128",
+                "text": "European Film Gateway Videos (1 Results) film archives across Europe",
+                "tls_verification_failed": False,
+                "error": "",
+            }
+
+        protocol_df = build_european_film_gateway_protocol_probe(
+            fetcher=fake_fetcher,
+            evaluated_at="2026-05-15T00:00:00Z",
+        )
+
+        self.assertEqual(len(protocol_df), 3)
+        self.assertIn(
+            "busca_publica_responde_com_categoria_de_video",
+            set(protocol_df["protocol_conclusion"]),
+        )
+
+    def test_build_europeana_protocol_probe_classifies_api_reference(self):
+        def fake_fetcher(url, method="GET"):
+            return {
+                "http_status": 200,
+                "final_url": url,
+                "content_type": "text/html",
+                "content_length": "128",
+                "text": "Europeana APIs provide access to data and media search.",
+                "tls_verification_failed": False,
+                "error": "",
+            }
+
+        protocol_df = build_europeana_protocol_probe(
+            fetcher=fake_fetcher,
+            evaluated_at="2026-05-15T00:00:00Z",
+        )
+        api_row = protocol_df.loc[protocol_df["probe"] == "api_reference_page"].iloc[0]
+
+        self.assertEqual(api_row["protocol_conclusion"], "documentacao_publica_confirma_apis")
+
     def test_write_francearchives_protocol_probe_creates_csv(self):
         def fake_fetcher(url, method="GET"):
             return {
@@ -188,6 +249,44 @@ class EuropeanProtocolsTests(unittest.TestCase):
             protocol_df = write_archiveshub_protocol_probe(output_dir, fetcher=fake_fetcher)
 
             self.assertTrue((output_dir / ARCHIVESHUB_PROTOCOL_FILENAME).exists())
+            self.assertFalse(protocol_df.empty)
+
+    def test_write_european_film_gateway_protocol_probe_creates_csv(self):
+        def fake_fetcher(url, method="GET"):
+            return {
+                "http_status": 200,
+                "final_url": url,
+                "content_type": "text/html",
+                "content_length": "128",
+                "text": "European Film Gateway Videos (1 Results) film archives across Europe",
+                "tls_verification_failed": False,
+                "error": "",
+            }
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_dir = Path(tmp_dir)
+            protocol_df = write_european_film_gateway_protocol_probe(output_dir, fetcher=fake_fetcher)
+
+            self.assertTrue((output_dir / EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME).exists())
+            self.assertFalse(protocol_df.empty)
+
+    def test_write_europeana_protocol_probe_creates_csv(self):
+        def fake_fetcher(url, method="GET"):
+            return {
+                "http_status": 200,
+                "final_url": url,
+                "content_type": "text/html",
+                "content_length": "128",
+                "text": "Europeana APIs provide access to data and media search.",
+                "tls_verification_failed": False,
+                "error": "",
+            }
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_dir = Path(tmp_dir)
+            protocol_df = write_europeana_protocol_probe(output_dir, fetcher=fake_fetcher)
+
+            self.assertTrue((output_dir / EUROPEANA_PROTOCOL_FILENAME).exists())
             self.assertFalse(protocol_df.empty)
 
 

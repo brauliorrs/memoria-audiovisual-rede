@@ -105,6 +105,8 @@ Scripts principais:
 - `python scripts/build_europe_closure_report.py`
 - `python scripts/prototype_archiveshub_protocol.py`
 - `python scripts/prototype_francearchives_protocol.py`
+- `python scripts/prototype_european_film_gateway_protocol.py`
+- `python scripts/prototype_europeana_protocol.py`
 - `python scripts/check_observatory_cycle.py`
 
 Artefatos globais do organismo:
@@ -125,6 +127,8 @@ Artefatos globais do organismo:
 - `data/output/observatorio_resumo_agregadores_europa.csv`
 - `data/output/observatorio_protocolo_archiveshub.csv`
 - `data/output/observatorio_protocolo_francearchives.csv`
+- `data/output/observatorio_protocolo_european_film_gateway.csv`
+- `data/output/observatorio_protocolo_europeana.csv`
 
 ## Fila automática de expansão
 
@@ -175,6 +179,10 @@ Decisões automáticas atuais:
 |   |-- check_observatory_cycle.py
 |   |-- check_pares_outputs.py
 |   |-- evaluate_european_aggregators.py
+|   |-- prototype_archiveshub_protocol.py
+|   |-- prototype_european_film_gateway_protocol.py
+|   |-- prototype_europeana_protocol.py
+|   |-- prototype_francearchives_protocol.py
 |   |-- run_euscreen_pipeline.py
 |   |-- run_ina_pipeline.py
 |   |-- run_observatory_cycle.py
@@ -231,6 +239,11 @@ py -m venv .venv
 .\\.venv\Scripts\python.exe scripts\check_pares_outputs.py
 .\\.venv\Scripts\python.exe scripts\check_ina_outputs.py
 .\.venv\Scripts\python.exe scripts\evaluate_european_aggregators.py
+.\.venv\Scripts\python.exe scripts\prototype_archiveshub_protocol.py
+.\.venv\Scripts\python.exe scripts\prototype_francearchives_protocol.py
+.\.venv\Scripts\python.exe scripts\prototype_european_film_gateway_protocol.py
+.\.venv\Scripts\python.exe scripts\prototype_europeana_protocol.py
+.\.venv\Scripts\python.exe scripts\build_europe_closure_report.py
 .\.venv\Scripts\python.exe scripts\run_observatory_cycle.py
 .\.venv\Scripts\python.exe scripts\check_observatory_cycle.py
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
@@ -335,7 +348,9 @@ O `EUscreen`, o `PARES` e o `INA` seguem a mesma convenção de nomes, trocando 
 13. A avaliação europeia materializa rotas oficiais candidatas e uma matriz de protocolos para diferenciar agregadores prontos para pipeline experimental, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
 14. O protótipo `Archives Hub` testa a referência pública de APIs, SRU e OAI-PMH por chamadas leves, sem ativar o agregador como corpus.
 15. O protótipo `FranceArchives` testa página oficial, ficha do dataset, API e cabeçalho do dump por amostras leves, sem baixar o pacote XML nem ativar um novo corpus.
-16. O relatório de fechamento europeu separa corpora ativos de candidatos com protocolo pendente e só autoriza a próxima etapa continental quando os candidatos europeus prioritários estiverem incorporados, protocolados ou justificados como inviáveis.
+16. O protótipo `European Film Gateway` testa página inicial e buscas públicas leves, registrando falha técnica, bloqueio ou confirmação de busca audiovisual sem promover o candidato automaticamente a corpus.
+17. O protótipo `Europeana` testa página inicial, busca pública com filtro de mídia e documentação de APIs, separando agregador cultural amplo de corpus audiovisual especializado.
+18. O relatório de fechamento europeu separa corpora ativos de candidatos protocolados e só autoriza a próxima etapa continental quando os candidatos europeus prioritários estiverem incorporados, protocolados ou justificados como inviáveis.
 
 ## Qualidade do repositório
 
@@ -348,4 +363,4 @@ O `EUscreen`, o `PARES` e o `INA` seguem a mesma convenção de nomes, trocando 
 
 ## Próximo passo sugerido
 
-Fechar a Europa de fato antes de abrir América do Sul. O próximo movimento é protocolar `European Film Gateway` e `Europeana`, mantendo `Archives Hub` e `FranceArchives` como candidatos documentados e sem misturá-los aos corpora ativos.
+Com as pendências europeias prioritárias protocoladas, a próxima etapa é revisar o relatório de fechamento europeu e decidir se a abertura da América do Sul deve começar como novo continente em modo cauteloso, mantendo `Archives Hub`, `FranceArchives`, `European Film Gateway` e `Europeana` em monitoramento europeu.

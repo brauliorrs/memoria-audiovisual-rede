@@ -30,6 +30,8 @@ from memoria_audiovisual.europe_closure import (
 )
 from memoria_audiovisual.european_protocols import (
     ARCHIVESHUB_PROTOCOL_FILENAME,
+    EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME,
+    EUROPEANA_PROTOCOL_FILENAME,
     FRANCEARCHIVES_PROTOCOL_FILENAME,
 )
 from memoria_audiovisual.organism import (
@@ -62,6 +64,8 @@ def main():
     european_aggregator_summary_path = OUTPUT_DIR / EUROPEAN_AGGREGATOR_SUMMARY_FILENAME
     archiveshub_protocol_path = OUTPUT_DIR / ARCHIVESHUB_PROTOCOL_FILENAME
     francearchives_protocol_path = OUTPUT_DIR / FRANCEARCHIVES_PROTOCOL_FILENAME
+    european_film_gateway_protocol_path = OUTPUT_DIR / EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME
+    europeana_protocol_path = OUTPUT_DIR / EUROPEANA_PROTOCOL_FILENAME
     europe_closure_matrix_path = OUTPUT_DIR / EUROPE_CLOSURE_MATRIX_FILENAME
     europe_closure_summary_path = OUTPUT_DIR / EUROPE_CLOSURE_SUMMARY_FILENAME
 
@@ -80,6 +84,8 @@ def main():
         (european_aggregator_summary_path, "Resumo dos agregadores europeus candidatos"),
         (archiveshub_protocol_path, "Prototipo de protocolo Archives Hub"),
         (francearchives_protocol_path, "Prototipo de protocolo FranceArchives"),
+        (european_film_gateway_protocol_path, "Prototipo de protocolo European Film Gateway"),
+        (europeana_protocol_path, "Prototipo de protocolo Europeana"),
         (europe_closure_matrix_path, "Matriz de fechamento europeu"),
         (europe_closure_summary_path, "Resumo de fechamento europeu"),
     ]
@@ -102,6 +108,8 @@ def main():
     european_aggregator_summary_df = pd.read_csv(european_aggregator_summary_path)
     archiveshub_protocol_df = pd.read_csv(archiveshub_protocol_path)
     francearchives_protocol_df = pd.read_csv(francearchives_protocol_path)
+    european_film_gateway_protocol_df = pd.read_csv(european_film_gateway_protocol_path)
+    europeana_protocol_df = pd.read_csv(europeana_protocol_path)
     europe_closure_matrix_df = pd.read_csv(europe_closure_matrix_path)
     europe_closure_summary_df = pd.read_csv(europe_closure_summary_path)
     active_corpora = list_active_corpora(monthly_only=True)
@@ -128,6 +136,8 @@ def main():
     print(f"- estados europeus sumarizados: {len(european_aggregator_summary_df)}")
     print(f"- sondagens do protocolo Archives Hub: {len(archiveshub_protocol_df)}")
     print(f"- sondagens do protocolo FranceArchives: {len(francearchives_protocol_df)}")
+    print(f"- sondagens do protocolo European Film Gateway: {len(european_film_gateway_protocol_df)}")
+    print(f"- sondagens do protocolo Europeana: {len(europeana_protocol_df)}")
     print(f"- unidades na matriz de fechamento europeu: {len(europe_closure_matrix_df)}")
     print(f"- criterios de fechamento europeu: {len(europe_closure_summary_df)}")
 
@@ -174,6 +184,14 @@ def main():
         print("- o prototipo de protocolo FranceArchives esta vazio")
         return 1
 
+    if european_film_gateway_protocol_df.empty:
+        print("- o prototipo de protocolo European Film Gateway esta vazio")
+        return 1
+
+    if europeana_protocol_df.empty:
+        print("- o prototipo de protocolo Europeana esta vazio")
+        return 1
+
     if europe_closure_matrix_df.empty or europe_closure_summary_df.empty:
         print("- o fechamento europeu nao foi materializado corretamente")
         return 1
@@ -183,6 +201,8 @@ def main():
     print("- a avaliacao e os protocolos dos agregadores europeus foram materializados com sucesso")
     print("- o prototipo de protocolo Archives Hub foi materializado com sucesso")
     print("- o prototipo de protocolo FranceArchives foi materializado com sucesso")
+    print("- o prototipo de protocolo European Film Gateway foi materializado com sucesso")
+    print("- o prototipo de protocolo Europeana foi materializado com sucesso")
     print("- o fechamento europeu foi materializado com sucesso")
     return 0
 
