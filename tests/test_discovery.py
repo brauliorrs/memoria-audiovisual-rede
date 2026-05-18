@@ -30,9 +30,11 @@ class DiscoveryTests(unittest.TestCase):
         queue_df = build_expansion_queue(registry_df)
         self.assertFalse(queue_df.empty)
         first_decision = queue_df.iloc[0]["automatic_decision"]
-        self.assertEqual(first_decision, "fechamento_europa_agregador_nacional")
+        self.assertEqual(first_decision, "fechamento_europa_agregador_audiovisual")
         self.assertNotIn("euscreen", queue_df["code"].tolist())
         self.assertNotIn("pares", queue_df["code"].tolist())
+        self.assertIn("european-film-gateway", queue_df["code"].tolist())
+        self.assertIn("europeana", queue_df["code"].tolist())
 
     def test_european_institution_candidate_is_kept_as_gap_or_exception(self):
         candidate = {

@@ -23,6 +23,11 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
 
         self.assertEqual(parse_result_count(text), 571)
 
+    def test_parse_result_count_accepts_european_film_gateway_text(self):
+        text = "Videos (1 Results) Vater ist im Kriege"
+
+        self.assertEqual(parse_result_count(text), 1)
+
     def test_detect_js_cookie_requirement_accepts_common_blocking_text(self):
         self.assertTrue(detect_js_cookie_requirement("This website requires JS enabled and cookies"))
         self.assertTrue(detect_js_cookie_requirement("", "Just a moment..."))

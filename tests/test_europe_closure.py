@@ -124,6 +124,27 @@ class EuropeClosureTests(unittest.TestCase):
             self.assertFalse(outputs["matrix"].empty)
             self.assertFalse(outputs["summary"].empty)
 
+    def test_build_europe_closure_blocks_next_continent_for_unprotocolled_candidate(self):
+        evaluation_df = pd.DataFrame(
+            [
+                {
+                    "code": "european-film-gateway",
+                    "label": "European Film Gateway",
+                    "coverage_level": "agregador audiovisual europeu",
+                    "candidate_status": "pronto_para_pipeline_experimental",
+                    "access_model": "busca_publica_com_resultados",
+                }
+            ]
+        )
+        outputs = build_europe_closure_outputs(evaluation_df=evaluation_df)
+        summary_df = outputs["summary"]
+        status = summary_df.loc[
+            summary_df["criterion"] == "abertura_do_proximo_continente",
+            "status",
+        ].iloc[0]
+
+        self.assertEqual(status, "nao_autorizada")
+
 
 if __name__ == "__main__":
     unittest.main()

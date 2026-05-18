@@ -176,6 +176,32 @@ EUROPEAN_AGGREGATOR_CANDIDATES = [
             "identificar sinais preliminares de materiais audiovisuais."
         ),
     ),
+    AggregatorCandidate(
+        code="european-film-gateway",
+        label="European Film Gateway",
+        country_scope="Europa",
+        coverage_level="agregador audiovisual europeu",
+        source_url="https://www.europeanfilmgateway.eu/",
+        search_url_template="https://www.europeanfilmgateway.eu/search-efg?searchString={query}",
+        query_terms=("film", "video", "war", "newsreel"),
+        methodological_note=(
+            "Agregador temático cinematográfico europeu. A avaliação verifica se a busca pública "
+            "oferece evidência comparável antes da incorporação como corpus."
+        ),
+    ),
+    AggregatorCandidate(
+        code="europeana",
+        label="Europeana",
+        country_scope="Europa",
+        coverage_level="agregador cultural europeu",
+        source_url="https://www.europeana.eu/",
+        search_url_template="https://www.europeana.eu/en/search?query={query}&media=true",
+        query_terms=("film", "video", "audiovisual", "sound"),
+        methodological_note=(
+            "Agregador cultural europeu amplo. Entra na Europa 1.5 como fonte geral com "
+            "superfícies audiovisuais, exigindo separação entre patrimônio cultural amplo e audiovisual."
+        ),
+    ),
 ]
 
 EUROPEAN_AGGREGATOR_ACCESS_ROUTES = [
@@ -283,6 +309,61 @@ EUROPEAN_AGGREGATOR_ACCESS_ROUTES = [
             "XML disponível para download."
         ),
     ),
+    AggregatorAccessRoute(
+        code="european-film-gateway",
+        label="European Film Gateway",
+        country_scope="Europa",
+        route_type="Busca pública",
+        route_url="https://www.europeanfilmgateway.eu/search-efg?searchString=film",
+        source_reference_url="https://www.europeanfilmgateway.eu/",
+        source_reference_note=(
+            "O portal se apresenta como ponto único de acesso a filmes, imagens e textos de "
+            "coleções selecionadas de arquivos cinematográficos europeus."
+        ),
+        audiovisual_use=(
+            "Testar se a busca pública oferece registros audiovisuais suficientes para um "
+            "corpus europeu temático de cinema."
+        ),
+        methodological_note=(
+            "Rota prioritária da Europa 1.5 por ser agregador audiovisual europeu especializado."
+        ),
+    ),
+    AggregatorAccessRoute(
+        code="europeana",
+        label="Europeana",
+        country_scope="Europa",
+        route_type="Busca pública com filtro de mídia",
+        route_url="https://www.europeana.eu/en/search?query=film&media=true",
+        source_reference_url="https://www.europeana.eu/",
+        source_reference_note=(
+            "Europeana é agregador europeu amplo de patrimônio cultural digital; a avaliação usa "
+            "busca pública com filtro de mídia."
+        ),
+        audiovisual_use=(
+            "Verificar a utilidade de Europeana como agregador geral para objetos audiovisuais, "
+            "sem confundi-la com um arquivo audiovisual especializado."
+        ),
+        methodological_note=(
+            "Rota obrigatória da Europa 1.5, mas exige protocolo para separar audiovisual de acervo cultural geral."
+        ),
+    ),
+    AggregatorAccessRoute(
+        code="europeana",
+        label="Europeana",
+        country_scope="Europa",
+        route_type="Documentação de API",
+        route_url="https://pro.europeana.eu/page/apis",
+        source_reference_url="https://pro.europeana.eu/page/apis",
+        source_reference_note=(
+            "A documentação oficial da Europeana apresenta APIs para acesso e reutilização de dados."
+        ),
+        audiovisual_use=(
+            "Avaliar se a API pode sustentar triagem controlada por mídia, tipo de objeto e termos audiovisuais."
+        ),
+        methodological_note=(
+            "Rota técnica potencial para corpus futuro, sujeita a chave, limites e condições de uso."
+        ),
+    ),
 ]
 
 
@@ -300,6 +381,7 @@ def parse_result_count(text):
         r"Resultados\s+\d+\s*-\s*\d+\s+de\s+([\d\.]+)",
         r"Résultats?\s+\d+\s*-\s*\d+\s+sur\s+([\d\s]+)",
         r"([\d\s]+)\s+résultats?",
+        r"Videos?\s*\(([\d,\.]+)\s+Results?\)",
         r"([\d,]+)\s+results?",
     ]
     for pattern in patterns:

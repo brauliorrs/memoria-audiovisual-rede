@@ -127,6 +127,36 @@ DISCOVERY_BASELINE_CANDIDATES = [
         "already_covered_by_active_aggregator": False,
     },
     {
+        "code": "european-film-gateway",
+        "label": "European Film Gateway",
+        "short_label": "EFG",
+        "category_code": "aggregator",
+        "entity_level": "infraestrutura agregadora",
+        "coverage_level": "agregador continental",
+        "scope": "agregador temático cinematográfico/audiovisual",
+        "geographic_scope": "Europa",
+        "audiovisual_relevance": "especializado em audiovisual",
+        "methodological_fit": "muito_alto",
+        "discovery_origin": "Europa 1.5 - fechamento empírico audiovisual",
+        "source_url": "https://www.europeanfilmgateway.eu/",
+        "already_covered_by_active_aggregator": False,
+    },
+    {
+        "code": "europeana",
+        "label": "Europeana",
+        "short_label": "Europeana",
+        "category_code": "aggregator",
+        "entity_level": "infraestrutura agregadora",
+        "coverage_level": "agregador continental",
+        "scope": "agregador cultural digital com superfícies audiovisuais",
+        "geographic_scope": "Europa",
+        "audiovisual_relevance": "fonte geral com potencial audiovisual",
+        "methodological_fit": "alto",
+        "discovery_origin": "Europa 1.5 - agregador europeu amplo a protocolar",
+        "source_url": "https://www.europeana.eu/",
+        "already_covered_by_active_aggregator": False,
+    },
+    {
         "code": "ina-gap",
         "label": "Institut national de l'audiovisuel",
         "short_label": "INA",
@@ -201,16 +231,27 @@ def _evaluate_candidate(candidate: dict, active_codes: set[str]) -> dict:
         }
 
     if category_code == "aggregator":
-        if str(candidate.get("code", "")).strip().lower() == "euscreen":
+        if str(candidate.get("code", "")).strip().lower() in {"euscreen", "european-film-gateway"}:
             return {
                 "organism_status": "candidato",
                 "automatic_decision": "fechamento_europa_agregador_audiovisual",
                 "automatic_priority": 1,
                 "automatic_reason": (
-                    "É o agregador audiovisual europeu mais aderente para complementar o APE "
+                    "É um agregador audiovisual europeu aderente para complementar o APE "
                     "no fechamento metodológico da Europa."
                 ),
                 "next_step": "preparar_pipeline_do_agregador_europeu_audiovisual",
+            }
+        if str(candidate.get("code", "")).strip().lower() == "europeana":
+            return {
+                "organism_status": "candidato",
+                "automatic_decision": "fechamento_europa_agregador_supranacional",
+                "automatic_priority": 2,
+                "automatic_reason": (
+                    "É um agregador europeu amplo e precisa ser avaliado antes de abrir outro continente, "
+                    "ainda que não seja arquivo audiovisual especializado."
+                ),
+                "next_step": "protocolar_europeana_antes_da_expansao_continental",
             }
         if fit_score >= 4:
             return {
@@ -356,6 +397,7 @@ def build_expansion_queue(registry_df: pd.DataFrame) -> pd.DataFrame:
             {
                 "prioridade_imediata_etapa_1",
                 "fechamento_europa_agregador_audiovisual",
+                "fechamento_europa_agregador_supranacional",
                 "fechamento_europa_agregador_nacional",
                 "monitoramento_estrategico",
                 "aguarda_etapa_2",

@@ -128,6 +128,7 @@ def _candidate_rows(evaluation_df, protocols_df, archiveshub_protocol_df, france
             else pd.DataFrame()
         )
         protocol_status = _protocol_status_for_candidate(code, specific_protocol_df)
+        can_open_next_continent = protocol_status != "sem_prototipo_especifico_materializado"
 
         rows.append(
             {
@@ -154,7 +155,7 @@ def _candidate_rows(evaluation_df, protocols_df, archiveshub_protocol_df, france
                     if protocol_row is not None
                     else "materializar_prototipo_de_protocolo"
                 ),
-                "can_open_next_continent": True,
+                "can_open_next_continent": can_open_next_continent,
                 "rule_version": EUROPE_CLOSURE_RULE_VERSION,
             }
         )
@@ -186,6 +187,11 @@ def build_europe_closure_outputs(
 
     active_european_corpora = int((matrix_df["unit_type"] == "corpus_ativo").sum()) if not matrix_df.empty else 0
     pending_candidates = int((matrix_df["unit_type"] == "agregador_candidato").sum()) if not matrix_df.empty else 0
+    blocking_candidates = (
+        int((matrix_df["can_open_next_continent"].astype(str).str.lower() != "true").sum())
+        if not matrix_df.empty and "can_open_next_continent" in matrix_df.columns
+        else 0
+    )
     protocol_rows = _protocol_count(archiveshub_protocol_df) + _protocol_count(francearchives_protocol_df)
 
     summary_rows = [
@@ -213,16 +219,24 @@ def build_europe_closure_outputs(
         },
         {
             "criterion": "abertura_do_proximo_continente",
-            "status": "autorizada_com_cautela" if active_european_corpora and protocol_rows else "nao_autorizada",
+            "status": (
+                "autorizada_com_cautela"
+                if active_european_corpora and protocol_rows and blocking_candidates == 0
+                else "nao_autorizada"
+            ),
             "evidence": (
                 f"{active_european_corpora} corpora ativos; {pending_candidates} candidatos europeus "
-                "mantidos como protocolo pendente"
+                f"mantidos como protocolo pendente; {blocking_candidates} candidatos sem fechamento suficiente"
             ),
             "interpretation": (
-                "A Europa pode ser considerada fechada como etapa metodológica inicial, desde que "
-                "os pendentes permaneçam rastreados e não sejam convertidos em ausência de audiovisual."
+                "A Europa só pode abrir a próxima etapa continental quando os candidatos europeus "
+                "prioritários estiverem incorporados, protocolados ou justificados como inviáveis."
             ),
-            "next_step": "abrir_america_do_sul_sem_encerrar_monitoramento_europeu",
+            "next_step": (
+                "abrir_america_do_sul_sem_encerrar_monitoramento_europeu"
+                if blocking_candidates == 0
+                else "protocolar_european_film_gateway_e_europeana_antes_da_expansao"
+            ),
             "rule_version": EUROPE_CLOSURE_RULE_VERSION,
         },
     ]

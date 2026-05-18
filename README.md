@@ -66,6 +66,7 @@ No estado atual:
 - `EUscreen` está enquadrado como `agregador audiovisual europeu`;
 - `PARES` está enquadrado como `agregador nacional europeu em modo experimental`;
 - `INA` está enquadrado como `arquivo/instituição arquivística`;
+- `European Film Gateway` e `Europeana` estão enquadrados como candidatos de fechamento europeu, ainda sem corpus ativo;
 - a interface permite trabalhar com o todo, por categoria analítica e por corpus individual, sem fundir esses níveis de análise.
 
 ## Linha do tempo e possíveis extinções
@@ -137,6 +138,7 @@ Essa fila:
 - prioriza o fechamento da Europa antes da abertura sistemática de outros continentes;
 - trata o `APE` como base agregadora continental europeia;
 - considera agregadores audiovisuais europeus, como `EUscreen`, como prioridade de fechamento regional;
+- trata `European Film Gateway` e `Europeana` como pendências europeias prioritárias antes da abertura de novo continente;
 - preserva instituições europeias relevantes como lacunas ou exceções da base Europa, quando não forem suficientemente cobertas pelo agregador;
 - reserva instituições da `Etapa 2` para o momento posterior à cobertura agregadora.
 
@@ -145,6 +147,7 @@ Decisões automáticas atuais:
 - `ja_incorporado`
 - `fechamento_europa_agregador_audiovisual`
 - `fechamento_europa_agregador_nacional`
+- `fechamento_europa_agregador_supranacional`
 - `prioridade_imediata_etapa_1`
 - `lacuna_ou_excecao_na_base_europa`
 - `monitoramento_estrategico`
@@ -332,7 +335,7 @@ O `EUscreen`, o `PARES` e o `INA` seguem a mesma convenção de nomes, trocando 
 13. A avaliação europeia materializa rotas oficiais candidatas e uma matriz de protocolos para diferenciar agregadores prontos para pipeline experimental, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
 14. O protótipo `Archives Hub` testa a referência pública de APIs, SRU e OAI-PMH por chamadas leves, sem ativar o agregador como corpus.
 15. O protótipo `FranceArchives` testa página oficial, ficha do dataset, API e cabeçalho do dump por amostras leves, sem baixar o pacote XML nem ativar um novo corpus.
-16. O relatório de fechamento europeu separa corpora ativos de candidatos com protocolo pendente e autoriza a próxima etapa continental com cautela metodológica.
+16. O relatório de fechamento europeu separa corpora ativos de candidatos com protocolo pendente e só autoriza a próxima etapa continental quando os candidatos europeus prioritários estiverem incorporados, protocolados ou justificados como inviáveis.
 
 ## Qualidade do repositório
 
@@ -345,4 +348,4 @@ O `EUscreen`, o `PARES` e o `INA` seguem a mesma convenção de nomes, trocando 
 
 ## Próximo passo sugerido
 
-Abrir a etapa América do Sul preservando, em paralelo, o monitoramento europeu de `Archives Hub`, `FranceArchives` e novas rodadas do `PARES`.
+Fechar a Europa de fato antes de abrir América do Sul. O próximo movimento é protocolar `European Film Gateway` e `Europeana`, mantendo `Archives Hub` e `FranceArchives` como candidatos documentados e sem misturá-los aos corpora ativos.
