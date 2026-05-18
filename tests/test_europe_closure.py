@@ -5,8 +5,10 @@ from pathlib import Path
 import pandas as pd
 
 from memoria_audiovisual.europe_closure import (
+    EUROPE_CLOSURE_DOSSIER_FILENAME,
     EUROPE_CLOSURE_MATRIX_FILENAME,
     EUROPE_CLOSURE_SUMMARY_FILENAME,
+    build_europe_closure_dossier,
     build_europe_closure_outputs,
     write_europe_closure_outputs,
 )
@@ -86,6 +88,7 @@ class EuropeClosureTests(unittest.TestCase):
             "autorizada_com_cautela",
             set(summary_df.loc[summary_df["criterion"] == "abertura_do_proximo_continente", "status"]),
         )
+        self.assertIn("corpus continental", build_europe_closure_dossier(matrix_df, summary_df).lower())
 
     def test_write_europe_closure_outputs_materializes_csv_files(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -121,8 +124,10 @@ class EuropeClosureTests(unittest.TestCase):
 
             self.assertTrue((output_dir / EUROPE_CLOSURE_MATRIX_FILENAME).exists())
             self.assertTrue((output_dir / EUROPE_CLOSURE_SUMMARY_FILENAME).exists())
+            self.assertTrue((output_dir / EUROPE_CLOSURE_DOSSIER_FILENAME).exists())
             self.assertFalse(outputs["matrix"].empty)
             self.assertFalse(outputs["summary"].empty)
+            self.assertIn("Dossiê MVP", outputs["dossier"])
 
     def test_build_europe_closure_blocks_next_continent_for_unprotocolled_candidate(self):
         evaluation_df = pd.DataFrame(

@@ -25,6 +25,7 @@ from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
 )
 from memoria_audiovisual.europe_closure import (
+    EUROPE_CLOSURE_DOSSIER_FILENAME,
     EUROPE_CLOSURE_MATRIX_FILENAME,
     EUROPE_CLOSURE_SUMMARY_FILENAME,
 )
@@ -68,6 +69,7 @@ def main():
     europeana_protocol_path = OUTPUT_DIR / EUROPEANA_PROTOCOL_FILENAME
     europe_closure_matrix_path = OUTPUT_DIR / EUROPE_CLOSURE_MATRIX_FILENAME
     europe_closure_summary_path = OUTPUT_DIR / EUROPE_CLOSURE_SUMMARY_FILENAME
+    europe_closure_dossier_path = OUTPUT_DIR / EUROPE_CLOSURE_DOSSIER_FILENAME
 
     required_paths = [
         (cycle_manifest_path, "Manifesto do ciclo mensal"),
@@ -88,6 +90,7 @@ def main():
         (europeana_protocol_path, "Prototipo de protocolo Europeana"),
         (europe_closure_matrix_path, "Matriz de fechamento europeu"),
         (europe_closure_summary_path, "Resumo de fechamento europeu"),
+        (europe_closure_dossier_path, "Dossiê MVP de fechamento europeu"),
     ]
     for path, label in required_paths:
         if not path.exists():
@@ -112,6 +115,7 @@ def main():
     europeana_protocol_df = pd.read_csv(europeana_protocol_path)
     europe_closure_matrix_df = pd.read_csv(europe_closure_matrix_path)
     europe_closure_summary_df = pd.read_csv(europe_closure_summary_path)
+    europe_closure_dossier_text = europe_closure_dossier_path.read_text(encoding="utf-8")
     active_corpora = list_active_corpora(monthly_only=True)
 
     print("Validacao do ciclo mensal do organismo")
@@ -140,6 +144,7 @@ def main():
     print(f"- sondagens do protocolo Europeana: {len(europeana_protocol_df)}")
     print(f"- unidades na matriz de fechamento europeu: {len(europe_closure_matrix_df)}")
     print(f"- criterios de fechamento europeu: {len(europe_closure_summary_df)}")
+    print(f"- caracteres no dossiê MVP europeu: {len(europe_closure_dossier_text)}")
 
     result_codes = {result["code"] for result in manifest.get("cycle_results", [])}
     expected_codes = set(
@@ -196,6 +201,10 @@ def main():
         print("- o fechamento europeu nao foi materializado corretamente")
         return 1
 
+    if "corpus continental" not in europe_closure_dossier_text.lower():
+        print("- o dossiê MVP europeu não explicita o corpus continental")
+        return 1
+
     print("- todos os corpora ativos aparecem no manifesto do ciclo")
     print("- a fila automatica de expansao foi materializada com sucesso")
     print("- a avaliacao e os protocolos dos agregadores europeus foram materializados com sucesso")
@@ -204,6 +213,7 @@ def main():
     print("- o prototipo de protocolo European Film Gateway foi materializado com sucesso")
     print("- o prototipo de protocolo Europeana foi materializado com sucesso")
     print("- o fechamento europeu foi materializado com sucesso")
+    print("- o dossiê MVP europeu foi materializado com sucesso")
     return 0
 
 

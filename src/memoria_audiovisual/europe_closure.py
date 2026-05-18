@@ -20,6 +20,7 @@ from .european_protocols import (
 
 EUROPE_CLOSURE_MATRIX_FILENAME = "observatorio_fechamento_europa.csv"
 EUROPE_CLOSURE_SUMMARY_FILENAME = "observatorio_resumo_fechamento_europa.csv"
+EUROPE_CLOSURE_DOSSIER_FILENAME = "observatorio_dossie_fechamento_europa.md"
 EUROPE_CLOSURE_RULE_VERSION = "2026-05-fechamento-europa-v1"
 
 EUROPE_CLOSURE_MATRIX_COLUMNS = [
@@ -293,6 +294,52 @@ def build_europe_closure_outputs(
     }
 
 
+def build_europe_closure_dossier(matrix_df, summary_df):
+    active_df = matrix_df[matrix_df["unit_type"] == "corpus_ativo"] if not matrix_df.empty else pd.DataFrame()
+    candidate_df = (
+        matrix_df[matrix_df["unit_type"] == "agregador_candidato"] if not matrix_df.empty else pd.DataFrame()
+    )
+    opening_status = summary_df.loc[
+        summary_df["criterion"] == "abertura_do_proximo_continente",
+        "status",
+    ].iloc[0]
+
+    lines = [
+        "# Dossiê MVP de fechamento europeu",
+        "",
+        "## Status do corpus continental",
+        f"- Status de abertura: `{opening_status}`.",
+        f"- Corpora europeus ativos: `{len(active_df)}`.",
+        f"- Candidatos europeus documentados fora do corpus ativo: `{len(candidate_df)}`.",
+        "- Escopo: Europa como corpus continental fechado para artigo e projeto de pós-doutorado.",
+        "",
+        "## Corpus incorporado",
+    ]
+    for _, row in active_df.sort_values("unit_code").iterrows():
+        lines.append(
+            f"- `{row['unit_code']}`: {row['unit_label']} | {row['category']} | "
+            f"{row['territorial_scope']} | {row['protocol_status']}."
+        )
+
+    lines.extend(["", "## Pendências documentadas"])
+    for _, row in candidate_df.sort_values("unit_code").iterrows():
+        lines.append(
+            f"- `{row['unit_code']}`: {row['unit_label']} | {row['protocol_status']} | "
+            f"decisão: {row['incorporation_decision']}."
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Regra metodológica",
+            "- Retorno zero, falha técnica ou rota instável não equivalem à ausência de acervo audiovisual.",
+            "- Agregadores e arquivos permanecem separados para preservar rigor científico.",
+            "- A expansão continental seguinte só deve ocorrer sem apagar o monitoramento europeu mensal.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
 def write_europe_closure_outputs(output_dir: Path = OUTPUT_DIR):
     output_dir.mkdir(parents=True, exist_ok=True)
     outputs = build_europe_closure_outputs(
@@ -313,15 +360,19 @@ def write_europe_closure_outputs(output_dir: Path = OUTPUT_DIR):
         index=False,
         encoding="utf-8-sig",
     )
+    outputs["dossier"] = build_europe_closure_dossier(outputs["matrix"], outputs["summary"])
+    (output_dir / EUROPE_CLOSURE_DOSSIER_FILENAME).write_text(outputs["dossier"], encoding="utf-8")
     return outputs
 
 
 __all__ = [
+    "EUROPE_CLOSURE_DOSSIER_FILENAME",
     "EUROPE_CLOSURE_MATRIX_COLUMNS",
     "EUROPE_CLOSURE_MATRIX_FILENAME",
     "EUROPE_CLOSURE_RULE_VERSION",
     "EUROPE_CLOSURE_SUMMARY_COLUMNS",
     "EUROPE_CLOSURE_SUMMARY_FILENAME",
+    "build_europe_closure_dossier",
     "build_europe_closure_outputs",
     "write_europe_closure_outputs",
 ]

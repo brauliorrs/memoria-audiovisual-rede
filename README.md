@@ -126,6 +126,7 @@ Artefatos globais do organismo:
 - `data/output/observatorio_resultados_ciclos.csv`
 - `data/output/observatorio_fechamento_europa.csv`
 - `data/output/observatorio_resumo_fechamento_europa.csv`
+- `data/output/observatorio_dossie_fechamento_europa.md`
 - `data/output/observatorio_candidatos_descoberta.csv`
 - `data/output/observatorio_fila_expansao.csv`
 - `data/output/observatorio_resumo_fila_expansao.csv`
@@ -406,6 +407,7 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES` e o `INA` segu
 18. O protótipo `Europeana` testa página inicial, busca pública com filtro de mídia e documentação de APIs, separando agregador cultural amplo de corpus audiovisual especializado.
 19. O corpus `Europeana` materializa registros de mídia triados por sinais audiovisuais, preservando a ressalva de que se trata de agregador cultural amplo, não de arquivo audiovisual especializado.
 20. O relatório de fechamento europeu separa corpora ativos de candidatos protocolados e só autoriza a próxima etapa continental quando os candidatos europeus prioritários estiverem incorporados, protocolados ou justificados como inviáveis.
+21. O dossiê MVP de fechamento europeu sintetiza o corpus continental, as pendências documentadas e a regra metodológica para uso em artigo e projeto de pós-doutorado.
 
 ## Qualidade do repositório
 
@@ -418,4 +420,4 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES` e o `INA` segu
 
 ## Próximo passo sugerido
 
-Com `European Film Gateway` e `Europeana` incorporados ao organismo, a próxima etapa é revisar o fechamento europeu consolidado e decidir se a abertura da América do Sul deve começar em modo cauteloso, mantendo `Archives Hub` e `FranceArchives` como candidatos europeus documentados.
+Com `European Film Gateway` e `Europeana` incorporados ao organismo, a próxima etapa é usar o dossiê MVP de fechamento europeu como base do artigo/projeto e só então abrir a América do Sul em modo cauteloso, mantendo `Archives Hub` e `FranceArchives` como candidatos europeus documentados.

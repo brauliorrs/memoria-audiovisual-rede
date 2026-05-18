@@ -8,7 +8,10 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from memoria_audiovisual.config import OUTPUT_DIR
-from memoria_audiovisual.europe_closure import write_europe_closure_outputs
+from memoria_audiovisual.europe_closure import (
+    EUROPE_CLOSURE_DOSSIER_FILENAME,
+    write_europe_closure_outputs,
+)
 
 
 def main():
@@ -18,6 +21,7 @@ def main():
 
     print("Relatório de fechamento europeu atualizado:")
     print(f"- unidades na matriz: {len(matrix_df)}")
+    print(f"- dossiê MVP: {EUROPE_CLOSURE_DOSSIER_FILENAME}")
     print(f"- critérios de fechamento: {len(summary_df)}")
     for _, row in summary_df.iterrows():
         print(f"- {row['criterion']}: {row['status']}")
