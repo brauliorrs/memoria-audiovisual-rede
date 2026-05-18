@@ -1,11 +1,22 @@
-from .config import APE_CONTENT_PDF_URL, EUSCREEN_COLLECTIONS_URL, INA_INSTITUTION_URL, PARES_HOME_URL
+from .config import (
+    APE_CONTENT_PDF_URL,
+    EUSCREEN_COLLECTIONS_URL,
+    EUROPEAN_FILM_GATEWAY_HOME_URL,
+    EUROPEANA_HOME_URL,
+    INA_INSTITUTION_URL,
+    PARES_HOME_URL,
+)
 from .output_files import (
     APE_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
+    EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
+    EUROPEANA_OUTPUT_FILES,
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
     list_ape_output_filenames,
     list_euscreen_output_filenames,
+    list_european_film_gateway_output_filenames,
+    list_europeana_output_filenames,
     list_ina_output_filenames,
     list_pares_output_filenames,
 )
@@ -225,12 +236,100 @@ CORPORA = {
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },
+    "european-film-gateway": {
+        "code": "european-film-gateway",
+        "label": "European Film Gateway",
+        "short_label": "EFG",
+        "category_code": "aggregator",
+        "expansion_priority": 3,
+        "entity_level": "infraestrutura agregadora",
+        "coverage_level": "agregador audiovisual europeu",
+        "scope": "agregador temático cinematográfico e audiovisual",
+        "methodological_unit": "registros audiovisuais agregados pela plataforma",
+        "ape_relationship": (
+            "complementa o APE no fechamento europeu como agregador temático de cinema, "
+            "sem ser tratado como arquivo custodial individual"
+        ),
+        "expansion_rationale": (
+            "Entra antes da expansão continental porque é um agregador europeu especializado "
+            "em patrimônio fílmico e audiovisual, com relevância direta para o recorte do observatório."
+        ),
+        "observatory_role": "agregador audiovisual europeu incorporado em modo cauteloso",
+        "audiovisual_scope_note": (
+            "É uma fonte especializada em cinema e audiovisual. Falhas de acesso público são "
+            "registradas como instabilidade técnica, não como ausência de acervo."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero audiovisual, o resultado exige nota metodológica forte, porque "
+            "a identidade pública do agregador é audiovisual."
+        ),
+        "source_url": EUROPEAN_FILM_GATEWAY_HOME_URL,
+        "output_files": EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
+        "list_output_filenames": list_european_film_gateway_output_filenames,
+        "detail_url_field": "efg_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "portal European Film Gateway",
+        "content_flag_label": "conteúdo audiovisual publicado na fonte",
+        "website_label": "site do agregador",
+        "run_script": "python scripts/run_european_film_gateway_pipeline.py",
+        "build_script": "python scripts/build_european_film_gateway_analytics.py",
+        "check_script": "python scripts/check_european_film_gateway_outputs.py",
+        "run_script_path": "scripts/run_european_film_gateway_pipeline.py",
+        "build_script_path": "scripts/build_european_film_gateway_analytics.py",
+        "check_script_path": "scripts/check_european_film_gateway_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "europeana": {
+        "code": "europeana",
+        "label": "Europeana",
+        "short_label": "Europeana",
+        "category_code": "aggregator",
+        "expansion_priority": 4,
+        "entity_level": "infraestrutura agregadora",
+        "coverage_level": "agregador cultural europeu",
+        "scope": "agregador cultural digital com recorte audiovisual",
+        "methodological_unit": "registros de mídia e metadados culturais filtrados por sinais audiovisuais",
+        "ape_relationship": (
+            "complementa o APE como agregador europeu amplo, mas exige separação explícita "
+            "entre patrimônio cultural geral e recorte audiovisual."
+        ),
+        "expansion_rationale": (
+            "Entra antes da expansão continental porque opera em escala europeia e oferece "
+            "superfície pública de busca por mídia, além de documentação de APIs."
+        ),
+        "observatory_role": "agregador cultural europeu incorporado com recorte audiovisual",
+        "audiovisual_scope_note": (
+            "É uma fonte geral de patrimônio cultural. O audiovisual só conta quando há "
+            "sinal público detectável em buscas filtradas por mídia ou metadados de item."
+        ),
+        "zero_result_policy": (
+            "Retorno zero não equivale a ausência de audiovisual europeu, mas a limite de "
+            "visibilidade, indexação, API ou filtragem da plataforma."
+        ),
+        "source_url": EUROPEANA_HOME_URL,
+        "output_files": EUROPEANA_OUTPUT_FILES,
+        "list_output_filenames": list_europeana_output_filenames,
+        "detail_url_field": "europeana_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "portal Europeana",
+        "content_flag_label": "conteúdo audiovisual detectável na fonte",
+        "website_label": "site do agregador",
+        "run_script": "python scripts/run_europeana_pipeline.py",
+        "build_script": "python scripts/build_europeana_analytics.py",
+        "check_script": "python scripts/check_europeana_outputs.py",
+        "run_script_path": "scripts/run_europeana_pipeline.py",
+        "build_script_path": "scripts/build_europeana_analytics.py",
+        "check_script_path": "scripts/check_europeana_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
     "pares": {
         "code": "pares",
         "label": "PARES",
         "short_label": "PARES",
         "category_code": "aggregator",
-        "expansion_priority": 3,
+        "expansion_priority": 5,
         "entity_level": "infraestrutura agregadora",
         "coverage_level": "agregador nacional europeu",
         "scope": "portal geral de arquivos",

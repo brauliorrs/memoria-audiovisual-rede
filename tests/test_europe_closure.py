@@ -196,11 +196,11 @@ class EuropeClosureTests(unittest.TestCase):
         status_by_code = dict(zip(matrix_df["unit_code"], matrix_df["protocol_status"]))
         self.assertEqual(
             status_by_code["european-film-gateway"],
-            "prototipo_leve_confirma_busca_publica_audiovisual",
+            "pipeline_ativo",
         )
         self.assertEqual(
             status_by_code["europeana"],
-            "prototipo_leve_materializado",
+            "pipeline_ativo",
         )
 
 

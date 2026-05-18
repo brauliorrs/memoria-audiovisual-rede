@@ -21,6 +21,11 @@ EUSCREEN_COLLECTIONS_URL = "https://euscreen.eu/collections/"
 EUSCREEN_EUROPEANA_URL = "https://euscreen.eu/europeana/"
 EUSCREEN_COLLECTION_GRID_URL_TEMPLATE = "https://euscreen.eu/collection-grid-{index}/?btn={index}&gridcols=3"
 EUSCREEN_ITEM_URL_TEMPLATE = "https://www.euscreen.eu/?page_id=388&item_id={item_id}"
+EUROPEAN_FILM_GATEWAY_HOME_URL = "https://www.europeanfilmgateway.eu/"
+EUROPEAN_FILM_GATEWAY_SEARCH_URL_TEMPLATE = "https://www.europeanfilmgateway.eu/search-efg?searchString={query}"
+EUROPEANA_HOME_URL = "https://www.europeana.eu/"
+EUROPEANA_SEARCH_URL_TEMPLATE = "https://www.europeana.eu/en/search?query={query}&media=true"
+EUROPEANA_API_REFERENCE_URL = "https://pro.europeana.eu/page/apis"
 PARES_HOME_URL = "https://pares.cultura.gob.es/"
 PARES_SEARCH_URL_TEMPLATE = "https://pares.mcu.es/ParesBusquedas20/catalogo/find?nm=&texto={query}"
 APE_FIND_URL = "https://www.archivesportaleurope.net/find-an-institution/"
@@ -56,6 +61,10 @@ VIDEO_PLATFORMS = {
     "mediaclip.ina.fr": "Mediaclip INA",
     "euscreen.eu": "EUscreen",
     "www.euscreen.eu": "EUscreen",
+    "europeanfilmgateway.eu": "European Film Gateway",
+    "www.europeanfilmgateway.eu": "European Film Gateway",
+    "europeana.eu": "Europeana",
+    "www.europeana.eu": "Europeana",
     "pares.mcu.es": "PARES",
     "pares.cultura.gob.es": "PARES",
 }
@@ -94,5 +103,7 @@ CCAAA_OUTPUT_PREFIX = "ccaaa"
 APE_OUTPUT_PREFIX = "ape"
 INA_OUTPUT_PREFIX = "ina"
 EUSCREEN_OUTPUT_PREFIX = "euscreen"
+EUROPEAN_FILM_GATEWAY_OUTPUT_PREFIX = "efg"
+EUROPEANA_OUTPUT_PREFIX = "europeana"
 PARES_OUTPUT_PREFIX = "pares"
 OUTPUT_DIR = ROOT_DIR / "data" / "output"

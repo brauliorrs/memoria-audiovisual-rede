@@ -5,8 +5,22 @@ from datetime import UTC, datetime
 import pandas as pd
 
 from .analysis import filter_curatorial_video_catalog
-from .config import APE_CONTENT_PDF_URL, EUSCREEN_COLLECTIONS_URL, INA_INSTITUTION_URL, PARES_HOME_URL
-from .output_files import APE_OUTPUT_FILES, EUSCREEN_OUTPUT_FILES, INA_OUTPUT_FILES, PARES_OUTPUT_FILES
+from .config import (
+    APE_CONTENT_PDF_URL,
+    EUSCREEN_COLLECTIONS_URL,
+    EUROPEAN_FILM_GATEWAY_HOME_URL,
+    EUROPEANA_HOME_URL,
+    INA_INSTITUTION_URL,
+    PARES_HOME_URL,
+)
+from .output_files import (
+    APE_OUTPUT_FILES,
+    EUSCREEN_OUTPUT_FILES,
+    EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
+    EUROPEANA_OUTPUT_FILES,
+    INA_OUTPUT_FILES,
+    PARES_OUTPUT_FILES,
+)
 
 
 RAW_OUTPUT_KEYS = [
@@ -297,6 +311,46 @@ def build_pares_snapshot_metadata(
     )
 
 
+def build_european_film_gateway_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="european-film-gateway",
+        source_url=EUROPEAN_FILM_GATEWAY_HOME_URL,
+        output_files=EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_europeana_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="europeana",
+        source_url=EUROPEANA_HOME_URL,
+        output_files=EUROPEANA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_euscreen_snapshot_metadata(
     output_dir,
     *,
@@ -337,6 +391,46 @@ def write_pares_snapshot_metadata(
     )
 
 
+def write_european_film_gateway_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="european-film-gateway",
+        source_url=EUROPEAN_FILM_GATEWAY_HOME_URL,
+        output_files=EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_europeana_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="europeana",
+        source_url=EUROPEANA_HOME_URL,
+        output_files=EUROPEANA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_ina_snapshot_metadata(
     output_dir,
     *,
@@ -362,12 +456,16 @@ __all__ = [
     "RAW_OUTPUT_KEYS",
     "build_ape_snapshot_metadata",
     "build_euscreen_snapshot_metadata",
+    "build_european_film_gateway_snapshot_metadata",
+    "build_europeana_snapshot_metadata",
     "build_ina_snapshot_metadata",
     "build_pares_snapshot_metadata",
     "build_snapshot_metadata",
     "save_snapshot_metadata_payload",
     "write_ape_snapshot_metadata",
     "write_euscreen_snapshot_metadata",
+    "write_european_film_gateway_snapshot_metadata",
+    "write_europeana_snapshot_metadata",
     "write_ina_snapshot_metadata",
     "write_pares_snapshot_metadata",
     "write_snapshot_metadata",

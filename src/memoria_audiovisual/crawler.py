@@ -194,6 +194,12 @@ def is_probably_video_link(url, platform=None):
         query = parse_qs(parsed.query)
         return bool(query.get("item_id")) or path.endswith("/item.html")
 
+    if platform == "European Film Gateway":
+        return "/search-efg" in path or "/detail/" in path or "/node/" in path
+
+    if platform == "Europeana":
+        return "/en/item/" in path or "/item/" in path
+
     if platform == "PARES":
         return "/paresbusquedas20/catalogo/description/" in path or "/paresbusquedas20/catalogo/show/" in path
 

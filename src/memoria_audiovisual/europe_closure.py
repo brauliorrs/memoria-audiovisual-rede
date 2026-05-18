@@ -145,7 +145,7 @@ def _candidate_rows(
     rows = []
     for _, evaluation_row in evaluation_df.iterrows():
         code = str(evaluation_row.get("code", ""))
-        if code == "pares" and code in CORPORA:
+        if code in CORPORA and CORPORA[code].get("organism_active", False):
             continue
 
         protocol_row = protocol_lookup.get(code)

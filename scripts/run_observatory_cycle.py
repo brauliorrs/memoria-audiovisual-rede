@@ -18,6 +18,8 @@ from memoria_audiovisual.european_aggregators import write_european_aggregator_e
 from memoria_audiovisual.europe_closure import write_europe_closure_outputs
 from memoria_audiovisual.european_protocols import (
     write_archiveshub_protocol_probe,
+    write_european_film_gateway_protocol_probe,
+    write_europeana_protocol_probe,
     write_francearchives_protocol_probe,
 )
 from memoria_audiovisual.organism import (
@@ -69,6 +71,8 @@ def main():
     write_european_aggregator_evaluation(OUTPUT_DIR)
     write_archiveshub_protocol_probe(OUTPUT_DIR)
     write_francearchives_protocol_probe(OUTPUT_DIR)
+    write_european_film_gateway_protocol_probe(OUTPUT_DIR)
+    write_europeana_protocol_probe(OUTPUT_DIR)
     write_europe_closure_outputs(OUTPUT_DIR)
 
     active_corpora = list_active_corpora(monthly_only=True)

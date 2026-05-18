@@ -3,15 +3,38 @@ import pandas as pd
 from .ape import collect_ape_dataset
 from .ape_exports import build_ape_analysis_extra_sheets
 from .ape_exports import write_ape_analysis_outputs
-from .config import APE_CONTENT_PDF_URL, EUSCREEN_COLLECTIONS_URL, INA_INSTITUTION_URL, OUTPUT_DIR, PARES_HOME_URL
+from .config import (
+    APE_CONTENT_PDF_URL,
+    EUSCREEN_COLLECTIONS_URL,
+    EUROPEAN_FILM_GATEWAY_HOME_URL,
+    EUROPEANA_HOME_URL,
+    INA_INSTITUTION_URL,
+    OUTPUT_DIR,
+    PARES_HOME_URL,
+)
+from .efg import collect_european_film_gateway_dataset
+from .efg_exports import (
+    build_european_film_gateway_analysis_extra_sheets,
+    write_european_film_gateway_analysis_outputs,
+)
 from .excel_export import save_basic_excel_report
+from .europeana import collect_europeana_dataset
+from .europeana_exports import build_europeana_analysis_extra_sheets
+from .europeana_exports import write_europeana_analysis_outputs
 from .euscreen import collect_euscreen_dataset
 from .euscreen_exports import build_euscreen_analysis_extra_sheets
 from .euscreen_exports import write_euscreen_analysis_outputs
 from .ina import collect_ina_dataset
 from .ina_exports import build_ina_analysis_extra_sheets
 from .ina_exports import write_ina_analysis_outputs
-from .output_files import APE_OUTPUT_FILES, EUSCREEN_OUTPUT_FILES, INA_OUTPUT_FILES, PARES_OUTPUT_FILES
+from .output_files import (
+    APE_OUTPUT_FILES,
+    EUSCREEN_OUTPUT_FILES,
+    EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
+    EUROPEANA_OUTPUT_FILES,
+    INA_OUTPUT_FILES,
+    PARES_OUTPUT_FILES,
+)
 from .pares import collect_pares_dataset
 from .pares_exports import build_pares_analysis_extra_sheets
 from .pares_exports import write_pares_analysis_outputs
@@ -19,6 +42,8 @@ from .reporting import build_report_payload, save_csv, save_json_report, save_tx
 from .snapshot_metadata import (
     build_ape_snapshot_metadata,
     build_euscreen_snapshot_metadata,
+    build_european_film_gateway_snapshot_metadata,
+    build_europeana_snapshot_metadata,
     build_ina_snapshot_metadata,
     build_pares_snapshot_metadata,
     save_snapshot_metadata_payload,
@@ -242,6 +267,158 @@ EUSCREEN_INTERNAL_PAGE_FIELDS = [
     "repository_code",
     "archive_type",
     "euscreen_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "internal_page",
+    "status",
+    "http_code",
+    "video_links_found",
+    "embedded_signals",
+    "warning",
+    "error",
+]
+
+EUROPEAN_FILM_GATEWAY_INSTITUTION_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "efg_detail_url",
+    "archive_type",
+    "external_url",
+    "website_available",
+    "content_available_in_source",
+]
+
+EUROPEAN_FILM_GATEWAY_SUMMARY_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "efg_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "partner_domain",
+    "status",
+    "http_code",
+    "integrity_status",
+    "final_url",
+    "video_links_found_total",
+    "embedded_video_signals_total",
+    "candidate_internal_pages",
+    "priority_review",
+    "warning",
+    "error",
+]
+
+EUROPEAN_FILM_GATEWAY_VIDEO_LINK_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "efg_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "platform",
+    "video_link",
+    "video_title",
+    "video_subject",
+    "video_description",
+    "video_published_at",
+]
+
+EUROPEAN_FILM_GATEWAY_INTERNAL_PAGE_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "efg_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "internal_page",
+    "status",
+    "http_code",
+    "video_links_found",
+    "embedded_signals",
+    "warning",
+    "error",
+]
+
+EUROPEANA_INSTITUTION_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "europeana_detail_url",
+    "archive_type",
+    "external_url",
+    "website_available",
+    "content_available_in_source",
+]
+
+EUROPEANA_SUMMARY_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "europeana_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "partner_domain",
+    "status",
+    "http_code",
+    "integrity_status",
+    "final_url",
+    "video_links_found_total",
+    "embedded_video_signals_total",
+    "candidate_internal_pages",
+    "priority_review",
+    "warning",
+    "error",
+]
+
+EUROPEANA_VIDEO_LINK_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "europeana_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "platform",
+    "video_link",
+    "video_title",
+    "video_subject",
+    "video_description",
+    "video_published_at",
+]
+
+EUROPEANA_INTERNAL_PAGE_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "europeana_detail_url",
     "content_available_in_source",
     "website_available",
     "partner_site",
@@ -497,6 +674,44 @@ def run_euscreen_pipeline():
     )
 
 
+def run_european_film_gateway_pipeline():
+    _run_corpus_pipeline(
+        source_label="European Film Gateway",
+        source_url=EUROPEAN_FILM_GATEWAY_HOME_URL,
+        collect_dataset=collect_european_film_gateway_dataset,
+        institution_fields=EUROPEAN_FILM_GATEWAY_INSTITUTION_FIELDS,
+        summary_fields=EUROPEAN_FILM_GATEWAY_SUMMARY_FIELDS,
+        video_link_fields=EUROPEAN_FILM_GATEWAY_VIDEO_LINK_FIELDS,
+        internal_page_fields=EUROPEAN_FILM_GATEWAY_INTERNAL_PAGE_FIELDS,
+        output_files=EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
+        analysis_output_writer=write_european_film_gateway_analysis_outputs,
+        analysis_extra_sheets_builder=build_european_film_gateway_analysis_extra_sheets,
+        snapshot_builder=build_european_film_gateway_snapshot_metadata,
+        report_title="RELATORIO - EUROPEAN FILM GATEWAY",
+        institutions_sheet_title="EFG Institutions",
+        generated_by="scripts/run_european_film_gateway_pipeline.py",
+    )
+
+
+def run_europeana_pipeline():
+    _run_corpus_pipeline(
+        source_label="Europeana",
+        source_url=EUROPEANA_HOME_URL,
+        collect_dataset=collect_europeana_dataset,
+        institution_fields=EUROPEANA_INSTITUTION_FIELDS,
+        summary_fields=EUROPEANA_SUMMARY_FIELDS,
+        video_link_fields=EUROPEANA_VIDEO_LINK_FIELDS,
+        internal_page_fields=EUROPEANA_INTERNAL_PAGE_FIELDS,
+        output_files=EUROPEANA_OUTPUT_FILES,
+        analysis_output_writer=write_europeana_analysis_outputs,
+        analysis_extra_sheets_builder=build_europeana_analysis_extra_sheets,
+        snapshot_builder=build_europeana_snapshot_metadata,
+        report_title="RELATORIO - EUROPEANA",
+        institutions_sheet_title="Europeana Institutions",
+        generated_by="scripts/run_europeana_pipeline.py",
+    )
+
+
 def run_pares_pipeline():
     _run_corpus_pipeline(
         source_label="PARES",
@@ -516,4 +731,11 @@ def run_pares_pipeline():
     )
 
 
-__all__ = ["run_pipeline", "run_ina_pipeline", "run_euscreen_pipeline", "run_pares_pipeline"]
+__all__ = [
+    "run_pipeline",
+    "run_ina_pipeline",
+    "run_euscreen_pipeline",
+    "run_european_film_gateway_pipeline",
+    "run_europeana_pipeline",
+    "run_pares_pipeline",
+]

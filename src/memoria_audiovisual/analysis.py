@@ -408,6 +408,10 @@ def classify_access_surface(row):
         return "Catálogo comercial de licenciamento"
     if platform == "EUscreen":
         return "Agregador audiovisual europeu"
+    if platform == "European Film Gateway":
+        return "Agregador audiovisual europeu especializado em cinema"
+    if platform == "Europeana":
+        return "Agregador cultural europeu com recorte audiovisual"
     if platform == "PARES":
         if "objeto digital detectado" in video_description:
             return "Objeto digital em agregador arquivístico nacional"
@@ -447,6 +451,8 @@ def classify_access_regime(modalities, audiovisual_visibility):
             "Catálogo comercial de licenciamento": "Acesso comercial/licenciamento",
             "Vídeo institucional incorporado": "Acesso institucional incorporado",
             "Agregador audiovisual europeu": "Acesso por agregador audiovisual europeu",
+            "Agregador audiovisual europeu especializado em cinema": "Acesso por agregador audiovisual europeu",
+            "Agregador cultural europeu com recorte audiovisual": "Acesso por agregador cultural europeu com recorte audiovisual",
             "Agregador arquivístico nacional": "Acesso por agregador arquivístico nacional",
             "Objeto digital em agregador arquivístico nacional": "Acesso a objeto digital em agregador arquivístico nacional",
             "Registro descritivo em agregador arquivístico nacional": "Acesso descritivo por agregador arquivístico nacional",
@@ -457,7 +463,11 @@ def classify_access_regime(modalities, audiovisual_visibility):
         return single_mode_map.get(modality, "Outra forma pública de acesso")
 
     institutional_modalities = {"Streaming curatorial", "Podcast público", "Vídeo institucional incorporado"}
-    european_av_aggregator_modalities = {"Agregador audiovisual europeu"}
+    european_av_aggregator_modalities = {
+        "Agregador audiovisual europeu",
+        "Agregador audiovisual europeu especializado em cinema",
+        "Agregador cultural europeu com recorte audiovisual",
+    }
     national_archival_aggregator_modalities = {
         "Agregador arquivístico nacional",
         "Objeto digital em agregador arquivístico nacional",
