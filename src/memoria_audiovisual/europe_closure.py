@@ -21,6 +21,7 @@ from .european_protocols import (
 EUROPE_CLOSURE_MATRIX_FILENAME = "observatorio_fechamento_europa.csv"
 EUROPE_CLOSURE_SUMMARY_FILENAME = "observatorio_resumo_fechamento_europa.csv"
 EUROPE_CLOSURE_DOSSIER_FILENAME = "observatorio_dossie_fechamento_europa.md"
+EUROPE_CLOSURE_QUEUE_FILENAME = "observatorio_fila_fechamento_europa.csv"
 EUROPE_CLOSURE_RULE_VERSION = "2026-05-fechamento-europa-v1"
 
 EUROPE_CLOSURE_MATRIX_COLUMNS = [
@@ -45,6 +46,21 @@ EUROPE_CLOSURE_SUMMARY_COLUMNS = [
     "evidence",
     "interpretation",
     "next_step",
+    "rule_version",
+]
+
+EUROPE_CLOSURE_QUEUE_COLUMNS = [
+    "priority",
+    "unit_code",
+    "unit_label",
+    "unit_type",
+    "territorial_scope",
+    "queue_status",
+    "queue_reason",
+    "evidence_status",
+    "protocol_status",
+    "next_step",
+    "blocks_expansion",
     "rule_version",
 ]
 
@@ -93,9 +109,16 @@ def _protocol_count(protocol_df):
     return int(len(protocol_df)) if protocol_df is not None and not protocol_df.empty else 0
 
 
-def _protocol_status_for_candidate(code, specific_protocol_df):
+def _protocol_status_for_candidate(code, specific_protocol_df, protocol_row=None):
     if specific_protocol_df is None or specific_protocol_df.empty:
-        return "sem_prototipo_especifico_materializado"
+        if protocol_row is None:
+            return "sem_prototipo_especifico_materializado"
+        decision = str(protocol_row.get("incorporation_decision", ""))
+        if decision == "pode_ser_tratado_como_corpus_experimental":
+            return "protocolo_generico_indica_pipeline_experimental"
+        if decision == "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel":
+            return "protocolo_generico_indica_rota_pendente"
+        return "protocolo_generico_materializado"
 
     conclusions = specific_protocol_df.get("protocol_conclusion", pd.Series(dtype="object")).astype(str)
     if code == "archives-hub":
@@ -161,8 +184,20 @@ def _candidate_rows(
             if code == "europeana"
             else pd.DataFrame()
         )
-        protocol_status = _protocol_status_for_candidate(code, specific_protocol_df)
+        protocol_status = _protocol_status_for_candidate(code, specific_protocol_df, protocol_row)
         can_open_next_continent = protocol_status != "sem_prototipo_especifico_materializado"
+        incorporation_decision = (
+            protocol_row.get("incorporation_decision", "")
+            if protocol_row is not None
+            else "aguardar_protocolo_estavel"
+        )
+        next_step = (
+            protocol_row.get("recommended_protocol", "")
+            if incorporation_decision == "pode_ser_tratado_como_corpus_experimental" and protocol_row is not None
+            else protocol_row.get("next_review_trigger", "")
+            if protocol_row is not None
+            else "materializar_prototipo_de_protocolo"
+        )
 
         rows.append(
             {
@@ -179,16 +214,8 @@ def _candidate_rows(
                     "de acervo audiovisual."
                 ),
                 "protocol_status": protocol_status,
-                "incorporation_decision": (
-                    protocol_row.get("incorporation_decision", "")
-                    if protocol_row is not None
-                    else "aguardar_protocolo_estavel"
-                ),
-                "next_step": (
-                    protocol_row.get("next_review_trigger", "")
-                    if protocol_row is not None
-                    else "materializar_prototipo_de_protocolo"
-                ),
+                "incorporation_decision": incorporation_decision,
+                "next_step": next_step,
                 "can_open_next_continent": can_open_next_continent,
                 "rule_version": EUROPE_CLOSURE_RULE_VERSION,
             }
@@ -226,6 +253,7 @@ def build_europe_closure_outputs(
         )
     )
     matrix_df = pd.DataFrame(matrix_rows, columns=EUROPE_CLOSURE_MATRIX_COLUMNS)
+    queue_df = build_europe_closure_queue(matrix_df)
 
     active_european_corpora = int((matrix_df["unit_type"] == "corpus_ativo").sum()) if not matrix_df.empty else 0
     pending_candidates = int((matrix_df["unit_type"] == "agregador_candidato").sum()) if not matrix_df.empty else 0
@@ -251,6 +279,17 @@ def build_europe_closure_outputs(
                 "gerais, agregador audiovisual, agregador nacional e arquivo especializado."
             ),
             "next_step": "validar_novas_rodadas_mensais",
+            "rule_version": EUROPE_CLOSURE_RULE_VERSION,
+        },
+        {
+            "criterion": "fila_europeia_organizada",
+            "status": "materializado" if not queue_df.empty else "pendente",
+            "evidence": f"{len(queue_df)} unidades ordenadas na fila europeia",
+            "interpretation": (
+                "A fila explicita o que deve virar pipeline, o que permanece protocolado e o que "
+                "segue apenas em monitoramento mensal."
+            ),
+            "next_step": "executar_prioridades_europeias_antes_de_novo_continente",
             "rule_version": EUROPE_CLOSURE_RULE_VERSION,
         },
         {
@@ -290,8 +329,61 @@ def build_europe_closure_outputs(
     summary_df = pd.DataFrame(summary_rows, columns=EUROPE_CLOSURE_SUMMARY_COLUMNS)
     return {
         "matrix": matrix_df,
+        "queue": queue_df,
         "summary": summary_df,
     }
+
+
+def build_europe_closure_queue(matrix_df):
+    if matrix_df is None or matrix_df.empty:
+        return pd.DataFrame(columns=EUROPE_CLOSURE_QUEUE_COLUMNS)
+
+    rows = []
+    for _, row in matrix_df.iterrows():
+        unit_type = row.get("unit_type", "")
+        protocol_status = str(row.get("protocol_status", ""))
+        incorporation_decision = str(row.get("incorporation_decision", ""))
+        can_open = str(row.get("can_open_next_continent", "")).lower() == "true"
+
+        if unit_type == "corpus_ativo":
+            priority = 9
+            queue_status = "monitoramento_mensal"
+            queue_reason = "Corpus europeu já incorporado; precisa apenas permanecer no ciclo mensal."
+        elif protocol_status == "sem_prototipo_especifico_materializado":
+            priority = 1
+            queue_status = "protocolar_antes_da_expansao"
+            queue_reason = "Candidato europeu sem protocolo suficiente para fechamento continental."
+        elif incorporation_decision == "pode_ser_tratado_como_corpus_experimental":
+            priority = 2
+            queue_status = "preparar_pipeline_experimental"
+            queue_reason = "A sondagem indica rota pública suficiente para corpus experimental."
+        else:
+            priority = 3
+            queue_status = "pendencia_protocolada"
+            queue_reason = "Candidato europeu documentado, mas sem rota estável para corpus ativo."
+
+        rows.append(
+            {
+                "priority": priority,
+                "unit_code": row.get("unit_code", ""),
+                "unit_label": row.get("unit_label", ""),
+                "unit_type": unit_type,
+                "territorial_scope": row.get("territorial_scope", ""),
+                "queue_status": queue_status,
+                "queue_reason": queue_reason,
+                "evidence_status": row.get("evidence_status", ""),
+                "protocol_status": protocol_status,
+                "next_step": row.get("next_step", ""),
+                "blocks_expansion": not can_open,
+                "rule_version": EUROPE_CLOSURE_RULE_VERSION,
+            }
+        )
+
+    return (
+        pd.DataFrame(rows, columns=EUROPE_CLOSURE_QUEUE_COLUMNS)
+        .sort_values(["priority", "unit_label"])
+        .reset_index(drop=True)
+    )
 
 
 def build_europe_closure_dossier(matrix_df, summary_df):
@@ -299,6 +391,7 @@ def build_europe_closure_dossier(matrix_df, summary_df):
     candidate_df = (
         matrix_df[matrix_df["unit_type"] == "agregador_candidato"] if not matrix_df.empty else pd.DataFrame()
     )
+    queue_df = build_europe_closure_queue(matrix_df)
     opening_status = summary_df.loc[
         summary_df["criterion"] == "abertura_do_proximo_continente",
         "status",
@@ -326,6 +419,12 @@ def build_europe_closure_dossier(matrix_df, summary_df):
         lines.append(
             f"- `{row['unit_code']}`: {row['unit_label']} | {row['protocol_status']} | "
             f"decisão: {row['incorporation_decision']}."
+        )
+
+    lines.extend(["", "## Fila europeia"])
+    for _, row in queue_df.loc[queue_df["priority"] < 9].head(5).iterrows():
+        lines.append(
+            f"- Prioridade {row['priority']} | `{row['unit_code']}`: {row['queue_status']} | {row['next_step']}."
         )
 
     lines.extend(
@@ -360,6 +459,11 @@ def write_europe_closure_outputs(output_dir: Path = OUTPUT_DIR):
         index=False,
         encoding="utf-8-sig",
     )
+    outputs["queue"].to_csv(
+        output_dir / EUROPE_CLOSURE_QUEUE_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
     outputs["dossier"] = build_europe_closure_dossier(outputs["matrix"], outputs["summary"])
     (output_dir / EUROPE_CLOSURE_DOSSIER_FILENAME).write_text(outputs["dossier"], encoding="utf-8")
     return outputs
@@ -369,10 +473,13 @@ __all__ = [
     "EUROPE_CLOSURE_DOSSIER_FILENAME",
     "EUROPE_CLOSURE_MATRIX_COLUMNS",
     "EUROPE_CLOSURE_MATRIX_FILENAME",
+    "EUROPE_CLOSURE_QUEUE_COLUMNS",
+    "EUROPE_CLOSURE_QUEUE_FILENAME",
     "EUROPE_CLOSURE_RULE_VERSION",
     "EUROPE_CLOSURE_SUMMARY_COLUMNS",
     "EUROPE_CLOSURE_SUMMARY_FILENAME",
     "build_europe_closure_dossier",
+    "build_europe_closure_queue",
     "build_europe_closure_outputs",
     "write_europe_closure_outputs",
 ]

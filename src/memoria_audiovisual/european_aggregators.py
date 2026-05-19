@@ -177,6 +177,19 @@ EUROPEAN_AGGREGATOR_CANDIDATES = [
         ),
     ),
     AggregatorCandidate(
+        code="portal-portugues-arquivos",
+        label="Portal Português de Arquivos",
+        country_scope="Portugal",
+        coverage_level="agregador nacional",
+        source_url="https://portal.arquivos.pt/",
+        search_url_template="https://portal.arquivos.pt/search?q={query}",
+        query_terms=("audiovisual", "video", "vídeo", "filme", "sonoro"),
+        methodological_note=(
+            "Agregador nacional português. Entra no mapeamento europeu para reduzir lacuna "
+            "ibérica e testar sinais audiovisuais antes de qualquer pipeline próprio."
+        ),
+    ),
+    AggregatorCandidate(
         code="european-film-gateway",
         label="European Film Gateway",
         country_scope="Europa",
@@ -310,6 +323,26 @@ EUROPEAN_AGGREGATOR_ACCESS_ROUTES = [
         ),
     ),
     AggregatorAccessRoute(
+        code="portal-portugues-arquivos",
+        label="Portal Português de Arquivos",
+        country_scope="Portugal",
+        route_type="Busca pública",
+        route_url="https://portal.arquivos.pt/search?q=video",
+        source_reference_url="https://portal.arquivos.pt/",
+        source_reference_note=(
+            "O portal oficial descreve o PPA como agregador de metainformação e, quando possível, "
+            "imagens das entidades aderentes à Rede Portuguesa de Arquivos."
+        ),
+        audiovisual_use=(
+            "Sondar termos audiovisuais em descrições portuguesas e separar fotografia, som, filme e vídeo "
+            "antes de promover o portal a corpus experimental."
+        ),
+        methodological_note=(
+            "Rota nacional prioritária para fechar a lacuna Portugal sem confundir descrição arquivística "
+            "com reprodução audiovisual acessível."
+        ),
+    ),
+    AggregatorAccessRoute(
         code="european-film-gateway",
         label="European Film Gateway",
         country_scope="Europa",
@@ -381,6 +414,7 @@ def parse_result_count(text):
         r"Resultados\s+\d+\s*-\s*\d+\s+de\s+([\d\.]+)",
         r"Résultats?\s+\d+\s*-\s*\d+\s+sur\s+([\d\s]+)",
         r"([\d\s]+)\s+résultats?",
+        r"You search for .+ and ([\d,\.]+) records were found",
         r"Videos?\s*\(([\d,\.]+)\s+Results?\)",
         r"([\d,]+)\s+results?",
     ]

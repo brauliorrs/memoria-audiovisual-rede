@@ -70,7 +70,7 @@ No estado atual:
 - `Europeana` está enquadrada como `agregador cultural europeu com recorte audiovisual`;
 - `PARES` está enquadrado como `agregador nacional europeu em modo experimental`;
 - `INA` está enquadrado como `arquivo/instituição arquivística`;
-- `Archives Hub` e `FranceArchives` permanecem como candidatos europeus documentados, sem corpus ativo;
+- `Archives Hub`, `FranceArchives` e `Portal Português de Arquivos` permanecem como candidatos europeus documentados, sem corpus ativo;
 - a interface permite trabalhar com o todo, por categoria analítica e por corpus individual, sem fundir esses níveis de análise.
 
 ## Linha do tempo e possíveis extinções
@@ -125,6 +125,7 @@ Artefatos globais do organismo:
 - `data/output/observatorio_linha_do_tempo_ciclos.csv`
 - `data/output/observatorio_resultados_ciclos.csv`
 - `data/output/observatorio_fechamento_europa.csv`
+- `data/output/observatorio_fila_fechamento_europa.csv`
 - `data/output/observatorio_resumo_fechamento_europa.csv`
 - `data/output/observatorio_dossie_fechamento_europa.md`
 - `data/output/observatorio_candidatos_descoberta.csv`
@@ -412,6 +413,7 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES` e o `INA` segu
 19. O corpus `Europeana` materializa registros de mídia triados por sinais audiovisuais, preservando a ressalva de que se trata de agregador cultural amplo, não de arquivo audiovisual especializado.
 20. O relatório de fechamento europeu separa corpora ativos de candidatos protocolados e só autoriza a próxima etapa continental quando os candidatos europeus prioritários estiverem incorporados, protocolados ou justificados como inviáveis.
 21. O dossiê MVP de fechamento europeu sintetiza o corpus continental, as pendências documentadas e a regra metodológica para uso em artigo e projeto de pós-doutorado.
+22. A fila de fechamento europeu ordena candidatos e corpora por prioridade, separando preparação de pipeline, pendência protocolada e monitoramento mensal.
 
 ## Qualidade do repositório
 

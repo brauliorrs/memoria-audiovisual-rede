@@ -27,6 +27,7 @@ from memoria_audiovisual.european_aggregators import (
 from memoria_audiovisual.europe_closure import (
     EUROPE_CLOSURE_DOSSIER_FILENAME,
     EUROPE_CLOSURE_MATRIX_FILENAME,
+    EUROPE_CLOSURE_QUEUE_FILENAME,
     EUROPE_CLOSURE_SUMMARY_FILENAME,
 )
 from memoria_audiovisual.european_protocols import (
@@ -68,6 +69,7 @@ def main():
     european_film_gateway_protocol_path = OUTPUT_DIR / EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME
     europeana_protocol_path = OUTPUT_DIR / EUROPEANA_PROTOCOL_FILENAME
     europe_closure_matrix_path = OUTPUT_DIR / EUROPE_CLOSURE_MATRIX_FILENAME
+    europe_closure_queue_path = OUTPUT_DIR / EUROPE_CLOSURE_QUEUE_FILENAME
     europe_closure_summary_path = OUTPUT_DIR / EUROPE_CLOSURE_SUMMARY_FILENAME
     europe_closure_dossier_path = OUTPUT_DIR / EUROPE_CLOSURE_DOSSIER_FILENAME
 
@@ -89,6 +91,7 @@ def main():
         (european_film_gateway_protocol_path, "Prototipo de protocolo European Film Gateway"),
         (europeana_protocol_path, "Prototipo de protocolo Europeana"),
         (europe_closure_matrix_path, "Matriz de fechamento europeu"),
+        (europe_closure_queue_path, "Fila de fechamento europeu"),
         (europe_closure_summary_path, "Resumo de fechamento europeu"),
         (europe_closure_dossier_path, "Dossiê MVP de fechamento europeu"),
     ]
@@ -114,6 +117,7 @@ def main():
     european_film_gateway_protocol_df = pd.read_csv(european_film_gateway_protocol_path)
     europeana_protocol_df = pd.read_csv(europeana_protocol_path)
     europe_closure_matrix_df = pd.read_csv(europe_closure_matrix_path)
+    europe_closure_queue_df = pd.read_csv(europe_closure_queue_path)
     europe_closure_summary_df = pd.read_csv(europe_closure_summary_path)
     europe_closure_dossier_text = europe_closure_dossier_path.read_text(encoding="utf-8")
     active_corpora = list_active_corpora(monthly_only=True)
@@ -150,6 +154,7 @@ def main():
     print(f"- sondagens do protocolo European Film Gateway: {len(european_film_gateway_protocol_df)}")
     print(f"- sondagens do protocolo Europeana: {len(europeana_protocol_df)}")
     print(f"- unidades na matriz de fechamento europeu: {len(europe_closure_matrix_df)}")
+    print(f"- unidades na fila de fechamento europeu: {len(europe_closure_queue_df)}")
     print(f"- criterios de fechamento europeu: {len(europe_closure_summary_df)}")
     print(f"- caracteres no dossiê MVP europeu: {len(europe_closure_dossier_text)}")
 
@@ -208,7 +213,7 @@ def main():
         print("- o prototipo de protocolo Europeana esta vazio")
         return 1
 
-    if europe_closure_matrix_df.empty or europe_closure_summary_df.empty:
+    if europe_closure_matrix_df.empty or europe_closure_queue_df.empty or europe_closure_summary_df.empty:
         print("- o fechamento europeu nao foi materializado corretamente")
         return 1
 

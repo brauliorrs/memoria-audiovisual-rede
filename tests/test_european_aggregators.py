@@ -28,6 +28,11 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
 
         self.assertEqual(parse_result_count(text), 1)
 
+    def test_parse_result_count_accepts_portuguese_archive_portal_text(self):
+        text = "You search for video and 1,234 records were found."
+
+        self.assertEqual(parse_result_count(text), 1234)
+
     def test_detect_js_cookie_requirement_accepts_common_blocking_text(self):
         self.assertTrue(detect_js_cookie_requirement("This website requires JS enabled and cookies"))
         self.assertTrue(detect_js_cookie_requirement("", "Just a moment..."))
@@ -41,6 +46,16 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
                     "content_type": "text/html",
                     "title": "PARES | Archivos Españoles",
                     "text": "Resultados 1 - 25 de 32",
+                    "tls_verification_failed": False,
+                    "error": "",
+                }
+            if "portal.arquivos.pt" in url and "search?q=" in url:
+                return {
+                    "http_status": 200,
+                    "final_url": url,
+                    "content_type": "text/html",
+                    "title": "Portal PortuguÃªs de Arquivos",
+                    "text": "You search for video and 12 records were found.",
                     "tls_verification_failed": False,
                     "error": "",
                 }
@@ -73,9 +88,11 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
 
         self.assertEqual(len(evaluation_df), len(EUROPEAN_AGGREGATOR_CANDIDATES))
         pares_row = evaluation_df.loc[evaluation_df["code"] == "pares"].iloc[0]
+        ppa_row = evaluation_df.loc[evaluation_df["code"] == "portal-portugues-arquivos"].iloc[0]
         archives_hub_row = evaluation_df.loc[evaluation_df["code"] == "archives-hub"].iloc[0]
 
         self.assertEqual(pares_row["candidate_status"], "pronto_para_pipeline_experimental")
+        self.assertEqual(ppa_row["candidate_status"], "pronto_para_pipeline_experimental")
         self.assertGreater(int(pares_row["search_result_count_total"]), 0)
         self.assertEqual(archives_hub_row["candidate_status"], "requer_protocolo_de_acesso")
 

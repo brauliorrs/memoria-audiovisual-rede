@@ -27,6 +27,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn("europeana", registry_df["code"].tolist())
         self.assertIn("pares", registry_df["code"].tolist())
         self.assertIn("archivegrid", registry_df["code"].tolist())
+        self.assertIn("portal-portugues-arquivos", registry_df["code"].tolist())
         self.assertIn("iberarchivos", registry_df["code"].tolist())
 
     def test_expansion_queue_prioritizes_stage_1_aggregators(self):
