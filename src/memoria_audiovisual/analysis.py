@@ -367,12 +367,14 @@ def infer_video_theme(row):
             return theme_name
 
     platform = normalize_optional_text(row.get("platform"))
-    if platform == "PARES":
+    if platform in {"PARES", "Portal Português de Arquivos"}:
         if "objeto digital detectado" in normalized:
             return "Digitalização e acesso"
-        if re.search(r"\b(archivo|archivos|coleccion|colección|fondo|fondos)\b", normalized):
+        if "ligacao a fonte original" in normalized:
+            return "Digitalização e acesso"
+        if re.search(r"\b(arquivo|arquivos|archivo|archivos|colecao|coleccion|fundo|fondos)\b", normalized):
             return "Acervo e patrimônio"
-        if re.search(r"\b(audiovisual|film|cine|video|vídeo|cinta|sonoro|sonora)\b", normalized):
+        if re.search(r"\b(audiovisual|film|filme|cine|cinema|video|cinta|sonoro|sonora)\b", normalized):
             return "Registro audiovisual em catálogo"
         return "Registro arquivístico recuperado"
 
@@ -412,10 +414,10 @@ def classify_access_surface(row):
         return "Agregador audiovisual europeu especializado em cinema"
     if platform == "Europeana":
         return "Agregador cultural europeu com recorte audiovisual"
-    if platform == "PARES":
+    if platform in {"PARES", "Portal Português de Arquivos"}:
         if "objeto digital detectado" in video_description:
             return "Objeto digital em agregador arquivístico nacional"
-        if "registro descritivo recuperado" in video_description:
+        if "registro descritivo" in video_description:
             return "Registro descritivo em agregador arquivístico nacional"
         return "Agregador arquivístico nacional"
     if platform == "Vimeo" and "ina.fr" in video_link:

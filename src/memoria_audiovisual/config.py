@@ -28,6 +28,8 @@ EUROPEANA_SEARCH_URL_TEMPLATE = "https://www.europeana.eu/en/search?query={query
 EUROPEANA_API_REFERENCE_URL = "https://pro.europeana.eu/page/apis"
 PARES_HOME_URL = "https://pares.cultura.gob.es/"
 PARES_SEARCH_URL_TEMPLATE = "https://pares.mcu.es/ParesBusquedas20/catalogo/find?nm=&texto={query}"
+PPA_HOME_URL = "https://portal.arquivos.pt/"
+PPA_SEARCH_URL_TEMPLATE = "https://portal.arquivos.pt/search?q={query}"
 APE_FIND_URL = "https://www.archivesportaleurope.net/find-an-institution/"
 APE_CONTENT_PDF_URL = "https://www.archivesportaleurope.net/uploads/files/20251215_OnlyInstitutionsWithContent.pdf"
 APE_ALL_INSTITUTIONS_PDF_URL = "https://www.archivesportaleurope.net/uploads/files/20251215_AllInstitutions.pdf"
@@ -67,6 +69,7 @@ VIDEO_PLATFORMS = {
     "www.europeana.eu": "Europeana",
     "pares.mcu.es": "PARES",
     "pares.cultura.gob.es": "PARES",
+    "portal.arquivos.pt": "Portal Português de Arquivos",
 }
 
 VIDEO_HINTS_IN_URL = [
@@ -106,4 +109,5 @@ EUSCREEN_OUTPUT_PREFIX = "euscreen"
 EUROPEAN_FILM_GATEWAY_OUTPUT_PREFIX = "efg"
 EUROPEANA_OUTPUT_PREFIX = "europeana"
 PARES_OUTPUT_PREFIX = "pares"
+PPA_OUTPUT_PREFIX = "ppa"
 OUTPUT_DIR = ROOT_DIR / "data" / "output"

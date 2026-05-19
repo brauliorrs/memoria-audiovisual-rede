@@ -203,6 +203,9 @@ def is_probably_video_link(url, platform=None):
     if platform == "PARES":
         return "/paresbusquedas20/catalogo/description/" in path or "/paresbusquedas20/catalogo/show/" in path
 
+    if platform == "Portal Português de Arquivos":
+        return path == "/record" and bool(query.get("id"))
+
     return any(hint in path for hint in EMBED_HINTS)
 
 

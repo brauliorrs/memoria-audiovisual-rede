@@ -1211,8 +1211,9 @@ def render_observatory_overview_tab():
     st.markdown("### Avaliação técnica dos agregadores europeus candidatos")
     st.caption(
         "Esta camada não incorpora novos corpora automaticamente. Ela observa a superfície pública de "
-        "Archives Hub, FranceArchives e PARES para decidir, com evidência registrada, qual fonte pode "
-        "seguir para pipeline experimental e qual exige protocolo técnico adicional."
+        "Archives Hub, FranceArchives, PARES e Portal Português de Arquivos para decidir, com "
+        "evidência registrada, qual fonte pode seguir para validação total e qual exige protocolo "
+        "técnico adicional."
     )
     if european_aggregator_evaluation_df is None or european_aggregator_evaluation_df.empty:
         st.info(
@@ -1223,7 +1224,7 @@ def render_observatory_overview_tab():
         ready_count = int(
             (
                 european_aggregator_evaluation_df.get("candidate_status", pd.Series(dtype="object"))
-                == "pronto_para_pipeline_experimental"
+                == "pronto_para_validacao_total"
             ).sum()
         )
         protocol_count = int(
@@ -1250,7 +1251,7 @@ def render_observatory_overview_tab():
         )
         european_eval_metric_cols = st.columns(4)
         european_eval_metric_cols[0].metric("Agregadores avaliados", len(european_aggregator_evaluation_df))
-        european_eval_metric_cols[1].metric("Prontos para pipeline experimental", ready_count)
+        european_eval_metric_cols[1].metric("Prontos para validação total", ready_count)
         european_eval_metric_cols[2].metric("Exigem protocolo técnico", protocol_count)
         european_eval_metric_cols[3].metric("Resultados preliminares", result_total)
 

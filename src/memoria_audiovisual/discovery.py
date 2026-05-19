@@ -132,7 +132,7 @@ DISCOVERY_BASELINE_CANDIDATES = [
     },
     {
         "code": "portal-portugues-arquivos",
-        "label": "Portal PortuguÃªs de Arquivos",
+        "label": "Portal Português de Arquivos",
         "short_label": "PPA",
         "category_code": "aggregator",
         "entity_level": "infraestrutura agregadora",

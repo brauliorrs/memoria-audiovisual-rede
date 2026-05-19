@@ -139,7 +139,7 @@ class EuropeClosureTests(unittest.TestCase):
             [
                 {
                     "unit_code": "portal-portugues-arquivos",
-                    "unit_label": "Portal PortuguÃªs de Arquivos",
+                    "unit_label": "Portal Português de Arquivos",
                     "unit_type": "agregador_candidato",
                     "territorial_scope": "agregador nacional",
                     "evidence_status": "busca_publica_com_resultados",

@@ -12,6 +12,7 @@ from .config import (
     EUROPEANA_HOME_URL,
     INA_INSTITUTION_URL,
     PARES_HOME_URL,
+    PPA_HOME_URL,
 )
 from .output_files import (
     APE_OUTPUT_FILES,
@@ -20,6 +21,7 @@ from .output_files import (
     EUROPEANA_OUTPUT_FILES,
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
+    PPA_OUTPUT_FILES,
 )
 
 
@@ -311,6 +313,26 @@ def build_pares_snapshot_metadata(
     )
 
 
+def build_ppa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="portal-portugues-arquivos",
+        source_url=PPA_HOME_URL,
+        output_files=PPA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def build_european_film_gateway_snapshot_metadata(
     output_dir,
     *,
@@ -391,6 +413,26 @@ def write_pares_snapshot_metadata(
     )
 
 
+def write_ppa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="portal-portugues-arquivos",
+        source_url=PPA_HOME_URL,
+        output_files=PPA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_european_film_gateway_snapshot_metadata(
     output_dir,
     *,
@@ -460,6 +502,7 @@ __all__ = [
     "build_europeana_snapshot_metadata",
     "build_ina_snapshot_metadata",
     "build_pares_snapshot_metadata",
+    "build_ppa_snapshot_metadata",
     "build_snapshot_metadata",
     "save_snapshot_metadata_payload",
     "write_ape_snapshot_metadata",
@@ -468,5 +511,6 @@ __all__ = [
     "write_europeana_snapshot_metadata",
     "write_ina_snapshot_metadata",
     "write_pares_snapshot_metadata",
+    "write_ppa_snapshot_metadata",
     "write_snapshot_metadata",
 ]

@@ -11,6 +11,7 @@ from .config import (
     INA_INSTITUTION_URL,
     OUTPUT_DIR,
     PARES_HOME_URL,
+    PPA_HOME_URL,
 )
 from .efg import collect_european_film_gateway_dataset
 from .efg_exports import (
@@ -34,10 +35,14 @@ from .output_files import (
     EUROPEANA_OUTPUT_FILES,
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
+    PPA_OUTPUT_FILES,
 )
 from .pares import collect_pares_dataset
 from .pares_exports import build_pares_analysis_extra_sheets
 from .pares_exports import write_pares_analysis_outputs
+from .ppa import collect_ppa_dataset
+from .ppa_exports import build_ppa_analysis_extra_sheets
+from .ppa_exports import write_ppa_analysis_outputs
 from .reporting import build_report_payload, save_csv, save_json_report, save_txt_report
 from .snapshot_metadata import (
     build_ape_snapshot_metadata,
@@ -46,6 +51,7 @@ from .snapshot_metadata import (
     build_europeana_snapshot_metadata,
     build_ina_snapshot_metadata,
     build_pares_snapshot_metadata,
+    build_ppa_snapshot_metadata,
     save_snapshot_metadata_payload,
 )
 from .timeline import write_timeline_outputs
@@ -507,6 +513,11 @@ PARES_INTERNAL_PAGE_FIELDS = [
     "error",
 ]
 
+PPA_INSTITUTION_FIELDS = [field.replace("pares_detail_url", "ppa_detail_url") for field in PARES_INSTITUTION_FIELDS]
+PPA_SUMMARY_FIELDS = [field.replace("pares_detail_url", "ppa_detail_url") for field in PARES_SUMMARY_FIELDS]
+PPA_VIDEO_LINK_FIELDS = [field.replace("pares_detail_url", "ppa_detail_url") for field in PARES_VIDEO_LINK_FIELDS]
+PPA_INTERNAL_PAGE_FIELDS = [field.replace("pares_detail_url", "ppa_detail_url") for field in PARES_INTERNAL_PAGE_FIELDS]
+
 
 def ensure_fields(rows, fieldnames):
     normalized = []
@@ -731,6 +742,25 @@ def run_pares_pipeline():
     )
 
 
+def run_ppa_pipeline():
+    _run_corpus_pipeline(
+        source_label="Portal Português de Arquivos",
+        source_url=PPA_HOME_URL,
+        collect_dataset=collect_ppa_dataset,
+        institution_fields=PPA_INSTITUTION_FIELDS,
+        summary_fields=PPA_SUMMARY_FIELDS,
+        video_link_fields=PPA_VIDEO_LINK_FIELDS,
+        internal_page_fields=PPA_INTERNAL_PAGE_FIELDS,
+        output_files=PPA_OUTPUT_FILES,
+        analysis_output_writer=write_ppa_analysis_outputs,
+        analysis_extra_sheets_builder=build_ppa_analysis_extra_sheets,
+        snapshot_builder=build_ppa_snapshot_metadata,
+        report_title="RELATORIO - PORTAL PORTUGUES DE ARQUIVOS",
+        institutions_sheet_title="PPA Institutions",
+        generated_by="scripts/run_ppa_pipeline.py",
+    )
+
+
 __all__ = [
     "run_pipeline",
     "run_ina_pipeline",
@@ -738,4 +768,5 @@ __all__ = [
     "run_european_film_gateway_pipeline",
     "run_europeana_pipeline",
     "run_pares_pipeline",
+    "run_ppa_pipeline",
 ]

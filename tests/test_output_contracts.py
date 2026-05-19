@@ -8,12 +8,14 @@ from memoria_audiovisual.output_files import (
     EUROPEANA_OUTPUT_FILES,
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
+    PPA_OUTPUT_FILES,
     list_ape_output_filenames,
     list_euscreen_output_filenames,
     list_european_film_gateway_output_filenames,
     list_europeana_output_filenames,
     list_ina_output_filenames,
     list_pares_output_filenames,
+    list_ppa_output_filenames,
 )
 
 
@@ -76,6 +78,10 @@ class OutputContractsTests(unittest.TestCase):
         filenames = list_pares_output_filenames()
         self.assertEqual(len(filenames), len(set(filenames)))
 
+    def test_ppa_output_manifest_values_are_unique(self):
+        filenames = list_ppa_output_filenames()
+        self.assertEqual(len(filenames), len(set(filenames)))
+
     def test_european_film_gateway_output_manifest_values_are_unique(self):
         filenames = list_european_film_gateway_output_filenames()
         self.assertEqual(len(filenames), len(set(filenames)))
@@ -95,6 +101,18 @@ class OutputContractsTests(unittest.TestCase):
             "extinction_signals",
         ]:
             self.assertIn(key, PARES_OUTPUT_FILES)
+
+    def test_ppa_required_report_files_exist_in_manifest(self):
+        for key in [
+            "report_json",
+            "report_txt",
+            "report_xlsx",
+            "snapshot_metadata",
+            "timeline_corpus",
+            "timeline_institutions",
+            "extinction_signals",
+        ]:
+            self.assertIn(key, PPA_OUTPUT_FILES)
 
     def test_european_film_gateway_required_report_files_exist_in_manifest(self):
         for key in [

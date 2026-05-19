@@ -29,6 +29,7 @@ _BASE_FRAME_DEFAULTS = {
     "archive_type": "",
     "ape_detail_url": "",
     "ina_detail_url": "",
+    "ppa_detail_url": "",
     "website_available": False,
     "content_available_in_ape": False,
     "content_available_in_source": False,

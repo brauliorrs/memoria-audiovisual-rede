@@ -54,7 +54,7 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
                     "http_status": 200,
                     "final_url": url,
                     "content_type": "text/html",
-                    "title": "Portal PortuguÃªs de Arquivos",
+                    "title": "Portal Português de Arquivos",
                     "text": "You search for video and 12 records were found.",
                     "tls_verification_failed": False,
                     "error": "",

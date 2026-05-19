@@ -5,6 +5,7 @@ from .config import (
     EUROPEANA_HOME_URL,
     INA_INSTITUTION_URL,
     PARES_HOME_URL,
+    PPA_HOME_URL,
 )
 from .output_files import (
     APE_OUTPUT_FILES,
@@ -13,12 +14,14 @@ from .output_files import (
     EUROPEANA_OUTPUT_FILES,
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
+    PPA_OUTPUT_FILES,
     list_ape_output_filenames,
     list_euscreen_output_filenames,
     list_european_film_gateway_output_filenames,
     list_europeana_output_filenames,
     list_ina_output_filenames,
     list_pares_output_filenames,
+    list_ppa_output_filenames,
 )
 
 
@@ -365,6 +368,51 @@ CORPORA = {
         "run_script_path": "scripts/run_pares_pipeline.py",
         "build_script_path": "scripts/build_pares_analytics.py",
         "check_script_path": "scripts/check_pares_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "portal-portugues-arquivos": {
+        "code": "portal-portugues-arquivos",
+        "label": "Portal Português de Arquivos",
+        "short_label": "PPA",
+        "category_code": "aggregator",
+        "expansion_priority": 6,
+        "entity_level": "infraestrutura agregadora",
+        "coverage_level": "agregador nacional europeu",
+        "scope": "portal geral de arquivos",
+        "methodological_unit": "registros recuperados pela busca pública do agregador",
+        "ape_relationship": (
+            "complementa o APE no fechamento europeu como agregador nacional português, "
+            "sem ser tratado como instituição custodial individual"
+        ),
+        "expansion_rationale": (
+            "Entra como corpus nacional incorporado após validação total da busca pública "
+            "e detecção de resultados para termos audiovisuais."
+        ),
+        "observatory_role": "agregador nacional europeu incorporado ao organismo",
+        "audiovisual_scope_note": (
+            "É uma fonte geral de pesquisa. A presença audiovisual é inferida por termos de "
+            "busca, descrições e ligações às fontes originais, sem equivaler automaticamente "
+            "à reprodução pública de vídeo."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero audiovisual, permanece como evidência sobre limites de visibilidade "
+            "da fonte geral, sem equivaler a ausência de acervo audiovisual português."
+        ),
+        "source_url": PPA_HOME_URL,
+        "output_files": PPA_OUTPUT_FILES,
+        "list_output_filenames": list_ppa_output_filenames,
+        "detail_url_field": "ppa_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "Portal Português de Arquivos",
+        "content_flag_label": "resultado audiovisual detectável na fonte",
+        "website_label": "site do agregador",
+        "run_script": "python scripts/run_ppa_pipeline.py",
+        "build_script": "python scripts/build_ppa_analytics.py",
+        "check_script": "python scripts/check_ppa_outputs.py",
+        "run_script_path": "scripts/run_ppa_pipeline.py",
+        "build_script_path": "scripts/build_ppa_analytics.py",
+        "check_script_path": "scripts/check_ppa_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },
