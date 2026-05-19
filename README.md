@@ -171,6 +171,8 @@ Decisões automáticas atuais:
 
 O `Iberarchivos / Observatorio Iberoamericano de Archivos` entra no radar mundial como `monitoramento_estrategico`: é fonte relevante para políticas e instituições arquivísticas ibero-americanas, mas ainda não como corpus ativo audiovisual.
 
+O registro de descoberta também executa uma sondagem leve nas URLs oficiais e em buscas internas declaradas, registrando `audiovisual_probe_status`, `audiovisual_probe_hits` e `audiovisual_probe_urls`. Isso evita que organismos de política arquivística passem sem verificação mínima de sinais audiovisuais em seus acervos, projetos ou corpus público.
+
 ## Estrutura
 
 ```text

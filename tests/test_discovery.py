@@ -11,6 +11,7 @@ from memoria_audiovisual.discovery import (
     build_discovery_registry,
     build_discovery_summary,
     build_expansion_queue,
+    probe_candidate_audiovisual,
     write_discovery_outputs,
 )
 
@@ -54,6 +55,24 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(evaluation["automatic_decision"], "monitoramento_estrategico")
         self.assertEqual(evaluation["next_step"], "monitorar_como_fonte_de_descoberta_sem_pipeline_imediato")
 
+    def test_probe_candidate_audiovisual_detects_official_search_hits(self):
+        def fake_fetcher(url):
+            return {
+                "url": url,
+                "text": "Projeto de digitalizacao de fundo audiovisual e suporte filmico.",
+            }
+
+        probe = probe_candidate_audiovisual(
+            {
+                "source_url": "https://exemplo.org/observatorio/",
+                "scope": "observatorio de politicas arquivisticas",
+            },
+            fetcher=fake_fetcher,
+        )
+
+        self.assertEqual(probe["audiovisual_probe_status"], "evidencia_audiovisual_detectada")
+        self.assertIn("audiovisual", probe["audiovisual_probe_hits"])
+
     def test_european_institution_candidate_is_kept_as_gap_or_exception(self):
         candidate = {
             "code": "arquivo-europeu-teste",
@@ -77,7 +96,7 @@ class DiscoveryTests(unittest.TestCase):
     def test_write_discovery_outputs_materializes_expected_files(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             output_dir = Path(tmp_dir)
-            outputs = write_discovery_outputs(output_dir)
+            outputs = write_discovery_outputs(output_dir, probe_candidates=False)
 
             self.assertTrue((output_dir / DISCOVERY_REGISTRY_FILENAME).exists())
             self.assertTrue((output_dir / DISCOVERY_QUEUE_FILENAME).exists())

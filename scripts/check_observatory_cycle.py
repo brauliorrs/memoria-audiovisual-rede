@@ -133,6 +133,13 @@ def main():
     print(f"- candidatos registrados para expansao: {len(discovery_registry_df)}")
     print(f"- itens na fila automatica de expansao: {len(discovery_queue_df)}")
     print(f"- decisoes automaticas sumarizadas: {len(discovery_summary_df)}")
+    if "audiovisual_probe_status" in discovery_registry_df.columns:
+        probed_total = int((discovery_registry_df["audiovisual_probe_status"] != "sondagem_nao_realizada").sum())
+        audiovisual_probe_hits = int(
+            (discovery_registry_df["audiovisual_probe_status"] == "evidencia_audiovisual_detectada").sum()
+        )
+        print(f"- candidatos com sondagem audiovisual: {probed_total}")
+        print(f"- candidatos com evidencia audiovisual preliminar: {audiovisual_probe_hits}")
     print(f"- rotas oficiais europeias registradas: {len(european_aggregator_access_routes_df)}")
     print(f"- agregadores europeus avaliados: {len(european_aggregator_evaluation_df)}")
     print(f"- sondagens europeias registradas: {len(european_aggregator_probes_df)}")
@@ -167,6 +174,10 @@ def main():
 
     if discovery_queue_df.empty:
         print("- a fila automatica de expansao esta vazia")
+        return 1
+
+    if "audiovisual_probe_status" not in discovery_registry_df.columns:
+        print("- o registro de descoberta nao materializou a sondagem audiovisual")
         return 1
 
     if european_aggregator_evaluation_df.empty:

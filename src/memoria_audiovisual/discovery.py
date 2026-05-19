@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
+from urllib.parse import quote, urlparse
 
 import pandas as pd
+import requests
 
 from .config import OUTPUT_DIR
 from .corpora import CORPORA, CORPUS_CATEGORIES, OBSERVATORY_PROFILE
@@ -12,8 +15,21 @@ DISCOVERY_REGISTRY_FILENAME = "observatorio_candidatos_descoberta.csv"
 DISCOVERY_QUEUE_FILENAME = "observatorio_fila_expansao.csv"
 DISCOVERY_SUMMARY_FILENAME = "observatorio_resumo_fila_expansao.csv"
 DISCOVERY_RULE_VERSION = "2026-05-organismo-v1"
+DISCOVERY_REQUEST_TIMEOUT = 20
 EUROPE_BASE_AGGREGATOR_CODE = "ape"
 EUROPE_BASE_INCLUDED_INSTITUTION_DECISION = "lacuna_ou_excecao_na_base_europa"
+AUDIOVISUAL_DISCOVERY_TERMS = (
+    "audiovisual",
+    "audiovisuales",
+    "cinema",
+    "cine",
+    "film",
+    "fílmico",
+    "sonoro",
+    "sonora",
+    "vídeo",
+    "video",
+)
 EUROPEAN_GEOGRAPHIC_MARKERS = {
     "alemanha",
     "belgica",
@@ -42,6 +58,9 @@ DISCOVERY_COLUMNS = [
     "discovery_origin",
     "source_url",
     "already_covered_by_active_aggregator",
+    "audiovisual_probe_status",
+    "audiovisual_probe_hits",
+    "audiovisual_probe_urls",
     "organism_status",
     "automatic_decision",
     "automatic_priority",
@@ -200,6 +219,11 @@ DISCOVERY_BASELINE_CANDIDATES = [
         "discovery_origin": "radar audiovisual mundial - sugestão de curadoria",
         "source_url": "https://iberarchivos.org/observatorio/",
         "already_covered_by_active_aggregator": False,
+        "probe_urls": [
+            "https://iberarchivos.org/?s=audiovisual",
+            "https://iberarchivos.org/?s=sonoro",
+            "https://iberarchivos.org/?s=video",
+        ],
     },
 ]
 
@@ -225,6 +249,70 @@ def _is_european_institution_candidate(candidate: dict) -> bool:
     ]
     normalized_scope = " ".join(str(value).lower() for value in scope_parts)
     return any(marker in normalized_scope for marker in EUROPEAN_GEOGRAPHIC_MARKERS)
+
+
+def _visible_text(html):
+    body_match = re.search(r"<body[^>]*>(.*?)</body>", str(html or ""), flags=re.IGNORECASE | re.DOTALL)
+    text = body_match.group(1) if body_match else str(html or "")
+    text = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", text, flags=re.IGNORECASE | re.DOTALL)
+    text = re.sub(r"<[^>]+>", " ", text)
+    return re.sub(r"\s+", " ", text).lower()
+
+
+def _fetch_probe_url(url):
+    response = requests.get(
+        url,
+        timeout=DISCOVERY_REQUEST_TIMEOUT,
+        headers={"User-Agent": "MemoriaAudiovisualRede/1.0 (+https://github.com/brauliorrs/memoria-audiovisual-rede)"},
+    )
+    return {"ok": response.ok, "url": response.url, "text": response.text}
+
+
+def _candidate_probe_urls(candidate):
+    urls = [candidate.get("source_url", ""), *candidate.get("probe_urls", [])]
+    source_url = str(candidate.get("source_url", ""))
+    parsed_url = urlparse(source_url)
+    if "observat" in str(candidate.get("scope", "")).lower() and parsed_url.scheme and parsed_url.netloc:
+        site_root = f"{parsed_url.scheme}://{parsed_url.netloc}"
+        urls.extend(f"{site_root}/?s={quote(term)}" for term in ("audiovisual", "sonoro", "video"))
+    return list(dict.fromkeys(url for url in urls if str(url).strip()))
+
+
+def probe_candidate_audiovisual(candidate, fetcher=_fetch_probe_url):
+    hits = set()
+    checked_urls = []
+    failed_urls = []
+    for url in _candidate_probe_urls(candidate):
+        try:
+            result = fetcher(url)
+        except Exception:
+            failed_urls.append(url)
+            continue
+        checked_urls.append(str(result.get("url") or url))
+        text = _visible_text(result.get("text", ""))
+        hits.update(term for term in AUDIOVISUAL_DISCOVERY_TERMS if term in text)
+
+    if hits:
+        status = "evidencia_audiovisual_detectada"
+    elif checked_urls:
+        status = "sem_evidencia_audiovisual_na_sondagem"
+    elif failed_urls:
+        status = "falha_na_sondagem"
+    else:
+        status = "sondagem_nao_realizada"
+    return {
+        "audiovisual_probe_status": status,
+        "audiovisual_probe_hits": "; ".join(sorted(hits)),
+        "audiovisual_probe_urls": "; ".join(checked_urls or failed_urls),
+    }
+
+
+def _empty_probe():
+    return {
+        "audiovisual_probe_status": "sondagem_nao_realizada",
+        "audiovisual_probe_hits": "",
+        "audiovisual_probe_urls": "",
+    }
 
 
 def _evaluate_candidate(candidate: dict, active_codes: set[str]) -> dict:
@@ -354,7 +442,7 @@ def _evaluate_candidate(candidate: dict, active_codes: set[str]) -> dict:
     }
 
 
-def build_discovery_registry():
+def build_discovery_registry(*, probe_candidates=False, fetcher=_fetch_probe_url):
     active_codes = {definition["code"] for definition in CORPORA.values()}
     rows = []
 
@@ -378,6 +466,7 @@ def build_discovery_registry():
                 "source_url": corpus_def.get("source_url", ""),
                 "already_covered_by_active_aggregator": False,
                 "rule_version": DISCOVERY_RULE_VERSION,
+                **_empty_probe(),
                 **evaluation,
             }
         )
@@ -387,6 +476,7 @@ def build_discovery_registry():
             continue
         category_def = CORPUS_CATEGORIES[candidate["category_code"]]
         evaluation = _evaluate_candidate(candidate, active_codes)
+        probe = probe_candidate_audiovisual(candidate, fetcher) if probe_candidates else _empty_probe()
         rows.append(
             {
                 "code": candidate["code"],
@@ -404,6 +494,7 @@ def build_discovery_registry():
                 "source_url": candidate["source_url"],
                 "already_covered_by_active_aggregator": candidate["already_covered_by_active_aggregator"],
                 "rule_version": DISCOVERY_RULE_VERSION,
+                **probe,
                 **evaluation,
             }
         )
@@ -457,9 +548,9 @@ def build_discovery_summary(registry_df: pd.DataFrame) -> pd.DataFrame:
     ).reset_index(drop=True)
 
 
-def write_discovery_outputs(output_dir: Path = OUTPUT_DIR):
+def write_discovery_outputs(output_dir: Path = OUTPUT_DIR, *, probe_candidates=True, fetcher=_fetch_probe_url):
     output_dir.mkdir(parents=True, exist_ok=True)
-    registry_df = build_discovery_registry()
+    registry_df = build_discovery_registry(probe_candidates=probe_candidates, fetcher=fetcher)
     queue_df = build_expansion_queue(registry_df)
     summary_df = build_discovery_summary(registry_df)
 
@@ -497,5 +588,6 @@ __all__ = [
     "build_discovery_registry",
     "build_discovery_summary",
     "build_expansion_queue",
+    "probe_candidate_audiovisual",
     "write_discovery_outputs",
 ]
