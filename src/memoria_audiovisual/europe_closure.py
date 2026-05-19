@@ -114,8 +114,8 @@ def _protocol_status_for_candidate(code, specific_protocol_df, protocol_row=None
         if protocol_row is None:
             return "sem_prototipo_especifico_materializado"
         decision = str(protocol_row.get("incorporation_decision", ""))
-        if decision == "pode_ser_tratado_como_corpus_experimental":
-            return "protocolo_generico_indica_pipeline_experimental"
+        if decision == "validar_totalmente_antes_de_incorporar_como_corpus_ativo":
+            return "protocolo_generico_indica_validacao_total"
         if decision == "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel":
             return "protocolo_generico_indica_rota_pendente"
         return "protocolo_generico_materializado"
@@ -193,7 +193,10 @@ def _candidate_rows(
         )
         next_step = (
             protocol_row.get("recommended_protocol", "")
-            if incorporation_decision == "pode_ser_tratado_como_corpus_experimental" and protocol_row is not None
+            if (
+                incorporation_decision == "validar_totalmente_antes_de_incorporar_como_corpus_ativo"
+                and protocol_row is not None
+            )
             else protocol_row.get("next_review_trigger", "")
             if protocol_row is not None
             else "materializar_prototipo_de_protocolo"
@@ -353,10 +356,10 @@ def build_europe_closure_queue(matrix_df):
             priority = 1
             queue_status = "protocolar_antes_da_expansao"
             queue_reason = "Candidato europeu sem protocolo suficiente para fechamento continental."
-        elif incorporation_decision == "pode_ser_tratado_como_corpus_experimental":
+        elif incorporation_decision == "validar_totalmente_antes_de_incorporar_como_corpus_ativo":
             priority = 2
-            queue_status = "preparar_pipeline_experimental"
-            queue_reason = "A sondagem indica rota pública suficiente para corpus experimental."
+            queue_status = "validar_totalmente_para_incorporacao"
+            queue_reason = "A sondagem indica rota pública, mas a unidade só entra após validação total."
         else:
             priority = 3
             queue_status = "pendencia_protocolada"

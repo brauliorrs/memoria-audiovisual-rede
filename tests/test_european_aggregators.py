@@ -91,8 +91,8 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
         ppa_row = evaluation_df.loc[evaluation_df["code"] == "portal-portugues-arquivos"].iloc[0]
         archives_hub_row = evaluation_df.loc[evaluation_df["code"] == "archives-hub"].iloc[0]
 
-        self.assertEqual(pares_row["candidate_status"], "pronto_para_pipeline_experimental")
-        self.assertEqual(ppa_row["candidate_status"], "pronto_para_pipeline_experimental")
+        self.assertEqual(pares_row["candidate_status"], "pronto_para_validacao_total")
+        self.assertEqual(ppa_row["candidate_status"], "pronto_para_validacao_total")
         self.assertGreater(int(pares_row["search_result_count_total"]), 0)
         self.assertEqual(archives_hub_row["candidate_status"], "requer_protocolo_de_acesso")
 
@@ -108,7 +108,7 @@ class EuropeanAggregatorEvaluationTests(unittest.TestCase):
         self.assertFalse(bool(pares_protocol["protocol_needed"]))
         self.assertEqual(
             pares_protocol["incorporation_decision"],
-            "pode_ser_tratado_como_corpus_experimental",
+            "validar_totalmente_antes_de_incorporar_como_corpus_ativo",
         )
 
     def test_build_access_routes_records_documented_alternatives(self):

@@ -335,7 +335,7 @@ EUROPEAN_AGGREGATOR_ACCESS_ROUTES = [
         ),
         audiovisual_use=(
             "Sondar termos audiovisuais em descrições portuguesas e separar fotografia, som, filme e vídeo "
-            "antes de promover o portal a corpus experimental."
+            "antes de promover o portal a corpus ativo definitivo."
         ),
         methodological_note=(
             "Rota nacional prioritária para fechar a lacuna Portugal sem confundir descrição arquivística "
@@ -743,9 +743,9 @@ def _build_candidate_summary(candidate, candidate_probe_df, evaluated_at):
 
     if result_total > 0:
         access_model = "busca_publica_com_resultados"
-        candidate_status = "pronto_para_pipeline_experimental"
-        ingestion_recommendation = "priorizar_pipeline_de_coleta_com_busca_publica"
-        next_step = "implementar_corpus_experimental_do_agregador"
+        candidate_status = "pronto_para_validacao_total"
+        ingestion_recommendation = "executar_validacao_total_antes_da_incorporacao_definitiva"
+        next_step = "validar_cobertura_metadados_amostras_e_rotas_antes_do_corpus"
     elif accessible_probe_count > 0 and blocked_probe_count == 0:
         access_model = "acesso_publico_sem_sinal_audiovisual_quantificado"
         candidate_status = "fonte_de_pesquisa_com_retorno_zero_preliminar"
@@ -796,9 +796,9 @@ def _build_protocol_row(evaluation_row):
     successful_terms = str(evaluation_row.get("successful_probe_terms") or "").strip()
     blocked_terms = str(evaluation_row.get("blocked_probe_terms") or "").strip()
 
-    if status == "pronto_para_pipeline_experimental":
+    if status == "pronto_para_validacao_total":
         protocol_needed = False
-        protocol_status = "rota_publica_suficiente_para_pipeline_experimental"
+        protocol_status = "rota_publica_suficiente_para_validacao_total"
         evidence_summary = (
             f"A busca pública retornou {total_results} resultados preliminares"
             + (f" nos termos: {successful_terms}." if successful_terms else ".")
@@ -807,10 +807,10 @@ def _build_protocol_row(evaluation_row):
             "A contagem inicial indica evidência pública detectável, mas ainda exige validação "
             "qualitativa para separar registro descritivo, objeto digital e reprodução audiovisual."
         )
-        recommended_protocol = "executar_pipeline_experimental_e_validar_amostras"
-        incorporation_decision = "pode_ser_tratado_como_corpus_experimental"
+        recommended_protocol = "executar_validacao_total_e_somente_entao_incorporar"
+        incorporation_decision = "validar_totalmente_antes_de_incorporar_como_corpus_ativo"
         priority = "alta"
-        next_review_trigger = "nova_rodada_mensal_ou_mudanca_no_formato_da_busca"
+        next_review_trigger = "conclusao_da_validacao_total"
     elif status == "requer_protocolo_de_acesso":
         protocol_needed = True
         protocol_status = "protocolo_tecnico_pendente"

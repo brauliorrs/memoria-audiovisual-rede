@@ -46,7 +46,7 @@ class EuropeClosureTests(unittest.TestCase):
                     "code": "pares",
                     "label": "PARES",
                     "coverage_level": "agregador nacional",
-                    "candidate_status": "pronto_para_pipeline_experimental",
+                    "candidate_status": "pronto_para_validacao_total",
                     "access_model": "busca_publica_com_resultados",
                 },
             ]
@@ -143,9 +143,9 @@ class EuropeClosureTests(unittest.TestCase):
                     "unit_type": "agregador_candidato",
                     "territorial_scope": "agregador nacional",
                     "evidence_status": "busca_publica_com_resultados",
-                    "protocol_status": "protocolo_generico_indica_pipeline_experimental",
-                    "incorporation_decision": "pode_ser_tratado_como_corpus_experimental",
-                    "next_step": "implementar_corpus_experimental_do_agregador",
+                    "protocol_status": "protocolo_generico_indica_validacao_total",
+                    "incorporation_decision": "validar_totalmente_antes_de_incorporar_como_corpus_ativo",
+                    "next_step": "executar_validacao_total_e_somente_entao_incorporar",
                     "can_open_next_continent": True,
                 }
             ]
@@ -153,7 +153,7 @@ class EuropeClosureTests(unittest.TestCase):
 
         queue_df = build_europe_closure_queue(matrix_df)
 
-        self.assertEqual(queue_df.iloc[0]["queue_status"], "preparar_pipeline_experimental")
+        self.assertEqual(queue_df.iloc[0]["queue_status"], "validar_totalmente_para_incorporacao")
         self.assertFalse(bool(queue_df.iloc[0]["blocks_expansion"]))
 
     def test_build_europe_closure_blocks_next_continent_for_unprotocolled_candidate(self):
@@ -163,7 +163,7 @@ class EuropeClosureTests(unittest.TestCase):
                     "code": "european-film-gateway",
                     "label": "European Film Gateway",
                     "coverage_level": "agregador audiovisual europeu",
-                    "candidate_status": "pronto_para_pipeline_experimental",
+                    "candidate_status": "pronto_para_validacao_total",
                     "access_model": "busca_publica_com_resultados",
                 }
             ]
@@ -191,7 +191,7 @@ class EuropeClosureTests(unittest.TestCase):
                     "code": "europeana",
                     "label": "Europeana",
                     "coverage_level": "agregador cultural europeu",
-                    "candidate_status": "pronto_para_pipeline_experimental",
+                    "candidate_status": "pronto_para_validacao_total",
                     "access_model": "busca_publica_com_resultados",
                 },
             ]

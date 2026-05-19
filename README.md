@@ -34,7 +34,7 @@ No observatório, essa pergunta é operacionalizada por variáveis como hospedag
 - `Corpus 2` — `EUscreen`: agregador audiovisual europeu, usado para observar circulação transnacional em uma plataforma temática especializada.
 - `Corpus 3` — `European Film Gateway`: agregador audiovisual europeu especializado em cinema, incorporado em modo cauteloso porque a superfície pública pode apresentar falha técnica em sondagens simples.
 - `Corpus 4` — `Europeana`: agregador cultural europeu amplo, incorporado com recorte audiovisual a partir de busca pública com filtro de mídia e triagem por sinais audiovisuais.
-- `Corpus 5` — `PARES`: agregador nacional espanhol em modo experimental, incorporado após avaliação técnica da busca pública. Neste corpus, o resultado detectado pode ser `registro descritivo recuperado` ou `objeto digital detectado`.
+- `Corpus 5` — `PARES`: agregador nacional espanhol incorporado após validação técnica da busca pública. Neste corpus, o resultado detectado pode ser `registro descritivo recuperado` ou `objeto digital detectado`.
 - `Corpus 6` — `INA`: corpus especializado em audiovisual, estruturado a partir do Institut national de l'audiovisuel.
 - Verificação de integridade do site institucional externo de cada corpus.
 - Detecção de links para plataformas de vídeo e sinais de mídia embutida.
@@ -68,7 +68,7 @@ No estado atual:
 - `EUscreen` está enquadrado como `agregador audiovisual europeu`;
 - `European Film Gateway` está enquadrado como `agregador audiovisual europeu especializado em cinema`;
 - `Europeana` está enquadrada como `agregador cultural europeu com recorte audiovisual`;
-- `PARES` está enquadrado como `agregador nacional europeu em modo experimental`;
+- `PARES` está enquadrado como `agregador nacional europeu incorporado`;
 - `INA` está enquadrado como `arquivo/instituição arquivística`;
 - `Archives Hub`, `FranceArchives` e `Portal Português de Arquivos` permanecem como candidatos europeus documentados, sem corpus ativo;
 - a interface permite trabalhar com o todo, por categoria analítica e por corpus individual, sem fundir esses níveis de análise.
@@ -404,7 +404,7 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES` e o `INA` segu
 10. A preparação dos dataframes do dashboard fica concentrada em `src/memoria_audiovisual/dashboard_data.py`, para reduzir lógica duplicada na interface.
 11. Os nomes das saídas do APE, do EUscreen, do European Film Gateway, da Europeana, do PARES e do INA ficam centralizados em `src/memoria_audiovisual/output_files.py`, para manter pipeline e interface sincronizadas.
 12. O ciclo mensal do organismo fica centralizado em `scripts/run_observatory_cycle.py`, com manifesto global em `data/output/observatorio_ciclo_mensal.json`.
-13. A avaliação europeia materializa rotas oficiais candidatas e uma matriz de protocolos para diferenciar agregadores prontos para pipeline experimental, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
+13. A avaliação europeia materializa rotas oficiais candidatas e uma matriz de protocolos para diferenciar agregadores prontos para validação total, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
 14. O protótipo `Archives Hub` testa a referência pública de APIs, SRU e OAI-PMH por chamadas leves, sem ativar o agregador como corpus.
 15. O protótipo `FranceArchives` testa página oficial, ficha do dataset, API e cabeçalho do dump por amostras leves, sem baixar o pacote XML nem ativar um novo corpus.
 16. O protótipo `European Film Gateway` testa página inicial e buscas públicas leves, registrando falha técnica, bloqueio ou confirmação de busca audiovisual sem apagar a instabilidade do corpus.

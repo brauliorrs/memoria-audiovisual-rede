@@ -210,7 +210,7 @@ def collect_pares_dataset():
     summary_status = "ok" if any(page["status"] == "ok" for page in internal_pages) else "erro"
     summary_error = "; ".join(sorted({str(page["error"]) for page in internal_pages if page.get("error")}))
     summary_warning = (
-        "Corpus experimental baseado na primeira página de resultados por termo; "
+        "Corpus incorporado com base em busca pública validada na primeira página de resultados por termo; "
         "resultados de busca indicam evidência pública detectável, não reprodução audiovisual garantida."
     )
     summary = [

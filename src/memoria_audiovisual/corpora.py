@@ -339,10 +339,10 @@ CORPORA = {
             "sem ser tratado como instituição custodial individual"
         ),
         "expansion_rationale": (
-            "Entra como corpus experimental porque a avaliação europeia detectou busca pública "
-            "acessível e resultados preliminares para termos audiovisuais."
+            "Entra como corpus nacional incorporado após validação técnica da busca pública "
+            "e detecção de resultados para termos audiovisuais."
         ),
-        "observatory_role": "agregador nacional europeu incorporado em modo experimental",
+        "observatory_role": "agregador nacional europeu incorporado ao organismo",
         "audiovisual_scope_note": (
             "É uma fonte geral de pesquisa. A presença audiovisual é inferida inicialmente por "
             "termos de busca e por sinais de objeto digitalizado, exigindo curadoria posterior."
