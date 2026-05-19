@@ -186,6 +186,21 @@ DISCOVERY_BASELINE_CANDIDATES = [
         "source_url": "https://americanarchive.org/faq",
         "already_covered_by_active_aggregator": False,
     },
+    {
+        "code": "iberarchivos",
+        "label": "Iberarchivos / Observatorio Iberoamericano de Archivos",
+        "short_label": "Iberarchivos",
+        "category_code": "aggregator",
+        "entity_level": "rede/observatorio de políticas arquivísticas",
+        "coverage_level": "rede ibero-americana",
+        "scope": "observatório de políticas públicas arquivísticas",
+        "geographic_scope": "Iberoamérica",
+        "audiovisual_relevance": "fonte geral com potencial audiovisual indireto",
+        "methodological_fit": "medio",
+        "discovery_origin": "radar audiovisual mundial - sugestão de curadoria",
+        "source_url": "https://iberarchivos.org/observatorio/",
+        "already_covered_by_active_aggregator": False,
+    },
 ]
 
 
@@ -231,6 +246,17 @@ def _evaluate_candidate(candidate: dict, active_codes: set[str]) -> dict:
         }
 
     if category_code == "aggregator":
+        if "observat" in str(candidate.get("scope", "")).strip().lower():
+            return {
+                "organism_status": "referencia",
+                "automatic_decision": "monitoramento_estrategico",
+                "automatic_priority": 5,
+                "automatic_reason": (
+                    "A unidade funciona como radar de políticas e instituições arquivísticas, "
+                    "mas ainda não apresenta rota comparável para ingestão de acervo audiovisual."
+                ),
+                "next_step": "monitorar_como_fonte_de_descoberta_sem_pipeline_imediato",
+            }
         if str(candidate.get("code", "")).strip().lower() in {"euscreen", "european-film-gateway"}:
             return {
                 "organism_status": "candidato",

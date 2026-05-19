@@ -169,6 +169,8 @@ Decisões automáticas atuais:
 - `coberto_por_agregador_ativo`
 - `fora_do_recorte_atual`
 
+O `Iberarchivos / Observatorio Iberoamericano de Archivos` entra no radar mundial como `monitoramento_estrategico`: é fonte relevante para políticas e instituições arquivísticas ibero-americanas, mas ainda não como corpus ativo audiovisual.
+
 ## Estrutura
 
 ```text

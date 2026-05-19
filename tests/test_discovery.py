@@ -26,6 +26,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn("europeana", registry_df["code"].tolist())
         self.assertIn("pares", registry_df["code"].tolist())
         self.assertIn("archivegrid", registry_df["code"].tolist())
+        self.assertIn("iberarchivos", registry_df["code"].tolist())
 
     def test_expansion_queue_prioritizes_stage_1_aggregators(self):
         registry_df = build_discovery_registry()
@@ -37,6 +38,21 @@ class DiscoveryTests(unittest.TestCase):
         self.assertNotIn("european-film-gateway", queue_df["code"].tolist())
         self.assertNotIn("europeana", queue_df["code"].tolist())
         self.assertNotIn("pares", queue_df["code"].tolist())
+        self.assertIn("iberarchivos", queue_df["code"].tolist())
+
+    def test_policy_observatory_enters_as_monitoring_reference(self):
+        evaluation = _evaluate_candidate(
+            {
+                "code": "radar-teste",
+                "category_code": "aggregator",
+                "scope": "observatório de políticas públicas arquivísticas",
+                "methodological_fit": "medio",
+            },
+            active_codes=set(),
+        )
+
+        self.assertEqual(evaluation["automatic_decision"], "monitoramento_estrategico")
+        self.assertEqual(evaluation["next_step"], "monitorar_como_fonte_de_descoberta_sem_pipeline_imediato")
 
     def test_european_institution_candidate_is_kept_as_gap_or_exception(self):
         candidate = {
