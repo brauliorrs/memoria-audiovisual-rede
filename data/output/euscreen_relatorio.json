@@ -1,0 +1,53 @@
+{
+  "source": "https://euscreen.eu/collections/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "EUscreen": 133
+  },
+  "top_domains": [
+    [
+      "euscreen.eu",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "EUscreen",
+      "slug": "euscreen",
+      "country": "Netherlands",
+      "continent": "Europe",
+      "repository_code": "EU-EUSCREEN",
+      "archive_type": "European audiovisual aggregator",
+      "euscreen_detail_url": "https://euscreen.eu/collections/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://euscreen.eu/",
+      "partner_domain": "euscreen.eu",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://euscreen.eu/collections/",
+      "video_links_found_total": 133,
+      "embedded_video_signals_total": 160,
+      "candidate_internal_pages": 9,
+      "priority_review": "media",
+      "warning": "",
+      "error": ""
+    }
+  ]
+}

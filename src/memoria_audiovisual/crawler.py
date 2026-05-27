@@ -170,7 +170,7 @@ def is_probably_video_link(url, platform=None):
         )
 
     if platform == "Instagram":
-        return path.startswith("/reel/") or path.startswith("/p/") or path.startswith("/tv/")
+        return path.startswith("/reel/") or path.startswith("/tv/")
 
     if platform == "Dailymotion":
         return "/video/" in path
@@ -178,14 +178,8 @@ def is_probably_video_link(url, platform=None):
     if platform == "Internet Archive":
         return "/details/" in path or "/embed/" in path
 
-    if platform == "SoundCloud":
-        return False
-
     if platform == "Madelen":
         return path.startswith("/content/") or path.startswith("/serie/") or path.startswith("/collection/")
-
-    if platform == "Podcasts INA":
-        return "/emission/" in path or "/podcast/" in path or "/episode/" in path
 
     if platform == "Mediaclip INA":
         return "/product/view/" in path or "/theme/view/" in path or "/video/" in path
@@ -205,6 +199,9 @@ def is_probably_video_link(url, platform=None):
 
     if platform == "Portal Português de Arquivos":
         return path == "/record" and bool(query.get("id"))
+
+    if platform == "American Archive of Public Broadcasting":
+        return path.startswith("/catalog/")
 
     return any(hint in path for hint in EMBED_HINTS)
 
@@ -386,8 +383,7 @@ def detect_embeds(page, base_url):
     selector_rules = {
         "iframe[src]": False,
         "video[src]": True,
-        "audio[src]": True,
-        "source[src]": True,
+        "source[src]": False,
     }
 
     for selector, allow_media_tag in selector_rules.items():

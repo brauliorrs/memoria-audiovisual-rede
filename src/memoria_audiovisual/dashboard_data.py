@@ -141,14 +141,15 @@ def _summary_analysis_is_consistent(candidate, summary_df):
 
 
 def _video_catalog_is_consistent(candidate, links_df):
-    if len(candidate) != len(links_df):
-        return False
     comparable_columns = ["slug", "platform", "video_link"]
+    expected_links_df = analysis_utils.filter_in_scope_video_links_df(links_df)
+    if len(candidate) != len(expected_links_df):
+        return False
     if all(column in candidate.columns for column in comparable_columns) and all(
-        column in links_df.columns for column in comparable_columns
+        column in expected_links_df.columns for column in comparable_columns
     ):
         return _value_count_signature(candidate, comparable_columns).equals(
-            _value_count_signature(links_df, comparable_columns)
+            _value_count_signature(expected_links_df, comparable_columns)
         )
     return True
 
@@ -234,10 +235,9 @@ def build_dashboard_overview_data(
     visibility_archive_type_counts_source_df=None,
 ):
     summary_df = base_data.summary_df
-    links_df = base_data.links_df
     summary_analysis_df = base_data.summary_analysis_df.copy()
     video_catalog_df = base_data.video_catalog_df.copy()
-    video_count_series = _video_count_series(summary_df)
+    video_count_series = _video_count_series(summary_analysis_df)
 
     availability_cache = None
 
@@ -268,7 +268,7 @@ def build_dashboard_overview_data(
     curatorial_video_total = len(analysis_utils.filter_curatorial_video_catalog(video_catalog_df))
     visibility_counts = _prefer_precomputed(
         visibility_counts_source_df,
-        lambda: analysis_utils.build_visibility_summary(summary_df)[1],
+        lambda: analysis_utils.build_visibility_summary(summary_df, video_catalog_df)[1],
         required_columns=["situacao", "total"],
         validator=lambda candidate: _summary_total_is_consistent(candidate, len(summary_df)),
     )
@@ -310,17 +310,17 @@ def build_dashboard_overview_data(
     )
     visibility_archive_type_counts = _prefer_precomputed(
         visibility_archive_type_counts_source_df,
-        lambda: analysis_utils.build_visibility_archive_type_summary(summary_df),
+        lambda: analysis_utils.build_visibility_archive_type_summary(summary_analysis_df),
         required_columns=["visibilidade", "tipo_institucional", "total"],
         validator=lambda candidate: _summary_total_is_consistent(candidate, len(summary_df)),
     )
 
-    detected_sites_df = analysis_utils.build_detected_sites_df(summary_df, links_df)
+    detected_sites_df = analysis_utils.build_detected_sites_df(summary_analysis_df, video_catalog_df)
     continent_counts, country_counts = analysis_utils.build_geography_summaries(detected_sites_df)
-    platform_counts = analysis_utils.build_platform_summary(links_df)
+    platform_counts = analysis_utils.build_platform_summary(video_catalog_df)
     theme_country_matrix = analysis_utils.build_theme_country_matrix(video_catalog_df)
     theme_archive_type_matrix = analysis_utils.build_theme_archive_type_matrix(video_catalog_df, summary_df)
-    visibility_archive_type_matrix = analysis_utils.build_visibility_archive_type_matrix(summary_df)
+    visibility_archive_type_matrix = analysis_utils.build_visibility_archive_type_matrix(summary_analysis_df)
     availability_reference_df = analysis_utils.build_availability_reference()
 
     return DashboardOverviewData(

@@ -1,0 +1,53 @@
+{
+  "source": "https://www.europeana.eu/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Europeana": 20
+  },
+  "top_domains": [
+    [
+      "europeana.eu",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Europeana",
+      "slug": "europeana",
+      "country": "Netherlands",
+      "continent": "Europe",
+      "repository_code": "EU-EUROPEANA",
+      "archive_type": "European cultural aggregator with audiovisual records",
+      "europeana_detail_url": "https://www.europeana.eu/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.europeana.eu/",
+      "partner_domain": "europeana.eu",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.europeana.eu/",
+      "video_links_found_total": 20,
+      "embedded_video_signals_total": 514205,
+      "candidate_internal_pages": 5,
+      "priority_review": "alta",
+      "warning": "Corpus cultural europeu amplo incorporado com recorte audiovisual. O catálogo não equivale a um arquivo audiovisual especializado: registra apenas resultados públicos filtrados por mídia e por sinais audiovisuais.",
+      "error": "HTTP 403"
+    }
+  ]
+}

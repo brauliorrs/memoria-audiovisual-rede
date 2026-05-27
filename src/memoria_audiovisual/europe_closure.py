@@ -22,6 +22,8 @@ EUROPE_CLOSURE_MATRIX_FILENAME = "observatorio_fechamento_europa.csv"
 EUROPE_CLOSURE_SUMMARY_FILENAME = "observatorio_resumo_fechamento_europa.csv"
 EUROPE_CLOSURE_DOSSIER_FILENAME = "observatorio_dossie_fechamento_europa.md"
 EUROPE_CLOSURE_QUEUE_FILENAME = "observatorio_fila_fechamento_europa.csv"
+EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME = "observatorio_unidades_identificadas_nao_incorporadas.csv"
+EUROPE_CLOSURE_GAP_AUDIT_FILENAME = "observatorio_auditoria_lacunas_europa.csv"
 EUROPE_CLOSURE_RULE_VERSION = "2026-05-fechamento-europa-v1"
 
 EUROPE_CLOSURE_MATRIX_COLUMNS = [
@@ -62,6 +64,128 @@ EUROPE_CLOSURE_QUEUE_COLUMNS = [
     "next_step",
     "blocks_expansion",
     "rule_version",
+]
+
+EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS = [
+    "unit_code",
+    "unit_label",
+    "unit_type",
+    "territorial_scope",
+    "public_status",
+    "methodological_decision",
+    "negative_reason",
+    "collection_route_attempted",
+    "attempt_summary",
+    "methodological_explanation",
+    "evidence_status",
+    "protocol_status",
+    "next_step",
+    "blocks_expansion",
+    "rule_version",
+]
+
+EUROPE_CLOSURE_GAP_AUDIT_COLUMNS = [
+    "unit_code",
+    "unit_label",
+    "unit_type",
+    "territorial_scope",
+    "audit_status",
+    "relation_to_active_corpus",
+    "corpus_decision",
+    "methodological_reason",
+    "source_url",
+    "evidence_reference",
+    "next_step",
+    "blocks_expansion",
+    "rule_version",
+]
+
+EUROPE_GAP_AUDIT_ROWS = [
+    {
+        "unit_code": "filmarchives-online",
+        "unit_label": "FilmArchives Online / MIDAS",
+        "unit_type": "gateway_legado_de_filmes",
+        "territorial_scope": "Europa",
+        "audit_status": "legado_coberto_por_efg",
+        "relation_to_active_corpus": "coberto metodologicamente pelo European Film Gateway",
+        "corpus_decision": "não abrir corpus próprio no MVP",
+        "methodological_reason": (
+            "É um gateway histórico de catálogo de filmes; o fechamento atual usa o EFG como "
+            "agregador fílmico europeu ativo e mais aderente ao organismo."
+        ),
+        "source_url": "https://ace-film.eu/projects/midas/",
+        "evidence_reference": "ACE descreve o MIDAS/FilmArchives Online como gateway de acesso a coleções fílmicas europeias.",
+        "next_step": "manter_como_referência_legada_e_reavaliar_se_o_efg_perder_rota_pública",
+        "blocks_expansion": False,
+    },
+    {
+        "unit_code": "efg-special-collections",
+        "unit_label": "EFG1914 e VICTOR-E",
+        "unit_type": "colecoes_especiais",
+        "territorial_scope": "Europa",
+        "audit_status": "coberto_por_corpus_ativo",
+        "relation_to_active_corpus": "coleções especiais internas do European Film Gateway",
+        "corpus_decision": "não abrir corpus próprio no MVP",
+        "methodological_reason": (
+            "São recortes temáticos dentro do EFG, não agregadores autônomos para a arquitetura "
+            "atual do observatório."
+        ),
+        "source_url": "https://www.europeanfilmgateway.eu/content/about-european-film-gateway",
+        "evidence_reference": "A página do EFG apresenta EFG1914 e VICTOR-E como coleções especiais do próprio portal.",
+        "next_step": "usar_como_recorte_temático_quando_a_análise_de_temas_fílmicos_avançar",
+        "blocks_expansion": False,
+    },
+    {
+        "unit_code": "european-audiovisual-observatory",
+        "unit_label": "European Audiovisual Observatory",
+        "unit_type": "observatorio_de_politicas_e_mercado",
+        "territorial_scope": "Europa",
+        "audit_status": "fonte_teorica_e_de_contexto",
+        "relation_to_active_corpus": "não é agregador de acervo arquivístico",
+        "corpus_decision": "não incorporar como corpus de acervo",
+        "methodological_reason": (
+            "Produz dados, relatórios e bases sobre indústria, política e regulação audiovisual; "
+            "serve ao enquadramento teórico, não à coleta de acervos."
+        ),
+        "source_url": "https://www.obs.coe.int/",
+        "evidence_reference": "O Observatory se apresenta como fonte de informação sobre o setor audiovisual europeu.",
+        "next_step": "usar_como_fonte_bibliográfica_e_contextual_do_projeto",
+        "blocks_expansion": False,
+    },
+    {
+        "unit_code": "ace",
+        "unit_label": "Association des Cinémathèques Européennes",
+        "unit_type": "rede_institucional",
+        "territorial_scope": "Europa",
+        "audit_status": "fonte_de_radar_institucional",
+        "relation_to_active_corpus": "rede que ajuda a localizar arquivos fílmicos, não corpus agregador autônomo",
+        "corpus_decision": "não incorporar como corpus no MVP",
+        "methodological_reason": (
+            "Funciona como rede e memória de projetos europeus de cinema; é útil para radar, "
+            "mas não substitui EFG, Europeana ou APE como infraestrutura de metadados."
+        ),
+        "source_url": "https://ace-film.eu/",
+        "evidence_reference": "A ACE documenta projetos e redes de cinematecas europeias.",
+        "next_step": "usar_como_radar_de_instituicoes_filmicas_na_etapa_de_arquivos_individuais",
+        "blocks_expansion": False,
+    },
+    {
+        "unit_code": "archivportal-d",
+        "unit_label": "Archivportal-D / Deutsche Digitale Bibliothek",
+        "unit_type": "agregador_nacional_geral",
+        "territorial_scope": "Alemanha",
+        "audit_status": "candidato_nacional_futuro_nao_bloqueante",
+        "relation_to_active_corpus": "potencialmente coberto de forma parcial por APE e Europeana",
+        "corpus_decision": "adiar para etapa de agregadores nacionais",
+        "methodological_reason": (
+            "É um agregador nacional geral relevante, mas o MVP europeu não pretende exaurir "
+            "todos os agregadores nacionais após Portugal e Espanha; entra como candidato futuro."
+        ),
+        "source_url": "https://www.archivportal-d.de/",
+        "evidence_reference": "O portal agrega informações arquivísticas nacionais alemãs.",
+        "next_step": "avaliar_quando_a_expansao_nacional_europeia_for_reaberta",
+        "blocks_expansion": False,
+    },
 ]
 
 
@@ -257,9 +381,12 @@ def build_europe_closure_outputs(
     )
     matrix_df = pd.DataFrame(matrix_rows, columns=EUROPE_CLOSURE_MATRIX_COLUMNS)
     queue_df = build_europe_closure_queue(matrix_df)
+    excluded_units_df = build_europe_excluded_units_register(matrix_df, queue_df)
+    gap_audit_df = build_europe_gap_audit()
 
     active_european_corpora = int((matrix_df["unit_type"] == "corpus_ativo").sum()) if not matrix_df.empty else 0
     pending_candidates = int((matrix_df["unit_type"] == "agregador_candidato").sum()) if not matrix_df.empty else 0
+    audited_gaps = len(gap_audit_df)
     blocking_candidates = (
         int((matrix_df["can_open_next_continent"].astype(str).str.lower() != "true").sum())
         if not matrix_df.empty and "can_open_next_continent" in matrix_df.columns
@@ -301,9 +428,9 @@ def build_europe_closure_outputs(
             "evidence": f"{protocol_rows} sondagens leves em protótipos de protocolo",
             "interpretation": (
                 "Archives Hub e FranceArchives permanecem como candidatos europeus relevantes, "
-                "mas não devem ser tratados como corpora ativos sem rota técnica estável."
+                "mas estão protocolados fora do MVP ativo enquanto não houver rota técnica estável."
             ),
-            "next_step": "testar_rotas_controladas_sem_misturar_com_corpora_ativos",
+            "next_step": "manter_monitoramento_protocolado_sem_misturar_com_corpora_ativos",
             "rule_version": EUROPE_CLOSURE_RULE_VERSION,
         },
         {
@@ -328,13 +455,34 @@ def build_europe_closure_outputs(
             ),
             "rule_version": EUROPE_CLOSURE_RULE_VERSION,
         },
+        {
+            "criterion": "auditoria_de_lacunas_europeias",
+            "status": "materializado" if audited_gaps else "pendente",
+            "evidence": f"{audited_gaps} unidades ou classes de unidade auditadas fora do corpus ativo",
+            "interpretation": (
+                "O fechamento europeu nao afirma exaustividade absoluta de arquivos individuais. "
+                "Ele separa agregadores centrais, unidades cobertas por corpora ativos, legados, "
+                "fontes de radar e candidatos nacionais futuros."
+            ),
+            "next_step": "manter_auditoria_como_limite_publico_da_afirmacao_de_fechamento",
+            "rule_version": EUROPE_CLOSURE_RULE_VERSION,
+        },
     ]
     summary_df = pd.DataFrame(summary_rows, columns=EUROPE_CLOSURE_SUMMARY_COLUMNS)
     return {
         "matrix": matrix_df,
         "queue": queue_df,
+        "excluded_units": excluded_units_df,
+        "gap_audit": gap_audit_df,
         "summary": summary_df,
     }
+
+
+def build_europe_gap_audit():
+    rows = []
+    for row in EUROPE_GAP_AUDIT_ROWS:
+        rows.append({**row, "rule_version": EUROPE_CLOSURE_RULE_VERSION})
+    return pd.DataFrame(rows, columns=EUROPE_CLOSURE_GAP_AUDIT_COLUMNS)
 
 
 def build_europe_closure_queue(matrix_df):
@@ -360,6 +508,13 @@ def build_europe_closure_queue(matrix_df):
             priority = 2
             queue_status = "validar_totalmente_para_incorporacao"
             queue_reason = "A sondagem indica rota pública, mas a unidade só entra após validação total."
+        elif incorporation_decision == "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel":
+            priority = 8
+            queue_status = "monitoramento_protocolado_sem_incorporacao_mvp"
+            queue_reason = (
+                "O protocolo documentou relevância, mas também ausência de rota estável; "
+                "a unidade permanece fora do corpus ativo no MVP."
+            )
         else:
             priority = 3
             queue_status = "pendencia_protocolada"
@@ -389,11 +544,100 @@ def build_europe_closure_queue(matrix_df):
     )
 
 
-def build_europe_closure_dossier(matrix_df, summary_df):
+def _collection_route_attempted(row):
+    code = str(row.get("unit_code", ""))
+    if code == "archives-hub":
+        return "SRU e OAI-PMH documentados; referência pública de APIs também sondada."
+    if code == "francearchives":
+        return "Página de dados abertos, dataset público, API do dataset e dump XML APE-EAD."
+    return "Rotas públicas ou documentadas sondadas pelo protocolo europeu."
+
+
+def _attempt_summary(row):
+    code = str(row.get("unit_code", ""))
+    if code == "archives-hub":
+        return (
+            "Foram testadas a referência pública sobre APIs, a rota SRU base, uma consulta SRU "
+            "audiovisual mínima, a rota OAI-PMH base e o verbo Identify. As sondagens simples "
+            "retornaram bloqueio por JS/cookies ou superfície não estável."
+        )
+    if code == "francearchives":
+        return (
+            "Foram testadas a página oficial de dados abertos, a ficha pública do dataset, uma "
+            "amostra da API e o cabeçalho do pacote APE-EAD. A ficha aponta um dump público, "
+            "mas a API retornou amostra vazia e o cabeçalho não confirmou um ZIP baixável por "
+            "coleta leve."
+        )
+    return (
+        "O protocolo registrou sinais de relevância, mas ainda não confirmou rota de coleta "
+        "estável, reprodutível e comparável."
+    )
+
+
+def build_europe_excluded_units_register(matrix_df, queue_df=None):
+    if matrix_df is None or matrix_df.empty:
+        return pd.DataFrame(columns=EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS)
+
+    queue_df = queue_df if queue_df is not None else build_europe_closure_queue(matrix_df)
+    queue_lookup = {}
+    if queue_df is not None and not queue_df.empty:
+        for _, queue_row in queue_df.iterrows():
+            queue_lookup[str(queue_row.get("unit_code", ""))] = queue_row
+
+    candidates_df = matrix_df.loc[
+        (matrix_df["unit_type"] != "corpus_ativo")
+        & (
+            matrix_df["incorporation_decision"]
+            == "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel"
+        )
+    ].copy()
+    if candidates_df.empty:
+        return pd.DataFrame(columns=EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS)
+
+    rows = []
+    for _, row in candidates_df.sort_values("unit_label").iterrows():
+        unit_code = str(row.get("unit_code", ""))
+        queue_row = queue_lookup.get(unit_code, {})
+        negative_reason = (
+            queue_row.get("queue_reason", "")
+            if hasattr(queue_row, "get")
+            else "Ausência de rota de coleta estável no protocolo atual."
+        )
+        blocks_expansion = queue_row.get("blocks_expansion", False) if hasattr(queue_row, "get") else False
+        rows.append(
+            {
+                "unit_code": unit_code,
+                "unit_label": row.get("unit_label", ""),
+                "unit_type": row.get("unit_type", ""),
+                "territorial_scope": row.get("territorial_scope", ""),
+                "public_status": "Identificada, mas não incluída no corpus do organismo",
+                "methodological_decision": "não incorporar ao corpus ativo no MVP",
+                "negative_reason": negative_reason,
+                "collection_route_attempted": _collection_route_attempted(row),
+                "attempt_summary": _attempt_summary(row),
+                "methodological_explanation": (
+                    "A negativa é técnica e metodológica: sem rota estável, a fonte não pode ser "
+                    "comparada aos corpora ativos. Isso não autoriza concluir ausência de acervo "
+                    "audiovisual; apenas registra que o organismo não conseguiu incorporá-la com "
+                    "rigor nesta rodada."
+                ),
+                "evidence_status": row.get("evidence_status", ""),
+                "protocol_status": row.get("protocol_status", ""),
+                "next_step": row.get("next_step", ""),
+                "blocks_expansion": blocks_expansion,
+                "rule_version": EUROPE_CLOSURE_RULE_VERSION,
+            }
+        )
+
+    return pd.DataFrame(rows, columns=EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS)
+
+
+def build_europe_closure_dossier(matrix_df, summary_df, gap_audit_df=None):
     active_df = matrix_df[matrix_df["unit_type"] == "corpus_ativo"] if not matrix_df.empty else pd.DataFrame()
     candidate_df = (
         matrix_df[matrix_df["unit_type"] == "agregador_candidato"] if not matrix_df.empty else pd.DataFrame()
     )
+    gap_audit_df = gap_audit_df if gap_audit_df is not None else build_europe_gap_audit()
     queue_df = build_europe_closure_queue(matrix_df)
     opening_status = summary_df.loc[
         summary_df["criterion"] == "abertura_do_proximo_continente",
@@ -401,13 +645,13 @@ def build_europe_closure_dossier(matrix_df, summary_df):
     ].iloc[0]
 
     lines = [
-        "# Dossiê MVP de fechamento europeu",
+        "# Dossiê MVP de fechamento metodológico europeu",
         "",
         "## Status do corpus continental",
         f"- Status de abertura: `{opening_status}`.",
         f"- Corpora europeus ativos: `{len(active_df)}`.",
         f"- Candidatos europeus documentados fora do corpus ativo: `{len(candidate_df)}`.",
-        "- Escopo: Europa como corpus continental fechado para artigo e projeto de pós-doutorado.",
+        "- Escopo: Europa como corpus continental em fechamento metodológico progressivo para artigo e projeto de pós-doutorado.",
         "",
         "## Corpus incorporado",
     ]
@@ -430,16 +674,41 @@ def build_europe_closure_dossier(matrix_df, summary_df):
             f"- Prioridade {row['priority']} | `{row['unit_code']}`: {row['queue_status']} | {row['next_step']}."
         )
 
+    lines.extend(["", "## Lacunas auditadas sem bloqueio"])
+    for _, row in gap_audit_df.sort_values("unit_code").iterrows():
+        lines.append(
+            f"- `{row['unit_code']}`: {row['unit_label']} | {row['audit_status']} | "
+            f"decisão: {row['corpus_decision']}."
+        )
+
     lines.extend(
         [
             "",
             "## Regra metodológica",
             "- Retorno zero, falha técnica ou rota instável não equivalem à ausência de acervo audiovisual.",
             "- Agregadores e arquivos permanecem separados para preservar rigor científico.",
+            "- Fechamento continental não significa exaustão de todos os arquivos nacionais, regionais ou institucionais.",
+            "- A identificação de arquivos individuais deve avançar por fila auditável: agregadores primeiro, diretórios especializados depois, arquivos individuais por expansão controlada.",
             "- A expansão continental seguinte só deve ocorrer sem apagar o monitoramento europeu mensal.",
         ]
     )
     return "\n".join(lines) + "\n"
+
+
+def merge_existing_excluded_units(output_dir, excluded_units_df):
+    existing_path = Path(output_dir) / EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME
+    if existing_path.exists():
+        existing_df = pd.read_csv(existing_path)
+    else:
+        existing_df = pd.DataFrame(columns=EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS)
+
+    merged_df = pd.concat([existing_df, excluded_units_df], ignore_index=True)
+    return (
+        merged_df.drop_duplicates(subset=["unit_code"], keep="last")
+        .reindex(columns=EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS)
+        .sort_values("unit_label")
+        .reset_index(drop=True)
+    )
 
 
 def write_europe_closure_outputs(output_dir: Path = OUTPUT_DIR):
@@ -467,13 +736,32 @@ def write_europe_closure_outputs(output_dir: Path = OUTPUT_DIR):
         index=False,
         encoding="utf-8-sig",
     )
-    outputs["dossier"] = build_europe_closure_dossier(outputs["matrix"], outputs["summary"])
+    outputs["excluded_units"] = merge_existing_excluded_units(output_dir, outputs["excluded_units"])
+    outputs["excluded_units"].to_csv(
+        output_dir / EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
+    outputs["gap_audit"].to_csv(
+        output_dir / EUROPE_CLOSURE_GAP_AUDIT_FILENAME,
+        index=False,
+        encoding="utf-8-sig",
+    )
+    outputs["dossier"] = build_europe_closure_dossier(
+        outputs["matrix"],
+        outputs["summary"],
+        outputs["gap_audit"],
+    )
     (output_dir / EUROPE_CLOSURE_DOSSIER_FILENAME).write_text(outputs["dossier"], encoding="utf-8")
     return outputs
 
 
 __all__ = [
     "EUROPE_CLOSURE_DOSSIER_FILENAME",
+    "EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS",
+    "EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME",
+    "EUROPE_CLOSURE_GAP_AUDIT_COLUMNS",
+    "EUROPE_CLOSURE_GAP_AUDIT_FILENAME",
     "EUROPE_CLOSURE_MATRIX_COLUMNS",
     "EUROPE_CLOSURE_MATRIX_FILENAME",
     "EUROPE_CLOSURE_QUEUE_COLUMNS",
@@ -484,5 +772,8 @@ __all__ = [
     "build_europe_closure_dossier",
     "build_europe_closure_queue",
     "build_europe_closure_outputs",
+    "build_europe_excluded_units_register",
+    "build_europe_gap_audit",
+    "merge_existing_excluded_units",
     "write_europe_closure_outputs",
 ]

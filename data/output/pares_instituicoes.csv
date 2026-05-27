@@ -1,0 +1,2 @@
+institution,slug,country,continent,repository_code,pares_detail_url,archive_type,external_url,website_available,content_available_in_source
+PARES,pares,Spain,Europe,ES-PARES,https://pares.cultura.gob.es/,National archival aggregator,https://pares.cultura.gob.es/,True,True

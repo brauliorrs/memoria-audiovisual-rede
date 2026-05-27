@@ -1,0 +1,168 @@
+{
+  "dataset": "europeana",
+  "generated_at": "2026-05-27T16:48:05Z",
+  "generated_by": "scripts/build_europeana_analytics.py",
+  "observation_key": "europeana:2026-05-22T17:52:25Z",
+  "source_url": "https://www.europeana.eu/",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-05-22T17:52:25Z",
+  "analytic_outputs_last_modified_at": "2026-05-27T16:48:05Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 20,
+    "videos_in_curatorial_catalog": 20,
+    "visibility_categories": 1,
+    "theme_categories": 5,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 8
+  },
+  "files": {
+    "institutions": {
+      "filename": "europeana_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 314,
+      "last_modified_at": "2026-05-22T17:52:24Z"
+    },
+    "summary": {
+      "filename": "europeana_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 779,
+      "last_modified_at": "2026-05-22T17:52:24Z"
+    },
+    "video_links": {
+      "filename": "europeana_links_video.csv",
+      "exists": true,
+      "size_bytes": 8357,
+      "last_modified_at": "2026-05-22T17:52:24Z"
+    },
+    "internal_pages": {
+      "filename": "europeana_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 1864,
+      "last_modified_at": "2026-05-22T17:52:24Z"
+    },
+    "analytic_summary": {
+      "filename": "europeana_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1184,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "europeana_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 10648,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "availability_summary": {
+      "filename": "europeana_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "availability_reasons": {
+      "filename": "europeana_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "visibility_summary": {
+      "filename": "europeana_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "access_surface_summary": {
+      "filename": "europeana_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 73,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "access_regime_summary": {
+      "filename": "europeana_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 79,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "theme_summary": {
+      "filename": "europeana_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 154,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "theme_country": {
+      "filename": "europeana_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 340,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "archive_type_summary": {
+      "filename": "europeana_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 83,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "theme_platform": {
+      "filename": "europeana_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 215,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "theme_archive_type": {
+      "filename": "europeana_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 443,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "visibility_archive_type": {
+      "filename": "europeana_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 143,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "timeline_corpus": {
+      "filename": "europeana_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 1179,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "timeline_institutions": {
+      "filename": "europeana_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2487,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "extinction_signals": {
+      "filename": "europeana_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "snapshot_metadata": {
+      "filename": "europeana_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5314,
+      "last_modified_at": "2026-05-27T16:48:05Z"
+    },
+    "report_json": {
+      "filename": "europeana_relatorio.json",
+      "exists": true,
+      "size_bytes": 1546,
+      "last_modified_at": "2026-05-22T17:52:24Z"
+    },
+    "report_txt": {
+      "filename": "europeana_relatorio.txt",
+      "exists": true,
+      "size_bytes": 832,
+      "last_modified_at": "2026-05-22T17:52:24Z"
+    },
+    "report_xlsx": {
+      "filename": "europeana_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 25917,
+      "last_modified_at": "2026-05-22T17:52:25Z"
+    }
+  }
+}

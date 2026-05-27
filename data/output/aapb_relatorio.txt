@@ -1,0 +1,31 @@
+RELATORIO - AMERICAN ARCHIVE OF PUBLIC BROADCASTING
+============================================================
+
+Fonte: https://americanarchive.org/faq
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 1
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - American Archive of Public Broadcasting: 28
+
+Dominios parceiros mais frequentes:
+  - americanarchive.org: 1
+
+Distribuicao continental das instituicoes:
+  - North America: 1
+
+Instituicoes com links de video por continente:
+  - North America: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - American Archive of Public Broadcasting | links_video=28 | embeds=625268 | status=ok | prioridade=media | url=https://americanarchive.org/
+
+Instituicoes com erro ou restricao:

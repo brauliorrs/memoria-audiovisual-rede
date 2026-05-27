@@ -117,7 +117,7 @@ class DashboardDataTests(unittest.TestCase):
         self.assertEqual(len(base_data.summary_analysis_df), len(self.summary_df))
         self.assertEqual(base_data.summary_analysis_df["institution_segment"].nunique(), 3)
         self.assertEqual(base_data.available_slugs, ["a", "b", "c"])
-        self.assertEqual(len(base_data.video_catalog_df), len(self.links_df))
+        self.assertEqual(len(base_data.video_catalog_df), 1)
         self.assertIn("video_theme", base_data.video_catalog_df.columns)
         self.assertIn("access_surface", base_data.video_catalog_df.columns)
         self.assertIn("access_regime", base_data.summary_analysis_df.columns)
@@ -147,8 +147,8 @@ class DashboardDataTests(unittest.TestCase):
         )
 
         self.assertEqual(overview_data.total_institutions, 4)
-        self.assertEqual(overview_data.institutions_with_video, 2)
-        self.assertEqual(overview_data.available_with_video_count, 2)
+        self.assertEqual(overview_data.institutions_with_video, 1)
+        self.assertEqual(overview_data.available_with_video_count, 1)
         self.assertEqual(overview_data.unavailable_count, 2)
         self.assertEqual(overview_data.website_count, 2)
         self.assertEqual(

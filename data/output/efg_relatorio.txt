@@ -1,0 +1,30 @@
+RELATORIO - EUROPEAN FILM GATEWAY
+============================================================
+
+Fonte: https://www.europeanfilmgateway.eu/
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 0
+Instituicoes com ao menos 1 link de video/plataforma: 0
+Instituicoes com sinais de midia embutida: 0
+
+Status dos sites parceiros:
+  - erro: 1
+
+Integridade dos links institucionais:
+  - instavel: 1
+
+Plataformas detectadas:
+
+Dominios parceiros mais frequentes:
+  - europeanfilmgateway.eu: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+
+Top 20 instituicoes com mais links de video detectados:
+  - European Film Gateway | links_video=0 | embeds=0 | status=erro | prioridade=media | url=https://www.europeanfilmgateway.eu/
+
+Instituicoes com erro ou restricao:
+  - European Film Gateway | status=erro | http= | url=https://www.europeanfilmgateway.eu/ | erro=HTTPSConnectionPool(host='www.europeanfilmgateway.eu', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.europeanfilmgateway.eu', port=443) at 0x2487ac94d90>, 'Connection to www.europeanfilmgateway.eu timed out. (connect timeout=12)')); HTTPSConnectionPool(host='www.europeanfilmgateway.eu', port=443): Max retries exceeded with url: /search-efg?searchString=film (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.europeanfilmgateway.eu', port=443) at 0x2487b137a90>, 'Connection to www.europeanfilmgateway.eu timed out. (connect timeout=12)')); HTTPSConnectionPool(host='www.europeanfilmgateway.eu', port=443): Max retries exceeded with url: /search-efg?searchString=video (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.europeanfilmgateway.eu', port=443) at 0x2487b149010>, 'Connection to www.europeanfilmgateway.eu timed out. (connect timeout=12)'))

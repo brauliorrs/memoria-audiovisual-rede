@@ -1,4 +1,5 @@
 from .config import (
+    AAPB_FAQ_URL,
     APE_CONTENT_PDF_URL,
     EUSCREEN_COLLECTIONS_URL,
     EUROPEAN_FILM_GATEWAY_HOME_URL,
@@ -8,6 +9,7 @@ from .config import (
     PPA_HOME_URL,
 )
 from .output_files import (
+    AAPB_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
     EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
@@ -15,6 +17,7 @@ from .output_files import (
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
     PPA_OUTPUT_FILES,
+    list_aapb_output_filenames,
     list_ape_output_filenames,
     list_euscreen_output_filenames,
     list_european_film_gateway_output_filenames,
@@ -42,7 +45,8 @@ OBSERVATORY_PROFILE = {
     "audiovisual_rule": (
         "O foco do observatório é o audiovisual. Fontes gerais continuam relevantes como "
         "base de pesquisa, mas só contam positivamente quando apresentam evidência pública "
-        "detectável de audiovisual; caso contrário, podem constar com retorno zero."
+        "detectável de audiovisual com imagem em movimento; sinais sem imagem em movimento "
+        "ficam fora do escopo."
     ),
 }
 
@@ -413,6 +417,50 @@ CORPORA = {
         "run_script_path": "scripts/run_ppa_pipeline.py",
         "build_script_path": "scripts/build_ppa_analytics.py",
         "check_script_path": "scripts/check_ppa_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "aapb": {
+        "code": "aapb",
+        "label": "American Archive of Public Broadcasting",
+        "short_label": "AAPB",
+        "category_code": "aggregator",
+        "expansion_priority": 8,
+        "entity_level": "infraestrutura agregadora",
+        "coverage_level": "agregador nacional norte-americano",
+        "scope": "agregador temático audiovisual",
+        "methodological_unit": "registros PBCore recuperados pela API pública do agregador",
+        "ape_relationship": (
+            "entra após o fechamento europeu como primeiro corpus audiovisual extraeuropeu, "
+            "sem ser confundido com agregador continental"
+        ),
+        "expansion_rationale": (
+            "A fila global priorizou o AAPB após o protocolo do ArchiveGrid, porque a rota "
+            "API JSON/PBCore permite coleta leve, reprodutível e diretamente audiovisual."
+        ),
+        "observatory_role": "agregador audiovisual nacional incorporado ao organismo",
+        "audiovisual_scope_note": (
+            "É uma fonte especializada em televisão pública e registros audiovisuais; a presença "
+            "audiovisual é materializada por registros PBCore retornados pela API pública."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero audiovisual, isso indicaria falha de rota ou mudança estrutural, "
+            "pois o audiovisual é constitutivo da fonte."
+        ),
+        "source_url": AAPB_FAQ_URL,
+        "output_files": AAPB_OUTPUT_FILES,
+        "list_output_filenames": list_aapb_output_filenames,
+        "detail_url_field": "aapb_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "página institucional do AAPB",
+        "content_flag_label": "conteúdo audiovisual detectável na fonte",
+        "website_label": "site do agregador",
+        "run_script": "python scripts/run_aapb_pipeline.py",
+        "build_script": "python scripts/run_aapb_pipeline.py",
+        "check_script": "python scripts/check_aapb_outputs.py",
+        "run_script_path": "scripts/run_aapb_pipeline.py",
+        "build_script_path": "scripts/run_aapb_pipeline.py",
+        "check_script_path": "scripts/check_aapb_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },

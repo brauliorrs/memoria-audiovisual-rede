@@ -1,0 +1,2 @@
+institution,slug,country,continent,repository_code,archive_type,ina_detail_url,content_available_in_source,website_available,partner_site,partner_domain,status,http_code,integrity_status,final_url,video_links_found_total,embedded_video_signals_total,candidate_internal_pages,priority_review,warning,error
+Institut national de l'audiovisuel (INA),institut-national-de-l-audiovisuel-ina,France,Europe,FR-INA,National audiovisual archive,https://www.ina.fr/institut-national-audiovisuel,True,True,https://www.ina.fr/,ina.fr,ok,200,integro,https://www.ina.fr/,74,106,12,media,,

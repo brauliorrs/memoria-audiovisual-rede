@@ -1,0 +1,54 @@
+{
+  "source": "https://www.ina.fr/institut-national-audiovisuel",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Madelen": 43,
+    "Mediaclip INA": 31
+  },
+  "top_domains": [
+    [
+      "ina.fr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Institut national de l'audiovisuel (INA)",
+      "slug": "institut-national-de-l-audiovisuel-ina",
+      "country": "France",
+      "continent": "Europe",
+      "partner_site": "https://www.ina.fr/",
+      "partner_domain": "ina.fr",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.ina.fr/",
+      "video_links_found_total": 74,
+      "embedded_video_signals_total": 106,
+      "candidate_internal_pages": 12,
+      "priority_review": "media",
+      "warning": "",
+      "error": "",
+      "repository_code": "FR-INA",
+      "ina_detail_url": "https://www.ina.fr/institut-national-audiovisuel",
+      "archive_type": "National audiovisual archive",
+      "content_available_in_source": true,
+      "website_available": true
+    }
+  ]
+}

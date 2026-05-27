@@ -1,0 +1,4 @@
+﻿status,recommended_next_step,total
+pronto_para_validacao_total,validar_cobertura_metadados_amostras_e_rotas_antes_do_corpus,3
+requer_protocolo_de_acesso,mapear_rota_tecnica_estavel_antes_do_pipeline,2
+monitoramento_tecnico,monitorar_sem_ingestao_imediata,1

@@ -1,0 +1,168 @@
+{
+  "dataset": "aapb",
+  "generated_at": "2026-05-22T18:07:48Z",
+  "generated_by": "scripts/run_aapb_pipeline.py",
+  "observation_key": "aapb:2026-05-22T18:07:48Z",
+  "source_url": "https://americanarchive.org/faq",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-05-22T18:07:48Z",
+  "analytic_outputs_last_modified_at": "2026-05-22T18:07:47Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 28,
+    "videos_in_curatorial_catalog": 28,
+    "visibility_categories": 1,
+    "theme_categories": 5,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "aapb_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 357,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "summary": {
+      "filename": "aapb_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 832,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "video_links": {
+      "filename": "aapb_links_video.csv",
+      "exists": true,
+      "size_bytes": 15275,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "internal_pages": {
+      "filename": "aapb_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 1247,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "analytic_summary": {
+      "filename": "aapb_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1124,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "aapb_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 17542,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "availability_summary": {
+      "filename": "aapb_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "availability_reasons": {
+      "filename": "aapb_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "visibility_summary": {
+      "filename": "aapb_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "access_surface_summary": {
+      "filename": "aapb_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 54,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "access_regime_summary": {
+      "filename": "aapb_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "theme_summary": {
+      "filename": "aapb_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 160,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "theme_country": {
+      "filename": "aapb_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 235,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "archive_type_summary": {
+      "filename": "aapb_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 61,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "theme_platform": {
+      "filename": "aapb_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 371,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "theme_archive_type": {
+      "filename": "aapb_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 339,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "visibility_archive_type": {
+      "filename": "aapb_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 121,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "timeline_corpus": {
+      "filename": "aapb_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 1394,
+      "last_modified_at": "2026-05-22T18:07:48Z"
+    },
+    "timeline_institutions": {
+      "filename": "aapb_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 3369,
+      "last_modified_at": "2026-05-22T18:07:48Z"
+    },
+    "extinction_signals": {
+      "filename": "aapb_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-05-22T18:07:48Z"
+    },
+    "snapshot_metadata": {
+      "filename": "aapb_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5183,
+      "last_modified_at": "2026-05-22T18:07:48Z"
+    },
+    "report_json": {
+      "filename": "aapb_relatorio.json",
+      "exists": true,
+      "size_bytes": 1654,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "report_txt": {
+      "filename": "aapb_relatorio.txt",
+      "exists": true,
+      "size_bytes": 953,
+      "last_modified_at": "2026-05-22T18:07:47Z"
+    },
+    "report_xlsx": {
+      "filename": "aapb_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 27350,
+      "last_modified_at": "2026-05-22T18:07:48Z"
+    }
+  }
+}

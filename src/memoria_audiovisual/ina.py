@@ -7,7 +7,6 @@ from .config import (
     INA_MEDIACLIP_URL,
     INA_MEDIA_MAGAZINE_URL,
     INA_NEWS_URL,
-    INA_PODCASTS_URL,
 )
 from .crawler import collect_sites_dataset, slugify
 from .geography import country_to_continent, normalize_country
@@ -23,7 +22,6 @@ INA_SEED_URLS = [
     INA_NEWS_URL,
     INA_MEDIA_MAGAZINE_URL,
     INA_MADELEN_URL,
-    INA_PODCASTS_URL,
     INA_MEDIACLIP_URL,
 ]
 

@@ -5,7 +5,9 @@ from datetime import UTC, datetime
 import pandas as pd
 
 from .analysis import filter_curatorial_video_catalog
+from .analysis import filter_in_scope_video_links_df
 from .config import (
+    AAPB_FAQ_URL,
     APE_CONTENT_PDF_URL,
     EUSCREEN_COLLECTIONS_URL,
     EUROPEAN_FILM_GATEWAY_HOME_URL,
@@ -15,6 +17,7 @@ from .config import (
     PPA_HOME_URL,
 )
 from .output_files import (
+    AAPB_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
     EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
@@ -136,6 +139,8 @@ def build_snapshot_metadata(
     curatorial_catalog_df = filter_curatorial_video_catalog(
         analysis_frames.get("analytic_video_catalog", pd.DataFrame())
     )
+    curatorial_links_df = filter_in_scope_video_links_df(links_df)
+    analytic_summary_df = analysis_frames.get("analytic_summary", summary_df)
     return {
         "dataset": dataset,
         "generated_at": _utcnow_iso(),
@@ -155,18 +160,18 @@ def build_snapshot_metadata(
             "institutions_with_website": _safe_sum(summary_df, "website_available"),
             "institutions_with_video_links": int(
                 pd.to_numeric(
-                    summary_df.get("video_links_found_total", 0),
+                    analytic_summary_df.get("video_links_found_total", 0),
                     errors="coerce",
                 ).fillna(0).gt(0).sum()
             )
-            if summary_df is not None and not summary_df.empty
+            if analytic_summary_df is not None and not analytic_summary_df.empty
             else 0,
-            "video_links_total": _safe_count(links_df),
+            "video_links_total": _safe_count(curatorial_links_df),
             "videos_in_curatorial_catalog": _safe_count(curatorial_catalog_df),
             "visibility_categories": _safe_count(analysis_frames.get("visibility_summary")),
             "theme_categories": _safe_count(analysis_frames.get("theme_summary")),
             "archive_type_categories": _safe_count(analysis_frames.get("archive_type_summary")),
-            "platforms_detected": _count_distinct(links_df, "platform"),
+            "platforms_detected": _count_distinct(curatorial_links_df, "platform"),
             "countries_with_videos": _count_distinct(curatorial_catalog_df, "country"),
         },
         "files": _build_file_manifest(output_dir, output_files),
@@ -233,6 +238,26 @@ def build_ape_snapshot_metadata(
     )
 
 
+def build_aapb_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="aapb",
+        source_url=AAPB_FAQ_URL,
+        output_files=AAPB_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_ape_snapshot_metadata(
     output_dir,
     *,
@@ -246,6 +271,26 @@ def write_ape_snapshot_metadata(
         dataset="ape",
         source_url=APE_CONTENT_PDF_URL,
         output_files=APE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_aapb_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="aapb",
+        source_url=AAPB_FAQ_URL,
+        output_files=AAPB_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
@@ -496,6 +541,7 @@ def write_ina_snapshot_metadata(
 __all__ = [
     "ANALYTIC_OUTPUT_KEYS",
     "RAW_OUTPUT_KEYS",
+    "build_aapb_snapshot_metadata",
     "build_ape_snapshot_metadata",
     "build_euscreen_snapshot_metadata",
     "build_european_film_gateway_snapshot_metadata",
@@ -505,6 +551,7 @@ __all__ = [
     "build_ppa_snapshot_metadata",
     "build_snapshot_metadata",
     "save_snapshot_metadata_payload",
+    "write_aapb_snapshot_metadata",
     "write_ape_snapshot_metadata",
     "write_euscreen_snapshot_metadata",
     "write_european_film_gateway_snapshot_metadata",

@@ -1,0 +1,31 @@
+RELATORIO - EUROPEANA
+============================================================
+
+Fonte: https://www.europeana.eu/
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 1
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - Europeana: 20
+
+Dominios parceiros mais frequentes:
+  - europeana.eu: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - Europeana | links_video=20 | embeds=514205 | status=ok | prioridade=alta | url=https://www.europeana.eu/
+
+Instituicoes com erro ou restricao:

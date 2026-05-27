@@ -1,0 +1,10 @@
+institution,slug,country,continent,repository_code,archive_type,euscreen_detail_url,content_available_in_source,website_available,partner_site,internal_page,status,http_code,video_links_found,embedded_signals,warning,error
+EUscreen,euscreen,Netherlands,Europe,,,,,,https://euscreen.eu/,https://euscreen.eu/,ok,200,0,0,Página semeada para observar o agregador audiovisual europeu.,
+EUscreen,euscreen,Netherlands,Europe,,,,,,https://euscreen.eu/,https://euscreen.eu/collections/,ok,200,0,0,Página semeada para observar o agregador audiovisual europeu.,
+EUscreen,euscreen,Netherlands,Europe,,,,,,https://euscreen.eu/,https://euscreen.eu/europeana/,ok,200,0,0,Página semeada para observar o agregador audiovisual europeu.,
+EUscreen,euscreen,Netherlands,Europe,,,,,,https://euscreen.eu/,https://euscreen.eu/collection-grid-1/?btn=1&gridcols=3,ok,200,29,29,Página semeada para observar o agregador audiovisual europeu.,
+EUscreen,euscreen,Netherlands,Europe,,,,,,https://euscreen.eu/,https://euscreen.eu/collection-grid-2/?btn=2&gridcols=3,ok,200,25,25,Página semeada para observar o agregador audiovisual europeu.,
+EUscreen,euscreen,Netherlands,Europe,,,,,,https://euscreen.eu/,https://euscreen.eu/collection-grid-3/?btn=3&gridcols=3,ok,200,22,22,Página semeada para observar o agregador audiovisual europeu.,
+EUscreen,euscreen,Netherlands,Europe,,,,,,https://euscreen.eu/,https://euscreen.eu/collection-grid-4/?btn=4&gridcols=3,ok,200,24,24,Página semeada para observar o agregador audiovisual europeu.,
+EUscreen,euscreen,Netherlands,Europe,,,,,,https://euscreen.eu/,https://euscreen.eu/collection-grid-5/?btn=5&gridcols=3,ok,200,30,30,Página semeada para observar o agregador audiovisual europeu.,
+EUscreen,euscreen,Netherlands,Europe,,,,,,https://euscreen.eu/,https://euscreen.eu/collection-grid-6/?btn=6&gridcols=3,ok,200,30,30,Página semeada para observar o agregador audiovisual europeu.,

@@ -18,6 +18,14 @@ DISCOVERY_RULE_VERSION = "2026-05-organismo-v1"
 DISCOVERY_REQUEST_TIMEOUT = 20
 EUROPE_BASE_AGGREGATOR_CODE = "ape"
 EUROPE_BASE_INCLUDED_INSTITUTION_DECISION = "lacuna_ou_excecao_na_base_europa"
+PROTOCOLLED_WITHOUT_ACTIVE_CORPUS_CODES = {
+    "archivegrid",
+    "archives-hub",
+    "francearchives",
+}
+PROTOCOLLED_RADAR_WITHOUT_ACTIVE_CORPUS_CODES = {
+    "iberarchivos",
+}
 AUDIOVISUAL_DISCOVERY_TERMS = (
     "audiovisual",
     "audiovisuales",
@@ -25,8 +33,6 @@ AUDIOVISUAL_DISCOVERY_TERMS = (
     "cine",
     "film",
     "fílmico",
-    "sonoro",
-    "sonora",
     "vídeo",
     "video",
 )
@@ -147,7 +153,6 @@ DISCOVERY_BASELINE_CANDIDATES = [
         "probe_urls": [
             "https://portal.arquivos.pt/search?q=audiovisual",
             "https://portal.arquivos.pt/search?q=video",
-            "https://portal.arquivos.pt/search?q=sonoro",
         ],
     },
     {
@@ -241,7 +246,6 @@ DISCOVERY_BASELINE_CANDIDATES = [
         "already_covered_by_active_aggregator": False,
         "probe_urls": [
             "https://iberarchivos.org/?s=audiovisual",
-            "https://iberarchivos.org/?s=sonoro",
             "https://iberarchivos.org/?s=video",
         ],
     },
@@ -294,7 +298,7 @@ def _candidate_probe_urls(candidate):
     parsed_url = urlparse(source_url)
     if "observat" in str(candidate.get("scope", "")).lower() and parsed_url.scheme and parsed_url.netloc:
         site_root = f"{parsed_url.scheme}://{parsed_url.netloc}"
-        urls.extend(f"{site_root}/?s={quote(term)}" for term in ("audiovisual", "sonoro", "video"))
+        urls.extend(f"{site_root}/?s={quote(term)}" for term in ("audiovisual", "video"))
     return list(dict.fromkeys(url for url in urls if str(url).strip()))
 
 
@@ -351,6 +355,30 @@ def _evaluate_candidate(candidate: dict, active_codes: set[str]) -> dict:
                 "A unidade já integra o organismo e segue em atualização periódica."
             ),
             "next_step": "manter_no_ciclo_mensal",
+        }
+
+    if code in PROTOCOLLED_WITHOUT_ACTIVE_CORPUS_CODES:
+        return {
+            "organism_status": "protocolado",
+            "automatic_decision": "monitoramento_protocolado_sem_incorporacao",
+            "automatic_priority": 6,
+            "automatic_reason": (
+                "A unidade foi identificada e protocolada, mas permanece fora do corpus ativo "
+                "até existir rota técnica estável de coleta comparável."
+            ),
+            "next_step": "manter_aba_de_protocolo_e_retestar_rota_em_ciclo_futuro",
+        }
+
+    if code in PROTOCOLLED_RADAR_WITHOUT_ACTIVE_CORPUS_CODES:
+        return {
+            "organism_status": "protocolado",
+            "automatic_decision": "monitoramento_protocolado_sem_incorporacao",
+            "automatic_priority": 6,
+            "automatic_reason": (
+                "A unidade foi protocolada como fonte de radar e curadoria, mas não como corpus "
+                "porque não apresenta catálogo audiovisual coletável e comparável."
+            ),
+            "next_step": "manter_aba_de_protocolo_e_usar_como_fonte_de_descoberta",
         }
 
     if category_code == "aggregator":
@@ -464,6 +492,8 @@ def _evaluate_candidate(candidate: dict, active_codes: set[str]) -> dict:
 
 def build_discovery_registry(*, probe_candidates=False, fetcher=_fetch_probe_url):
     active_codes = {definition["code"] for definition in CORPORA.values()}
+    active_labels = {str(definition["label"]).strip().lower() for definition in CORPORA.values()}
+    active_source_urls = {str(definition.get("source_url", "")).strip().lower() for definition in CORPORA.values()}
     rows = []
 
     for corpus_def in CORPORA.values():
@@ -493,6 +523,10 @@ def build_discovery_registry(*, probe_candidates=False, fetcher=_fetch_probe_url
 
     for candidate in DISCOVERY_BASELINE_CANDIDATES:
         if candidate["code"] in active_codes:
+            continue
+        if str(candidate.get("label", "")).strip().lower() in active_labels:
+            continue
+        if str(candidate.get("source_url", "")).strip().lower() in active_source_urls:
             continue
         category_def = CORPUS_CATEGORIES[candidate["category_code"]]
         evaluation = _evaluate_candidate(candidate, active_codes)
@@ -537,6 +571,7 @@ def build_expansion_queue(registry_df: pd.DataFrame) -> pd.DataFrame:
                 "fechamento_europa_agregador_supranacional",
                 "fechamento_europa_agregador_nacional",
                 "monitoramento_estrategico",
+                "monitoramento_protocolado_sem_incorporacao",
                 "aguarda_etapa_2",
                 EUROPE_BASE_INCLUDED_INSTITUTION_DECISION,
             }

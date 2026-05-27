@@ -52,6 +52,7 @@ jobs:
           python -m py_compile scripts/check_ape_outputs.py
           python -m py_compile scripts/check_euscreen_outputs.py
           python -m py_compile scripts/check_ina_outputs.py
+          python -m py_compile scripts/check_deployment_ready.py
           python -m py_compile scripts/check_observatory_cycle.py
           python -m py_compile scripts/check_pares_outputs.py
           python -m py_compile scripts/evaluate_european_aggregators.py
@@ -64,3 +65,6 @@ jobs:
 
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+
+      - name: Check deployment snapshot
+        run: python scripts/check_deployment_ready.py

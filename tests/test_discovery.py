@@ -34,13 +34,27 @@ class DiscoveryTests(unittest.TestCase):
         registry_df = build_discovery_registry()
         queue_df = build_expansion_queue(registry_df)
         self.assertFalse(queue_df.empty)
-        first_decision = queue_df.iloc[0]["automatic_decision"]
-        self.assertEqual(first_decision, "fechamento_europa_agregador_nacional")
+        self.assertEqual(
+            set(queue_df["automatic_decision"].unique()),
+            {"monitoramento_protocolado_sem_incorporacao"},
+        )
+        self.assertNotIn("aapb", queue_df["code"].tolist())
         self.assertNotIn("euscreen", queue_df["code"].tolist())
         self.assertNotIn("european-film-gateway", queue_df["code"].tolist())
         self.assertNotIn("europeana", queue_df["code"].tolist())
         self.assertNotIn("pares", queue_df["code"].tolist())
         self.assertIn("iberarchivos", queue_df["code"].tolist())
+        self.assertNotIn("ina-gap", queue_df["code"].tolist())
+
+    def test_protocolled_units_remain_visible_without_blocking_queue(self):
+        registry_df = build_discovery_registry()
+        archivegrid_row = registry_df.loc[registry_df["code"] == "archivegrid"].iloc[0]
+
+        self.assertEqual(
+            archivegrid_row["automatic_decision"],
+            "monitoramento_protocolado_sem_incorporacao",
+        )
+        self.assertEqual(archivegrid_row["organism_status"], "protocolado")
 
     def test_policy_observatory_enters_as_monitoring_reference(self):
         evaluation = _evaluate_candidate(
@@ -55,6 +69,17 @@ class DiscoveryTests(unittest.TestCase):
 
         self.assertEqual(evaluation["automatic_decision"], "monitoramento_estrategico")
         self.assertEqual(evaluation["next_step"], "monitorar_como_fonte_de_descoberta_sem_pipeline_imediato")
+
+    def test_iberarchivos_is_protocolled_as_radar_without_active_corpus(self):
+        registry_df = build_discovery_registry()
+        iberarchivos_row = registry_df.loc[registry_df["code"] == "iberarchivos"].iloc[0]
+
+        self.assertEqual(
+            iberarchivos_row["automatic_decision"],
+            "monitoramento_protocolado_sem_incorporacao",
+        )
+        self.assertEqual(iberarchivos_row["organism_status"], "protocolado")
+        self.assertIn("fonte de radar", iberarchivos_row["automatic_reason"])
 
     def test_probe_candidate_audiovisual_detects_official_search_hits(self):
         def fake_fetcher(url):

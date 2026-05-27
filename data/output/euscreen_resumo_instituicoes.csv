@@ -1,0 +1,2 @@
+institution,slug,country,continent,repository_code,archive_type,euscreen_detail_url,content_available_in_source,website_available,partner_site,partner_domain,status,http_code,integrity_status,final_url,video_links_found_total,embedded_video_signals_total,candidate_internal_pages,priority_review,warning,error
+EUscreen,euscreen,Netherlands,Europe,EU-EUSCREEN,European audiovisual aggregator,https://euscreen.eu/collections/,True,True,https://euscreen.eu/,euscreen.eu,ok,200,integro,https://euscreen.eu/collections/,133,160,9,media,,

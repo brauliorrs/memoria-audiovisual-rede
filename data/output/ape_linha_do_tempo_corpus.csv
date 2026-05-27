@@ -1,0 +1,2 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+ape,ape:2026-04-01T22:10:16Z,2026-05-27T16:47:58Z,2025-12-15,2026-04-01T22:10:16Z,2026-05-27T16:47:58Z,scripts/build_ape_analytics.py,1253,1180,103,412,412,5,13,17,5,19

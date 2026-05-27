@@ -15,6 +15,8 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from memoria_audiovisual import analysis as analysis_utils
+from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
+from memoria_audiovisual.iberarchivos_protocol import IBERARCHIVOS_PROTOCOL_FILENAME
 from memoria_audiovisual.corpora import (
     CORPORA,
     CORPUS_CATEGORIES,
@@ -37,8 +39,19 @@ from memoria_audiovisual.european_aggregators import (
     EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
 )
 from memoria_audiovisual.europe_closure import (
+    EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME,
+    EUROPE_CLOSURE_GAP_AUDIT_FILENAME,
     EUROPE_CLOSURE_MATRIX_FILENAME,
+    EUROPE_CLOSURE_QUEUE_FILENAME,
     EUROPE_CLOSURE_SUMMARY_FILENAME,
+)
+from memoria_audiovisual.europe_research import (
+    EUROPE_RESEARCH_QUEUE_FILENAME,
+    EUROPE_RESEARCH_REGISTRY_FILENAME,
+    EUROPE_RESEARCH_SUMMARY_FILENAME,
+    build_europe_research_queue,
+    build_europe_research_registry,
+    build_europe_research_summary,
 )
 from memoria_audiovisual.european_protocols import (
     ARCHIVESHUB_PROTOCOL_FILENAME,
@@ -286,6 +299,180 @@ def build_cross_corpus_history_frame(output_file_key):
     if not frames:
         return pd.DataFrame()
     return pd.concat(frames, ignore_index=True)
+
+
+def select_existing_columns(dataframe, columns):
+    if dataframe is None or dataframe.empty:
+        return pd.DataFrame()
+    return dataframe[[column for column in columns if column in dataframe.columns]].copy()
+
+
+def load_protocolled_excluded_units():
+    excluded_df = load_csv(EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME)
+    if excluded_df is not None and not excluded_df.empty:
+        return excluded_df.sort_values("unit_label").to_dict("records")
+
+    matrix_df = load_csv(EUROPE_CLOSURE_MATRIX_FILENAME)
+    if matrix_df is None or matrix_df.empty:
+        return []
+
+    candidates_df = matrix_df.loc[
+        (matrix_df.get("unit_type", pd.Series(dtype="object")) != "corpus_ativo")
+        & (
+            matrix_df.get("incorporation_decision", pd.Series(dtype="object"))
+            == "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel"
+        )
+    ].copy()
+    if candidates_df.empty:
+        return []
+
+    candidates_df["public_status"] = "Identificada, mas não incluída no corpus do organismo"
+    candidates_df["methodological_decision"] = "não incorporar ao corpus ativo no MVP"
+    candidates_df["negative_reason"] = "Ausência de rota de coleta estável no protocolo atual."
+    return candidates_df.sort_values("unit_label").to_dict("records")
+
+
+def load_unit_protocol_df(unit_code):
+    protocol_files = {
+        "archivegrid": ARCHIVEGRID_PROTOCOL_FILENAME,
+        "archives-hub": ARCHIVESHUB_PROTOCOL_FILENAME,
+        "francearchives": FRANCEARCHIVES_PROTOCOL_FILENAME,
+        "iberarchivos": IBERARCHIVOS_PROTOCOL_FILENAME,
+    }
+    filename = protocol_files.get(unit_code)
+    if not filename:
+        return pd.DataFrame()
+    protocol_df = load_csv(filename)
+    if protocol_df is None or protocol_df.empty:
+        return pd.DataFrame()
+    if "code" in protocol_df.columns:
+        protocol_df = protocol_df.loc[protocol_df["code"].astype(str) == unit_code].copy()
+    return protocol_df
+
+
+def render_protocolled_excluded_unit_tab(unit_record):
+    unit_code = normalize_optional_text(unit_record.get("unit_code"))
+    unit_label = normalize_optional_text(unit_record.get("unit_label")) or unit_code
+    blocks_expansion = str(unit_record.get("blocks_expansion", "")).lower() == "true"
+
+    st.header(unit_label)
+    st.info("Arquivo identificado, mas não incluído no corpus do organismo.")
+    st.caption(
+        "Esta aba existe justamente para não apagar a tentativa. A unidade aparece no observatório, "
+        "mas fica separada dos corpora ativos até que a rota de coleta seja estável, reprodutível e comparável."
+    )
+
+    metric_cols = st.columns(4)
+    metric_cols[0].metric("Status", "fora do corpus ativo")
+    metric_cols[1].metric("Escopo", normalize_optional_text(unit_record.get("territorial_scope")) or "-")
+    metric_cols[2].metric("Bloqueia expansão?", "Sim" if blocks_expansion else "Não")
+    metric_cols[3].metric("Regra", normalize_optional_text(unit_record.get("rule_version")) or "-")
+
+    decision_df = pd.DataFrame(
+        [
+            {
+                "campo": "status público",
+                "informação": normalize_optional_text(unit_record.get("public_status")),
+            },
+            {
+                "campo": "decisão metodológica",
+                "informação": normalize_optional_text(unit_record.get("methodological_decision")),
+            },
+            {
+                "campo": "motivo da não inclusão",
+                "informação": normalize_optional_text(unit_record.get("negative_reason")),
+            },
+            {
+                "campo": "rota de coleta tentada",
+                "informação": normalize_optional_text(unit_record.get("collection_route_attempted")),
+            },
+            {
+                "campo": "tentativas registradas",
+                "informação": normalize_optional_text(unit_record.get("attempt_summary")),
+            },
+            {
+                "campo": "explicação metodológica",
+                "informação": normalize_optional_text(unit_record.get("methodological_explanation")),
+            },
+            {
+                "campo": "próximo passo",
+                "informação": normalize_optional_text(unit_record.get("next_step")),
+            },
+        ]
+    )
+    st.markdown("### Decisão e negativa metodológica")
+    st.dataframe(decision_df, use_container_width=True, hide_index=True)
+
+    access_routes_df = load_csv(EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME)
+    if access_routes_df is not None and not access_routes_df.empty and "code" in access_routes_df.columns:
+        access_routes_df = access_routes_df.loc[access_routes_df["code"].astype(str) == unit_code].copy()
+    if access_routes_df is not None and not access_routes_df.empty:
+        st.markdown("### Rotas candidatas avaliadas")
+        routes_display_df = select_existing_columns(
+            access_routes_df.rename(
+                columns={
+                    "route_type": "tipo de rota",
+                    "route_url": "URL da rota",
+                    "http_status": "HTTP",
+                    "access_status": "status de acesso",
+                    "route_viability": "viabilidade",
+                    "audiovisual_use": "uso audiovisual possível",
+                    "methodological_note": "nota metodológica",
+                    "source_reference_url": "referência",
+                }
+            ),
+            [
+                "tipo de rota",
+                "HTTP",
+                "status de acesso",
+                "viabilidade",
+                "uso audiovisual possível",
+                "nota metodológica",
+                "URL da rota",
+                "referência",
+            ],
+        )
+        st.dataframe(routes_display_df, use_container_width=True, hide_index=True)
+
+    protocol_df = load_unit_protocol_df(unit_code)
+    if protocol_df is not None and not protocol_df.empty:
+        st.markdown("### Tentativas técnicas do protocolo")
+        protocol_display_df = select_existing_columns(
+            protocol_df.rename(
+                columns={
+                    "probe_label": "sondagem",
+                    "method": "método",
+                    "http_status": "HTTP",
+                    "content_type": "tipo de conteúdo",
+                    "access_status": "status de acesso",
+                    "evidence_signal": "sinal observado",
+                    "observed_value": "valor observado",
+                    "protocol_conclusion": "conclusão",
+                    "next_step": "próximo passo",
+                    "methodological_note": "nota metodológica",
+                    "url": "URL",
+                }
+            ),
+            [
+                "sondagem",
+                "método",
+                "HTTP",
+                "tipo de conteúdo",
+                "status de acesso",
+                "sinal observado",
+                "valor observado",
+                "conclusão",
+                "próximo passo",
+                "nota metodológica",
+                "URL",
+            ],
+        )
+        st.dataframe(protocol_display_df, use_container_width=True, hide_index=True)
+
+    st.warning(
+        "Leitura correta: a não inclusão não prova inexistência de audiovisual. Ela prova apenas que, "
+        "nesta rodada, o organismo não encontrou uma rota suficientemente estável para coleta com rigor."
+    )
 
 
 def build_summary_display_df(
@@ -804,7 +991,13 @@ def render_observatory_overview_tab():
     european_aggregator_protocols_df = load_csv(EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME)
     european_aggregator_summary_df = load_csv(EUROPEAN_AGGREGATOR_SUMMARY_FILENAME)
     europe_closure_matrix_df = load_csv(EUROPE_CLOSURE_MATRIX_FILENAME)
+    europe_closure_queue_df = load_csv(EUROPE_CLOSURE_QUEUE_FILENAME)
     europe_closure_summary_df = load_csv(EUROPE_CLOSURE_SUMMARY_FILENAME)
+    europe_excluded_units_df = load_csv(EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME)
+    europe_gap_audit_df = load_csv(EUROPE_CLOSURE_GAP_AUDIT_FILENAME)
+    europe_research_registry_df = load_csv(EUROPE_RESEARCH_REGISTRY_FILENAME)
+    europe_research_queue_df = load_csv(EUROPE_RESEARCH_QUEUE_FILENAME)
+    europe_research_summary_df = load_csv(EUROPE_RESEARCH_SUMMARY_FILENAME)
     archiveshub_protocol_df = load_csv(ARCHIVESHUB_PROTOCOL_FILENAME)
     francearchives_protocol_df = load_csv(FRANCEARCHIVES_PROTOCOL_FILENAME)
     cycle_timeline_df = load_csv(ORGANISM_CYCLE_TIMELINE_FILENAME)
@@ -820,6 +1013,12 @@ def render_observatory_overview_tab():
         discovery_queue_df = build_expansion_queue(discovery_registry_df)
     if discovery_summary_df is None or discovery_summary_df.empty:
         discovery_summary_df = build_discovery_summary(discovery_registry_df)
+    if europe_research_registry_df is None or europe_research_registry_df.empty:
+        europe_research_registry_df = build_europe_research_registry()
+    if europe_research_queue_df is None or europe_research_queue_df.empty:
+        europe_research_queue_df = build_europe_research_queue(europe_research_registry_df)
+    if europe_research_summary_df is None or europe_research_summary_df.empty:
+        europe_research_summary_df = build_europe_research_summary(europe_research_registry_df)
     snapshot_metadata_by_code = {
         corpus_def["code"]: load_json(corpus_def["output_files"]["snapshot_metadata"]) or {}
         for corpus_def in CORPORA.values()
@@ -1541,11 +1740,11 @@ def render_observatory_overview_tab():
                 "Exporta a síntese dos estados metodológicos observados.",
             )
 
-    st.markdown("### Fechamento europeu")
+    st.markdown("### Fechamento metodológico europeu")
     st.caption(
-        "Este quadro explicita o estado metodológico da etapa Europa. Ele não afirma que todo "
-        "audiovisual europeu foi localizado; registra quais unidades já operam como corpus e quais "
-        "permanecem como protocolos rastreados."
+        "Este quadro explicita o estado metodológico da etapa Europa. Ele não afirma que todos os "
+        "arquivos audiovisuais europeus foram identificados; registra o que já opera como corpus, "
+        "o que está protocolado e o que segue em fila auditável de expansão."
     )
     if europe_closure_summary_df is None or europe_closure_summary_df.empty:
         st.info(
@@ -1564,20 +1763,33 @@ def render_observatory_overview_tab():
         )
         active_units = 0
         pending_units = 0
+        excluded_units = 0
+        audited_gaps = 0
         if europe_closure_matrix_df is not None and not europe_closure_matrix_df.empty:
             active_units = int((europe_closure_matrix_df["unit_type"] == "corpus_ativo").sum())
             pending_units = int((europe_closure_matrix_df["unit_type"] == "agregador_candidato").sum())
+        if europe_excluded_units_df is not None and not europe_excluded_units_df.empty:
+            excluded_units = len(europe_excluded_units_df)
+        if europe_gap_audit_df is not None and not europe_gap_audit_df.empty:
+            audited_gaps = len(europe_gap_audit_df)
 
-        closure_cols = st.columns(3)
+        closure_cols = st.columns(5)
         closure_cols[0].metric("Corpora europeus ativos", active_units)
         closure_cols[1].metric("Candidatos com protocolo", pending_units)
-        closure_cols[2].metric(
+        closure_cols[2].metric("Identificados fora do corpus", excluded_units)
+        closure_cols[3].metric("Lacunas auditadas", audited_gaps)
+        closure_cols[4].metric(
             "Próxima etapa",
             closure_status[0].replace("_", " ") if closure_status else "-",
         )
 
-        closure_tab_summary, closure_tab_matrix = st.tabs(
-            ["Critérios de fechamento", "Matriz europeia"]
+        closure_tab_summary, closure_tab_matrix, closure_tab_excluded, closure_tab_gap_audit = st.tabs(
+            [
+                "Critérios de fechamento",
+                "Matriz europeia",
+                "Identificados fora do corpus",
+                "Auditoria de lacunas",
+            ]
         )
         with closure_tab_summary:
             st.dataframe(europe_closure_summary_df, use_container_width=True, hide_index=True)
@@ -1598,6 +1810,209 @@ def render_observatory_overview_tab():
                     EUROPE_CLOSURE_MATRIX_FILENAME,
                     "Exporta a situação de cada corpus ou candidato europeu.",
                 )
+        with closure_tab_excluded:
+            if europe_excluded_units_df is None or europe_excluded_units_df.empty:
+                st.info("Ainda não há unidades europeias protocoladas fora do corpus ativo.")
+            else:
+                st.caption(
+                    "Essas unidades foram identificadas e preservadas no observatório, mas não entram "
+                    "no corpus ativo enquanto a rota de coleta não for tecnicamente estável."
+                )
+                excluded_display_df = europe_excluded_units_df.rename(
+                    columns={
+                        "unit_label": "unidade",
+                        "unit_type": "tipo de unidade",
+                        "territorial_scope": "escopo territorial",
+                        "public_status": "status público",
+                        "methodological_decision": "decisão metodológica",
+                        "negative_reason": "motivo da não inclusão",
+                        "collection_route_attempted": "rota tentada",
+                        "attempt_summary": "tentativas registradas",
+                        "methodological_explanation": "explicação metodológica",
+                        "protocol_status": "status do protocolo",
+                        "next_step": "próximo passo",
+                        "blocks_expansion": "bloqueia expansão",
+                    }
+                )
+                st.dataframe(
+                    select_existing_columns(
+                        excluded_display_df,
+                        [
+                            "unidade",
+                            "tipo de unidade",
+                            "escopo territorial",
+                            "status público",
+                            "decisão metodológica",
+                            "motivo da não inclusão",
+                            "rota tentada",
+                            "tentativas registradas",
+                            "explicação metodológica",
+                            "status do protocolo",
+                            "próximo passo",
+                            "bloqueia expansão",
+                        ],
+                    ),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+                if europe_closure_queue_df is not None and not europe_closure_queue_df.empty:
+                    with st.expander("Ver posição dessas unidades na fila europeia", expanded=False):
+                        not_included_codes = set(europe_excluded_units_df["unit_code"].astype(str))
+                        queue_display_df = europe_closure_queue_df.loc[
+                            europe_closure_queue_df["unit_code"].astype(str).isin(not_included_codes)
+                        ].copy()
+                        st.dataframe(queue_display_df, use_container_width=True, hide_index=True)
+                render_csv_download(
+                    "Baixar unidades identificadas não incorporadas",
+                    europe_excluded_units_df,
+                    EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME,
+                    "Exporta as unidades europeias identificadas, mas mantidas fora do corpus ativo.",
+                )
+        with closure_tab_gap_audit:
+            if europe_gap_audit_df is None or europe_gap_audit_df.empty:
+                st.info("A auditoria de lacunas europeias ainda não foi materializada.")
+            else:
+                st.caption(
+                    "Esta auditoria impede que o fechamento europeu seja lido como exaustividade absoluta. "
+                    "Ela documenta unidades cobertas por corpora ativos, fontes legadas, radares e candidatos "
+                    "futuros, mantendo o MVP continental aberto à expansão controlada."
+                )
+                gap_audit_display_df = europe_gap_audit_df.rename(
+                    columns={
+                        "unit_label": "unidade",
+                        "unit_type": "tipo de unidade",
+                        "territorial_scope": "escopo territorial",
+                        "audit_status": "status da auditoria",
+                        "relation_to_active_corpus": "relação com corpus ativo",
+                        "corpus_decision": "decisão de corpus",
+                        "methodological_reason": "justificativa metodológica",
+                        "source_url": "fonte",
+                        "next_step": "próximo passo",
+                        "blocks_expansion": "bloqueia expansão",
+                    }
+                )
+                st.dataframe(
+                    select_existing_columns(
+                        gap_audit_display_df,
+                        [
+                            "unidade",
+                            "tipo de unidade",
+                            "escopo territorial",
+                            "status da auditoria",
+                            "relação com corpus ativo",
+                            "decisão de corpus",
+                            "justificativa metodológica",
+                            "fonte",
+                            "próximo passo",
+                            "bloqueia expansão",
+                        ],
+                    ),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+                render_csv_download(
+                    "Baixar auditoria de lacunas europeias",
+                    europe_gap_audit_df,
+                    EUROPE_CLOSURE_GAP_AUDIT_FILENAME,
+                    "Exporta a auditoria que delimita o que ficou fora do corpus europeu do MVP.",
+                )
+
+    st.markdown("### Pesquisa europeia ampliada")
+    st.caption(
+        "Esta fila é o mecanismo de trabalho para identificar agregadores, redes, diretórios e arquivos "
+        "audiovisuais europeus sem chute: agregadores primeiro, diretórios especializados depois, "
+        "arquivos individuais por expansão controlada. A presença na fila não significa incorporação "
+        "automática: cada item precisa virar corpus ativo ou protocolo de não incorporação."
+    )
+    if europe_research_registry_df is None or europe_research_registry_df.empty:
+        st.info("A fila ampliada de pesquisa europeia ainda não foi materializada.")
+    else:
+        europe_queue_layer = europe_research_queue_df.get("queue_layer", pd.Series(dtype="object")).astype(str)
+        europe_research_cols = st.columns(4)
+        europe_research_cols[0].metric("Unidades europeias registradas", len(europe_research_registry_df))
+        europe_research_cols[1].metric(
+            "Fila definitiva um por um",
+            int((europe_queue_layer == "fila_definitiva_um_por_um").sum()),
+        )
+        europe_research_cols[2].metric(
+            "Diretórios a expandir",
+            int(
+                (
+                    europe_research_registry_df["queue_decision"]
+                    == "expandir_diretorio_para_fila_individual"
+                ).sum()
+            ),
+        )
+        europe_research_cols[3].metric(
+            "Arquivos individuais",
+            int(
+                (
+                    europe_research_registry_df["queue_decision"]
+                    == "avaliar_arquivo_individual_um_por_um"
+                ).sum()
+            ),
+        )
+        research_tab_queue, research_tab_registry, research_tab_summary = st.tabs(
+            ["Fila um por um", "Registro europeu", "Resumo da pesquisa"]
+        )
+        with research_tab_queue:
+            queue_display_df = europe_research_queue_df.rename(
+                columns={
+                    "definitive_queue_rank": "ordem",
+                    "unit_label": "unidade",
+                    "unit_type": "tipo",
+                    "source_family": "fonte",
+                    "country_or_scope": "país/escopo",
+                    "queue_layer": "camada da fila",
+                    "queue_decision": "decisão",
+                    "video_location_status": "status do local dos vídeos",
+                    "video_location_candidate_url": "URL inicial",
+                    "inclusion_gate": "porta metodológica",
+                    "next_action": "próxima ação",
+                }
+            )
+            st.dataframe(
+                select_existing_columns(
+                    queue_display_df,
+                    [
+                        "ordem",
+                        "unidade",
+                        "tipo",
+                        "fonte",
+                        "país/escopo",
+                        "camada da fila",
+                        "decisão",
+                        "status do local dos vídeos",
+                        "URL inicial",
+                        "porta metodológica",
+                        "próxima ação",
+                    ],
+                ),
+                use_container_width=True,
+                hide_index=True,
+            )
+            render_csv_download(
+                "Baixar fila ampliada de pesquisa europeia",
+                europe_research_queue_df,
+                EUROPE_RESEARCH_QUEUE_FILENAME,
+                "Exporta a fila operacional para incorporar ou protocolar unidades europeias uma por uma.",
+            )
+        with research_tab_registry:
+            st.dataframe(europe_research_registry_df, use_container_width=True, hide_index=True)
+            render_csv_download(
+                "Baixar registro ampliado de pesquisa europeia",
+                europe_research_registry_df,
+                EUROPE_RESEARCH_REGISTRY_FILENAME,
+                "Exporta o registro ampliado de agregadores, redes, diretórios e fontes europeias.",
+            )
+        with research_tab_summary:
+            st.dataframe(europe_research_summary_df, use_container_width=True, hide_index=True)
+            render_csv_download(
+                "Baixar resumo da pesquisa europeia",
+                europe_research_summary_df,
+                EUROPE_RESEARCH_SUMMARY_FILENAME,
+                "Exporta a síntese por categoria e decisão de fila.",
+            )
 
     chart_cols = st.columns(3)
     chart_base = overview_df.set_index("corpus")
@@ -2454,8 +2869,8 @@ def render_videos_tab(corpus_def, context, selected_theme):
     )
 
     overview_cols = st.columns(5)
-    overview_cols[0].metric("Vídeos no recorte curatorial", curatorial_video_total)
-    overview_cols[1].metric("Links de vídeo detectados", len(video_catalog_df))
+    overview_cols[0].metric("Vídeos curatoriais", curatorial_video_total)
+    overview_cols[1].metric("Instituições com vídeos", int(video_catalog_df["slug"].nunique()))
     overview_cols[2].metric("Temas identificados", len(theme_counts))
     overview_cols[3].metric("Plataformas", int(video_catalog_df["platform"].nunique()))
     overview_cols[4].metric("Modalidades de acesso", len(access_surface_counts))
@@ -2790,7 +3205,7 @@ def render_data_tab(corpus_def, context):
     elif analytic_view == "Catálogo curatorial de vídeos":
         st.dataframe(
             build_video_catalog_display_df(
-                video_catalog_df,
+                analysis_utils.filter_curatorial_video_catalog(video_catalog_df),
                 content_flag_field=corpus_def["content_flag_field"],
                 content_flag_label=corpus_def["content_flag_label"],
                 detail_url_field=corpus_def["detail_url_field"],
@@ -3159,11 +3574,14 @@ def render_institution_tab(corpus_def, context, selected_slug):
         else:
             selected_links = selected_links.copy()
             selected_links["tema_sugerido"] = selected_links.apply(infer_video_theme, axis=1)
+            selected_links = selected_links.loc[selected_links["tema_sugerido"] != NOISE_THEME_LABEL].copy()
+            if selected_links.empty:
+                st.info("Nenhum vídeo curatorial permaneceu após a filtragem de ruído fora de escopo.")
             selected_links["modalidade_acesso"] = selected_links.apply(analysis_utils.classify_access_surface, axis=1)
             selected_links["data_publicacao"] = selected_links["video_published_at"].apply(format_video_date)
 
             video_overview_cols = st.columns(4)
-            video_overview_cols[0].metric("Links detectados", len(selected_links))
+            video_overview_cols[0].metric("Vídeos curatoriais", len(selected_links))
             video_overview_cols[1].metric("Plataformas", int(selected_links["platform"].nunique()))
             video_overview_cols[2].metric(
                 "Temas sugeridos",
@@ -3519,10 +3937,12 @@ st.caption(
     "agregadores arquivísticos e arquivos ou instituições custodiais para preservar o rigor analítico."
 )
 
+protocolled_excluded_units = load_protocolled_excluded_units()
 top_level_tabs = st.tabs(
     ["Observatório | visão geral"]
     + [f"Categoria | {category_def['short_label']}" for category_def in CORPUS_CATEGORIES.values()]
     + [f"{definition['short_label']} | {definition['label']}" for definition in CORPORA.values()]
+    + [f"Protocolo | {unit['unit_label']}" for unit in protocolled_excluded_units]
 )
 
 with top_level_tabs[0]:
@@ -3530,6 +3950,7 @@ with top_level_tabs[0]:
 
 category_tabs = top_level_tabs[1 : 1 + len(CORPUS_CATEGORIES)]
 corpus_tabs = top_level_tabs[1 + len(CORPUS_CATEGORIES) :]
+protocolled_tabs = top_level_tabs[1 + len(CORPUS_CATEGORIES) + len(CORPORA) :]
 
 for category_tab, category_def in zip(category_tabs, CORPUS_CATEGORIES.values()):
     with category_tab:
@@ -3538,3 +3959,7 @@ for category_tab, category_def in zip(category_tabs, CORPUS_CATEGORIES.values())
 for corpus_tab, corpus_def in zip(corpus_tabs, CORPORA.values()):
     with corpus_tab:
         render_corpus_tab(corpus_def)
+
+for protocolled_tab, unit_record in zip(protocolled_tabs, protocolled_excluded_units):
+    with protocolled_tab:
+        render_protocolled_excluded_unit_tab(unit_record)

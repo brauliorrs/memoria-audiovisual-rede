@@ -1,0 +1,168 @@
+{
+  "dataset": "portal-portugues-arquivos",
+  "generated_at": "2026-05-27T16:48:08Z",
+  "generated_by": "scripts/build_ppa_analytics.py",
+  "observation_key": "portal-portugues-arquivos:2026-05-22T17:51:38Z",
+  "source_url": "https://portal.arquivos.pt/",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-05-22T17:51:38Z",
+  "analytic_outputs_last_modified_at": "2026-05-27T16:48:08Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 94,
+    "videos_in_curatorial_catalog": 94,
+    "visibility_categories": 1,
+    "theme_categories": 9,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "ppa_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 314,
+      "last_modified_at": "2026-05-22T17:51:38Z"
+    },
+    "summary": {
+      "filename": "ppa_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 792,
+      "last_modified_at": "2026-05-22T17:51:38Z"
+    },
+    "video_links": {
+      "filename": "ppa_links_video.csv",
+      "exists": true,
+      "size_bytes": 60555,
+      "last_modified_at": "2026-05-22T17:51:38Z"
+    },
+    "internal_pages": {
+      "filename": "ppa_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 1325,
+      "last_modified_at": "2026-05-22T17:51:38Z"
+    },
+    "analytic_summary": {
+      "filename": "ppa_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1195,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "ppa_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 73478,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "availability_summary": {
+      "filename": "ppa_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "availability_reasons": {
+      "filename": "ppa_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "visibility_summary": {
+      "filename": "ppa_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "access_surface_summary": {
+      "filename": "ppa_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 78,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "access_regime_summary": {
+      "filename": "ppa_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 72,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "theme_summary": {
+      "filename": "ppa_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 279,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "theme_country": {
+      "filename": "ppa_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 365,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "archive_type_summary": {
+      "filename": "ppa_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 58,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "theme_platform": {
+      "filename": "ppa_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 560,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "theme_archive_type": {
+      "filename": "ppa_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 559,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "visibility_archive_type": {
+      "filename": "ppa_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 118,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "timeline_corpus": {
+      "filename": "ppa_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 1126,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "timeline_institutions": {
+      "filename": "ppa_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2175,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "extinction_signals": {
+      "filename": "ppa_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "snapshot_metadata": {
+      "filename": "ppa_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5199,
+      "last_modified_at": "2026-05-27T16:48:08Z"
+    },
+    "report_json": {
+      "filename": "ppa_relatorio.json",
+      "exists": true,
+      "size_bytes": 1585,
+      "last_modified_at": "2026-05-22T17:51:38Z"
+    },
+    "report_txt": {
+      "filename": "ppa_relatorio.txt",
+      "exists": true,
+      "size_bytes": 898,
+      "last_modified_at": "2026-05-22T17:51:38Z"
+    },
+    "report_xlsx": {
+      "filename": "ppa_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 46370,
+      "last_modified_at": "2026-05-22T17:51:38Z"
+    }
+  }
+}

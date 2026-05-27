@@ -1,4 +1,5 @@
 from .pipeline import (
+    run_aapb_pipeline,
     run_european_film_gateway_pipeline,
     run_europeana_pipeline,
     run_euscreen_pipeline,
@@ -9,6 +10,7 @@ from .pipeline import (
 )
 
 __all__ = [
+    "run_aapb_pipeline",
     "run_pipeline",
     "run_ina_pipeline",
     "run_euscreen_pipeline",

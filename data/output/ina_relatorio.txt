@@ -1,0 +1,32 @@
+RELATORIO - INA
+============================================================
+
+Fonte: https://www.ina.fr/institut-national-audiovisuel
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 1
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - Madelen: 43
+  - Mediaclip INA: 31
+
+Dominios parceiros mais frequentes:
+  - ina.fr: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - Institut national de l'audiovisuel (INA) | links_video=74 | embeds=106 | status=ok | prioridade=media | url=https://www.ina.fr/
+
+Instituicoes com erro ou restricao:

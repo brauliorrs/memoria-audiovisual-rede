@@ -13,7 +13,6 @@ INA_DATA_URL = "https://www.ina.fr/actualites-ina/data-donnees-visualisation-int
 INA_NEWS_URL = "https://www.ina.fr/actualites-ina"
 INA_MEDIA_MAGAZINE_URL = "https://www.ina.fr/ina-eclaire-actu"
 INA_MADELEN_URL = "https://madelen.ina.fr/"
-INA_PODCASTS_URL = "https://podcasts.ina.fr/"
 INA_MEDIACLIP_URL = "https://mediaclip.ina.fr/"
 EUSCREEN_HOME_URL = "https://euscreen.eu/"
 EUSCREEN_ABOUT_URL = "https://euscreen.eu/about/"
@@ -30,6 +29,9 @@ PARES_HOME_URL = "https://pares.cultura.gob.es/"
 PARES_SEARCH_URL_TEMPLATE = "https://pares.mcu.es/ParesBusquedas20/catalogo/find?nm=&texto={query}"
 PPA_HOME_URL = "https://portal.arquivos.pt/"
 PPA_SEARCH_URL_TEMPLATE = "https://portal.arquivos.pt/search?q={query}"
+AAPB_HOME_URL = "https://americanarchive.org/"
+AAPB_FAQ_URL = "https://americanarchive.org/faq"
+AAPB_API_URL_TEMPLATE = "https://americanarchive.org/api.json?q={query}&rows={rows}"
 APE_FIND_URL = "https://www.archivesportaleurope.net/find-an-institution/"
 APE_CONTENT_PDF_URL = "https://www.archivesportaleurope.net/uploads/files/20251215_OnlyInstitutionsWithContent.pdf"
 APE_ALL_INSTITUTIONS_PDF_URL = "https://www.archivesportaleurope.net/uploads/files/20251215_AllInstitutions.pdf"
@@ -38,7 +40,7 @@ APE_DETAIL_URL_TEMPLATE = (
     "results-%28institutions%29/?repositoryCode={repository_code}"
 )
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; IASA-Link-Explorer/3.2)"
+    "User-Agent": "Mozilla/5.0 (compatible; MemoriaAudiovisualRede/1.0)"
 }
 
 REQUEST_TIMEOUT = 25
@@ -55,11 +57,9 @@ VIDEO_PLATFORMS = {
     "archive.org": "Internet Archive",
     "facebook.com": "Facebook",
     "instagram.com": "Instagram",
-    "soundcloud.com": "SoundCloud",
     "jwplayer.com": "JW Player",
     "brightcove.net": "Brightcove",
     "madelen.ina.fr": "Madelen",
-    "podcasts.ina.fr": "Podcasts INA",
     "mediaclip.ina.fr": "Mediaclip INA",
     "euscreen.eu": "EUscreen",
     "www.euscreen.eu": "EUscreen",
@@ -70,6 +70,8 @@ VIDEO_PLATFORMS = {
     "pares.mcu.es": "PARES",
     "pares.cultura.gob.es": "PARES",
     "portal.arquivos.pt": "Portal Português de Arquivos",
+    "americanarchive.org": "American Archive of Public Broadcasting",
+    "www.americanarchive.org": "American Archive of Public Broadcasting",
 }
 
 VIDEO_HINTS_IN_URL = [
@@ -80,8 +82,6 @@ VIDEO_HINTS_IN_URL = [
     "/multimedia",
     "/film",
     "/films",
-    "/audio",
-    "/sound",
     "/collection",
     "/collections",
     "/archive",
@@ -95,8 +95,6 @@ VIDEO_FILE_EXTENSIONS = (
     ".webm",
     ".mov",
     ".avi",
-    ".mp3",
-    ".wav",
     ".m4v",
 )
 
@@ -110,4 +108,5 @@ EUROPEAN_FILM_GATEWAY_OUTPUT_PREFIX = "efg"
 EUROPEANA_OUTPUT_PREFIX = "europeana"
 PARES_OUTPUT_PREFIX = "pares"
 PPA_OUTPUT_PREFIX = "ppa"
+AAPB_OUTPUT_PREFIX = "aapb"
 OUTPUT_DIR = ROOT_DIR / "data" / "output"

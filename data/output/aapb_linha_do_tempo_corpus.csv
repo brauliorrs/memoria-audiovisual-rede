@@ -1,0 +1,8 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+aapb,aapb:2026-05-20T16:49:02Z,2026-05-20T16:49:02Z,,2026-05-20T16:49:02Z,2026-05-20T16:49:01Z,scripts/run_aapb_pipeline.py,1,1,1,60,60,1,8,1,1,1
+aapb,aapb:2026-05-20T16:53:46Z,2026-05-20T16:53:46Z,,2026-05-20T16:53:46Z,2026-05-20T16:53:46Z,scripts/run_aapb_pipeline.py,1,1,1,60,60,1,8,1,1,1
+aapb,aapb:2026-05-20T17:07:40Z,2026-05-20T17:07:40Z,,2026-05-20T17:07:40Z,2026-05-20T17:07:40Z,scripts/run_aapb_pipeline.py,1,1,1,60,60,1,8,1,1,1
+aapb,aapb:2026-05-22T17:51:33Z,2026-05-22T17:51:33Z,,2026-05-22T17:51:33Z,2026-05-22T17:51:33Z,scripts/run_aapb_pipeline.py,1,1,1,36,36,1,5,1,1,1
+aapb,aapb:2026-05-22T18:01:10Z,2026-05-22T18:01:10Z,,2026-05-22T18:01:10Z,2026-05-22T18:01:10Z,scripts/run_aapb_pipeline.py,1,1,1,36,36,1,5,1,1,1
+aapb,aapb:2026-05-22T18:03:01Z,2026-05-22T18:03:01Z,,2026-05-22T18:03:01Z,2026-05-22T18:03:00Z,scripts/run_aapb_pipeline.py,1,1,1,28,28,1,5,1,1,1
+aapb,aapb:2026-05-22T18:07:48Z,2026-05-22T18:07:48Z,,2026-05-22T18:07:48Z,2026-05-22T18:07:47Z,scripts/run_aapb_pipeline.py,1,1,1,28,28,1,5,1,1,1

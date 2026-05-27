@@ -20,7 +20,7 @@ from .geography import country_to_continent, normalize_country
 PARES_REPOSITORY_CODE = "ES-PARES"
 PARES_ARCHIVE_TYPE = "National archival aggregator"
 PARES_COUNTRY = normalize_country("Spain")
-PARES_QUERY_TERMS = ("audiovisual", "film", "video", "sonoro")
+PARES_QUERY_TERMS = ("audiovisual", "film", "video")
 PARES_MAX_RECORDS_PER_TERM = 25
 
 SESSION = requests.Session()

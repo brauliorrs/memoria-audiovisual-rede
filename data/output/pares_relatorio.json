@@ -1,0 +1,53 @@
+{
+  "source": "https://pares.cultura.gob.es/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "PARES": 75
+  },
+  "top_domains": [
+    [
+      "pares.cultura.gob.es",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "PARES",
+      "slug": "pares",
+      "country": "Spain",
+      "continent": "Europe",
+      "repository_code": "ES-PARES",
+      "archive_type": "National archival aggregator",
+      "pares_detail_url": "https://pares.cultura.gob.es/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://pares.cultura.gob.es/",
+      "partner_domain": "pares.cultura.gob.es",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://pares.cultura.gob.es/",
+      "video_links_found_total": 75,
+      "embedded_video_signals_total": 22,
+      "candidate_internal_pages": 3,
+      "priority_review": "alta",
+      "warning": "Corpus incorporado com base em busca pública validada na primeira página de resultados por termo; resultados de busca indicam evidência pública detectável, não reprodução audiovisual garantida.",
+      "error": ""
+    }
+  ]
+}

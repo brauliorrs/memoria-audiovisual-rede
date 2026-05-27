@@ -21,14 +21,12 @@ from .geography import country_to_continent, normalize_country
 EUROPEANA_REPOSITORY_CODE = "EU-EUROPEANA"
 EUROPEANA_ARCHIVE_TYPE = "European cultural aggregator with audiovisual records"
 EUROPEANA_COUNTRY = normalize_country("Netherlands")
-EUROPEANA_QUERY_TERMS = ("video", "audiovisual", "moving image", "sound recording")
+EUROPEANA_QUERY_TERMS = ("video", "audiovisual", "moving image")
 EUROPEANA_MAX_RECORDS_PER_TERM = 8
 AUDIOVISUAL_TYPE_HINTS = (
-    "audio",
     "audiovisual",
     "film",
     "moving image",
-    "sound recording",
     "video",
 )
 

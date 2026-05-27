@@ -1,0 +1,53 @@
+{
+  "source": "https://americanarchive.org/faq",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "American Archive of Public Broadcasting": 28
+  },
+  "top_domains": [
+    [
+      "americanarchive.org",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "North America": 1
+  },
+  "video_continent_summary": {
+    "North America": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "American Archive of Public Broadcasting",
+      "slug": "american-archive-public-broadcasting",
+      "country": "United States",
+      "continent": "North America",
+      "repository_code": "US-AAPB",
+      "archive_type": "National audiovisual aggregator",
+      "aapb_detail_url": "https://americanarchive.org/faq",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://americanarchive.org/",
+      "partner_domain": "americanarchive.org",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://americanarchive.org/",
+      "video_links_found_total": 28,
+      "embedded_video_signals_total": 625268,
+      "candidate_internal_pages": 3,
+      "priority_review": "media",
+      "warning": "Corpus nacional audiovisual incorporado por rota API JSON/PBCore. A busca pública em HTML pode exigir navegação, mas a API permite amostra reprodutível e leve para o MVP. Resultados brutos sinalizados pela API: 625268.",
+      "error": ""
+    }
+  ]
+}

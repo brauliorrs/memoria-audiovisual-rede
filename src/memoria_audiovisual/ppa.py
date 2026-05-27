@@ -23,7 +23,7 @@ PPA_COUNTRY = normalize_country("Portugal")
 PPA_INSTITUTION_NAME = "Portal Português de Arquivos"
 PPA_PLATFORM_LABEL = "Portal Português de Arquivos"
 PPA_SLUG = "portal-portugues-arquivos"
-PPA_QUERY_TERMS = ("audiovisual", "video", "vídeo", "filme", "sonoro")
+PPA_QUERY_TERMS = ("audiovisual", "video", "vídeo", "filme")
 PPA_MAX_RECORDS_PER_TERM = 25
 
 SESSION = requests.Session()

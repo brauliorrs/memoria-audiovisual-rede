@@ -1,0 +1,12 @@
+﻿generated_at,started_at,finished_at,cycle_type,cycle_scope,refresh_cadence,active_corpora_total,selected_corpora_total,selected_corpora_codes,successful_corpora_total,failed_corpora_total
+2026-05-08T18:41:41Z,2026-05-08T18:37:06Z,2026-05-08T18:41:41Z,mensal,parcial,mensal,2,1,ina,1,0
+2026-05-13T17:39:30Z,2026-05-13T17:39:21Z,2026-05-13T17:39:30Z,mensal,parcial,mensal,3,1,euscreen,1,0
+2026-05-13T17:44:10Z,2026-05-13T17:44:02Z,2026-05-13T17:44:10Z,mensal,parcial,mensal,3,1,euscreen,1,0
+2026-05-14T16:49:47Z,2026-05-14T16:49:17Z,2026-05-14T16:49:47Z,mensal,parcial,mensal,3,1,euscreen,1,0
+2026-05-14T17:55:14Z,2026-05-14T17:54:48Z,2026-05-14T17:55:14Z,mensal,parcial,mensal,4,1,pares,1,0
+2026-05-18T17:28:46Z,2026-05-18T17:23:25Z,2026-05-18T17:28:46Z,mensal,parcial,mensal,6,2,"european-film-gateway, europeana",2,0
+2026-05-19T17:15:30Z,2026-05-19T17:09:07Z,2026-05-19T17:15:30Z,mensal,parcial,mensal,7,1,portal-portugues-arquivos,1,0
+2026-05-20T16:53:48Z,2026-05-20T16:49:19Z,2026-05-20T16:53:48Z,mensal,parcial,mensal,8,1,aapb,1,0
+2026-05-20T17:07:42Z,2026-05-20T17:02:58Z,2026-05-20T17:07:42Z,mensal,parcial,mensal,8,1,aapb,1,0
+2026-05-22T18:01:12Z,2026-05-22T17:56:13Z,2026-05-22T18:01:12Z,mensal,parcial,mensal,8,1,aapb,1,0
+2026-05-22T18:07:49Z,2026-05-22T18:03:05Z,2026-05-22T18:07:49Z,mensal,parcial,mensal,8,1,aapb,1,0

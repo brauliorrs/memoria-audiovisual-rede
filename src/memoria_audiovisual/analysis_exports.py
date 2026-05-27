@@ -56,7 +56,7 @@ def build_analysis_frames(summary_df, links_df):
         top_n=None,
     )
     visibility_archive_type_summary_df = build_visibility_archive_type_summary(
-        summary_df,
+        analysis_exports["summary_analysis"],
         top_n=None,
     )
 

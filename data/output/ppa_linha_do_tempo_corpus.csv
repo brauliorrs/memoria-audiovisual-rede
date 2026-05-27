@@ -1,0 +1,5 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+portal-portugues-arquivos,portal-portugues-arquivos:2026-05-19T17:08:18Z,2026-05-19T17:08:18Z,,2026-05-19T17:08:18Z,2026-05-19T17:08:18Z,scripts/run_ppa_pipeline.py,1,1,1,110,110,1,8,1,1,1
+portal-portugues-arquivos,portal-portugues-arquivos:2026-05-19T17:08:56Z,2026-05-19T17:08:56Z,,2026-05-19T17:08:56Z,2026-05-19T17:08:56Z,scripts/run_ppa_pipeline.py,1,1,1,110,110,1,8,1,1,1
+portal-portugues-arquivos,portal-portugues-arquivos:2026-05-19T17:15:29Z,2026-05-19T17:15:29Z,,2026-05-19T17:15:29Z,2026-05-19T17:15:29Z,scripts/run_ppa_pipeline.py,1,1,1,110,110,1,8,1,1,1
+portal-portugues-arquivos,portal-portugues-arquivos:2026-05-22T17:51:38Z,2026-05-27T16:48:08Z,,2026-05-22T17:51:38Z,2026-05-27T16:48:08Z,scripts/build_ppa_analytics.py,1,1,1,94,94,1,9,1,1,1

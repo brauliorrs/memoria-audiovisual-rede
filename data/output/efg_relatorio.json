@@ -1,0 +1,49 @@
+{
+  "source": "https://www.europeanfilmgateway.eu/",
+  "total_institutions": 1,
+  "ok_count": 0,
+  "with_video_count": 0,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "erro": 1
+  },
+  "integrity_summary": {
+    "instavel": 1
+  },
+  "platform_summary": {},
+  "top_domains": [
+    [
+      "europeanfilmgateway.eu",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {},
+  "top_institutions": [
+    {
+      "institution": "European Film Gateway",
+      "slug": "european-film-gateway",
+      "country": "Europa",
+      "continent": "Europe",
+      "repository_code": "EU-EFG",
+      "archive_type": "European film and audiovisual aggregator",
+      "efg_detail_url": "https://www.europeanfilmgateway.eu/",
+      "content_available_in_source": false,
+      "website_available": false,
+      "partner_site": "https://www.europeanfilmgateway.eu/",
+      "partner_domain": "europeanfilmgateway.eu",
+      "status": "erro",
+      "http_code": "",
+      "integrity_status": "instavel",
+      "final_url": "https://www.europeanfilmgateway.eu/",
+      "video_links_found_total": 0,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 3,
+      "priority_review": "media",
+      "warning": "Corpus europeu especializado incorporado com protocolo próprio. Quando a superfície pública falha ou bloqueia a sondagem simples, isso permanece registrado como instabilidade de acesso, não como ausência de acervo audiovisual.",
+      "error": "HTTPSConnectionPool(host='www.europeanfilmgateway.eu', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.europeanfilmgateway.eu', port=443) at 0x2487ac94d90>, 'Connection to www.europeanfilmgateway.eu timed out. (connect timeout=12)')); HTTPSConnectionPool(host='www.europeanfilmgateway.eu', port=443): Max retries exceeded with url: /search-efg?searchString=film (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.europeanfilmgateway.eu', port=443) at 0x2487b137a90>, 'Connection to www.europeanfilmgateway.eu timed out. (connect timeout=12)')); HTTPSConnectionPool(host='www.europeanfilmgateway.eu', port=443): Max retries exceeded with url: /search-efg?searchString=video (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.europeanfilmgateway.eu', port=443) at 0x2487b149010>, 'Connection to www.europeanfilmgateway.eu timed out. (connect timeout=12)'))"
+    }
+  ]
+}

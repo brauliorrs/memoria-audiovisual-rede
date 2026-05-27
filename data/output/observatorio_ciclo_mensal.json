@@ -1,0 +1,36 @@
+{
+  "organism": "Memória Audiovisual em Rede",
+  "role": "organismo agregador mundial em construção",
+  "refresh_cadence": "mensal",
+  "generated_at": "2026-05-22T18:07:49Z",
+  "started_at": "2026-05-22T18:03:05Z",
+  "finished_at": "2026-05-22T18:07:49Z",
+  "cycle_type": "mensal",
+  "cycle_scope": "parcial",
+  "active_corpora_total": 8,
+  "selected_corpora_total": 1,
+  "selected_corpora_codes": [
+    "aapb"
+  ],
+  "successful_corpora_total": 1,
+  "failed_corpora_total": 0,
+  "cycle_results": [
+    {
+      "code": "aapb",
+      "label": "American Archive of Public Broadcasting",
+      "short_label": "AAPB",
+      "category_code": "aggregator",
+      "coverage_level": "agregador nacional norte-americano",
+      "status": "success",
+      "refresh_started_at": "2026-05-22T18:07:43Z",
+      "refresh_finished_at": "2026-05-22T18:07:49Z",
+      "snapshot_generated_at": "2026-05-22T18:07:48Z",
+      "observation_key": "aapb:2026-05-22T18:07:48Z",
+      "source_status_date": "",
+      "institutions": 1,
+      "video_links_total": 28,
+      "videos_in_curatorial_catalog": 28,
+      "error": ""
+    }
+  ]
+}

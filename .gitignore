@@ -4,7 +4,13 @@ __pycache__/
 *.egg-info/
 .venv/
 .streamlit/secrets.toml
-data/output/
+data/output/*
+!data/output/.gitkeep
+!data/output/*.csv
+!data/output/*.json
+!data/output/*.md
+!data/output/*.txt
+!data/output/*.xlsx
 iasa-reports/
 iasa-reports.zip
 playwright-report/

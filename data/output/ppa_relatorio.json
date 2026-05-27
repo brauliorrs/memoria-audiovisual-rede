@@ -1,0 +1,53 @@
+{
+  "source": "https://portal.arquivos.pt/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Portal Português de Arquivos": 94
+  },
+  "top_domains": [
+    [
+      "portal.arquivos.pt",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Portal Português de Arquivos",
+      "slug": "portal-portugues-arquivos",
+      "country": "Portugal",
+      "continent": "Europe",
+      "repository_code": "PT-PPA",
+      "archive_type": "National archival aggregator",
+      "ppa_detail_url": "https://portal.arquivos.pt/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://portal.arquivos.pt/",
+      "partner_domain": "portal.arquivos.pt",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://portal.arquivos.pt/",
+      "video_links_found_total": 94,
+      "embedded_video_signals_total": 74,
+      "candidate_internal_pages": 4,
+      "priority_review": "media",
+      "warning": "Corpus incorporado após validação total da busca pública do PPA; os registros indicam evidência audiovisual em metadados ou descrições, não reprodução audiovisual garantida. Resultados brutos sinalizados pela busca: 4780.",
+      "error": ""
+    }
+  ]
+}

@@ -1,0 +1,523 @@
+RELATORIO - ARCHIVES PORTAL EUROPE
+============================================================
+
+Fonte: https://www.archivesportaleurope.net/uploads/files/20251215_OnlyInstitutionsWithContent.pdf
+Total de instituicoes analisadas: 1253
+Instituicoes com acesso OK: 748
+Instituicoes com ao menos 1 link de video/plataforma: 105
+Instituicoes com sinais de midia embutida: 154
+
+Status dos sites parceiros:
+  - ok: 748
+  - erro: 245
+  - http_error: 118
+  - sem_site: 73
+  - restrito: 69
+
+Integridade dos links institucionais:
+  - integro: 745
+  - instavel: 245
+  - quebrado: 118
+  - sem_site: 73
+  - restrito: 69
+  - suspeito: 3
+
+Plataformas detectadas:
+  - YouTube: 328
+  - Vimeo: 48
+  - Instagram: 34
+  - Facebook: 5
+  - Internet Archive: 3
+
+Dominios parceiros mais frequentes:
+  - : 74
+  - mnl.gov.hu: 21
+  - archive.nrw.de: 17
+  - arch.be: 9
+  - gda.bayern.de: 9
+  - riksarkivet.se: 9
+  - cultura.gob.es: 8
+  - landesarchiv-bw.de: 7
+  - nasjonalarkivet.no: 6
+  - archiviodistatoperugia.it: 5
+  - archives.government.bg: 4
+  - lublin.ap.gov.pl: 4
+  - poznan.ap.gov.pl: 4
+  - archivoscastillayleon.jcyl.es: 4
+  - wyjs.org.uk: 4
+  - landesarchiv.hessen.de: 3
+  - archiviodistatodibari.beniculturali.it: 3
+  - asimperia.beniculturali.it: 3
+  - aspesaro.beniculturali.it: 3
+  - archiviodistatoreggiocalabria.beniculturali.it: 3
+
+Distribuicao continental das instituicoes:
+  - Europe: 1247
+  - Asia: 3
+  - South America: 1
+  - Nao classificado: 1
+  - Oceania: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 105
+
+Top 20 instituicoes com mais links de video detectados:
+  - Íδρυμα Ωνάση | links_video=41 | embeds=51 | status=ok | prioridade=media | url=https://www.onassis.org/
+  - Valdresmusea AS | links_video=31 | embeds=31 | status=ok | prioridade=media | url=https://valdresmusea.no/
+  - Nationalmuseum | links_video=26 | embeds=26 | status=ok | prioridade=media | url=https://www.nationalmuseum.se/utforska-konst-och-design/arkiv
+  - Magyar Nemzeti Levéltár Békés Vármegyei Levéltára | links_video=24 | embeds=24 | status=ok | prioridade=media | url=https://mnl.gov.hu/beml
+  - Archivio di Stato di Rieti ITASRI | links_video=18 | embeds=19 | status=ok | prioridade=media | url=http://www.asrieti.it/
+  - Bistum Osnabrück. Diözesanarchiv | links_video=15 | embeds=24 | status=ok | prioridade=media | url=https://bistum-osnabrueck.de/
+  - British Film Institute | links_video=10 | embeds=10 | status=ok | prioridade=media | url=https://www.bfi.org.uk/bfi-national-archive/screencraft
+  - Archiwum Państwowe w Koszalinie | links_video=9 | embeds=9 | status=ok | prioridade=media | url=https://www.koszalin.ap.gov.pl/
+  - Socialist Party of Great Britain Archives | links_video=8 | embeds=47 | status=ok | prioridade=media | url=https://www.worldsocialism.org/spgb/
+  - Amaravati Buddhist Monastery Archives | links_video=8 | embeds=21 | status=ok | prioridade=media | url=https://amaravati.org/
+  - Västerås stadsarkiv | links_video=8 | embeds=10 | status=ok | prioridade=media | url=https://www.vasteras.se/kommun-och-politik/stadsarkivet.html
+  - Archivo General de Palacio | links_video=8 | embeds=8 | status=ok | prioridade=media | url=https://www.patrimonionacional.es/coleccion/archivo-general-de-palacio/acceso-contacto
+  - Harlaxton Manor Archives | links_video=8 | embeds=8 | status=ok | prioridade=media | url=https://harlaxtonmanorarchives.com/
+  - Royal Institution of Great Britain Archive | links_video=7 | embeds=26 | status=ok | prioridade=media | url=https://www.rigb.org/visit/visit-our-archive
+  - Crafts Study Centre Archives, University for the Creative Arts | links_video=7 | embeds=7 | status=ok | prioridade=media | url=https://www.csc.uca.ac.uk/
+  - Newnham College Archives, University of Cambridge | links_video=7 | embeds=7 | status=ok | prioridade=media | url=https://newn.cam.ac.uk/research/college-archive
+  - Semmelweis Egyetem Központi Levéltár | links_video=6 | embeds=9 | status=ok | prioridade=media | url=https://semmelweis.hu/leveltar/
+  - Pécsi Tudományegyetem Egyetemi Levéltár | links_video=5 | embeds=5 | status=ok | prioridade=media | url=https://leveltar.pte.hu/
+  - Archivo General de Indias | links_video=5 | embeds=5 | status=ok | prioridade=media | url=https://www.cultura.gob.es/cultura/areas/archivos/mc/archivos/agi/portada.html
+  - Archifau Sir Gaerfyrddin / Carmarthenshire Archives | links_video=5 | embeds=5 | status=ok | prioridade=media | url=https://www.carmarthenshire.gov.wales/home/council-services/libraries-archives/carmarthenshire-archives/visiting-us/#.Yr1UGxXMLIU
+
+Instituicoes suspeitas (respondem, mas parecem paginas genericas):
+  - Centrum voor Streekgeschiedenis Stad Zottegem CVS Zottegem | url=https://www.zottegem.be/404?page=erfgoed-en-musea/centrum-voor-streekgeschiedenis.aspx | aviso=Pagina generica, suspensa ou de erro apesar de responder.
+  - Norsk industriarbeidermuseum | url=http://vemork.visitvemork.com/cgi-sys/defaultwebpage.cgi | aviso=Pagina generica, suspensa ou de erro apesar de responder.
+  - Kantonsbibliothek Vadiana St. Gallen | url=https://www.sg.ch/tools/errorpages/404.html | aviso=Pagina generica, suspensa ou de erro apesar de responder.
+
+Instituicoes com erro ou restricao:
+  - Kärntner Landesarchiv | status=erro | http= | url=http://www.landesarchiv.ktn.gv.at/214172_DE-Landesarchiv. | erro=Timeout ou falha no carregamento
+  - Salzburger Landesarchiv | status=http_error | http=404 | url=http://www.salzburg.gv.at/themen/se/salzburg/archive.htm | erro=
+  - Stiftsarchiv Melk | status=http_error | http=404 | url=http://www.stiftmelk.at/ | erro=
+  - Beveren, gemeentearchief | status=erro | http= | url=http://www.beveren.be/themas/433/default.aspx?_vs=0_N&id=1560 | erro=Timeout ou falha no carregamento
+  - Duffel, gemeentearchief | status=erro | http= | url=http://www.duffel.be | erro=Timeout ou falha no carregamento
+  - Ieper, stadarchief | status=erro | http= | url=http://www.ieper.be | erro=Timeout ou falha no carregamento
+  - Jozef van Rompay-Davidsfonds-Genootschap VZW te Onze-Lieve-Vrouw-Waver | status=erro | http= | url=http://users.telenet.be/DFOLVWAVER/genootschap.html | erro=Timeout ou falha no carregamento
+  - Liberas - Centrum voor de geschiedenis van het vrije denken en handelen | status=http_error | http=410 | url=https://www.liberas.eu | erro=
+  - Museum Mayer van den Bergh te Antwerpen | status=http_error | http=404 | url=http://www.museummayervandenbergh.be/men.net | erro=
+  - Oostende, stadsarchief | status=erro | http= | url=http://www.oostende.be/Archief/1600/default.aspx?id=599 | erro=Timeout ou falha no carregamento
+  - Poesje van de Lange Wapper te Antwerpen | status=erro | http= | url=http://users.skynet.be/lange.wapper | erro=Timeout ou falha no carregamento
+  - Provinciaal Archief West-Vlaanderen | status=restrito | http=403 | url=http://www.west-vlaanderen.be/archiefdienst | erro=
+  - Theater Zuidpool te Antwerpen | status=erro | http= | url=http://www.zuidpool.be | erro=Timeout ou falha no carregamento
+  - Tielt, stadsarchief | status=erro | http= | url=http://www.tielt.be | erro=Timeout ou falha no carregamento
+  - Državni arhiv u Slavonskom Brodu | status=erro | http= | url=http://wwwdasb.hr | erro=Timeout ou falha no carregamento
+  - The National Archives of Estonia | status=erro | http= | url=http://www.ra.ee/et/rahvusarhiiv/ | erro=Timeout ou falha no carregamento
+  - Kansallisarkisto | status=restrito | http=403 | url=http://www.arkisto.fi/ | erro=
+  - Archives de Dunkerque - Centre de la Mémoire Urbaine d'Agglomération | status=restrito | http=403 | url=http://www.archives-dunkerque.fr/ | erro=
+  - Archives de la médiathèque d’Alençon | status=erro | http= | url=https://bibliotheque-numerique-patrimoniale.cu-alencon.fr/ | erro=Timeout ou falha no carregamento
+  - Archives de Loire Forez agglomération | status=erro | http= | url=https://www.archives.ville-montbrison.fr/classement | erro=Timeout ou falha no carregamento
+  - Archives de Paris | status=http_error | http=404 | url=http://www.archives.paris.fr | erro=
+  - Archives départementales de l'Ariège | status=erro | http= | url=http://archives.ariege.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de l'Aude | status=erro | http= | url=http://audealaculture.fr/archives | erro=Timeout ou falha no carregamento
+  - Archives départementales de l'Essonne | status=erro | http= | url=http://www.archives.essonne.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de l'Eure | status=erro | http= | url=http://archives.cg27.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de l'Hérault | status=erro | http= | url=https://pierresvives.herault.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de l'Indre-et-Loire | status=erro | http= | url=http://archives.cg37.fr | erro=Timeout ou falha no carregamento
+  - Archives départementales de l'Isère | status=http_error | http=503 | url=http://www.archives-isere.fr/ | erro=
+  - Archives départementales de l'Oise | status=restrito | http=403 | url=http://archives.oise.fr/ | erro=
+  - Archives départementales de la Corse-du-Sud | status=erro | http= | url=http://archives.cg-corsedusud.fr | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Gironde | status=erro | http= | url=http://archives.gironde.fr | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Guyane | status=erro | http= | url=http://archives.ctguyane.fr/4DCGI/Web_Custompage/index.shtm/ILUMP1565 | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Haute-Saône | status=erro | http= | url=http://archives.haute-saone.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Haute-Savoie | status=erro | http= | url=http://www.archives.hautesavoie.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Loire-Atlantique | status=http_error | http=404 | url=https://archives.loire-atlantique.fr/jcms/accueil-fr-j_6 | erro=
+  - Archives départementales de la Meurthe-et-Moselle | status=erro | http= | url=http://www.archives.meurthe-et-moselle.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Moselle | status=erro | http= | url=http://www.archives57.com/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Nièvre | status=erro | http= | url=http://archives.cg58.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Réunion | status=erro | http= | url=http://www.cg974.fr/culture/archives-departementales | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Seine-Maritime | status=restrito | http=403 | url=http://www.archivesdepartementales76.net | erro=
+  - Archives départementales de la Seine-Saint-Denis | status=erro | http= | url=http://archives.seine-saint-denis.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales de la Vienne | status=erro | http= | url=http://www.archives.departement86.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales des Ardennes | status=erro | http= | url=http://archives.cg08.fr | erro=Timeout ou falha no carregamento
+  - Archives départementales des Bouches-du-Rhône | status=erro | http= | url=http://www.archives13.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales des Landes | status=erro | http= | url=http://www.archives.landes.org/ | erro=Timeout ou falha no carregamento
+  - Archives départementales des Pyrénées-Atlantiques | status=restrito | http=403 | url=http://archives.le64.fr | erro=
+  - Archives départementales des Pyrénées-Orientales | status=erro | http= | url=http://www.cg66.fr/55-les-archives-departementales.htm | erro=Timeout ou falha no carregamento
+  - Archives départementales des Yvelines | status=erro | http= | url=http://www.archives.yvelines.fr | erro=Timeout ou falha no carregamento
+  - Archives départementales du Calvados | status=http_error | http=404 | url=https://archives.calvados.fr/accueil.html | erro=
+  - Archives départementales du Finistère | status=erro | http= | url=https://archives.finistere.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales du Jura | status=erro | http= | url=http://www.archives39.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales du Lot-et-Garonne | status=erro | http= | url=http://www.cg47.org/archives/accueil.htm | erro=Timeout ou falha no carregamento
+  - Archives départementales du Pas-de-Calais | status=restrito | http=403 | url=http://www.archivespasdecalais.fr | erro=
+  - Archives départementales du Tarn | status=erro | http= | url=http://archives.tarn.fr | erro=Timeout ou falha no carregamento
+  - Archives départementales du Territoire de Belfort | status=erro | http= | url=http://www.archives.territoiredebelfort.fr/ | erro=Timeout ou falha no carregamento
+  - Archives départementales du Var | status=http_error | http=404 | url=http://www.archives.var.fr/ | erro=
+  - Archives départementales du Vaucluse | status=restrito | http=403 | url=http://archives.vaucluse.fr/ | erro=
+  - Archives municipales d'Aurillac | status=erro | http= | url=https://bibliotheque-numerique.aurillac.fr/ | erro=Timeout ou falha no carregamento
+  - Archives municipales de Bagneux | status=erro | http= | url=https://archives.bagneux92.fr/ | erro=Timeout ou falha no carregamento
+  - Archives municipales de Bazas | status=erro | http= | url=https://archives-numeriques.ville-bazas.fr/ | erro=Timeout ou falha no carregamento
+  - Archives municipales de Dieppe | status=erro | http= | url=https://patrimoine.dieppe.fr | erro=Timeout ou falha no carregamento
+  - Archives municipales de Dijon | status=http_error | http=410 | url=https://archivesmunicipalesdijon.wordpress.com/ | erro=
+  - Archives municipales de Grasse | status=http_error | http=404 | url=http://www.ville-grasse.fr/archives_communales.html | erro=
+  - Archives municipales de Lyon | status=http_error | http=404 | url=http://www.archives-lyon.fr/archives/ | erro=
+  - Archives municipales de Pontoise | status=http_error | http=404 | url=https://www.ville-pontoise.fr/content/archives-municipales-en-ligne | erro=
+  - Centre national de la Danse | status=erro | http= | url=http://mediatheque.cnd.fr/ | erro=Timeout ou falha no carregamento
+  - Commune d'Abbeville - Archives municipales | status=erro | http= | url=https://patrimoine.abbeville.fr/ | erro=Timeout ou falha no carregamento
+  - Fondation Maison des sciences de l'homme | status=http_error | http=404 | url=http://www.fmsh.fr/fr/c/238 | erro=
+  - Ministère de l’Europe et des Affaires étrangères – Archives diplomatiques | status=erro | http= | url=https://archivesdiplomatiques.diplomatie.gouv.fr/ | erro=Timeout ou falha no carregamento
+  - Musée du quai Branly - Jacques Chirac | status=restrito | http=403 | url=http://www.quaibranly.fr/fr/recherche-scientifique/catalogues-et-publications/bibliotheque-et-fonds-documentaires/catalogues/catalogue-des-archives-et-de-la-documentation/ | erro=
+  - Société historique de Pontoise, du Val-d'Oise et du Vexin | status=restrito | http=403 | url=https://www.societe-historique-pontoise.fr/ | erro=
+  - Central Historical Archive | status=erro | http= | url=http://archives.gov.ge | erro=Timeout ou falha no carregamento
+  - Archiv der Hansestadt Lüneburg | status=http_error | http=404 | url=http://www.hansestadtlueneburg.de/Home-Hansestadt-Lueneburg/Gesellschaft-Soziales-und-Bildung/Bildung-hansestadt-lueneburg/Stadtarchiv-hansestadt-lueneburg.aspx | erro=
+  - Archiv des Bistums Passau | status=http_error | http=404 | url=http://www.bistum-passau.de/bistum/archiv | erro=
+  - Archiv für Christlich-Soziale Politik (ACSP) der Hanns Seidel Stiftung e.V. | status=restrito | http=403 | url=https://www.hss.de/archiv/ | erro=
+  - Bayerisches Hauptstaatsarchiv | status=http_error | http=404 | url=http://www.gda.bayern.de/archive/hauptstaatsarchiv | erro=
+  - Bistumsarchiv Essen | status=erro | http= | url=http://www.kirchliche-archive.de | erro=Timeout ou falha no carregamento
+  - Bistumsarchiv Fulda | status=http_error | http=404 | url=http://www.katholische-archive.de/Di%C3%B6zesanarchive/Fulda/tabid/79/Default.aspx | erro=
+  - Brandenburgisches Landeshauptarchiv | status=http_error | http=404 | url=https://blha.brandenburg.de/index.php | erro=
+  - Bundesarchiv | status=http_error | http=400 | url=http://www.bundesarchiv.de/service/kontakt/index.html.de | erro=
+  - Forschungsstelle für Zeitgeschichte in Hamburg | status=erro | http= | url=http://www.zeitgeschichte-hamburg.de | erro=Timeout ou falha no carregamento
+  - Haus der Stadtgeschichte - Stadtarchiv Ulm | status=erro | http= | url=http://www.stadtarchiv.ulm.de | erro=Timeout ou falha no carregamento
+  - Herder-Institut für historische Ostmitteleuropaforschung, Dokumentesammlung | status=http_error | http=404 | url=https://www.herder-institut.de/abteilungen/dokumentesammlung.html | erro=
+  - Konrad-Adenauer-Stiftung e.V. - Archiv für Christlich-Demokratische Politik | status=restrito | http=403 | url=http://www.kas.de/wf/de/42.7/ | erro=
+  - Kreis Soest - Kreisarchiv | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_q-t/s/SoestKreis/wir_ueber_uns/index.php | erro=
+  - Kreis Warendorf. Kreisarchiv, Kreisverwaltung | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_u-z/w/WarendorfKreis/wir_ueber_uns/index.php | erro=
+  - Kreisarchiv des Enzkreises | status=http_error | http=404 | url=https://www.enzkreis.de/index.php?NavID=2032.69.1 | erro=
+  - Kreisarchiv Höxter | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_e-h/h/HoexterKreis/oeffnungszeiten_und_kontakt/index.php | erro=
+  - Kreisarchiv Kleve | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_e-h/g/Geldern_KleveKreis/wir_ueber_uns/profil/index.php | erro=
+  - Kreisarchiv Landkreis Dahme-Spreewald | status=http_error | http=404 | url=http://www.dahme-spreewald.de/sixcms/detail.php/510 | erro=
+  - Kreisarchiv Mettmann | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_m-p/m/MettmannKreis/wir_ueber_uns/profil/index.php | erro=
+  - Kreisarchiv Reutlingen | status=http_error | http=404 | url=http://www.kreis-reutlingen.de/kreisarchiv | erro=
+  - Landesarchiv Baden-Württemberg, Abt. 3. Staatsarchiv Freiburg | status=http_error | http=404 | url=http://www.landesarchiv-bw.de/staf | erro=
+  - Landesarchiv Greifswald | status=http_error | http=404 | url=http://www.kulturwerte-mv.de/cms2/LAKD1_prod/LAKD1/de/Landesarchiv/Landesarchiv_Greifswald/index.jsp | erro=
+  - Landesarchiv Nordrhein-Westfalen. Abteilung Ostwestfalen-Lippe | status=http_error | http=404 | url=http://www.archive.nrw.de/lav/abteilungen/ostwestfalen_lippe/oeffnungszeiten_und_kontakt/index.php | erro=
+  - Landesarchiv Thüringen - Hauptstaatsarchiv Weimar | status=erro | http= | url=http:// | erro=Timeout ou falha no carregamento
+  - Landeshauptarchiv Sachsen-Anhalt | status=erro | http= | url=http://www.lha.sachsen-anhalt.de | erro=Timeout ou falha no carregamento
+  - Landeshauptarchiv Schwerin | status=http_error | http=404 | url=http://www.kulturwerte-mv.de/cms2/LAKD1_prod/LAKD1/de/Landesarchiv/Landeshauptarchiv_Schwerin/index.jsp | erro=
+  - Landkreis Rostock, Kreisarchiv | status=http_error | http=404 | url=http://www.landkreis-rostock.de/landkreis/kreisverwaltung/hauptamt/2_archiv.html | erro=
+  - Lippmann+Rau-Musikarchiv Eisenach | status=restrito | http=403 | url=https://www.lippmann-rau-stiftung.de/l-r-musikarchiv/ | erro=
+  - LWL - Archivamt für Westfalen. Archiv des Landschaftsverbands Westfalen-Lippe | status=http_error | http=404 | url=http://www.lwl.org/LWL/Kultur/Archivamt/Archiv_LWL | erro=
+  - LWL - Archivamt für Westfalen. Westfälische Hofes- und Familienarchive | status=http_error | http=404 | url=http://www.archive.nrw.de/weitereArchive/privatarchive/WestfaelischeHofesFamilienarchive/wir_ueber_uns/index.php | erro=
+  - LWL - Archivamt für Westfalen. Westfälisches Literaturarchiv | status=http_error | http=404 | url=http://www.lwl.org/LWL/Kultur/Archivamt/literaturarchiv | erro=
+  - Märkischer Kreis. Kreisarchiv | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_a-d/a/Altena_MaerkischerKreis/wir_ueber_uns/index.php | erro=
+  - Staatsarchiv Bamberg | status=http_error | http=404 | url=http://www.gda.bayern.de/archive/staatsarchiv-bamberg/ | erro=
+  - Staatsarchiv Coburg | status=http_error | http=404 | url=http://www.staatliche-archive.bayern.de/archive/coburg/ | erro=
+  - Staatsarchiv Landshut | status=http_error | http=404 | url=http://www.gda.bayern.de/archive/landshut/ | erro=
+  - Staatsarchiv München | status=http_error | http=404 | url=http://www.staatliche-archive.bayern.de/archive/muenchen/ | erro=
+  - Staatsarchiv Nürnberg | status=http_error | http=404 | url=http://www.gda.bayern.de/archive/nuernberg | erro=
+  - Stadt- und Stiftsarchiv Aschaffenburg | status=erro | http= | url=http://www.archiv-aschaffenburg.de | erro=Timeout ou falha no carregamento
+  - Stadtarchiv Bad Berleburg | status=http_error | http=404 | url=http://www.bad-berleburg.de/index.phtml?sNavID=1746.401&mNavID=1.100&La=1 | erro=
+  - Stadtarchiv Darmstadt | status=http_error | http=404 | url=https://www.darmstadt.de/rathaus/buergerservice-rathaus-online/aemter-und-einrichtungen/index.htm?tx_browser_pi1%5Borganisation%5D=36&cHash=abbbdbc6190ccf0719030fbf4d400d57&tx_contrast=1 | erro=
+  - Stadtarchiv Dinslaken | status=http_error | http=404 | url=http://www.dinslaken.de/de/tourismus-freizeit/stadtarchiv/ | erro=
+  - Stadtarchiv Duisburg | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_a-d/d/Duisburg/wir_ueber_uns/profil/index.php | erro=
+  - Stadtarchiv Erkelenz | status=http_error | http=404 | url=http://www.erkelenz.de/de/verwaltung/stadtarchiv/index.html | erro=
+  - Stadtarchiv Freiburg im Breisgau | status=http_error | http=500 | url=http://www.freiburg.de/stadtarchiv | erro=
+  - Stadtarchiv Fürth | status=restrito | http=403 | url=http://www.schloss-burgfarrnbach.de | erro=
+  - Stadtarchiv Geseke | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_e-h/g/Geseke/oeffnungszeiten_und_kontakt/index.php | erro=
+  - Stadtarchiv Greven | status=http_error | http=404 | url=http://www.greven.net/bildung_soziales_generationen/bildung/stadtarchiv-1/stadtarchiv.php | erro=
+  - Stadtarchiv Karlsruhe | status=http_error | http=500 | url=http://www.karlsruhe.de/stadtarchiv | erro=
+  - Stadtarchiv Kiel | status=http_error | http=404 | url=http://www.kiel.de/kultur/stadtarchiv/ | erro=
+  - Stadtarchiv Krefeld | status=http_error | http=404 | url=https://www.krefeld.de/de/stadtarchiv/41-stadtarchiv/ | erro=
+  - Stadtarchiv Leverkusen | status=http_error | http=404 | url=https://www.kulturstadtlev.de/stadtarchiv/home.html | erro=
+  - Stadtarchiv Mannheim - Institut für Stadtgeschichte | status=erro | http= | url=http://www.stadtarchiv.mannheim.de | erro=Timeout ou falha no carregamento
+  - Stadtarchiv München | status=http_error | http=404 | url=http://www.muenchen.de/rathaus/Stadtverwaltung/Direktorium/Stadtarchiv.html | erro=
+  - Stadtarchiv Pulheim | status=http_error | http=404 | url=http://www.pulheim.de/rat-und-verwaltung/stadtverwaltung/stadtarchiv/?id=25056 | erro=
+  - Stadtarchiv Rendsburg | status=erro | http= | url=https://www.rendsburg.de/stadt-geschichte/stadtarchiv | erro=Timeout ou falha no carregamento
+  - Stadtarchiv Sankt Augustin | status=erro | http= | url=http://www.sankt-augustin.de/stadtarchiv | erro=Timeout ou falha no carregamento
+  - Stadtarchiv Soest | status=http_error | http=404 | url=http://www.soest.de/03leben_wohnen/kultur/archiv/117040100000015994.php | erro=
+  - Stadtarchiv Solingen | status=erro | http= | url=http://www.stadtarchiv.solingen.de | erro=Timeout ou falha no carregamento
+  - Stadtarchiv Wegberg | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_u-z/w/Wegberg/wir_ueber_uns/index.php | erro=
+  - Stadtarchiv Werl | status=http_error | http=404 | url=http://www.archive.nrw.de/kommunalarchive/kommunalarchive_u-z/w/Werl/oeffnungszeiten_und_kontakt/index.php | erro=
+  - Stadtarchiv Worms | status=http_error | http=404 | url=http://www.worms.de/deutsch/kultur/stadtarchiv.php | erro=
+  - Stadtarchiv Wuppertal | status=restrito | http=403 | url=https://www.wuppertal.de/kultur-bildung/stadtarchiv/Stadtarchiv_Startseite.php | erro=
+  - Stadtarchiv Zwickau | status=erro | http= | url=http://www.zwickau.de/de/politik/verwaltung/aemter/dezernat1/stadtarchiv.php | erro=Timeout ou falha no carregamento
+  - Stiftung Rheinisch-Westfälisches Wirtschaftsarchiv zu Köln | status=http_error | http=404 | url=http://www.ihk-koeln.de/16326_Stiftung_Rheinisch_Westfaelisches_Wirtsc.AxCMS?ActiveID=1468 | erro=
+  - Universitätsarchiv Rostock | status=http_error | http=404 | url=https://www.ub.uni-rostock.de/standorte-einrichtungen/universitaetsarchivkustodie/das-universitaetsarchiv/ | erro=
+  - Ιστορικό Αρχείο της ΕΤΕ (Εθνικής Τράπεζας της Ελλάδος) | status=http_error | http=418 | url=http://ha.nbg.gr | erro=
+  - Magyar Agrár- és Élettudományi Egyetem Kosáry Domokos Könyvtár és Levéltár | status=http_error | http=404 | url=http://kosary.lib.uni-mate.hu/archives1/bemutatkozas | erro=
+  - Miskolci Egyetem Levéltára | status=erro | http= | url=http://leveltar.uni-miskolc.hu/ | erro=Timeout ou falha no carregamento
+  - Manx National Heritage Library and Archives | status=http_error | http=404 | url=http://www.manxnationalheritage.im/our-collections/library-archives | erro=
+  - The Hebrew University Jerusalem, Central Archive | status=erro | http= | url=https://new.huji.ac.il/en/page/1074 | erro=Timeout ou falha no carregamento
+  - Archivio Centrale dello Stato ITACS | status=erro | http= | url=http://www.acs.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato dell'Aquila ITASAQ | status=erro | http= | url=http://www.archiviodistatolaquila.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Agrigento ITASAG | status=erro | http= | url=http://www.asagrigento.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Agrigento. Sezione di Sciacca ITSASSCIAC | status=erro | http= | url=http://www.asagrigento.beniculturali.it/index.php?it/147/sezione-di-archivio-di-stato-di-sciacca | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Alessandria ITASAL | status=erro | http= | url=http://www.asalessandria.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Ancona ITASAN | status=erro | http= | url=http://www.asancona.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Ancona. Sezione di Fabriano ITSASFABRI | status=erro | http= | url=http://www.asancona.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Asti ITASAT | status=erro | http= | url=http://www.archiviodistatoasti.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Avellino ITASAV | status=erro | http= | url=http://www.asavellino.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Bari ITASBA | status=erro | http= | url=http://www.archiviodistatodibari.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Bari. Sezione di Barletta ITSASBARLE | status=erro | http= | url=http://www.archiviodistatodibari.beniculturali.it/index.php?it/109/sezione-di-barletta | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Bari. Sezione di Trani ITSASTRANI | status=erro | http= | url=http://www.archiviodistatodibari.beniculturali.it/index.php?it/156/sezione-di-trani | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Belluno ITASBL | status=erro | http= | url=http://www.asbelluno.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Benevento ITASBN | status=erro | http= | url=http://archiviodistatobenevento.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Bergamo ITASBG | status=erro | http= | url=http://www.asbergamo.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Bolzano / Staatsarchiv Bozen | status=erro | http= | url=http://www.asbolzano.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Brindisi ITASBR | status=erro | http= | url=http://www.asbrindisi.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Cagliari ITASCA | status=erro | http= | url=http://www.archiviostatocagliari.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Caltanissetta ITASCL | status=erro | http= | url=http://www.ascaltanissetta.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Campobasso | status=erro | http= | url=http://www.ascampobasso.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Caserta ITASCE | status=erro | http= | url=http://www.ascaserta.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Catania ITASCT | status=erro | http= | url=http://www.ascatania.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Catania. Sezione di Caltagirone ITSASCALTA | status=erro | http= | url=http://www.ascatania.beniculturali.it/index.php?it/196/sezione-di-archivio-di-stato-di-caltagirone | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Catanzaro ITASCZ | status=erro | http= | url=http://www.ascatanzaro.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Catanzaro. Sezione di Lamezia Terme ITSASLAMEZ | status=erro | http= | url=http://www.ascatanzaro.beniculturali.it/index.php?it/143/sezione-di-archivio-di-stato-di-lamezia-terme | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Chieti ITASCH | status=erro | http= | url=http://www.aschieti.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Chieti. Sezione di Lanciano ITSASLANCI | status=erro | http= | url=http://www.aschieti.beniculturali.it/index.php?it/97/sezione-di-archivio-di-stato-di-lanciano | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Como ITASCO | status=erro | http= | url=http://www.ascomo.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Cosenza ITASCS | status=erro | http= | url=http://www.archiviodistatocosenza.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Cosenza. Sezione di Castrovillari ITSASCASTR | status=erro | http= | url=http://www.archiviodistatocosenza.beniculturali.it/index.php?it/130/sezione-di-archivio-di-stato-di-castrovillari | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Cremona ITASCR | status=erro | http= | url=http://www.archiviodistatocremona.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Cuneo ITASCN | status=erro | http= | url=http://www.ascuneo.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Enna ITASEN | status=erro | http= | url=http://www.asenna.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Ferrara ITASFE | status=erro | http= | url=http://www.asferrara.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Forlì | status=erro | http= | url=http://www.asforli.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Forlì. Sezione di Cesena | status=erro | http= | url=http://www.asforli.beniculturali.it/index.php?it/151/sezione-di-archivio-di-stato-di-cesena | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Frosinone ITASFR | status=erro | http= | url=http://www.asfrosinone.beniculturali.it/index.php?it/1/home-archivio-di-stato-di-frosinone | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Frosinone. Sezione di Anagni-Guarcino ITSASANGUA | status=erro | http= | url=http://www.asfrosinone.beniculturali.it/index.php?it/1/home-archivio-di-stato-di-frosinone | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Genova ITASGE | status=erro | http= | url=http://www.asgenova.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Gorizia ITASGO | status=erro | http= | url=http://www.archiviodistatogorizia.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Grosseto ITASGR | status=erro | http= | url=http://www.asgrosseto.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Imperia ITASIM | status=erro | http= | url=http://www.asimperia.beniculturali.it/index.php?it/1/home | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Imperia. Sezione di San Remo ITSASSREMO | status=erro | http= | url=http://www.asimperia.beniculturali.it/index.php?it/152/sezione-di-san-remo | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Imperia. Sezione di Ventimiglia ITSASVENTI | status=erro | http= | url=http://www.asimperia.beniculturali.it/index.php?it/153/sezione-di-ventimiglia | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Isernia ITASIS | status=erro | http= | url=http://www.asisernia.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Latina ITASLT | status=erro | http= | url=http://www.archiviodistatolatina.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Lecce ITASLE | status=erro | http= | url=http://archiviodistatolecce.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Livorno ITASLI | status=erro | http= | url=http://www.aslivorno.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Macerata ITASMC | status=erro | http= | url=http://www.archiviodistatomacerata.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Macerata. Sezione di Camerino ITSASCAMER | status=erro | http= | url=http://www.archiviodistatomacerata.beniculturali.it/index.php?it/148/sezione-di-camerino | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Mantova ITASMN | status=erro | http= | url=http://www.asmantova.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Massa ITASMS | status=erro | http= | url=http://www.asmassa.beniculturali.it/index.php?it/1/home | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Massa. Sezione di Pontremoli ITSASPONTR | status=erro | http= | url=http://www.asmassa.beniculturali.it/index.php?it/165/la-sezione-di-pontremoli | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Matera ITASMT | status=erro | http= | url=http://www.asmatera.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Messina ITASME | status=erro | http= | url=http://www.asmessina.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Milano | status=erro | http= | url=http://www.asmilano.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Novara ITASNO | status=erro | http= | url=http://www.asnovara.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Nuoro ITASNU | status=erro | http= | url=http://www.archiviodistatonuoro.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Oristano ITASOR | status=erro | http= | url=http://www.archiviodistatooristano.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Padova ITASPD | status=erro | http= | url=http://www.aspd.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Palermo ITASPA | status=erro | http= | url=http://www.archiviodistatodipalermo.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Palermo. Sezione di Termini Imerese ITSASTERMI | status=erro | http= | url=http://www.archiviodistatodipalermo.it/pagina.php?id=28 | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Pavia ITASPV | status=erro | http= | url=http://www.aspd.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Perugia. Sezione di Gubbio ITSASGUBBI | status=http_error | http=404 | url=http://www.archiviodistatoperugia.it/listituto/le-sedi/gubbio | erro=
+  - Archivio di Stato di Pesaro ITASPS | status=erro | http= | url=http://aspesaro.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Pesaro. Sezione di Fano ITSASFANO | status=erro | http= | url=http://aspesaro.beniculturali.it/?it/151/sezione-di-fano | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Pesaro. Sezione di Urbino ITSASURBIN | status=erro | http= | url=http://aspesaro.beniculturali.it/?it/152/sezione-di-urbino | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Pescara ITASPE | status=erro | http= | url=http://www.archiviodistatopescara.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Piacenza ITASPC | status=erro | http= | url=http://www.archiviodistatopiacenza.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Pisa ITASPI | status=erro | http= | url=http://www.aspisa.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Pistoia ITASPT | status=erro | http= | url=http://www.aspistoia.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Pistoia. Sezione di Pescia ITSASPESCI | status=erro | http= | url=http://www.aspistoia.beniculturali.it/index.php?it/164/sezione-di-archivio-di-stato-di-pescia | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Potenza ITASPZ | status=erro | http= | url=http://www.archiviodistatopotenza.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Prato ITASPO | status=erro | http= | url=http://www.archiviodistato.prato.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Ragusa ITASRG | status=erro | http= | url=http://www.asragusa.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Ragusa. Sezione di Modica ITSASMODIC | status=erro | http= | url=http://www.asragusa.beniculturali.it/index.php?it/193/sezione-di-archivio-di-stato-di-modica | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Ravenna ITASRA | status=erro | http= | url=http://www.asravenna.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Ravenna. Sezione di Faenza ITSASFAENZ | status=erro | http= | url=http://www.asravenna.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Reggio Calabria ITASRC | status=erro | http= | url=http://www.archiviodistatoreggiocalabria.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Reggio Calabria. Sezione di Locri ITSASLOCRI | status=erro | http= | url=http://www.archiviodistatoreggiocalabria.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Reggio Calabria. Sezione di Palmi ITSASPALMI | status=erro | http= | url=http://www.archiviodistatoreggiocalabria.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Rimini ITASRN | status=erro | http= | url=http://www.archiviodistato.rimini.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Roma ITASRM | status=erro | http= | url=http://www.archiviodistatoroma.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Rovigo ITASRO | status=erro | http= | url=http://www.archiviodistatorovigo.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Salerno ITASSA | status=erro | http= | url=http://www.archiviodistatosalerno.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Sassari ITASSS | status=erro | http= | url=https://archiviodistatosassari.cultura.gov.it/home | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Savona ITASSV | status=erro | http= | url=http://www.assavona.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Siena ITASSI | status=erro | http= | url=http://archiviostato.si.it/assi/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Siracusa ITASSR | status=erro | http= | url=http://www.assiracusa.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Siracusa. Sezione di Noto ITSASNOTO | status=erro | http= | url=http://www.assiracusa.beniculturali.it/index.php?it/100/sezione-di-archivio-di-stato-di-noto | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Sondrio ITASSO | status=erro | http= | url=http://www.assondrio.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Taranto ITASTA | status=erro | http= | url=http://www.astaranto.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Teramo ITASTE | status=erro | http= | url=http://www.archiviodistatoteramo.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Terni ITASTR | status=erro | http= | url=http://www.asterni.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Terni. Sezione di Orvieto ITSASORVIE | status=erro | http= | url=http://www.asterni.beniculturali.it/index.php?it/144/sezione-di-archivio-di-stato-di-orvieto | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Torino ITASTO | status=erro | http= | url=http://archiviodistatotorino.beniculturali.it/Site/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Trapani ITASTP | status=erro | http= | url=http://www.astrapani.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Trento ITASTN | status=erro | http= | url=http://www.astrento.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Treviso ITASTV | status=erro | http= | url=http://www.archiviodistatotreviso.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Udine ITASUD | status=erro | http= | url=http://www.archiviodistatoudine.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Verbania ITASVB | status=erro | http= | url=http://www.asverbania.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Vercelli ITASVC | status=erro | http= | url=http://www.asvercelli.beniculturali.it | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Vercelli. Sezione di Varallo ITSASVARAL | status=erro | http= | url=http://www.asvercelli.beniculturali.it/index.php?page=varallo | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Verona ITASVR | status=erro | http= | url=http://www.archiviodistatoverona.beniculturali.it/index.php?it/1/home | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Vibo Valentia ITASVV | status=erro | http= | url=http://www.asvibo.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Vicenza ITASVI | status=erro | http= | url=http://www.archiviodistatovicenza.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Vicenza. Sezione di Bassano del Grappa ITSASBASSA | status=erro | http= | url=http://www.archiviodistatovicenza.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Archivio di Stato di Viterbo ITASVT | status=erro | http= | url=http://www.archiviodistatoviterbo.beniculturali.it/ | erro=Timeout ou falha no carregamento
+  - Staatsarchiv Bozen | status=erro | http= | url=http://www.asbolzano.beniculturali.it/index.php?de/1/home | erro=Timeout ou falha no carregamento
+  - Lithuanian State Historical Archives | status=restrito | http=403 | url=http://www.archyvai.lt | erro=
+  - Diözesanarchiv Luxemburg - Archives diocésaines Luxembourg | status=http_error | http=429 | url=https://web.cathol.lu/2/services/archives-diocesaines/diozesanarchiv/ | erro=
+  - L-Arkivji Nazzjonali ta' Malta | status=restrito | http=403 | url=https://nationalarchives.gov.mt/en/Pages/default.aspx | erro=
+  - Regioarchief Sittard-Geleen | status=restrito | http=403 | url=https://www.regioarchiefsittard-geleen.nl | erro=
+  - Atria | status=erro | http= | url=http://www.atria.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Bedum | status=erro | http= | url=http://www.bedum.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Bellingwedde | status=erro | http= | url=http://www.bellingwedde.nl | erro=Timeout ou falha no carregamento
+  - Gemeente De Marne | status=erro | http= | url=http://www.demarne.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Eemsmond | status=erro | http= | url=http://www.eemsmond.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Ferwerderadiel | status=erro | http= | url=http://www.ferwerderadiel.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Haren | status=http_error | http=502 | url=http://www.haren.nl | erro=
+  - Gemeente Hoogezand-Sappemeer | status=erro | http= | url=http://www.hoogezand-sappemeer.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Kollumerland | status=erro | http= | url=http://www.kollumerland.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Leeuwarderadeel | status=erro | http= | url=https://www.leeuwarderadeel.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Littenseradiel | status=erro | http= | url=http://www.littenseradiel.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Marum | status=erro | http= | url=http://www.marum.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Menterwolde | status=erro | http= | url=http://www.menterwolde.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Slochteren | status=erro | http= | url=https://www.slochteren.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Vlagtwedde | status=erro | http= | url=https://www.vlagtwedde.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Winsum | status=erro | http= | url=http://www.winsum.nl | erro=Timeout ou falha no carregamento
+  - Gemeente Zuidhorn | status=erro | http= | url=http://www.zuidhorn.nl | erro=Timeout ou falha no carregamento
+  - Gemeentearchief Kerkrade | status=http_error | http=404 | url=http://www.kerkrade.nl/de_stad_kerkrade/kerkrade_toen_en_nu/gemeentearchief | erro=
+  - Historisch Centrum Overijssel | status=erro | http= | url=http://www.historischcentrumoverijssel.nl | erro=Timeout ou falha no carregamento
+  - Hoogheemraadschap Rijnland | status=erro | http= | url=https://www.rijnland.net | erro=Timeout ou falha no carregamento
+  - Provincie Fryslân | status=erro | http= | url=http://www.fryslan.nl | erro=Timeout ou falha no carregamento
+  - Provincie Groningen | status=erro | http= | url=http://www.provinciegroningen.nl | erro=Timeout ou falha no carregamento
+  - Stadsarchief Deventer | status=erro | http= | url=http://www.historischcentrumoverijssel.nl | erro=Timeout ou falha no carregamento
+  - Stadsarchief Rotterdam | status=erro | http= | url=http://www.gemeentearchief.rotterdam.nl | erro=Timeout ou falha no carregamento
+  - Waterschap Amstel, Gooi en Vecht | status=erro | http= | url=https://www.archieven.nl/mi/142/?mivast=142&mizig=391&miadt=142&milang=nl&miview=tbl | erro=Timeout ou falha no carregamento
+  - Westfries Archief | status=restrito | http=403 | url=http://www.westfriesarchief.nl | erro=
+  - Akershus fylkeskommune | status=erro | http= | url=https://www.akershus.no | erro=Timeout ou falha no carregamento
+  - Arbeiderbevegelsens arkiv i Telemark | status=http_error | http=520 | url=http://nia.museum.no/aat%0D%0A%0D%0AEpost:  post@a-arkiv.no%0D%0A%0D%0AMer informasjon%0D%0A%0D%0A%0D%0AArbeiderbevegelsens arkiv og bibliotek%0D%0A%0D%0APostadresse: Youngsgt 11 %0D%0A%0D%0APoststed: 0181 OSLO %0D%0A%0D%0ATelefon: 23061758 %0D%0A%0D%0ANettside: | erro=
+  - Drammen byarkiv | status=http_error | http=404 | url=https://www.drammen.kommune.no/no/Om-kommunen/Virksomheter/Service-og-administrasjon/Byarkivet/ | erro=
+  - Fredrikstad byarkiv | status=erro | http= | url=https://www.fredrikstad.kommune.no | erro=Timeout ou falha no carregamento
+  - Fylkesarkivet i Sogn og Fjordane | status=erro | http= | url=http://www.fylkesarkiv.no/ | erro=Timeout ou falha no carregamento
+  - Hordaland fylkesarkiv | status=erro | http= | url=http://www.hordaland.no/fylkesarkivet | erro=Timeout ou falha no carregamento
+  - Kvinnemuseet, Anno Museum | status=erro | http= | url=http://www.kvinnemuseet.no | erro=Timeout ou falha no carregamento
+  - Misjonskirken Norge | status=http_error | http=404 | url=http://mknu.no/historiskarkivsenter | erro=
+  - Mjøsmuseet | status=erro | http= | url=http://www.mjosmuseet.no/ | erro=Timeout ou falha no carregamento
+  - Museene i Sør-Trøndelag | status=erro | http= | url=http://www.mist.museum.no/ | erro=Timeout ou falha no carregamento
+  - NLM-arkivet | status=http_error | http=404 | url=http://www.nlm.no/nlm/om-nlm/hovedkontoret/nlm-arkivet | erro=
+  - Nordøsterdalsmuseet | status=http_error | http=404 | url=http://www.nordosterdalsmuseet.no/3698.918.Hovedside.html | erro=
+  - Norges hjemmefrontmuseum | status=http_error | http=404 | url=http://forsvaretsmuseer.no/Hjemmefrontmuseet | erro=
+  - Norsk helsearkiv | status=restrito | http=403 | url=https://www.arkivverket.no/om-oss/norsk-helsearkiv | erro=
+  - Norsk Maritimt Museum | status=erro | http= | url=http://www.marmuseum.no/no/ | erro=Timeout ou falha no carregamento
+  - Norsk skogmuseum | status=erro | http= | url=http://www.skogmus.no/?page=69 | erro=Timeout ou falha no carregamento
+  - Opplandsarkivet, Maihaugen | status=erro | http= | url=http://maihaugen.no/no/Opplandsarkivet/ | erro=Timeout ou falha no carregamento
+  - OsloMet – storbyuniversitetet | status=http_error | http=404 | url=https://www.oslomet.no/Kontakt-oss | erro=
+  - Østfold Interkommunale Arkivselskap IKS | status=erro | http= | url=http://www.ika-ostfold.no/ | erro=Timeout ou falha no carregamento
+  - Ski lokalhistoriske arkiv | status=erro | http= | url=http://www.ski.no/sla | erro=Timeout ou falha no carregamento
+  - Sør-Troms Museum | status=restrito | http=403 | url=https://www.stmu.no | erro=
+  - The Regional State Archives in Bergen | status=restrito | http=403 | url=https://www.arkivverket.no/om-oss/besok-oss/statsarkivet-i-bergen | erro=
+  - The Regional State Archives in Hamar | status=restrito | http=403 | url=https://www.arkivverket.no/tjenester | erro=
+  - The Regional State Archives in Kongsberg | status=restrito | http=403 | url=https://www.arkivverket.no/tjenester | erro=
+  - The Regional State Archives in Kristiansand | status=restrito | http=403 | url=https://www.arkivverket.no/tjenester | erro=
+  - The Regional State Archives in Trondheim | status=restrito | http=403 | url=https://www.arkivverket.no/tjenester | erro=
+  - Archiwum Państwowe w Kaliszu | status=erro | http= | url=http://www.archiwum.kalisz.pl/ | erro=Timeout ou falha no carregamento
+  - Arquivo Contemporâneo do Ministério das Finanças | status=erro | http= | url=http://badigital.sgmf.gov.pt | erro=Timeout ou falha no carregamento
+  - Arquivo Distrital de Vila Real | status=erro | http= | url=http://www.advrl.org.pt/ | erro=Timeout ou falha no carregamento
+  - Arquivo Distrital do Porto | status=erro | http= | url=http://www.adporto.pt | erro=Timeout ou falha no carregamento
+  - Arquivo Municipal de Albufeira | status=http_error | http=404 | url=http://www.cm-albufeira.pt/content/arquivo-hist-rico | erro=
+  - Câmara Municipal de Cascais. Arquivo | status=erro | http= | url=https://cultura.cascais.pt/list/arquivo-historico/arquivo-historico-municipal?section=0 | erro=Timeout ou falha no carregamento
+  - Câmara Municipal de Figueira da Foz. Arquivo | status=erro | http= | url=https://arquivo.cm-figfoz.pt:8443/X-arqWeb/ | erro=Timeout ou falha no carregamento
+  - Câmara Municipal de Mértola. Arquivo | status=erro | http= | url=https://arquivo.cm-mertola.pt/ | erro=Timeout ou falha no carregamento
+  - Câmara Municipal de Moura. Arquivo | status=erro | http= | url=https://arquivo.cm-moura.pt | erro=Timeout ou falha no carregamento
+  - Câmara Municipal de Ponte de Lima. Arquivo | status=http_error | http=503 | url=http://pesquisa.arquivo.cm-pontedelima.pt/ | erro=
+  - Câmara Municipal de Vila Franca de Xira. Arquivo | status=erro | http= | url=https://arquivo.cm-vfxira.pt/ | erro=Timeout ou falha no carregamento
+  - Centro Português de Fotografia | status=erro | http= | url=http://cpf.dglab.gov.pt/ | erro=Timeout ou falha no carregamento
+  - Secretaria-Geral da Economia. Arquivo | status=erro | http= | url=http://arquivohistorico.min-economia.pt/arquivohistorico/ | erro=Timeout ou falha no carregamento
+  - Secretaria-Geral da Educação e Ciência. Arquivo | status=erro | http= | url=http://arquivo-ec.sec-geral.mec.pt/welcome | erro=Timeout ou falha no carregamento
+  - National Historical Central Archives | status=erro | http= | url=http://arhivelenationale-centrale.ro/webcenter/portal/Bucuresti;jsessionid=T4wYdyLXzz0J7rJlsY7pGRGVMV5hCbv34JLvMThcd6WGbTB901v9!-166720461!1637265098?_afrLoop=794095480603193#!%40%40%3F_afrLoop%3D794095480603193%26_adf.ctrl-state%3Dn5kvx2v6w_4 | erro=Timeout ou falha no carregamento
+  - Slovenský národný archív | status=http_error | http=404 | url=http://www.minv.sk/?slovensky-narodny-archiv-1 | erro=
+  - Archivo de la Ciudad de Arganda del Rey | status=erro | http= | url=http://archivo.ayto-arganda.es/ | erro=Timeout ou falha no carregamento
+  - Archivo Histórico Provincial de Albacete | status=erro | http= | url=http://ccta.jccm.es/dglab/ArchivosHist?opc=1&idArchivo=1 | erro=Timeout ou falha no carregamento
+  - Archivo Histórico Provincial de Alicante | status=erro | http= | url=http://dglab.cult.gva.es/ArxiuHistoricAlacant/ | erro=Timeout ou falha no carregamento
+  - Archivo Histórico Provincial de Ciudad Real | status=erro | http= | url=http://ccta.jccm.es/dglab/ArchivosHist?opc=1&idArchivo=2 | erro=Timeout ou falha no carregamento
+  - Åtvidabergs kommunarkiv | status=http_error | http=404 | url=http://www.atvidaberg.se/2.29e1ab7a12a7a73fdc0800053902.html | erro=
+  - Föreningsarkivet i Värmland | status=http_error | http=404 | url=http://www.arkivcentrumvarmland.se/fa.html | erro=
+  - Krigsarkivet | status=erro | http= | url=http://riksarkivet.se/krigsarkivet | erro=Timeout ou falha no carregamento
+  - Landsarkivet i Göteborg | status=erro | http= | url=http://riksarkivet.se/goteborg | erro=Timeout ou falha no carregamento
+  - Landsarkivet i Härnösand | status=erro | http= | url=http://riksarkivet.se/harnosand | erro=Timeout ou falha no carregamento
+  - Landsarkivet i Lund | status=erro | http= | url=http://www.riksarkivet.se/lund | erro=Timeout ou falha no carregamento
+  - Landsarkivet i Uppsala | status=erro | http= | url=http://www.riksarkivet.se/default.aspx?id=7950 | erro=Timeout ou falha no carregamento
+  - Landsarkivet i Vadstena | status=erro | http= | url=http://www.riksarkivet.se/default.aspx?id=9441&refid=1196 | erro=Timeout ou falha no carregamento
+  - Landsarkivet i Visby | status=erro | http= | url=http://riksarkivet.se/visby | erro=Timeout ou falha no carregamento
+  - Landstingsarkivet i Stockholm | status=erro | http= | url=https://www.landstingsarkivet.sll.se/ | erro=Timeout ou falha no carregamento
+  - Linnéuniversitetet | status=erro | http= | url=https://lnu.se/ | erro=Timeout ou falha no carregamento
+  - Nässjö kommunarkiv | status=restrito | http=403 | url=http://www.nassjo.se/arkiv | erro=
+  - Ödeshögs kommun | status=http_error | http=404 | url=http://www.odeshog.se/kommundemokrati/kommuninformation/diarietocharkivet.4.5a737de12777bb958c80005577.html | erro=
+  - Regionarkivet i Region Halland | status=http_error | http=404 | url=http://www.regionhalland.se/om-region-halland/organisation/forvaltningar/regionkontoret/regionarkivet/ | erro=
+  - Regionarkivet i Skåne | status=restrito | http=403 | url=https://www.skane.se/organisation-politik/Regionarkiv/ | erro=
+  - Riksarkivet | status=erro | http= | url=http://riksarkivet.se/ | erro=Timeout ou falha no carregamento
+  - Sölvesborgs kommunarkiv | status=http_error | http=404 | url=http://www.solvesborg.se/1627 | erro=
+  - Stadsarkivet i Ystad | status=http_error | http=404 | url=http://www.ystad.se/kommun--politik/ystads-kommuns-organisation/ystads-stadsarkiv/ | erro=
+  - Stockholms stadsarkiv | status=erro | http= | url=http://www.ssa.stockholm.se | erro=Timeout ou falha no carregamento
+  - Strängnäs kommunarkiv | status=http_error | http=404 | url=https://www.strangnas.se/sv/Kommun-och-politik/Kommunarkiv/ | erro=
+  - Värmlandsarkiv | status=erro | http= | url=http://varmlandsarkiv.regionvarmland.se/english-summary | erro=Timeout ou falha no carregamento
+  - Växjö kommunarkiv | status=http_error | http=404 | url=http://www.vaxjo.se/sidor/politik-och-demokrati/allmanna-handlingar-och-styrande-dokument/arkiv.html | erro=
+  - Vimmerby kommuns centralarkiv | status=http_error | http=404 | url=http://www.vimmerby.se/kommun-politik/hantering-av-arenden/kommunarkivet/ | erro=
+  - Comité international de la Croix-Rouge Genève | status=restrito | http=403 | url=https://www.icrc.org/en/icrc-archives | erro=
+  - Kantonsbibliothek Aargau | status=http_error | http=404 | url=https://www.ag.ch/de/bks/kultur/archiv_bibliothek/kantonsbibliothek/kantonsbibliothek.jsp | erro=
+  - Stadtbibliothek Zofingen | status=erro | http= | url=http://www.zofingen.ch...stadtbibliothek.html/50 | erro=Timeout ou falha no carregamento
+  - Zentral- und Hochschulbibliothek Luzern | status=http_error | http=404 | url=http://www.zhbluzern.ch/index.php?id=942 | erro=
+  - State Archival Service of Ukraine | status=restrito | http=403 | url=https://archives.gov.ua/en/ | erro=
+  - Alexander Library of Ornithology, University of Oxford | status=http_error | http=404 | url=http://libguides.bodleian.ox.ac.uk/alexanderlibrary | erro=
+  - Amnesty International, International Secretariat | status=restrito | http=403 | url=https://www.amnesty.org/en/search/ | erro=
+  - Archifau Sir Ddinbych Denbighshire Archives | status=restrito | http=403 | url=https://www.newa.wales/ | erro=
+  - Archifau Ynys Môn/Anglesey Archives | status=http_error | http=404 | url=http://www.anglesey.gov.uk/leisure/records-and-archives/ | erro=
+  - Barclays Group Archives | status=erro | http= | url=https://www.archive.barclays.com/ | erro=Timeout ou falha no carregamento
+  - Barking and Dagenham Archive and Local Studies Centre | status=http_error | http=404 | url=https://www.lbbd.gov.uk/local-archive-and-history-information | erro=
+  - Bournemouth University Archives | status=restrito | http=403 | url=https://www1.bournemouth.ac.uk/students/library/using-library/archives-special-collections | erro=
+  - British Library Asia, Pacific and Africa Collections | status=http_error | http=404 | url=http://www.bl.uk/reshelp/bldept/apac/apacoll/apac.html | erro=
+  - British Library Manuscript Collections | status=http_error | http=404 | url=http://www.bl.uk/reshelp/bldept/manuscr/index.html | erro=
+  - British Library Music Collections | status=http_error | http=404 | url=http://www.bl.uk/reshelp/findhelprestype/music/aboutmusiccol/musicaboutus.html | erro=
+  - Cardiff University Archives Prifysgol Caerdydd | status=restrito | http=403 | url=http://www.cardiff.ac.uk/special-collections | erro=
+  - Centre for the Study of World Christianity, University of Edinburgh | status=http_error | http=404 | url=http://www.ed.ac.uk/schools-departments/divinity/research/centres/world-christianity/collections-resources | erro=
+  - Chelsea College of Arts Library, Special Collections | status=restrito | http=403 | url=http://www.arts.ac.uk/study-at-ual/library-services/collections-and-archives/chelsea/ | erro=
+  - Christ's College Archives, University of Cambridge | status=http_error | http=404 | url=http://www.christs.cam.ac.uk/catalogues/archival-collections | erro=
+  - Clare College Archives, University of Cambridge | status=restrito | http=403 | url=https://cudl.lib.cam.ac.uk/collections/clare/1 | erro=
+  - Dudley Archives and Local History Service | status=http_error | http=404 | url=http://www.dudley.gov.uk/resident/libraries-archives/archives-and-local-history-service/ | erro=
+  - Dundee Local History Centre | status=erro | http= | url=http://www.leisureandculturedundee.com/library/localhistory | erro=Timeout ou falha no carregamento
+  - Durham University Archives | status=restrito | http=403 | url=http://www.dur.ac.uk/library/asc/ | erro=
+  - Glasgow Caledonian University Archives and Special Collections | status=restrito | http=403 | url=https://www.gcu.ac.uk/archives/ | erro=
+  - Glasgow School of Art Archives and Collections | status=restrito | http=403 | url=https://gsaarchives.net/ | erro=
+  - Goldsmiths Special Collections and Archives, University of London | status=erro | http= | url=http://www.gold.ac.uk/library/collections/special-collections/ | erro=Timeout ou falha no carregamento
+  - Gunnersbury Park Museum Archives | status=erro | http= | url=http://www.visitgunnersbury.org/ | erro=Timeout ou falha no carregamento
+  - Heritage Quay, University of Huddersfield | status=http_error | http=410 | url=http://www.heritagequay.org/ | erro=
+  - Imperial College London, Archives and Corporate Records Unit | status=restrito | http=403 | url=http://www.imperial.ac.uk/admin-services/acru/ | erro=
+  - Imperial War Museum Archives | status=restrito | http=403 | url=http://www.iwm.org.uk/collections | erro=
+  - Institute of Commonwealth Studies Library, University of London | status=restrito | http=403 | url=http://www.shl.lon.ac.uk/ | erro=
+  - Islington Local History Centre Special Collections | status=http_error | http=404 | url=https://www.islington.gov.uk/libraries-arts-and-heritage/heritage/local-history-centre | erro=
+  - King's College Archives, University of Cambridge | status=erro | http= | url=http://www.kings.cam.ac.uk/archivecentre/ | erro=Timeout ou falha no carregamento
+  - Lambeth Palace Library | status=http_error | http=523 | url=http://www.lambethpalacelibrary.org/ | erro=
+  - Lancashire Archives | status=erro | http= | url=http://www.lancashire.gov.uk/libraries-and-archives/archives-and-record-office.aspx | erro=Timeout ou falha no carregamento
+  - Lancaster University Archives | status=http_error | http=404 | url=http://www.lancaster.ac.uk/library/resources/special-collections/ | erro=
+  - Liverpool Hope University Archives and Special Collections | status=restrito | http=403 | url=https://www.hope.ac.uk/library/specialcollections/ | erro=
+  - London School of Hygiene and Tropical Medicine Archives | status=restrito | http=403 | url=http://www.lshtm.ac.uk/library/archives/ | erro=
+  - London South Bank University Archives Centre | status=restrito | http=403 | url=http://www.lsbu.ac.uk/professional-services/archives-centre | erro=
+  - Manchester Archives and Local Studies | status=restrito | http=403 | url=http://www.manchester.gov.uk/info/448/archives_and_local_history | erro=
+  - Museum of the History of Science, University of Oxford | status=restrito | http=403 | url=http://www.mhs.ox.ac.uk/collections/library/ | erro=
+  - National Portrait Gallery Archive | status=restrito | http=403 | url=https://www.npg.org.uk/research/archive/ | erro=
+  - National Theatre Archive | status=restrito | http=403 | url=https://www.nationaltheatre.org.uk/about-the-national-theatre/archive | erro=
+  - Nazarene Theological College Archives | status=http_error | http=404 | url=https://nazarene.ac.uk/about-us/ntc-archives/ | erro=
+  - Neath Antiquarian Society Archives | status=restrito | http=403 | url=https://www.swansea.gov.uk/article/23302/Neath-Antiquarian-Society-Archives | erro=
+  - North East Wales Archives - Flintshire / Archifau Gogledd Ddwyrain Cymru - Sir y Fflint Archifdy Sir y Fflint | status=restrito | http=403 | url=http://www.flintshire.gov.uk/en/LeisureAndTourism/Records-and-Archives/Home.aspx | erro=
+  - North Lanarkshire Archives | status=http_error | http=404 | url=https://culturenl.co.uk/museums/archives-and-local-history-museums/north-lanarkshire-archives/ | erro=
+  - Nottingham Trent University Archives | status=restrito | http=403 | url=https://www4.ntu.ac.uk/library/resources_collections/special_collections/index.html | erro=
+  - Oxford Brookes University Special Collections and Archives | status=http_error | http=404 | url=https://www.brookes.ac.uk/library/special-collections/ | erro=
+  - Paul Mellon Centre for Studies in British Art | status=restrito | http=403 | url=https://www.paul-mellon-centre.ac.uk/archives-and-library/archive-collections | erro=
+  - Pembrokeshire Archives and Local Studies Archifdy Sir Benfro ac Astudiaethau Lleol | status=erro | http= | url=http://www.culture4pembrokeshire.co.uk/content.asp?nav=3 | erro=Timeout ou falha no carregamento
+  - Pusey House Library | status=http_error | http=400 | url=http://www.puseyhouse.org.uk/archive.html | erro=
+  - Queen Mary Archives, University of London | status=restrito | http=403 | url=http://www.library.qmul.ac.uk/archives | erro=
+  - Royal Agricultural University Archive | status=http_error | http=404 | url=http://www.rau.ac.uk/student-life/learning/library-and-it-access/rau-archive-historical-collection | erro=
+  - Royal College of Obstetricians and Gynaecologists Archives | status=http_error | http=404 | url=https://www.rcog.org.uk/en/guidelines-research-services/library-services/archives-and-heritage/ | erro=
+  - Royal College of Psychiatrists Archives | status=restrito | http=403 | url=http://www.rcpsych.ac.uk/usefulresources/thecollegearchives.aspx | erro=
+  - Royal Society Archives | status=restrito | http=403 | url=https://royalsociety.org/collections/ | erro=
+  - Royal Troon Golf Club | status=erro | http= | url=https://www.royaltroon.co.uk | erro=Timeout ou falha no carregamento
+  - Salford Local History Library | status=http_error | http=404 | url=https://salfordmuseum.com/explore/the-local-history-library/ | erro=
+  - Senate House Library Archives, University of London | status=restrito | http=403 | url=http://www.senatehouselibrary.ac.uk/our-collections/historic-collections/archives-manuscripts/consulting-archives-and-manuscripts/ | erro=
+  - St George's Archives and Special Collections, University of London | status=http_error | http=404 | url=http://library.sgul.ac.uk/using-the-library/archives | erro=
+  - St John's College Library, University of Oxford | status=http_error | http=404 | url=https://www.sjc.ox.ac.uk/discover/about-college/library/ | erro=
+  - Tasglann nan Eilean Hebridean Archives | status=http_error | http=404 | url=https://www.cne-siar.gov.uk/leisure-sport-and-culture/libraries-and-archives/tasglann-nan-eilean | erro=
+  - Tate Archive | status=http_error | http=404 | url=http://www.tate.org.uk/research/archive | erro=
+  - The Postal Museum | status=restrito | http=403 | url=https://www.postalmuseum.org/visit/the-archive/ | erro=
+  - The Wiener Holocaust Library | status=erro | http= | url=https://wienerholocaustlibrary.org/visit/visit-the-wolfson-reading-room/ | erro=Timeout ou falha no carregamento
+  - Transport for London Corporate Archives | status=restrito | http=403 | url=https://tfl.gov.uk/corporate/about-tfl/culture-and-heritage/corporate-archives | erro=
+  - University for the Creative Arts Archives & Special Collections | status=erro | http= | url=http://community.ucreative.ac.uk/archives | erro=Timeout ou falha no carregamento
+  - University of Bristol Special Collections | status=restrito | http=403 | url=http://www.bristol.ac.uk/library/resources/specialcollections/ | erro=
+  - University of Bristol Theatre Collection | status=restrito | http=403 | url=http://www.bristol.ac.uk/theatre-collection | erro=
+  - University of Chichester Special Collections | status=restrito | http=403 | url=http://www.chi.ac.uk/department-sport-development-management/anita-white-foundation/archive | erro=
+  - University of Dundee Archive Services | status=restrito | http=403 | url=http://www.dundee.ac.uk/archives | erro=
+  - University of Essex Special Collections | status=erro | http= | url=http://libwww.essex.ac.uk/speccol.htm | erro=Timeout ou falha no carregamento
+  - University of Kent Special Collections and Archives | status=http_error | http=404 | url=https://www.kent.ac.uk/library/collections/index.html | erro=
+  - University of Manchester Library | status=http_error | http=404 | url=http://www.library.manchester.ac.uk/special-collections/ | erro=
+  - University of the West of Scotland Special Collections | status=http_error | http=404 | url=http://www.uws.ac.uk/about-uws/services-for-students/library/special-collections/ | erro=
+  - West Glamorgan Archive Service | status=restrito | http=403 | url=http://www.swansea.gov.uk/westglamorganarchives | erro=
+  - West Yorkshire Archive Service, Bradford | status=restrito | http=403 | url=http://www.wyjs.org.uk/archive-service | erro=
+  - West Yorkshire Archive Service, Calderdale | status=restrito | http=403 | url=https://www.wyjs.org.uk/archive-service/ | erro=
+  - West Yorkshire Archive Service, Kirklees | status=restrito | http=403 | url=http://www.wyjs.org.uk/archive-service/ | erro=
+  - West Yorkshire Archive Service, Leeds | status=restrito | http=403 | url=http://www.wyjs.org.uk/archive-service/ | erro=
+  - West Yorkshire Archive Service, Wakefield | status=restrito | http=403 | url=http://catalogue.wyjs.org.uk | erro=

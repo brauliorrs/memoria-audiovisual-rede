@@ -1,4 +1,5 @@
 from .config import (
+    AAPB_OUTPUT_PREFIX,
     APE_OUTPUT_PREFIX,
     EUSCREEN_OUTPUT_PREFIX,
     EUROPEAN_FILM_GATEWAY_OUTPUT_PREFIX,
@@ -59,6 +60,7 @@ def list_output_filenames(output_files):
 
 
 APE_OUTPUT_FILES = build_output_files(APE_OUTPUT_PREFIX)
+AAPB_OUTPUT_FILES = build_output_files(AAPB_OUTPUT_PREFIX)
 INA_OUTPUT_FILES = build_output_files(INA_OUTPUT_PREFIX)
 EUSCREEN_OUTPUT_FILES = build_output_files(EUSCREEN_OUTPUT_PREFIX)
 EUROPEAN_FILM_GATEWAY_OUTPUT_FILES = build_output_files(EUROPEAN_FILM_GATEWAY_OUTPUT_PREFIX)
@@ -69,6 +71,10 @@ PPA_OUTPUT_FILES = build_output_files(PPA_OUTPUT_PREFIX)
 
 def list_ape_output_filenames():
     return list_output_filenames(APE_OUTPUT_FILES)
+
+
+def list_aapb_output_filenames():
+    return list_output_filenames(AAPB_OUTPUT_FILES)
 
 
 def list_ina_output_filenames():
@@ -96,6 +102,7 @@ def list_ppa_output_filenames():
 
 
 __all__ = [
+    "AAPB_OUTPUT_FILES",
     "APE_OUTPUT_FILES",
     "EUSCREEN_OUTPUT_FILES",
     "EUROPEAN_FILM_GATEWAY_OUTPUT_FILES",
@@ -104,6 +111,7 @@ __all__ = [
     "PARES_OUTPUT_FILES",
     "PPA_OUTPUT_FILES",
     "build_output_files",
+    "list_aapb_output_filenames",
     "list_ape_output_filenames",
     "list_euscreen_output_filenames",
     "list_european_film_gateway_output_filenames",

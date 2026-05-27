@@ -1,0 +1,6 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+europeana,europeana:2026-05-18T17:20:27Z,2026-05-18T17:20:27Z,,2026-05-18T17:20:27Z,2026-05-18T17:20:27Z,scripts/run_europeana_pipeline.py,1,1,1,32,32,1,6,1,1,11
+europeana,europeana:2026-05-18T17:21:41Z,2026-05-18T17:21:41Z,,2026-05-18T17:21:41Z,2026-05-18T17:21:41Z,scripts/run_europeana_pipeline.py,1,1,1,27,27,1,5,1,1,9
+europeana,europeana:2026-05-18T17:23:10Z,2026-05-18T17:23:10Z,,2026-05-18T17:23:10Z,2026-05-18T17:23:10Z,scripts/run_europeana_pipeline.py,1,1,1,27,27,1,5,1,1,9
+europeana,europeana:2026-05-18T17:28:44Z,2026-05-18T17:28:44Z,,2026-05-18T17:28:44Z,2026-05-18T17:28:44Z,scripts/run_europeana_pipeline.py,1,1,1,27,27,1,5,1,1,9
+europeana,europeana:2026-05-22T17:52:25Z,2026-05-27T16:48:05Z,,2026-05-22T17:52:25Z,2026-05-27T16:48:05Z,scripts/build_europeana_analytics.py,1,1,1,20,20,1,5,1,1,8

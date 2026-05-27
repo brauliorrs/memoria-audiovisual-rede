@@ -60,6 +60,10 @@ def infer_video_theme(row):
         "topic channel",
         "vevo",
         "official audio",
+        "audio recording",
+        "audio guide",
+        "audioguide",
+        "podcast",
         "official music video",
         "licensed to youtube",
     ]
@@ -198,7 +202,6 @@ def infer_video_theme(row):
                 "map collection",
                 "photo archive",
                 "film archive",
-                "sound archive",
             ],
         ),
         (
@@ -374,7 +377,7 @@ def infer_video_theme(row):
             return "Digitalização e acesso"
         if re.search(r"\b(arquivo|arquivos|archivo|archivos|colecao|coleccion|fundo|fondos)\b", normalized):
             return "Acervo e patrimônio"
-        if re.search(r"\b(audiovisual|film|filme|cine|cinema|video|cinta|sonoro|sonora)\b", normalized):
+        if re.search(r"\b(audiovisual|film|filme|cine|cinema|video|cinta)\b", normalized):
             return "Registro audiovisual em catálogo"
         return "Registro arquivístico recuperado"
 
@@ -404,8 +407,6 @@ def classify_access_surface(row):
 
     if platform == "Madelen":
         return "Streaming curatorial"
-    if platform == "Podcasts INA":
-        return "Podcast público"
     if platform == "Mediaclip INA":
         return "Catálogo comercial de licenciamento"
     if platform == "EUscreen":
@@ -414,6 +415,8 @@ def classify_access_surface(row):
         return "Agregador audiovisual europeu especializado em cinema"
     if platform == "Europeana":
         return "Agregador cultural europeu com recorte audiovisual"
+    if platform == "American Archive of Public Broadcasting":
+        return "acesso em agregador audiovisual"
     if platform in {"PARES", "Portal Português de Arquivos"}:
         if "objeto digital detectado" in video_description:
             return "Objeto digital em agregador arquivístico nacional"
@@ -424,7 +427,7 @@ def classify_access_surface(row):
         return "Vídeo institucional incorporado"
     if platform in {"YouTube", "Vimeo", "Dailymotion", "Facebook", "Instagram"}:
         return "Plataforma externa de vídeo"
-    if platform in {"Internet Archive", "SoundCloud", "JW Player", "Brightcove"}:
+    if platform in {"Internet Archive", "JW Player", "Brightcove"}:
         return "Plataforma externa especializada"
     return "Outra superfície de acesso"
 
@@ -449,7 +452,6 @@ def classify_access_regime(modalities, audiovisual_visibility):
         modality = unique_modalities[0]
         single_mode_map = {
             "Streaming curatorial": "Acesso aberto em streaming",
-            "Podcast público": "Acesso aberto em podcast",
             "Catálogo comercial de licenciamento": "Acesso comercial/licenciamento",
             "Vídeo institucional incorporado": "Acesso institucional incorporado",
             "Agregador audiovisual europeu": "Acesso por agregador audiovisual europeu",
@@ -464,7 +466,7 @@ def classify_access_regime(modalities, audiovisual_visibility):
         }
         return single_mode_map.get(modality, "Outra forma pública de acesso")
 
-    institutional_modalities = {"Streaming curatorial", "Podcast público", "Vídeo institucional incorporado"}
+    institutional_modalities = {"Streaming curatorial", "Vídeo institucional incorporado"}
     european_av_aggregator_modalities = {
         "Agregador audiovisual europeu",
         "Agregador audiovisual europeu especializado em cinema",
@@ -709,6 +711,15 @@ def classify_audiovisual_visibility(row):
     return "Site indisponível para verificação"
 
 
+def build_curatorial_video_count_by_slug(video_catalog_df):
+    if video_catalog_df is None or video_catalog_df.empty or "slug" not in video_catalog_df.columns:
+        return {}
+    filtered_catalog = filter_curatorial_video_catalog(video_catalog_df)
+    if filtered_catalog.empty:
+        return {}
+    return filtered_catalog.groupby("slug").size().to_dict()
+
+
 def build_summary_analysis_df(summary_df, video_catalog_df=None):
     enriched = summary_df.copy()
     if enriched.empty:
@@ -719,26 +730,45 @@ def build_summary_analysis_df(summary_df, video_catalog_df=None):
             "institution_segment",
             "access_modalities_detected",
             "access_regime",
+            "raw_video_links_found_total",
+            "curatorial_video_links_total",
         ]:
             if column not in enriched.columns:
                 enriched[column] = pd.Series(dtype="object")
         return enriched
 
-    enriched["availability_group"] = enriched["integrity_status"].apply(classify_availability_group)
-    enriched["availability_reason"] = enriched.apply(classify_availability_reason, axis=1)
-    enriched["audiovisual_visibility"] = enriched.apply(classify_audiovisual_visibility, axis=1)
     enriched["video_links_found_total"] = pd.to_numeric(
         enriched["video_links_found_total"],
         errors="coerce",
     ).fillna(0)
+    enriched["raw_video_links_found_total"] = enriched["video_links_found_total"].astype(int)
+    has_video_catalog = (
+        video_catalog_df is not None
+        and not video_catalog_df.empty
+        and "slug" in video_catalog_df.columns
+    )
+    curatorial_counts = build_curatorial_video_count_by_slug(video_catalog_df)
+    if has_video_catalog:
+        enriched["curatorial_video_links_total"] = (
+            enriched["slug"].map(curatorial_counts).fillna(0).astype(int)
+        )
+    else:
+        enriched["curatorial_video_links_total"] = enriched["video_links_found_total"].astype(int)
+    enriched["video_links_found_total"] = enriched["curatorial_video_links_total"]
+
+    visibility_source = enriched.copy()
+    visibility_source["video_links_found_total"] = visibility_source["curatorial_video_links_total"]
+    enriched["availability_group"] = enriched["integrity_status"].apply(classify_availability_group)
+    enriched["availability_reason"] = enriched.apply(classify_availability_reason, axis=1)
+    enriched["audiovisual_visibility"] = visibility_source.apply(classify_audiovisual_visibility, axis=1)
     enriched["institution_segment"] = "Indisponíveis"
     enriched.loc[
-        enriched["video_links_found_total"] > 0,
+        enriched["curatorial_video_links_total"] > 0,
         "institution_segment",
     ] = "Disponíveis com vídeos"
     enriched.loc[
         (enriched["availability_group"] == "Disponível")
-        & (enriched["video_links_found_total"] <= 0),
+        & (enriched["curatorial_video_links_total"] <= 0),
         "institution_segment",
     ] = "Disponíveis sem vídeos"
     access_fields_df = build_institution_access_fields(enriched, video_catalog_df)
@@ -782,8 +812,8 @@ def build_archive_type_summary(summary_df):
     )
 
 
-def build_visibility_summary(summary_df):
-    enriched = build_summary_analysis_df(summary_df)
+def build_visibility_summary(summary_df, video_catalog_df=None):
+    enriched = build_summary_analysis_df(summary_df, video_catalog_df)
     visibility_counts = (
         enriched["audiovisual_visibility"].value_counts().rename_axis("situacao").reset_index(name="total")
         if not enriched.empty
@@ -796,7 +826,21 @@ def build_institution_segments(summary_df, video_catalog_df=None):
     return build_summary_analysis_df(summary_df, video_catalog_df)
 
 
-def build_video_catalog_df(links_df):
+def ensure_summary_analysis_df(summary_df, video_catalog_df=None):
+    required_columns = {
+        "availability_group",
+        "availability_reason",
+        "audiovisual_visibility",
+        "institution_segment",
+        "access_modalities_detected",
+        "access_regime",
+    }
+    if required_columns <= set(summary_df.columns):
+        return summary_df.copy()
+    return build_summary_analysis_df(summary_df, video_catalog_df)
+
+
+def build_raw_video_catalog_df(links_df):
     if links_df.empty:
         return pd.DataFrame(
             columns=[
@@ -811,7 +855,8 @@ def build_video_catalog_df(links_df):
             ]
         )
 
-    catalog = links_df.copy()
+    catalog = links_df.copy().reset_index(drop=True)
+    catalog["_source_index"] = catalog.index
     for column in ["video_title", "video_subject", "video_description", "video_published_at"]:
         if column not in catalog.columns:
             catalog[column] = ""
@@ -840,6 +885,25 @@ def filter_curatorial_video_catalog(video_catalog_df):
     if video_catalog_df.empty or "video_theme" not in video_catalog_df.columns:
         return video_catalog_df.copy()
     return video_catalog_df.loc[video_catalog_df["video_theme"] != NOISE_THEME_LABEL].copy()
+
+
+def build_video_catalog_df(links_df):
+    catalog = build_raw_video_catalog_df(links_df)
+    filtered_catalog = filter_curatorial_video_catalog(catalog)
+    return filtered_catalog.drop(columns=["_source_index"], errors="ignore")
+
+
+def filter_in_scope_video_links_df(links_df):
+    if links_df is None:
+        return pd.DataFrame()
+    if links_df.empty:
+        return links_df.copy()
+    catalog = build_raw_video_catalog_df(links_df)
+    filtered_catalog = filter_curatorial_video_catalog(catalog)
+    if filtered_catalog.empty or "_source_index" not in filtered_catalog.columns:
+        return links_df.iloc[0:0].copy()
+    source_indices = filtered_catalog["_source_index"].astype(int).tolist()
+    return links_df.iloc[source_indices].reset_index(drop=True).copy()
 
 
 def _limit_summary(summary_df, top_n):
@@ -1018,7 +1082,7 @@ def build_visibility_archive_type_summary(summary_df, top_n=12):
     if summary_df.empty:
         return pd.DataFrame(columns=["visibilidade", "tipo_institucional", "total"])
 
-    enriched = build_summary_analysis_df(summary_df)
+    enriched = ensure_summary_analysis_df(summary_df)
     enriched["archive_type_display"] = (
         enriched["archive_type"]
         .fillna(UNKNOWN_ARCHIVE_TYPE_LABEL)
@@ -1041,7 +1105,7 @@ def build_visibility_archive_type_matrix(summary_df, top_archive_types=8):
     if summary_df.empty:
         return pd.DataFrame()
 
-    enriched = build_summary_analysis_df(summary_df)
+    enriched = ensure_summary_analysis_df(summary_df)
     enriched["archive_type_display"] = (
         enriched["archive_type"]
         .fillna(UNKNOWN_ARCHIVE_TYPE_LABEL)
@@ -1077,7 +1141,7 @@ def build_visibility_archive_type_matrix(summary_df, top_archive_types=8):
 def build_analysis_exports(summary_df, links_df):
     video_catalog_df = build_video_catalog_df(links_df)
     summary_analysis_df = build_summary_analysis_df(summary_df, video_catalog_df)
-    _, visibility_summary_df = build_visibility_summary(summary_df)
+    _, visibility_summary_df = build_visibility_summary(summary_df, video_catalog_df)
     theme_summary_df = build_theme_summary(video_catalog_df)
     theme_country_df = build_theme_country_summary(video_catalog_df, top_n=None)
     return {
@@ -1097,11 +1161,13 @@ __all__ = [
     "build_archive_type_summary",
     "build_availability_reference",
     "build_availability_summary",
+    "build_curatorial_video_count_by_slug",
     "build_detected_sites_df",
     "build_geography_summaries",
     "build_institution_segments",
     "build_institution_access_fields",
     "build_platform_summary",
+    "build_raw_video_catalog_df",
     "build_summary_analysis_df",
     "build_theme_archive_type_matrix",
     "build_theme_archive_type_summary",
@@ -1119,6 +1185,8 @@ __all__ = [
     "classify_availability_group",
     "classify_availability_reason",
     "filter_curatorial_video_catalog",
+    "filter_in_scope_video_links_df",
+    "ensure_summary_analysis_df",
     "format_video_date",
     "infer_video_theme",
     "normalize_optional_text",

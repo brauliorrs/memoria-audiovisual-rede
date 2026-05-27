@@ -144,7 +144,7 @@ EUROPEAN_AGGREGATOR_CANDIDATES = [
         coverage_level="agregador nacional",
         source_url="https://archiveshub.jisc.ac.uk/",
         search_url_template="https://archiveshub.jisc.ac.uk/search/?terms={query}",
-        query_terms=("audiovisual", "film", "video", "sound recording"),
+        query_terms=("audiovisual", "film", "video", "moving image"),
         methodological_note=(
             "Agregador nacional geral. A avaliação verifica se a busca pública permite "
             "sondar materiais audiovisuais antes da incorporação como corpus."
@@ -157,7 +157,7 @@ EUROPEAN_AGGREGATOR_CANDIDATES = [
         coverage_level="agregador nacional",
         source_url="https://francearchives.gouv.fr/",
         search_url_template="https://francearchives.gouv.fr/fr/search?es_escategory=archives&q={query}",
-        query_terms=("audiovisuel", "film", "vidéo", "archives sonores"),
+        query_terms=("audiovisuel", "film", "vidéo"),
         methodological_note=(
             "Agregador nacional geral. A avaliação verifica a superfície pública de busca "
             "e registra quando a fonte exige navegação com JavaScript ou cookies."
@@ -170,7 +170,7 @@ EUROPEAN_AGGREGATOR_CANDIDATES = [
         coverage_level="agregador nacional",
         source_url="https://pares.cultura.gob.es/",
         search_url_template="https://pares.mcu.es/ParesBusquedas20/catalogo/find?nm=&texto={query}",
-        query_terms=("audiovisual", "film", "video", "sonoro"),
+        query_terms=("audiovisual", "film", "video"),
         methodological_note=(
             "Agregador nacional geral. A avaliação usa a busca pública do PARES para "
             "identificar sinais preliminares de materiais audiovisuais."
@@ -183,7 +183,7 @@ EUROPEAN_AGGREGATOR_CANDIDATES = [
         coverage_level="agregador nacional",
         source_url="https://portal.arquivos.pt/",
         search_url_template="https://portal.arquivos.pt/search?q={query}",
-        query_terms=("audiovisual", "video", "vídeo", "filme", "sonoro"),
+        query_terms=("audiovisual", "video", "vídeo", "filme"),
         methodological_note=(
             "Agregador nacional português. Entra no mapeamento europeu para reduzir lacuna "
             "ibérica e testar sinais audiovisuais antes de qualquer pipeline próprio."
@@ -209,7 +209,7 @@ EUROPEAN_AGGREGATOR_CANDIDATES = [
         coverage_level="agregador cultural europeu",
         source_url="https://www.europeana.eu/",
         search_url_template="https://www.europeana.eu/en/search?query={query}&media=true",
-        query_terms=("film", "video", "audiovisual", "sound"),
+        query_terms=("film", "video", "audiovisual", "moving image"),
         methodological_note=(
             "Agregador cultural europeu amplo. Entra na Europa 1.5 como fonte geral com "
             "superfícies audiovisuais, exigindo separação entre patrimônio cultural amplo e audiovisual."
@@ -230,7 +230,7 @@ EUROPEAN_AGGREGATOR_ACCESS_ROUTES = [
         ),
         audiovisual_use=(
             "Sondar descrições EAD por termos audiovisuais e, depois, procurar sinais como dao, "
-            "digital object, film, video e sound recording."
+            "digital object, film, video e moving image."
         ),
         methodological_note=(
             "Rota documentada, mas a disponibilidade deve ser confirmada antes de promover o "

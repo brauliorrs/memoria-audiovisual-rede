@@ -1,9 +1,14 @@
 import pandas as pd
 
+from .analysis import filter_in_scope_video_links_df
+from .aapb import collect_aapb_dataset
+from .aapb_exports import build_aapb_analysis_extra_sheets
+from .aapb_exports import write_aapb_analysis_outputs
 from .ape import collect_ape_dataset
 from .ape_exports import build_ape_analysis_extra_sheets
 from .ape_exports import write_ape_analysis_outputs
 from .config import (
+    AAPB_FAQ_URL,
     APE_CONTENT_PDF_URL,
     EUSCREEN_COLLECTIONS_URL,
     EUROPEAN_FILM_GATEWAY_HOME_URL,
@@ -29,6 +34,7 @@ from .ina import collect_ina_dataset
 from .ina_exports import build_ina_analysis_extra_sheets
 from .ina_exports import write_ina_analysis_outputs
 from .output_files import (
+    AAPB_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
     EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
@@ -45,6 +51,7 @@ from .ppa_exports import build_ppa_analysis_extra_sheets
 from .ppa_exports import write_ppa_analysis_outputs
 from .reporting import build_report_payload, save_csv, save_json_report, save_txt_report
 from .snapshot_metadata import (
+    build_aapb_snapshot_metadata,
     build_ape_snapshot_metadata,
     build_euscreen_snapshot_metadata,
     build_european_film_gateway_snapshot_metadata,
@@ -517,6 +524,10 @@ PPA_INSTITUTION_FIELDS = [field.replace("pares_detail_url", "ppa_detail_url") fo
 PPA_SUMMARY_FIELDS = [field.replace("pares_detail_url", "ppa_detail_url") for field in PARES_SUMMARY_FIELDS]
 PPA_VIDEO_LINK_FIELDS = [field.replace("pares_detail_url", "ppa_detail_url") for field in PARES_VIDEO_LINK_FIELDS]
 PPA_INTERNAL_PAGE_FIELDS = [field.replace("pares_detail_url", "ppa_detail_url") for field in PARES_INTERNAL_PAGE_FIELDS]
+AAPB_INSTITUTION_FIELDS = [field.replace("pares_detail_url", "aapb_detail_url") for field in PARES_INSTITUTION_FIELDS]
+AAPB_SUMMARY_FIELDS = [field.replace("pares_detail_url", "aapb_detail_url") for field in PARES_SUMMARY_FIELDS]
+AAPB_VIDEO_LINK_FIELDS = [field.replace("pares_detail_url", "aapb_detail_url") for field in PARES_VIDEO_LINK_FIELDS]
+AAPB_INTERNAL_PAGE_FIELDS = [field.replace("pares_detail_url", "aapb_detail_url") for field in PARES_INTERNAL_PAGE_FIELDS]
 
 
 def ensure_fields(rows, fieldnames):
@@ -524,6 +535,21 @@ def ensure_fields(rows, fieldnames):
     for row in rows:
         normalized.append({field: row.get(field, "") for field in fieldnames})
     return normalized
+
+
+def sync_summary_video_counts(rows_summary, links_df):
+    if not rows_summary:
+        return rows_summary
+    counts = {}
+    if links_df is not None and not links_df.empty and "slug" in links_df.columns:
+        counts = links_df.groupby("slug").size().to_dict()
+    synced_rows = []
+    for row in rows_summary:
+        synced_row = dict(row)
+        if "video_links_found_total" in synced_row:
+            synced_row["video_links_found_total"] = int(counts.get(synced_row.get("slug"), 0))
+        synced_rows.append(synced_row)
+    return synced_rows
 
 
 def _run_corpus_pipeline(
@@ -546,6 +572,9 @@ def _run_corpus_pipeline(
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     print(f"=== ETAPA 1: Coletando instituições do {source_label} ===")
     institutions, rows_summary, rows_video_links, rows_internal_pages = collect_dataset()
+    links_df = filter_in_scope_video_links_df(pd.DataFrame(rows_video_links))
+    rows_video_links = links_df.to_dict(orient="records")
+    rows_summary = sync_summary_video_counts(rows_summary, links_df)
     payload = build_report_payload(
         source_url,
         len(institutions),
@@ -553,7 +582,6 @@ def _run_corpus_pipeline(
         rows_video_links,
     )
     summary_df = pd.DataFrame(rows_summary)
-    links_df = pd.DataFrame(rows_video_links)
     analysis_frames = analysis_output_writer(
         OUTPUT_DIR,
         summary_df,
@@ -761,7 +789,27 @@ def run_ppa_pipeline():
     )
 
 
+def run_aapb_pipeline():
+    _run_corpus_pipeline(
+        source_label="American Archive of Public Broadcasting",
+        source_url=AAPB_FAQ_URL,
+        collect_dataset=collect_aapb_dataset,
+        institution_fields=AAPB_INSTITUTION_FIELDS,
+        summary_fields=AAPB_SUMMARY_FIELDS,
+        video_link_fields=AAPB_VIDEO_LINK_FIELDS,
+        internal_page_fields=AAPB_INTERNAL_PAGE_FIELDS,
+        output_files=AAPB_OUTPUT_FILES,
+        analysis_output_writer=write_aapb_analysis_outputs,
+        analysis_extra_sheets_builder=build_aapb_analysis_extra_sheets,
+        snapshot_builder=build_aapb_snapshot_metadata,
+        report_title="RELATORIO - AMERICAN ARCHIVE OF PUBLIC BROADCASTING",
+        institutions_sheet_title="AAPB Institutions",
+        generated_by="scripts/run_aapb_pipeline.py",
+    )
+
+
 __all__ = [
+    "run_aapb_pipeline",
     "run_pipeline",
     "run_ina_pipeline",
     "run_euscreen_pipeline",
