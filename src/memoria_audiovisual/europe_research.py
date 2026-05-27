@@ -11,13 +11,16 @@ from .corpora import CORPORA, CORPUS_CATEGORIES, list_active_corpora
 EUROPE_RESEARCH_REGISTRY_FILENAME = "observatorio_pesquisa_europa.csv"
 EUROPE_RESEARCH_QUEUE_FILENAME = "observatorio_fila_pesquisa_europa.csv"
 EUROPE_RESEARCH_SUMMARY_FILENAME = "observatorio_resumo_pesquisa_europa.csv"
-EUROPE_RESEARCH_RULE_VERSION = "2026-05-pesquisa-europa-v2"
+EUROPE_RESEARCH_RULE_VERSION = "2026-05-pesquisa-europa-v3"
 
 EUROPEANA_AGGREGATORS_SOURCE_URL = "https://pro.europeana.eu/page/aggregators"
 ACE_SOURCE_URL = "https://ace-film.eu/about-ace/"
+EBU_MEMBERS_SOURCE_URL = "https://www.ebu.ch/about/members"
+EFG_CONTRIBUTING_ARCHIVES_SOURCE_URL = "https://ftp.europeanfilmgateway.eu/about_efg/contributing_archives"
 FIAF_SOURCE_URL = "https://www.fiafnet.org/pages/Community/Members.html"
 EUSCREEN_SOURCE_URL = "https://euscreen.eu/"
 FIAT_IFTA_SOURCE_URL = "https://fiatifta.org/membership/members/"
+INEDITS_SOURCE_URL = "https://inedits.eu/en/Members/"
 
 EUROPE_RESEARCH_COLUMNS = [
     "unit_code",
@@ -60,10 +63,16 @@ PROTOCOLLED_EUROPEAN_CODES = {
 }
 
 DIRECTORY_EXPANSION_CODES = {
-    "ace-members",
+    "efg-contributing-archives",
     "fiaf-europe-members",
     "euscreen-network-members",
     "fiat-ifta-members",
+    "inedits-members",
+}
+
+DOCUMENTED_SWEEP_SOURCE_CODES = {
+    "ace-members",
+    "ebu-public-service-media-members",
 }
 
 EUROPEANA_AGGREGATOR_ROWS = [
@@ -124,6 +133,18 @@ EUROPEAN_DIRECTORY_ROWS = [
         "evidence_reference": "ACE se apresenta como associação de 49 arquivos fílmicos europeus.",
     },
     {
+        "unit_code": "efg-contributing-archives",
+        "unit_label": "European Film Gateway - contributing archives",
+        "unit_type": "diretorio_de_arquivos_filmicos",
+        "source_family": "EFG",
+        "country_or_scope": "Europa",
+        "territorial_scope": "Europa",
+        "source_url": EFG_CONTRIBUTING_ARCHIVES_SOURCE_URL,
+        "audiovisual_relevance": "arquivos fílmicos e coleções com registros de vídeo no European Film Gateway",
+        "coverage_hint": "lista pública de arquivos contribuintes do European Film Gateway",
+        "evidence_reference": "EFG mantém página pública de contributing archives com links de coleção.",
+    },
+    {
         "unit_code": "fiaf-europe-members",
         "unit_label": "FIAF - membros europeus",
         "unit_type": "diretorio_de_arquivos_filmicos",
@@ -158,6 +179,30 @@ EUROPEAN_DIRECTORY_ROWS = [
         "audiovisual_relevance": "arquivos televisivos, multimídia e instituições de mídia com imagem em movimento",
         "coverage_hint": "diretório internacional com múltiplos membros europeus relevantes ao audiovisual televisivo",
         "evidence_reference": "FIAT/IFTA lista serviços de arquivo de organizações de radiodifusão e arquivos de programas televisivos.",
+    },
+    {
+        "unit_code": "inedits-members",
+        "unit_label": "INEDITS - Amateur Films / Memory of Europe",
+        "unit_type": "diretorio_de_arquivos_audiovisuais",
+        "source_family": "INEDITS",
+        "country_or_scope": "Europa",
+        "territorial_scope": "Europa",
+        "source_url": INEDITS_SOURCE_URL,
+        "audiovisual_relevance": "arquivos de filmes amadores, familiares e memória audiovisual regional",
+        "coverage_hint": "rede europeia de membros institucionais e individuais ligados ao filme amador",
+        "evidence_reference": "INEDITS mantém página pública de membros com instituições de preservação audiovisual.",
+    },
+    {
+        "unit_code": "ebu-public-service-media-members",
+        "unit_label": "EBU - public service media members",
+        "unit_type": "diretorio_de_emissoras_publicas",
+        "source_family": "EBU",
+        "country_or_scope": "Europa / área europeia de radiodifusão",
+        "territorial_scope": "Europa / área europeia de radiodifusão",
+        "source_url": EBU_MEMBERS_SOURCE_URL,
+        "audiovisual_relevance": "emissoras públicas com potencial arquivo audiovisual, mas nem sempre com acervo público coletável",
+        "coverage_hint": "lista de membros de mídia pública; fonte contextual para localizar exceções fora de FIAT/IFTA",
+        "evidence_reference": "EBU lista 68 membros representando 113 organizações em 56 países.",
     },
 ]
 
@@ -235,6 +280,43 @@ EUROPEAN_INDIVIDUAL_ARCHIVE_ROWS = [
     ("euscreen-utrecht-university", "Utrecht University", "instituicao_audiovisual_europeia", "EUscreen", "Países Baixos", "https://euscreen.eu/full-members/"),
 ]
 
+EUROPEAN_COMPLEMENTARY_ARCHIVE_ROWS = [
+    ("efg-aamod", "Archivio Audiovisivo del movimento operaio e democratico", "arquivo_audiovisual_individual", "EFG", "Itália", "https://www.europeanfilmgateway.eu/search-efg/AAMOD"),
+    ("efg-arxiu-mallorca", "Arxiu del So i de la Imatge de Mallorca", "arquivo_audiovisual_individual", "EFG", "Mallorca / Espanha", "https://www.europeanfilmgateway.eu/search-efg/Arxiu%20del%20So%20i%20de%20la%20Imatge%20de%20Mallorca"),
+    ("efg-crnogorska-kinoteka", "Crnogorska Kinoteka", "arquivo_audiovisual_individual", "EFG", "Montenegro", "https://www.europeanfilmgateway.eu/search-efg/Crnogorska%20Kinoteka"),
+    ("efg-deutsches-historisches-museum", "Deutsches Historisches Museum", "arquivo_audiovisual_individual", "EFG", "Alemanha", "https://www.dhm.de"),
+    ("efg-friedrich-wilhelm-murnau-stiftung", "Friedrich-Wilhelm-Murnau-Stiftung", "arquivo_audiovisual_individual", "EFG", "Alemanha", "https://www.murnau-stiftung.de"),
+    ("efg-landesfilmsammlung-baden-wurttemberg", "Landesfilmsammlung Baden-Württemberg", "arquivo_audiovisual_individual", "EFG", "Baden-Württemberg / Alemanha", "https://www.europeanfilmgateway.eu/search-efg/landesfilmsammlung%20lbw"),
+    ("inedits-ad-libitum", "Ad Libitum Workshop", "arquivo_audiovisual_individual", "INEDITS", "França", "http://www.adlibitum.saintmarcellin-vercors-isere.fr"),
+    ("inedits-archipop", "ARCHIPOP", "arquivo_audiovisual_individual", "INEDITS", "França", "https://archipop.org"),
+    ("inedits-audiovisual-institute-monaco", "Audiovisual Institute of Monaco", "arquivo_audiovisual_individual", "INEDITS", "Mônaco", "https://institut-audiovisuel.mc"),
+    ("inedits-autrefois-geneve", "Autrefois Genève Foundation", "arquivo_audiovisual_individual", "INEDITS", "Suíça", "https://www.autrefoisgeneve.ch/"),
+    ("inedits-ciclic-centre-val-de-loire", "CICLIC - Centre-Val-de-Loire", "arquivo_audiovisual_individual", "INEDITS", "França", "http://www.ciclic.fr/"),
+    ("inedits-cine-archives", "Ciné-Archives", "arquivo_audiovisual_individual", "INEDITS", "França", "http://www.cinearchives.org/"),
+    ("inedits-cineam", "CINÉAM", "arquivo_audiovisual_individual", "INEDITS", "França", "http://www.cineam.asso.fr/"),
+    ("inedits-cinematheque-bretagne", "Cinémathèque de Bretagne", "arquivo_audiovisual_individual", "INEDITS", "Bretanha / França", "https://www.cinematheque-bretagne.bzh"),
+    ("inedits-cinematheque-corse", "Cinémathèque de Corse", "arquivo_audiovisual_individual", "INEDITS", "Córsega / França", "https://casadilume.corse.fr/"),
+    ("inedits-cinematheque-nouvelle-aquitaine", "Cinémathèque de Nouvelle-Aquitaine", "arquivo_audiovisual_individual", "INEDITS", "Nova Aquitânia / França", "https://cdna.memoirefilmiquenouvelleaquitaine.fr/presentation"),
+    ("inedits-cinematheque-pays-savoie-ain", "Cinémathèque des Pays de Savoie et de l'Ain", "arquivo_audiovisual_individual", "INEDITS", "Saboia e Ain / França", "https://www.letelepherique.org/"),
+    ("inedits-cinematheque-saint-etienne", "Cinémathèque of Saint-Etienne", "arquivo_audiovisual_individual", "INEDITS", "França", "https://cinematheque.saint-etienne.fr"),
+    ("inedits-cinememoire", "Cinémémoire", "arquivo_audiovisual_individual", "INEDITS", "Provence / França", "https://cinememoire.net/"),
+    ("inedits-county-archives-puy-de-dome", "County Archives of Puy-de-Dôme", "arquivo_audiovisual_individual", "INEDITS", "Puy-de-Dôme / França", "https://inedits.eu/en/inedits_content/the-archives-et-cinema-programme/"),
+    ("inedits-cinematheque-monts-jura", "La Cinémathèque des Monts Jura", "arquivo_audiovisual_individual", "INEDITS", "Jura / França", "https://cinematheque-des-monts-jura.jimdosite.com/"),
+    ("inedits-far", "Fond Audiovisuel de Recherche", "arquivo_audiovisual_individual", "INEDITS", "Charente-Maritime / França", "http://www.far-asso.fr/"),
+    ("inedits-home-movies", "Fondazione Home Movies / Archivio Nazionale del film di Famiglia", "arquivo_audiovisual_individual", "INEDITS", "Itália", "https://homemovies.it/"),
+    ("inedits-forum-des-images", "Forum des images", "arquivo_audiovisual_individual", "INEDITS", "Paris / França", "http://www.forumdesimages.fr/"),
+    ("inedits-image-est", "Image'Est", "arquivo_audiovisual_individual", "INEDITS", "Grand Est / França", "http://www.image-est.fr/"),
+    ("inedits-jean-vigo-institute", "Jean Vigo Institute", "arquivo_audiovisual_individual", "INEDITS", "França", "https://www.inst-jeanvigo.eu/"),
+    ("inedits-manche-regional-archives", "Manche Regional Archives", "arquivo_audiovisual_individual", "INEDITS", "Manche / França", "https://www.archives-manche.fr/"),
+    ("inedits-mira", "MIRA", "arquivo_audiovisual_individual", "INEDITS", "Alsácia / França", "https://www.miralsace.eu/"),
+    ("inedits-national-library-france-video", "National Library of France - Sound, Video and Multimedia Department", "arquivo_audiovisual_individual", "INEDITS", "França", "https://www.bnf.fr/fr/departement-son-video-multimedia"),
+    ("inedits-prise-2", "Association Prise 2", "arquivo_audiovisual_individual", "INEDITS", "França", "https://associationprise2.wordpress.com/"),
+    ("inedits-normandie-images", "Normandie Images", "arquivo_audiovisual_individual", "INEDITS", "Normandia / França", "https://www.memoirenormande.fr/"),
+    ("inedits-peliskan", "Peliskan", "arquivo_audiovisual_individual", "INEDITS", "Bélgica", "https://inedits.eu/en/inedits_content/peliskan/"),
+    ("inedits-simone-de-beauvoir", "Simone de Beauvoir Audiovisual Centre", "arquivo_audiovisual_individual", "INEDITS", "França", "https://www.centre-simone-de-beauvoir.com/"),
+    ("inedits-valais-martigny-media-library", "Valais-Martigny Media Library", "arquivo_audiovisual_individual", "INEDITS", "Valais / Suíça", "https://www.mediatheque.ch/"),
+]
+
 EUROPEAN_BROADCAST_ARCHIVE_ROWS = [
     ("fiat-atresmedia", "Atresmedia", "instituicao_televisiva_com_acervo_audiovisual", "FIAT/IFTA", "Espanha", "https://www.atresmedia.com"),
     ("fiat-bbc", "BBC Archive", "instituicao_televisiva_com_acervo_audiovisual", "FIAT/IFTA", "Reino Unido", "https://www.bbc.co.uk/archive"),
@@ -266,6 +348,8 @@ EUROPEAN_BROADCAST_ARCHIVE_ROWS = [
     ("fiat-tvr", "TVR", "instituicao_televisiva_com_acervo_audiovisual", "FIAT/IFTA", "Romênia", "https://www.tvr.ro"),
     ("fiat-vrt", "VRT", "instituicao_televisiva_com_acervo_audiovisual", "FIAT/IFTA", "Bélgica", "https://www.vrt.be"),
     ("fiat-yle", "Yleisradio Oy / Yle", "instituicao_televisiva_com_acervo_audiovisual", "FIAT/IFTA", "Finlândia", "https://yle.fi"),
+    ("fiat-sportcast", "Sportcast", "instituicao_televisiva_com_acervo_audiovisual", "FIAT/IFTA", "Alemanha", "https://www.sportcast.de"),
+    ("fiat-european-commission-av-service", "European Commission Audiovisual Service", "instituicao_audiovisual_europeia", "FIAT/IFTA", "União Europeia", "https://audiovisual.ec.europa.eu"),
 ]
 
 
@@ -355,6 +439,35 @@ def _classify_research_row(row):
             "inclusion_gate": "não entra como corpus; gera candidatos individuais verificáveis",
             "video_location_status": "nao_aplicavel_diretorio",
             "video_location_strategy": "extrair membros e localizar, em cada instituição, catálogo, página de acervo, player ou API",
+            "blocks_expansion": False,
+        }
+
+    if code in DOCUMENTED_SWEEP_SOURCE_CODES:
+        if code == "ace-members":
+            return {
+                "relationship_to_current_corpus": "fonte audiovisual documentada por rota pública parcial",
+                "organism_status": "fonte_documentada",
+                "queue_layer": "fonte_varrida_documentada",
+                "queue_decision": "coberta_por_rotas_publicas_substitutas",
+                "queue_priority": 6,
+                "queue_reason": "ACE confirma 49 arquivos fílmicos europeus, mas a lista pública de contatos retornou acesso restrito; FIAF, EFG e INEDITS ficam como rotas públicas de expansão.",
+                "next_action": "usar_fiaf_efg_inedits_e_sondagens_por_pais_para_localizar_membros_publicamente_verificaveis",
+                "inclusion_gate": "não entra como corpus; serve como evidência de cobertura institucional e rota complementar",
+                "video_location_status": "lista_publica_restrita",
+                "video_location_strategy": "não inferir membros sem página pública; cruzar com diretórios abertos antes de implantar arquivos individuais",
+                "blocks_expansion": False,
+            }
+        return {
+            "relationship_to_current_corpus": "fonte contextual de varredura",
+            "organism_status": "fonte_documentada",
+            "queue_layer": "fonte_varrida_documentada",
+            "queue_decision": "monitorar_sem_promover_emissoras_genericas_a_corpus",
+            "queue_priority": 7,
+            "queue_reason": "EBU lista emissoras públicas, mas emissora não equivale automaticamente a arquivo audiovisual público coletável.",
+            "next_action": "usar_apenas_para_identificar_excecoes_com_arquivo_publico_validado",
+            "inclusion_gate": "não incorporar sem página de arquivo, catálogo ou rota pública de vídeo",
+            "video_location_status": "fonte_contextual",
+            "video_location_strategy": "cruzar emissoras com FIAT/IFTA, EUscreen ou evidência própria de arquivo público antes de criar corpus",
             "blocks_expansion": False,
         }
 
@@ -498,10 +611,20 @@ def _candidate_rows():
     for row in EUROPEAN_DIRECTORY_ROWS:
         rows.append(_base_row(**{**row, **_classify_research_row(row)}))
 
-    for raw_row in EUROPEAN_INDIVIDUAL_ARCHIVE_ROWS:
+    for raw_row in [*EUROPEAN_INDIVIDUAL_ARCHIVE_ROWS, *EUROPEAN_COMPLEMENTARY_ARCHIVE_ROWS]:
         unit_code, unit_label, unit_type, source_family, country_or_scope, source_url = raw_row
         if active_aliases.get(unit_code, unit_code) in active_codes:
             continue
+        if source_family == "FIAF":
+            evidence_reference = "Lista oficial de membros da FIAF."
+        elif source_family == "EUscreen":
+            evidence_reference = "Página oficial de membros do EUscreen."
+        elif source_family == "EFG":
+            evidence_reference = "Página pública de contributing archives do European Film Gateway."
+        elif source_family == "INEDITS":
+            evidence_reference = "Página pública de membros da INEDITS - Amateur Films / Memory of Europe."
+        else:
+            evidence_reference = "Diretório especializado europeu com evidência audiovisual."
         row = {
             "unit_code": unit_code,
             "unit_label": unit_label,
@@ -511,10 +634,8 @@ def _candidate_rows():
             "territorial_scope": country_or_scope,
             "source_url": source_url,
             "audiovisual_relevance": "arquivo, cinemateca, emissora, instituição de mídia ou acervo audiovisual",
-            "coverage_hint": "instituição individual identificada em diretório europeu especializado",
-            "evidence_reference": (
-                "Lista oficial de membros da FIAF ou página oficial de membros do EUscreen."
-            ),
+            "coverage_hint": f"instituição individual identificada em diretório europeu especializado: {source_family}",
+            "evidence_reference": evidence_reference,
         }
         rows.append(_base_row(**{**row, **_classify_research_row(row)}))
 

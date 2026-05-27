@@ -76,7 +76,7 @@ No estado atual:
 - `INA` está enquadrado como `arquivo/instituição arquivística`;
 - `AAPB` está enquadrado como `agregador audiovisual nacional norte-americano incorporado`;
 - `ArchiveGrid`, `Archives Hub`, `FranceArchives` e `Iberarchivos` permanecem como unidades documentadas, sem corpus ativo, com abas próprias de protocolo explicando as tentativas de rota e a negativa metodológica;
-- `FilmArchives Online`, `EFG1914`, `VICTOR-E`, `ACE`, `European Audiovisual Observatory` e `Archivportal-D` aparecem na auditoria de lacunas europeias como unidades cobertas, legadas, contextuais ou candidatas futuras, sem bloquear o MVP;
+- `FilmArchives Online`, `EFG1914`, `VICTOR-E`, `ACE`, `INEDITS`, `EBU`, `European Audiovisual Observatory` e `Archivportal-D` aparecem na auditoria ou na fila europeia como unidades cobertas, fontes documentadas, contextuais ou candidatas futuras, sem bloquear o MVP;
 - a interface permite trabalhar com o todo, por categoria analítica e por corpus individual, sem fundir esses níveis de análise.
 
 ## Linha do tempo e possíveis extinções
@@ -498,7 +498,7 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `I
 22. A fila de fechamento europeu ordena candidatos e corpora por prioridade, separando validação total, monitoramento protocolado sem incorporação no MVP e monitoramento mensal.
 23. As unidades identificadas, mas não incorporadas ao corpus ativo, ganham registro e aba próprios, com motivo da negativa, rota de coleta tentada, tentativas técnicas e explicação metodológica.
 24. A auditoria de lacunas europeias separa o que ficou coberto por corpora ativos, o que é legado, o que é fonte contextual e o que é candidato nacional futuro, evitando afirmar exaustividade absoluta.
-25. A fila ampliada de pesquisa europeia reúne agregadores da Europeana, redes audiovisuais, diretórios de cinematecas e portais nacionais para orientar incorporações uma por uma, sem afirmar que todos os arquivos individuais europeus já foram identificados.
+25. A fila ampliada de pesquisa europeia reúne agregadores da Europeana, redes audiovisuais, diretórios de cinematecas, arquivos contribuintes do European Film Gateway, membros INEDITS e portais nacionais para orientar incorporações uma por uma.
 26. O protótipo `ArchiveGrid` testa página pública, buscas por termos audiovisuais, rotas candidatas de API e referência institucional da OCLC; como a coleta simples ficou bloqueada, a unidade permanece protocolada fora do corpus ativo.
 27. O protótipo `Iberarchivos` confirma sinais audiovisuais contextuais e preserva a unidade como radar ibero-americano, sem promovê-la a corpus ativo.
 28. O corpus `AAPB` entra como primeiro agregador audiovisual extraeuropeu incorporado, usando API JSON/PBCore em amostra leve para preservar reprodutibilidade no MVP.
@@ -514,4 +514,4 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `I
 
 ## Próximo passo sugerido
 
-Com a Europa em fechamento metodológico progressivo, a próxima etapa operacional é trabalhar a fila definitiva europeia: expandir diretórios como `ACE`, `FIAF`, `EUscreen Network` e `FIAT/IFTA`, avaliar arquivos audiovisuais individuais um por um, registrar cada negativa quando a rota falhar e só depois abrir América do Sul.
+Com a varredura europeia de fontes oficiais concluída para o MVP, a próxima etapa operacional é implantar a fila definitiva um por um: validar rota pública, catálogo, vídeo, API ou negativa metodológica para cada arquivo/repositório antes de abrir América do Sul.

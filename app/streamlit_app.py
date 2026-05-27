@@ -1921,7 +1921,8 @@ def render_observatory_overview_tab():
     st.caption(
         "Esta fila é o mecanismo de trabalho para identificar agregadores, redes, diretórios e arquivos "
         "audiovisuais europeus sem chute: agregadores primeiro, diretórios especializados depois, "
-        "arquivos individuais por expansão controlada. A presença na fila não significa incorporação "
+        "arquivos individuais por expansão controlada. A varredura de fontes oficiais inclui Europeana, "
+        "FIAF, EFG, EUscreen, FIAT/IFTA, INEDITS, ACE e EBU. A presença na fila não significa incorporação "
         "automática: cada item precisa virar corpus ativo ou protocolo de não incorporação."
     )
     if europe_research_registry_df is None or europe_research_registry_df.empty:

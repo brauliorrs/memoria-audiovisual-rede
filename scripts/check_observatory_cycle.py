@@ -296,19 +296,18 @@ def main():
         print("- a pesquisa europeia ampliada nao foi materializada corretamente")
         return 1
 
-    if "ace-members" not in europe_research_registry_df.get(
-        "unit_code",
-        pd.Series(dtype="object"),
-    ).astype(str).tolist():
-        print("- a pesquisa europeia nao registrou a fonte ACE")
-        return 1
-
-    if "fiat-ifta-members" not in europe_research_registry_df.get(
-        "unit_code",
-        pd.Series(dtype="object"),
-    ).astype(str).tolist():
-        print("- a pesquisa europeia nao registrou a fonte FIAT/IFTA")
-        return 1
+    europe_research_codes = europe_research_registry_df.get("unit_code", pd.Series(dtype="object")).astype(str).tolist()
+    for required_source_code in (
+        "ace-members",
+        "efg-contributing-archives",
+        "fiaf-europe-members",
+        "fiat-ifta-members",
+        "inedits-members",
+        "ebu-public-service-media-members",
+    ):
+        if required_source_code not in europe_research_codes:
+            print(f"- a pesquisa europeia nao registrou a fonte {required_source_code}")
+            return 1
 
     if "video_location_candidate_url" not in europe_research_queue_df.columns:
         print("- a fila europeia nao materializou o campo de localizacao inicial dos videos")
