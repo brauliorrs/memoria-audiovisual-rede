@@ -77,7 +77,7 @@ No estado atual:
 - `INA` está enquadrado como `arquivo/instituição arquivística`;
 - `ARCHIPOP` está enquadrado como `arquivo audiovisual institucional europeu incorporado`;
 - `AAPB` está enquadrado como `agregador audiovisual nacional norte-americano incorporado`;
-- `ArchiveGrid`, `Archives Hub`, `FranceArchives` e `Iberarchivos` permanecem como unidades documentadas, sem corpus ativo, com abas próprias de protocolo explicando as tentativas de rota e a negativa metodológica;
+- `Ad Libitum Workshop`, `ArchiveGrid`, `Archives Hub`, `FranceArchives` e `Iberarchivos` permanecem como unidades documentadas, sem corpus ativo, com abas próprias de protocolo explicando as tentativas de rota e a negativa metodológica;
 - `FilmArchives Online`, `EFG1914`, `VICTOR-E`, `ACE`, `INEDITS`, `EBU`, `European Audiovisual Observatory` e `Archivportal-D` aparecem na auditoria ou na fila europeia como unidades cobertas, fontes documentadas, contextuais ou candidatas futuras, sem bloquear o MVP;
 - a interface permite trabalhar com o todo, por categoria analítica e por corpus individual, sem fundir esses níveis de análise.
 
@@ -118,6 +118,7 @@ Scripts principais:
 - `python scripts/run_european_film_gateway_pipeline.py`
 - `python scripts/run_europeana_pipeline.py`
 - `python scripts/run_ppa_pipeline.py`
+- `python scripts/run_adlibitum_protocol.py`
 - `python scripts/run_archipop_pipeline.py`
 - `python scripts/run_aapb_pipeline.py`
 - `python scripts/build_europe_closure_report.py`
@@ -157,6 +158,7 @@ Artefatos globais do organismo:
 - `data/output/observatorio_protocolo_francearchives.csv`
 - `data/output/observatorio_protocolo_european_film_gateway.csv`
 - `data/output/observatorio_protocolo_europeana.csv`
+- `data/output/observatorio_protocolo_adlibitum.csv`
 - `data/output/observatorio_protocolo_archivegrid.csv`
 - `data/output/observatorio_protocolo_iberarchivos.csv`
 - `data/output/observatorio_auditoria_lacunas_europa.csv`
@@ -520,7 +522,8 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `I
 26. O protótipo `ArchiveGrid` testa página pública, buscas por termos audiovisuais, rotas candidatas de API e referência institucional da OCLC; como a coleta simples ficou bloqueada, a unidade permanece protocolada fora do corpus ativo.
 27. O protótipo `Iberarchivos` confirma sinais audiovisuais contextuais e preserva a unidade como radar ibero-americano, sem promovê-la a corpus ativo.
 28. O corpus `ARCHIPOP` entra como primeiro arquivo audiovisual individual europeu implantado a partir da fila ampliada, com coleta por catálogo público HTML e fichas com player embutido, sem download de mídia.
-29. O corpus `AAPB` entra como primeiro agregador audiovisual extraeuropeu incorporado, usando API JSON/PBCore em amostra leve para preservar reprodutibilidade no MVP.
+29. O protocolo `Ad Libitum Workshop` documenta arquivo audiovisual individual confirmado por INEDITS, mas mantido fora do corpus ativo porque o site oficial não respondeu e não houve catálogo público, player, API ou fichas coletáveis nesta rodada.
+30. O corpus `AAPB` entra como primeiro agregador audiovisual extraeuropeu incorporado, usando API JSON/PBCore em amostra leve para preservar reprodutibilidade no MVP.
 
 ## Qualidade do repositório
 
@@ -533,4 +536,4 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `I
 
 ## Próximo passo sugerido
 
-Com a varredura europeia de fontes oficiais concluída para o MVP, a próxima etapa operacional é implantar a fila definitiva um por um: validar rota pública, catálogo, vídeo, API ou negativa metodológica para cada arquivo/repositório antes de abrir América do Sul.
+Com a varredura europeia de fontes oficiais concluída para o MVP, a próxima etapa operacional é seguir a fila definitiva um por um. Após ARCHIPOP incorporado e Ad Libitum protocolado sem incorporação, o próximo candidato individual implantável é o `Archivio Audiovisivo del movimento operaio e democratico`.

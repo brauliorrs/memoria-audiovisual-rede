@@ -15,6 +15,7 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from memoria_audiovisual import analysis as analysis_utils
+from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
 from memoria_audiovisual.iberarchivos_protocol import IBERARCHIVOS_PROTOCOL_FILENAME
 from memoria_audiovisual.corpora import (
@@ -334,6 +335,7 @@ def load_protocolled_excluded_units():
 
 def load_unit_protocol_df(unit_code):
     protocol_files = {
+        "inedits-ad-libitum": ADLIBITUM_PROTOCOL_FILENAME,
         "archivegrid": ARCHIVEGRID_PROTOCOL_FILENAME,
         "archives-hub": ARCHIVESHUB_PROTOCOL_FILENAME,
         "francearchives": FRANCEARCHIVES_PROTOCOL_FILENAME,

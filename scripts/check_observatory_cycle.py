@@ -14,6 +14,7 @@ if str(SRC_DIR) not in sys.path:
 
 from memoria_audiovisual.config import OUTPUT_DIR
 from memoria_audiovisual.corpora import OBSERVATORY_PROFILE, list_active_corpora
+from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
 from memoria_audiovisual.discovery import (
     DISCOVERY_QUEUE_FILENAME,
@@ -99,6 +100,7 @@ def main():
     francearchives_protocol_path = OUTPUT_DIR / FRANCEARCHIVES_PROTOCOL_FILENAME
     european_film_gateway_protocol_path = OUTPUT_DIR / EUROPEAN_FILM_GATEWAY_PROTOCOL_FILENAME
     europeana_protocol_path = OUTPUT_DIR / EUROPEANA_PROTOCOL_FILENAME
+    adlibitum_protocol_path = OUTPUT_DIR / ADLIBITUM_PROTOCOL_FILENAME
     archivegrid_protocol_path = OUTPUT_DIR / ARCHIVEGRID_PROTOCOL_FILENAME
     iberarchivos_protocol_path = OUTPUT_DIR / IBERARCHIVOS_PROTOCOL_FILENAME
     europe_closure_matrix_path = OUTPUT_DIR / EUROPE_CLOSURE_MATRIX_FILENAME
@@ -128,6 +130,7 @@ def main():
         (francearchives_protocol_path, "Prototipo de protocolo FranceArchives"),
         (european_film_gateway_protocol_path, "Prototipo de protocolo European Film Gateway"),
         (europeana_protocol_path, "Prototipo de protocolo Europeana"),
+        (adlibitum_protocol_path, "Protocolo Ad Libitum Workshop"),
         (archivegrid_protocol_path, "Prototipo de protocolo ArchiveGrid"),
         (iberarchivos_protocol_path, "Prototipo de protocolo Iberarchivos"),
         (europe_closure_matrix_path, "Matriz de fechamento europeu"),
@@ -161,6 +164,7 @@ def main():
     francearchives_protocol_df = pd.read_csv(francearchives_protocol_path)
     european_film_gateway_protocol_df = pd.read_csv(european_film_gateway_protocol_path)
     europeana_protocol_df = pd.read_csv(europeana_protocol_path)
+    adlibitum_protocol_df = pd.read_csv(adlibitum_protocol_path)
     archivegrid_protocol_df = pd.read_csv(archivegrid_protocol_path)
     iberarchivos_protocol_df = pd.read_csv(iberarchivos_protocol_path)
     europe_closure_matrix_df = pd.read_csv(europe_closure_matrix_path)
@@ -205,6 +209,7 @@ def main():
     print(f"- sondagens do protocolo FranceArchives: {len(francearchives_protocol_df)}")
     print(f"- sondagens do protocolo European Film Gateway: {len(european_film_gateway_protocol_df)}")
     print(f"- sondagens do protocolo Europeana: {len(europeana_protocol_df)}")
+    print(f"- sondagens do protocolo Ad Libitum Workshop: {len(adlibitum_protocol_df)}")
     print(f"- sondagens do protocolo ArchiveGrid: {len(archivegrid_protocol_df)}")
     print(f"- sondagens do protocolo Iberarchivos: {len(iberarchivos_protocol_df)}")
     print(f"- unidades na matriz de fechamento europeu: {len(europe_closure_matrix_df)}")
@@ -270,6 +275,10 @@ def main():
 
     if europeana_protocol_df.empty:
         print("- o prototipo de protocolo Europeana esta vazio")
+        return 1
+
+    if adlibitum_protocol_df.empty:
+        print("- o protocolo Ad Libitum Workshop esta vazio")
         return 1
 
     if archivegrid_protocol_df.empty:
@@ -340,6 +349,7 @@ def main():
     print("- o prototipo de protocolo FranceArchives foi materializado com sucesso")
     print("- o prototipo de protocolo European Film Gateway foi materializado com sucesso")
     print("- o prototipo de protocolo Europeana foi materializado com sucesso")
+    print("- o protocolo Ad Libitum Workshop foi materializado com sucesso")
     print("- o prototipo de protocolo ArchiveGrid foi materializado com sucesso")
     print("- o prototipo de protocolo Iberarchivos foi materializado com sucesso")
     print("- o fechamento europeu foi materializado com sucesso")

@@ -24,6 +24,7 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertIn("fiaf-europe-members", unit_codes)
         self.assertIn("fiat-ifta-members", unit_codes)
         self.assertIn("inedits-members", unit_codes)
+        self.assertIn("inedits-ad-libitum", unit_codes)
         self.assertIn("ebu-public-service-media-members", unit_codes)
         self.assertIn("german-digital-library", unit_codes)
         self.assertIn("fiaf-cinemateca-portuguesa", unit_codes)
@@ -35,6 +36,9 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertNotIn("inedits-archipop", unit_codes)
         archipop_row = registry_df.loc[registry_df["unit_code"] == "archipop"].iloc[0]
         self.assertEqual(archipop_row["unit_type"], "corpus_ativo")
+        adlibitum_row = registry_df.loc[registry_df["unit_code"] == "inedits-ad-libitum"].iloc[0]
+        self.assertEqual(adlibitum_row["organism_status"], "protocolado")
+        self.assertEqual(adlibitum_row["video_location_status"], "rota_nao_estavel")
         self.assertFalse(
             registry_df["unit_type"].astype(str).str.contains("sonoro|musical", case=False).any()
         )

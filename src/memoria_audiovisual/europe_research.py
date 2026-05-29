@@ -60,6 +60,7 @@ EUROPE_RESEARCH_SUMMARY_COLUMNS = [
 PROTOCOLLED_EUROPEAN_CODES = {
     "archives-hub",
     "francearchives",
+    "inedits-ad-libitum",
 }
 
 DIRECTORY_EXPANSION_CODES = {

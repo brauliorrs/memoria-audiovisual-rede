@@ -13,6 +13,7 @@ if str(SRC_DIR) not in sys.path:
 
 from memoria_audiovisual.config import OUTPUT_DIR
 from memoria_audiovisual.corpora import list_active_corpora
+from memoria_audiovisual.adlibitum_protocol import write_adlibitum_protocol_probe
 from memoria_audiovisual.archivegrid_protocol import write_archivegrid_protocol_probe
 from memoria_audiovisual.discovery import write_discovery_outputs
 from memoria_audiovisual.european_aggregators import write_european_aggregator_evaluation
@@ -76,6 +77,7 @@ def main():
     write_francearchives_protocol_probe(OUTPUT_DIR)
     write_european_film_gateway_protocol_probe(OUTPUT_DIR)
     write_europeana_protocol_probe(OUTPUT_DIR)
+    write_adlibitum_protocol_probe(OUTPUT_DIR)
     write_archivegrid_protocol_probe(OUTPUT_DIR)
     write_iberarchivos_protocol_probe(OUTPUT_DIR)
     write_europe_closure_outputs(OUTPUT_DIR)
