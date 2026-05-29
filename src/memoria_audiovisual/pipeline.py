@@ -4,6 +4,9 @@ from .analysis import filter_in_scope_video_links_df
 from .aapb import collect_aapb_dataset
 from .aapb_exports import build_aapb_analysis_extra_sheets
 from .aapb_exports import write_aapb_analysis_outputs
+from .aamod import collect_aamod_dataset
+from .aamod_exports import build_aamod_analysis_extra_sheets
+from .aamod_exports import write_aamod_analysis_outputs
 from .ape import collect_ape_dataset
 from .ape_exports import build_ape_analysis_extra_sheets
 from .ape_exports import write_ape_analysis_outputs
@@ -12,6 +15,7 @@ from .archipop_exports import build_archipop_analysis_extra_sheets
 from .archipop_exports import write_archipop_analysis_outputs
 from .config import (
     AAPB_FAQ_URL,
+    AAMOD_HOME_URL,
     APE_CONTENT_PDF_URL,
     ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
@@ -39,6 +43,7 @@ from .ina_exports import build_ina_analysis_extra_sheets
 from .ina_exports import write_ina_analysis_outputs
 from .output_files import (
     AAPB_OUTPUT_FILES,
+    AAMOD_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
@@ -57,6 +62,7 @@ from .ppa_exports import write_ppa_analysis_outputs
 from .reporting import build_report_payload, save_csv, save_json_report, save_txt_report
 from .snapshot_metadata import (
     build_aapb_snapshot_metadata,
+    build_aamod_snapshot_metadata,
     build_ape_snapshot_metadata,
     build_archipop_snapshot_metadata,
     build_euscreen_snapshot_metadata,
@@ -221,6 +227,11 @@ ARCHIPOP_INTERNAL_PAGE_FIELDS = [
     "warning",
     "error",
 ]
+
+AAMOD_INSTITUTION_FIELDS = [field.replace("archipop_detail_url", "aamod_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS]
+AAMOD_SUMMARY_FIELDS = [field.replace("archipop_detail_url", "aamod_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS]
+AAMOD_VIDEO_LINK_FIELDS = [field.replace("archipop_detail_url", "aamod_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS]
+AAMOD_INTERNAL_PAGE_FIELDS = [field.replace("archipop_detail_url", "aamod_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS]
 
 INA_INSTITUTION_FIELDS = [
     "institution",
@@ -795,6 +806,25 @@ def run_archipop_pipeline():
     )
 
 
+def run_aamod_pipeline():
+    _run_corpus_pipeline(
+        source_label="AAMOD",
+        source_url=AAMOD_HOME_URL,
+        collect_dataset=collect_aamod_dataset,
+        institution_fields=AAMOD_INSTITUTION_FIELDS,
+        summary_fields=AAMOD_SUMMARY_FIELDS,
+        video_link_fields=AAMOD_VIDEO_LINK_FIELDS,
+        internal_page_fields=AAMOD_INTERNAL_PAGE_FIELDS,
+        output_files=AAMOD_OUTPUT_FILES,
+        analysis_output_writer=write_aamod_analysis_outputs,
+        analysis_extra_sheets_builder=build_aamod_analysis_extra_sheets,
+        snapshot_builder=build_aamod_snapshot_metadata,
+        report_title="RELATORIO - AAMOD",
+        institutions_sheet_title="AAMOD Institutions",
+        generated_by="scripts/run_aamod_pipeline.py",
+    )
+
+
 def run_euscreen_pipeline():
     _run_corpus_pipeline(
         source_label="EUscreen",
@@ -911,6 +941,7 @@ def run_aapb_pipeline():
 
 __all__ = [
     "run_aapb_pipeline",
+    "run_aamod_pipeline",
     "run_archipop_pipeline",
     "run_pipeline",
     "run_ina_pipeline",

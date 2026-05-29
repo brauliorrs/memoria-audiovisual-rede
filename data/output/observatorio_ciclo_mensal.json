@@ -2,34 +2,34 @@
   "organism": "Memória Audiovisual em Rede",
   "role": "organismo agregador mundial em construção",
   "refresh_cadence": "mensal",
-  "generated_at": "2026-05-29T16:53:00Z",
-  "started_at": "2026-05-29T16:50:11Z",
-  "finished_at": "2026-05-29T16:53:00Z",
+  "generated_at": "2026-05-29T17:38:22Z",
+  "started_at": "2026-05-29T17:36:37Z",
+  "finished_at": "2026-05-29T17:38:22Z",
   "cycle_type": "mensal",
   "cycle_scope": "parcial",
-  "active_corpora_total": 9,
+  "active_corpora_total": 10,
   "selected_corpora_total": 1,
   "selected_corpora_codes": [
-    "archipop"
+    "aamod"
   ],
   "successful_corpora_total": 1,
   "failed_corpora_total": 0,
   "cycle_results": [
     {
-      "code": "archipop",
-      "label": "ARCHIPOP",
-      "short_label": "ARCHIPOP",
+      "code": "aamod",
+      "label": "Archivio Audiovisivo del movimento operaio e democratico",
+      "short_label": "AAMOD",
       "category_code": "institution",
       "coverage_level": "instituição individual europeia",
       "status": "success",
-      "refresh_started_at": "2026-05-29T16:51:54Z",
-      "refresh_finished_at": "2026-05-29T16:53:00Z",
-      "snapshot_generated_at": "2026-05-29T16:52:58Z",
-      "observation_key": "archipop:2026-05-29T16:52:58Z",
+      "refresh_started_at": "2026-05-29T17:38:06Z",
+      "refresh_finished_at": "2026-05-29T17:38:22Z",
+      "snapshot_generated_at": "2026-05-29T17:38:20Z",
+      "observation_key": "aamod:2026-05-29T17:38:20Z",
       "source_status_date": "",
       "institutions": 1,
-      "video_links_total": 58,
-      "videos_in_curatorial_catalog": 58,
+      "video_links_total": 6,
+      "videos_in_curatorial_catalog": 6,
       "error": ""
     }
   ]

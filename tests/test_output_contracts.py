@@ -3,6 +3,7 @@ import unittest
 from memoria_audiovisual.dashboard_data import DASHBOARD_SOURCE_KEYS
 from memoria_audiovisual.output_files import (
     AAPB_OUTPUT_FILES,
+    AAMOD_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
@@ -12,6 +13,7 @@ from memoria_audiovisual.output_files import (
     PARES_OUTPUT_FILES,
     PPA_OUTPUT_FILES,
     list_aapb_output_filenames,
+    list_aamod_output_filenames,
     list_ape_output_filenames,
     list_archipop_output_filenames,
     list_euscreen_output_filenames,
@@ -28,6 +30,7 @@ class OutputContractsTests(unittest.TestCase):
         for key in DASHBOARD_SOURCE_KEYS:
             self.assertIn(key, APE_OUTPUT_FILES)
             self.assertIn(key, AAPB_OUTPUT_FILES)
+            self.assertIn(key, AAMOD_OUTPUT_FILES)
             self.assertIn(key, ARCHIPOP_OUTPUT_FILES)
             self.assertIn(key, EUROPEAN_FILM_GATEWAY_OUTPUT_FILES)
             self.assertIn(key, EUROPEANA_OUTPUT_FILES)
@@ -42,6 +45,10 @@ class OutputContractsTests(unittest.TestCase):
 
     def test_archipop_output_manifest_values_are_unique(self):
         filenames = list_archipop_output_filenames()
+        self.assertEqual(len(filenames), len(set(filenames)))
+
+    def test_aamod_output_manifest_values_are_unique(self):
+        filenames = list_aamod_output_filenames()
         self.assertEqual(len(filenames), len(set(filenames)))
 
     def test_required_report_files_exist_in_manifest(self):
@@ -79,6 +86,18 @@ class OutputContractsTests(unittest.TestCase):
             "extinction_signals",
         ]:
             self.assertIn(key, ARCHIPOP_OUTPUT_FILES)
+
+    def test_aamod_required_report_files_exist_in_manifest(self):
+        for key in [
+            "report_json",
+            "report_txt",
+            "report_xlsx",
+            "snapshot_metadata",
+            "timeline_corpus",
+            "timeline_institutions",
+            "extinction_signals",
+        ]:
+            self.assertIn(key, AAMOD_OUTPUT_FILES)
 
     def test_ina_output_manifest_values_are_unique(self):
         filenames = list_ina_output_filenames()

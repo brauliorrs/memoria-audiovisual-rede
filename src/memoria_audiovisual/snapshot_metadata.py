@@ -8,6 +8,7 @@ from .analysis import filter_curatorial_video_catalog
 from .analysis import filter_in_scope_video_links_df
 from .config import (
     AAPB_FAQ_URL,
+    AAMOD_HOME_URL,
     APE_CONTENT_PDF_URL,
     ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
@@ -19,6 +20,7 @@ from .config import (
 )
 from .output_files import (
     AAPB_OUTPUT_FILES,
+    AAMOD_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
@@ -280,6 +282,26 @@ def build_archipop_snapshot_metadata(
     )
 
 
+def build_aamod_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="aamod",
+        source_url=AAMOD_HOME_URL,
+        output_files=AAMOD_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_ape_snapshot_metadata(
     output_dir,
     *,
@@ -333,6 +355,26 @@ def write_archipop_snapshot_metadata(
         dataset="archipop",
         source_url=ARCHIPOP_FILMS_URL,
         output_files=ARCHIPOP_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_aamod_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="aamod",
+        source_url=AAMOD_HOME_URL,
+        output_files=AAMOD_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
@@ -584,6 +626,7 @@ __all__ = [
     "ANALYTIC_OUTPUT_KEYS",
     "RAW_OUTPUT_KEYS",
     "build_aapb_snapshot_metadata",
+    "build_aamod_snapshot_metadata",
     "build_ape_snapshot_metadata",
     "build_archipop_snapshot_metadata",
     "build_euscreen_snapshot_metadata",
@@ -595,6 +638,7 @@ __all__ = [
     "build_snapshot_metadata",
     "save_snapshot_metadata_payload",
     "write_aapb_snapshot_metadata",
+    "write_aamod_snapshot_metadata",
     "write_ape_snapshot_metadata",
     "write_archipop_snapshot_metadata",
     "write_euscreen_snapshot_metadata",

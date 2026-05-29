@@ -417,6 +417,8 @@ def classify_access_surface(row):
         return "Agregador cultural europeu com recorte audiovisual"
     if platform == "American Archive of Public Broadcasting":
         return "acesso em agregador audiovisual"
+    if platform == "AAMOD":
+        return "Arquivo audiovisual institucional"
     if platform == "Archipop":
         return "Arquivo audiovisual institucional"
     if platform in {"PARES", "Portal Português de Arquivos"}:

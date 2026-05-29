@@ -1,0 +1,54 @@
+{
+  "source": "https://aamod.it/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "YouTube": 4,
+    "AAMOD": 2
+  },
+  "top_domains": [
+    [
+      "aamod.it",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Archivio Audiovisivo del movimento operaio e democratico",
+      "slug": "archivio-audiovisivo-del-movimento-operaio-e-democratico",
+      "country": "Italy",
+      "continent": "Europe",
+      "repository_code": "IT-AAMOD",
+      "archive_type": "Institutional audiovisual archive",
+      "aamod_detail_url": "https://aamod.it/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://aamod.it/",
+      "partner_domain": "aamod.it",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://aamod.it/",
+      "video_links_found_total": 6,
+      "embedded_video_signals_total": 4,
+      "candidate_internal_pages": 8,
+      "priority_review": "media",
+      "warning": "Corpus institucional incorporado por superfície oficial do AAMOD. A coleta usa vídeos incorporados na página inicial e fichas públicas do WordPress; o catálogo xDams/Archivi online foi sondado, mas não respondeu de forma estável nesta rodada. Nenhum arquivo de mídia é baixado.",
+      "error": "http://patrimonio.aamod.it/aamod-web/: HTTPConnectionPool(host='patrimonio.aamod.it', port=80): Max retries exceeded with url: /aamod-web/ (Caused by ConnectTimeoutError(<HTTPConnection(host='patrimonio.aamod.it', port=80) at 0x201a521b650>, 'Connection to patrimonio.aamod.it timed out. (connect timeout=6)')); http://opac.aamod.xdams.net/aamod-web/film: HTTPConnectionPool(host='opac.aamod.xdams.net', port=80): Max retries exceeded with url: /aamod-web/film (Caused by NameResolutionError(\"HTTPConnection(host='opac.aamod.xdams.net', port=80): Failed to resolve 'opac.aamod.xdams.net' ([Errno 11001] getaddrinfo failed)\"))"
+    }
+  ]
+}

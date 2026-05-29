@@ -32,6 +32,12 @@ PPA_SEARCH_URL_TEMPLATE = "https://portal.arquivos.pt/search?q={query}"
 AAPB_HOME_URL = "https://americanarchive.org/"
 AAPB_FAQ_URL = "https://americanarchive.org/faq"
 AAPB_API_URL_TEMPLATE = "https://americanarchive.org/api.json?q={query}&rows={rows}"
+AAMOD_HOME_URL = "https://aamod.it/"
+AAMOD_PATRIMONIO_URL = "https://aamod.it/patrimonio/"
+AAMOD_FAQ_URL = "https://aamod.it/faq/"
+AAMOD_WP_FILMS_URL = "https://aamod.it/wp-json/wp/v2/i-nostri-film?per_page=10"
+AAMOD_ARCHIVI_ONLINE_URL = "http://patrimonio.aamod.it/aamod-web/"
+AAMOD_FILMOTECA_OPAC_URL = "http://opac.aamod.xdams.net/aamod-web/film"
 ARCHIPOP_HOME_URL = "https://archipop.org/"
 ARCHIPOP_FILMS_URL = "https://lesfilms.archipop.org/"
 ARCHIPOP_FILMS_LIST_URL_TEMPLATE = "https://lesfilms.archipop.org/les-films-570-0-0-{page}.html"
@@ -75,6 +81,8 @@ VIDEO_PLATFORMS = {
     "portal.arquivos.pt": "Portal Português de Arquivos",
     "americanarchive.org": "American Archive of Public Broadcasting",
     "www.americanarchive.org": "American Archive of Public Broadcasting",
+    "aamod.it": "AAMOD",
+    "www.aamod.it": "AAMOD",
     "archipop.org": "Archipop",
     "lesfilms.archipop.org": "Archipop",
     "diazarchipop.oembed.diazinteregio.org": "Archipop",
@@ -115,5 +123,6 @@ EUROPEANA_OUTPUT_PREFIX = "europeana"
 PARES_OUTPUT_PREFIX = "pares"
 PPA_OUTPUT_PREFIX = "ppa"
 AAPB_OUTPUT_PREFIX = "aapb"
+AAMOD_OUTPUT_PREFIX = "aamod"
 ARCHIPOP_OUTPUT_PREFIX = "archipop"
 OUTPUT_DIR = ROOT_DIR / "data" / "output"

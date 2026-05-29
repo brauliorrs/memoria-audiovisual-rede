@@ -203,6 +203,9 @@ def is_probably_video_link(url, platform=None):
     if platform == "American Archive of Public Broadcasting":
         return path.startswith("/catalog/")
 
+    if platform == "AAMOD":
+        return path.startswith("/i-nostri-film/")
+
     if platform == "Archipop":
         return "les-films-" in path or path.startswith("/embed/")
 

@@ -28,6 +28,8 @@ jobs:
       - name: Compile Python modules
         run: |
           python -m py_compile app/streamlit_app.py
+          python -m py_compile src/memoria_audiovisual/aamod.py
+          python -m py_compile src/memoria_audiovisual/aamod_exports.py
           python -m py_compile src/memoria_audiovisual/adlibitum_protocol.py
           python -m py_compile src/memoria_audiovisual/analysis.py
           python -m py_compile src/memoria_audiovisual/ape_exports.py
@@ -52,6 +54,7 @@ jobs:
           python -m py_compile scripts/build_ina_analytics.py
           python -m py_compile scripts/build_pares_analytics.py
           python -m py_compile scripts/build_europe_closure_report.py
+          python -m py_compile scripts/check_aamod_outputs.py
           python -m py_compile scripts/check_archipop_outputs.py
           python -m py_compile scripts/check_ape_outputs.py
           python -m py_compile scripts/check_euscreen_outputs.py
@@ -63,6 +66,7 @@ jobs:
           python -m py_compile scripts/prototype_archiveshub_protocol.py
           python -m py_compile scripts/prototype_francearchives_protocol.py
           python -m py_compile scripts/run_euscreen_pipeline.py
+          python -m py_compile scripts/run_aamod_pipeline.py
           python -m py_compile scripts/run_adlibitum_protocol.py
           python -m py_compile scripts/run_archipop_pipeline.py
           python -m py_compile scripts/run_ina_pipeline.py

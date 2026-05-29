@@ -1,5 +1,6 @@
 from .config import (
     AAPB_FAQ_URL,
+    AAMOD_HOME_URL,
     APE_CONTENT_PDF_URL,
     ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
@@ -11,6 +12,7 @@ from .config import (
 )
 from .output_files import (
     AAPB_OUTPUT_FILES,
+    AAMOD_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
@@ -20,6 +22,7 @@ from .output_files import (
     PARES_OUTPUT_FILES,
     PPA_OUTPUT_FILES,
     list_aapb_output_filenames,
+    list_aamod_output_filenames,
     list_ape_output_filenames,
     list_archipop_output_filenames,
     list_euscreen_output_filenames,
@@ -243,6 +246,51 @@ CORPORA = {
         "run_script_path": "scripts/run_archipop_pipeline.py",
         "build_script_path": "scripts/run_archipop_pipeline.py",
         "check_script_path": "scripts/check_archipop_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "aamod": {
+        "code": "aamod",
+        "label": "Archivio Audiovisivo del movimento operaio e democratico",
+        "short_label": "AAMOD",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial",
+        "coverage_level": "instituição individual europeia",
+        "scope": "arquivo italiano audiovisual e filmoteca/videoteca institucional",
+        "methodological_unit": "superfície oficial do site, vídeos incorporados e fichas públicas WordPress",
+        "ape_relationship": (
+            "identificado na varredura europeia via European Film Gateway e tratado como "
+            "corpus institucional autônomo"
+        ),
+        "expansion_rationale": (
+            "Entra após validação individual da fila europeia. O catálogo digital xDams é declarado "
+            "pela instituição, mas não respondeu de forma estável; por isso o MVP usa apenas rotas "
+            "oficiais públicas reproduzíveis."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "É um arquivo explicitamente audiovisual. A coleta registra vídeos incorporados no site "
+            "oficial e fichas públicas de filmes, sem baixar mídia e sem inferir cobertura total do catálogo."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero audiovisual, isso indica mudança de rota, bloqueio técnico ou alteração "
+            "estrutural da superfície pública, pois o audiovisual é central ao corpus."
+        ),
+        "source_url": AAMOD_HOME_URL,
+        "output_files": AAMOD_OUTPUT_FILES,
+        "list_output_filenames": list_aamod_output_filenames,
+        "detail_url_field": "aamod_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "página institucional do AAMOD",
+        "content_flag_label": "conteúdo audiovisual publicado na fonte",
+        "website_label": "site institucional do AAMOD",
+        "run_script": "python scripts/run_aamod_pipeline.py",
+        "build_script": "python scripts/run_aamod_pipeline.py",
+        "check_script": "python scripts/check_aamod_outputs.py",
+        "run_script_path": "scripts/run_aamod_pipeline.py",
+        "build_script_path": "scripts/run_aamod_pipeline.py",
+        "check_script_path": "scripts/check_aamod_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },

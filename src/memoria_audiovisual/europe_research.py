@@ -357,6 +357,7 @@ EUROPEAN_BROADCAST_ARCHIVE_ROWS = [
 def _active_european_code_aliases():
     aliases = {
         "archives-portal-europe": "ape",
+        "efg-aamod": "aamod",
         "inedits-archipop": "archipop",
         "the-european-film-gateway": "european-film-gateway",
     }

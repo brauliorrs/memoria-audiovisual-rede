@@ -1,5 +1,6 @@
 from .config import (
     AAPB_OUTPUT_PREFIX,
+    AAMOD_OUTPUT_PREFIX,
     APE_OUTPUT_PREFIX,
     ARCHIPOP_OUTPUT_PREFIX,
     EUSCREEN_OUTPUT_PREFIX,
@@ -62,6 +63,7 @@ def list_output_filenames(output_files):
 
 APE_OUTPUT_FILES = build_output_files(APE_OUTPUT_PREFIX)
 AAPB_OUTPUT_FILES = build_output_files(AAPB_OUTPUT_PREFIX)
+AAMOD_OUTPUT_FILES = build_output_files(AAMOD_OUTPUT_PREFIX)
 ARCHIPOP_OUTPUT_FILES = build_output_files(ARCHIPOP_OUTPUT_PREFIX)
 INA_OUTPUT_FILES = build_output_files(INA_OUTPUT_PREFIX)
 EUSCREEN_OUTPUT_FILES = build_output_files(EUSCREEN_OUTPUT_PREFIX)
@@ -77,6 +79,10 @@ def list_ape_output_filenames():
 
 def list_aapb_output_filenames():
     return list_output_filenames(AAPB_OUTPUT_FILES)
+
+
+def list_aamod_output_filenames():
+    return list_output_filenames(AAMOD_OUTPUT_FILES)
 
 
 def list_archipop_output_filenames():
@@ -109,6 +115,7 @@ def list_ppa_output_filenames():
 
 __all__ = [
     "AAPB_OUTPUT_FILES",
+    "AAMOD_OUTPUT_FILES",
     "APE_OUTPUT_FILES",
     "ARCHIPOP_OUTPUT_FILES",
     "EUSCREEN_OUTPUT_FILES",
@@ -119,6 +126,7 @@ __all__ = [
     "PPA_OUTPUT_FILES",
     "build_output_files",
     "list_aapb_output_filenames",
+    "list_aamod_output_filenames",
     "list_ape_output_filenames",
     "list_archipop_output_filenames",
     "list_euscreen_output_filenames",

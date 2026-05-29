@@ -1,0 +1,168 @@
+{
+  "dataset": "aamod",
+  "generated_at": "2026-05-29T17:38:20Z",
+  "generated_by": "scripts/run_aamod_pipeline.py",
+  "observation_key": "aamod:2026-05-29T17:38:20Z",
+  "source_url": "https://aamod.it/",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-05-29T17:38:20Z",
+  "analytic_outputs_last_modified_at": "2026-05-29T17:38:20Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 6,
+    "videos_in_curatorial_catalog": 6,
+    "visibility_categories": 1,
+    "theme_categories": 2,
+    "archive_type_categories": 1,
+    "platforms_detected": 2,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "aamod_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 358,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "summary": {
+      "filename": "aamod_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1498,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "video_links": {
+      "filename": "aamod_links_video.csv",
+      "exists": true,
+      "size_bytes": 3413,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "internal_pages": {
+      "filename": "aamod_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 3636,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "analytic_summary": {
+      "filename": "aamod_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1903,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "aamod_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 4025,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "availability_summary": {
+      "filename": "aamod_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "availability_reasons": {
+      "filename": "aamod_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "visibility_summary": {
+      "filename": "aamod_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "access_surface_summary": {
+      "filename": "aamod_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 87,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "access_regime_summary": {
+      "filename": "aamod_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "theme_summary": {
+      "filename": "aamod_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "theme_country": {
+      "filename": "aamod_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 85,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "archive_type_summary": {
+      "filename": "aamod_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 63,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "theme_platform": {
+      "filename": "aamod_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 126,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "theme_archive_type": {
+      "filename": "aamod_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 155,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "visibility_archive_type": {
+      "filename": "aamod_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 123,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "timeline_corpus": {
+      "filename": "aamod_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 1105,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "timeline_institutions": {
+      "filename": "aamod_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2545,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "extinction_signals": {
+      "filename": "aamod_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "snapshot_metadata": {
+      "filename": "aamod_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5191,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "report_json": {
+      "filename": "aamod_relatorio.json",
+      "exists": true,
+      "size_bytes": 2263,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "report_txt": {
+      "filename": "aamod_relatorio.txt",
+      "exists": true,
+      "size_bytes": 861,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    },
+    "report_xlsx": {
+      "filename": "aamod_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 23124,
+      "last_modified_at": "2026-05-29T17:38:20Z"
+    }
+  }
+}
