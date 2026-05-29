@@ -30,6 +30,8 @@ jobs:
           python -m py_compile app/streamlit_app.py
           python -m py_compile src/memoria_audiovisual/analysis.py
           python -m py_compile src/memoria_audiovisual/ape_exports.py
+          python -m py_compile src/memoria_audiovisual/archipop.py
+          python -m py_compile src/memoria_audiovisual/archipop_exports.py
           python -m py_compile src/memoria_audiovisual/dashboard_data.py
           python -m py_compile src/memoria_audiovisual/discovery.py
           python -m py_compile src/memoria_audiovisual/european_aggregators.py
@@ -49,6 +51,7 @@ jobs:
           python -m py_compile scripts/build_ina_analytics.py
           python -m py_compile scripts/build_pares_analytics.py
           python -m py_compile scripts/build_europe_closure_report.py
+          python -m py_compile scripts/check_archipop_outputs.py
           python -m py_compile scripts/check_ape_outputs.py
           python -m py_compile scripts/check_euscreen_outputs.py
           python -m py_compile scripts/check_ina_outputs.py
@@ -59,6 +62,7 @@ jobs:
           python -m py_compile scripts/prototype_archiveshub_protocol.py
           python -m py_compile scripts/prototype_francearchives_protocol.py
           python -m py_compile scripts/run_euscreen_pipeline.py
+          python -m py_compile scripts/run_archipop_pipeline.py
           python -m py_compile scripts/run_ina_pipeline.py
           python -m py_compile scripts/run_observatory_cycle.py
           python -m py_compile scripts/run_pares_pipeline.py

@@ -32,6 +32,9 @@ PPA_SEARCH_URL_TEMPLATE = "https://portal.arquivos.pt/search?q={query}"
 AAPB_HOME_URL = "https://americanarchive.org/"
 AAPB_FAQ_URL = "https://americanarchive.org/faq"
 AAPB_API_URL_TEMPLATE = "https://americanarchive.org/api.json?q={query}&rows={rows}"
+ARCHIPOP_HOME_URL = "https://archipop.org/"
+ARCHIPOP_FILMS_URL = "https://lesfilms.archipop.org/"
+ARCHIPOP_FILMS_LIST_URL_TEMPLATE = "https://lesfilms.archipop.org/les-films-570-0-0-{page}.html"
 APE_FIND_URL = "https://www.archivesportaleurope.net/find-an-institution/"
 APE_CONTENT_PDF_URL = "https://www.archivesportaleurope.net/uploads/files/20251215_OnlyInstitutionsWithContent.pdf"
 APE_ALL_INSTITUTIONS_PDF_URL = "https://www.archivesportaleurope.net/uploads/files/20251215_AllInstitutions.pdf"
@@ -72,6 +75,9 @@ VIDEO_PLATFORMS = {
     "portal.arquivos.pt": "Portal Português de Arquivos",
     "americanarchive.org": "American Archive of Public Broadcasting",
     "www.americanarchive.org": "American Archive of Public Broadcasting",
+    "archipop.org": "Archipop",
+    "lesfilms.archipop.org": "Archipop",
+    "diazarchipop.oembed.diazinteregio.org": "Archipop",
 }
 
 VIDEO_HINTS_IN_URL = [
@@ -109,4 +115,5 @@ EUROPEANA_OUTPUT_PREFIX = "europeana"
 PARES_OUTPUT_PREFIX = "pares"
 PPA_OUTPUT_PREFIX = "ppa"
 AAPB_OUTPUT_PREFIX = "aapb"
+ARCHIPOP_OUTPUT_PREFIX = "archipop"
 OUTPUT_DIR = ROOT_DIR / "data" / "output"

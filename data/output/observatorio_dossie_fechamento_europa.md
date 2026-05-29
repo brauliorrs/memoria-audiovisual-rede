@@ -2,12 +2,13 @@
 
 ## Status do corpus continental
 - Status de abertura: `autorizada_com_cautela`.
-- Corpora europeus ativos: `7`.
+- Corpora europeus ativos: `8`.
 - Candidatos europeus documentados fora do corpus ativo: `2`.
 - Escopo: Europa como corpus continental em fechamento metodológico progressivo para artigo e projeto de pós-doutorado.
 
 ## Corpus incorporado
 - `ape`: Archives Portal Europe | Agregadores arquivísticos | agregador continental | pipeline_ativo.
+- `archipop`: ARCHIPOP | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `european-film-gateway`: European Film Gateway | Agregadores arquivísticos | agregador audiovisual europeu | pipeline_ativo.
 - `europeana`: Europeana | Agregadores arquivísticos | agregador cultural europeu | pipeline_ativo.
 - `euscreen`: EUscreen | Agregadores arquivísticos | agregador audiovisual europeu | pipeline_ativo.

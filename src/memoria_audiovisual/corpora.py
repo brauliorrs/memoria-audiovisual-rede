@@ -1,6 +1,7 @@
 from .config import (
     AAPB_FAQ_URL,
     APE_CONTENT_PDF_URL,
+    ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
     EUROPEAN_FILM_GATEWAY_HOME_URL,
     EUROPEANA_HOME_URL,
@@ -11,6 +12,7 @@ from .config import (
 from .output_files import (
     AAPB_OUTPUT_FILES,
     APE_OUTPUT_FILES,
+    ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
     EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
     EUROPEANA_OUTPUT_FILES,
@@ -19,6 +21,7 @@ from .output_files import (
     PPA_OUTPUT_FILES,
     list_aapb_output_filenames,
     list_ape_output_filenames,
+    list_archipop_output_filenames,
     list_euscreen_output_filenames,
     list_european_film_gateway_output_filenames,
     list_europeana_output_filenames,
@@ -196,6 +199,50 @@ CORPORA = {
         "run_script_path": "scripts/run_ina_pipeline.py",
         "build_script_path": "scripts/build_ina_analytics.py",
         "check_script_path": "scripts/check_ina_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "archipop": {
+        "code": "archipop",
+        "label": "ARCHIPOP",
+        "short_label": "ARCHIPOP",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial",
+        "coverage_level": "instituição individual europeia",
+        "scope": "arquivo regional de filmes amadores e arquivos audiovisuais privados",
+        "methodological_unit": "fichas públicas do catálogo Les Films",
+        "ape_relationship": (
+            "identificado na varredura europeia via INEDITS e tratado como corpus institucional "
+            "autônomo, não como agregador"
+        ),
+        "expansion_rationale": (
+            "É o primeiro repositório individual da fila europeia implantado após o fechamento "
+            "da varredura, com plataforma pública de filmes, metadados e player incorporado."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "É um arquivo explicitamente audiovisual. A rota pública Les Films expõe fichas de filmes "
+            "amadores e familiares com metadados, descrições e players incorporados."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero audiovisual, isso indica mudança de rota, bloqueio técnico ou alteração "
+            "estrutural da plataforma, pois o audiovisual é central ao corpus."
+        ),
+        "source_url": ARCHIPOP_FILMS_URL,
+        "output_files": ARCHIPOP_OUTPUT_FILES,
+        "list_output_filenames": list_archipop_output_filenames,
+        "detail_url_field": "archipop_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "página institucional do ARCHIPOP",
+        "content_flag_label": "conteúdo audiovisual publicado na fonte",
+        "website_label": "catálogo Les Films",
+        "run_script": "python scripts/run_archipop_pipeline.py",
+        "build_script": "python scripts/run_archipop_pipeline.py",
+        "check_script": "python scripts/check_archipop_outputs.py",
+        "run_script_path": "scripts/run_archipop_pipeline.py",
+        "build_script_path": "scripts/run_archipop_pipeline.py",
+        "check_script_path": "scripts/check_archipop_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },

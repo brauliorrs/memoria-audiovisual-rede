@@ -7,9 +7,13 @@ from .aapb_exports import write_aapb_analysis_outputs
 from .ape import collect_ape_dataset
 from .ape_exports import build_ape_analysis_extra_sheets
 from .ape_exports import write_ape_analysis_outputs
+from .archipop import collect_archipop_dataset
+from .archipop_exports import build_archipop_analysis_extra_sheets
+from .archipop_exports import write_archipop_analysis_outputs
 from .config import (
     AAPB_FAQ_URL,
     APE_CONTENT_PDF_URL,
+    ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
     EUROPEAN_FILM_GATEWAY_HOME_URL,
     EUROPEANA_HOME_URL,
@@ -36,6 +40,7 @@ from .ina_exports import write_ina_analysis_outputs
 from .output_files import (
     AAPB_OUTPUT_FILES,
     APE_OUTPUT_FILES,
+    ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
     EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
     EUROPEANA_OUTPUT_FILES,
@@ -53,6 +58,7 @@ from .reporting import build_report_payload, save_csv, save_json_report, save_tx
 from .snapshot_metadata import (
     build_aapb_snapshot_metadata,
     build_ape_snapshot_metadata,
+    build_archipop_snapshot_metadata,
     build_euscreen_snapshot_metadata,
     build_european_film_gateway_snapshot_metadata,
     build_europeana_snapshot_metadata,
@@ -129,6 +135,82 @@ APE_INTERNAL_PAGE_FIELDS = [
     "archive_type",
     "ape_detail_url",
     "content_available_in_ape",
+    "website_available",
+    "partner_site",
+    "internal_page",
+    "status",
+    "http_code",
+    "video_links_found",
+    "embedded_signals",
+    "warning",
+    "error",
+]
+
+ARCHIPOP_INSTITUTION_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archipop_detail_url",
+    "archive_type",
+    "external_url",
+    "website_available",
+    "content_available_in_source",
+]
+
+ARCHIPOP_SUMMARY_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "archipop_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "partner_domain",
+    "status",
+    "http_code",
+    "integrity_status",
+    "final_url",
+    "video_links_found_total",
+    "embedded_video_signals_total",
+    "candidate_internal_pages",
+    "priority_review",
+    "warning",
+    "error",
+]
+
+ARCHIPOP_VIDEO_LINK_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "archipop_detail_url",
+    "content_available_in_source",
+    "website_available",
+    "partner_site",
+    "platform",
+    "video_link",
+    "video_title",
+    "video_subject",
+    "video_description",
+    "video_published_at",
+]
+
+ARCHIPOP_INTERNAL_PAGE_FIELDS = [
+    "institution",
+    "slug",
+    "country",
+    "continent",
+    "repository_code",
+    "archive_type",
+    "archipop_detail_url",
+    "content_available_in_source",
     "website_available",
     "partner_site",
     "internal_page",
@@ -694,6 +776,25 @@ def run_ina_pipeline():
     )
 
 
+def run_archipop_pipeline():
+    _run_corpus_pipeline(
+        source_label="ARCHIPOP",
+        source_url=ARCHIPOP_FILMS_URL,
+        collect_dataset=collect_archipop_dataset,
+        institution_fields=ARCHIPOP_INSTITUTION_FIELDS,
+        summary_fields=ARCHIPOP_SUMMARY_FIELDS,
+        video_link_fields=ARCHIPOP_VIDEO_LINK_FIELDS,
+        internal_page_fields=ARCHIPOP_INTERNAL_PAGE_FIELDS,
+        output_files=ARCHIPOP_OUTPUT_FILES,
+        analysis_output_writer=write_archipop_analysis_outputs,
+        analysis_extra_sheets_builder=build_archipop_analysis_extra_sheets,
+        snapshot_builder=build_archipop_snapshot_metadata,
+        report_title="RELATORIO - ARCHIPOP",
+        institutions_sheet_title="ARCHIPOP Institutions",
+        generated_by="scripts/run_archipop_pipeline.py",
+    )
+
+
 def run_euscreen_pipeline():
     _run_corpus_pipeline(
         source_label="EUscreen",
@@ -810,6 +911,7 @@ def run_aapb_pipeline():
 
 __all__ = [
     "run_aapb_pipeline",
+    "run_archipop_pipeline",
     "run_pipeline",
     "run_ina_pipeline",
     "run_euscreen_pipeline",

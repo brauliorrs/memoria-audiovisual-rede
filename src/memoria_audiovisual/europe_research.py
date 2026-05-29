@@ -354,7 +354,11 @@ EUROPEAN_BROADCAST_ARCHIVE_ROWS = [
 
 
 def _active_european_code_aliases():
-    aliases = {"archives-portal-europe": "ape", "the-european-film-gateway": "european-film-gateway"}
+    aliases = {
+        "archives-portal-europe": "ape",
+        "inedits-archipop": "archipop",
+        "the-european-film-gateway": "european-film-gateway",
+    }
     for code in CORPORA:
         aliases[code] = code
     return aliases

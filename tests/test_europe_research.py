@@ -31,7 +31,10 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertIn("fiat-rtve", unit_codes)
         self.assertIn("euscreen-cna", unit_codes)
         self.assertIn("efg-aamod", unit_codes)
-        self.assertIn("inedits-archipop", unit_codes)
+        self.assertIn("archipop", unit_codes)
+        self.assertNotIn("inedits-archipop", unit_codes)
+        archipop_row = registry_df.loc[registry_df["unit_code"] == "archipop"].iloc[0]
+        self.assertEqual(archipop_row["unit_type"], "corpus_ativo")
         self.assertFalse(
             registry_df["unit_type"].astype(str).str.contains("sonoro|musical", case=False).any()
         )
