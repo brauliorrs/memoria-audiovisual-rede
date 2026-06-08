@@ -12,6 +12,7 @@ from memoria_audiovisual.output_files import (
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
     PPA_OUTPUT_FILES,
+    SFA_OUTPUT_FILES,
     list_aapb_output_filenames,
     list_aamod_output_filenames,
     list_ape_output_filenames,
@@ -22,6 +23,7 @@ from memoria_audiovisual.output_files import (
     list_ina_output_filenames,
     list_pares_output_filenames,
     list_ppa_output_filenames,
+    list_sfa_output_filenames,
 )
 
 
@@ -32,6 +34,7 @@ class OutputContractsTests(unittest.TestCase):
             self.assertIn(key, AAPB_OUTPUT_FILES)
             self.assertIn(key, AAMOD_OUTPUT_FILES)
             self.assertIn(key, ARCHIPOP_OUTPUT_FILES)
+            self.assertIn(key, SFA_OUTPUT_FILES)
             self.assertIn(key, EUROPEAN_FILM_GATEWAY_OUTPUT_FILES)
             self.assertIn(key, EUROPEANA_OUTPUT_FILES)
 
@@ -49,6 +52,10 @@ class OutputContractsTests(unittest.TestCase):
 
     def test_aamod_output_manifest_values_are_unique(self):
         filenames = list_aamod_output_filenames()
+        self.assertEqual(len(filenames), len(set(filenames)))
+
+    def test_sfa_output_manifest_values_are_unique(self):
+        filenames = list_sfa_output_filenames()
         self.assertEqual(len(filenames), len(set(filenames)))
 
     def test_required_report_files_exist_in_manifest(self):
@@ -98,6 +105,18 @@ class OutputContractsTests(unittest.TestCase):
             "extinction_signals",
         ]:
             self.assertIn(key, AAMOD_OUTPUT_FILES)
+
+    def test_sfa_required_report_files_exist_in_manifest(self):
+        for key in [
+            "report_json",
+            "report_txt",
+            "report_xlsx",
+            "snapshot_metadata",
+            "timeline_corpus",
+            "timeline_institutions",
+            "extinction_signals",
+        ]:
+            self.assertIn(key, SFA_OUTPUT_FILES)
 
     def test_ina_output_manifest_values_are_unique(self):
         filenames = list_ina_output_filenames()

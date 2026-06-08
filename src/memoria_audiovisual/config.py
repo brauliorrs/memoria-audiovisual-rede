@@ -38,6 +38,15 @@ AAMOD_FAQ_URL = "https://aamod.it/faq/"
 AAMOD_WP_FILMS_URL = "https://aamod.it/wp-json/wp/v2/i-nostri-film?per_page=10"
 AAMOD_ARCHIVI_ONLINE_URL = "http://patrimonio.aamod.it/aamod-web/"
 AAMOD_FILMOTECA_OPAC_URL = "http://opac.aamod.xdams.net/aamod-web/film"
+SFA_HOME_URL = "https://www.gov.si/drzavni-organi/organi-v-sestavi/arhiv/o-arhivu/slovenski-filmski-arhiv/"
+SFA_ENGLISH_URL = (
+    "https://www.gov.si/en/state-authorities/bodies-within-ministries/"
+    "archives-of-the-republic-of-slovenia/about-the-archives/slovenian-film-archives/"
+)
+SFA_VAC_HOME_URL = "https://vac.sjas.gov.si/vac"
+SFA_VAC_SEARCH_URL = "https://vac.sjas.gov.si/vac/search/getfullTextPage"
+SFA_VAC_FUND_URL = "https://vac.sjas.gov.si/vac/search/details?id=25366"
+SFA_VAC_RECORD_URL_TEMPLATE = "https://vac.sjas.gov.si/vac/search/details?id={record_id}"
 ARCHIPOP_HOME_URL = "https://archipop.org/"
 ARCHIPOP_FILMS_URL = "https://lesfilms.archipop.org/"
 ARCHIPOP_FILMS_LIST_URL_TEMPLATE = "https://lesfilms.archipop.org/les-films-570-0-0-{page}.html"
@@ -83,6 +92,7 @@ VIDEO_PLATFORMS = {
     "www.americanarchive.org": "American Archive of Public Broadcasting",
     "aamod.it": "AAMOD",
     "www.aamod.it": "AAMOD",
+    "vac.sjas.gov.si": "VAC",
     "archipop.org": "Archipop",
     "lesfilms.archipop.org": "Archipop",
     "diazarchipop.oembed.diazinteregio.org": "Archipop",
@@ -124,5 +134,6 @@ PARES_OUTPUT_PREFIX = "pares"
 PPA_OUTPUT_PREFIX = "ppa"
 AAPB_OUTPUT_PREFIX = "aapb"
 AAMOD_OUTPUT_PREFIX = "aamod"
+SFA_OUTPUT_PREFIX = "sfa"
 ARCHIPOP_OUTPUT_PREFIX = "archipop"
 OUTPUT_DIR = ROOT_DIR / "data" / "output"

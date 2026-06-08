@@ -1,6 +1,6 @@
 ﻿camada,categoria,decisao,total,rule_version
-corpus_ativo,corpus_ativo,monitoramento_mensal,9,2026-05-pesquisa-europa-v3
-fila_definitiva_um_por_um,arquivo_audiovisual_individual,avaliar_arquivo_individual_um_por_um,86,2026-05-pesquisa-europa-v3
+corpus_ativo,corpus_ativo,monitoramento_mensal,10,2026-05-pesquisa-europa-v3
+fila_definitiva_um_por_um,arquivo_audiovisual_individual,avaliar_arquivo_individual_um_por_um,85,2026-05-pesquisa-europa-v3
 fila_definitiva_um_por_um,instituicao_audiovisual_europeia,avaliar_arquivo_individual_um_por_um,16,2026-05-pesquisa-europa-v3
 fila_definitiva_um_por_um,instituicao_televisiva_com_acervo_audiovisual,avaliar_arquivo_individual_um_por_um,31,2026-05-pesquisa-europa-v3
 fonte_de_fila,diretorio_de_arquivos_audiovisuais,expandir_diretorio_para_fila_individual,2,2026-05-pesquisa-europa-v3

@@ -9,6 +9,7 @@ from .config import (
     INA_INSTITUTION_URL,
     PARES_HOME_URL,
     PPA_HOME_URL,
+    SFA_HOME_URL,
 )
 from .output_files import (
     AAPB_OUTPUT_FILES,
@@ -21,6 +22,7 @@ from .output_files import (
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
     PPA_OUTPUT_FILES,
+    SFA_OUTPUT_FILES,
     list_aapb_output_filenames,
     list_aamod_output_filenames,
     list_ape_output_filenames,
@@ -31,6 +33,7 @@ from .output_files import (
     list_ina_output_filenames,
     list_pares_output_filenames,
     list_ppa_output_filenames,
+    list_sfa_output_filenames,
 )
 
 
@@ -291,6 +294,51 @@ CORPORA = {
         "run_script_path": "scripts/run_aamod_pipeline.py",
         "build_script_path": "scripts/run_aamod_pipeline.py",
         "check_script_path": "scripts/check_aamod_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "sfa": {
+        "code": "sfa",
+        "label": "Arhiv Republike Slovenije - Slovenski filmski arhiv",
+        "short_label": "SFA",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial",
+        "coverage_level": "instituição individual europeia",
+        "scope": "arquivo nacional esloveno especializado em patrimônio fílmico",
+        "methodological_unit": "fundo SI AS 1086 e fichas públicas de filmes no VAČ",
+        "ape_relationship": (
+            "identificado na varredura europeia via FIAF e relacionado ao Arhiv Republike Slovenije "
+            "presente no APE, mas tratado como corpus institucional audiovisual autônomo"
+        ),
+        "expansion_rationale": (
+            "Entra após validação individual da fila europeia. A rota antiga arhiv.gov.si é instável, "
+            "mas a página oficial atual no GOV.SI e as fichas públicas do VAČ permitem materializar "
+            "metadados filmográficos reproduzíveis."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "É um arquivo explicitamente fílmico/audiovisual. A coleta registra metadados públicos de "
+            "filmes no VAČ, sem baixar mídia e sem pressupor player público nas fichas."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero registros, isso indica mudança de rota, bloqueio técnico ou alteração "
+            "estrutural da superfície pública, pois o fundo SI AS 1086 é explicitamente filmográfico."
+        ),
+        "source_url": SFA_HOME_URL,
+        "output_files": SFA_OUTPUT_FILES,
+        "list_output_filenames": list_sfa_output_filenames,
+        "detail_url_field": "sfa_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "página institucional do Slovenski filmski arhiv",
+        "content_flag_label": "metadados audiovisuais publicados na fonte",
+        "website_label": "catálogo VAČ",
+        "run_script": "python scripts/run_sfa_pipeline.py",
+        "build_script": "python scripts/run_sfa_pipeline.py",
+        "check_script": "python scripts/check_sfa_outputs.py",
+        "run_script_path": "scripts/run_sfa_pipeline.py",
+        "build_script_path": "scripts/run_sfa_pipeline.py",
+        "check_script_path": "scripts/check_sfa_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },

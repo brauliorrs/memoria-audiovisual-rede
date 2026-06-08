@@ -25,6 +25,7 @@ from .config import (
     OUTPUT_DIR,
     PARES_HOME_URL,
     PPA_HOME_URL,
+    SFA_HOME_URL,
 )
 from .efg import collect_european_film_gateway_dataset
 from .efg_exports import (
@@ -52,6 +53,7 @@ from .output_files import (
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
     PPA_OUTPUT_FILES,
+    SFA_OUTPUT_FILES,
 )
 from .pares import collect_pares_dataset
 from .pares_exports import build_pares_analysis_extra_sheets
@@ -60,6 +62,9 @@ from .ppa import collect_ppa_dataset
 from .ppa_exports import build_ppa_analysis_extra_sheets
 from .ppa_exports import write_ppa_analysis_outputs
 from .reporting import build_report_payload, save_csv, save_json_report, save_txt_report
+from .sfa import collect_sfa_dataset
+from .sfa_exports import build_sfa_analysis_extra_sheets
+from .sfa_exports import write_sfa_analysis_outputs
 from .snapshot_metadata import (
     build_aapb_snapshot_metadata,
     build_aamod_snapshot_metadata,
@@ -71,6 +76,7 @@ from .snapshot_metadata import (
     build_ina_snapshot_metadata,
     build_pares_snapshot_metadata,
     build_ppa_snapshot_metadata,
+    build_sfa_snapshot_metadata,
     save_snapshot_metadata_payload,
 )
 from .timeline import write_timeline_outputs
@@ -232,6 +238,10 @@ AAMOD_INSTITUTION_FIELDS = [field.replace("archipop_detail_url", "aamod_detail_u
 AAMOD_SUMMARY_FIELDS = [field.replace("archipop_detail_url", "aamod_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS]
 AAMOD_VIDEO_LINK_FIELDS = [field.replace("archipop_detail_url", "aamod_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS]
 AAMOD_INTERNAL_PAGE_FIELDS = [field.replace("archipop_detail_url", "aamod_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS]
+SFA_INSTITUTION_FIELDS = [field.replace("archipop_detail_url", "sfa_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS]
+SFA_SUMMARY_FIELDS = [field.replace("archipop_detail_url", "sfa_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS]
+SFA_VIDEO_LINK_FIELDS = [field.replace("archipop_detail_url", "sfa_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS]
+SFA_INTERNAL_PAGE_FIELDS = [field.replace("archipop_detail_url", "sfa_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS]
 
 INA_INSTITUTION_FIELDS = [
     "institution",
@@ -825,6 +835,25 @@ def run_aamod_pipeline():
     )
 
 
+def run_sfa_pipeline():
+    _run_corpus_pipeline(
+        source_label="Slovenski filmski arhiv",
+        source_url=SFA_HOME_URL,
+        collect_dataset=collect_sfa_dataset,
+        institution_fields=SFA_INSTITUTION_FIELDS,
+        summary_fields=SFA_SUMMARY_FIELDS,
+        video_link_fields=SFA_VIDEO_LINK_FIELDS,
+        internal_page_fields=SFA_INTERNAL_PAGE_FIELDS,
+        output_files=SFA_OUTPUT_FILES,
+        analysis_output_writer=write_sfa_analysis_outputs,
+        analysis_extra_sheets_builder=build_sfa_analysis_extra_sheets,
+        snapshot_builder=build_sfa_snapshot_metadata,
+        report_title="RELATORIO - SFA",
+        institutions_sheet_title="SFA Institutions",
+        generated_by="scripts/run_sfa_pipeline.py",
+    )
+
+
 def run_euscreen_pipeline():
     _run_corpus_pipeline(
         source_label="EUscreen",
@@ -944,6 +973,7 @@ __all__ = [
     "run_aamod_pipeline",
     "run_archipop_pipeline",
     "run_pipeline",
+    "run_sfa_pipeline",
     "run_ina_pipeline",
     "run_euscreen_pipeline",
     "run_european_film_gateway_pipeline",

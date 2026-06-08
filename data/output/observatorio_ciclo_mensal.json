@@ -2,34 +2,34 @@
   "organism": "Memória Audiovisual em Rede",
   "role": "organismo agregador mundial em construção",
   "refresh_cadence": "mensal",
-  "generated_at": "2026-05-29T17:38:22Z",
-  "started_at": "2026-05-29T17:36:37Z",
-  "finished_at": "2026-05-29T17:38:22Z",
+  "generated_at": "2026-06-08T16:32:01Z",
+  "started_at": "2026-06-08T16:29:37Z",
+  "finished_at": "2026-06-08T16:32:01Z",
   "cycle_type": "mensal",
   "cycle_scope": "parcial",
-  "active_corpora_total": 10,
+  "active_corpora_total": 11,
   "selected_corpora_total": 1,
   "selected_corpora_codes": [
-    "aamod"
+    "sfa"
   ],
   "successful_corpora_total": 1,
   "failed_corpora_total": 0,
   "cycle_results": [
     {
-      "code": "aamod",
-      "label": "Archivio Audiovisivo del movimento operaio e democratico",
-      "short_label": "AAMOD",
+      "code": "sfa",
+      "label": "Arhiv Republike Slovenije - Slovenski filmski arhiv",
+      "short_label": "SFA",
       "category_code": "institution",
       "coverage_level": "instituição individual europeia",
       "status": "success",
-      "refresh_started_at": "2026-05-29T17:38:06Z",
-      "refresh_finished_at": "2026-05-29T17:38:22Z",
-      "snapshot_generated_at": "2026-05-29T17:38:20Z",
-      "observation_key": "aamod:2026-05-29T17:38:20Z",
+      "refresh_started_at": "2026-06-08T16:31:48Z",
+      "refresh_finished_at": "2026-06-08T16:32:01Z",
+      "snapshot_generated_at": "2026-06-08T16:31:59Z",
+      "observation_key": "sfa:2026-06-08T16:31:59Z",
       "source_status_date": "",
       "institutions": 1,
-      "video_links_total": 6,
-      "videos_in_curatorial_catalog": 6,
+      "video_links_total": 8,
+      "videos_in_curatorial_catalog": 8,
       "error": ""
     }
   ]

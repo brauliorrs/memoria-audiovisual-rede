@@ -1,0 +1,53 @@
+{
+  "source": "https://www.gov.si/drzavni-organi/organi-v-sestavi/arhiv/o-arhivu/slovenski-filmski-arhiv/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "VAC": 8
+  },
+  "top_domains": [
+    [
+      "vac.sjas.gov.si",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Arhiv Republike Slovenije - Slovenski filmski arhiv",
+      "slug": "arhiv-republike-slovenije-slovenski-filmski-arhiv",
+      "country": "Slovenia",
+      "continent": "Europe",
+      "repository_code": "SI-AS-1086",
+      "archive_type": "Institutional film archive",
+      "sfa_detail_url": "https://www.gov.si/drzavni-organi/organi-v-sestavi/arhiv/o-arhivu/slovenski-filmski-arhiv/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://vac.sjas.gov.si/vac/search/details?id=25366",
+      "partner_domain": "vac.sjas.gov.si",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://vac.sjas.gov.si/vac/search/details?id=25366",
+      "video_links_found_total": 8,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 13,
+      "priority_review": "baixa",
+      "warning": "Corpus institucional incorporado por fichas públicas de metadados filmográficos no VAČ. A rota materializa registros do fundo SI AS 1086, mas não detecta player público nas fichas; por isso o corpus mede visibilidade/catalogação audiovisual, não streaming aberto.",
+      "error": ""
+    }
+  ]
+}

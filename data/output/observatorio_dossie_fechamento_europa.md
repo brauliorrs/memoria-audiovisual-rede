@@ -2,7 +2,7 @@
 
 ## Status do corpus continental
 - Status de abertura: `autorizada_com_cautela`.
-- Corpora europeus ativos: `9`.
+- Corpora europeus ativos: `10`.
 - Candidatos europeus documentados fora do corpus ativo: `2`.
 - Escopo: Europa como corpus continental em fechamento metodológico progressivo para artigo e projeto de pós-doutorado.
 
@@ -16,6 +16,7 @@
 - `ina`: Institut national de l'audiovisuel | Arquivos e instituições arquivísticas | instituição individual | pipeline_ativo.
 - `pares`: PARES | Agregadores arquivísticos | agregador nacional europeu | pipeline_ativo.
 - `portal-portugues-arquivos`: Portal Português de Arquivos | Agregadores arquivísticos | agregador nacional europeu | pipeline_ativo.
+- `sfa`: Arhiv Republike Slovenije - Slovenski filmski arhiv | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 
 ## Pendências documentadas
 - `archives-hub`: Archives Hub | prototipo_leve_indica_bloqueio_em_sru_ou_oaipmh | decisão: nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel.

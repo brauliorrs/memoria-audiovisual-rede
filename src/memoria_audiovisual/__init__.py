@@ -9,6 +9,7 @@ from .pipeline import (
     run_pares_pipeline,
     run_ppa_pipeline,
     run_pipeline,
+    run_sfa_pipeline,
 )
 
 __all__ = [
@@ -16,6 +17,7 @@ __all__ = [
     "run_aamod_pipeline",
     "run_archipop_pipeline",
     "run_pipeline",
+    "run_sfa_pipeline",
     "run_ina_pipeline",
     "run_euscreen_pipeline",
     "run_european_film_gateway_pipeline",

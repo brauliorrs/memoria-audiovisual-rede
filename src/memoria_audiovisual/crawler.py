@@ -206,6 +206,9 @@ def is_probably_video_link(url, platform=None):
     if platform == "AAMOD":
         return path.startswith("/i-nostri-film/")
 
+    if platform == "VAC":
+        return path.startswith("/vac/search/details") and bool(query.get("id"))
+
     if platform == "Archipop":
         return "les-films-" in path or path.startswith("/embed/")
 

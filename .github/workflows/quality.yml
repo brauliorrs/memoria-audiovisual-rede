@@ -48,6 +48,8 @@ jobs:
           python -m py_compile src/memoria_audiovisual/pares_exports.py
           python -m py_compile src/memoria_audiovisual/pipeline.py
           python -m py_compile src/memoria_audiovisual/snapshot_metadata.py
+          python -m py_compile src/memoria_audiovisual/sfa.py
+          python -m py_compile src/memoria_audiovisual/sfa_exports.py
           python -m py_compile src/memoria_audiovisual/timeline.py
           python -m py_compile scripts/build_ape_analytics.py
           python -m py_compile scripts/build_euscreen_analytics.py
@@ -72,6 +74,8 @@ jobs:
           python -m py_compile scripts/run_ina_pipeline.py
           python -m py_compile scripts/run_observatory_cycle.py
           python -m py_compile scripts/run_pares_pipeline.py
+          python -m py_compile scripts/run_sfa_pipeline.py
+          python -m py_compile scripts/check_sfa_outputs.py
 
       - name: Run unit tests
         run: python -m unittest discover -s tests -v

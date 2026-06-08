@@ -1,0 +1,4 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+sfa,sfa:2026-06-08T16:27:35Z,2026-06-08T16:27:35Z,,2026-06-08T16:27:35Z,2026-06-08T16:27:34Z,scripts/run_sfa_pipeline.py,1,1,1,8,8,1,1,1,1,1
+sfa,sfa:2026-06-08T16:29:13Z,2026-06-08T16:29:13Z,,2026-06-08T16:29:13Z,2026-06-08T16:29:13Z,scripts/run_sfa_pipeline.py,1,1,1,8,8,1,2,1,1,1
+sfa,sfa:2026-06-08T16:31:59Z,2026-06-08T16:31:59Z,,2026-06-08T16:31:59Z,2026-06-08T16:31:59Z,scripts/run_sfa_pipeline.py,1,1,1,8,8,1,2,1,1,1

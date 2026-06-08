@@ -1,6 +1,6 @@
 # Plataforma aberta de curadoria e acesso à memória audiovisual em rede
 
-Projeto focado, nesta etapa, no fechamento europeu do observatório e no início controlado da expansão extraeuropeia a partir do Archives Portal Europe (APE), do EUscreen, do European Film Gateway, da Europeana, do PARES, do Portal Português de Arquivos (PPA), do Institut national de l'audiovisuel (INA), do ARCHIPOP, do Archivio Audiovisivo del movimento operaio e democratico (AAMOD) e do American Archive of Public Broadcasting (AAPB) para:
+Projeto focado, nesta etapa, no fechamento europeu do observatório e no início controlado da expansão extraeuropeia a partir do Archives Portal Europe (APE), do EUscreen, do European Film Gateway, da Europeana, do PARES, do Portal Português de Arquivos (PPA), do Institut national de l'audiovisuel (INA), do ARCHIPOP, do Archivio Audiovisivo del movimento operaio e democratico (AAMOD), do Slovenski filmski arhiv (SFA) e do American Archive of Public Broadcasting (AAPB) para:
 
 - identificar instituições com conteúdo publicado no portal;
 - capturar a `Webpage` externa de cada instituição a partir da ficha do APE;
@@ -39,12 +39,13 @@ No observatório, essa pergunta é operacionalizada por variáveis como hospedag
 - `Corpus 7` — `INA`: corpus especializado em audiovisual, estruturado a partir do Institut national de l'audiovisuel.
 - `Corpus 8` — `ARCHIPOP`: arquivo audiovisual institucional francês, incorporado por catálogo público HTML após validação de fichas com player embutido.
 - `Corpus 9` — `AAMOD`: arquivo audiovisual institucional italiano, incorporado por superfície oficial, vídeos incorporados e fichas públicas WordPress; o catálogo xDams declarado foi sondado, mas não usado no MVP por instabilidade técnica.
-- `Corpus 10` — `AAPB`: agregador audiovisual nacional norte-americano, incorporado por rota API JSON/PBCore após o ArchiveGrid ser protocolado sem rota estável.
+- `Corpus 10` — `SFA`: arquivo fílmico institucional esloveno, incorporado por fichas públicas de metadados no VAČ; não há player público detectado nas fichas.
+- `Corpus 11` — `AAPB`: agregador audiovisual nacional norte-americano, incorporado por rota API JSON/PBCore após o ArchiveGrid ser protocolado sem rota estável.
 - Verificação de integridade do site institucional externo de cada corpus.
 - Detecção de links para plataformas de vídeo e sinais de mídia embutida.
 - Enriquecimento de links de vídeo com metadados básicos da página do vídeo.
 - Geração de relatórios em CSV, JSON, TXT e XLSX para cada corpus.
-- Interface Streamlit organizada por corpus, com abas próprias para `APE`, `EUscreen`, `European Film Gateway`, `Europeana`, `PARES`, `PPA`, `INA`, `ARCHIPOP`, `AAMOD` e `AAPB`, além de uma visão geral comparativa do observatório e abas de protocolo para unidades identificadas, mas não incorporadas ao corpus ativo.
+- Interface Streamlit organizada por corpus, com abas próprias para `APE`, `EUscreen`, `European Film Gateway`, `Europeana`, `PARES`, `PPA`, `INA`, `ARCHIPOP`, `AAMOD`, `SFA` e `AAPB`, além de uma visão geral comparativa do observatório e abas de protocolo para unidades identificadas, mas não incorporadas ao corpus ativo.
 
 ## Estratégia de expansão
 
@@ -78,6 +79,7 @@ No estado atual:
 - `INA` está enquadrado como `arquivo/instituição arquivística`;
 - `ARCHIPOP` está enquadrado como `arquivo audiovisual institucional europeu incorporado`;
 - `AAMOD` está enquadrado como `arquivo audiovisual institucional europeu incorporado`;
+- `SFA` está enquadrado como `arquivo audiovisual institucional europeu incorporado por catálogo descritivo`;
 - `AAPB` está enquadrado como `agregador audiovisual nacional norte-americano incorporado`;
 - `Ad Libitum Workshop`, `ArchiveGrid`, `Archives Hub`, `FranceArchives` e `Iberarchivos` permanecem como unidades documentadas, sem corpus ativo, com abas próprias de protocolo explicando as tentativas de rota e a negativa metodológica;
 - `FilmArchives Online`, `EFG1914`, `VICTOR-E`, `ACE`, `INEDITS`, `EBU`, `European Audiovisual Observatory` e `Archivportal-D` aparecem na auditoria ou na fila europeia como unidades cobertas, fontes documentadas, contextuais ou candidatas futuras, sem bloquear o MVP;
@@ -121,6 +123,7 @@ Scripts principais:
 - `python scripts/run_europeana_pipeline.py`
 - `python scripts/run_ppa_pipeline.py`
 - `python scripts/run_aamod_pipeline.py`
+- `python scripts/run_sfa_pipeline.py`
 - `python scripts/run_adlibitum_protocol.py`
 - `python scripts/run_archipop_pipeline.py`
 - `python scripts/run_aapb_pipeline.py`
@@ -182,7 +185,7 @@ Essa fila:
 - trata o `APE` como base agregadora continental europeia;
 - considera agregadores audiovisuais europeus, como `EUscreen`, como prioridade de fechamento regional;
 - incorpora `European Film Gateway` e `Europeana` como corpora europeus ativos antes da abertura de novo continente;
-- inicia a implantação controlada de arquivos audiovisuais individuais europeus por `ARCHIPOP` e `AAMOD`, preservando a separação entre agregador e instituição custodial;
+- inicia a implantação controlada de arquivos audiovisuais individuais europeus por `ARCHIPOP`, `AAMOD` e `SFA`, preservando a separação entre agregador e instituição custodial;
 - incorpora o `AAPB` como primeiro corpus audiovisual extraeuropeu quando há rota API estável;
 - mantém o `ArchiveGrid` como agregador mundial identificado, mas fora do corpus ativo até existir rota pública estável de coleta;
 - mantém o `Iberarchivos` como fonte de radar ibero-americana, fora do corpus ativo porque seus sinais audiovisuais aparecem como política, notícia, projeto ou referência, não como catálogo coletável;
@@ -387,7 +390,7 @@ Os arquivos gerados ficam em `data/output/`:
 - `ape_relatorio.txt`
 - `ape_relatorio.xlsx`
 
-O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `INA`, o `ARCHIPOP`, o `AAMOD` e o `AAPB` seguem a mesma convenção de nomes, trocando o prefixo `ape_` por `euscreen_`, `efg_`, `europeana_`, `pares_`, `ppa_`, `ina_`, `archipop_`, `aamod_` ou `aapb_`, por exemplo:
+O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `INA`, o `ARCHIPOP`, o `AAMOD`, o `SFA` e o `AAPB` seguem a mesma convenção de nomes, trocando o prefixo `ape_` por `euscreen_`, `efg_`, `europeana_`, `pares_`, `ppa_`, `ina_`, `archipop_`, `aamod_`, `sfa_` ou `aapb_`, por exemplo:
 
 - `euscreen_instituicoes.csv`
 - `euscreen_resumo_instituicoes.csv`
@@ -501,6 +504,20 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `I
 - `aamod_snapshot_metadata.json`
 - `aamod_relatorio.xlsx`
 
+- `sfa_instituicoes.csv`
+- `sfa_resumo_instituicoes.csv`
+- `sfa_links_video.csv`
+- `sfa_paginas_internas.csv`
+- `sfa_resumo_instituicoes_analitico.csv`
+- `sfa_catalogo_videos_analitico.csv`
+- `sfa_resumo_modalidades_acesso.csv`
+- `sfa_resumo_regimes_acesso.csv`
+- `sfa_linha_do_tempo_corpus.csv`
+- `sfa_linha_do_tempo_instituicoes.csv`
+- `sfa_sinais_possivel_extincao.csv`
+- `sfa_snapshot_metadata.json`
+- `sfa_relatorio.xlsx`
+
 ## Fluxo de produto
 
 1. A pipeline coleta as instituições listadas no APE com conteúdo publicado.
@@ -521,7 +538,7 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `I
    - quadros históricos para acompanhar a linha do tempo das fontes e dos sinais de possível extinção.
 9. Quando os CSVs analíticos já existem em `data/output/`, a app prioriza essas saídas prontas e usa cálculo local apenas como fallback.
 10. A preparação dos dataframes do dashboard fica concentrada em `src/memoria_audiovisual/dashboard_data.py`, para reduzir lógica duplicada na interface.
-11. Os nomes das saídas do APE, do EUscreen, do European Film Gateway, da Europeana, do PARES, do PPA, do INA, do ARCHIPOP, do AAMOD e do AAPB ficam centralizados em `src/memoria_audiovisual/output_files.py`, para manter pipeline e interface sincronizadas.
+11. Os nomes das saídas do APE, do EUscreen, do European Film Gateway, da Europeana, do PARES, do PPA, do INA, do ARCHIPOP, do AAMOD, do SFA e do AAPB ficam centralizados em `src/memoria_audiovisual/output_files.py`, para manter pipeline e interface sincronizadas.
 12. O ciclo mensal do organismo fica centralizado em `scripts/run_observatory_cycle.py`, com manifesto global em `data/output/observatorio_ciclo_mensal.json`.
 13. A avaliação europeia materializa rotas oficiais candidatas e uma matriz de protocolos para diferenciar agregadores prontos para validação total, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
 14. O protótipo `Archives Hub` testa a referência pública de APIs, SRU e OAI-PMH por chamadas leves, sem ativar o agregador como corpus.
@@ -541,7 +558,8 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `I
 28. O corpus `ARCHIPOP` entra como primeiro arquivo audiovisual individual europeu implantado a partir da fila ampliada, com coleta por catálogo público HTML e fichas com player embutido, sem download de mídia.
 29. O protocolo `Ad Libitum Workshop` documenta arquivo audiovisual individual confirmado por INEDITS, mas mantido fora do corpus ativo porque o site oficial não respondeu e não houve catálogo público, player, API ou fichas coletáveis nesta rodada.
 30. O corpus `AAMOD` entra como arquivo audiovisual individual europeu incorporado por superfície oficial, vídeos YouTube incorporados e fichas públicas WordPress; o catálogo xDams declarado fica registrado como rota instável nesta rodada.
-31. O corpus `AAPB` entra como primeiro agregador audiovisual extraeuropeu incorporado, usando API JSON/PBCore em amostra leve para preservar reprodutibilidade no MVP.
+31. O corpus `SFA` entra como arquivo audiovisual individual europeu incorporado por fichas públicas de metadados filmográficos no VAČ; mede catalogação e visibilidade descritiva, não streaming aberto.
+32. O corpus `AAPB` entra como primeiro agregador audiovisual extraeuropeu incorporado, usando API JSON/PBCore em amostra leve para preservar reprodutibilidade no MVP.
 
 ## Qualidade do repositório
 
@@ -554,4 +572,4 @@ O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `I
 
 ## Próximo passo sugerido
 
-Com a varredura europeia de fontes oficiais concluída para o MVP, a próxima etapa operacional é seguir a fila definitiva um por um. Após ARCHIPOP e AAMOD incorporados e Ad Libitum protocolado sem incorporação, o próximo candidato individual implantável é o `Arhiv Republike Slovenije - Slovenski Filmski Arhiv`.
+Com a varredura europeia de fontes oficiais concluída para o MVP, a próxima etapa operacional é seguir a fila definitiva um por um. Após ARCHIPOP, AAMOD e SFA incorporados e Ad Libitum protocolado sem incorporação, o próximo candidato individual implantável é a `Arhiva Nationala de Filme - Cinemateca Romana`.

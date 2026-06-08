@@ -17,6 +17,7 @@ from .config import (
     INA_INSTITUTION_URL,
     PARES_HOME_URL,
     PPA_HOME_URL,
+    SFA_HOME_URL,
 )
 from .output_files import (
     AAPB_OUTPUT_FILES,
@@ -29,6 +30,7 @@ from .output_files import (
     INA_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
     PPA_OUTPUT_FILES,
+    SFA_OUTPUT_FILES,
 )
 
 
@@ -302,6 +304,26 @@ def build_aamod_snapshot_metadata(
     )
 
 
+def build_sfa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="sfa",
+        source_url=SFA_HOME_URL,
+        output_files=SFA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_ape_snapshot_metadata(
     output_dir,
     *,
@@ -375,6 +397,26 @@ def write_aamod_snapshot_metadata(
         dataset="aamod",
         source_url=AAMOD_HOME_URL,
         output_files=AAMOD_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_sfa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="sfa",
+        source_url=SFA_HOME_URL,
+        output_files=SFA_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
@@ -635,6 +677,7 @@ __all__ = [
     "build_ina_snapshot_metadata",
     "build_pares_snapshot_metadata",
     "build_ppa_snapshot_metadata",
+    "build_sfa_snapshot_metadata",
     "build_snapshot_metadata",
     "save_snapshot_metadata_payload",
     "write_aapb_snapshot_metadata",
@@ -647,5 +690,6 @@ __all__ = [
     "write_ina_snapshot_metadata",
     "write_pares_snapshot_metadata",
     "write_ppa_snapshot_metadata",
+    "write_sfa_snapshot_metadata",
     "write_snapshot_metadata",
 ]

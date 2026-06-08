@@ -33,12 +33,16 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertIn("euscreen-cna", unit_codes)
         self.assertIn("aamod", unit_codes)
         self.assertNotIn("efg-aamod", unit_codes)
+        self.assertIn("sfa", unit_codes)
+        self.assertNotIn("fiaf-slovenian-film-archive", unit_codes)
         self.assertIn("archipop", unit_codes)
         self.assertNotIn("inedits-archipop", unit_codes)
         archipop_row = registry_df.loc[registry_df["unit_code"] == "archipop"].iloc[0]
         self.assertEqual(archipop_row["unit_type"], "corpus_ativo")
         aamod_row = registry_df.loc[registry_df["unit_code"] == "aamod"].iloc[0]
         self.assertEqual(aamod_row["unit_type"], "corpus_ativo")
+        sfa_row = registry_df.loc[registry_df["unit_code"] == "sfa"].iloc[0]
+        self.assertEqual(sfa_row["unit_type"], "corpus_ativo")
         adlibitum_row = registry_df.loc[registry_df["unit_code"] == "inedits-ad-libitum"].iloc[0]
         self.assertEqual(adlibitum_row["organism_status"], "protocolado")
         self.assertEqual(adlibitum_row["video_location_status"], "rota_nao_estavel")

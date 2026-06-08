@@ -370,6 +370,16 @@ def infer_video_theme(row):
             return theme_name
 
     platform = normalize_optional_text(row.get("platform"))
+    if platform == "VAC":
+        if re.search(r"\b(dokumentarni|documentary|documentario|documentário)\b", normalized):
+            return "Documentário e registro histórico"
+        if re.search(
+            r"\b(igrani|komedija|mladinski|dolgometra|kratkometra|fiction|feature film|short film)\b",
+            normalized,
+        ):
+            return "Ficção cinematográfica"
+        return "Registro audiovisual em catálogo"
+
     if platform in {"PARES", "Portal Português de Arquivos"}:
         if "objeto digital detectado" in normalized:
             return "Digitalização e acesso"
@@ -419,6 +429,8 @@ def classify_access_surface(row):
         return "acesso em agregador audiovisual"
     if platform == "AAMOD":
         return "Arquivo audiovisual institucional"
+    if platform == "VAC":
+        return "Catálogo arquivístico audiovisual institucional"
     if platform == "Archipop":
         return "Arquivo audiovisual institucional"
     if platform in {"PARES", "Portal Português de Arquivos"}:
@@ -462,6 +474,7 @@ def classify_access_regime(modalities, audiovisual_visibility):
             "Agregador audiovisual europeu especializado em cinema": "Acesso por agregador audiovisual europeu",
             "Agregador cultural europeu com recorte audiovisual": "Acesso por agregador cultural europeu com recorte audiovisual",
             "Agregador arquivístico nacional": "Acesso por agregador arquivístico nacional",
+            "Catálogo arquivístico audiovisual institucional": "Acesso descritivo por catálogo institucional",
             "Objeto digital em agregador arquivístico nacional": "Acesso a objeto digital em agregador arquivístico nacional",
             "Registro descritivo em agregador arquivístico nacional": "Acesso descritivo por agregador arquivístico nacional",
             "Plataforma externa de vídeo": "Acesso por plataforma externa",
@@ -470,7 +483,11 @@ def classify_access_regime(modalities, audiovisual_visibility):
         }
         return single_mode_map.get(modality, "Outra forma pública de acesso")
 
-    institutional_modalities = {"Streaming curatorial", "Vídeo institucional incorporado"}
+    institutional_modalities = {
+        "Streaming curatorial",
+        "Vídeo institucional incorporado",
+        "Catálogo arquivístico audiovisual institucional",
+    }
     european_av_aggregator_modalities = {
         "Agregador audiovisual europeu",
         "Agregador audiovisual europeu especializado em cinema",

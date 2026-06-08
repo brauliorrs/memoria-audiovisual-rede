@@ -1,0 +1,168 @@
+{
+  "dataset": "sfa",
+  "generated_at": "2026-06-08T16:31:59Z",
+  "generated_by": "scripts/run_sfa_pipeline.py",
+  "observation_key": "sfa:2026-06-08T16:31:59Z",
+  "source_url": "https://www.gov.si/drzavni-organi/organi-v-sestavi/arhiv/o-arhivu/slovenski-filmski-arhiv/",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-08T16:31:59Z",
+  "analytic_outputs_last_modified_at": "2026-06-08T16:31:59Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 8,
+    "videos_in_curatorial_catalog": 8,
+    "visibility_categories": 1,
+    "theme_categories": 2,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "sfa_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 449,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "summary": {
+      "filename": "sfa_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 987,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "video_links": {
+      "filename": "sfa_links_video.csv",
+      "exists": true,
+      "size_bytes": 6069,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "internal_pages": {
+      "filename": "sfa_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 6209,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "analytic_summary": {
+      "filename": "sfa_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1373,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "sfa_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 6989,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "availability_summary": {
+      "filename": "sfa_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "availability_reasons": {
+      "filename": "sfa_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "visibility_summary": {
+      "filename": "sfa_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "access_surface_summary": {
+      "filename": "sfa_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 71,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "access_regime_summary": {
+      "filename": "sfa_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 63,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "theme_summary": {
+      "filename": "sfa_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 80,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "theme_country": {
+      "filename": "sfa_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 103,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "archive_type_summary": {
+      "filename": "sfa_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 56,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "theme_platform": {
+      "filename": "sfa_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 99,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "theme_archive_type": {
+      "filename": "sfa_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 153,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "visibility_archive_type": {
+      "filename": "sfa_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 116,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "timeline_corpus": {
+      "filename": "sfa_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 791,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "timeline_institutions": {
+      "filename": "sfa_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1834,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "extinction_signals": {
+      "filename": "sfa_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "snapshot_metadata": {
+      "filename": "sfa_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5208,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "report_json": {
+      "filename": "sfa_relatorio.json",
+      "exists": true,
+      "size_bytes": 1813,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "report_txt": {
+      "filename": "sfa_relatorio.txt",
+      "exists": true,
+      "size_bytes": 950,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    },
+    "report_xlsx": {
+      "filename": "sfa_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 23827,
+      "last_modified_at": "2026-06-08T16:31:59Z"
+    }
+  }
+}
