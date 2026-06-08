@@ -30,6 +30,8 @@ jobs:
           python -m py_compile app/streamlit_app.py
           python -m py_compile src/memoria_audiovisual/aamod.py
           python -m py_compile src/memoria_audiovisual/aamod_exports.py
+          python -m py_compile src/memoria_audiovisual/anf.py
+          python -m py_compile src/memoria_audiovisual/anf_exports.py
           python -m py_compile src/memoria_audiovisual/adlibitum_protocol.py
           python -m py_compile src/memoria_audiovisual/analysis.py
           python -m py_compile src/memoria_audiovisual/ape_exports.py
@@ -69,12 +71,14 @@ jobs:
           python -m py_compile scripts/prototype_francearchives_protocol.py
           python -m py_compile scripts/run_euscreen_pipeline.py
           python -m py_compile scripts/run_aamod_pipeline.py
+          python -m py_compile scripts/run_anf_pipeline.py
           python -m py_compile scripts/run_adlibitum_protocol.py
           python -m py_compile scripts/run_archipop_pipeline.py
           python -m py_compile scripts/run_ina_pipeline.py
           python -m py_compile scripts/run_observatory_cycle.py
           python -m py_compile scripts/run_pares_pipeline.py
           python -m py_compile scripts/run_sfa_pipeline.py
+          python -m py_compile scripts/check_anf_outputs.py
           python -m py_compile scripts/check_sfa_outputs.py
 
       - name: Run unit tests

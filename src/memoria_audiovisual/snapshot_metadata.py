@@ -9,6 +9,7 @@ from .analysis import filter_in_scope_video_links_df
 from .config import (
     AAPB_FAQ_URL,
     AAMOD_HOME_URL,
+    ANF_EVENTBOOK_URL,
     APE_CONTENT_PDF_URL,
     ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
@@ -22,6 +23,7 @@ from .config import (
 from .output_files import (
     AAPB_OUTPUT_FILES,
     AAMOD_OUTPUT_FILES,
+    ANF_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
@@ -324,6 +326,26 @@ def build_sfa_snapshot_metadata(
     )
 
 
+def build_anf_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="anf",
+        source_url=ANF_EVENTBOOK_URL,
+        output_files=ANF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_ape_snapshot_metadata(
     output_dir,
     *,
@@ -417,6 +439,26 @@ def write_sfa_snapshot_metadata(
         dataset="sfa",
         source_url=SFA_HOME_URL,
         output_files=SFA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_anf_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="anf",
+        source_url=ANF_EVENTBOOK_URL,
+        output_files=ANF_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
@@ -669,6 +711,7 @@ __all__ = [
     "RAW_OUTPUT_KEYS",
     "build_aapb_snapshot_metadata",
     "build_aamod_snapshot_metadata",
+    "build_anf_snapshot_metadata",
     "build_ape_snapshot_metadata",
     "build_archipop_snapshot_metadata",
     "build_euscreen_snapshot_metadata",
@@ -682,6 +725,7 @@ __all__ = [
     "save_snapshot_metadata_payload",
     "write_aapb_snapshot_metadata",
     "write_aamod_snapshot_metadata",
+    "write_anf_snapshot_metadata",
     "write_ape_snapshot_metadata",
     "write_archipop_snapshot_metadata",
     "write_euscreen_snapshot_metadata",

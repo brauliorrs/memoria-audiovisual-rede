@@ -44,6 +44,7 @@ def text_has_any_keyword(text, keywords):
 
 
 def infer_video_theme(row):
+    platform = normalize_optional_text(row.get("platform"))
     combined_text = " ".join(
         [
             normalize_optional_text(row.get("video_title")),
@@ -69,6 +70,16 @@ def infer_video_theme(row):
     ]
     if text_has_any_keyword(normalized, noise_patterns):
         return NOISE_THEME_LABEL
+
+    if platform == "Eventbook":
+        if re.search(
+            r"\b(documentar\w*|documentary|non-fiction|non fiction|utilitar\w*|sociolog\w*|industrial\w*|interbelic\w*|munca)\b",
+            normalized,
+        ):
+            return "Documentário e registro histórico"
+        if re.search(r"\b(fictiune|ficțiune|comedie|drama|aventura|aventur\w*|animatie|animație)\b", normalized):
+            return "Ficção cinematográfica"
+        return "Programação cinematográfica online"
 
     theme_rules = [
         (
@@ -427,6 +438,8 @@ def classify_access_surface(row):
         return "Agregador cultural europeu com recorte audiovisual"
     if platform == "American Archive of Public Broadcasting":
         return "acesso em agregador audiovisual"
+    if platform == "Eventbook":
+        return "Plataforma externa de exibição online"
     if platform == "AAMOD":
         return "Arquivo audiovisual institucional"
     if platform == "VAC":
@@ -474,6 +487,7 @@ def classify_access_regime(modalities, audiovisual_visibility):
             "Agregador audiovisual europeu especializado em cinema": "Acesso por agregador audiovisual europeu",
             "Agregador cultural europeu com recorte audiovisual": "Acesso por agregador cultural europeu com recorte audiovisual",
             "Agregador arquivístico nacional": "Acesso por agregador arquivístico nacional",
+            "Plataforma externa de exibição online": "Acesso mediado por plataforma externa de exibição online",
             "Catálogo arquivístico audiovisual institucional": "Acesso descritivo por catálogo institucional",
             "Objeto digital em agregador arquivístico nacional": "Acesso a objeto digital em agregador arquivístico nacional",
             "Registro descritivo em agregador arquivístico nacional": "Acesso descritivo por agregador arquivístico nacional",
@@ -500,7 +514,12 @@ def classify_access_regime(modalities, audiovisual_visibility):
     }
     aggregator_modalities = european_av_aggregator_modalities | national_archival_aggregator_modalities
     commercial_modalities = {"Catálogo comercial de licenciamento"}
-    external_modalities = {"Plataforma externa de vídeo", "Plataforma externa especializada", "Outra superfície de acesso"}
+    external_modalities = {
+        "Plataforma externa de vídeo",
+        "Plataforma externa de exibição online",
+        "Plataforma externa especializada",
+        "Outra superfície de acesso",
+    }
 
     unique_set = set(unique_modalities)
     has_institutional = bool(unique_set & institutional_modalities)

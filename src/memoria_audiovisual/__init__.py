@@ -1,6 +1,7 @@
 from .pipeline import (
     run_aapb_pipeline,
     run_aamod_pipeline,
+    run_anf_pipeline,
     run_archipop_pipeline,
     run_european_film_gateway_pipeline,
     run_europeana_pipeline,
@@ -15,6 +16,7 @@ from .pipeline import (
 __all__ = [
     "run_aapb_pipeline",
     "run_aamod_pipeline",
+    "run_anf_pipeline",
     "run_archipop_pipeline",
     "run_pipeline",
     "run_sfa_pipeline",

@@ -358,6 +358,7 @@ def _active_european_code_aliases():
     aliases = {
         "archives-portal-europe": "ape",
         "efg-aamod": "aamod",
+        "fiaf-cinemateca-romana": "anf",
         "fiaf-slovenian-film-archive": "sfa",
         "inedits-archipop": "archipop",
         "the-european-film-gateway": "european-film-gateway",

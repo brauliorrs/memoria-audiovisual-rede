@@ -1,0 +1,53 @@
+{
+  "source": "https://eventbook.ro/program/cinemateca-online",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Eventbook": 8
+  },
+  "top_domains": [
+    [
+      "eventbook.ro",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Arhiva Nationala de Filme - Cinemateca Romana",
+      "slug": "arhiva-nationala-de-filme-cinemateca-romana",
+      "country": "Romania",
+      "continent": "Europe",
+      "repository_code": "RO-ANF",
+      "archive_type": "Institutional film archive",
+      "anf_detail_url": "http://www.anf-cinemateca.ro/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://eventbook.ro/program/cinemateca-online",
+      "partner_domain": "eventbook.ro",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://eventbook.ro/program/cinemateca-online",
+      "video_links_found_total": 8,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 11,
+      "priority_review": "media",
+      "warning": "Corpus institucional incorporado por superfície externa Cinemateca Online/Eventbook. A rota oficial anf-cinemateca.ro não respondeu nesta rodada; a coleta não representa catálogo total da ANF e não baixa mídia.",
+      "error": "http://www.anf-cinemateca.ro/: HTTPConnectionPool(host='www.anf-cinemateca.ro', port=80): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPConnection(host='www.anf-cinemateca.ro', port=80) at 0x1e5325265d0>, 'Connection to www.anf-cinemateca.ro timed out. (connect timeout=8)'))"
+    }
+  ]
+}

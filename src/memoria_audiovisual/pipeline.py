@@ -7,6 +7,9 @@ from .aapb_exports import write_aapb_analysis_outputs
 from .aamod import collect_aamod_dataset
 from .aamod_exports import build_aamod_analysis_extra_sheets
 from .aamod_exports import write_aamod_analysis_outputs
+from .anf import collect_anf_dataset
+from .anf_exports import build_anf_analysis_extra_sheets
+from .anf_exports import write_anf_analysis_outputs
 from .ape import collect_ape_dataset
 from .ape_exports import build_ape_analysis_extra_sheets
 from .ape_exports import write_ape_analysis_outputs
@@ -16,6 +19,7 @@ from .archipop_exports import write_archipop_analysis_outputs
 from .config import (
     AAPB_FAQ_URL,
     AAMOD_HOME_URL,
+    ANF_EVENTBOOK_URL,
     APE_CONTENT_PDF_URL,
     ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
@@ -45,6 +49,7 @@ from .ina_exports import write_ina_analysis_outputs
 from .output_files import (
     AAPB_OUTPUT_FILES,
     AAMOD_OUTPUT_FILES,
+    ANF_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
@@ -68,6 +73,7 @@ from .sfa_exports import write_sfa_analysis_outputs
 from .snapshot_metadata import (
     build_aapb_snapshot_metadata,
     build_aamod_snapshot_metadata,
+    build_anf_snapshot_metadata,
     build_ape_snapshot_metadata,
     build_archipop_snapshot_metadata,
     build_euscreen_snapshot_metadata,
@@ -242,6 +248,10 @@ SFA_INSTITUTION_FIELDS = [field.replace("archipop_detail_url", "sfa_detail_url")
 SFA_SUMMARY_FIELDS = [field.replace("archipop_detail_url", "sfa_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS]
 SFA_VIDEO_LINK_FIELDS = [field.replace("archipop_detail_url", "sfa_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS]
 SFA_INTERNAL_PAGE_FIELDS = [field.replace("archipop_detail_url", "sfa_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS]
+ANF_INSTITUTION_FIELDS = [field.replace("archipop_detail_url", "anf_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS]
+ANF_SUMMARY_FIELDS = [field.replace("archipop_detail_url", "anf_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS]
+ANF_VIDEO_LINK_FIELDS = [field.replace("archipop_detail_url", "anf_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS]
+ANF_INTERNAL_PAGE_FIELDS = [field.replace("archipop_detail_url", "anf_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS]
 
 INA_INSTITUTION_FIELDS = [
     "institution",
@@ -854,6 +864,25 @@ def run_sfa_pipeline():
     )
 
 
+def run_anf_pipeline():
+    _run_corpus_pipeline(
+        source_label="Arhiva Nationala de Filme - Cinemateca Romana",
+        source_url=ANF_EVENTBOOK_URL,
+        collect_dataset=collect_anf_dataset,
+        institution_fields=ANF_INSTITUTION_FIELDS,
+        summary_fields=ANF_SUMMARY_FIELDS,
+        video_link_fields=ANF_VIDEO_LINK_FIELDS,
+        internal_page_fields=ANF_INTERNAL_PAGE_FIELDS,
+        output_files=ANF_OUTPUT_FILES,
+        analysis_output_writer=write_anf_analysis_outputs,
+        analysis_extra_sheets_builder=build_anf_analysis_extra_sheets,
+        snapshot_builder=build_anf_snapshot_metadata,
+        report_title="RELATORIO - ANF CINEMATECA ROMANA",
+        institutions_sheet_title="ANF Institutions",
+        generated_by="scripts/run_anf_pipeline.py",
+    )
+
+
 def run_euscreen_pipeline():
     _run_corpus_pipeline(
         source_label="EUscreen",
@@ -971,6 +1000,7 @@ def run_aapb_pipeline():
 __all__ = [
     "run_aapb_pipeline",
     "run_aamod_pipeline",
+    "run_anf_pipeline",
     "run_archipop_pipeline",
     "run_pipeline",
     "run_sfa_pipeline",

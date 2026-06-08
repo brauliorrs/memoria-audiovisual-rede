@@ -1,6 +1,7 @@
 from .config import (
     AAPB_FAQ_URL,
     AAMOD_HOME_URL,
+    ANF_EVENTBOOK_URL,
     APE_CONTENT_PDF_URL,
     ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
@@ -14,6 +15,7 @@ from .config import (
 from .output_files import (
     AAPB_OUTPUT_FILES,
     AAMOD_OUTPUT_FILES,
+    ANF_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
@@ -25,6 +27,7 @@ from .output_files import (
     SFA_OUTPUT_FILES,
     list_aapb_output_filenames,
     list_aamod_output_filenames,
+    list_anf_output_filenames,
     list_ape_output_filenames,
     list_archipop_output_filenames,
     list_euscreen_output_filenames,
@@ -339,6 +342,52 @@ CORPORA = {
         "run_script_path": "scripts/run_sfa_pipeline.py",
         "build_script_path": "scripts/run_sfa_pipeline.py",
         "check_script_path": "scripts/check_sfa_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "anf": {
+        "code": "anf",
+        "label": "Arhiva Nationala de Filme - Cinemateca Romana",
+        "short_label": "ANF",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial",
+        "coverage_level": "instituição individual europeia",
+        "scope": "arquivo nacional romeno especializado em patrimônio fílmico",
+        "methodological_unit": "Cinemateca Online/Eventbook e evidência institucional no European Film Gateway",
+        "ape_relationship": (
+            "identificado na varredura europeia via FIAF/EFG; o European Film Gateway é tratado apenas "
+            "como evidência agregadora, não como corpus institucional da ANF"
+        ),
+        "expansion_rationale": (
+            "Entra após validação individual da fila europeia. O site oficial indicado por FIAF/EFG "
+            "apresentou instabilidade, mas a rota Cinemateca Online no Eventbook materializa páginas "
+            "públicas de filmes/programas atribuídos à Arhiva Națională de Filme."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "É um arquivo explicitamente fílmico/audiovisual. A coleta registra metadados públicos de "
+            "programas/filmes na Cinemateca Online, sem baixar mídia, sem pressupor player aberto e sem "
+            "tratar a amostra como catálogo total da instituição."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero registros, isso indica mudança de rota, bloqueio técnico ou alteração "
+            "estrutural da superfície externa de acesso, pois a identidade institucional é audiovisual."
+        ),
+        "source_url": ANF_EVENTBOOK_URL,
+        "output_files": ANF_OUTPUT_FILES,
+        "list_output_filenames": list_anf_output_filenames,
+        "detail_url_field": "anf_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "site institucional informado pela FIAF/EFG",
+        "content_flag_label": "metadados audiovisuais publicados na rota validada",
+        "website_label": "Cinemateca Online/Eventbook",
+        "run_script": "python scripts/run_anf_pipeline.py",
+        "build_script": "python scripts/run_anf_pipeline.py",
+        "check_script": "python scripts/check_anf_outputs.py",
+        "run_script_path": "scripts/run_anf_pipeline.py",
+        "build_script_path": "scripts/run_anf_pipeline.py",
+        "check_script_path": "scripts/check_anf_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },
