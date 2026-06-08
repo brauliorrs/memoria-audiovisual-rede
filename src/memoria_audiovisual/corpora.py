@@ -150,6 +150,16 @@ CORPORA = {
             "zero audiovisual, porque isso também informa a pesquisa sobre visibilidade, "
             "digitalização e acesso público."
         ),
+        "collection_completeness": "Lista-fonte completa; detecção audiovisual limitada",
+        "selection_criterion": (
+            "Inclui as instituições do PDF oficial do APE com conteúdo publicado; a detecção audiovisual "
+            "observa a página institucional, sementes explícitas quando existirem e páginas internas candidatas."
+        ),
+        "selection_limit": "Lista APE completa da rodada; até 5 páginas internas candidatas por instituição.",
+        "completeness_note": (
+            "O corpus é completo em relação à lista-fonte APE usada, mas não afirma exaustividade dos "
+            "acervos audiovisuais de cada instituição."
+        ),
         "source_url": APE_CONTENT_PDF_URL,
         "output_files": APE_OUTPUT_FILES,
         "list_output_filenames": list_ape_output_filenames,
@@ -194,6 +204,16 @@ CORPORA = {
             "Se retornasse zero audiovisual, isso exigiria revisão metodológica mais forte, "
             "porque aqui o audiovisual é central à identidade institucional."
         ),
+        "collection_completeness": "Sondagem institucional por sementes oficiais",
+        "selection_criterion": (
+            "Observa páginas institucionais e plataformas oficiais semeadas do INA, incluindo Madelen, "
+            "Mediaclip INA, notícias, coleção/preservação e páginas institucionais."
+        ),
+        "selection_limit": "Sementes oficiais declaradas no código e até 5 páginas internas candidatas por semente.",
+        "completeness_note": (
+            "Não é catálogo completo do INA; é uma leitura reprodutível das superfícies públicas oficiais "
+            "mais relevantes para acesso e circulação audiovisual."
+        ),
         "source_url": INA_INSTITUTION_URL,
         "output_files": INA_OUTPUT_FILES,
         "list_output_filenames": list_ina_output_filenames,
@@ -237,6 +257,16 @@ CORPORA = {
         "zero_result_policy": (
             "Se retornar zero audiovisual, isso indica mudança de rota, bloqueio técnico ou alteração "
             "estrutural da plataforma, pois o audiovisual é central ao corpus."
+        ),
+        "collection_completeness": "Amostra leve de catálogo público",
+        "selection_criterion": (
+            "Coleta fichas públicas do catálogo Les Films a partir das primeiras páginas de listagem e "
+            "mantém no catálogo analítico apenas fichas com player incorporado detectado."
+        ),
+        "selection_limit": "Até 4 páginas de listagem pública do catálogo Les Films.",
+        "completeness_note": (
+            "Não é catálogo completo do ARCHIPOP; é amostra pública validada para testar metadados, "
+            "player incorporado e regime de circulação."
         ),
         "source_url": ARCHIPOP_FILMS_URL,
         "output_files": ARCHIPOP_OUTPUT_FILES,
@@ -283,6 +313,16 @@ CORPORA = {
             "Se retornar zero audiovisual, isso indica mudança de rota, bloqueio técnico ou alteração "
             "estrutural da superfície pública, pois o audiovisual é central ao corpus."
         ),
+        "collection_completeness": "Rota oficial parcial e amostra WordPress",
+        "selection_criterion": (
+            "Coleta vídeos incorporados na página inicial e fichas públicas do endpoint WordPress "
+            "`I nostri film`; o catálogo xDams declarado é apenas sondado nesta rodada."
+        ),
+        "selection_limit": "Endpoint WordPress com `per_page=10`, vídeos incorporados na home e sondagem leve do xDams.",
+        "completeness_note": (
+            "Não é catálogo completo do AAMOD; é amostra reprodutível de superfícies oficiais estáveis "
+            "enquanto o catálogo xDams permanecer instável."
+        ),
         "source_url": AAMOD_HOME_URL,
         "output_files": AAMOD_OUTPUT_FILES,
         "list_output_filenames": list_aamod_output_filenames,
@@ -327,6 +367,16 @@ CORPORA = {
         "zero_result_policy": (
             "Se retornar zero registros, isso indica mudança de rota, bloqueio técnico ou alteração "
             "estrutural da superfície pública, pois o fundo SI AS 1086 é explicitamente filmográfico."
+        ),
+        "collection_completeness": "Amostra técnica por vizinhança pública",
+        "selection_criterion": (
+            "Usa o fundo SI AS 1086 como âncora e percorre fichas públicas de filmes a partir de IDs "
+            "semente e registros vizinhos detectados na navegação pública do VAČ."
+        ),
+        "selection_limit": "Até 8 fichas públicas de filmes no VAČ.",
+        "completeness_note": (
+            "Não é catálogo completo do Slovenski filmski arhiv; mede a existência de rota pública "
+            "descritiva e sua qualidade para o observatório."
         ),
         "source_url": SFA_HOME_URL,
         "output_files": SFA_OUTPUT_FILES,
@@ -374,6 +424,16 @@ CORPORA = {
             "Se retornar zero registros, isso indica mudança de rota, bloqueio técnico ou alteração "
             "estrutural da superfície externa de acesso, pois a identidade institucional é audiovisual."
         ),
+        "collection_completeness": "Amostra técnica de rota externa pública",
+        "selection_criterion": (
+            "Coleta links públicos da Cinemateca Online no Eventbook atribuídos à ANF; o EFG é usado "
+            "apenas como evidência institucional/agregadora e não como corpus da ANF."
+        ),
+        "selection_limit": "Até 8 páginas públicas de filme/programa da Cinemateca Online/Eventbook.",
+        "completeness_note": (
+            "Não é catálogo completo da ANF; mede uma superfície pública mediada por plataforma externa, "
+            "com compra/login e restrição territorial quando declaradas."
+        ),
         "source_url": ANF_EVENTBOOK_URL,
         "output_files": ANF_OUTPUT_FILES,
         "list_output_filenames": list_anf_output_filenames,
@@ -417,6 +477,16 @@ CORPORA = {
         "zero_result_policy": (
             "Se retornasse zero audiovisual, isso indicaria falha metodológica ou mudança estrutural "
             "na superfície pública do agregador, pois o audiovisual é central à plataforma."
+        ),
+        "collection_completeness": "Grade pública limitada",
+        "selection_criterion": (
+            "Coleta páginas institucionais e grades públicas de coleções do EUscreen, deduplicando itens "
+            "com `item_id` detectável."
+        ),
+        "selection_limit": "Páginas base e grades públicas `collection-grid-1` a `collection-grid-6`.",
+        "completeness_note": (
+            "Não é catálogo completo do EUscreen; é recorte público por grades disponíveis e "
+            "reprodutíveis no MVP."
         ),
         "source_url": EUSCREEN_COLLECTIONS_URL,
         "output_files": EUSCREEN_OUTPUT_FILES,
@@ -462,6 +532,16 @@ CORPORA = {
             "Se retornar zero audiovisual, o resultado exige nota metodológica forte, porque "
             "a identidade pública do agregador é audiovisual."
         ),
+        "collection_completeness": "Amostra de busca pública",
+        "selection_criterion": (
+            "Observa página inicial e buscas públicas pelos termos `film` e `video`, mantendo registros "
+            "cujo contexto indica vídeo na superfície pública do EFG."
+        ),
+        "selection_limit": "Até 25 registros por página/termo de busca.",
+        "completeness_note": (
+            "Não é catálogo completo do EFG; é amostra de validação da superfície pública do agregador "
+            "e de sua estabilidade técnica."
+        ),
         "source_url": EUROPEAN_FILM_GATEWAY_HOME_URL,
         "output_files": EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
         "list_output_filenames": list_european_film_gateway_output_filenames,
@@ -506,6 +586,16 @@ CORPORA = {
             "Retorno zero não equivale a ausência de audiovisual europeu, mas a limite de "
             "visibilidade, indexação, API ou filtragem da plataforma."
         ),
+        "collection_completeness": "Amostra de busca pública filtrada",
+        "selection_criterion": (
+            "Busca termos audiovisuais na Europeana, abre detalhes dos itens e mantém apenas registros "
+            "com sinais de vídeo, filme, imagem em movimento ou audiovisual."
+        ),
+        "selection_limit": "Até 8 registros por termo de busca antes da triagem por detalhe.",
+        "completeness_note": (
+            "Não é catálogo completo da Europeana; é recorte audiovisual controlado dentro de um "
+            "agregador cultural amplo."
+        ),
         "source_url": EUROPEANA_HOME_URL,
         "output_files": EUROPEANA_OUTPUT_FILES,
         "list_output_filenames": list_europeana_output_filenames,
@@ -549,6 +639,16 @@ CORPORA = {
         "zero_result_policy": (
             "Se retornar zero audiovisual, permanece como evidência sobre limites de visibilidade "
             "da fonte geral, sem equivaler a ausência de acervo audiovisual espanhol."
+        ),
+        "collection_completeness": "Amostra de busca pública por termo",
+        "selection_criterion": (
+            "Busca termos audiovisuais no PARES e registra descrições ou objetos digitais detectados "
+            "na primeira página pública de resultados."
+        ),
+        "selection_limit": "Até 25 registros por termo: `audiovisual`, `film` e `video`.",
+        "completeness_note": (
+            "Não é catálogo completo do PARES; é validação total da rota pública escolhida, não "
+            "exaustão do acervo espanhol."
         ),
         "source_url": PARES_HOME_URL,
         "output_files": PARES_OUTPUT_FILES,
@@ -595,6 +695,16 @@ CORPORA = {
             "Se retornar zero audiovisual, permanece como evidência sobre limites de visibilidade "
             "da fonte geral, sem equivaler a ausência de acervo audiovisual português."
         ),
+        "collection_completeness": "Amostra de busca pública por termo",
+        "selection_criterion": (
+            "Busca termos audiovisuais no Portal Português de Arquivos e registra metadados, descrições "
+            "e ligações à fonte original quando detectadas."
+        ),
+        "selection_limit": "Até 25 registros por termo: `audiovisual`, `video`, `vídeo` e `filme`.",
+        "completeness_note": (
+            "Não é catálogo completo do PPA; é validação total da rota pública escolhida, com foco em "
+            "evidência audiovisual detectável."
+        ),
         "source_url": PPA_HOME_URL,
         "output_files": PPA_OUTPUT_FILES,
         "list_output_filenames": list_ppa_output_filenames,
@@ -638,6 +748,16 @@ CORPORA = {
         "zero_result_policy": (
             "Se retornar zero audiovisual, isso indicaria falha de rota ou mudança estrutural, "
             "pois o audiovisual é constitutivo da fonte."
+        ),
+        "collection_completeness": "Amostra API por termo",
+        "selection_criterion": (
+            "Consulta a API JSON/PBCore do AAPB por termos audiovisuais e mantém apenas registros com "
+            "evidência PBCore de imagem em movimento."
+        ),
+        "selection_limit": "Até 12 registros por termo: `video`, `film` e `television`.",
+        "completeness_note": (
+            "Não é catálogo completo do AAPB; é amostra API leve e reprodutível para contrastar "
+            "agregador audiovisual extraeuropeu com a etapa europeia."
         ),
         "source_url": AAPB_FAQ_URL,
         "output_files": AAPB_OUTPUT_FILES,

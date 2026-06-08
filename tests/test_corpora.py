@@ -20,10 +20,18 @@ class CorporaDefinitionsTests(unittest.TestCase):
             self.assertIn("observatory_role", corpus_def)
             self.assertIn("audiovisual_scope_note", corpus_def)
             self.assertIn("zero_result_policy", corpus_def)
+            self.assertIn("collection_completeness", corpus_def)
+            self.assertIn("selection_criterion", corpus_def)
+            self.assertIn("selection_limit", corpus_def)
+            self.assertIn("completeness_note", corpus_def)
             self.assertIn("run_script_path", corpus_def)
             self.assertIn("check_script_path", corpus_def)
             self.assertIn("organism_active", corpus_def)
             self.assertIn("monthly_refresh_enabled", corpus_def)
+            self.assertTrue(corpus_def["collection_completeness"].strip())
+            self.assertTrue(corpus_def["selection_criterion"].strip())
+            self.assertTrue(corpus_def["selection_limit"].strip())
+            self.assertTrue(corpus_def["completeness_note"].strip())
 
     def test_category_listing_returns_only_matching_corpora(self):
         for category_code in CORPUS_CATEGORIES:

@@ -87,6 +87,17 @@ No estado atual:
 - `FilmArchives Online`, `EFG1914`, `VICTOR-E`, `ACE`, `INEDITS`, `EBU`, `European Audiovisual Observatory` e `Archivportal-D` aparecem na auditoria ou na fila europeia como unidades cobertas, fontes documentadas, contextuais ou candidatas futuras, sem bloquear o MVP;
 - a interface permite trabalhar com o todo, por categoria analítica e por corpus individual, sem fundir esses níveis de análise.
 
+## Regra de completude da coleta
+
+Nenhum corpus parcial deve ser lido como catálogo total. A partir desta camada metodológica, cada corpus ativo declara:
+
+- `completude da coleta`: se a base é completa em relação à fonte usada, amostral, limitada por grade, limitada por busca pública ou limitada por rota técnica;
+- `critério de seleção`: por que aqueles registros entram na rodada;
+- `limite técnico`: quantidade de páginas, termos, sementes ou registros máximos usados;
+- `nota de completude`: o que a plataforma pode ou não afirmar com segurança.
+
+Assim, números como `8 vídeos`, `25 registros por termo` ou `4 páginas de listagem` não são apresentados como total do acervo. Eles representam uma rodada reprodutível de observação pública. Quando for necessário transformar uma amostra em catálogo mais amplo, isso deve ser feito em uma etapa específica de validação total, com regra própria, paginação controlada e nova documentação metodológica.
+
 ## Linha do tempo e possíveis extinções
 
 Cada atualização do organismo registra uma memória histórica da rodada:

@@ -1,12 +1,12 @@
 {
   "dataset": "anf",
-  "generated_at": "2026-06-08T16:55:31Z",
+  "generated_at": "2026-06-08T17:08:48Z",
   "generated_by": "scripts/run_anf_pipeline.py",
-  "observation_key": "anf:2026-06-08T16:55:31Z",
+  "observation_key": "anf:2026-06-08T17:08:48Z",
   "source_url": "https://eventbook.ro/program/cinemateca-online",
   "source_status_date": "",
-  "raw_outputs_last_modified_at": "2026-06-08T16:55:31Z",
-  "analytic_outputs_last_modified_at": "2026-06-08T16:55:31Z",
+  "raw_outputs_last_modified_at": "2026-06-08T17:08:48Z",
+  "analytic_outputs_last_modified_at": "2026-06-08T17:08:48Z",
   "counts": {
     "institutions": 1,
     "institutions_with_website": 1,
@@ -24,145 +24,145 @@
       "filename": "anf_instituicoes.csv",
       "exists": true,
       "size_bytes": 366,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "summary": {
       "filename": "anf_resumo_instituicoes.csv",
       "exists": true,
       "size_bytes": 1139,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "video_links": {
       "filename": "anf_links_video.csv",
       "exists": true,
       "size_bytes": 7906,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "internal_pages": {
       "filename": "anf_paginas_internas.csv",
       "exists": true,
       "size_bytes": 5039,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "analytic_summary": {
       "filename": "anf_resumo_instituicoes_analitico.csv",
       "exists": true,
       "size_bytes": 1528,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:47Z"
     },
     "analytic_video_catalog": {
       "filename": "anf_catalogo_videos_analitico.csv",
       "exists": true,
       "size_bytes": 8911,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:47Z"
     },
     "availability_summary": {
       "filename": "anf_resumo_disponibilidade.csv",
       "exists": true,
       "size_bytes": 32,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "availability_reasons": {
       "filename": "anf_subcategorias_disponibilidade.csv",
       "exists": true,
       "size_bytes": 45,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "visibility_summary": {
       "filename": "anf_resumo_visibilidade.csv",
       "exists": true,
       "size_bytes": 66,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:47Z"
     },
     "access_surface_summary": {
       "filename": "anf_resumo_modalidades_acesso.csv",
       "exists": true,
       "size_bytes": 61,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "access_regime_summary": {
       "filename": "anf_resumo_regimes_acesso.csv",
       "exists": true,
       "size_bytes": 76,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "theme_summary": {
       "filename": "anf_resumo_temas.csv",
       "exists": true,
       "size_bytes": 80,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "theme_country": {
       "filename": "anf_tema_pais.csv",
       "exists": true,
       "size_bytes": 101,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "archive_type_summary": {
       "filename": "anf_resumo_tipos_arquivo.csv",
       "exists": true,
       "size_bytes": 56,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "theme_platform": {
       "filename": "anf_tema_plataforma.csv",
       "exists": true,
       "size_bytes": 111,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "theme_archive_type": {
       "filename": "anf_tema_tipo_arquivo.csv",
       "exists": true,
       "size_bytes": 153,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "visibility_archive_type": {
       "filename": "anf_visibilidade_tipo_arquivo.csv",
       "exists": true,
       "size_bytes": 116,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "timeline_corpus": {
       "filename": "anf_linha_do_tempo_corpus.csv",
       "exists": true,
-      "size_bytes": 933,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "size_bytes": 1075,
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "timeline_institutions": {
       "filename": "anf_linha_do_tempo_instituicoes.csv",
       "exists": true,
-      "size_bytes": 2254,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "size_bytes": 2725,
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "extinction_signals": {
       "filename": "anf_sinais_possivel_extincao.csv",
       "exists": true,
       "size_bytes": 292,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "snapshot_metadata": {
       "filename": "anf_snapshot_metadata.json",
       "exists": true,
-      "size_bytes": 5166,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "size_bytes": 5167,
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "report_json": {
       "filename": "anf_relatorio.json",
       "exists": true,
       "size_bytes": 1924,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "report_txt": {
       "filename": "anf_relatorio.txt",
       "exists": true,
       "size_bytes": 916,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "last_modified_at": "2026-06-08T17:08:48Z"
     },
     "report_xlsx": {
       "filename": "anf_relatorio.xlsx",
       "exists": true,
-      "size_bytes": 25670,
-      "last_modified_at": "2026-06-08T16:55:31Z"
+      "size_bytes": 25669,
+      "last_modified_at": "2026-06-08T17:08:48Z"
     }
   }
 }
