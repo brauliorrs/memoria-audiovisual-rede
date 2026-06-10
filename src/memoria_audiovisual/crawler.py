@@ -206,6 +206,9 @@ def is_probably_video_link(url, platform=None):
     if platform == "Eventbook":
         return path.startswith("/film/")
 
+    if platform == "AQSHF":
+        return path.startswith("/motion_picture/")
+
     if platform == "AAMOD":
         return path.startswith("/i-nostri-film/")
 

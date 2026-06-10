@@ -2,34 +2,34 @@
   "organism": "Memória Audiovisual em Rede",
   "role": "organismo agregador mundial em construção",
   "refresh_cadence": "mensal",
-  "generated_at": "2026-06-08T17:08:50Z",
-  "started_at": "2026-06-08T17:06:17Z",
-  "finished_at": "2026-06-08T17:08:50Z",
+  "generated_at": "2026-06-10T17:06:17Z",
+  "started_at": "2026-06-10T16:59:25Z",
+  "finished_at": "2026-06-10T17:06:17Z",
   "cycle_type": "mensal",
   "cycle_scope": "parcial",
-  "active_corpora_total": 12,
+  "active_corpora_total": 13,
   "selected_corpora_total": 1,
   "selected_corpora_codes": [
-    "anf"
+    "aqshf"
   ],
   "successful_corpora_total": 1,
   "failed_corpora_total": 0,
   "cycle_results": [
     {
-      "code": "anf",
-      "label": "Arhiva Nationala de Filme - Cinemateca Romana",
-      "short_label": "ANF",
+      "code": "aqshf",
+      "label": "Arkivi Qendror Shtetëror i Filmit / The Albanian National Film Archive",
+      "short_label": "AQSHF",
       "category_code": "institution",
       "coverage_level": "instituição individual europeia",
       "status": "success",
-      "refresh_started_at": "2026-06-08T17:08:30Z",
-      "refresh_finished_at": "2026-06-08T17:08:50Z",
-      "snapshot_generated_at": "2026-06-08T17:08:48Z",
-      "observation_key": "anf:2026-06-08T17:08:48Z",
+      "refresh_started_at": "2026-06-10T17:04:56Z",
+      "refresh_finished_at": "2026-06-10T17:06:17Z",
+      "snapshot_generated_at": "2026-06-10T17:06:15Z",
+      "observation_key": "aqshf:2026-06-10T17:06:14Z",
       "source_status_date": "",
       "institutions": 1,
-      "video_links_total": 8,
-      "videos_in_curatorial_catalog": 8,
+      "video_links_total": 2736,
+      "videos_in_curatorial_catalog": 2736,
       "error": ""
     }
   ]

@@ -1,0 +1,168 @@
+{
+  "dataset": "aqshf",
+  "generated_at": "2026-06-10T17:06:15Z",
+  "generated_by": "scripts/run_aqshf_pipeline.py",
+  "observation_key": "aqshf:2026-06-10T17:06:14Z",
+  "source_url": "https://aqshf.gov.al/en/motion-pictures-listing/",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-10T17:06:14Z",
+  "analytic_outputs_last_modified_at": "2026-06-10T17:06:12Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 2736,
+    "videos_in_curatorial_catalog": 2736,
+    "visibility_categories": 1,
+    "theme_categories": 4,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "aqshf_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 415,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "summary": {
+      "filename": "aqshf_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 966,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "video_links": {
+      "filename": "aqshf_links_video.csv",
+      "exists": true,
+      "size_bytes": 2346312,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "internal_pages": {
+      "filename": "aqshf_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 14430,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "analytic_summary": {
+      "filename": "aqshf_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1340,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "aqshf_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 2663869,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "availability_summary": {
+      "filename": "aqshf_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "availability_reasons": {
+      "filename": "aqshf_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "visibility_summary": {
+      "filename": "aqshf_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "access_surface_summary": {
+      "filename": "aqshf_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 71,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "access_regime_summary": {
+      "filename": "aqshf_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "theme_summary": {
+      "filename": "aqshf_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 150,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "theme_country": {
+      "filename": "aqshf_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 187,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "archive_type_summary": {
+      "filename": "aqshf_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 56,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "theme_platform": {
+      "filename": "aqshf_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 185,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "theme_archive_type": {
+      "filename": "aqshf_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 277,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "visibility_archive_type": {
+      "filename": "aqshf_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 116,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "timeline_corpus": {
+      "filename": "aqshf_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 827,
+      "last_modified_at": "2026-06-10T17:06:15Z"
+    },
+    "timeline_institutions": {
+      "filename": "aqshf_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1816,
+      "last_modified_at": "2026-06-10T17:06:15Z"
+    },
+    "extinction_signals": {
+      "filename": "aqshf_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-10T17:06:15Z"
+    },
+    "snapshot_metadata": {
+      "filename": "aqshf_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5237,
+      "last_modified_at": "2026-06-10T17:06:15Z"
+    },
+    "report_json": {
+      "filename": "aqshf_relatorio.json",
+      "exists": true,
+      "size_bytes": 1754,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "report_txt": {
+      "filename": "aqshf_relatorio.txt",
+      "exists": true,
+      "size_bytes": 932,
+      "last_modified_at": "2026-06-10T17:06:12Z"
+    },
+    "report_xlsx": {
+      "filename": "aqshf_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 1026049,
+      "last_modified_at": "2026-06-10T17:06:14Z"
+    }
+  }
+}

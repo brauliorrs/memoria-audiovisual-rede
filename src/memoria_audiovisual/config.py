@@ -35,6 +35,10 @@ AAPB_API_URL_TEMPLATE = "https://americanarchive.org/api.json?q={query}&rows={ro
 ANF_OFFICIAL_URL = "http://www.anf-cinemateca.ro/"
 ANF_EFG_PAGE_URL = "https://www.europeanfilmgateway.eu/content/arhiva-nationala-de-filme-bucarest"
 ANF_EVENTBOOK_URL = "https://eventbook.ro/program/cinemateca-online"
+AQSHF_HOME_URL = "https://aqshf.gov.al/"
+AQSHF_MOTION_PICTURES_URL = "https://aqshf.gov.al/en/motion-pictures-listing/"
+AQSHF_STATISTICS_URL = "https://aqshf.gov.al/en/statistics/"
+AQSHF_WP_MOTION_PICTURE_API_URL = "https://aqshf.gov.al/wp-json/wp/v2/motion_picture"
 AAMOD_HOME_URL = "https://aamod.it/"
 AAMOD_PATRIMONIO_URL = "https://aamod.it/patrimonio/"
 AAMOD_FAQ_URL = "https://aamod.it/faq/"
@@ -94,6 +98,7 @@ VIDEO_PLATFORMS = {
     "americanarchive.org": "American Archive of Public Broadcasting",
     "www.americanarchive.org": "American Archive of Public Broadcasting",
     "eventbook.ro": "Eventbook",
+    "aqshf.gov.al": "AQSHF",
     "aamod.it": "AAMOD",
     "www.aamod.it": "AAMOD",
     "vac.sjas.gov.si": "VAC",
@@ -138,6 +143,7 @@ PARES_OUTPUT_PREFIX = "pares"
 PPA_OUTPUT_PREFIX = "ppa"
 AAPB_OUTPUT_PREFIX = "aapb"
 ANF_OUTPUT_PREFIX = "anf"
+AQSHF_OUTPUT_PREFIX = "aqshf"
 AAMOD_OUTPUT_PREFIX = "aamod"
 SFA_OUTPUT_PREFIX = "sfa"
 ARCHIPOP_OUTPUT_PREFIX = "archipop"

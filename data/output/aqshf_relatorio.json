@@ -1,0 +1,53 @@
+{
+  "source": "https://aqshf.gov.al/en/motion-pictures-listing/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "AQSHF": 2736
+  },
+  "top_domains": [
+    [
+      "aqshf.gov.al",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Arkivi Qendror Shtetëror i Filmit / The Albanian National Film Archive",
+      "slug": "arkivi-qendror-shtet-ror-i-filmit-the-albanian-national-film-archive",
+      "country": "Albania",
+      "continent": "Europe",
+      "repository_code": "AL-AQSHF",
+      "archive_type": "Institutional film archive",
+      "aqshf_detail_url": "https://aqshf.gov.al/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://aqshf.gov.al/",
+      "partner_domain": "aqshf.gov.al",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://aqshf.gov.al/en/motion-pictures-listing/",
+      "video_links_found_total": 2736,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 31,
+      "priority_review": "baixa",
+      "warning": "Corpus institucional incorporado pelo endpoint público WordPress `motion_picture` do AQSHF. A rodada materializou 2736 de 2736 registros declarados pelo endpoint. São fichas descritivas de filmes/imagens em movimento; nenhum arquivo de mídia é baixado e a existência de player público aberto não é presumida.",
+      "error": ""
+    }
+  ]
+}

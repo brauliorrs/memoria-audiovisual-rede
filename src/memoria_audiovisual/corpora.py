@@ -2,6 +2,7 @@ from .config import (
     AAPB_FAQ_URL,
     AAMOD_HOME_URL,
     ANF_EVENTBOOK_URL,
+    AQSHF_MOTION_PICTURES_URL,
     APE_CONTENT_PDF_URL,
     ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
@@ -16,6 +17,7 @@ from .output_files import (
     AAPB_OUTPUT_FILES,
     AAMOD_OUTPUT_FILES,
     ANF_OUTPUT_FILES,
+    AQSHF_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
@@ -28,6 +30,7 @@ from .output_files import (
     list_aapb_output_filenames,
     list_aamod_output_filenames,
     list_anf_output_filenames,
+    list_aqshf_output_filenames,
     list_ape_output_filenames,
     list_archipop_output_filenames,
     list_euscreen_output_filenames,
@@ -448,6 +451,62 @@ CORPORA = {
         "run_script_path": "scripts/run_anf_pipeline.py",
         "build_script_path": "scripts/run_anf_pipeline.py",
         "check_script_path": "scripts/check_anf_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "aqshf": {
+        "code": "aqshf",
+        "label": "Arkivi Qendror Shtetëror i Filmit / The Albanian National Film Archive",
+        "short_label": "AQSHF",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial",
+        "coverage_level": "instituição individual europeia",
+        "scope": "arquivo nacional albanês especializado em patrimônio fílmico",
+        "methodological_unit": "catálogo público Motion Pictures exposto pelo WordPress institucional",
+        "ape_relationship": (
+            "identificado na varredura europeia via FIAF e tratado como corpus institucional autônomo, "
+            "não como agregador nem como unidade derivada do APE"
+        ),
+        "expansion_rationale": (
+            "Entra após validação individual da fila europeia. O site oficial possui listagem Motion "
+            "Pictures e endpoint público WordPress `motion_picture`, permitindo absorver o catálogo "
+            "descritivo completo declarado pela rota pública na data da coleta."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "É um arquivo explicitamente fílmico/audiovisual. A coleta registra fichas públicas de "
+            "filmes, cinejornais, documentários, animações e materiais de arquivo, sem baixar mídia e "
+            "sem presumir player público aberto nas fichas."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero registros, isso indica mudança de rota, bloqueio técnico ou alteração "
+            "estrutural da superfície pública, pois o endpoint `motion_picture` é explicitamente audiovisual."
+        ),
+        "collection_completeness": "Catálogo público completo segundo endpoint",
+        "selection_criterion": (
+            "Coleta todas as páginas retornadas pelo endpoint WordPress público `motion_picture`, com "
+            "`per_page=100`, até o total declarado por `X-WP-TotalPages`."
+        ),
+        "selection_limit": "Sem amostra arbitrária; paginação completa do endpoint público na rodada.",
+        "completeness_note": (
+            "É completo em relação ao endpoint público `motion_picture` disponível na data da coleta, "
+            "mas não afirma acesso aberto aos arquivos de mídia nem exaustividade do acervo físico total."
+        ),
+        "source_url": AQSHF_MOTION_PICTURES_URL,
+        "output_files": AQSHF_OUTPUT_FILES,
+        "list_output_filenames": list_aqshf_output_filenames,
+        "detail_url_field": "aqshf_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "site institucional do AQSHF",
+        "content_flag_label": "fichas audiovisuais publicadas no catálogo Motion Pictures",
+        "website_label": "catálogo Motion Pictures/AQSHF",
+        "run_script": "python scripts/run_aqshf_pipeline.py",
+        "build_script": "python scripts/run_aqshf_pipeline.py",
+        "check_script": "python scripts/check_aqshf_outputs.py",
+        "run_script_path": "scripts/run_aqshf_pipeline.py",
+        "build_script_path": "scripts/run_aqshf_pipeline.py",
+        "check_script_path": "scripts/check_aqshf_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },

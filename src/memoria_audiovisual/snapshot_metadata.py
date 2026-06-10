@@ -10,6 +10,7 @@ from .config import (
     AAPB_FAQ_URL,
     AAMOD_HOME_URL,
     ANF_EVENTBOOK_URL,
+    AQSHF_MOTION_PICTURES_URL,
     APE_CONTENT_PDF_URL,
     ARCHIPOP_FILMS_URL,
     EUSCREEN_COLLECTIONS_URL,
@@ -24,6 +25,7 @@ from .output_files import (
     AAPB_OUTPUT_FILES,
     AAMOD_OUTPUT_FILES,
     ANF_OUTPUT_FILES,
+    AQSHF_OUTPUT_FILES,
     APE_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
@@ -346,6 +348,26 @@ def build_anf_snapshot_metadata(
     )
 
 
+def build_aqshf_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="aqshf",
+        source_url=AQSHF_MOTION_PICTURES_URL,
+        output_files=AQSHF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_ape_snapshot_metadata(
     output_dir,
     *,
@@ -459,6 +481,26 @@ def write_anf_snapshot_metadata(
         dataset="anf",
         source_url=ANF_EVENTBOOK_URL,
         output_files=ANF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_aqshf_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="aqshf",
+        source_url=AQSHF_MOTION_PICTURES_URL,
+        output_files=AQSHF_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
@@ -713,6 +755,7 @@ __all__ = [
     "build_aamod_snapshot_metadata",
     "build_anf_snapshot_metadata",
     "build_ape_snapshot_metadata",
+    "build_aqshf_snapshot_metadata",
     "build_archipop_snapshot_metadata",
     "build_euscreen_snapshot_metadata",
     "build_european_film_gateway_snapshot_metadata",
@@ -727,6 +770,7 @@ __all__ = [
     "write_aamod_snapshot_metadata",
     "write_anf_snapshot_metadata",
     "write_ape_snapshot_metadata",
+    "write_aqshf_snapshot_metadata",
     "write_archipop_snapshot_metadata",
     "write_euscreen_snapshot_metadata",
     "write_european_film_gateway_snapshot_metadata",

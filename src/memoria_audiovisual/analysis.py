@@ -81,6 +81,15 @@ def infer_video_theme(row):
             return "Ficção cinematográfica"
         return "Programação cinematográfica online"
 
+    if platform == "AQSHF":
+        if re.search(r"\b(film artistik|feature|fiction|ficcao|ficção|drama|komedi|comed)\b", normalized):
+            return "Ficção cinematográfica"
+        if re.search(r"\b(animacion\w*|animation|animated|vizatim\w*)\b", normalized):
+            return "Animação"
+        if re.search(r"\b(dokumentar\w*|documentar\w*|documentaries|newsreel\w*|kronik\w*|xhirime\w*|archive footage|archival footage|histor)\b", normalized):
+            return "Documentário e registro histórico"
+        return "Catálogo filmográfico e metadados de acervo"
+
     theme_rules = [
         (
             "Apresentação institucional",
@@ -440,6 +449,8 @@ def classify_access_surface(row):
         return "acesso em agregador audiovisual"
     if platform == "Eventbook":
         return "Plataforma externa de exibição online"
+    if platform == "AQSHF":
+        return "Catálogo descritivo audiovisual institucional"
     if platform == "AAMOD":
         return "Arquivo audiovisual institucional"
     if platform == "VAC":

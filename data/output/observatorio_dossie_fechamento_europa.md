@@ -2,7 +2,7 @@
 
 ## Status do corpus continental
 - Status de abertura: `autorizada_com_cautela`.
-- Corpora europeus ativos: `11`.
+- Corpora europeus ativos: `12`.
 - Candidatos europeus documentados fora do corpus ativo: `2`.
 - Escopo: Europa como corpus continental em fechamento metodológico progressivo para artigo e projeto de pós-doutorado.
 
@@ -10,6 +10,7 @@
 - `aamod`: Archivio Audiovisivo del movimento operaio e democratico | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `anf`: Arhiva Nationala de Filme - Cinemateca Romana | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `ape`: Archives Portal Europe | Agregadores arquivísticos | agregador continental | pipeline_ativo.
+- `aqshf`: Arkivi Qendror Shtetëror i Filmit / The Albanian National Film Archive | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `archipop`: ARCHIPOP | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `european-film-gateway`: European Film Gateway | Agregadores arquivísticos | agregador audiovisual europeu | pipeline_ativo.
 - `europeana`: Europeana | Agregadores arquivísticos | agregador cultural europeu | pipeline_ativo.
