@@ -1,375 +1,365 @@
-# Plataforma aberta de curadoria e acesso à memória audiovisual em rede
+# Memória Audiovisual em Rede
 
-Projeto focado, nesta etapa, no fechamento europeu do observatório e no início controlado da expansão extraeuropeia a partir do Archives Portal Europe (APE), do EUscreen, do European Film Gateway, da Europeana, do PARES, do Portal Português de Arquivos (PPA), do Institut national de l'audiovisuel (INA), do ARCHIPOP, do Archivio Audiovisivo del movimento operaio e democratico (AAMOD), do Slovenski filmski arhiv (SFA), da Arhiva Nationala de Filme - Cinemateca Romana (ANF), do Arkivi Qendror Shtetëror i Filmit / The Albanian National Film Archive (AQSHF) e do American Archive of Public Broadcasting (AAPB) para:
+**Observatório digital para mapear, monitorar e analisar a presença pública de acervos audiovisuais em plataformas, arquivos e agregadores digitais.**
 
-- identificar instituições com conteúdo publicado no portal;
-- capturar a `Webpage` externa de cada instituição a partir da ficha do APE;
-- verificar a integridade desses sites;
-- detectar links de vídeo e sinais de mídia embutida;
-- enriquecer links de vídeo com título, assunto, descrição curta e data publicada, quando disponível;
-- organizar os resultados em relatórios e em uma interface Streamlit.
+Este projeto combina coleta automatizada, curadoria metodológica, geração de indicadores e visualização em Streamlit para estudar como acervos audiovisuais circulam em ambientes digitais, especialmente quando dependem de plataformas, agregadores, catálogos públicos, APIs, metadados e sistemas institucionais de acesso.
 
-Ao mesmo tempo, o projeto se assume como um **organismo agregador mundial em construção**:
+O objetivo não é apenas localizar vídeos ou registros audiovisuais, mas compreender como a memória audiovisual se torna visível, acessível, indexável, instável ou ausente nas redes digitais contemporâneas.
 
-- mapeia primeiro agregadores arquivísticos;
-- incorpora depois arquivos e instituições não cobertos por esses agregadores;
-- mantém linhas do tempo para que o crescimento, a retração e possíveis extinções digitais fiquem historicamente rastreáveis.
-- executa um ciclo mensal automatizado para atualizar os corpora ativos do organismo.
+---
 
-## Eixo acadêmico
+## Resumo executivo
 
-O observatório integra a formulação de um projeto de pós-doutorado a ser submetido à Universidade de Valência, no âmbito do **Communication and Media Culture History Research Group**.
+O **Memória Audiovisual em Rede** é um observatório em Python voltado à análise da circulação digital de acervos audiovisuais.
 
-A pergunta orientadora é: **como as plataformas digitais reorganizam a circulação territorial e cultural do audiovisual contemporâneo?**
+O projeto coleta e organiza dados de agregadores e instituições arquivísticas, verifica integridade de sites, identifica sinais audiovisuais, detecta links de vídeo, registra limitações técnicas e produz saídas analíticas em formatos abertos.
 
-As plataformas digitais não eliminam o território; elas reorganizam o território. No audiovisual contemporâneo, a circulação deixa de depender apenas do lugar físico do arquivo, da cinemateca, da emissora ou da instituição custodial, e passa a depender de uma combinação entre infraestrutura técnica, políticas de acesso e licenciamento, idioma dos metadados, formatos de indexação, regimes de visibilidade e dependência de plataformas externas.
+**Entrega principal:** pipeline de observação + relatórios estruturados + dashboard Streamlit
+**Stack:** Python, pandas, Streamlit, Playwright, CSV, JSON, XLSX
+**Uso:** pesquisa acadêmica, memória audiovisual, comunicação digital, políticas de acesso e análise de plataformas
+**Status:** MVP em desenvolvimento, com corpora ativos e expansão metodológica controlada
+
+---
+
+## Problema
+
+Grande parte dos acervos audiovisuais públicos não circula apenas por arquivos físicos ou catálogos institucionais. Sua visibilidade passa a depender de fatores como:
+
+* existência de páginas públicas;
+* qualidade dos metadados;
+* idioma da descrição;
+* presença ou ausência de player;
+* uso de plataformas externas;
+* estabilidade de sites institucionais;
+* indexação em agregadores;
+* políticas de acesso e licenciamento;
+* rotas técnicas de coleta, busca ou API.
+
+Isso cria um problema de pesquisa: **a memória audiovisual pode existir institucionalmente, mas permanecer pouco visível ou pouco acessível digitalmente.**
+
+---
+
+## Pergunta orientadora
+
+**Como as plataformas digitais reorganizam a circulação territorial e cultural do audiovisual contemporâneo?**
 
 A hipótese de trabalho é que a circulação audiovisual contemporânea é cada vez menos determinada apenas pela localização física dos acervos e cada vez mais pela capacidade das instituições e plataformas de tornar esses acervos detectáveis, descritos, interoperáveis e acessíveis em redes digitais transnacionais.
 
-No observatório, essa pergunta é operacionalizada por variáveis como hospedagem, indexação, descrição, idioma, regime de acesso, plataforma, visibilidade pública e escala territorial.
+---
+
+## Solução
+
+O projeto propõe um observatório digital que:
+
+1. identifica agregadores, arquivos e instituições com potencial audiovisual;
+2. executa coletas controladas em fontes públicas;
+3. separa agregadores, arquivos custodiais e unidades apenas protocoladas;
+4. registra sinais de acesso, visibilidade, instabilidade e ausência;
+5. gera relatórios técnicos e analíticos;
+6. mantém linhas do tempo dos corpora e das instituições;
+7. disponibiliza os dados em uma interface Streamlit.
+
+---
 
 ## Escopo atual
 
-- `Corpus 1` — `APE`: agregador arquivístico continental europeu, composto por arquivos gerais com conteúdo publicado no Archives Portal Europe.
-- `Corpus 2` — `EUscreen`: agregador audiovisual europeu, usado para observar circulação transnacional em uma plataforma temática especializada.
-- `Corpus 3` — `European Film Gateway`: agregador audiovisual europeu especializado em cinema, incorporado em modo cauteloso porque a superfície pública pode apresentar falha técnica em sondagens simples.
-- `Corpus 4` — `Europeana`: agregador cultural europeu amplo, incorporado com recorte audiovisual a partir de busca pública com filtro de mídia e triagem por sinais audiovisuais.
-- `Corpus 5` — `PARES`: agregador nacional espanhol incorporado após validação técnica da busca pública. Neste corpus, o resultado detectado pode ser `registro descritivo recuperado` ou `objeto digital detectado`.
-- `Corpus 6` — `PPA`: agregador nacional português incorporado após validação total da busca pública. Neste corpus, o resultado detectado é tratado como registro descritivo com evidência audiovisual em metadados, descrições ou ligação à fonte original, sem pressupor reprodução pública de vídeo.
-- `Corpus 7` — `INA`: corpus especializado em audiovisual, estruturado a partir do Institut national de l'audiovisuel.
-- `Corpus 8` — `ARCHIPOP`: arquivo audiovisual institucional francês, incorporado por catálogo público HTML após validação de fichas com player embutido.
-- `Corpus 9` — `AAMOD`: arquivo audiovisual institucional italiano, incorporado por superfície oficial, vídeos incorporados e fichas públicas WordPress; o catálogo xDams declarado foi sondado, mas não usado no MVP por instabilidade técnica.
-- `Corpus 10` — `SFA`: arquivo fílmico institucional esloveno, incorporado por fichas públicas de metadados no VAČ; não há player público detectado nas fichas.
-- `Corpus 11` — `ANF`: arquivo fílmico institucional romeno, incorporado pela rota pública Cinemateca Online/Eventbook; o EFG funciona apenas como evidência agregadora e o site oficial foi registrado como instável nesta rodada.
-- `Corpus 12` — `AQSHF`: arquivo fílmico institucional albanês, incorporado pelo endpoint público WordPress `motion_picture`; a coleta materializa o catálogo descritivo completo exposto pela rota pública, sem pressupor player aberto ou download de mídia.
-- `Corpus 13` — `AAPB`: agregador audiovisual nacional norte-americano, incorporado por rota API JSON/PBCore após o ArchiveGrid ser protocolado sem rota estável.
-- Verificação de integridade do site institucional externo de cada corpus.
-- Detecção de links para plataformas de vídeo e sinais de mídia embutida.
-- Enriquecimento de links de vídeo com metadados básicos da página do vídeo.
-- Geração de relatórios em CSV, JSON, TXT e XLSX para cada corpus.
-- Interface Streamlit organizada por corpus, com abas próprias para `APE`, `EUscreen`, `European Film Gateway`, `Europeana`, `PARES`, `PPA`, `INA`, `ARCHIPOP`, `AAMOD`, `SFA`, `ANF`, `AQSHF` e `AAPB`, além de uma visão geral comparativa do observatório e abas de protocolo para unidades identificadas, mas não incorporadas ao corpus ativo.
+O observatório trabalha com corpora ativos e unidades protocoladas.
 
-## Estratégia de expansão
+### Corpora ativos
 
-O crescimento do observatório segue uma regra metodológica explícita:
+| Corpus    | Fonte                                                    | Tipo                                               |
+| --------- | -------------------------------------------------------- | -------------------------------------------------- |
+| APE       | Archives Portal Europe                                   | Agregador arquivístico europeu                     |
+| EUscreen  | EUscreen                                                 | Agregador audiovisual europeu                      |
+| EFG       | European Film Gateway                                    | Agregador audiovisual especializado em cinema      |
+| Europeana | Europeana                                                | Agregador cultural europeu com recorte audiovisual |
+| PARES     | Portal de Archivos Españoles                             | Agregador nacional espanhol                        |
+| PPA       | Portal Português de Arquivos                             | Agregador nacional português                       |
+| INA       | Institut national de l'audiovisuel                       | Instituição audiovisual                            |
+| ARCHIPOP  | ARCHIPOP                                                 | Arquivo audiovisual institucional                  |
+| AAMOD     | Archivio Audiovisivo del Movimento Operaio e Democratico | Arquivo audiovisual institucional                  |
+| SFA       | Slovenski filmski arhiv                                  | Arquivo fílmico institucional                      |
+| ANF       | Arhiva Națională de Filme / Cinemateca Română            | Arquivo fílmico institucional                      |
+| AQSHF     | Albanian National Film Archive                           | Arquivo fílmico institucional                      |
+| AAPB      | American Archive of Public Broadcasting                  | Agregador audiovisual norte-americano              |
 
-1. `Etapa 1` — incorporar primeiro **agregadores continentais ou supranacionais**.
-2. `Etapa 2` — incorporar depois **arquivos e instituições não cobertos por esses agregadores**.
+### Unidades protocoladas ou monitoradas
 
-Essa política busca:
+Algumas fontes são mantidas no radar metodológico, mas ainda não entram como corpus ativo por ausência de rota pública estável, ausência de evidência audiovisual coletável ou inadequação ao recorte atual.
 
-- ampliar cobertura de forma mais rápida;
-- manter comparabilidade entre unidades do mesmo tipo;
-- evitar misturar, sem mediação, agregadores e instituições custodiais;
-- fortalecer o rigor científico da expansão do acervo.
+Entre elas:
 
-Regra audiovisual:
+* ArchiveGrid
+* Archives Hub
+* FranceArchives
+* Iberarchivos
+* Ad Libitum Workshop
+* FilmArchives Online
+* EFG1914
+* VICTOR-E
+* ACE
+* INEDITS
+* EBU
+* European Audiovisual Observatory
+* Archivportal-D
 
-- fontes gerais podem entrar como **fontes de pesquisa** mesmo quando retornam `zero` audiovisual;
-- nesses casos, o retorno zero não elimina a fonte do organismo, mas passa a compor a análise sobre visibilidade, digitalização e acesso público;
-- arquivos explicitamente audiovisuais que retornem `zero` demandam leitura metodológica mais forte e aparecem como anomalia relevante.
-- fontes sem evidência de imagem em movimento ou apenas documentais ficam fora do escopo do corpus audiovisual.
+---
 
-No estado atual:
+## Estratégia metodológica
 
-- `APE` está enquadrado como `agregador arquivístico`;
-- `EUscreen` está enquadrado como `agregador audiovisual europeu`;
-- `European Film Gateway` está enquadrado como `agregador audiovisual europeu especializado em cinema`;
-- `Europeana` está enquadrada como `agregador cultural europeu com recorte audiovisual`;
-- `PARES` está enquadrado como `agregador nacional europeu incorporado`;
-- `Portal Português de Arquivos` está enquadrado como `agregador nacional europeu incorporado`;
-- `INA` está enquadrado como `arquivo/instituição arquivística`;
-- `ARCHIPOP` está enquadrado como `arquivo audiovisual institucional europeu incorporado`;
-- `AAMOD` está enquadrado como `arquivo audiovisual institucional europeu incorporado`;
-- `SFA` está enquadrado como `arquivo audiovisual institucional europeu incorporado por catálogo descritivo`;
-- `ANF` está enquadrado como `arquivo audiovisual institucional europeu incorporado por superfície externa de exibição online`;
-- `AQSHF` está enquadrado como `arquivo audiovisual institucional europeu incorporado por catálogo público completo segundo endpoint`;
-- `AAPB` está enquadrado como `agregador audiovisual nacional norte-americano incorporado`;
-- `Ad Libitum Workshop`, `ArchiveGrid`, `Archives Hub`, `FranceArchives` e `Iberarchivos` permanecem como unidades documentadas, sem corpus ativo, com abas próprias de protocolo explicando as tentativas de rota e a negativa metodológica;
-- `FilmArchives Online`, `EFG1914`, `VICTOR-E`, `ACE`, `INEDITS`, `EBU`, `European Audiovisual Observatory` e `Archivportal-D` aparecem na auditoria ou na fila europeia como unidades cobertas, fontes documentadas, contextuais ou candidatas futuras, sem bloquear o MVP;
-- a interface permite trabalhar com o todo, por categoria analítica e por corpus individual, sem fundir esses níveis de análise.
+A expansão do observatório segue uma regra em duas etapas:
 
-## Regra de completude da coleta
+1. **Agregadores primeiro**
+   Prioriza agregadores continentais, supranacionais ou nacionais, pois eles permitem mapear grandes superfícies institucionais com maior comparabilidade.
 
-Nenhum corpus parcial deve ser lido como catálogo total. A partir desta camada metodológica, cada corpus ativo declara:
+2. **Instituições depois**
+   Incorpora arquivos e instituições individuais quando há lacunas relevantes, exceções metodológicas ou rotas públicas de coleta suficientemente estáveis.
 
-- `completude da coleta`: se a base é completa em relação à fonte usada, amostral, limitada por grade, limitada por busca pública ou limitada por rota técnica;
-- `critério de seleção`: por que aqueles registros entram na rodada;
-- `limite técnico`: quantidade de páginas, termos, sementes ou registros máximos usados;
-- `nota de completude`: o que a plataforma pode ou não afirmar com segurança.
+Essa separação evita misturar, sem mediação, agregadores e instituições custodiais.
 
-Assim, números como `8 vídeos`, `25 registros por termo` ou `4 páginas de listagem` não são apresentados como total do acervo. Eles representam uma rodada reprodutível de observação pública. Quando for necessário transformar uma amostra em catálogo mais amplo, isso deve ser feito em uma etapa específica de validação total, com regra própria, paginação controlada e nova documentação metodológica.
+---
 
-## Linha do tempo e possíveis extinções
+## Regra audiovisual
 
-Cada atualização do organismo registra uma memória histórica da rodada:
+A presença ou ausência de audiovisual é interpretada metodologicamente.
 
-- linha do tempo do corpus;
-- linha do tempo institucional;
-- quadro de sinais de possível extinção.
+* Fontes gerais podem entrar como fontes de pesquisa mesmo quando retornam zero evidência audiovisual.
+* Arquivos explicitamente audiovisuais que retornam zero são tratados como anomalia relevante.
+* Fontes apenas documentais, sem evidência de imagem em movimento, ficam fora do corpus audiovisual ativo.
+* Registros descritivos, players públicos, objetos digitais e links externos são classificados separadamente.
 
-Isso permite identificar, entre outras situações:
+O objetivo é não confundir **existência institucional do acervo** com **visibilidade pública digital do audiovisual**.
 
-- arquivos ou instituições que desaparecem de uma fonte em rodadas posteriores;
-- indisponibilidade digital reincidente;
-- perda de evidência pública detectável de audiovisual.
+---
 
-O princípio é simples: o observatório não deve apenas mostrar o estado atual do acervo, mas também preservar sua história de aparecimento, retração, ausência e transformação.
+## Completude da coleta
 
-## Ciclo mensal do organismo
+Nenhum corpus parcial é apresentado como catálogo total.
 
-O organismo opera com uma cadência mensal de atualização dos corpora ativos.
+Cada corpus declara:
 
-Esse ciclo:
+* completude da coleta;
+* critério de seleção;
+* limite técnico;
+* nota metodológica;
+* tipo de evidência encontrada;
+* grau de estabilidade da rota usada.
 
-- roda primeiro os corpora ativos, respeitando a separação entre agregadores e arquivos;
-- atualiza os metadados de cada rodada;
-- regrava as linhas do tempo do corpus e das instituições;
-- produz um manifesto do ciclo mensal do organismo;
-- valida o resultado antes de disponibilizar os artefatos.
+Assim, números como registros por termo, páginas coletadas ou vídeos detectados representam uma rodada reprodutível de observação pública, não necessariamente o total do acervo.
 
-Scripts principais:
+---
 
-- `python scripts/run_observatory_cycle.py`
-- `python scripts/run_observatory_cycle.py --corpus ina`
-- `python scripts/run_observatory_cycle.py --corpus european-film-gateway --corpus europeana`
-- `python scripts/evaluate_european_aggregators.py`
-- `python scripts/run_european_film_gateway_pipeline.py`
-- `python scripts/run_europeana_pipeline.py`
-- `python scripts/run_ppa_pipeline.py`
-- `python scripts/run_aamod_pipeline.py`
-- `python scripts/run_sfa_pipeline.py`
-- `python scripts/run_anf_pipeline.py`
-- `python scripts/run_aqshf_pipeline.py`
-- `python scripts/run_adlibitum_protocol.py`
-- `python scripts/run_archipop_pipeline.py`
-- `python scripts/run_aapb_pipeline.py`
-- `python scripts/build_europe_closure_report.py`
-- `python scripts/build_europe_research_queue.py`
-- `python scripts/prototype_archivegrid_protocol.py`
-- `python scripts/prototype_archiveshub_protocol.py`
-- `python scripts/prototype_iberarchivos_protocol.py`
-- `python scripts/prototype_francearchives_protocol.py`
-- `python scripts/prototype_european_film_gateway_protocol.py`
-- `python scripts/prototype_europeana_protocol.py`
-- `python scripts/check_european_film_gateway_outputs.py`
-- `python scripts/check_europeana_outputs.py`
-- `python scripts/check_ppa_outputs.py`
-- `python scripts/check_aapb_outputs.py`
-- `python scripts/check_anf_outputs.py`
-- `python scripts/check_aqshf_outputs.py`
-- `python scripts/check_observatory_cycle.py`
+## Linha do tempo e memória das rodadas
 
-Artefatos globais do organismo:
+O observatório registra a história das coletas para preservar não apenas o estado atual, mas também transformações e perdas de visibilidade.
 
-- `data/output/observatorio_ciclo_mensal.json`
-- `data/output/observatorio_corpora_ativos.csv`
-- `data/output/observatorio_linha_do_tempo_ciclos.csv`
-- `data/output/observatorio_resultados_ciclos.csv`
-- `data/output/observatorio_fechamento_europa.csv`
-- `data/output/observatorio_fila_fechamento_europa.csv`
-- `data/output/observatorio_resumo_fechamento_europa.csv`
-- `data/output/observatorio_dossie_fechamento_europa.md`
-- `data/output/observatorio_unidades_identificadas_nao_incorporadas.csv`
-- `data/output/observatorio_candidatos_descoberta.csv`
-- `data/output/observatorio_fila_expansao.csv`
-- `data/output/observatorio_resumo_fila_expansao.csv`
-- `data/output/observatorio_rotas_acesso_agregadores_europa.csv`
-- `data/output/observatorio_avaliacao_agregadores_europa.csv`
-- `data/output/observatorio_probes_agregadores_europa.csv`
-- `data/output/observatorio_protocolos_agregadores_europa.csv`
-- `data/output/observatorio_resumo_agregadores_europa.csv`
-- `data/output/observatorio_protocolo_archiveshub.csv`
-- `data/output/observatorio_protocolo_francearchives.csv`
-- `data/output/observatorio_protocolo_european_film_gateway.csv`
-- `data/output/observatorio_protocolo_europeana.csv`
-- `data/output/observatorio_protocolo_adlibitum.csv`
-- `data/output/observatorio_protocolo_archivegrid.csv`
-- `data/output/observatorio_protocolo_iberarchivos.csv`
-- `data/output/observatorio_auditoria_lacunas_europa.csv`
-- `data/output/observatorio_pesquisa_europa.csv`
-- `data/output/observatorio_fila_pesquisa_europa.csv`
-- `data/output/observatorio_resumo_pesquisa_europa.csv`
+Cada atualização pode registrar:
 
-## Fila automática de expansão
+* linha do tempo do corpus;
+* linha do tempo institucional;
+* sinais de possível extinção digital;
+* indisponibilidade recorrente;
+* desaparecimento de registros;
+* perda de evidência audiovisual detectável.
 
-O organismo também materializa uma fila automática de expansão, regenerada a cada ciclo mensal.
+Esse princípio é central: o observatório não deve apenas mostrar onde há audiovisual, mas também documentar aparecimentos, ausências, retrações e mudanças na visibilidade pública dos acervos.
 
-Essa fila:
+---
 
-- registra unidades já incorporadas;
-- preserva uma linha de base de candidatos metodologicamente aderentes;
-- aplica decisão automática por regra pública;
-- prioriza o fechamento da Europa antes da abertura sistemática de outros continentes;
-- trata o `APE` como base agregadora continental europeia;
-- considera agregadores audiovisuais europeus, como `EUscreen`, como prioridade de fechamento regional;
-- incorpora `European Film Gateway` e `Europeana` como corpora europeus ativos antes da abertura de novo continente;
-- inicia a implantação controlada de arquivos audiovisuais individuais europeus por `ARCHIPOP`, `AAMOD`, `SFA`, `ANF` e `AQSHF`, preservando a separação entre agregador e instituição custodial;
-- incorpora o `AAPB` como primeiro corpus audiovisual extraeuropeu quando há rota API estável;
-- mantém o `ArchiveGrid` como agregador mundial identificado, mas fora do corpus ativo até existir rota pública estável de coleta;
-- mantém o `Iberarchivos` como fonte de radar ibero-americana, fora do corpus ativo porque seus sinais audiovisuais aparecem como política, notícia, projeto ou referência, não como catálogo coletável;
-- preserva instituições europeias relevantes como lacunas ou exceções da base Europa, quando não forem suficientemente cobertas pelo agregador;
-- reserva instituições da `Etapa 2` para o momento posterior à cobertura agregadora.
-
-Decisões automáticas atuais:
-
-- `ja_incorporado`
-- `fechamento_europa_agregador_audiovisual`
-- `fechamento_europa_agregador_nacional`
-- `fechamento_europa_agregador_supranacional`
-- `prioridade_imediata_etapa_1`
-- `lacuna_ou_excecao_na_base_europa`
-- `monitoramento_estrategico`
-- `monitoramento_protocolado_sem_incorporacao`
-- `aguarda_etapa_2`
-- `coberto_por_agregador_ativo`
-- `fora_do_recorte_atual`
-
-O `Iberarchivos / Observatorio Iberoamericano de Archivos` entra no radar mundial como `monitoramento_protocolado_sem_incorporacao`: é fonte relevante para políticas e instituições arquivísticas ibero-americanas, mas não como corpus ativo audiovisual enquanto não houver catálogo ou API de acervo comparável.
-
-O registro de descoberta também executa uma sondagem leve nas URLs oficiais e em buscas internas declaradas, registrando `audiovisual_probe_status`, `audiovisual_probe_hits` e `audiovisual_probe_urls`. Isso evita que organismos de política arquivística passem sem verificação mínima de sinais audiovisuais em seus acervos, projetos ou corpus público.
-
-## Estrutura
+## Arquitetura do projeto
 
 ```text
 .
-|-- app/
-|   `-- streamlit_app.py
-|-- data/
-|   |-- input/
-|   `-- output/
-|-- scripts/
-|   |-- build_ape_analytics.py
-|   |-- build_euscreen_analytics.py
-|   |-- build_ina_analytics.py
-|   |-- build_pares_analytics.py
-|   |-- build_ppa_analytics.py
-|   |-- check_aapb_outputs.py
-|   |-- check_ape_outputs.py
-|   |-- check_euscreen_outputs.py
-|   |-- check_ina_outputs.py
-|   |-- check_observatory_cycle.py
-|   |-- check_pares_outputs.py
-|   |-- check_ppa_outputs.py
-|   |-- evaluate_european_aggregators.py
-|   |-- build_european_film_gateway_analytics.py
-|   |-- build_europeana_analytics.py
-|   |-- build_europe_research_queue.py
-|   |-- check_european_film_gateway_outputs.py
-|   |-- check_europeana_outputs.py
-|   |-- prototype_archivegrid_protocol.py
-|   |-- prototype_archiveshub_protocol.py
-|   |-- prototype_european_film_gateway_protocol.py
-|   |-- prototype_europeana_protocol.py
-|   |-- prototype_francearchives_protocol.py
-|   |-- prototype_iberarchivos_protocol.py
-|   |-- run_aapb_pipeline.py
-|   |-- run_european_film_gateway_pipeline.py
-|   |-- run_europeana_pipeline.py
-|   |-- run_euscreen_pipeline.py
-|   |-- run_ina_pipeline.py
-|   |-- run_observatory_cycle.py
-|   |-- run_pares_pipeline.py
-|   |-- run_ppa_pipeline.py
-|   `-- run_pipeline.py
-|-- src/
-|   `-- memoria_audiovisual/
-|       |-- analysis_exports.py
-|       |-- analysis.py
-|       |-- __init__.py
-|       |-- ape.py
-|       |-- ape_exports.py
-|       |-- config.py
-|       |-- corpora.py
-|       |-- crawler.py
-|       |-- dashboard_data.py
-|       |-- efg.py
-|       |-- efg_exports.py
-|       |-- excel_export.py
-|       |-- european_aggregators.py
-|       |-- europeana.py
-|       |-- europeana_exports.py
-|       |-- euscreen.py
-|       |-- euscreen_exports.py
-|       |-- geography.py
-|       |-- ina.py
-|       |-- ina_exports.py
-|       |-- output_files.py
-|       |-- pares.py
-|       |-- pares_exports.py
-|       |-- ppa.py
-|       |-- ppa_exports.py
-|       |-- pipeline.py
-|       |-- snapshot_metadata.py
-|       |-- organism.py
-|       |-- timeline.py
-|       `-- reporting.py
-|-- pyproject.toml
-+-- requirements.txt
+├── app/
+│   └── streamlit_app.py
+├── data/
+│   ├── input/
+│   └── output/
+├── scripts/
+│   ├── run_observatory_cycle.py
+│   ├── run_pipeline.py
+│   ├── run_euscreen_pipeline.py
+│   ├── run_european_film_gateway_pipeline.py
+│   ├── run_europeana_pipeline.py
+│   ├── run_pares_pipeline.py
+│   ├── run_ppa_pipeline.py
+│   ├── run_ina_pipeline.py
+│   ├── run_archipop_pipeline.py
+│   ├── run_aamod_pipeline.py
+│   ├── run_sfa_pipeline.py
+│   ├── run_anf_pipeline.py
+│   ├── run_aqshf_pipeline.py
+│   ├── run_aapb_pipeline.py
+│   └── check_observatory_cycle.py
+├── src/
+│   └── memoria_audiovisual/
+│       ├── analysis.py
+│       ├── analysis_exports.py
+│       ├── ape.py
+│       ├── corpora.py
+│       ├── crawler.py
+│       ├── dashboard_data.py
+│       ├── efg.py
+│       ├── europeana.py
+│       ├── euscreen.py
+│       ├── geography.py
+│       ├── organism.py
+│       ├── output_files.py
+│       ├── pipeline.py
+│       ├── reporting.py
+│       ├── snapshot_metadata.py
+│       └── timeline.py
+├── tests/
+├── pyproject.toml
+├── requirements.txt
+└── README.md
 ```
 
+---
+
+## Fluxo de funcionamento
+
+```text
+Fontes públicas
+      ↓
+Coleta e sondagem técnica
+      ↓
+Classificação metodológica
+      ↓
+Detecção de sinais audiovisuais
+      ↓
+Enriquecimento de metadados
+      ↓
+Geração de relatórios
+      ↓
+Snapshot em data/output/
+      ↓
+Dashboard Streamlit
+      ↓
+Linha do tempo do observatório
+```
+
+---
+
+## Saídas geradas
+
+Os resultados são materializados principalmente em `data/output/`.
+
+O projeto gera arquivos como:
+
+* CSVs analíticos;
+* JSONs estruturados;
+* relatórios TXT;
+* planilhas XLSX;
+* dossiês em Markdown;
+* linhas do tempo;
+* manifestos de ciclo;
+* filas de expansão;
+* protocolos de negativa;
+* relatórios de fechamento regional.
+
+Exemplos de arquivos globais:
+
+```text
+data/output/observatorio_ciclo_mensal.json
+data/output/observatorio_corpora_ativos.csv
+data/output/observatorio_linha_do_tempo_ciclos.csv
+data/output/observatorio_resultados_ciclos.csv
+data/output/observatorio_fechamento_europa.csv
+data/output/observatorio_fila_expansao.csv
+data/output/observatorio_unidades_identificadas_nao_incorporadas.csv
+```
+
+Cada corpus segue convenções próprias de prefixo, como:
+
+```text
+ape_*
+euscreen_*
+efg_*
+europeana_*
+pares_*
+ppa_*
+ina_*
+archipop_*
+aamod_*
+sfa_*
+anf_*
+aqshf_*
+aapb_*
+```
+
+---
+
 ## Como executar localmente
+
+### 1. Criar ambiente virtual
+
+No Windows:
 
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m pip install -e .
+```
+
+### 2. Instalar dependências do Playwright
+
+```powershell
 .\.venv\Scripts\python.exe -m playwright install
-.\.venv\Scripts\python.exe scripts\run_pipeline.py
-.\.venv\Scripts\python.exe scripts\run_euscreen_pipeline.py
-.\\.venv\Scripts\python.exe scripts\run_european_film_gateway_pipeline.py
-.\\.venv\Scripts\python.exe scripts\run_europeana_pipeline.py
-.\\.venv\Scripts\python.exe scripts\run_pares_pipeline.py
-.\\.venv\Scripts\python.exe scripts\run_ppa_pipeline.py
-.\\.venv\Scripts\python.exe scripts\run_ina_pipeline.py
-.\.venv\Scripts\python.exe scripts\run_aapb_pipeline.py
-.\.venv\Scripts\python.exe scripts\build_ape_analytics.py
-.\\.venv\Scripts\python.exe scripts\build_euscreen_analytics.py
-.\\.venv\Scripts\python.exe scripts\build_european_film_gateway_analytics.py
-.\\.venv\Scripts\python.exe scripts\build_europeana_analytics.py
-.\\.venv\Scripts\python.exe scripts\build_pares_analytics.py
-.\\.venv\Scripts\python.exe scripts\build_ppa_analytics.py
-.\\.venv\Scripts\python.exe scripts\build_ina_analytics.py
-.\.venv\Scripts\python.exe scripts\check_ape_outputs.py
-.\\.venv\Scripts\python.exe scripts\check_euscreen_outputs.py
-.\\.venv\Scripts\python.exe scripts\check_european_film_gateway_outputs.py
-.\\.venv\Scripts\python.exe scripts\check_europeana_outputs.py
-.\\.venv\Scripts\python.exe scripts\check_pares_outputs.py
-.\\.venv\Scripts\python.exe scripts\check_ppa_outputs.py
-.\\.venv\Scripts\python.exe scripts\check_ina_outputs.py
-.\.venv\Scripts\python.exe scripts\check_aapb_outputs.py
-.\.venv\Scripts\python.exe scripts\evaluate_european_aggregators.py
-.\.venv\Scripts\python.exe scripts\prototype_archivegrid_protocol.py
-.\.venv\Scripts\python.exe scripts\prototype_archiveshub_protocol.py
-.\.venv\Scripts\python.exe scripts\prototype_francearchives_protocol.py
-.\.venv\Scripts\python.exe scripts\prototype_iberarchivos_protocol.py
-.\.venv\Scripts\python.exe scripts\prototype_european_film_gateway_protocol.py
-.\.venv\Scripts\python.exe scripts\prototype_europeana_protocol.py
-.\.venv\Scripts\python.exe scripts\build_europe_closure_report.py
-.\.venv\Scripts\python.exe scripts\build_europe_research_queue.py
+```
+
+### 3. Executar ciclo geral do observatório
+
+```powershell
 .\.venv\Scripts\python.exe scripts\run_observatory_cycle.py
+```
+
+### 4. Executar um corpus específico
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_observatory_cycle.py --corpus ina
+```
+
+Também é possível executar mais de um corpus:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_observatory_cycle.py --corpus european-film-gateway --corpus europeana
+```
+
+### 5. Validar resultados
+
+```powershell
 .\.venv\Scripts\python.exe scripts\check_observatory_cycle.py
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+### 6. Abrir o dashboard
+
+```powershell
 .\.venv\Scripts\python.exe -m streamlit run app\streamlit_app.py
 ```
 
-## Implantação do MVP
+---
 
-A implantação recomendada para o MVP é uma aplicação Streamlit com snapshot público versionado em `data/output/`.
-O deploy não deve executar crawlers na inicialização: a coleta e as validações continuam sendo feitas localmente ou por
-workflow agendado, e a interface pública lê os CSVs, JSONs, TXTs, XLSX e o dossiê já materializados.
+## Deploy do MVP
 
-Configuração sugerida no Streamlit Community Cloud:
+A implantação recomendada para o MVP é uma aplicação Streamlit que lê snapshots já materializados em `data/output/`.
 
-- repositório: este repositório no GitHub;
-- branch: `main`;
-- arquivo principal: `app/streamlit_app.py`;
-- versão de Python: `3.11` ou superior compatível com o projeto;
-- dependências: `requirements.txt`;
-- configuração visual/runtime: `.streamlit/config.toml`.
+O deploy público não deve executar crawlers na inicialização. A coleta e a validação metodológica devem ocorrer localmente ou em workflow agendado. A interface pública deve apenas carregar os arquivos já validados.
 
-Antes de publicar, rode:
+Configuração recomendada:
+
+| Item              | Valor                                   |
+| ----------------- | --------------------------------------- |
+| Branch            | `main`                                  |
+| Arquivo principal | `app/streamlit_app.py`                  |
+| Python            | `3.11` ou superior compatível           |
+| Dependências      | `requirements.txt`                      |
+| Dados públicos    | `data/output/`                          |
+| Configuração      | `.streamlit/config.toml`, se disponível |
+
+Antes do deploy, recomenda-se executar:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\check_deployment_ready.py
@@ -377,234 +367,131 @@ Antes de publicar, rode:
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-Regra de implantação: o snapshot em `data/output/` faz parte do MVP público. Novas coletas devem atualizar esse
-snapshot somente após validação metodológica, preservando a fila europeia e os protocolos de negativa.
+---
 
-## Saídas esperadas
+## Interface Streamlit
 
-Os arquivos gerados ficam em `data/output/`:
+A interface Streamlit organiza o observatório em:
 
-- `ape_instituicoes.csv`
-- `ape_resumo_instituicoes.csv`
-- `ape_links_video.csv`
-- `ape_paginas_internas.csv`
-- `ape_resumo_instituicoes_analitico.csv`
-- `ape_catalogo_videos_analitico.csv`
-- `ape_resumo_disponibilidade.csv`
-- `ape_subcategorias_disponibilidade.csv`
-- `ape_resumo_visibilidade.csv`
-- `ape_resumo_modalidades_acesso.csv`
-- `ape_resumo_regimes_acesso.csv`
-- `ape_resumo_temas.csv`
-- `ape_tema_pais.csv`
-- `ape_resumo_tipos_arquivo.csv`
-- `ape_tema_plataforma.csv`
-- `ape_tema_tipo_arquivo.csv`
-- `ape_visibilidade_tipo_arquivo.csv`
-- `ape_linha_do_tempo_corpus.csv`
-- `ape_linha_do_tempo_instituicoes.csv`
-- `ape_sinais_possivel_extincao.csv`
-- `ape_snapshot_metadata.json`
-- `ape_relatorio.json`
-- `ape_relatorio.txt`
-- `ape_relatorio.xlsx`
+* visão geral comparativa;
+* abas por corpus;
+* indicadores de disponibilidade;
+* tabelas analíticas;
+* relatórios de coleta;
+* linhas do tempo;
+* unidades protocoladas;
+* fila de expansão;
+* protocolos de negativa metodológica.
 
-O `EUscreen`, o `European Film Gateway`, a `Europeana`, o `PARES`, o `PPA`, o `INA`, o `ARCHIPOP`, o `AAMOD`, o `SFA`, a `ANF`, o `AQSHF` e o `AAPB` seguem a mesma convenção de nomes, trocando o prefixo `ape_` por `euscreen_`, `efg_`, `europeana_`, `pares_`, `ppa_`, `ina_`, `archipop_`, `aamod_`, `sfa_`, `anf_`, `aqshf_` ou `aapb_`, por exemplo:
+O dashboard é a camada pública de leitura do observatório, enquanto a coleta permanece controlada pelo pipeline.
 
-- `euscreen_instituicoes.csv`
-- `euscreen_resumo_instituicoes.csv`
-- `euscreen_links_video.csv`
-- `euscreen_paginas_internas.csv`
-- `euscreen_resumo_instituicoes_analitico.csv`
-- `euscreen_catalogo_videos_analitico.csv`
-- `euscreen_resumo_modalidades_acesso.csv`
-- `euscreen_resumo_regimes_acesso.csv`
-- `euscreen_linha_do_tempo_corpus.csv`
-- `euscreen_linha_do_tempo_instituicoes.csv`
-- `euscreen_sinais_possivel_extincao.csv`
-- `euscreen_snapshot_metadata.json`
-- `euscreen_relatorio.xlsx`
+---
 
-- `efg_instituicoes.csv`
-- `efg_resumo_instituicoes.csv`
-- `efg_links_video.csv`
-- `efg_paginas_internas.csv`
-- `efg_resumo_instituicoes_analitico.csv`
-- `efg_catalogo_videos_analitico.csv`
-- `efg_resumo_modalidades_acesso.csv`
-- `efg_resumo_regimes_acesso.csv`
-- `efg_linha_do_tempo_corpus.csv`
-- `efg_linha_do_tempo_instituicoes.csv`
-- `efg_sinais_possivel_extincao.csv`
-- `efg_snapshot_metadata.json`
-- `efg_relatorio.xlsx`
+## Ciclo mensal do organismo
 
-- `europeana_instituicoes.csv`
-- `europeana_resumo_instituicoes.csv`
-- `europeana_links_video.csv`
-- `europeana_paginas_internas.csv`
-- `europeana_resumo_instituicoes_analitico.csv`
-- `europeana_catalogo_videos_analitico.csv`
-- `europeana_resumo_modalidades_acesso.csv`
-- `europeana_resumo_regimes_acesso.csv`
-- `europeana_linha_do_tempo_corpus.csv`
-- `europeana_linha_do_tempo_instituicoes.csv`
-- `europeana_sinais_possivel_extincao.csv`
-- `europeana_snapshot_metadata.json`
-- `europeana_relatorio.xlsx`
+O projeto opera com uma lógica de atualização mensal.
 
-- `pares_instituicoes.csv`
-- `pares_resumo_instituicoes.csv`
-- `pares_links_video.csv`
-- `pares_paginas_internas.csv`
-- `pares_resumo_instituicoes_analitico.csv`
-- `pares_catalogo_videos_analitico.csv`
-- `pares_resumo_modalidades_acesso.csv`
-- `pares_resumo_regimes_acesso.csv`
-- `pares_linha_do_tempo_corpus.csv`
-- `pares_linha_do_tempo_instituicoes.csv`
-- `pares_sinais_possivel_extincao.csv`
-- `pares_snapshot_metadata.json`
-- `pares_relatorio.xlsx`
+O ciclo mensal:
 
-- `ppa_instituicoes.csv`
-- `ppa_resumo_instituicoes.csv`
-- `ppa_links_video.csv`
-- `ppa_paginas_internas.csv`
-- `ppa_resumo_instituicoes_analitico.csv`
-- `ppa_catalogo_videos_analitico.csv`
-- `ppa_resumo_modalidades_acesso.csv`
-- `ppa_resumo_regimes_acesso.csv`
-- `ppa_linha_do_tempo_corpus.csv`
-- `ppa_linha_do_tempo_instituicoes.csv`
-- `ppa_sinais_possivel_extincao.csv`
-- `ppa_snapshot_metadata.json`
-- `ppa_relatorio.xlsx`
+1. executa corpora ativos;
+2. atualiza metadados de rodada;
+3. regrava linhas do tempo;
+4. atualiza sinais de possível extinção;
+5. regenera fila de expansão;
+6. produz manifesto do ciclo;
+7. valida os artefatos;
+8. atualiza o snapshot público.
 
-- `ina_instituicoes.csv`
-- `ina_resumo_instituicoes.csv`
-- `ina_links_video.csv`
-- `ina_paginas_internas.csv`
-- `ina_resumo_instituicoes_analitico.csv`
-- `ina_catalogo_videos_analitico.csv`
-- `ina_resumo_modalidades_acesso.csv`
-- `ina_resumo_regimes_acesso.csv`
-- `ina_linha_do_tempo_corpus.csv`
-- `ina_linha_do_tempo_instituicoes.csv`
-- `ina_sinais_possivel_extincao.csv`
-- `ina_snapshot_metadata.json`
-- `ina_relatorio.xlsx`
+Script principal:
 
-- `archipop_instituicoes.csv`
-- `archipop_resumo_instituicoes.csv`
-- `archipop_links_video.csv`
-- `archipop_paginas_internas.csv`
-- `archipop_resumo_instituicoes_analitico.csv`
-- `archipop_catalogo_videos_analitico.csv`
-- `archipop_resumo_modalidades_acesso.csv`
-- `archipop_resumo_regimes_acesso.csv`
-- `archipop_linha_do_tempo_corpus.csv`
-- `archipop_linha_do_tempo_instituicoes.csv`
-- `archipop_sinais_possivel_extincao.csv`
-- `archipop_snapshot_metadata.json`
-- `archipop_relatorio.xlsx`
+```powershell
+.\.venv\Scripts\python.exe scripts\run_observatory_cycle.py
+```
 
-- `aamod_instituicoes.csv`
-- `aamod_resumo_instituicoes.csv`
-- `aamod_links_video.csv`
-- `aamod_paginas_internas.csv`
-- `aamod_resumo_instituicoes_analitico.csv`
-- `aamod_catalogo_videos_analitico.csv`
-- `aamod_resumo_modalidades_acesso.csv`
-- `aamod_resumo_regimes_acesso.csv`
-- `aamod_linha_do_tempo_corpus.csv`
-- `aamod_linha_do_tempo_instituicoes.csv`
-- `aamod_sinais_possivel_extincao.csv`
-- `aamod_snapshot_metadata.json`
-- `aamod_relatorio.xlsx`
+---
 
-- `sfa_instituicoes.csv`
-- `sfa_resumo_instituicoes.csv`
-- `sfa_links_video.csv`
-- `sfa_paginas_internas.csv`
-- `sfa_resumo_instituicoes_analitico.csv`
-- `sfa_catalogo_videos_analitico.csv`
-- `sfa_resumo_modalidades_acesso.csv`
-- `sfa_resumo_regimes_acesso.csv`
-- `sfa_linha_do_tempo_corpus.csv`
-- `sfa_linha_do_tempo_instituicoes.csv`
-- `sfa_sinais_possivel_extincao.csv`
-- `sfa_snapshot_metadata.json`
-- `sfa_relatorio.xlsx`
+## Eixo acadêmico
 
-- `anf_instituicoes.csv`
-- `anf_resumo_instituicoes.csv`
-- `anf_links_video.csv`
-- `anf_paginas_internas.csv`
-- `anf_resumo_instituicoes_analitico.csv`
-- `anf_catalogo_videos_analitico.csv`
-- `anf_resumo_modalidades_acesso.csv`
-- `anf_resumo_regimes_acesso.csv`
-- `anf_linha_do_tempo_corpus.csv`
-- `anf_linha_do_tempo_instituicoes.csv`
-- `anf_sinais_possivel_extincao.csv`
-- `anf_snapshot_metadata.json`
-- `anf_relatorio.xlsx`
+O observatório integra uma agenda de pesquisa sobre comunicação, memória audiovisual, circulação digital e plataformas.
 
-## Fluxo de produto
+A pergunta central é:
 
-1. A pipeline coleta as instituições listadas no APE com conteúdo publicado.
-2. A ficha de cada instituição no APE é lida para localizar `Country`, `Webpage` e `Type of archive`.
-3. O site institucional externo é testado e classificado por integridade.
-4. Quando o site responde, a coleta tenta localizar links de vídeo e páginas internas relacionadas.
-5. Cada link de vídeo detectado pode ser enriquecido com título, assunto, descrição curta e data publicada.
-6. A pipeline também gera saídas analíticas reaproveitáveis, com visibilidade metodológica do audiovisual e classificação temática dos vídeos detectados.
-7. Essa camada analítica também passa a distinguir modalidades de acesso detectadas e regimes institucionais de acesso audiovisual detectável.
-8. A app Streamlit oferece:
-   - visão geral comparativa do observatório;
-   - abas próprias para cada corpus, preservando sua autonomia analítica;
-   - visão geral da integridade dos sites;
-   - lista das instituições com links de vídeo detectados;
-   - organização geográfica;
-   - cruzamentos analíticos por tema, país, tipo de arquivo e regime de acesso;
-   - página individual por instituição;
-   - quadros históricos para acompanhar a linha do tempo das fontes e dos sinais de possível extinção.
-9. Quando os CSVs analíticos já existem em `data/output/`, a app prioriza essas saídas prontas e usa cálculo local apenas como fallback.
-10. A preparação dos dataframes do dashboard fica concentrada em `src/memoria_audiovisual/dashboard_data.py`, para reduzir lógica duplicada na interface.
-11. Os nomes das saídas do APE, do EUscreen, do European Film Gateway, da Europeana, do PARES, do PPA, do INA, do ARCHIPOP, do AAMOD, do SFA, da ANF, do AQSHF e do AAPB ficam centralizados em `src/memoria_audiovisual/output_files.py`, para manter pipeline e interface sincronizadas.
-12. O ciclo mensal do organismo fica centralizado em `scripts/run_observatory_cycle.py`, com manifesto global em `data/output/observatorio_ciclo_mensal.json`.
-13. A avaliação europeia materializa rotas oficiais candidatas e uma matriz de protocolos para diferenciar agregadores prontos para validação total, fontes que exigem rota técnica estável e fontes que permanecem em monitoramento.
-14. O protótipo `Archives Hub` testa a referência pública de APIs, SRU e OAI-PMH por chamadas leves, sem ativar o agregador como corpus.
-15. O protótipo `FranceArchives` testa página oficial, ficha do dataset, API e cabeçalho do dump por amostras leves, sem baixar o pacote XML nem ativar um novo corpus.
-16. O protótipo `European Film Gateway` testa página inicial e buscas públicas leves, registrando falha técnica, bloqueio ou confirmação de busca audiovisual sem apagar a instabilidade do corpus.
-17. O corpus `European Film Gateway` materializa uma aba própria; se a superfície pública falha, o corpus permanece ativo com retorno zero documentado e não como ausência de acervo.
-18. O protótipo `Europeana` testa página inicial, busca pública com filtro de mídia e documentação de APIs, separando agregador cultural amplo de corpus audiovisual especializado.
-19. O corpus `Europeana` materializa registros de mídia triados por sinais audiovisuais, preservando a ressalva de que se trata de agregador cultural amplo, não de arquivo audiovisual especializado.
-20. O relatório de fechamento metodológico europeu separa corpora ativos de candidatos protocolados e só autoriza a próxima etapa continental quando os candidatos europeus prioritários estiverem incorporados, protocolados ou justificados como inviáveis.
-21. O dossiê MVP de fechamento metodológico europeu sintetiza o corpus continental em expansão controlada, as pendências documentadas e a regra metodológica para uso em artigo e projeto de pós-doutorado.
-22. A fila de fechamento europeu ordena candidatos e corpora por prioridade, separando validação total, monitoramento protocolado sem incorporação no MVP e monitoramento mensal.
-23. As unidades identificadas, mas não incorporadas ao corpus ativo, ganham registro e aba próprios, com motivo da negativa, rota de coleta tentada, tentativas técnicas e explicação metodológica.
-24. A auditoria de lacunas europeias separa o que ficou coberto por corpora ativos, o que é legado, o que é fonte contextual e o que é candidato nacional futuro, evitando afirmar exaustividade absoluta.
-25. A fila ampliada de pesquisa europeia reúne agregadores da Europeana, redes audiovisuais, diretórios de cinematecas, arquivos contribuintes do European Film Gateway, membros INEDITS e portais nacionais para orientar incorporações uma por uma.
-26. O protótipo `ArchiveGrid` testa página pública, buscas por termos audiovisuais, rotas candidatas de API e referência institucional da OCLC; como a coleta simples ficou bloqueada, a unidade permanece protocolada fora do corpus ativo.
-27. O protótipo `Iberarchivos` confirma sinais audiovisuais contextuais e preserva a unidade como radar ibero-americano, sem promovê-la a corpus ativo.
-28. O corpus `ARCHIPOP` entra como primeiro arquivo audiovisual individual europeu implantado a partir da fila ampliada, com coleta por catálogo público HTML e fichas com player embutido, sem download de mídia.
-29. O protocolo `Ad Libitum Workshop` documenta arquivo audiovisual individual confirmado por INEDITS, mas mantido fora do corpus ativo porque o site oficial não respondeu e não houve catálogo público, player, API ou fichas coletáveis nesta rodada.
-30. O corpus `AAMOD` entra como arquivo audiovisual individual europeu incorporado por superfície oficial, vídeos YouTube incorporados e fichas públicas WordPress; o catálogo xDams declarado fica registrado como rota instável nesta rodada.
-31. O corpus `SFA` entra como arquivo audiovisual individual europeu incorporado por fichas públicas de metadados filmográficos no VAČ; mede catalogação e visibilidade descritiva, não streaming aberto.
-32. O corpus `ANF` entra como arquivo audiovisual individual europeu incorporado por Cinemateca Online/Eventbook; mede acesso público mediado por plataforma externa, compra/login e restrição territorial, sem pressupor catálogo total nem player aberto.
-33. O corpus `AQSHF` entra como arquivo audiovisual individual europeu incorporado por endpoint público WordPress completo na rodada, medindo catálogo descritivo de imagem em movimento e não streaming aberto.
-34. O corpus `AAPB` entra como primeiro agregador audiovisual extraeuropeu incorporado, usando API JSON/PBCore em amostra leve para preservar reprodutibilidade no MVP.
+> Como as plataformas digitais reorganizam a circulação territorial e cultural do audiovisual contemporâneo?
 
-## Qualidade do repositório
+O projeto parte da premissa de que as plataformas digitais não eliminam o território: elas reorganizam o território. A circulação passa a depender de infraestruturas técnicas, políticas de acesso, metadados, idiomas, regimes de visibilidade e interoperabilidade entre instituições, agregadores e plataformas.
 
-- `ape_snapshot_metadata.json` registra a data de corte da fonte, a atualização da camada analítica, as contagens principais e o inventário dos arquivos gerados.
-- `python scripts/build_ape_analytics.py` reconstrói a camada analítica do APE a partir dos CSVs brutos já existentes em `data/output/`, sem rerodar a coleta.
-- `python -m unittest discover -s tests -v` cobre a camada de carregamento do dashboard e o contrato dos arquivos de saída.
-- O workflow `.github/workflows/quality.yml` executa compilação básica e testes automatizados em push para `main` e em pull requests.
-- O workflow `.github/workflows/pipeline.yml` permanece dedicado à execução da coleta e publicação dos artefatos do APE.
-- O workflow `.github/workflows/organism-monthly.yml` executa o ciclo mensal automatizado do organismo.
+---
 
-## Próximo passo sugerido
+## O que este projeto demonstra
 
-Com a varredura europeia de fontes oficiais concluída para o MVP, a próxima etapa operacional é seguir a fila definitiva um por um. Após ARCHIPOP, AAMOD, SFA, ANF e AQSHF incorporados e Ad Libitum protocolado sem incorporação, o próximo candidato individual implantável é o `Arsenal Filminstitut`.
+Este repositório evidencia competências em:
+
+* engenharia de dados aplicada à pesquisa;
+* desenho de pipelines reprodutíveis;
+* scraping responsável e coleta controlada;
+* análise de acervos digitais;
+* organização de corpora;
+* modelagem metodológica;
+* dashboards com Streamlit;
+* documentação científica;
+* curadoria de dados públicos;
+* automação de ciclos recorrentes;
+* integração entre comunicação, audiovisual, patrimônio e tecnologia.
+
+---
+
+## Roadmap
+
+### Concluído ou em funcionamento
+
+* Estrutura modular em Python
+* Corpora europeus ativos
+* Incorporação inicial de corpus extraeuropeu
+* Geração de relatórios em múltiplos formatos
+* Dashboard Streamlit
+* Ciclo mensal do organismo
+* Protocolos para unidades não incorporadas
+* Fila automática de expansão
+
+### Próximas etapas
+
+* Publicar MVP em Streamlit Community Cloud
+* Consolidar documentação metodológica por corpus
+* Ampliar cobertura extraeuropeia de forma controlada
+* Incorporar indicadores comparativos por região
+* Criar versão pública do dossiê metodológico
+* Preparar base para artigo, relatório técnico ou projeto de pós-doutorado
+
+---
+
+## Limitações
+
+O observatório trabalha com dados publicamente acessíveis e respeita os limites técnicos e institucionais das fontes.
+
+Algumas limitações importantes:
+
+* ausência de API pública em determinadas fontes;
+* páginas instáveis ou indisponíveis;
+* resultados limitados por busca pública;
+* metadados incompletos;
+* ausência de player público;
+* evidência audiovisual apenas descritiva;
+* diferenças entre acervo existente, acervo digitalizado e acervo publicamente acessível.
+
+Essas limitações não são tratadas como falhas externas apenas, mas como parte do próprio objeto de pesquisa.
+
+---
+
+## Licença
+
+Consulte o arquivo `LICENSE` deste repositório.
+
+---
+
+## Autor
+
+**Bráulio Roberto Rangel da Silva**
+
+Pesquisador e desenvolvedor com atuação em dados públicos, automação, observatórios digitais, comunicação, audiovisual e pesquisa aplicada.
+
+GitHub: [@brauliorrs](https://github.com/brauliorrs)
