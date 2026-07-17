@@ -1,0 +1,31 @@
+RELATORIO - FAR / MFNA
+============================================================
+
+Fonte: https://far.memoirefilmiquenouvelleaquitaine.fr/films
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 1
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - MFNA / FAR: 479
+
+Dominios parceiros mais frequentes:
+  - far.memoirefilmiquenouvelleaquitaine.fr: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - Fonds Audiovisuel de Recherche | links_video=479 | embeds=479 | status=ok | prioridade=False | url=https://far.memoirefilmiquenouvelleaquitaine.fr/films
+
+Instituicoes com erro ou restricao:

@@ -1,0 +1,4 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+csc-cineteca-nazionale,csc-cineteca-nazionale:2026-07-17T19:21:55Z,2026-07-17T19:21:55Z,,2026-07-17T19:21:55Z,2026-07-17T19:21:54Z,scripts/run_csc_cineteca_pipeline.py,1,1,1,1,1,1,1,1,1,1
+csc-cineteca-nazionale,csc-cineteca-nazionale:2026-07-17T19:24:27Z,2026-07-17T19:24:27Z,,2026-07-17T19:24:27Z,2026-07-17T19:24:26Z,scripts/run_csc_cineteca_pipeline.py,1,1,1,80,80,1,2,1,2,1
+csc-cineteca-nazionale,csc-cineteca-nazionale:2026-07-17T19:29:42Z,2026-07-17T19:29:42Z,,2026-07-17T19:29:42Z,2026-07-17T19:29:42Z,scripts/run_csc_cineteca_pipeline.py,1,1,1,80,80,1,2,1,2,1

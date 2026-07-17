@@ -1,0 +1,168 @@
+{
+  "dataset": "fina",
+  "generated_at": "2026-07-17T18:30:28Z",
+  "generated_by": "scripts/run_fina_pipeline.py",
+  "observation_key": "fina:2026-07-17T18:30:26Z",
+  "source_url": "https://ninateka.pl/ogladaj",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-17T18:30:26Z",
+  "analytic_outputs_last_modified_at": "2026-07-17T18:30:23Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 2766,
+    "videos_in_curatorial_catalog": 2766,
+    "visibility_categories": 1,
+    "theme_categories": 11,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "fina_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 384,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "summary": {
+      "filename": "fina_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 964,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "video_links": {
+      "filename": "fina_links_video.csv",
+      "exists": true,
+      "size_bytes": 5750978,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "internal_pages": {
+      "filename": "fina_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 1198087,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "analytic_summary": {
+      "filename": "fina_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1319,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "fina_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 6069021,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "availability_summary": {
+      "filename": "fina_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "availability_reasons": {
+      "filename": "fina_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "visibility_summary": {
+      "filename": "fina_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "access_surface_summary": {
+      "filename": "fina_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 52,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "access_regime_summary": {
+      "filename": "fina_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "theme_summary": {
+      "filename": "fina_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 365,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "theme_country": {
+      "filename": "fina_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 447,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "archive_type_summary": {
+      "filename": "fina_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 101,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "theme_platform": {
+      "filename": "fina_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 475,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "theme_archive_type": {
+      "filename": "fina_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 1176,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "visibility_archive_type": {
+      "filename": "fina_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 161,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "timeline_corpus": {
+      "filename": "fina_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 517,
+      "last_modified_at": "2026-07-17T18:30:28Z"
+    },
+    "timeline_institutions": {
+      "filename": "fina_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 826,
+      "last_modified_at": "2026-07-17T18:30:28Z"
+    },
+    "extinction_signals": {
+      "filename": "fina_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-17T18:30:28Z"
+    },
+    "snapshot_metadata": {
+      "filename": "fina_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5171,
+      "last_modified_at": "2026-07-17T18:30:28Z"
+    },
+    "report_json": {
+      "filename": "fina_relatorio.json",
+      "exists": true,
+      "size_bytes": 1731,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "report_txt": {
+      "filename": "fina_relatorio.txt",
+      "exists": true,
+      "size_bytes": 877,
+      "last_modified_at": "2026-07-17T18:30:23Z"
+    },
+    "report_xlsx": {
+      "filename": "fina_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 3670558,
+      "last_modified_at": "2026-07-17T18:30:26Z"
+    }
+  }
+}

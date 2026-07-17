@@ -66,6 +66,7 @@ PROTOCOLLED_EUROPEAN_CODES = {
     "cinematheque-suisse",
     "fiaf-filmoteca-vaticana",
     "fiaf-filmmuseum-munchen",
+    "fiaf-cineteca-italiana",
     "fiaf-cinematheque-luxembourg",
     "inedits-ad-libitum",
     "inedits-county-archives-puy-de-dome",
@@ -376,6 +377,7 @@ def _active_european_code_aliases():
         "fiaf-dff": "dff",
         "fiaf-eye-filmmuseum": "eye",
         "fiaf-estonian-film-archive": "estonian_film_archive",
+        "fiaf-fina": "fina",
         "fiaf-filmarchiv-austria": "filmarchiv_austria",
         "fiaf-filmmuseum-dusseldorf": "filmmuseum_dusseldorf",
         "fiaf-filmoteca-catalunya": "filmoteca_catalunya",
@@ -408,9 +410,11 @@ def _active_european_code_aliases():
         "inedits-cinematheque-bretagne": "cinematheque-bretagne",
         "fiaf-cinematheque-francaise": "cinematheque-francaise",
         "fiaf-cinematek": "cinematek",
+        "fiaf-csc-cineteca-nazionale": "csc-cineteca-nazionale",
         "inedits-cinematheque-nouvelle-aquitaine": "cdna",
         "inedits-cinematheque-pays-savoie-ain": "cpsa",
         "inedits-cinematheque-saint-etienne": "saint-etienne",
+        "inedits-far": "far",
         "euscreen-cna": "cna",
         "fiaf-cnc-aff": "cnc-aff",
         "the-european-film-gateway": "european-film-gateway",
@@ -542,6 +546,36 @@ def _classify_research_row(row):
             "video_location_status": "metadados_publicos_midia_restrita",
             "video_location_candidate_url": CORPORA[code].get("source_url", ""),
             "video_location_strategy": "retestar Memobase, catálogo institucional e eventuais players públicos sem contornar restrições",
+            "blocks_expansion": False,
+        }
+
+    if code == "fiaf-cineteca-italiana":
+        return {
+            "relationship_to_current_corpus": "arquivo confirmado com streaming protegido e canais públicos contextuais",
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_nao_incorporacao",
+            "queue_decision": "manter_protocolo_sem_incorporacao",
+            "queue_priority": 80,
+            "queue_reason": (
+                "A Fondazione Cineteca Italiana tem acervo fílmico confirmado, mas as rotas públicas observadas "
+                "são programação de sala, streaming protegido por conta/compra/senha, visita presencial, plataforma "
+                "educativa com registro e canal institucional recente. Não há catálogo público de vídeos de acervo "
+                "coletável nesta rodada."
+            ),
+            "next_action": "retestar_site_oficial_streaming_youtube_vimeo_e_eventual_catalogo_publico_de_acervo",
+            "inclusion_gate": (
+                "só incorporar após validar catálogo público de vídeos de acervo ou recorte institucional assumido "
+                "explicitamente como canal público separado"
+            ),
+            "video_location_status": "streaming_protegido_canal_publico_nao_catalografico",
+            "video_location_candidate_url": (
+                "https://www.cinetecamilano.it/streaming/; "
+                "https://www.youtube.com/feeds/videos.xml?channel_id=UCazdgK2z2EdkCqnVMtFpelA"
+            ),
+            "video_location_strategy": (
+                "não usar programação de sala como corpus; não contornar senha, conta ou compra; monitorar canal "
+                "público apenas como recorte institucional se o projeto criar essa categoria"
+            ),
             "blocks_expansion": False,
         }
 

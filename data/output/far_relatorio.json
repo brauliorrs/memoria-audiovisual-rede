@@ -1,0 +1,53 @@
+{
+  "source": "https://far.memoirefilmiquenouvelleaquitaine.fr/films",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "MFNA / FAR": 479
+  },
+  "top_domains": [
+    [
+      "far.memoirefilmiquenouvelleaquitaine.fr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Fonds Audiovisuel de Recherche",
+      "slug": "fonds-audiovisuel-de-recherche",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-FAR",
+      "archive_type": "Local audiovisual archive with public film catalog",
+      "far_detail_url": "https://far-asso.fr/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://far.memoirefilmiquenouvelleaquitaine.fr/films",
+      "partner_domain": "far.memoirefilmiquenouvelleaquitaine.fr",
+      "status": "ok",
+      "http_code": "200",
+      "integrity_status": "integro",
+      "final_url": "https://far.memoirefilmiquenouvelleaquitaine.fr/films",
+      "video_links_found_total": 479,
+      "embedded_video_signals_total": 479,
+      "candidate_internal_pages": 484,
+      "priority_review": false,
+      "warning": "A rota pública MFNA/FAR declarou 482 registros para o FAR (sid=2); a rodada coletou 482 registros, incorporou 479 filmes com URL MP4 pública e excluiu 3 registro(s) sem imagem em movimento por regra de escopo. O corpus representa a superfície pública enumerável do FAR, não o acervo físico, interno ou não publicado.",
+      "error": ""
+    }
+  ]
+}

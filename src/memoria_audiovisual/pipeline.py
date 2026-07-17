@@ -70,6 +70,15 @@ from .eye_exports import write_eye_analysis_outputs
 from .estonian_film_archive import collect_estonian_film_archive_dataset
 from .estonian_film_archive_exports import build_estonian_film_archive_analysis_extra_sheets
 from .estonian_film_archive_exports import write_estonian_film_archive_analysis_outputs
+from .csc_cineteca import collect_csc_cineteca_dataset
+from .csc_cineteca_exports import build_csc_cineteca_analysis_extra_sheets
+from .csc_cineteca_exports import write_csc_cineteca_analysis_outputs
+from .far import collect_far_dataset
+from .far_exports import build_far_analysis_extra_sheets
+from .far_exports import write_far_analysis_outputs
+from .fina import collect_fina_dataset
+from .fina_exports import build_fina_analysis_extra_sheets
+from .fina_exports import write_fina_analysis_outputs
 from .filmarchiv_austria import collect_filmarchiv_austria_dataset
 from .filmarchiv_austria_exports import build_filmarchiv_austria_analysis_extra_sheets
 from .filmarchiv_austria_exports import write_filmarchiv_austria_analysis_outputs
@@ -166,6 +175,9 @@ from .config import (
     ERT_ARCHIVE_HOME_URL,
     EYE_FILM_FRAGMENT_LIST_URL,
     ARKAADER_FILM_SHELF_URL,
+    CSC_CINETECA_VIDEO_CATALOG_URL,
+    FAR_FILMS_URL,
+    FINA_VIDEO_LIST_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
@@ -242,6 +254,9 @@ from .output_files import (
     ERT_OUTPUT_FILES,
     EYE_OUTPUT_FILES,
     ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES,
+    CSC_CINETECA_OUTPUT_FILES,
+    FAR_OUTPUT_FILES,
+    FINA_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -309,6 +324,9 @@ from .snapshot_metadata import (
     build_ert_snapshot_metadata,
     build_eye_snapshot_metadata,
     build_estonian_film_archive_snapshot_metadata,
+    build_csc_cineteca_snapshot_metadata,
+    build_far_snapshot_metadata,
+    build_fina_snapshot_metadata,
     build_filmarchiv_austria_snapshot_metadata,
     build_filmmuseum_dusseldorf_snapshot_metadata,
     build_filmoteca_catalunya_snapshot_metadata,
@@ -678,6 +696,26 @@ ESTONIAN_FILM_ARCHIVE_VIDEO_LINK_FIELDS = [
 ESTONIAN_FILM_ARCHIVE_INTERNAL_PAGE_FIELDS = [
     field.replace("archipop_detail_url", "estonian_film_archive_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
 ]
+CSC_CINETECA_INSTITUTION_FIELDS = [
+    field.replace("archipop_detail_url", "csc_cineteca_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
+]
+CSC_CINETECA_SUMMARY_FIELDS = [
+    field.replace("archipop_detail_url", "csc_cineteca_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS
+]
+CSC_CINETECA_VIDEO_LINK_FIELDS = [
+    field.replace("archipop_detail_url", "csc_cineteca_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS
+]
+CSC_CINETECA_INTERNAL_PAGE_FIELDS = [
+    field.replace("archipop_detail_url", "csc_cineteca_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
+]
+FINA_INSTITUTION_FIELDS = [field.replace("archipop_detail_url", "fina_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS]
+FINA_SUMMARY_FIELDS = [field.replace("archipop_detail_url", "fina_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS]
+FINA_VIDEO_LINK_FIELDS = [field.replace("archipop_detail_url", "fina_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS]
+FINA_INTERNAL_PAGE_FIELDS = [field.replace("archipop_detail_url", "fina_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS]
+FAR_INSTITUTION_FIELDS = [field.replace("archipop_detail_url", "far_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS]
+FAR_SUMMARY_FIELDS = [field.replace("archipop_detail_url", "far_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS]
+FAR_VIDEO_LINK_FIELDS = [field.replace("archipop_detail_url", "far_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS]
+FAR_INTERNAL_PAGE_FIELDS = [field.replace("archipop_detail_url", "far_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS]
 FILMARCHIV_AUSTRIA_INSTITUTION_FIELDS = [
     field.replace("archipop_detail_url", "filmarchiv_austria_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
 ]
@@ -1951,6 +1989,44 @@ def run_filmarchiv_austria_pipeline():
     )
 
 
+def run_fina_pipeline():
+    _run_corpus_pipeline(
+        source_label="Filmoteka Narodowa - Instytut Audiowizualny / Ninateka",
+        source_url=FINA_VIDEO_LIST_URL,
+        collect_dataset=collect_fina_dataset,
+        institution_fields=FINA_INSTITUTION_FIELDS,
+        summary_fields=FINA_SUMMARY_FIELDS,
+        video_link_fields=FINA_VIDEO_LINK_FIELDS,
+        internal_page_fields=FINA_INTERNAL_PAGE_FIELDS,
+        output_files=FINA_OUTPUT_FILES,
+        analysis_output_writer=write_fina_analysis_outputs,
+        analysis_extra_sheets_builder=build_fina_analysis_extra_sheets,
+        snapshot_builder=build_fina_snapshot_metadata,
+        report_title="RELATORIO - FINA / NINATEKA",
+        institutions_sheet_title="FINA",
+        generated_by="scripts/run_fina_pipeline.py",
+    )
+
+
+def run_far_pipeline():
+    _run_corpus_pipeline(
+        source_label="Fonds Audiovisuel de Recherche / MFNA",
+        source_url=FAR_FILMS_URL,
+        collect_dataset=collect_far_dataset,
+        institution_fields=FAR_INSTITUTION_FIELDS,
+        summary_fields=FAR_SUMMARY_FIELDS,
+        video_link_fields=FAR_VIDEO_LINK_FIELDS,
+        internal_page_fields=FAR_INTERNAL_PAGE_FIELDS,
+        output_files=FAR_OUTPUT_FILES,
+        analysis_output_writer=write_far_analysis_outputs,
+        analysis_extra_sheets_builder=build_far_analysis_extra_sheets,
+        snapshot_builder=build_far_snapshot_metadata,
+        report_title="RELATORIO - FAR / MFNA",
+        institutions_sheet_title="FAR",
+        generated_by="scripts/run_far_pipeline.py",
+    )
+
+
 def run_filmmuseum_dusseldorf_pipeline():
     _run_corpus_pipeline(
         source_label="Filmmuseum Düsseldorf / d:kult online",
@@ -2119,6 +2195,25 @@ def run_luce_pipeline():
         report_title="RELATORIO - CINECITTA ARCHIVIO LUCE",
         institutions_sheet_title="Archivio Luce Institutions",
         generated_by="scripts/run_luce_pipeline.py",
+    )
+
+
+def run_csc_cineteca_pipeline():
+    _run_corpus_pipeline(
+        source_label="Fondazione CSC - Cineteca Nazionale",
+        source_url=CSC_CINETECA_VIDEO_CATALOG_URL,
+        collect_dataset=collect_csc_cineteca_dataset,
+        institution_fields=CSC_CINETECA_INSTITUTION_FIELDS,
+        summary_fields=CSC_CINETECA_SUMMARY_FIELDS,
+        video_link_fields=CSC_CINETECA_VIDEO_LINK_FIELDS,
+        internal_page_fields=CSC_CINETECA_INTERNAL_PAGE_FIELDS,
+        output_files=CSC_CINETECA_OUTPUT_FILES,
+        analysis_output_writer=write_csc_cineteca_analysis_outputs,
+        analysis_extra_sheets_builder=build_csc_cineteca_analysis_extra_sheets,
+        snapshot_builder=build_csc_cineteca_snapshot_metadata,
+        report_title="RELATORIO - CSC CINETECA NAZIONALE",
+        institutions_sheet_title="CSC Cineteca Nazionale",
+        generated_by="scripts/run_csc_cineteca_pipeline.py",
     )
 
 
@@ -2406,11 +2501,14 @@ __all__ = [
     "run_czech_television_pipeline",
     "run_dff_pipeline",
     "run_dhm_pipeline",
+    "run_csc_cineteca_pipeline",
     "run_eafa_pipeline",
     "run_ecpad_pipeline",
     "run_ert_pipeline",
     "run_eye_pipeline",
     "run_estonian_film_archive_pipeline",
+    "run_far_pipeline",
+    "run_fina_pipeline",
     "run_filmarchiv_austria_pipeline",
     "run_filmmuseum_dusseldorf_pipeline",
     "run_filmoteca_catalunya_pipeline",

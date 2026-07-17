@@ -30,6 +30,9 @@ from .config import (
     ERT_ARCHIVE_HOME_URL,
     EYE_FILM_FRAGMENT_LIST_URL,
     ARKAADER_FILM_SHELF_URL,
+    CSC_CINETECA_VIDEO_CATALOG_URL,
+    FAR_FILMS_URL,
+    FINA_VIDEO_LIST_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
@@ -87,6 +90,9 @@ from .output_files import (
     ERT_OUTPUT_FILES,
     EYE_OUTPUT_FILES,
     ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES,
+    CSC_CINETECA_OUTPUT_FILES,
+    FAR_OUTPUT_FILES,
+    FINA_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -925,6 +931,66 @@ def build_filmarchiv_austria_snapshot_metadata(
         dataset="filmarchiv_austria",
         source_url=FILMARCHIV_AUSTRIA_ON_URL,
         output_files=FILMARCHIV_AUSTRIA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_fina_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="fina",
+        source_url=FINA_VIDEO_LIST_URL,
+        output_files=FINA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_csc_cineteca_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="csc-cineteca-nazionale",
+        source_url=CSC_CINETECA_VIDEO_CATALOG_URL,
+        output_files=CSC_CINETECA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_far_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="far",
+        source_url=FAR_FILMS_URL,
+        output_files=FAR_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
@@ -2453,6 +2519,7 @@ __all__ = [
     "build_czech_television_snapshot_metadata",
     "build_dff_snapshot_metadata",
     "build_dhm_snapshot_metadata",
+    "build_csc_cineteca_snapshot_metadata",
     "build_eafa_snapshot_metadata",
     "build_ecpad_snapshot_metadata",
     "build_ert_snapshot_metadata",
@@ -2469,6 +2536,8 @@ __all__ = [
     "build_cinematek_snapshot_metadata",
     "build_eye_snapshot_metadata",
     "build_estonian_film_archive_snapshot_metadata",
+    "build_far_snapshot_metadata",
+    "build_fina_snapshot_metadata",
     "build_filmarchiv_austria_snapshot_metadata",
     "build_filmmuseum_dusseldorf_snapshot_metadata",
     "build_filmoteca_catalunya_snapshot_metadata",

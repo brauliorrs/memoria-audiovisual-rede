@@ -8,6 +8,7 @@ from memoria_audiovisual.atresmedia_protocol import ATRESMEDIA_ACCESS_CATEGORY
 from memoria_audiovisual.europe_closure import EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME
 from memoria_audiovisual.restricted_access_audit import (
     CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY,
+    CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY,
     COMMERCIAL_LICENSING_CATEGORY,
     PAID_AUTHENTICATED_STREAMING_CATEGORY,
     RESTRICTED_ACCESS_AUDIT_FILENAME,
@@ -36,6 +37,13 @@ class RestrictedAccessAuditTests(unittest.TestCase):
                         "access_category": CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY,
                         "attempt_summary": "Metadados públicos via Memobase, mas mídia local/autorizada.",
                         "methodological_explanation": "Não há vídeo público incorporável ao corpus ativo.",
+                    },
+                    {
+                        "unit_code": "fiaf-cineteca-italiana",
+                        "unit_label": "Fondazione Cineteca Italiana",
+                        "access_category": CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY,
+                        "attempt_summary": "Streaming protegido e canal institucional sem catálogo público de acervo.",
+                        "methodological_explanation": "Não há catálogo público quantificável de vídeo de acervo.",
                     }
                 ]
             ).to_csv(output_dir / EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME, index=False)
@@ -67,6 +75,7 @@ class RestrictedAccessAuditTests(unittest.TestCase):
             self.assertIn(ATRESMEDIA_ACCESS_CATEGORY, categories)
             self.assertIn(COMMERCIAL_LICENSING_CATEGORY, categories)
             self.assertIn(CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY, categories)
+            self.assertIn(CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY, categories)
             self.assertIn(PAID_AUTHENTICATED_STREAMING_CATEGORY, categories)
             private_row = audit_df.loc[audit_df["access_category"] == ATRESMEDIA_ACCESS_CATEGORY].iloc[0]
             self.assertTrue(bool(private_row["include_in_private_paid_bank_category"]))
@@ -96,6 +105,12 @@ class RestrictedAccessAuditTests(unittest.TestCase):
                     "category_label": "Metadados públicos com mídia local/autorizada, sem vídeo público incorporável",
                     "total_records": "",
                 },
+                {
+                    "unit_code": "fiaf-cineteca-italiana",
+                    "access_category": CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY,
+                    "category_label": "Arquivo fílmico com streaming protegido, sem catálogo público de vídeo coletável",
+                    "total_records": "",
+                },
             ]
         )
 
@@ -105,6 +120,7 @@ class RestrictedAccessAuditTests(unittest.TestCase):
         self.assertEqual(records_by_category[COMMERCIAL_LICENSING_CATEGORY], 31)
         self.assertEqual(records_by_category[PAID_AUTHENTICATED_STREAMING_CATEGORY], 8)
         self.assertEqual(records_by_category[CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY], 0)
+        self.assertEqual(records_by_category[CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY], 0)
 
     def test_write_restricted_access_audit_materializes_files(self):
         with tempfile.TemporaryDirectory() as tmp_dir:

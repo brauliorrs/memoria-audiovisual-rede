@@ -20,6 +20,12 @@ from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
 from memoria_audiovisual.atresmedia_protocol import ATRESMEDIA_PROTOCOL_FILENAME
 from memoria_audiovisual.bnfa_protocol import BNFA_PROTOCOL_FILENAME
+from memoria_audiovisual.cineteca_italiana_protocol import CINETECA_ITALIANA_PROTOCOL_FILENAME
+from memoria_audiovisual.cinematheque_corse_protocol import CINEMATHEQUE_CORSE_PROTOCOL_FILENAME
+from memoria_audiovisual.cinematheque_luxembourg_protocol import CINEMATHEQUE_LUXEMBOURG_PROTOCOL_FILENAME
+from memoria_audiovisual.cnc_aff_protocol import CNCAFF_PROTOCOL_FILENAME
+from memoria_audiovisual.filmmuseum_munchen_protocol import FILMMUSEUM_MUNCHEN_PROTOCOL_FILENAME
+from memoria_audiovisual.filmoteca_vaticana_protocol import FILMOTECA_VATICANA_PROTOCOL_FILENAME
 from memoria_audiovisual.iberarchivos_protocol import IBERARCHIVOS_PROTOCOL_FILENAME
 from memoria_audiovisual.prise2_protocol import PRISE2_PROTOCOL_FILENAME
 from memoria_audiovisual.public_access_index import (
@@ -360,7 +366,13 @@ def load_unit_protocol_df(unit_code):
         "inedits-prise-2": PRISE2_PROTOCOL_FILENAME,
         "fiaf-arsenal-filminstitut": ARSENAL_PROTOCOL_FILENAME,
         "fiaf-bulgarian-national-film-archive": BNFA_PROTOCOL_FILENAME,
+        "fiaf-cineteca-italiana": CINETECA_ITALIANA_PROTOCOL_FILENAME,
+        "fiaf-cinematheque-luxembourg": CINEMATHEQUE_LUXEMBOURG_PROTOCOL_FILENAME,
+        "fiaf-cnc-aff": CNCAFF_PROTOCOL_FILENAME,
+        "fiaf-filmmuseum-munchen": FILMMUSEUM_MUNCHEN_PROTOCOL_FILENAME,
+        "fiaf-filmoteca-vaticana": FILMOTECA_VATICANA_PROTOCOL_FILENAME,
         "fiat-atresmedia": ATRESMEDIA_PROTOCOL_FILENAME,
+        "inedits-cinematheque-corse": CINEMATHEQUE_CORSE_PROTOCOL_FILENAME,
         "archivegrid": ARCHIVEGRID_PROTOCOL_FILENAME,
         "archives-hub": ARCHIVESHUB_PROTOCOL_FILENAME,
         "francearchives": FRANCEARCHIVES_PROTOCOL_FILENAME,

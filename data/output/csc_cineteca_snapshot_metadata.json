@@ -1,0 +1,168 @@
+{
+  "dataset": "csc-cineteca-nazionale",
+  "generated_at": "2026-07-17T19:29:42Z",
+  "generated_by": "scripts/run_csc_cineteca_pipeline.py",
+  "observation_key": "csc-cineteca-nazionale:2026-07-17T19:29:42Z",
+  "source_url": "https://www.fondazionecsc.it/video-cineteca/",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-17T19:29:42Z",
+  "analytic_outputs_last_modified_at": "2026-07-17T19:29:42Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 80,
+    "videos_in_curatorial_catalog": 80,
+    "visibility_categories": 1,
+    "theme_categories": 2,
+    "archive_type_categories": 1,
+    "platforms_detected": 2,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "csc_cineteca_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 468,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "summary": {
+      "filename": "csc_cineteca_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1172,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "video_links": {
+      "filename": "csc_cineteca_links_video.csv",
+      "exists": true,
+      "size_bytes": 61059,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "internal_pages": {
+      "filename": "csc_cineteca_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 43972,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "analytic_summary": {
+      "filename": "csc_cineteca_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1523,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "csc_cineteca_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 73339,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "availability_summary": {
+      "filename": "csc_cineteca_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "availability_reasons": {
+      "filename": "csc_cineteca_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "visibility_summary": {
+      "filename": "csc_cineteca_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "access_surface_summary": {
+      "filename": "csc_cineteca_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 51,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "access_regime_summary": {
+      "filename": "csc_cineteca_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 47,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "theme_summary": {
+      "filename": "csc_cineteca_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 72,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "theme_country": {
+      "filename": "csc_cineteca_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 89,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "archive_type_summary": {
+      "filename": "csc_cineteca_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 77,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "theme_platform": {
+      "filename": "csc_cineteca_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 133,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "theme_archive_type": {
+      "filename": "csc_cineteca_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 187,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "visibility_archive_type": {
+      "filename": "csc_cineteca_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 137,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "timeline_corpus": {
+      "filename": "csc_cineteca_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 936,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "timeline_institutions": {
+      "filename": "csc_cineteca_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2075,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "extinction_signals": {
+      "filename": "csc_cineteca_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "snapshot_metadata": {
+      "filename": "csc_cineteca_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5431,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "report_json": {
+      "filename": "csc_cineteca_relatorio.json",
+      "exists": true,
+      "size_bytes": 1975,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "report_txt": {
+      "filename": "csc_cineteca_relatorio.txt",
+      "exists": true,
+      "size_bytes": 956,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    },
+    "report_xlsx": {
+      "filename": "csc_cineteca_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 51519,
+      "last_modified_at": "2026-07-17T19:29:42Z"
+    }
+  }
+}

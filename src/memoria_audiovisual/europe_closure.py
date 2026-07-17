@@ -28,6 +28,9 @@ EUROPE_CLOSURE_RULE_VERSION = "2026-05-fechamento-europa-v1"
 CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY = "metadados_publicos_midia_local_autorizada_sem_video_publico"
 CINEMATHEQUE_SUISSE_NON_INCORPORATION_DECISION = "nao_incorporar_como_corpus_ativo_sem_video_publico_incorporavel"
 FILMMUSEUM_MUNCHEN_NON_INCORPORATION_CATEGORY = "arquivo_filmico_com_acervo_confirmado_sem_catalogo_publico_de_video"
+CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY = (
+    "arquivo_filmico_com_streaming_protegido_sem_catalogo_publico_de_video"
+)
 
 EUROPE_CLOSURE_MATRIX_COLUMNS = [
     "unit_code",
@@ -270,6 +273,28 @@ def _protocolled_individual_rows():
             "protocol_status": "acervo_preservado_e_programacao_publica_sem_rota_de_video_de_acervo",
             "incorporation_decision": "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel",
             "next_step": "retestar_site_oficial_sammlung_online_e_eventuais_catalogos_digitais_em_ciclos_futuros",
+            "can_open_next_continent": True,
+            "rule_version": EUROPE_CLOSURE_RULE_VERSION,
+        },
+        {
+            "unit_code": "fiaf-cineteca-italiana",
+            "unit_label": "Fondazione Cineteca Italiana",
+            "unit_type": "arquivo_individual_protocolado",
+            "category": "Arquivos audiovisuais individuais protocolados",
+            "territorial_scope": "Milão / Itália / instituição individual europeia",
+            "methodological_status": "arquivo_filmico_confirmado_com_streaming_protegido_sem_catalogo_publico_de_video",
+            "evidence_status": (
+                "site oficial confirma acervo fílmico; streaming aparece protegido; canal YouTube público "
+                "não equivale a catálogo de acervo"
+            ),
+            "audiovisual_interpretation": (
+                "A instituição é explicitamente audiovisual e possui acervo fílmico. Nesta rodada, porém, as rotas "
+                "públicas verificadas expõem programação, visita presencial, streaming protegido, plataforma educativa "
+                "com registro e canal institucional recente, não um catálogo público de vídeos de acervo."
+            ),
+            "protocol_status": "acervo_preservado_programacao_publica_streaming_protegido_e_canal_publico_nao_catalografico",
+            "incorporation_decision": "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel",
+            "next_step": "retestar_site_oficial_streaming_youtube_vimeo_e_eventual_catalogo_publico_de_acervo_em_ciclos_futuros",
             "can_open_next_continent": True,
             "rule_version": EUROPE_CLOSURE_RULE_VERSION,
         }
@@ -572,6 +597,12 @@ def build_europe_closure_queue(matrix_df):
                     "institucional, história do acervo, programação, ingressos, vídeos institucionais gerais "
                     "e busca instável na Sammlung Online; não há catálogo público de vídeos de acervo coletável."
                 )
+            elif row.get("unit_code", "") == "fiaf-cineteca-italiana":
+                queue_reason = (
+                    "O protocolo confirmou acervo fílmico, mas as rotas públicas observadas são programação de sala, "
+                    "streaming protegido por conta/compra/senha, visita presencial, plataforma educativa com registro "
+                    "e canal institucional recente; não há catálogo público de vídeos de acervo coletável."
+                )
             else:
                 queue_reason = (
                     "O protocolo documentou relevância, mas também ausência de rota estável; "
@@ -619,6 +650,12 @@ def _collection_route_attempted(row):
             "de vídeos do Münchner Stadtmuseum, homepage da Sammlung Online e formulário público de busca "
             "da Sammlung Online com o termo Film."
         )
+    if code == "fiaf-cineteca-italiana":
+        return (
+            "Página oficial, página Chi siamo, laboratório de restauração, seção Film, endpoint WordPress de Film, "
+            "página de streaming, endpoint WordPress de streaming, visita guiada ao Arquivo Film, feed RSS do canal "
+            "YouTube e The Film Corner."
+        )
     if code == "archives-hub":
         return "SRU e OAI-PMH documentados; referência pública de APIs também sondada."
     if code == "francearchives":
@@ -640,6 +677,13 @@ def _attempt_summary(row):
             "de vídeo. A programação lista sessões e ingressos. A página geral de vídeos usa YouTube para "
             "conteúdo institucional do museu inteiro. A consulta controlada à Sammlung Online não produziu "
             "rota estável de recorte Filmmuseum/Filmarchiv."
+        )
+    if code == "fiaf-cineteca-italiana":
+        return (
+            "A página institucional confirma acervo fílmico de cerca de 40.000 títulos em película. A seção Film "
+            "e o endpoint `film` funcionam como programação de sala. O endpoint `streaming` expõe registros "
+            "protegidos, sem conteúdo público. A visita ao Arquivo Film é presencial. O feed YouTube é público, "
+            "mas representa canal institucional recente, não catálogo público integral do acervo."
         )
     if code == "archives-hub":
         return (
@@ -665,6 +709,8 @@ def _excluded_access_category(row):
         return CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY
     if str(row.get("unit_code", "")) == "fiaf-filmmuseum-munchen":
         return FILMMUSEUM_MUNCHEN_NON_INCORPORATION_CATEGORY
+    if str(row.get("unit_code", "")) == "fiaf-cineteca-italiana":
+        return CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY
     return "rota_publica_nao_estavel_ou_nao_coletavel"
 
 
@@ -680,6 +726,12 @@ def _excluded_methodological_explanation(row):
             "A negativa não indica ausência nem irrelevância do acervo audiovisual. Ela impede que programação "
             "de sala, bilheteria, vídeos institucionais gerais ou busca instável em coleção museológica ampla "
             "sejam tratados como corpus de arquivo fílmico."
+        )
+    if str(row.get("unit_code", "")) == "fiaf-cineteca-italiana":
+        return (
+            "A negativa não indica ausência nem irrelevância do acervo audiovisual. Ela impede que programação "
+            "de sala, streaming protegido, visita presencial, plataforma educativa com registro ou canal institucional "
+            "recente sejam tratados como corpus público de arquivo fílmico."
         )
     return (
         "A negativa é técnica e metodológica: sem rota estável, a fonte não pode ser "
@@ -905,6 +957,7 @@ __all__ = [
     "EUROPE_CLOSURE_SUMMARY_FILENAME",
     "CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY",
     "CINEMATHEQUE_SUISSE_NON_INCORPORATION_DECISION",
+    "CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY",
     "build_europe_closure_dossier",
     "build_europe_closure_queue",
     "build_europe_closure_outputs",

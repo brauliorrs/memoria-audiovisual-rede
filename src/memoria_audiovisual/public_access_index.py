@@ -105,7 +105,7 @@ def _read_csv(path):
     path = Path(path)
     if not path.exists():
         return pd.DataFrame()
-    return pd.read_csv(path)
+    return pd.read_csv(path, low_memory=False)
 
 
 def _normalize_text(value):

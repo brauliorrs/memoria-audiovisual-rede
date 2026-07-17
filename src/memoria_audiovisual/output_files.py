@@ -22,6 +22,9 @@ from .config import (
     ERT_OUTPUT_PREFIX,
     EYE_OUTPUT_PREFIX,
     ESTONIAN_FILM_ARCHIVE_OUTPUT_PREFIX,
+    FAR_OUTPUT_PREFIX,
+    FINA_OUTPUT_PREFIX,
+    CSC_CINETECA_OUTPUT_PREFIX,
     FILMARCHIV_AUSTRIA_OUTPUT_PREFIX,
     FILMMUSEUM_DUSSELDORF_OUTPUT_PREFIX,
     FILMOTECA_CATALUNYA_OUTPUT_PREFIX,
@@ -130,6 +133,9 @@ ECPAD_OUTPUT_FILES = build_output_files(ECPAD_OUTPUT_PREFIX)
 ERT_OUTPUT_FILES = build_output_files(ERT_OUTPUT_PREFIX)
 EYE_OUTPUT_FILES = build_output_files(EYE_OUTPUT_PREFIX)
 ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES = build_output_files(ESTONIAN_FILM_ARCHIVE_OUTPUT_PREFIX)
+FAR_OUTPUT_FILES = build_output_files(FAR_OUTPUT_PREFIX)
+FINA_OUTPUT_FILES = build_output_files(FINA_OUTPUT_PREFIX)
+CSC_CINETECA_OUTPUT_FILES = build_output_files(CSC_CINETECA_OUTPUT_PREFIX)
 FILMARCHIV_AUSTRIA_OUTPUT_FILES = build_output_files(FILMARCHIV_AUSTRIA_OUTPUT_PREFIX)
 FILMMUSEUM_DUSSELDORF_OUTPUT_FILES = build_output_files(FILMMUSEUM_DUSSELDORF_OUTPUT_PREFIX)
 FILMOTECA_CATALUNYA_OUTPUT_FILES = build_output_files(FILMOTECA_CATALUNYA_OUTPUT_PREFIX)
@@ -257,6 +263,18 @@ def list_eye_output_filenames():
 
 def list_estonian_film_archive_output_filenames():
     return list_output_filenames(ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES)
+
+
+def list_far_output_filenames():
+    return list_output_filenames(FAR_OUTPUT_FILES)
+
+
+def list_fina_output_filenames():
+    return list_output_filenames(FINA_OUTPUT_FILES)
+
+
+def list_csc_cineteca_output_filenames():
+    return list_output_filenames(CSC_CINETECA_OUTPUT_FILES)
 
 
 def list_filmarchiv_austria_output_filenames():
@@ -407,6 +425,7 @@ __all__ = [
     "ERT_OUTPUT_FILES",
     "EYE_OUTPUT_FILES",
     "ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES",
+    "FAR_OUTPUT_FILES",
     "FILMARCHIV_AUSTRIA_OUTPUT_FILES",
     "FILMMUSEUM_DUSSELDORF_OUTPUT_FILES",
     "FILMOTECA_CATALUNYA_OUTPUT_FILES",
@@ -464,6 +483,7 @@ __all__ = [
     "list_ert_output_filenames",
     "list_eye_output_filenames",
     "list_estonian_film_archive_output_filenames",
+    "list_far_output_filenames",
     "list_filmarchiv_austria_output_filenames",
     "list_filmmuseum_dusseldorf_output_filenames",
     "list_filmoteca_catalunya_output_filenames",

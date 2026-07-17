@@ -7,7 +7,11 @@ import pandas as pd
 from .atresmedia_protocol import ATRESMEDIA_ACCESS_CATEGORY
 from .config import OUTPUT_DIR
 from .corpora import list_active_corpora
-from .europe_closure import CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY, EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME
+from .europe_closure import (
+    CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY,
+    CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY,
+    EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME,
+)
 
 
 RESTRICTED_ACCESS_AUDIT_FILENAME = "observatorio_auditoria_acesso_pago_restrito.csv"
@@ -47,7 +51,7 @@ RESTRICTED_ACCESS_SUMMARY_COLUMNS = [
 def _read_csv(path):
     if not Path(path).exists():
         return pd.DataFrame()
-    return pd.read_csv(path)
+    return pd.read_csv(path, low_memory=False)
 
 
 def _example_titles(df, limit=3):
@@ -96,17 +100,24 @@ def _add_excluded_restricted_rows(rows, output_dir):
     excluded_df = _read_csv(Path(output_dir) / EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME)
     if excluded_df.empty or "access_category" not in excluded_df.columns:
         return
-    restricted_df = excluded_df.loc[
-        excluded_df["access_category"].astype(str) == CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY
-    ]
+    category_labels = {
+        CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY: (
+            "Metadados públicos com mídia local/autorizada, sem vídeo público incorporável"
+        ),
+        CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY: (
+            "Arquivo fílmico com streaming protegido, sem catálogo público de vídeo coletável"
+        ),
+    }
+    restricted_df = excluded_df.loc[excluded_df["access_category"].astype(str).isin(category_labels)]
     for _, row in restricted_df.iterrows():
+        access_category = row.get("access_category", "")
         rows.append(
             {
                 "unit_code": row.get("unit_code", ""),
                 "unit_label": row.get("unit_label", ""),
                 "corpus_status": "fora_do_corpus_ativo",
-                "access_category": CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY,
-                "category_label": "Metadados públicos com mídia local/autorizada, sem vídeo público incorporável",
+                "access_category": access_category,
+                "category_label": category_labels.get(access_category, ""),
                 "total_records": "",
                 "evidence": row.get("attempt_summary", ""),
                 "methodological_decision": row.get("methodological_explanation", ""),
@@ -241,6 +252,10 @@ def build_restricted_access_summary(audit_df):
         CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY: (
             "Unidade identificada fora do corpus ativo: há metadados públicos, mas não vídeo público incorporável."
         ),
+        CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY: (
+            "Unidade identificada fora do corpus ativo: há acervo fílmico e streaming protegido, "
+            "mas não catálogo público quantificável."
+        ),
     }
     summary_df["interpretation"] = summary_df["access_category"].map(interpretations).fillna("")
     summary_df["rule_version"] = RESTRICTED_ACCESS_AUDIT_RULE_VERSION
@@ -259,6 +274,7 @@ def write_restricted_access_audit(output_dir: Path = OUTPUT_DIR):
 __all__ = [
     "COMMERCIAL_LICENSING_CATEGORY",
     "CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY",
+    "CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY",
     "ONSITE_AUTHORIZED_MEDIA_CATEGORY",
     "PAID_AUTHENTICATED_STREAMING_CATEGORY",
     "RESTRICTED_ACCESS_AUDIT_FILENAME",

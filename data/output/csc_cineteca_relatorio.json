@@ -1,0 +1,54 @@
+{
+  "source": "https://www.fondazionecsc.it/video-cineteca/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "YouTube": 78,
+    "Vimeo": 2
+  },
+  "top_domains": [
+    [
+      "fondazionecsc.it",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Fondazione Centro Sperimentale di Cinematografia - Cineteca Nazionale",
+      "slug": "fondazione-centro-sperimentale-di-cinematografia-cineteca-nazionale",
+      "country": "Italy",
+      "continent": "Europe",
+      "repository_code": "IT-CSC-CINETECA",
+      "archive_type": "National film archive with public video catalog",
+      "csc_cineteca_detail_url": "https://www.fondazionecsc.it/cineteca-nazionale/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.fondazionecsc.it/video-cineteca/",
+      "partner_domain": "fondazionecsc.it",
+      "status": "ok",
+      "http_code": "200",
+      "integrity_status": "integro",
+      "final_url": "https://www.fondazionecsc.it/video-cineteca/",
+      "video_links_found_total": 80,
+      "embedded_video_signals_total": 82,
+      "candidate_internal_pages": 86,
+      "priority_review": false,
+      "warning": "O Catalogo video oficial listou 82 fichas públicas; a rodada incorporou 82 fichas com player público (Vimeo: 2, YouTube: 80) e 80 URLs de vídeo únicas após deduplicação. A página institucional informa acervo fílmico amplo e consulta por estudo/agendamento; portanto o corpus incorporado representa somente a superfície pública online enumerável, não o acervo físico, interno, licenciado ou não publicado da Cineteca Nazionale.",
+      "error": ""
+    }
+  ]
+}

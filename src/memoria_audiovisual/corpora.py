@@ -22,6 +22,9 @@ from .config import (
     ERT_ARCHIVE_HOME_URL,
     EYE_FILM_FRAGMENT_LIST_URL,
     ARKAADER_FILM_SHELF_URL,
+    CSC_CINETECA_VIDEO_CATALOG_URL,
+    FAR_FILMS_URL,
+    FINA_VIDEO_LIST_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
@@ -79,6 +82,9 @@ from .output_files import (
     ERT_OUTPUT_FILES,
     EYE_OUTPUT_FILES,
     ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES,
+    CSC_CINETECA_OUTPUT_FILES,
+    FAR_OUTPUT_FILES,
+    FINA_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -134,6 +140,9 @@ from .output_files import (
     list_ert_output_filenames,
     list_eye_output_filenames,
     list_estonian_film_archive_output_filenames,
+    list_csc_cineteca_output_filenames,
+    list_far_output_filenames,
+    list_fina_output_filenames,
     list_filmarchiv_austria_output_filenames,
     list_filmmuseum_dusseldorf_output_filenames,
     list_filmoteca_catalunya_output_filenames,
@@ -977,6 +986,182 @@ CORPORA = {
         "run_script_path": "scripts/run_filmarchiv_austria_pipeline.py",
         "build_script_path": "scripts/run_filmarchiv_austria_pipeline.py",
         "check_script_path": "scripts/check_filmarchiv_austria_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "fina": {
+        "code": "fina",
+        "label": "Filmoteka Narodowa - Instytut Audiowizualny",
+        "short_label": "FINA / Ninateka",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial",
+        "coverage_level": "instituição individual europeia",
+        "scope": "arquivo nacional fílmico e audiovisual da Polônia com plataforma pública VOD Ninateka",
+        "methodological_unit": "categoria pública de vídeo da API Ninateka",
+        "ape_relationship": (
+            "identificada na fila europeia derivada da FIAF e tratada como corpus institucional autônomo; "
+            "não é agregador continental nem subunidade do APE"
+        ),
+        "expansion_rationale": (
+            "Entra após validação individual da fila europeia. A Filmoteka mantém a Ninateka como plataforma "
+            "VOD pública, e a API da própria plataforma expõe listagem paginada de metadados audiovisuais com "
+            "categoria `video`, URL pública, descrição, tags, duração e sinais de regime de acesso."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "O corpus usa somente a categoria pública de vídeo da Ninateka. Materiais sem imagem em movimento "
+            "ficam fora do escopo, mesmo quando pertencem à mesma plataforma cultural."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero registros, isso indica mudança na API Ninateka, bloqueio técnico ou alteração "
+            "estrutural da categoria pública de vídeo, não ausência automática de acervo audiovisual na FINA."
+        ),
+        "collection_completeness": "Categoria pública de vídeo da Ninateka coletada integralmente na rodada",
+        "selection_criterion": (
+            "Pagina `/api/products/vods` com `platform=BROWSER` e `mainCategoryId[]=1`, preservando apenas "
+            "registros de vídeo e enriquecendo cada item por ficha pública `/api/products/vods/{id}`."
+        ),
+        "selection_limit": (
+            "Sem amostra arbitrária na categoria de vídeo: a paginação segue o `totalCount` declarado pela API. "
+            "A coleta não baixa mídia e não tenta acessar playlist ou conteúdo protegido."
+        ),
+        "completeness_note": (
+            "Completo em relação à superfície pública enumerável da categoria `video` da Ninateka no momento da "
+            "coleta; não afirma exaustividade do acervo físico, interno, licenciado ou não publicado da FINA."
+        ),
+        "source_url": FINA_VIDEO_LIST_URL,
+        "output_files": FINA_OUTPUT_FILES,
+        "list_output_filenames": list_fina_output_filenames,
+        "detail_url_field": "fina_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "site FINA e plataforma Ninateka",
+        "content_flag_label": "vídeos publicados na categoria pública de vídeo da Ninateka",
+        "website_label": "Ninateka",
+        "run_script": "python scripts/run_fina_pipeline.py",
+        "build_script": "python scripts/run_fina_pipeline.py",
+        "check_script": "python scripts/check_fina_outputs.py",
+        "run_script_path": "scripts/run_fina_pipeline.py",
+        "build_script_path": "scripts/run_fina_pipeline.py",
+        "check_script_path": "scripts/check_fina_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "far": {
+        "code": "far",
+        "label": "Fonds Audiovisuel de Recherche",
+        "short_label": "FAR / MFNA",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial",
+        "coverage_level": "instituição individual europeia",
+        "scope": "arquivo audiovisual regional francês com catálogo público de filmes na rede Mémoire Filmique de Nouvelle-Aquitaine",
+        "methodological_unit": "rota pública MFNA/FAR `film.getFilms` para a biblioteca FAR",
+        "ape_relationship": (
+            "identificada na fila europeia derivada da INEDITS e tratada como corpus institucional autônomo; "
+            "não é agregador continental nem subunidade do APE"
+        ),
+        "expansion_rationale": (
+            "Entra após validação individual da fila europeia. O site oficial do FAR aponta para a superfície pública "
+            "MFNA/FAR, cuja API retorna filmes com título, resumo, ano, duração, tema, formato, ficha pública e URL MP4."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "O corpus preserva apenas registros de filme ou vídeo. Materiais sem imagem em movimento são excluídos "
+            "por regra de escopo, mesmo quando aparecem na mesma infraestrutura de busca."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero registros, isso indica mudança na rota MFNA/FAR, bloqueio técnico ou alteração estrutural "
+            "da API pública, não ausência automática de acervo audiovisual no FAR."
+        ),
+        "collection_completeness": "Superfície pública MFNA/FAR coletada integralmente na rodada para `sid=2`",
+        "selection_criterion": (
+            "Consulta `index.php` com `action=back.film.getFilms` e `sid=2`, detalha cada item por "
+            "`action=back.film.getFilm` e incorpora somente registros com URL pública de vídeo."
+        ),
+        "selection_limit": (
+            "Sem amostra arbitrária dentro da rota pública: a paginação segue o total declarado por `count.nbr`. "
+            "A coleta não baixa mídia e não tenta contornar controles de download."
+        ),
+        "completeness_note": (
+            "Completo em relação à superfície pública enumerável MFNA/FAR no momento da coleta; não afirma "
+            "exaustividade do acervo físico, interno, licenciado ou não publicado do FAR."
+        ),
+        "source_url": FAR_FILMS_URL,
+        "output_files": FAR_OUTPUT_FILES,
+        "list_output_filenames": list_far_output_filenames,
+        "detail_url_field": "far_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "site FAR e catálogo MFNA/FAR",
+        "content_flag_label": "filmes publicados na rota pública MFNA/FAR",
+        "website_label": "MFNA / FAR",
+        "run_script": "python scripts/run_far_pipeline.py",
+        "build_script": "python scripts/run_far_pipeline.py",
+        "check_script": "python scripts/check_far_outputs.py",
+        "run_script_path": "scripts/run_far_pipeline.py",
+        "build_script_path": "scripts/run_far_pipeline.py",
+        "check_script_path": "scripts/check_far_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "csc-cineteca-nazionale": {
+        "code": "csc-cineteca-nazionale",
+        "label": "Fondazione Centro Sperimentale di Cinematografia - Cineteca Nazionale",
+        "short_label": "Cineteca Nazionale / CSC",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial",
+        "coverage_level": "instituição individual europeia",
+        "scope": "arquivo nacional fílmico italiano com catálogo público online de vídeos institucionais e patrimoniais",
+        "methodological_unit": "página oficial `Video - Cineteca / Catalogo video`",
+        "ape_relationship": (
+            "identificada na fila europeia derivada da FIAF e tratada como corpus institucional autônomo; "
+            "não é agregador continental nem subunidade do APE"
+        ),
+        "expansion_rationale": (
+            "Entra após validação individual da fila europeia. A Cineteca Nazionale mantém uma página oficial "
+            "`Video - Cineteca` com fichas públicas e players incorporados, permitindo observar a circulação "
+            "online de parte do seu patrimônio sem confundir essa superfície com o acervo integral."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "O corpus usa somente fichas do Catalogo video com imagem em movimento publicada por player público. "
+            "O acervo fílmico amplo e a consulta por estudo/agendamento são registrados como contexto, mas não "
+            "são contados como dados públicos online."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero vídeos, isso indica mudança na página `Video - Cineteca`, bloqueio técnico ou "
+            "remoção dos players públicos, não ausência automática de acervo audiovisual na Cineteca Nazionale."
+        ),
+        "collection_completeness": "Catalogo video oficial coletado integralmente na rodada",
+        "selection_criterion": (
+            "Extrai URLs únicas `/film/` listadas em `Video - Cineteca`, abre cada ficha pública e incorpora "
+            "somente registros com player YouTube ou Vimeo detectável, sem baixar mídia."
+        ),
+        "selection_limit": (
+            "Sem amostra arbitrária dentro do Catalogo video: a coleta segue todos os links únicos da página "
+            "oficial. O sitemap amplo `/film/` não é usado porque mistura conteúdos da Cineteca com outras "
+            "páginas do CSC."
+        ),
+        "completeness_note": (
+            "Completo em relação à superfície pública enumerável `Video - Cineteca` no momento da coleta; não "
+            "afirma exaustividade do acervo físico, interno, licenciado, presencial ou não publicado da "
+            "Cineteca Nazionale."
+        ),
+        "source_url": CSC_CINETECA_VIDEO_CATALOG_URL,
+        "output_files": CSC_CINETECA_OUTPUT_FILES,
+        "list_output_filenames": list_csc_cineteca_output_filenames,
+        "detail_url_field": "csc_cineteca_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "site CSC e Catalogo video da Cineteca Nazionale",
+        "content_flag_label": "vídeos publicados no Catalogo video oficial",
+        "website_label": "CSC / Cineteca Nazionale",
+        "run_script": "python scripts/run_csc_cineteca_pipeline.py",
+        "build_script": "python scripts/run_csc_cineteca_pipeline.py",
+        "check_script": "python scripts/check_csc_cineteca_outputs.py",
+        "run_script_path": "scripts/run_csc_cineteca_pipeline.py",
+        "build_script_path": "scripts/run_csc_cineteca_pipeline.py",
+        "check_script_path": "scripts/check_csc_cineteca_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },

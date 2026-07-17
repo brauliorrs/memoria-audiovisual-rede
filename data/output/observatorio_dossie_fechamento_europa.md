@@ -2,7 +2,7 @@
 
 ## Status do corpus continental
 - Status de abertura: `autorizada_com_cautela`.
-- Corpora europeus ativos: `50`.
+- Corpora europeus ativos: `53`.
 - Candidatos europeus documentados fora do corpus ativo: `2`.
 - Escopo: Europa como corpus continental em fechamento metodológico progressivo para artigo e projeto de pós-doutorado.
 
@@ -32,6 +32,7 @@
 - `cna`: Centre national de l'audiovisuel (CNA) | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `cpsa`: Cinémathèque des Pays de Savoie et de l'Ain | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `crnogorska-kinoteka`: Crnogorska Kinoteka | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
+- `csc-cineteca-nazionale`: Fondazione Centro Sperimentale di Cinematografia - Cineteca Nazionale | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `czech-television`: Czech Television | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `deutsche-kinemathek`: Deutsche Kinemathek / Museum für Film und Fernsehen | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `dff`: DFF - Deutsches Filminstitut & Filmmuseum | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
@@ -44,12 +45,14 @@
 - `europeana`: Europeana | Agregadores arquivísticos | agregador cultural europeu | pipeline_ativo.
 - `euscreen`: EUscreen | Agregadores arquivísticos | agregador audiovisual europeu | pipeline_ativo.
 - `eye`: Eye Filmmuseum | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
+- `far`: Fonds Audiovisuel de Recherche | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `filmarchiv_austria`: Filmarchiv Austria / Filmarchiv ON | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `filmmuseum_dusseldorf`: Filmmuseum Düsseldorf / d:kult online | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `filmoteca-vasca`: Filmoteca Vasca | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `filmoteca_catalunya`: Filmoteca de Catalunya / PLATFO FILMO | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `filmoteca_espanola`: Filmoteca Española / PLATFO FILMO | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `filmoteca_valenciana`: Filmoteca Valenciana / Restauraciones | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
+- `fina`: Filmoteka Narodowa - Instytut Audiowizualny | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `iam`: Institut audiovisuel de Monaco | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `ina`: Institut national de l'audiovisuel | Arquivos e instituições arquivísticas | instituição individual | pipeline_ativo.
 - `luce`: Cinecittà - Archivio Luce | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
@@ -66,6 +69,7 @@
 - Prioridade 8 | `archives-hub`: monitoramento_protocolado_sem_incorporacao_mvp | identificacao_de_api_exportacao_sitemap_ou_rota_publica_estavel.
 - Prioridade 8 | `cinematheque-suisse`: monitoramento_protocolado_sem_incorporacao_mvp | monitorar_se_memobase_ou_site_institucional_passam_a_expor_video_publico.
 - Prioridade 8 | `fiaf-filmmuseum-munchen`: monitoramento_protocolado_sem_incorporacao_mvp | retestar_site_oficial_sammlung_online_e_eventuais_catalogos_digitais_em_ciclos_futuros.
+- Prioridade 8 | `fiaf-cineteca-italiana`: monitoramento_protocolado_sem_incorporacao_mvp | retestar_site_oficial_streaming_youtube_vimeo_e_eventual_catalogo_publico_de_acervo_em_ciclos_futuros.
 - Prioridade 8 | `francearchives`: monitoramento_protocolado_sem_incorporacao_mvp | identificacao_de_api_exportacao_sitemap_ou_rota_publica_estavel.
 
 ## Lacunas auditadas sem bloqueio
