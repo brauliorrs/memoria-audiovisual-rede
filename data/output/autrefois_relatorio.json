@@ -1,0 +1,53 @@
+{
+  "source": "https://www.autrefoisgeneve.ch/wp-json/wp/v2/aiovg_videos",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Autrefois Genève": 8
+  },
+  "top_domains": [
+    [
+      "autrefoisgeneve.ch",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Fondation Autrefois Genève",
+      "slug": "fondation-autrefois-gen-ve",
+      "country": "Switzerland",
+      "continent": "Europe",
+      "repository_code": "CH-AUTREFOIS-GENEVE",
+      "archive_type": "Institutional audiovisual archive",
+      "autrefois_detail_url": "https://www.autrefoisgeneve.ch/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.autrefoisgeneve.ch/wp-json/wp/v2/aiovg_videos",
+      "partner_domain": "autrefoisgeneve.ch",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.autrefoisgeneve.ch/wp-json/wp/v2/aiovg_videos",
+      "video_links_found_total": 8,
+      "embedded_video_signals_total": 8,
+      "candidate_internal_pages": 12,
+      "priority_review": "baixa",
+      "warning": "Corpus institucional incorporado pelo endpoint público WordPress `aiovg_videos` da Fondation Autrefois Genève. A rodada materializou 8 de 8 registros declarados pelo endpoint, com 8 páginas contendo fonte de vídeo detectada. O recorte online não equivale ao acervo total da fundação.",
+      "error": ""
+    }
+  ]
+}

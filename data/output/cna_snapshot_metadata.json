@@ -1,0 +1,168 @@
+{
+  "dataset": "cna",
+  "generated_at": "2026-06-17T17:59:51Z",
+  "generated_by": "scripts/run_cna_pipeline.py",
+  "observation_key": "cna:2026-06-17T17:59:51Z",
+  "source_url": "https://cnasearch.public.lu/searchprofiles/run/4/film",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-17T17:59:51Z",
+  "analytic_outputs_last_modified_at": "2026-06-17T17:59:51Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 79,
+    "videos_in_curatorial_catalog": 79,
+    "visibility_categories": 1,
+    "theme_categories": 6,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "cna_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 342,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "summary": {
+      "filename": "cna_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 878,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "video_links": {
+      "filename": "cna_links_video.csv",
+      "exists": true,
+      "size_bytes": 89522,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "internal_pages": {
+      "filename": "cna_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 31184,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "analytic_summary": {
+      "filename": "cna_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1255,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "cna_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 98222,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "availability_summary": {
+      "filename": "cna_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "availability_reasons": {
+      "filename": "cna_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "visibility_summary": {
+      "filename": "cna_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "access_surface_summary": {
+      "filename": "cna_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 56,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "access_regime_summary": {
+      "filename": "cna_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "theme_summary": {
+      "filename": "cna_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 258,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "theme_country": {
+      "filename": "cna_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 329,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "archive_type_summary": {
+      "filename": "cna_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 58,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "theme_platform": {
+      "filename": "cna_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 329,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "theme_archive_type": {
+      "filename": "cna_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 451,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "visibility_archive_type": {
+      "filename": "cna_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 118,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "timeline_corpus": {
+      "filename": "cna_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 653,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "timeline_institutions": {
+      "filename": "cna_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1280,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "extinction_signals": {
+      "filename": "cna_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "snapshot_metadata": {
+      "filename": "cna_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5178,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "report_json": {
+      "filename": "cna_relatorio.json",
+      "exists": true,
+      "size_bytes": 1676,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "report_txt": {
+      "filename": "cna_relatorio.txt",
+      "exists": true,
+      "size_bytes": 926,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    },
+    "report_xlsx": {
+      "filename": "cna_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 74772,
+      "last_modified_at": "2026-06-17T17:59:51Z"
+    }
+  }
+}

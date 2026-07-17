@@ -1,0 +1,53 @@
+{
+  "source": "https://patrimonio.archivioluce.com/luce-web/search/result.html?query=&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&activeFilter=archiveType_string",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Archivio Luce": 59
+  },
+  "top_domains": [
+    [
+      "patrimonio.archivioluce.com",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Cinecittà - Archivio Luce",
+      "slug": "cinecitt-archivio-luce",
+      "country": "Italy",
+      "continent": "Europe",
+      "repository_code": "IT-CINECITTA-LUCE",
+      "archive_type": "Historical film and audiovisual archive",
+      "luce_detail_url": "https://www.archivioluce.com/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://patrimonio.archivioluce.com/luce-web/search/result.html?query=&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&activeFilter=archiveType_string",
+      "partner_domain": "patrimonio.archivioluce.com",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?query=&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&activeFilter=archiveType_string",
+      "video_links_found_total": 59,
+      "embedded_video_signals_total": 52,
+      "candidate_internal_pages": 66,
+      "priority_review": false,
+      "warning": "Corpus incorporado pelo recorte público `Archivio cinematografico` do Archivio Luce. O catálogo indica 14968 páginas de resultados; o MVP materializa 59 fichas em até 3 páginas de listagem, sem baixar mídia e sem afirmar exaustividade do acervo Luce.",
+      "error": ""
+    }
+  ]
+}

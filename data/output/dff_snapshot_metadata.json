@@ -1,0 +1,168 @@
+{
+  "dataset": "dff",
+  "generated_at": "2026-07-13T17:49:00Z",
+  "generated_by": "scripts/run_dff_pipeline.py",
+  "observation_key": "dff:2026-07-13T17:49:00Z",
+  "source_url": "https://www.filmportal.de/videos",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-13T17:49:00Z",
+  "analytic_outputs_last_modified_at": "2026-07-13T17:49:00Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 32,
+    "videos_in_curatorial_catalog": 32,
+    "visibility_categories": 1,
+    "theme_categories": 3,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "dff_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 360,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "summary": {
+      "filename": "dff_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 923,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "video_links": {
+      "filename": "dff_links_video.csv",
+      "exists": true,
+      "size_bytes": 32374,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "internal_pages": {
+      "filename": "dff_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 15453,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "analytic_summary": {
+      "filename": "dff_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1327,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "dff_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 37039,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "availability_summary": {
+      "filename": "dff_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "availability_reasons": {
+      "filename": "dff_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "visibility_summary": {
+      "filename": "dff_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "access_surface_summary": {
+      "filename": "dff_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 73,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "access_regime_summary": {
+      "filename": "dff_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 78,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "theme_summary": {
+      "filename": "dff_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 159,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "theme_country": {
+      "filename": "dff_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 188,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "archive_type_summary": {
+      "filename": "dff_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 79,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "theme_platform": {
+      "filename": "dff_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 212,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "theme_archive_type": {
+      "filename": "dff_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 328,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "visibility_archive_type": {
+      "filename": "dff_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 139,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "timeline_corpus": {
+      "filename": "dff_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 509,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "timeline_institutions": {
+      "filename": "dff_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 831,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "extinction_signals": {
+      "filename": "dff_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "snapshot_metadata": {
+      "filename": "dff_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5134,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "report_json": {
+      "filename": "dff_relatorio.json",
+      "exists": true,
+      "size_bytes": 1700,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "report_txt": {
+      "filename": "dff_relatorio.txt",
+      "exists": true,
+      "size_bytes": 885,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    },
+    "report_xlsx": {
+      "filename": "dff_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 37487,
+      "last_modified_at": "2026-07-13T17:49:00Z"
+    }
+  }
+}

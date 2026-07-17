@@ -1,0 +1,168 @@
+{
+  "dataset": "barch",
+  "generated_at": "2026-06-15T19:00:32Z",
+  "generated_by": "scripts/run_barch_pipeline.py",
+  "observation_key": "barch:2026-06-15T19:00:32Z",
+  "source_url": "https://www.europeanfilmgateway.eu/search-efg/bundesarchiv",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-15T19:00:32Z",
+  "analytic_outputs_last_modified_at": "2026-06-15T19:00:31Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 177,
+    "videos_in_curatorial_catalog": 177,
+    "visibility_categories": 1,
+    "theme_categories": 4,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "barch_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 386,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "summary": {
+      "filename": "barch_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1744,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "video_links": {
+      "filename": "barch_links_video.csv",
+      "exists": true,
+      "size_bytes": 300554,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "internal_pages": {
+      "filename": "barch_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 94394,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "analytic_summary": {
+      "filename": "barch_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 2135,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "barch_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 324789,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "availability_summary": {
+      "filename": "barch_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "availability_reasons": {
+      "filename": "barch_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 47,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "visibility_summary": {
+      "filename": "barch_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "access_surface_summary": {
+      "filename": "barch_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 77,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "access_regime_summary": {
+      "filename": "barch_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 58,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "theme_summary": {
+      "filename": "barch_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 134,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "theme_country": {
+      "filename": "barch_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 171,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "archive_type_summary": {
+      "filename": "barch_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 72,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "theme_platform": {
+      "filename": "barch_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 233,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "theme_archive_type": {
+      "filename": "barch_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 325,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "visibility_archive_type": {
+      "filename": "barch_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 132,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "timeline_corpus": {
+      "filename": "barch_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 821,
+      "last_modified_at": "2026-06-15T19:00:32Z"
+    },
+    "timeline_institutions": {
+      "filename": "barch_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1732,
+      "last_modified_at": "2026-06-15T19:00:32Z"
+    },
+    "extinction_signals": {
+      "filename": "barch_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-15T19:00:32Z"
+    },
+    "snapshot_metadata": {
+      "filename": "barch_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5243,
+      "last_modified_at": "2026-06-15T19:00:32Z"
+    },
+    "report_json": {
+      "filename": "barch_relatorio.json",
+      "exists": true,
+      "size_bytes": 2567,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "report_txt": {
+      "filename": "barch_relatorio.txt",
+      "exists": true,
+      "size_bytes": 928,
+      "last_modified_at": "2026-06-15T19:00:31Z"
+    },
+    "report_xlsx": {
+      "filename": "barch_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 224155,
+      "last_modified_at": "2026-06-15T19:00:32Z"
+    }
+  }
+}

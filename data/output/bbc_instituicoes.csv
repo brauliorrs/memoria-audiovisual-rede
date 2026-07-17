@@ -1,0 +1,2 @@
+institution,slug,country,continent,repository_code,bbc_detail_url,archive_type,external_url,website_available,content_available_in_source
+BBC Archive,bbc-archive,United Kingdom,Europe,GB-BBC-ARCHIVE,https://www.bbc.co.uk/archive,Broadcast audiovisual archive,https://www.bbc.co.uk/archive,True,True

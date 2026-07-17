@@ -1,0 +1,53 @@
+{
+  "source": "https://cinematek.be/en/collections/be-film",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "CINEMATEK@HOME": 20
+  },
+  "top_domains": [
+    [
+      "cinematek.be",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Cinémathèque royale de Belgique / CINEMATEK",
+      "slug": "cin-math-que-royale-de-belgique-cinematek",
+      "country": "Belgium",
+      "continent": "Europe",
+      "repository_code": "BE-CINEMATEK",
+      "archive_type": "National cinematheque and external streaming access routes",
+      "cinematek_detail_url": "https://cinematek.be/en/collections/film",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://cinematek.be/en/collections/be-film",
+      "partner_domain": "cinematek.be",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://cinematek.be/en/collections/be-film",
+      "video_links_found_total": 20,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 3,
+      "priority_review": false,
+      "warning": "Corpus incorporado pelo recorte CINEMATEK@HOME: a página oficial lista filmes restaurados em plataformas externas. O MVP materializa 20 rotas de acesso externas, sem baixar mídia e sem afirmar acesso aberto direto ou cobertura total do acervo preservado da Cinémathèque royale de Belgique.",
+      "error": ""
+    }
+  ]
+}

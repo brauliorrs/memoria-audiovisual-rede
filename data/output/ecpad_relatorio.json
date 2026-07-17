@@ -1,0 +1,53 @@
+{
+  "source": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "parcial": 1
+  },
+  "platform_summary": {
+    "ECPAD Archives": 36026
+  },
+  "top_domains": [
+    [
+      "archives.ecpad.fr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "ECPAD - Établissement de communication et de production audiovisuelle de la Défense",
+      "slug": "ecpad",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-ECPAD",
+      "archive_type": "Institutional military audiovisual archive with public Arkothèque catalog",
+      "ecpad_detail_url": "https://archives.ecpad.fr/archives/archives",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+      "partner_domain": "archives.ecpad.fr",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "parcial",
+      "final_url": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+      "video_links_found_total": 36026,
+      "embedded_video_signals_total": 12724,
+      "candidate_internal_pages": 5,
+      "priority_review": "baixa",
+      "warning": "Corpus ECPAD incorporado pela API Arkothèque do catálogo público. A faceta técnica separa 36301 registros do tipo Vídeo: 12724 com visual online e 23577 sem visual online. A coleta usa janelas oficiais de ordenação, período e data para respeitar o limite público de paginação da Arkothèque e materializou 36029 registros nesta rodada. Não baixa mídia e não contorna restrições. Lacuna registrada: 272 registros declarados pela API não foram alcançados pelas rotas públicas testadas.",
+      "error": ""
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "source": "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-0.html",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Cinémathèque de Bretagne": 30
+  },
+  "top_domains": [
+    [
+      "cinematheque-bretagne.bzh",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Cinémathèque de Bretagne",
+      "slug": "cin-math-que-de-bretagne",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CINEMATHEQUE-BRETAGNE",
+      "archive_type": "Regional audiovisual and amateur film archive",
+      "cinematheque_bretagne_detail_url": "https://www.cinematheque-bretagne.bzh/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-0.html",
+      "partner_domain": "cinematheque-bretagne.bzh",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-0.html",
+      "video_links_found_total": 30,
+      "embedded_video_signals_total": 20,
+      "candidate_internal_pages": 24,
+      "priority_review": false,
+      "warning": "Corpus incorporado pelo recorte público `Voir les films` da Cinémathèque de Bretagne. O site declara 11186 filmes em acesso livre; a listagem pública indica 37686 registros/resultados em até 2513 páginas visíveis. O MVP materializa 30 fichas em até 2 páginas e enriquece até 20 fichas detalhadas, sem baixar mídia e sem afirmar cobertura total do acervo preservado.",
+      "error": ""
+    }
+  ]
+}

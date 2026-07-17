@@ -1,0 +1,31 @@
+RELATORIO - FILMMUSEUM DUSSELDORF / D:KULT ONLINE
+============================================================
+
+Fonte: https://emuseum.duesseldorf.de/collections/56457/audiovisuelle-dokumente-zu-dusseldorf/objects
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 0
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - d:kult online: 300
+
+Dominios parceiros mais frequentes:
+  - emuseum.duesseldorf.de: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - Filmmuseum Düsseldorf | links_video=300 | embeds=0 | status=ok | prioridade=False | url=https://emuseum.duesseldorf.de/collections/56457/audiovisuelle-dokumente-zu-dusseldorf/objects
+
+Instituicoes com erro ou restricao:

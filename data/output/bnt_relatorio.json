@@ -1,0 +1,53 @@
+{
+  "source": "https://bnt.bg/arhiv-a-ya-25cat.html",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "BNT.bg": 45
+  },
+  "top_domains": [
+    [
+      "bnt.bg",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Bulgarian National Television",
+      "slug": "bulgarian-national-television",
+      "country": "Bulgaria",
+      "continent": "Europe",
+      "repository_code": "BG-BNT",
+      "archive_type": "Public television audiovisual archive",
+      "bnt_detail_url": "https://bnt.bg/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "partner_domain": "bnt.bg",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "video_links_found_total": 45,
+      "embedded_video_signals_total": 45,
+      "candidate_internal_pages": 110,
+      "priority_review": "baixa",
+      "warning": "Corpus institucional incorporado pela categoria pública Архив (А-Я) do site BNT.bg. A rodada percorreu 8 páginas de listagem, abriu 96 páginas de detalhe e materializou 45 registros com player público/MP4. O recorte não equivale ao acervo audiovisual interno total da BNT, ao arquivo fílmico declarado, ao arquivo digital, ao YouTube ou a serviços internos de preservação/licenciamento.",
+      "error": ""
+    }
+  ]
+}

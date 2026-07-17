@@ -1,0 +1,168 @@
+{
+  "dataset": "bbc",
+  "generated_at": "2026-06-12T18:37:41Z",
+  "generated_by": "scripts/run_bbc_pipeline.py",
+  "observation_key": "bbc:2026-06-12T18:37:41Z",
+  "source_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-12T18:37:41Z",
+  "analytic_outputs_last_modified_at": "2026-06-12T18:37:40Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 817,
+    "videos_in_curatorial_catalog": 817,
+    "visibility_categories": 1,
+    "theme_categories": 8,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "bbc_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 301,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "summary": {
+      "filename": "bbc_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 885,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "video_links": {
+      "filename": "bbc_links_video.csv",
+      "exists": true,
+      "size_bytes": 388202,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "internal_pages": {
+      "filename": "bbc_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 16462,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "analytic_summary": {
+      "filename": "bbc_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1266,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "bbc_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 490237,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "availability_summary": {
+      "filename": "bbc_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "availability_reasons": {
+      "filename": "bbc_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "visibility_summary": {
+      "filename": "bbc_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "access_surface_summary": {
+      "filename": "bbc_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 58,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "access_regime_summary": {
+      "filename": "bbc_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 69,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "theme_summary": {
+      "filename": "bbc_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 332,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "theme_country": {
+      "filename": "bbc_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 457,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "archive_type_summary": {
+      "filename": "bbc_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 59,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "theme_platform": {
+      "filename": "bbc_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 439,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "theme_archive_type": {
+      "filename": "bbc_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 591,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "visibility_archive_type": {
+      "filename": "bbc_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 119,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "timeline_corpus": {
+      "filename": "bbc_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 803,
+      "last_modified_at": "2026-06-12T18:37:41Z"
+    },
+    "timeline_institutions": {
+      "filename": "bbc_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1591,
+      "last_modified_at": "2026-06-12T18:37:41Z"
+    },
+    "extinction_signals": {
+      "filename": "bbc_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-12T18:37:41Z"
+    },
+    "snapshot_metadata": {
+      "filename": "bbc_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5171,
+      "last_modified_at": "2026-06-12T18:37:41Z"
+    },
+    "report_json": {
+      "filename": "bbc_relatorio.json",
+      "exists": true,
+      "size_bytes": 1666,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "report_txt": {
+      "filename": "bbc_relatorio.txt",
+      "exists": true,
+      "size_bytes": 867,
+      "last_modified_at": "2026-06-12T18:37:40Z"
+    },
+    "report_xlsx": {
+      "filename": "bbc_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 258418,
+      "last_modified_at": "2026-06-12T18:37:41Z"
+    }
+  }
+}

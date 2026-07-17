@@ -1,0 +1,168 @@
+{
+  "dataset": "filmmuseum_dusseldorf",
+  "generated_at": "2026-07-16T17:46:05Z",
+  "generated_by": "scripts/run_filmmuseum_dusseldorf_pipeline.py",
+  "observation_key": "filmmuseum_dusseldorf:2026-07-16T17:46:05Z",
+  "source_url": "https://emuseum.duesseldorf.de/collections/56457/audiovisuelle-dokumente-zu-dusseldorf/objects",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-16T17:46:05Z",
+  "analytic_outputs_last_modified_at": "2026-07-16T17:46:04Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 300,
+    "videos_in_curatorial_catalog": 300,
+    "visibility_categories": 1,
+    "theme_categories": 3,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "filmmuseum_dusseldorf_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 485,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "summary": {
+      "filename": "filmmuseum_dusseldorf_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1095,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "video_links": {
+      "filename": "filmmuseum_dusseldorf_links_video.csv",
+      "exists": true,
+      "size_bytes": 509337,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "internal_pages": {
+      "filename": "filmmuseum_dusseldorf_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 166247,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "analytic_summary": {
+      "filename": "filmmuseum_dusseldorf_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1504,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "filmmuseum_dusseldorf_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 555966,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "availability_summary": {
+      "filename": "filmmuseum_dusseldorf_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "availability_reasons": {
+      "filename": "filmmuseum_dusseldorf_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "visibility_summary": {
+      "filename": "filmmuseum_dusseldorf_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "access_surface_summary": {
+      "filename": "filmmuseum_dusseldorf_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 84,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "access_regime_summary": {
+      "filename": "filmmuseum_dusseldorf_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 71,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "theme_summary": {
+      "filename": "filmmuseum_dusseldorf_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 147,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "theme_country": {
+      "filename": "filmmuseum_dusseldorf_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 176,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "archive_type_summary": {
+      "filename": "filmmuseum_dusseldorf_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 108,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "theme_platform": {
+      "filename": "filmmuseum_dusseldorf_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 200,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "theme_archive_type": {
+      "filename": "filmmuseum_dusseldorf_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 403,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "visibility_archive_type": {
+      "filename": "filmmuseum_dusseldorf_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 168,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "timeline_corpus": {
+      "filename": "filmmuseum_dusseldorf_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 965,
+      "last_modified_at": "2026-07-16T17:46:05Z"
+    },
+    "timeline_institutions": {
+      "filename": "filmmuseum_dusseldorf_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2308,
+      "last_modified_at": "2026-07-16T17:46:05Z"
+    },
+    "extinction_signals": {
+      "filename": "filmmuseum_dusseldorf_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-16T17:46:05Z"
+    },
+    "snapshot_metadata": {
+      "filename": "filmmuseum_dusseldorf_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5714,
+      "last_modified_at": "2026-07-16T17:46:05Z"
+    },
+    "report_json": {
+      "filename": "filmmuseum_dusseldorf_relatorio.json",
+      "exists": true,
+      "size_bytes": 1946,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "report_txt": {
+      "filename": "filmmuseum_dusseldorf_relatorio.txt",
+      "exists": true,
+      "size_bytes": 1023,
+      "last_modified_at": "2026-07-16T17:46:04Z"
+    },
+    "report_xlsx": {
+      "filename": "filmmuseum_dusseldorf_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 322151,
+      "last_modified_at": "2026-07-16T17:46:05Z"
+    }
+  }
+}

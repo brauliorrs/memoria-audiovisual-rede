@@ -1,0 +1,53 @@
+{
+  "source": "https://arkaader.ee/landing/br/rHczO7kKnl/pbOiQfMOLr",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Arkaader": 3839
+  },
+  "top_domains": [
+    [
+      "arkaader.ee",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Film Archive of the National Archives of Estonia",
+      "slug": "film-archive-of-the-national-archives-of-estonia",
+      "country": "Estonia",
+      "continent": "Europe",
+      "repository_code": "EE-RA-EFA",
+      "archive_type": "National film archive with public audiovisual streaming catalogue",
+      "estonian_film_archive_detail_url": "https://www.ra.ee/en/film-photo-audio/film/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://arkaader.ee/landing/br/rHczO7kKnl/pbOiQfMOLr",
+      "partner_domain": "arkaader.ee",
+      "status": "ok",
+      "http_code": "200",
+      "integrity_status": "integro",
+      "final_url": "https://arkaader.ee/landing/br/rHczO7kKnl/pbOiQfMOLr",
+      "video_links_found_total": 3839,
+      "embedded_video_signals_total": 3839,
+      "candidate_internal_pages": 2,
+      "priority_review": false,
+      "warning": "Arkaader expõe 3980 metadados públicos e 3839 transmissões na API pública. Regime detectado: 3287 gratuitos, 552 pagos/por ingresso, 126 com georrestrição. A rota ra.ee/Meediateek recusou conexão direta neste ambiente; a incorporação usa a API pública do Arkaader.",
+      "error": ""
+    }
+  ]
+}

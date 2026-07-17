@@ -1,0 +1,4 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+cinemateca-portuguesa,cinemateca-portuguesa:2026-06-18T17:38:37Z,2026-06-18T17:38:37Z,,2026-06-18T17:38:37Z,2026-06-18T17:38:37Z,scripts/run_cinemateca_portuguesa_pipeline.py,1,1,1,50,50,1,1,1,2,1
+cinemateca-portuguesa,cinemateca-portuguesa:2026-06-18T17:42:57Z,2026-06-18T17:42:57Z,,2026-06-18T17:42:57Z,2026-06-18T17:42:56Z,scripts/run_cinemateca_portuguesa_pipeline.py,1,1,1,50,50,1,5,1,2,1
+cinemateca-portuguesa,cinemateca-portuguesa:2026-06-18T17:50:58Z,2026-06-18T17:50:58Z,,2026-06-18T17:50:58Z,2026-06-18T17:50:58Z,scripts/run_cinemateca_portuguesa_pipeline.py,1,1,1,50,50,1,5,1,2,1

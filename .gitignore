@@ -11,6 +11,7 @@ data/output/*
 !data/output/*.md
 !data/output/*.txt
 !data/output/*.xlsx
+data/temp/
 iasa-reports/
 iasa-reports.zip
 playwright-report/

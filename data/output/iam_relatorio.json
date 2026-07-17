@@ -1,0 +1,53 @@
+{
+  "source": "https://institut-audiovisuel.mc/wp-json/wp/v2/medias",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Institut audiovisuel de Monaco": 173
+  },
+  "top_domains": [
+    [
+      "institut-audiovisuel.mc",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Institut audiovisuel de Monaco",
+      "slug": "institut-audiovisuel-de-monaco",
+      "country": "Monaco",
+      "continent": "Europe",
+      "repository_code": "MC-IAM",
+      "archive_type": "Institutional audiovisual archive",
+      "iam_detail_url": "https://institut-audiovisuel.mc/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://institut-audiovisuel.mc/wp-json/wp/v2/medias",
+      "partner_domain": "institut-audiovisuel.mc",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://institut-audiovisuel.mc/wp-json/wp/v2/medias",
+      "video_links_found_total": 173,
+      "embedded_video_signals_total": 139,
+      "candidate_internal_pages": 178,
+      "priority_review": "baixa",
+      "warning": "Corpus institucional incorporado pelo endpoint público WordPress `medias` do Institut audiovisuel de Monaco. A rodada materializou 173 de 173 registros declarados pelo endpoint, com 139 páginas contendo fonte de vídeo detectada. O recorte online não equivale ao acervo total declarado pela sala de consulta.",
+      "error": ""
+    }
+  ]
+}

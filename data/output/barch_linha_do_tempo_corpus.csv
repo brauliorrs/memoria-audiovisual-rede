@@ -1,0 +1,4 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+barch,barch:2026-06-15T18:49:54Z,2026-06-15T18:49:54Z,,2026-06-15T18:49:54Z,2026-06-15T18:49:53Z,scripts/run_barch_pipeline.py,1,1,1,176,176,1,4,1,1,1
+barch,barch:2026-06-15T18:53:52Z,2026-06-15T18:53:52Z,,2026-06-15T18:53:52Z,2026-06-15T18:53:51Z,scripts/run_barch_pipeline.py,1,1,1,177,177,1,4,1,1,1
+barch,barch:2026-06-15T19:00:32Z,2026-06-15T19:00:32Z,,2026-06-15T19:00:32Z,2026-06-15T19:00:31Z,scripts/run_barch_pipeline.py,1,1,1,177,177,1,4,1,1,1

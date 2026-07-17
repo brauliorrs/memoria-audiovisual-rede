@@ -1,0 +1,168 @@
+{
+  "dataset": "ccma",
+  "generated_at": "2026-07-07T13:15:23Z",
+  "generated_by": "scripts/run_ccma_pipeline.py",
+  "observation_key": "ccma:2026-07-07T13:15:23Z",
+  "source_url": "https://api.3cat.cat/cercador/tot",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-07T13:15:23Z",
+  "analytic_outputs_last_modified_at": "2026-07-07T13:15:23Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 16,
+    "videos_in_curatorial_catalog": 16,
+    "visibility_categories": 1,
+    "theme_categories": 1,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "ccma_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 344,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "summary": {
+      "filename": "ccma_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 999,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "video_links": {
+      "filename": "ccma_links_video.csv",
+      "exists": true,
+      "size_bytes": 20088,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "internal_pages": {
+      "filename": "ccma_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 9457,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "analytic_summary": {
+      "filename": "ccma_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1369,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "ccma_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 22072,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "availability_summary": {
+      "filename": "ccma_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "availability_reasons": {
+      "filename": "ccma_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "visibility_summary": {
+      "filename": "ccma_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "access_surface_summary": {
+      "filename": "ccma_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 69,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "access_regime_summary": {
+      "filename": "ccma_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "theme_summary": {
+      "filename": "ccma_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 55,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "theme_country": {
+      "filename": "ccma_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "archive_type_summary": {
+      "filename": "ccma_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 78,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "theme_platform": {
+      "filename": "ccma_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 71,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "theme_archive_type": {
+      "filename": "ccma_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 123,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "visibility_archive_type": {
+      "filename": "ccma_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 138,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "timeline_corpus": {
+      "filename": "ccma_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 659,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "timeline_institutions": {
+      "filename": "ccma_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1486,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "extinction_signals": {
+      "filename": "ccma_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "snapshot_metadata": {
+      "filename": "ccma_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5182,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "report_json": {
+      "filename": "ccma_relatorio.json",
+      "exists": true,
+      "size_bytes": 1761,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "report_txt": {
+      "filename": "ccma_relatorio.txt",
+      "exists": true,
+      "size_bytes": 1032,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    },
+    "report_xlsx": {
+      "filename": "ccma_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 32745,
+      "last_modified_at": "2026-07-07T13:15:23Z"
+    }
+  }
+}

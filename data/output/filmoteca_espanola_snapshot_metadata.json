@@ -1,0 +1,168 @@
+{
+  "dataset": "filmoteca_espanola",
+  "generated_at": "2026-07-16T19:37:58Z",
+  "generated_by": "scripts/run_filmoteca_espanola_pipeline.py",
+  "observation_key": "filmoteca_espanola:2026-07-16T19:37:57Z",
+  "source_url": "https://filmo.platfo.es/pages/home",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-16T19:37:57Z",
+  "analytic_outputs_last_modified_at": "2026-07-16T19:37:56Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 344,
+    "videos_in_curatorial_catalog": 344,
+    "visibility_categories": 1,
+    "theme_categories": 10,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "filmoteca_espanola_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 433,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "summary": {
+      "filename": "filmoteca_espanola_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1303,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "video_links": {
+      "filename": "filmoteca_espanola_links_video.csv",
+      "exists": true,
+      "size_bytes": 489691,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "internal_pages": {
+      "filename": "filmoteca_espanola_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 2141,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "analytic_summary": {
+      "filename": "filmoteca_espanola_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1692,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "filmoteca_espanola_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 522396,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "availability_summary": {
+      "filename": "filmoteca_espanola_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "availability_reasons": {
+      "filename": "filmoteca_espanola_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "visibility_summary": {
+      "filename": "filmoteca_espanola_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "access_surface_summary": {
+      "filename": "filmoteca_espanola_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 65,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "access_regime_summary": {
+      "filename": "filmoteca_espanola_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 70,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "theme_summary": {
+      "filename": "filmoteca_espanola_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 309,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "theme_country": {
+      "filename": "filmoteca_espanola_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 374,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "archive_type_summary": {
+      "filename": "filmoteca_espanola_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 118,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "theme_platform": {
+      "filename": "filmoteca_espanola_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 450,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "theme_archive_type": {
+      "filename": "filmoteca_espanola_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 1218,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "visibility_archive_type": {
+      "filename": "filmoteca_espanola_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 178,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "timeline_corpus": {
+      "filename": "filmoteca_espanola_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 749,
+      "last_modified_at": "2026-07-16T19:37:58Z"
+    },
+    "timeline_institutions": {
+      "filename": "filmoteca_espanola_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1536,
+      "last_modified_at": "2026-07-16T19:37:58Z"
+    },
+    "extinction_signals": {
+      "filename": "filmoteca_espanola_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 716,
+      "last_modified_at": "2026-07-16T19:37:58Z"
+    },
+    "snapshot_metadata": {
+      "filename": "filmoteca_espanola_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5572,
+      "last_modified_at": "2026-07-16T19:37:58Z"
+    },
+    "report_json": {
+      "filename": "filmoteca_espanola_relatorio.json",
+      "exists": true,
+      "size_bytes": 2084,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "report_txt": {
+      "filename": "filmoteca_espanola_relatorio.txt",
+      "exists": true,
+      "size_bytes": 958,
+      "last_modified_at": "2026-07-16T19:37:56Z"
+    },
+    "report_xlsx": {
+      "filename": "filmoteca_espanola_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 301515,
+      "last_modified_at": "2026-07-16T19:37:57Z"
+    }
+  }
+}

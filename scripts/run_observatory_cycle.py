@@ -14,8 +14,16 @@ if str(SRC_DIR) not in sys.path:
 from memoria_audiovisual.config import OUTPUT_DIR
 from memoria_audiovisual.corpora import list_active_corpora
 from memoria_audiovisual.adlibitum_protocol import write_adlibitum_protocol_probe
+from memoria_audiovisual.arsenal_protocol import write_arsenal_protocol_probe
 from memoria_audiovisual.archivegrid_protocol import write_archivegrid_protocol_probe
+from memoria_audiovisual.atresmedia_protocol import write_atresmedia_protocol_probe
+from memoria_audiovisual.bnfa_protocol import write_bnfa_protocol_probe
+from memoria_audiovisual.cinematheque_corse_protocol import write_cinematheque_corse_protocol_probe
+from memoria_audiovisual.cinematheque_luxembourg_protocol import write_cinematheque_luxembourg_protocol_probe
+from memoria_audiovisual.cnc_aff_protocol import write_cnc_aff_protocol_probe
 from memoria_audiovisual.discovery import write_discovery_outputs
+from memoria_audiovisual.filmmuseum_munchen_protocol import write_filmmuseum_munchen_protocol_probe
+from memoria_audiovisual.filmoteca_vaticana_protocol import write_filmoteca_vaticana_protocol_probe
 from memoria_audiovisual.european_aggregators import write_european_aggregator_evaluation
 from memoria_audiovisual.europe_closure import write_europe_closure_outputs
 from memoria_audiovisual.europe_research import write_europe_research_outputs
@@ -32,6 +40,9 @@ from memoria_audiovisual.organism import (
     write_cycle_history,
     write_monthly_cycle_manifest,
 )
+from memoria_audiovisual.prise2_protocol import write_prise2_protocol_probe
+from memoria_audiovisual.public_access_index import write_public_access_index
+from memoria_audiovisual.restricted_access_audit import write_restricted_access_audit
 
 
 def utcnow_iso():
@@ -78,10 +89,21 @@ def main():
     write_european_film_gateway_protocol_probe(OUTPUT_DIR)
     write_europeana_protocol_probe(OUTPUT_DIR)
     write_adlibitum_protocol_probe(OUTPUT_DIR)
+    write_arsenal_protocol_probe(OUTPUT_DIR)
+    write_prise2_protocol_probe(OUTPUT_DIR)
+    write_atresmedia_protocol_probe(OUTPUT_DIR)
+    write_bnfa_protocol_probe(OUTPUT_DIR)
+    write_cnc_aff_protocol_probe(OUTPUT_DIR)
+    write_cinematheque_corse_protocol_probe(OUTPUT_DIR)
+    write_cinematheque_luxembourg_protocol_probe(OUTPUT_DIR)
+    write_filmmuseum_munchen_protocol_probe(OUTPUT_DIR)
+    write_filmoteca_vaticana_protocol_probe(OUTPUT_DIR)
     write_archivegrid_protocol_probe(OUTPUT_DIR)
     write_iberarchivos_protocol_probe(OUTPUT_DIR)
     write_europe_closure_outputs(OUTPUT_DIR)
     write_europe_research_outputs(OUTPUT_DIR)
+    write_restricted_access_audit(OUTPUT_DIR)
+    write_public_access_index(OUTPUT_DIR)
 
     active_corpora = list_active_corpora(monthly_only=True)
     if args.corpora:

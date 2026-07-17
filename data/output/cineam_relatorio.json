@@ -1,0 +1,53 @@
+{
+  "source": "https://www.cineam.asso.fr/exploration-905-0-0-0.html",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "CINÉAM": 36
+  },
+  "top_domains": [
+    [
+      "cineam.asso.fr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "CINÉAM",
+      "slug": "cineam",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CINEAM",
+      "archive_type": "Institutional amateur film and audiovisual archive",
+      "cineam_detail_url": "https://www.cineam.asso.fr/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.cineam.asso.fr/exploration-905-0-0-0.html",
+      "partner_domain": "cineam.asso.fr",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.cineam.asso.fr/exploration-905-0-0-0.html",
+      "video_links_found_total": 36,
+      "embedded_video_signals_total": 35,
+      "candidate_internal_pages": 43,
+      "priority_review": false,
+      "warning": "Corpus incorporado por listagem pública `Films / Exploration`. A paginação pública indicou até 39 páginas; o MVP materializa 36 registros nas primeiras 2 páginas, sem baixar mídia e sem afirmar catálogo total.",
+      "error": ""
+    }
+  ]
+}

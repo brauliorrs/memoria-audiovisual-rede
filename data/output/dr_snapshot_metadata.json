@@ -1,0 +1,168 @@
+{
+  "dataset": "dr",
+  "generated_at": "2026-07-13T18:12:07Z",
+  "generated_by": "scripts/run_dr_pipeline.py",
+  "observation_key": "dr:2026-07-13T18:12:07Z",
+  "source_url": "https://www.dr.dk/drtv/gensyn",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-13T18:12:07Z",
+  "analytic_outputs_last_modified_at": "2026-07-13T18:12:06Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 453,
+    "videos_in_curatorial_catalog": 453,
+    "visibility_categories": 1,
+    "theme_categories": 4,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "dr_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 333,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "summary": {
+      "filename": "dr_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 973,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "video_links": {
+      "filename": "dr_links_video.csv",
+      "exists": true,
+      "size_bytes": 659506,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "internal_pages": {
+      "filename": "dr_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 32623,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "analytic_summary": {
+      "filename": "dr_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1362,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "dr_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 713829,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "availability_summary": {
+      "filename": "dr_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "availability_reasons": {
+      "filename": "dr_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "visibility_summary": {
+      "filename": "dr_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "access_surface_summary": {
+      "filename": "dr_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 65,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "access_regime_summary": {
+      "filename": "dr_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 70,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "theme_summary": {
+      "filename": "dr_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 185,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "theme_country": {
+      "filename": "dr_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 222,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "archive_type_summary": {
+      "filename": "dr_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 105,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "theme_platform": {
+      "filename": "dr_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 244,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "theme_archive_type": {
+      "filename": "dr_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 508,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "visibility_archive_type": {
+      "filename": "dr_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 165,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "timeline_corpus": {
+      "filename": "dr_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 651,
+      "last_modified_at": "2026-07-13T18:12:07Z"
+    },
+    "timeline_institutions": {
+      "filename": "dr_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1208,
+      "last_modified_at": "2026-07-13T18:12:07Z"
+    },
+    "extinction_signals": {
+      "filename": "dr_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-13T18:12:07Z"
+    },
+    "snapshot_metadata": {
+      "filename": "dr_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5133,
+      "last_modified_at": "2026-07-13T18:12:07Z"
+    },
+    "report_json": {
+      "filename": "dr_relatorio.json",
+      "exists": true,
+      "size_bytes": 1738,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "report_txt": {
+      "filename": "dr_relatorio.txt",
+      "exists": true,
+      "size_bytes": 848,
+      "last_modified_at": "2026-07-13T18:12:06Z"
+    },
+    "report_xlsx": {
+      "filename": "dr_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 297144,
+      "last_modified_at": "2026-07-13T18:12:07Z"
+    }
+  }
+}

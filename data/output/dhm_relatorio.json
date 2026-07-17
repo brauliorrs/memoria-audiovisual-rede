@@ -1,0 +1,53 @@
+{
+  "source": "https://www.dhm.de/zeughauskino/en/programs/zeughauskino-online/films-of-the-marshall-plan/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "DHM Zeughauskino online": 34
+  },
+  "top_domains": [
+    [
+      "dhm.de",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Deutsches Historisches Museum / Zeughauskino",
+      "slug": "deutsches-historisches-museum-zeughauskino",
+      "country": "Germany",
+      "continent": "Europe",
+      "repository_code": "DE-DHM",
+      "archive_type": "Museum film archive with public descriptive online film selection",
+      "dhm_detail_url": "https://www.dhm.de/zeughauskino/en/programs/zeughauskino-online/films-of-the-marshall-plan/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.dhm.de/zeughauskino/en/programs/zeughauskino-online/films-of-the-marshall-plan/",
+      "partner_domain": "dhm.de",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.dhm.de/zeughauskino/en/programs/zeughauskino-online/films-of-the-marshall-plan/",
+      "video_links_found_total": 34,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 18,
+      "priority_review": "baixa",
+      "warning": "Corpus DHM/Zeughauskino incorporado pela seleção pública Films of the Marshall Plan. A rota materializa 34 registros filmográficos públicos, 12 com ficha individual e 0 sinais de player. A página institucional informa 42 filmes do Plano Marshall no acervo, mas a listagem pública coletável nesta rodada expõe uma seleção de 34 itens; o corpus não representa o Film Archive integral e não baixa mídia.",
+      "error": "https://www.europeanfilmgateway.eu/node/1859: HTTPSConnectionPool(host='www.europeanfilmgateway.eu', port=443): Read timed out. (read timeout=25)"
+    }
+  ]
+}

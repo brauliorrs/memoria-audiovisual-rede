@@ -1,0 +1,4 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+filmoteca_catalunya,filmoteca_catalunya:2026-07-17T16:56:54Z,2026-07-17T16:56:54Z,,2026-07-17T16:56:54Z,2026-07-17T16:56:53Z,scripts/run_filmoteca_catalunya_pipeline.py,1,1,1,10,10,1,4,1,1,1
+filmoteca_catalunya,filmoteca_catalunya:2026-07-17T17:08:04Z,2026-07-17T17:08:04Z,,2026-07-17T17:08:04Z,2026-07-17T17:08:04Z,scripts/run_filmoteca_catalunya_pipeline.py,1,1,1,10,10,1,5,1,1,1
+filmoteca_catalunya,filmoteca_catalunya:2026-07-17T17:09:08Z,2026-07-17T17:09:08Z,,2026-07-17T17:09:08Z,2026-07-17T17:09:08Z,scripts/run_filmoteca_catalunya_pipeline.py,1,1,1,10,10,1,5,1,1,1

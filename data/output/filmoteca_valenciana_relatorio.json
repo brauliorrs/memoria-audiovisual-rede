@@ -1,0 +1,58 @@
+{
+  "source": "https://www.restauracionesfilmoteca.com/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Vimeo / Restauraciones Filmoteca Valenciana": 70
+  },
+  "top_domains": [
+    [
+      "restauracionesfilmoteca.com",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Filmoteca Valenciana",
+      "slug": "filmoteca-valenciana",
+      "country": "Spain",
+      "continent": "Europe",
+      "repository_code": "ES-VC-FILMOTECA-VALENCIANA",
+      "archive_type": "Film archive with public restored-film streaming subset and larger restricted catalogue",
+      "filmoteca_valenciana_detail_url": "https://ivc.gva.es/es/audiovisuales/la-filmoteca-es",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.restauracionesfilmoteca.com/",
+      "partner_domain": "restauracionesfilmoteca.com",
+      "status": "ok",
+      "http_code": "200",
+      "final_url": "https://www.restauracionesfilmoteca.com/inicio/",
+      "video_links_found": 70,
+      "video_links_found_total": 70,
+      "internal_pages_checked": 78,
+      "candidate_internal_pages": 78,
+      "embedded_signals": 70,
+      "embedded_video_signals_total": 70,
+      "integrity_status": "integro",
+      "priority_review": false,
+      "collection_complete": true,
+      "collection_completeness": "recorte público de restaurações com Vimeo completo no momento da coleta",
+      "warning": "O corpus representa o subsite público de restaurações com player Vimeo, não o catálogo integral da Filmoteca Valenciana/IVC. O catálogo geral e pedidos de visionamento/cópia permanecem como acesso institucional condicionado.",
+      "error": ""
+    }
+  ]
+}

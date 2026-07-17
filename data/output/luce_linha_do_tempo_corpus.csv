@@ -1,0 +1,4 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+luce,luce:2026-06-18T16:59:35Z,2026-06-18T16:59:35Z,,2026-06-18T16:59:35Z,2026-06-18T16:59:34Z,scripts/run_luce_pipeline.py,1,1,1,59,59,1,4,1,1,1
+luce,luce:2026-06-18T17:00:54Z,2026-06-18T17:00:54Z,,2026-06-18T17:00:54Z,2026-06-18T17:00:54Z,scripts/run_luce_pipeline.py,1,1,1,59,59,1,6,1,1,1
+luce,luce:2026-06-18T17:06:54Z,2026-06-18T17:06:54Z,,2026-06-18T17:06:54Z,2026-06-18T17:06:53Z,scripts/run_luce_pipeline.py,1,1,1,59,59,1,6,1,1,1

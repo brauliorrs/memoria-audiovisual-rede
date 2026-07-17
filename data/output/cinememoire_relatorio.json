@@ -1,0 +1,53 @@
+{
+  "source": "https://cinememoire.net/recherche-simple",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Cinémémoire": 20
+  },
+  "top_domains": [
+    [
+      "cinememoire.net",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Cinémémoire",
+      "slug": "cin-m-moire",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CINEMEMOIRE",
+      "archive_type": "Institutional amateur and family film archive",
+      "cinememoire_detail_url": "https://cinememoire.net/archives-cinememoire-ligne/archives-cinememoire-ligne",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://cinememoire.net/recherche-simple",
+      "partner_domain": "cinememoire.net",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://cinememoire.net/recherche-simple",
+      "video_links_found_total": 20,
+      "embedded_video_signals_total": 20,
+      "candidate_internal_pages": 27,
+      "priority_review": false,
+      "warning": "Janela técnica MVP: primeiras 4 páginas da busca pública, com fichas `notice` e vídeos HTML5/MP4 expostos. Não é o catálogo integral do Cinémémoire.",
+      "error": ""
+    }
+  ]
+}

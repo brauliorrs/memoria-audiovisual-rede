@@ -1,0 +1,53 @@
+{
+  "source": "https://www.letelepherique.org/le-catalogue-des-collections-527-0-0-0.html",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Cinémathèque des Pays de Savoie et de l'Ain": 23
+  },
+  "top_domains": [
+    [
+      "letelepherique.org",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Cinémathèque des Pays de Savoie et de l'Ain",
+      "slug": "cin-math-que-des-pays-de-savoie-et-de-l-ain",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CPSA",
+      "archive_type": "Regional audiovisual and amateur film archive",
+      "cpsa_detail_url": "https://www.letelepherique.org/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.letelepherique.org/le-catalogue-des-collections-527-0-0-0.html",
+      "partner_domain": "letelepherique.org",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.letelepherique.org/le-catalogue-des-collections-527-0-0-0.html",
+      "video_links_found_total": 23,
+      "embedded_video_signals_total": 20,
+      "candidate_internal_pages": 24,
+      "priority_review": false,
+      "warning": "Corpus incorporado pelo recorte público `Le Catalogue des Collections` da Cinémathèque des Pays de Savoie et de l'Ain. O site declara 1593 filmes em 133 páginas. O MVP materializa 23 fichas em até 2 páginas e enriquece até 20 fichas detalhadas, sem baixar mídia e sem afirmar cobertura total do acervo preservado.",
+      "error": ""
+    }
+  ]
+}

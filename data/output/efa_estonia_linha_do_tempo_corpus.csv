@@ -1,0 +1,5 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+estonian_film_archive,estonian_film_archive:2026-07-15T19:31:10Z,2026-07-15T19:31:12Z,,2026-07-15T19:31:10Z,2026-07-15T19:31:06Z,scripts/run_estonian_film_archive_pipeline.py,1,1,1,3839,3839,1,7,1,1,1
+estonian_film_archive,estonian_film_archive:2026-07-15T19:32:42Z,2026-07-15T19:32:45Z,,2026-07-15T19:32:42Z,2026-07-15T19:32:38Z,scripts/run_estonian_film_archive_pipeline.py,1,1,1,3839,3839,1,7,1,1,1
+estonian_film_archive,estonian_film_archive:2026-07-15T19:33:49Z,2026-07-15T19:33:52Z,,2026-07-15T19:33:49Z,2026-07-15T19:33:44Z,scripts/run_estonian_film_archive_pipeline.py,1,1,1,3839,3839,1,7,1,1,1
+estonian_film_archive,estonian_film_archive:2026-07-15T19:38:42Z,2026-07-15T19:38:45Z,,2026-07-15T19:38:42Z,2026-07-15T19:38:38Z,scripts/run_estonian_film_archive_pipeline.py,1,1,1,3839,3839,1,7,1,1,1

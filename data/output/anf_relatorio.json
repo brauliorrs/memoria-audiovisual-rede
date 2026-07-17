@@ -47,7 +47,7 @@
       "candidate_internal_pages": 11,
       "priority_review": "media",
       "warning": "Corpus institucional incorporado por superfície externa Cinemateca Online/Eventbook. A rota oficial anf-cinemateca.ro não respondeu nesta rodada; a coleta não representa catálogo total da ANF e não baixa mídia.",
-      "error": "http://www.anf-cinemateca.ro/: HTTPConnectionPool(host='www.anf-cinemateca.ro', port=80): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPConnection(host='www.anf-cinemateca.ro', port=80) at 0x1b3dcf4b0d0>, 'Connection to www.anf-cinemateca.ro timed out. (connect timeout=8)'))"
+      "error": ""
     }
   ]
 }

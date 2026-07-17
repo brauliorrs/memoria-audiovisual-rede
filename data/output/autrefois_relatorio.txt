@@ -1,0 +1,31 @@
+RELATORIO - FONDATION AUTREFOIS GENEVE
+============================================================
+
+Fonte: https://www.autrefoisgeneve.ch/wp-json/wp/v2/aiovg_videos
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 1
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - Autrefois Genève: 8
+
+Dominios parceiros mais frequentes:
+  - autrefoisgeneve.ch: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - Fondation Autrefois Genève | links_video=8 | embeds=8 | status=ok | prioridade=baixa | url=https://www.autrefoisgeneve.ch/wp-json/wp/v2/aiovg_videos
+
+Instituicoes com erro ou restricao:

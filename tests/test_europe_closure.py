@@ -105,10 +105,21 @@ class EuropeClosureTests(unittest.TestCase):
         )
         self.assertEqual(
             set(outputs["excluded_units"]["unit_code"]),
-            {"archives-hub", "francearchives"},
+            {"archives-hub", "cinematheque-suisse", "fiaf-filmmuseum-munchen", "francearchives"},
         )
+        suisse_excluded = outputs["excluded_units"].loc[
+            outputs["excluded_units"]["unit_code"] == "cinematheque-suisse"
+        ].iloc[0]
+        self.assertIn("vídeo público incorporável", suisse_excluded["methodological_explanation"])
+        munchen_excluded = outputs["excluded_units"].loc[
+            outputs["excluded_units"]["unit_code"] == "fiaf-filmmuseum-munchen"
+        ].iloc[0]
+        self.assertIn("programação", munchen_excluded["methodological_explanation"])
         self.assertFalse(outputs["gap_audit"]["unit_type"].astype(str).str.contains("sonoro", case=False).any())
-        self.assertIn("corpus continental", build_europe_closure_dossier(matrix_df, summary_df).lower())
+        dossier = build_europe_closure_dossier(matrix_df, summary_df).lower()
+        self.assertIn("corpus continental", dossier)
+        self.assertIn("índice de dados públicos", dossier)
+        self.assertIn("bancos privados/publicitários", dossier)
         self.assertFalse(outputs["queue"].empty)
 
     def test_write_europe_closure_outputs_materializes_csv_files(self):
@@ -210,6 +221,39 @@ class EuropeClosureTests(unittest.TestCase):
         self.assertEqual(queue_df.iloc[0]["priority"], 8)
         self.assertEqual(queue_df.iloc[0]["queue_status"], "monitoramento_protocolado_sem_incorporacao_mvp")
         self.assertFalse(bool(queue_df.iloc[0]["blocks_expansion"]))
+
+    def test_build_europe_closure_queue_excludes_active_corpora(self):
+        matrix_df = pd.DataFrame(
+            [
+                {
+                    "unit_code": "cinematheque-suisse",
+                    "unit_label": "Cinémathèque suisse",
+                    "unit_type": "corpus_ativo",
+                    "territorial_scope": "instituição individual europeia",
+                    "evidence_status": "saidas_do_corpus_materializadas_no_observatorio",
+                    "protocol_status": "pipeline_ativo",
+                    "incorporation_decision": "permanece_no_fechamento_europeu",
+                    "next_step": "python scripts/check_cinematheque_suisse_outputs.py",
+                    "can_open_next_continent": True,
+                },
+                {
+                    "unit_code": "archives-hub",
+                    "unit_label": "Archives Hub",
+                    "unit_type": "agregador_candidato",
+                    "territorial_scope": "agregador nacional",
+                    "evidence_status": "exige_js_cookies_ou_superficie_bloqueada",
+                    "protocol_status": "prototipo_leve_indica_bloqueio_em_sru_ou_oaipmh",
+                    "incorporation_decision": "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel",
+                    "next_step": "testar_rota_sru_com_sessao_controlada",
+                    "can_open_next_continent": True,
+                },
+            ]
+        )
+
+        queue_df = build_europe_closure_queue(matrix_df)
+
+        self.assertNotIn("cinematheque-suisse", queue_df["unit_code"].tolist())
+        self.assertIn("archives-hub", queue_df["unit_code"].tolist())
 
     def test_build_europe_excluded_units_register_explains_negative_route(self):
         matrix_df = pd.DataFrame(

@@ -1,0 +1,53 @@
+{
+  "source": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith%20film%20fragment",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Eye Filmdatabase": 630
+  },
+  "top_domains": [
+    [
+      "filmdatabase.eyefilm.nl",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Eye Filmmuseum",
+      "slug": "eye-filmmuseum",
+      "country": "Netherlands",
+      "continent": "Europe",
+      "repository_code": "NL-EYE",
+      "archive_type": "National film museum with public film-fragment catalogue",
+      "eye_detail_url": "https://www.eyefilm.nl/en/collection/research",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith%20film%20fragment",
+      "partner_domain": "filmdatabase.eyefilm.nl",
+      "status": "ok",
+      "http_code": "200",
+      "integrity_status": "integro",
+      "final_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith%20film%20fragment",
+      "video_links_found_total": 630,
+      "embedded_video_signals_total": 630,
+      "candidate_internal_pages": 63,
+      "priority_review": false,
+      "warning": "Listagem pública completa de registros com film fragment: 630/630. A etapa atual registra as fichas oficiais como locais públicos dos vídeos; extração dos embeds YouTube/Vimeo deve ser incremental por causa do Crawl-delay e da camada de consentimento.",
+      "error": ""
+    }
+  ]
+}

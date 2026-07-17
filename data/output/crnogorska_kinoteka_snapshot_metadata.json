@@ -1,0 +1,168 @@
+{
+  "dataset": "crnogorska-kinoteka",
+  "generated_at": "2026-07-07T18:21:21Z",
+  "generated_by": "scripts/run_crnogorska_kinoteka_pipeline.py",
+  "observation_key": "crnogorska-kinoteka:2026-07-07T18:21:21Z",
+  "source_url": "https://www.europeanfilmgateway.eu/da/search-efg/ck%20crnogorska%20kinoteka",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-07T18:21:21Z",
+  "analytic_outputs_last_modified_at": "2026-07-07T18:21:21Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 1,
+    "videos_in_curatorial_catalog": 1,
+    "visibility_categories": 1,
+    "theme_categories": 1,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "crnogorska_kinoteka_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 361,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "summary": {
+      "filename": "crnogorska_kinoteka_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1098,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "video_links": {
+      "filename": "crnogorska_kinoteka_links_video.csv",
+      "exists": true,
+      "size_bytes": 2166,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "internal_pages": {
+      "filename": "crnogorska_kinoteka_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 1535,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "analytic_summary": {
+      "filename": "crnogorska_kinoteka_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1485,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "crnogorska_kinoteka_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 2355,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "availability_summary": {
+      "filename": "crnogorska_kinoteka_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "availability_reasons": {
+      "filename": "crnogorska_kinoteka_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 47,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "visibility_summary": {
+      "filename": "crnogorska_kinoteka_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "access_surface_summary": {
+      "filename": "crnogorska_kinoteka_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 75,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "access_regime_summary": {
+      "filename": "crnogorska_kinoteka_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 58,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "theme_summary": {
+      "filename": "crnogorska_kinoteka_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 41,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "theme_country": {
+      "filename": "crnogorska_kinoteka_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 57,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "archive_type_summary": {
+      "filename": "crnogorska_kinoteka_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "theme_platform": {
+      "filename": "crnogorska_kinoteka_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 74,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "theme_archive_type": {
+      "filename": "crnogorska_kinoteka_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 97,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "visibility_archive_type": {
+      "filename": "crnogorska_kinoteka_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 126,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "timeline_corpus": {
+      "filename": "crnogorska_kinoteka_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 555,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "timeline_institutions": {
+      "filename": "crnogorska_kinoteka_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 952,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "extinction_signals": {
+      "filename": "crnogorska_kinoteka_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "snapshot_metadata": {
+      "filename": "crnogorska_kinoteka_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5602,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "report_json": {
+      "filename": "crnogorska_kinoteka_relatorio.json",
+      "exists": true,
+      "size_bytes": 1938,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "report_txt": {
+      "filename": "crnogorska_kinoteka_relatorio.txt",
+      "exists": true,
+      "size_bytes": 1020,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    },
+    "report_xlsx": {
+      "filename": "crnogorska_kinoteka_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 21777,
+      "last_modified_at": "2026-07-07T18:21:21Z"
+    }
+  }
+}

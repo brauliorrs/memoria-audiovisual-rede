@@ -1,0 +1,53 @@
+{
+  "source": "https://www.dr.dk/drtv/gensyn",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "DRTV/Gensyn": 453
+  },
+  "top_domains": [
+    [
+      "dr.dk",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "DR - Danmarks Radio",
+      "slug": "dr-danmarks-radio",
+      "country": "Denmark",
+      "continent": "Europe",
+      "repository_code": "DK-DR",
+      "archive_type": "Public service broadcaster audiovisual archive with authenticated streaming",
+      "dr_detail_url": "https://www.dr.dk/drtv/gensyn",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.dr.dk/drtv/gensyn",
+      "partner_domain": "dr.dk",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.dr.dk/drtv/gensyn",
+      "video_links_found_total": 453,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 83,
+      "priority_review": "baixa",
+      "warning": "Corpus DR incorporado pela rota pública DRTV/Gensyn. O MVP materializa páginas públicas de programas/episódios a partir de 29 listas e 20 séries. Registros com oferta não livre ou login/cadastro: 453; registros com oferta Available/Free no nível do vídeo: 0. Não baixa mídia, não representa o DR-arkivet integral da Biblioteca Real e não mistura materiais sem imagem em movimento.",
+      "error": ""
+    }
+  ]
+}

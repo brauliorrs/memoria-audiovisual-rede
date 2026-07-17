@@ -1,0 +1,31 @@
+RELATORIO - ERT ARCHIVE
+============================================================
+
+Fonte: https://archive.ert.gr/
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 1
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - ERT Archive: 28456
+
+Dominios parceiros mais frequentes:
+  - archive.ert.gr: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - ERT - Hellenic Broadcasting Corporation Archive | links_video=28456 | embeds=28456 | status=ok | prioridade=False | url=https://archive.ert.gr/
+
+Instituicoes com erro ou restricao:

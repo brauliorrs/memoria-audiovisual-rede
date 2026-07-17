@@ -16,8 +16,21 @@ if str(SRC_DIR) not in sys.path:
 
 from memoria_audiovisual import analysis as analysis_utils
 from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
+from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
+from memoria_audiovisual.atresmedia_protocol import ATRESMEDIA_PROTOCOL_FILENAME
+from memoria_audiovisual.bnfa_protocol import BNFA_PROTOCOL_FILENAME
 from memoria_audiovisual.iberarchivos_protocol import IBERARCHIVOS_PROTOCOL_FILENAME
+from memoria_audiovisual.prise2_protocol import PRISE2_PROTOCOL_FILENAME
+from memoria_audiovisual.public_access_index import (
+    PUBLIC_ACCESS_INDEX_BY_CORPUS_FILENAME,
+    PUBLIC_ACCESS_INDEX_FILENAME,
+    PUBLIC_ACCESS_RESTRICTED_UNITS_FILENAME,
+)
+from memoria_audiovisual.restricted_access_audit import (
+    RESTRICTED_ACCESS_AUDIT_FILENAME,
+    RESTRICTED_ACCESS_SUMMARY_FILENAME,
+)
 from memoria_audiovisual.corpora import (
     CORPORA,
     CORPUS_CATEGORIES,
@@ -276,6 +289,13 @@ def format_yes_no(value):
     return "Sim" if bool(value) else "Não"
 
 
+def format_integer_pt(value):
+    try:
+        return f"{int(value):,}".replace(",", ".")
+    except (TypeError, ValueError):
+        return "-"
+
+
 def format_cycle_status(value):
     status_labels = {
         "success": "sucesso",
@@ -327,15 +347,20 @@ def load_protocolled_excluded_units():
     if candidates_df.empty:
         return []
 
-    candidates_df["public_status"] = "Identificada, mas não incluída no corpus do organismo"
-    candidates_df["methodological_decision"] = "não incorporar ao corpus ativo no MVP"
+    candidates_df["public_status"] = "Identificada, mas não incluída na base ativa do observatório"
+    candidates_df["methodological_decision"] = "não incorporar à base ativa no MVP"
     candidates_df["negative_reason"] = "Ausência de rota de coleta estável no protocolo atual."
+    candidates_df["access_category"] = "rota_publica_nao_estavel_ou_nao_coletavel"
     return candidates_df.sort_values("unit_label").to_dict("records")
 
 
 def load_unit_protocol_df(unit_code):
     protocol_files = {
         "inedits-ad-libitum": ADLIBITUM_PROTOCOL_FILENAME,
+        "inedits-prise-2": PRISE2_PROTOCOL_FILENAME,
+        "fiaf-arsenal-filminstitut": ARSENAL_PROTOCOL_FILENAME,
+        "fiaf-bulgarian-national-film-archive": BNFA_PROTOCOL_FILENAME,
+        "fiat-atresmedia": ATRESMEDIA_PROTOCOL_FILENAME,
         "archivegrid": ARCHIVEGRID_PROTOCOL_FILENAME,
         "archives-hub": ARCHIVESHUB_PROTOCOL_FILENAME,
         "francearchives": FRANCEARCHIVES_PROTOCOL_FILENAME,
@@ -358,20 +383,26 @@ def render_protocolled_excluded_unit_tab(unit_record):
     blocks_expansion = str(unit_record.get("blocks_expansion", "")).lower() == "true"
 
     st.header(unit_label)
-    st.info("Arquivo identificado, mas não incluído no corpus do organismo.")
+    st.info("Arquivo identificado, mas não incluído na base ativa do observatório.")
     st.caption(
         "Esta aba existe justamente para não apagar a tentativa. A unidade aparece no observatório, "
-        "mas fica separada dos corpora ativos até que a rota de coleta seja estável, reprodutível e comparável."
+        "mas fica separada das unidades ativas até que a rota de coleta seja estável, reprodutível e comparável."
     )
 
-    metric_cols = st.columns(4)
-    metric_cols[0].metric("Status", "fora do corpus ativo")
+    access_category = normalize_optional_text(unit_record.get("access_category")) or "-"
+    metric_cols = st.columns(5)
+    metric_cols[0].metric("Situação", "fora da base ativa")
     metric_cols[1].metric("Escopo", normalize_optional_text(unit_record.get("territorial_scope")) or "-")
-    metric_cols[2].metric("Bloqueia expansão?", "Sim" if blocks_expansion else "Não")
-    metric_cols[3].metric("Regra", normalize_optional_text(unit_record.get("rule_version")) or "-")
+    metric_cols[2].metric("Categoria de acesso", access_category)
+    metric_cols[3].metric("Bloqueia expansão?", "Sim" if blocks_expansion else "Não")
+    metric_cols[4].metric("Regra", normalize_optional_text(unit_record.get("rule_version")) or "-")
 
     decision_df = pd.DataFrame(
         [
+            {
+                "campo": "categoria de acesso",
+                "informação": access_category,
+            },
             {
                 "campo": "status público",
                 "informação": normalize_optional_text(unit_record.get("public_status")),
@@ -415,7 +446,7 @@ def render_protocolled_excluded_unit_tab(unit_record):
                 columns={
                     "route_type": "tipo de rota",
                     "route_url": "URL da rota",
-                    "http_status": "HTTP",
+                    "http_status": "resposta do site",
                     "access_status": "status de acesso",
                     "route_viability": "viabilidade",
                     "audiovisual_use": "uso audiovisual possível",
@@ -425,7 +456,7 @@ def render_protocolled_excluded_unit_tab(unit_record):
             ),
             [
                 "tipo de rota",
-                "HTTP",
+                "resposta do site",
                 "status de acesso",
                 "viabilidade",
                 "uso audiovisual possível",
@@ -438,13 +469,13 @@ def render_protocolled_excluded_unit_tab(unit_record):
 
     protocol_df = load_unit_protocol_df(unit_code)
     if protocol_df is not None and not protocol_df.empty:
-        st.markdown("### Tentativas técnicas do protocolo")
+        st.markdown("### Tentativas de verificação")
         protocol_display_df = select_existing_columns(
             protocol_df.rename(
                 columns={
                     "probe_label": "sondagem",
                     "method": "método",
-                    "http_status": "HTTP",
+                    "http_status": "resposta do site",
                     "content_type": "tipo de conteúdo",
                     "access_status": "status de acesso",
                     "evidence_signal": "sinal observado",
@@ -458,7 +489,7 @@ def render_protocolled_excluded_unit_tab(unit_record):
             [
                 "sondagem",
                 "método",
-                "HTTP",
+                "resposta do site",
                 "tipo de conteúdo",
                 "status de acesso",
                 "sinal observado",
@@ -473,7 +504,7 @@ def render_protocolled_excluded_unit_tab(unit_record):
 
     st.warning(
         "Leitura correta: a não inclusão não prova inexistência de audiovisual. Ela prova apenas que, "
-        "nesta rodada, o organismo não encontrou uma rota suficientemente estável para coleta com rigor."
+        "nesta rodada, o observatório não encontrou uma rota suficientemente estável para coleta com rigor."
     )
 
 
@@ -535,7 +566,7 @@ def build_summary_display_df(
     return display_df[available_columns + remaining_columns].rename(
         columns={
             "institution": "instituição",
-            "slug": "slug",
+            "slug": "identificador",
             "country": "país",
             "continent": "continente",
             "archive_type": "tipo de arquivo",
@@ -548,11 +579,11 @@ def build_summary_display_df(
             "access_modalities_detected": "modalidades de acesso detectadas",
             "institution_segment": "segmento institucional",
             "integridade_display": "integridade",
-            "status_tecnico_display": "status técnico",
-            "http_code": "HTTP",
+            "status_tecnico_display": "situação da verificação",
+            "http_code": "resposta do site",
             "video_links_found_total": "links de vídeo",
             "embedded_video_signals_total": "sinais embutidos",
-            "candidate_internal_pages": "páginas internas",
+            "candidate_internal_pages": "páginas analisadas",
             "partner_domain": "domínio",
             "partner_site": "site externo informado",
             "final_url": "URL final",
@@ -911,7 +942,7 @@ def build_category_summary_display_df(dataframe):
 
     return display_df[available_columns].rename(
         columns={
-            "corpus": "corpus",
+            "corpus": "unidade documental",
             "unidade": "unidade",
             "institution": "instituição",
             "country": "país",
@@ -923,7 +954,7 @@ def build_category_summary_display_df(dataframe):
             "availability_group": "categoria",
             "availability_reason": "subcategoria",
             "integridade": "integridade",
-            "status_técnico": "status técnico",
+            "status_técnico": "situação da verificação",
             "video_links_found_total": "links de vídeo",
             "embedded_video_signals_total": "sinais embutidos",
             "partner_domain": "domínio",
@@ -959,7 +990,7 @@ def build_category_video_display_df(dataframe):
 
     return display_df[available_columns].rename(
         columns={
-            "corpus": "corpus",
+            "corpus": "unidade documental",
             "unidade": "unidade",
             "institution": "instituição",
             "country": "país",
@@ -977,8 +1008,8 @@ def build_category_video_display_df(dataframe):
 def render_observatory_overview_tab():
     st.markdown("## Visão geral do observatório")
     st.caption(
-        "O observatório opera como um organismo agregador mundial em construção. Os corpora permanecem "
-        "separados por categoria analítica e por unidade própria, mas esta visão geral permite compará-los "
+        "O observatório opera como um organismo agregador mundial em construção. As unidades documentais permanecem "
+        "separadas por categoria analítica e por unidade própria, mas esta visão geral permite compará-las "
         "sem misturar seus níveis de análise."
     )
     st.info(
@@ -1004,6 +1035,11 @@ def render_observatory_overview_tab():
     europe_research_registry_df = load_csv(EUROPE_RESEARCH_REGISTRY_FILENAME)
     europe_research_queue_df = load_csv(EUROPE_RESEARCH_QUEUE_FILENAME)
     europe_research_summary_df = load_csv(EUROPE_RESEARCH_SUMMARY_FILENAME)
+    restricted_access_audit_df = load_csv(RESTRICTED_ACCESS_AUDIT_FILENAME)
+    restricted_access_summary_df = load_csv(RESTRICTED_ACCESS_SUMMARY_FILENAME)
+    public_access_index_df = load_csv(PUBLIC_ACCESS_INDEX_FILENAME)
+    public_access_by_corpus_df = load_csv(PUBLIC_ACCESS_INDEX_BY_CORPUS_FILENAME)
+    public_access_restricted_units_df = load_csv(PUBLIC_ACCESS_RESTRICTED_UNITS_FILENAME)
     archiveshub_protocol_df = load_csv(ARCHIVESHUB_PROTOCOL_FILENAME)
     francearchives_protocol_df = load_csv(FRANCEARCHIVES_PROTOCOL_FILENAME)
     cycle_timeline_df = load_csv(ORGANISM_CYCLE_TIMELINE_FILENAME)
@@ -1037,9 +1073,9 @@ def render_observatory_overview_tab():
     )
     if cycle_manifest:
         st.caption(
-            f"Ciclo {cycle_manifest.get('cycle_type', '-')} mais recente: "
+            f"Rodada {cycle_manifest.get('cycle_type', '-')} mais recente: "
             f"{cycle_manifest.get('successful_corpora_total', 0)} sucessos, "
-            f"{cycle_manifest.get('failed_corpora_total', 0)} falhas, "
+            f"{cycle_manifest.get('failed_corpora_total', 0)} pendências, "
             f"gerado em {format_snapshot_timestamp(cycle_manifest.get('generated_at')) or '-'}."
         )
 
@@ -1073,17 +1109,17 @@ def render_observatory_overview_tab():
 
     if cycle_timeline_df is not None and not cycle_timeline_df.empty:
         cycle_metric_cols = st.columns(4)
-        cycle_metric_cols[0].metric("Ciclos registrados", len(cycle_timeline_df))
+        cycle_metric_cols[0].metric("Rodadas registradas", len(cycle_timeline_df))
         cycle_metric_cols[1].metric(
             "Último escopo",
             str(cycle_timeline_df.iloc[-1].get("cycle_scope", "-")),
         )
         cycle_metric_cols[2].metric(
-            "Corpora selecionados no último ciclo",
+            "Unidades avaliadas na última rodada",
             int(pd.to_numeric(cycle_timeline_df.iloc[-1].get("selected_corpora_total", 0), errors="coerce")),
         )
         cycle_metric_cols[3].metric(
-            "Falhas no último ciclo",
+            "Pendências na última rodada",
             int(pd.to_numeric(cycle_timeline_df.iloc[-1].get("failed_corpora_total", 0), errors="coerce")),
         )
 
@@ -1098,31 +1134,31 @@ def render_observatory_overview_tab():
         stale_count = int((refresh_status_df["refresh_state"] == "Atualização atrasada").sum())
         failure_count = int((refresh_status_df["refresh_state"] == "Falha no último ciclo").sum())
 
-        st.markdown("### Estado de atualização do organismo")
+        st.markdown("### Acompanhamento das atualizações")
         st.caption(
-            "Este quadro acompanha a saúde temporal do organismo por corpus, distinguindo "
-            "atualizações recentes, pendências de ciclos parciais, falhas e atrasos de cadência."
+            "Este quadro acompanha a saúde temporal do observatório por unidade documental, distinguindo "
+            "atualizações recentes, pendências de rodadas parciais e atrasos de acompanhamento."
         )
         refresh_metric_cols = st.columns(4)
-        refresh_metric_cols[0].metric("Atualizados no último ciclo", latest_cycle_updates)
-        refresh_metric_cols[1].metric("Pendentes no ciclo parcial", partial_pending)
+        refresh_metric_cols[0].metric("Atualizadas na última rodada", latest_cycle_updates)
+        refresh_metric_cols[1].metric("Pendentes na rodada parcial", partial_pending)
         refresh_metric_cols[2].metric("Atualizações atrasadas", stale_count)
-        refresh_metric_cols[3].metric("Falhas no último ciclo", failure_count)
+        refresh_metric_cols[3].metric("Pendências na última rodada", failure_count)
 
         refresh_display_df = refresh_status_df.rename(
             columns={
-                "corpus": "corpus",
+                "corpus": "unidade documental",
                 "category_label": "categoria analítica",
                 "coverage_level": "escala de cobertura",
                 "scope": "escopo",
                 "collection_completeness": "completude da coleta",
                 "selection_limit": "limite técnico",
                 "completeness_note": "nota de completude",
-                "included_in_latest_cycle": "incluído no último ciclo",
-                "latest_cycle_scope": "escopo do último ciclo",
-                "latest_cycle_status": "status no último ciclo",
-                "last_successful_cycle_at": "último ciclo bem-sucedido",
-                "last_snapshot_generated_at": "última observação materializada",
+                "included_in_latest_cycle": "incluída na última rodada",
+                "latest_cycle_scope": "escopo da última rodada",
+                "latest_cycle_status": "situação na última rodada",
+                "last_successful_cycle_at": "última rodada bem-sucedida",
+                "last_snapshot_generated_at": "última observação registrada",
                 "source_status_date": "status da fonte",
                 "observation_key": "chave de observação",
                 "days_since_last_observation": "dias desde a última observação",
@@ -1130,30 +1166,149 @@ def render_observatory_overview_tab():
                 "refresh_state_reason": "justificativa metodológica",
             }
         ).copy()
-        refresh_display_df["incluído no último ciclo"] = refresh_display_df["incluído no último ciclo"].map(
+        refresh_display_df["incluída na última rodada"] = refresh_display_df["incluída na última rodada"].map(
             format_yes_no
         )
-        refresh_display_df["status no último ciclo"] = refresh_display_df["status no último ciclo"].map(
+        refresh_display_df["situação na última rodada"] = refresh_display_df["situação na última rodada"].map(
             format_cycle_status
         )
-        refresh_display_df["último ciclo bem-sucedido"] = refresh_display_df["último ciclo bem-sucedido"].map(
+        refresh_display_df["última rodada bem-sucedida"] = refresh_display_df["última rodada bem-sucedida"].map(
             format_snapshot_timestamp
         )
-        refresh_display_df["última observação materializada"] = refresh_display_df[
-            "última observação materializada"
+        refresh_display_df["última observação registrada"] = refresh_display_df[
+            "última observação registrada"
         ].map(format_snapshot_timestamp)
         st.dataframe(refresh_display_df, use_container_width=True, hide_index=True)
         with st.expander("Ver distribuição dos estados de atualização", expanded=False):
             st.dataframe(refresh_counts, use_container_width=True, hide_index=True)
 
+    if public_access_index_df is not None and not public_access_index_df.empty:
+        st.markdown("### Índice de dados públicos")
+        st.caption(
+            "O índice compara registros audiovisuais disponíveis em superfície pública com registros "
+            "cujo acesso ao audiovisual exige pagamento, autenticação, cadastro ou licenciamento. "
+            "Bancos privados/publicitários de imagens não entram no índice; permanecem documentados "
+            "apenas na auditoria metodológica de acesso pago/restrito."
+        )
+
+        def public_access_scope_row(scope):
+            matches = public_access_index_df.loc[public_access_index_df["scope"].astype(str) == scope]
+            return matches.iloc[0] if not matches.empty else pd.Series(dtype="object")
+
+        def numeric_cell(row, column):
+            value = pd.to_numeric(row.get(column, 0), errors="coerce")
+            return 0 if pd.isna(value) else value
+
+        def percent_label(row, column):
+            return f"{float(numeric_cell(row, column)):.2f}%"
+
+        world_public_access_row = public_access_scope_row("World")
+        europe_public_access_row = public_access_scope_row("Europe")
+        access_metric_cols = st.columns(4)
+        access_metric_cols[0].metric(
+            "Índice público World",
+            percent_label(world_public_access_row, "public_records_percent"),
+        )
+        access_metric_cols[1].metric(
+            "Índice público Europa",
+            percent_label(europe_public_access_row, "public_records_percent"),
+        )
+        access_metric_cols[2].metric(
+            "Registros restritos quantificados",
+            int(numeric_cell(world_public_access_row, "restricted_records")),
+        )
+        access_metric_cols[3].metric(
+            "Unidades restritas no índice",
+            int(numeric_cell(world_public_access_row, "restricted_units_total")),
+        )
+
+        index_tab, corpus_index_tab, restricted_units_tab = st.tabs(
+            ["Mundo e continentes", "Por unidade documental", "Acesso restrito"]
+        )
+        with index_tab:
+            index_display_df = public_access_index_df.rename(
+                columns={
+                    "scope_level": "nível",
+                    "scope": "recorte",
+                    "public_records": "registros públicos",
+                    "restricted_records": "registros restritos",
+                    "materialized_records_total": "registros avaliados no observatório",
+                    "public_records_percent": "% público",
+                    "restricted_records_percent": "% restrito",
+                    "restricted_units_without_public_catalog": "unidades não quantificáveis no índice",
+                    "restricted_unit_codes": "unidades restritas",
+                    "denominator_note": "nota do denominador",
+                }
+            )
+            st.dataframe(index_display_df, use_container_width=True, hide_index=True)
+            render_csv_download(
+                "Exportar índice de dados públicos",
+                public_access_index_df,
+                PUBLIC_ACCESS_INDEX_FILENAME,
+                "Exporta o índice World/continentes de dados públicos e restritos.",
+            )
+        with corpus_index_tab:
+            if public_access_by_corpus_df is None or public_access_by_corpus_df.empty:
+                st.info("Ainda não há índice por unidade documental disponível.")
+            else:
+                corpus_display_df = public_access_by_corpus_df.rename(
+                    columns={
+                        "corpus_code": "código",
+                        "corpus": "unidade documental",
+                        "category_label": "categoria",
+                        "continent": "continente",
+                        "public_records": "registros públicos",
+                        "restricted_records": "registros restritos",
+                        "materialized_records_total": "registros avaliados no observatório",
+                        "public_records_percent": "% público",
+                        "restricted_records_percent": "% restrito",
+                        "denominator_note": "nota do denominador",
+                    }
+                )
+                st.dataframe(corpus_display_df, use_container_width=True, hide_index=True)
+                render_csv_download(
+                    "Exportar índice por unidade documental",
+                    public_access_by_corpus_df,
+                    PUBLIC_ACCESS_INDEX_BY_CORPUS_FILENAME,
+                    "Exporta o índice de dados públicos por unidade documental ativa.",
+                )
+        with restricted_units_tab:
+            if public_access_restricted_units_df is None or public_access_restricted_units_df.empty:
+                st.info("Ainda não há unidades restritas registradas no índice.")
+            else:
+                st.caption(
+                    "Esta tabela mostra apenas unidades restritas que fazem parte do índice. "
+                    "Bancos privados/publicitários ficam fora deste recorte."
+                )
+                restricted_display_df = public_access_restricted_units_df.rename(
+                    columns={
+                        "unit_code": "código",
+                        "unit_label": "unidade",
+                        "continent": "continente",
+                        "corpus_status": "status no organismo",
+                        "category_label": "categoria de restrição",
+                        "restricted_records": "registros restritos",
+                        "restricted_volume_status": "status do volume",
+                        "source_file": "arquivo-fonte",
+                        "evidence": "evidência",
+                    }
+                )
+                st.dataframe(restricted_display_df, use_container_width=True, hide_index=True)
+                render_csv_download(
+                    "Exportar unidades restritas do índice",
+                    public_access_restricted_units_df,
+                    PUBLIC_ACCESS_RESTRICTED_UNITS_FILENAME,
+                    "Exporta unidades com acesso restrito, cadastro, pagamento ou licenciamento.",
+                )
+
     st.markdown("### Linha do tempo e retração pública do audiovisual")
     st.caption(
-        "Esta camada reúne a memória histórica dos corpora e prepara o organismo para detectar "
+        "Esta camada reúne a memória histórica das unidades documentais e prepara o observatório para detectar "
         "ausências, indisponibilidades recorrentes e perda de evidência pública detectável de audiovisual."
     )
     global_history_cols = st.columns(4)
     global_history_cols[0].metric(
-        "Observações históricas de corpus",
+        "Observações históricas das unidades",
         len(global_corpus_timeline_df) if global_corpus_timeline_df is not None else 0,
     )
     global_history_cols[1].metric(
@@ -1165,19 +1320,19 @@ def render_observatory_overview_tab():
         len(global_extinction_signals_df) if global_extinction_signals_df is not None else 0,
     )
     global_history_cols[3].metric(
-        "Corpora com histórico materializado",
+        "Unidades com histórico registrado",
         int(global_corpus_timeline_df["corpus"].nunique()) if global_corpus_timeline_df is not None and not global_corpus_timeline_df.empty else 0,
     )
 
     global_history_tab, global_signals_tab = st.tabs(
-        ["Linha do tempo global", "Sinais globais de possível extinção"]
+        ["Histórico geral", "Sinais de possível extinção"]
     )
     with global_history_tab:
         if global_corpus_timeline_df is None or global_corpus_timeline_df.empty:
-            st.info("Ainda não há linha do tempo global materializada para o organismo.")
+            st.info("Ainda não há histórico geral disponível para o observatório.")
         else:
             st.caption(
-                "Cada linha preserva uma observação histórica de um corpus, mantendo explícita sua "
+                "Cada linha preserva uma observação histórica de uma unidade documental, mantendo explícita sua "
                 "categoria analítica e escala de cobertura."
             )
             st.dataframe(
@@ -1189,10 +1344,10 @@ def render_observatory_overview_tab():
                 hide_index=True,
             )
             render_csv_download(
-                "Baixar linha do tempo global dos corpora",
+                "Exportar histórico geral das unidades",
                 global_corpus_timeline_df,
                 "observatorio_linha_do_tempo_global_corpora.csv",
-                "Exporta a linha do tempo combinada dos corpora do organismo.",
+                "Exporta a linha do tempo combinada das unidades do observatório.",
             )
     with global_signals_tab:
         if global_extinction_signals_df is None or global_extinction_signals_df.empty:
@@ -1233,10 +1388,10 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
             render_csv_download(
-                "Baixar sinais globais de possível extinção",
+                "Exportar sinais de possível extinção",
                 global_extinction_signals_df,
                 "observatorio_sinais_globais_possivel_extincao.csv",
-                "Exporta os sinais combinados de retração e possível extinção detectados no organismo.",
+                "Exporta os sinais combinados de retração e possível extinção detectados no observatório.",
             )
 
     overview_rows = [build_corpus_overview_record(corpus_def) for corpus_def in CORPORA.values()]
@@ -1258,7 +1413,7 @@ def render_observatory_overview_tab():
     )
 
     metric_cols = st.columns(5)
-    metric_cols[0].metric("Corpora ativos", total_corpora)
+    metric_cols[0].metric("Unidades documentais ativas", total_corpora)
     metric_cols[1].metric("Instituições no observatório", total_institutions)
     metric_cols[2].metric("Instituições com links de vídeo", total_with_video_links)
     metric_cols[3].metric("Links de vídeo detectados", total_video_links)
@@ -1266,7 +1421,7 @@ def render_observatory_overview_tab():
 
     comparison_df = overview_df.rename(
         columns={
-            "corpus": "corpus",
+            "corpus": "unidade documental",
             "label": "unidade",
             "category": "categoria analítica",
             "coverage_level": "escala de cobertura",
@@ -1297,7 +1452,7 @@ def render_observatory_overview_tab():
             columns={
                 "category": "categoria analítica",
                 "expansion_stage": "etapa de expansão",
-                "corpora": "corpora",
+                "corpora": "unidades documentais",
                 "institutions": "instituições",
                 "institutions_with_video_links": "instituições com links de vídeo",
                 "video_links_total": "links de vídeo",
@@ -1329,9 +1484,9 @@ def render_observatory_overview_tab():
     )
     st.dataframe(strategy_df, use_container_width=True, hide_index=True)
 
-    st.markdown("### Fila automática de expansão do organismo")
+    st.markdown("### Fila de expansão do observatório")
     st.caption(
-        "A fila abaixo é gerada por regra pública e determinística. Neste momento, ela prioriza "
+        "A fila abaixo é gerada por regra pública e reprodutível. Neste momento, ela prioriza "
         "o fechamento da Europa antes da abertura sistemática de novos continentes."
     )
     queue_metric_cols = st.columns(4)
@@ -1386,24 +1541,24 @@ def render_observatory_overview_tab():
     queue_metric_cols[3].metric("Unidades já incorporadas", already_active_total)
 
     discovery_summary_tab, discovery_queue_tab = st.tabs(
-        ["Resumo automático da fila", "Candidatos e decisões"]
+        ["Síntese da fila", "Fontes candidatas"]
     )
     with discovery_summary_tab:
         st.dataframe(discovery_summary_df, use_container_width=True, hide_index=True)
         summary_download_cols = st.columns(2)
         with summary_download_cols[0]:
             render_csv_download(
-                "Baixar resumo automático da fila",
+                "Exportar síntese da fila",
                 discovery_summary_df,
                 DISCOVERY_SUMMARY_FILENAME,
-                "Exporta a síntese das decisões automáticas de expansão do organismo.",
+                "Exporta a síntese das decisões de expansão do observatório.",
             )
         with summary_download_cols[1]:
             render_csv_download(
-                "Baixar fila automática de expansão",
+                "Exportar fila de expansão",
                 discovery_queue_df,
                 DISCOVERY_QUEUE_FILENAME,
-                "Exporta a fila atual de candidatos priorizados pelo organismo.",
+                "Exporta a fila atual de fontes candidatas priorizadas pelo observatório.",
             )
     with discovery_queue_tab:
         st.caption(
@@ -1412,23 +1567,22 @@ def render_observatory_overview_tab():
         )
         st.dataframe(discovery_queue_df, use_container_width=True, hide_index=True)
         render_csv_download(
-            "Baixar registro completo de candidatos",
+            "Exportar registro completo de candidatos",
             discovery_registry_df,
             DISCOVERY_REGISTRY_FILENAME,
-            "Exporta o registro completo de candidatos e unidades já incorporadas ao organismo.",
+            "Exporta o registro completo de candidatos e unidades já incorporadas ao observatório.",
         )
 
-    st.markdown("### Avaliação técnica dos agregadores europeus candidatos")
+    st.markdown("### Avaliação metodológica dos agregadores europeus")
     st.caption(
-        "Esta camada não incorpora novos corpora automaticamente. Ela observa a superfície pública de "
+        "Esta camada não incorpora novas unidades automaticamente. Ela observa a superfície pública de "
         "Archives Hub, FranceArchives, PARES e Portal Português de Arquivos para decidir, com "
-        "evidência registrada, qual fonte pode seguir para validação total e qual exige protocolo "
-        "técnico adicional."
+        "evidência registrada, qual fonte pode seguir para validação total e qual exige nova rota "
+        "de acesso."
     )
     if european_aggregator_evaluation_df is None or european_aggregator_evaluation_df.empty:
         st.info(
-            "A avaliação técnica dos agregadores europeus ainda não foi materializada. "
-            "Execute `python scripts/evaluate_european_aggregators.py` ou o ciclo do organismo."
+            "A avaliação dos agregadores europeus ainda não está disponível nesta versão do observatório."
         )
     else:
         ready_count = int(
@@ -1462,8 +1616,16 @@ def render_observatory_overview_tab():
         european_eval_metric_cols = st.columns(4)
         european_eval_metric_cols[0].metric("Agregadores avaliados", len(european_aggregator_evaluation_df))
         european_eval_metric_cols[1].metric("Prontos para validação total", ready_count)
-        european_eval_metric_cols[2].metric("Exigem protocolo técnico", protocol_count)
-        european_eval_metric_cols[3].metric("Resultados preliminares", result_total)
+        european_eval_metric_cols[2].metric("Exigem nova rota de acesso", protocol_count)
+        european_eval_metric_cols[3].metric(
+            "Registros preliminares de busca",
+            format_integer_pt(result_total),
+        )
+        st.caption(
+            "Os registros preliminares de busca somam os resultados brutos retornados nas verificações "
+            "dos agregadores. Eles não equivalem a vídeos incorporados ao corpus: indicam apenas volume potencial "
+            "a validar, deduplicar e classificar."
+        )
 
         evaluation_display_df = european_aggregator_evaluation_df.rename(
             columns={
@@ -1473,7 +1635,7 @@ def render_observatory_overview_tab():
                 "access_model": "modelo de acesso observado",
                 "candidate_status": "status metodológico",
                 "audiovisual_probe_terms": "termos sondados",
-                "search_result_count_total": "resultados preliminares",
+                "search_result_count_total": "registros preliminares de busca",
                 "successful_probe_terms": "termos com resultado",
                 "blocked_probe_terms": "termos bloqueados",
                 "ingestion_recommendation": "recomendação de ingestão",
@@ -1491,7 +1653,7 @@ def render_observatory_overview_tab():
                     "modelo de acesso observado",
                     "status metodológico",
                     "termos sondados",
-                    "resultados preliminares",
+                    "registros preliminares de busca",
                     "termos com resultado",
                     "termos bloqueados",
                     "recomendação de ingestão",
@@ -1505,11 +1667,11 @@ def render_observatory_overview_tab():
         )
 
         if european_aggregator_protocols_df is not None and not european_aggregator_protocols_df.empty:
-            st.markdown("#### Matriz de protocolos de incorporação")
+            st.markdown("#### Matriz de decisão de incorporação")
             st.caption(
                 "Esta matriz separa decisão metodológica de disponibilidade técnica: uma fonte pode "
-                "ser relevante para o fechamento europeu e, ainda assim, permanecer fora dos corpora "
-                "ativos até existir uma rota estável de acesso."
+                "ser relevante para o fechamento europeu e, ainda assim, permanecer fora das unidades "
+                "ativas até existir uma rota estável de acesso."
             )
             protocol_display_df = european_aggregator_protocols_df.rename(
                 columns={
@@ -1517,11 +1679,11 @@ def render_observatory_overview_tab():
                     "country_scope": "país/escopo",
                     "candidate_status": "status metodológico",
                     "access_model": "modelo observado",
-                    "protocol_needed": "exige protocolo",
-                    "protocol_status": "estado do protocolo",
+                    "protocol_needed": "exige nova rota",
+                    "protocol_status": "estado da avaliação",
                     "evidence_summary": "evidência observada",
                     "methodological_risk": "risco metodológico",
-                    "recommended_protocol": "protocolo recomendado",
+                    "recommended_protocol": "encaminhamento recomendado",
                     "incorporation_decision": "decisão de incorporação",
                     "priority": "prioridade",
                     "next_review_trigger": "gatilho de revisão",
@@ -1534,11 +1696,11 @@ def render_observatory_overview_tab():
                         "país/escopo",
                         "status metodológico",
                         "modelo observado",
-                        "exige protocolo",
-                        "estado do protocolo",
+                        "exige nova rota",
+                        "estado da avaliação",
                         "evidência observada",
                         "risco metodológico",
-                        "protocolo recomendado",
+                        "encaminhamento recomendado",
                         "decisão de incorporação",
                         "prioridade",
                         "gatilho de revisão",
@@ -1549,9 +1711,9 @@ def render_observatory_overview_tab():
             )
 
         if european_aggregator_access_routes_df is not None and not european_aggregator_access_routes_df.empty:
-            with st.expander("Rotas oficiais candidatas para resolver protocolos", expanded=False):
+            with st.expander("Rotas oficiais analisadas", expanded=False):
                 st.caption(
-                    "Estas rotas não promovem automaticamente uma fonte a corpus ativo. Elas registram "
+                    "Estas rotas não promovem automaticamente uma fonte a unidade ativa. Elas registram "
                     "caminhos oficiais ou documentados que podem ser testados antes da incorporação."
                 )
                 access_route_display_df = european_aggregator_access_routes_df.rename(
@@ -1562,7 +1724,7 @@ def render_observatory_overview_tab():
                         "route_url": "URL da rota",
                         "source_reference_url": "referência oficial",
                         "source_reference_note": "nota da referência",
-                        "http_status": "HTTP",
+                        "http_status": "resposta do site",
                         "content_type": "tipo de conteúdo",
                         "access_status": "status de acesso",
                         "route_viability": "viabilidade da rota",
@@ -1576,7 +1738,7 @@ def render_observatory_overview_tab():
                             "agregador",
                             "país/escopo",
                             "tipo de rota",
-                            "HTTP",
+                            "resposta do site",
                             "tipo de conteúdo",
                             "status de acesso",
                             "viabilidade da rota",
@@ -1592,16 +1754,16 @@ def render_observatory_overview_tab():
                 )
 
         if archiveshub_protocol_df is not None and not archiveshub_protocol_df.empty:
-            with st.expander("Protótipo leve do protocolo Archives Hub", expanded=False):
+            with st.expander("Verificação metodológica do Archives Hub", expanded=False):
                 st.caption(
                     "Este quadro testa SRU e OAI-PMH em modo mínimo, sem promover o Archives Hub "
-                    "a corpus ativo enquanto a rota de acesso não estiver estável."
+                    "a unidade ativa enquanto a rota de acesso não estiver estável."
                 )
                 archiveshub_protocol_display_df = archiveshub_protocol_df.rename(
                     columns={
                         "probe_label": "sondagem",
                         "method": "método",
-                        "http_status": "HTTP",
+                        "http_status": "resposta do site",
                         "content_type": "tipo de conteúdo",
                         "content_length": "tamanho informado",
                         "access_status": "status de acesso",
@@ -1618,7 +1780,7 @@ def render_observatory_overview_tab():
                         [
                             "sondagem",
                             "método",
-                            "HTTP",
+                            "resposta do site",
                             "tipo de conteúdo",
                             "tamanho informado",
                             "status de acesso",
@@ -1635,16 +1797,16 @@ def render_observatory_overview_tab():
                 )
 
         if francearchives_protocol_df is not None and not francearchives_protocol_df.empty:
-            with st.expander("Protótipo leve do protocolo FranceArchives", expanded=False):
+            with st.expander("Verificação metodológica do FranceArchives", expanded=False):
                 st.caption(
                     "Este quadro testa sinais mínimos de viabilidade técnica para FranceArchives "
-                    "sem baixar o pacote XML e sem transformar a fonte em corpus ativo."
+                    "sem transferir integralmente o pacote XML e sem transformar a fonte em unidade ativa."
                 )
                 francearchives_protocol_display_df = francearchives_protocol_df.rename(
                     columns={
                         "probe_label": "sondagem",
                         "method": "método",
-                        "http_status": "HTTP",
+                        "http_status": "resposta do site",
                         "content_type": "tipo de conteúdo",
                         "content_length": "tamanho informado",
                         "access_status": "status de acesso",
@@ -1661,7 +1823,7 @@ def render_observatory_overview_tab():
                         [
                             "sondagem",
                             "método",
-                            "HTTP",
+                            "resposta do site",
                             "tipo de conteúdo",
                             "tamanho informado",
                             "status de acesso",
@@ -1677,10 +1839,10 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
 
-        with st.expander("Ver sondagens técnicas executadas", expanded=False):
+        with st.expander("Ver verificações realizadas", expanded=False):
             st.caption(
-                f"As sondagens registram códigos HTTP, bloqueios por JS/cookies, problemas de TLS "
-                f"e contagens preliminares. Total de sondagens bloqueadas: {blocked_probe_total}."
+                f"As verificações registram respostas dos sites, bloqueios por JS/cookies, problemas de TLS "
+                f"e contagens preliminares. Total de verificações bloqueadas: {blocked_probe_total}."
             )
             if european_aggregator_summary_df is not None and not european_aggregator_summary_df.empty:
                 st.dataframe(european_aggregator_summary_df, use_container_width=True, hide_index=True)
@@ -1688,9 +1850,9 @@ def render_observatory_overview_tab():
                 probe_display_df = european_aggregator_probes_df.rename(
                     columns={
                         "label": "agregador",
-                        "probe_type": "tipo de sondagem",
+                        "probe_type": "tipo de verificação",
                         "query": "termo",
-                        "http_status": "HTTP",
+                        "http_status": "resposta do site",
                         "access_status": "status de acesso",
                         "js_cookie_required": "exige JS/cookies",
                         "tls_verification_failed": "falha TLS",
@@ -1703,64 +1865,63 @@ def render_observatory_overview_tab():
         european_download_cols = st.columns(7)
         with european_download_cols[0]:
             render_csv_download(
-                "Baixar avaliação dos agregadores europeus",
+                "Exportar avaliação dos agregadores europeus",
                 european_aggregator_evaluation_df,
                 EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
                 "Exporta a síntese metodológica por agregador europeu candidato.",
             )
         with european_download_cols[1]:
             render_csv_download(
-                "Baixar sondagens técnicas",
+                "Exportar verificações realizadas",
                 european_aggregator_probes_df,
                 EUROPEAN_AGGREGATOR_PROBES_FILENAME,
                 "Exporta cada sondagem executada nas superfícies públicas dos agregadores.",
             )
         with european_download_cols[2]:
             render_csv_download(
-                "Baixar rotas candidatas",
+                "Exportar rotas analisadas",
                 european_aggregator_access_routes_df,
                 EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME,
                 "Exporta rotas oficiais ou documentadas para resolver protocolos de acesso.",
             )
         with european_download_cols[3]:
             render_csv_download(
-                "Baixar protocolos europeus",
+                "Exportar decisões metodológicas europeias",
                 european_aggregator_protocols_df,
                 EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
                 "Exporta a matriz de protocolos e decisões metodológicas por agregador candidato.",
             )
         with european_download_cols[4]:
             render_csv_download(
-                "Baixar protocolo Archives Hub",
+                "Exportar verificação do Archives Hub",
                 archiveshub_protocol_df,
                 ARCHIVESHUB_PROTOCOL_FILENAME,
                 "Exporta o protótipo leve de validação técnica do Archives Hub.",
             )
         with european_download_cols[5]:
             render_csv_download(
-                "Baixar protocolo FranceArchives",
+                "Exportar verificação do FranceArchives",
                 francearchives_protocol_df,
                 FRANCEARCHIVES_PROTOCOL_FILENAME,
                 "Exporta o protótipo leve de validação técnica do FranceArchives.",
             )
         with european_download_cols[6]:
             render_csv_download(
-                "Baixar resumo da avaliação europeia",
+                "Exportar síntese da avaliação europeia",
                 european_aggregator_summary_df,
                 EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
                 "Exporta a síntese dos estados metodológicos observados.",
             )
 
-    st.markdown("### Fechamento metodológico europeu")
+    st.markdown("### Fechamento da etapa Europa")
     st.caption(
         "Este quadro explicita o estado metodológico da etapa Europa. Ele não afirma que todos os "
-        "arquivos audiovisuais europeus foram identificados; registra o que já opera como corpus, "
+        "arquivos audiovisuais europeus foram identificados; registra o que já opera como unidade ativa, "
         "o que está protocolado e o que segue em fila auditável de expansão."
     )
     if europe_closure_summary_df is None or europe_closure_summary_df.empty:
         st.info(
-            "O relatório de fechamento europeu ainda não foi materializado. "
-            "Execute `python scripts/build_europe_closure_report.py` ou o ciclo do organismo."
+            "O relatório de fechamento europeu ainda não está disponível nesta versão do observatório."
         )
     else:
         closure_status = (
@@ -1785,62 +1946,64 @@ def render_observatory_overview_tab():
             audited_gaps = len(europe_gap_audit_df)
 
         closure_cols = st.columns(5)
-        closure_cols[0].metric("Corpora europeus ativos", active_units)
-        closure_cols[1].metric("Candidatos com protocolo", pending_units)
-        closure_cols[2].metric("Identificados fora do corpus", excluded_units)
+        closure_cols[0].metric("Unidades europeias ativas", active_units)
+        closure_cols[1].metric("Candidatos em avaliação", pending_units)
+        closure_cols[2].metric("Identificados fora da base ativa", excluded_units)
         closure_cols[3].metric("Lacunas auditadas", audited_gaps)
         closure_cols[4].metric(
             "Próxima etapa",
             closure_status[0].replace("_", " ") if closure_status else "-",
         )
 
-        closure_tab_summary, closure_tab_matrix, closure_tab_excluded, closure_tab_gap_audit = st.tabs(
+        closure_tab_summary, closure_tab_matrix, closure_tab_excluded, closure_tab_paid_access, closure_tab_gap_audit = st.tabs(
             [
                 "Critérios de fechamento",
                 "Matriz europeia",
-                "Identificados fora do corpus",
-                "Auditoria de lacunas",
+                "Fora da base ativa",
+                "Acesso pago/restrito",
+                "Lacunas documentadas",
             ]
         )
         with closure_tab_summary:
             st.dataframe(europe_closure_summary_df, use_container_width=True, hide_index=True)
             render_csv_download(
-                "Baixar resumo de fechamento europeu",
+                "Exportar síntese do fechamento europeu",
                 europe_closure_summary_df,
                 EUROPE_CLOSURE_SUMMARY_FILENAME,
                 "Exporta os critérios metodológicos usados para liberar a próxima etapa continental.",
             )
         with closure_tab_matrix:
             if europe_closure_matrix_df is None or europe_closure_matrix_df.empty:
-                st.info("A matriz de fechamento europeu ainda não foi materializada.")
+                st.info("A matriz de fechamento europeu ainda não está disponível.")
             else:
                 st.dataframe(europe_closure_matrix_df, use_container_width=True, hide_index=True)
                 render_csv_download(
-                    "Baixar matriz de fechamento europeu",
+                    "Exportar matriz de fechamento europeu",
                     europe_closure_matrix_df,
                     EUROPE_CLOSURE_MATRIX_FILENAME,
                     "Exporta a situação de cada corpus ou candidato europeu.",
                 )
         with closure_tab_excluded:
             if europe_excluded_units_df is None or europe_excluded_units_df.empty:
-                st.info("Ainda não há unidades europeias protocoladas fora do corpus ativo.")
+                st.info("Ainda não há unidades europeias documentadas fora da base ativa.")
             else:
                 st.caption(
                     "Essas unidades foram identificadas e preservadas no observatório, mas não entram "
-                    "no corpus ativo enquanto a rota de coleta não for tecnicamente estável."
+                    "na base ativa enquanto a rota de coleta não for estável e reprodutível."
                 )
                 excluded_display_df = europe_excluded_units_df.rename(
                     columns={
                         "unit_label": "unidade",
                         "unit_type": "tipo de unidade",
                         "territorial_scope": "escopo territorial",
+                        "access_category": "categoria de acesso",
                         "public_status": "status público",
                         "methodological_decision": "decisão metodológica",
                         "negative_reason": "motivo da não inclusão",
                         "collection_route_attempted": "rota tentada",
                         "attempt_summary": "tentativas registradas",
                         "methodological_explanation": "explicação metodológica",
-                        "protocol_status": "status do protocolo",
+                        "protocol_status": "estado da avaliação",
                         "next_step": "próximo passo",
                         "blocks_expansion": "bloqueia expansão",
                     }
@@ -1852,13 +2015,14 @@ def render_observatory_overview_tab():
                             "unidade",
                             "tipo de unidade",
                             "escopo territorial",
+                            "categoria de acesso",
                             "status público",
                             "decisão metodológica",
                             "motivo da não inclusão",
                             "rota tentada",
                             "tentativas registradas",
                             "explicação metodológica",
-                            "status do protocolo",
+                            "estado da avaliação",
                             "próximo passo",
                             "bloqueia expansão",
                         ],
@@ -1874,18 +2038,67 @@ def render_observatory_overview_tab():
                         ].copy()
                         st.dataframe(queue_display_df, use_container_width=True, hide_index=True)
                 render_csv_download(
-                    "Baixar unidades identificadas não incorporadas",
+                    "Exportar unidades identificadas não incorporadas",
                     europe_excluded_units_df,
                     EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME,
-                    "Exporta as unidades europeias identificadas, mas mantidas fora do corpus ativo.",
+                    "Exporta as unidades europeias identificadas, mas mantidas fora da base ativa.",
+                )
+        with closure_tab_paid_access:
+            if restricted_access_audit_df is None or restricted_access_audit_df.empty:
+                st.info("A auditoria de acesso pago/restrito ainda não está disponível.")
+            else:
+                st.caption(
+                    "Esta auditoria separa bancos privados pagos, catálogos comerciais de licenciamento "
+                    "e streaming pago/autenticado. Nem todo acesso comercial fica fora da base ativa: quando "
+                    "há registros públicos avaliados no observatório, ele permanece como modalidade analítica própria."
+                )
+                if restricted_access_summary_df is not None and not restricted_access_summary_df.empty:
+                    st.dataframe(restricted_access_summary_df, use_container_width=True, hide_index=True)
+                paid_access_display_df = restricted_access_audit_df.rename(
+                    columns={
+                        "unit_label": "unidade",
+                        "corpus_status": "situação no observatório",
+                        "access_category": "categoria de acesso",
+                        "category_label": "categoria legível",
+                        "total_records": "registros",
+                        "evidence": "evidência",
+                        "methodological_decision": "decisão metodológica",
+                        "include_in_private_paid_bank_category": "entra como banco privado pago",
+                        "source_file": "arquivo-fonte",
+                        "example_titles": "exemplos",
+                    }
+                )
+                st.dataframe(
+                    select_existing_columns(
+                        paid_access_display_df,
+                        [
+                            "unidade",
+                            "situação no observatório",
+                            "categoria legível",
+                            "registros",
+                            "evidência",
+                            "decisão metodológica",
+                            "entra como banco privado pago",
+                            "arquivo-fonte",
+                            "exemplos",
+                        ],
+                    ),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+                render_csv_download(
+                    "Exportar auditoria de acesso pago/restrito",
+                    restricted_access_audit_df,
+                    RESTRICTED_ACCESS_AUDIT_FILENAME,
+                    "Exporta os casos auditados com categorias metodológicas de acesso pago ou restrito.",
                 )
         with closure_tab_gap_audit:
             if europe_gap_audit_df is None or europe_gap_audit_df.empty:
-                st.info("A auditoria de lacunas europeias ainda não foi materializada.")
+                st.info("A auditoria de lacunas europeias ainda não está disponível.")
             else:
                 st.caption(
                     "Esta auditoria impede que o fechamento europeu seja lido como exaustividade absoluta. "
-                    "Ela documenta unidades cobertas por corpora ativos, fontes legadas, radares e candidatos "
+                    "Ela documenta unidades cobertas por bases ativas, fontes legadas, radares e candidatos "
                     "futuros, mantendo o MVP continental aberto à expansão controlada."
                 )
                 gap_audit_display_df = europe_gap_audit_df.rename(
@@ -1894,8 +2107,8 @@ def render_observatory_overview_tab():
                         "unit_type": "tipo de unidade",
                         "territorial_scope": "escopo territorial",
                         "audit_status": "status da auditoria",
-                        "relation_to_active_corpus": "relação com corpus ativo",
-                        "corpus_decision": "decisão de corpus",
+                        "relation_to_active_corpus": "relação com a base ativa",
+                        "corpus_decision": "decisão sobre a base",
                         "methodological_reason": "justificativa metodológica",
                         "source_url": "fonte",
                         "next_step": "próximo passo",
@@ -1910,8 +2123,8 @@ def render_observatory_overview_tab():
                             "tipo de unidade",
                             "escopo territorial",
                             "status da auditoria",
-                            "relação com corpus ativo",
-                            "decisão de corpus",
+                            "relação com a base ativa",
+                            "decisão sobre a base",
                             "justificativa metodológica",
                             "fonte",
                             "próximo passo",
@@ -1922,28 +2135,29 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
                 render_csv_download(
-                    "Baixar auditoria de lacunas europeias",
+                    "Exportar lacunas europeias documentadas",
                     europe_gap_audit_df,
                     EUROPE_CLOSURE_GAP_AUDIT_FILENAME,
-                    "Exporta a auditoria que delimita o que ficou fora do corpus europeu do MVP.",
+                    "Exporta a auditoria que delimita o que ficou fora da base europeia ativa do MVP.",
                 )
 
-    st.markdown("### Pesquisa europeia ampliada")
+    st.markdown("### Mapeamento europeu ampliado")
     st.caption(
-        "Esta fila é o mecanismo de trabalho para identificar agregadores, redes, diretórios e arquivos "
+        "Este módulo separa o registro europeu completo da fila operacional de pendências. Ele identifica "
+        "agregadores, redes, diretórios e arquivos "
         "audiovisuais europeus sem chute: agregadores primeiro, diretórios especializados depois, "
         "arquivos individuais por expansão controlada. A varredura de fontes oficiais inclui Europeana, "
-        "FIAF, EFG, EUscreen, FIAT/IFTA, INEDITS, ACE e EBU. A presença na fila não significa incorporação "
-        "automática: cada item precisa virar corpus ativo ou protocolo de não incorporação."
+        "FIAF, EFG, EUscreen, FIAT/IFTA, INEDITS, ACE e EBU. A presença no registro não significa "
+        "incorporação automática; a presença na fila significa análise pendente."
     )
     if europe_research_registry_df is None or europe_research_registry_df.empty:
-        st.info("A fila ampliada de pesquisa europeia ainda não foi materializada.")
+        st.info("O mapeamento europeu ampliado ainda não está disponível.")
     else:
         europe_queue_layer = europe_research_queue_df.get("queue_layer", pd.Series(dtype="object")).astype(str)
         europe_research_cols = st.columns(4)
-        europe_research_cols[0].metric("Unidades europeias registradas", len(europe_research_registry_df))
+        europe_research_cols[0].metric("Unidades europeias mapeadas", len(europe_research_registry_df))
         europe_research_cols[1].metric(
-            "Fila definitiva um por um",
+            "Próximas análises individuais",
             int((europe_queue_layer == "fila_definitiva_um_por_um").sum()),
         )
         europe_research_cols[2].metric(
@@ -1965,7 +2179,7 @@ def render_observatory_overview_tab():
             ),
         )
         research_tab_queue, research_tab_registry, research_tab_summary = st.tabs(
-            ["Fila um por um", "Registro europeu", "Resumo da pesquisa"]
+            ["Próximas unidades", "Mapa europeu", "Síntese do mapeamento"]
         )
         with research_tab_queue:
             queue_display_df = europe_research_queue_df.rename(
@@ -2004,15 +2218,15 @@ def render_observatory_overview_tab():
                 hide_index=True,
             )
             render_csv_download(
-                "Baixar fila ampliada de pesquisa europeia",
+                "Exportar fila europeia de análise",
                 europe_research_queue_df,
                 EUROPE_RESEARCH_QUEUE_FILENAME,
-                "Exporta a fila operacional para incorporar ou protocolar unidades europeias uma por uma.",
+                "Exporta a fila operacional para incorporar ou documentar unidades europeias uma por uma.",
             )
         with research_tab_registry:
             st.dataframe(europe_research_registry_df, use_container_width=True, hide_index=True)
             render_csv_download(
-                "Baixar registro ampliado de pesquisa europeia",
+                "Exportar mapa europeu ampliado",
                 europe_research_registry_df,
                 EUROPE_RESEARCH_REGISTRY_FILENAME,
                 "Exporta o registro ampliado de agregadores, redes, diretórios e fontes europeias.",
@@ -2020,7 +2234,7 @@ def render_observatory_overview_tab():
         with research_tab_summary:
             st.dataframe(europe_research_summary_df, use_container_width=True, hide_index=True)
             render_csv_download(
-                "Baixar resumo da pesquisa europeia",
+                "Exportar síntese do mapeamento europeu",
                 europe_research_summary_df,
                 EUROPE_RESEARCH_SUMMARY_FILENAME,
                 "Exporta a síntese por categoria e decisão de fila.",
@@ -2029,13 +2243,13 @@ def render_observatory_overview_tab():
     chart_cols = st.columns(3)
     chart_base = overview_df.set_index("corpus")
     with chart_cols[0]:
-        st.caption("Instituições com links de vídeo por corpus")
+        st.caption("Instituições com links de vídeo por unidade")
         st.bar_chart(chart_base[["institutions_with_video_links"]])
     with chart_cols[1]:
-        st.caption("Links de vídeo detectados por corpus")
+        st.caption("Links de vídeo detectados por unidade")
         st.bar_chart(chart_base[["video_links_total"]])
     with chart_cols[2]:
-        st.caption("Vídeos no recorte curatorial por corpus")
+        st.caption("Vídeos no recorte curatorial por unidade")
         st.bar_chart(chart_base[["videos_in_curatorial_catalog"]])
 
     regime_long_df, regime_matrix_df = build_cross_corpus_breakdown(
@@ -2047,22 +2261,22 @@ def render_observatory_overview_tab():
         "modalidade",
     )
 
-    st.markdown("### Comparações transversais do observatório")
+    st.markdown("### Comparações entre unidades documentais")
     st.caption(
-        "Estes quadros mostram como os corpora diferem não apenas em volume, mas também na forma "
+        "Estes quadros mostram como as unidades diferem não apenas em volume, mas também na forma "
         "como o audiovisual se torna publicamente acessível."
     )
 
     compare_tab_regimes, compare_tab_modalities = st.tabs(
-        ["Regimes de acesso por corpus", "Modalidades de acesso por corpus"]
+        ["Regimes de acesso", "Modalidades de acesso"]
     )
 
     with compare_tab_regimes:
         if regime_long_df.empty:
-            st.info("Ainda não há dados suficientes para comparar regimes de acesso entre corpora.")
+            st.info("Ainda não há dados suficientes para comparar regimes de acesso entre unidades.")
         else:
             st.caption(
-                "Linhas representam corpora; colunas representam regimes institucionais de acesso audiovisual detectável."
+                "Linhas representam unidades documentais; colunas representam regimes institucionais de acesso audiovisual detectável."
             )
             st.dataframe(
                 style_matrix_display(prepare_matrix_display(regime_matrix_df)),
@@ -2074,10 +2288,10 @@ def render_observatory_overview_tab():
 
     with compare_tab_modalities:
         if modality_long_df.empty:
-            st.info("Ainda não há dados suficientes para comparar modalidades de acesso entre corpora.")
+            st.info("Ainda não há dados suficientes para comparar modalidades de acesso entre unidades.")
         else:
             st.caption(
-                "Linhas representam corpora; colunas representam modalidades públicas de acesso encontradas nos catálogos."
+                "Linhas representam unidades documentais; colunas representam modalidades públicas de acesso encontradas nos catálogos."
             )
             st.dataframe(
                 style_matrix_display(prepare_matrix_display(modality_matrix_df)),
@@ -2088,13 +2302,13 @@ def render_observatory_overview_tab():
                 st.dataframe(modality_long_df, use_container_width=True, hide_index=True)
 
     if cycle_timeline_df is not None and not cycle_timeline_df.empty:
-        st.markdown("### Memória do organismo")
+        st.markdown("### Histórico do observatório")
         cycle_history_tab, cycle_results_tab, cycle_files_tab = st.tabs(
-            ["Linha do tempo dos ciclos", "Resultados históricos por corpus", "Arquivos globais do organismo"]
+            ["Linha do tempo das rodadas", "Resultados por unidade", "Arquivos de referência"]
         )
         with cycle_history_tab:
             st.caption(
-                "Cada linha representa um ciclo do organismo, permitindo acompanhar cadência, "
+                "Cada linha representa uma rodada do observatório, permitindo acompanhar cadência, "
                 "escopo e estabilidade das atualizações ao longo do tempo."
             )
             st.dataframe(
@@ -2104,10 +2318,10 @@ def render_observatory_overview_tab():
             )
         with cycle_results_tab:
             if cycle_results_df is None or cycle_results_df.empty:
-                st.info("Ainda não há resultados históricos materializados por corpus.")
+                st.info("Ainda não há resultados históricos disponíveis por unidade.")
             else:
                 st.caption(
-                    "Este quadro preserva o desempenho de cada corpus em cada ciclo do organismo."
+                    "Este quadro preserva o desempenho de cada unidade documental em cada rodada do observatório."
                 )
                 st.dataframe(
                     cycle_results_df.sort_values(["generated_at", "code"], ascending=[False, True]),
@@ -2116,33 +2330,33 @@ def render_observatory_overview_tab():
                 )
         with cycle_files_tab:
             st.caption(
-                "Estes artefatos preservam a rastreabilidade global do organismo, permitindo "
-                "auditar ciclos, corpora ativos e resultados históricos."
+                "Estes arquivos preservam a rastreabilidade global do observatório, permitindo "
+                "auditar rodadas, unidades ativas e resultados históricos."
             )
             organism_files_df = pd.DataFrame(
                 [
                     {
                         "arquivo": ORGANISM_MONTHLY_CYCLE_FILENAME,
-                        "tipo": "manifesto do último ciclo",
+                        "tipo": "síntese da última rodada",
                         "disponível": "Sim" if cycle_manifest else "Não",
                     },
                     {
                         "arquivo": ORGANISM_ACTIVE_CORPORA_FILENAME,
-                        "tipo": "inventário de corpora ativos",
+                        "tipo": "inventário de unidades ativas",
                         "disponível": "Sim"
                         if active_corpora_registry_df is not None and not active_corpora_registry_df.empty
                         else "Não",
                     },
                     {
                         "arquivo": ORGANISM_CYCLE_TIMELINE_FILENAME,
-                        "tipo": "linha do tempo dos ciclos",
+                        "tipo": "linha do tempo das rodadas",
                         "disponível": "Sim"
                         if cycle_timeline_df is not None and not cycle_timeline_df.empty
                         else "Não",
                     },
                     {
                         "arquivo": ORGANISM_CYCLE_RESULTS_FILENAME,
-                        "tipo": "resultados históricos por corpus",
+                        "tipo": "resultados históricos por unidade",
                         "disponível": "Sim"
                         if cycle_results_df is not None and not cycle_results_df.empty
                         else "Não",
@@ -2153,29 +2367,29 @@ def render_observatory_overview_tab():
             download_cols = st.columns(2)
             with download_cols[0]:
                 render_json_download(
-                    "Baixar manifesto do último ciclo",
+                    "Exportar síntese da última rodada",
                     cycle_manifest,
                     ORGANISM_MONTHLY_CYCLE_FILENAME,
-                    "Exporta o manifesto global do ciclo mais recente do organismo.",
+                    "Exporta a síntese global da rodada mais recente do observatório.",
                 )
                 render_csv_download(
-                    "Baixar corpora ativos do organismo",
+                    "Exportar unidades ativas do observatório",
                     active_corpora_registry_df,
                     ORGANISM_ACTIVE_CORPORA_FILENAME,
-                    "Exporta o inventário atual dos corpora ativos do organismo.",
+                    "Exporta o inventário atual das unidades ativas do observatório.",
                 )
             with download_cols[1]:
                 render_csv_download(
-                    "Baixar linha do tempo dos ciclos",
+                    "Exportar linha do tempo das rodadas",
                     cycle_timeline_df,
                     ORGANISM_CYCLE_TIMELINE_FILENAME,
-                    "Exporta a linha do tempo global dos ciclos mensais do organismo.",
+                    "Exporta a linha do tempo global das rodadas mensais do observatório.",
                 )
                 render_csv_download(
-                    "Baixar resultados históricos por corpus",
+                    "Exportar resultados históricos por unidade",
                     cycle_results_df,
                     ORGANISM_CYCLE_RESULTS_FILENAME,
-                    "Exporta o histórico consolidado dos resultados por corpus em cada ciclo.",
+                    "Exporta o histórico consolidado dos resultados por unidade em cada rodada.",
                 )
 
 
@@ -2210,7 +2424,7 @@ def render_category_tab(category_def):
     total_curatorial_videos = len(filtered_curatorial_videos_df)
 
     metric_cols = st.columns(5)
-    metric_cols[0].metric("Corpora na categoria", total_corpora)
+    metric_cols[0].metric("Unidades na categoria", total_corpora)
     metric_cols[1].metric("Instituições no recorte", total_institutions)
     metric_cols[2].metric("Instituições com links de vídeo", total_with_video_links)
     metric_cols[3].metric("Links de vídeo detectados", total_video_links)
@@ -2221,14 +2435,14 @@ def render_category_tab(category_def):
     )
 
     with category_summary_tab:
-        st.markdown("### Corpora desta categoria")
+        st.markdown("### Unidades desta categoria")
         if overview_df.empty:
-            st.info("Ainda não há corpora materializados nesta categoria.")
+            st.info("Ainda não há unidades disponíveis nesta categoria.")
         else:
             st.dataframe(
                 overview_df.rename(
                     columns={
-                        "corpus": "corpus",
+                        "corpus": "unidade documental",
                         "label": "unidade",
                         "entity_level": "nível da unidade",
                         "scope": "escopo",
@@ -2249,8 +2463,8 @@ def render_category_tab(category_def):
         st.markdown("### Princípio de separação")
         st.markdown(
             f"""
-            Esta categoria reúne apenas corpora classificados como **{category_def['label'].lower()}**.
-            O observatório permite trabalhar com todos eles em conjunto, mas sempre preservando o mesmo
+            Esta categoria reúne apenas unidades classificadas como **{category_def['label'].lower()}**.
+            O observatório permite trabalhar com todas elas em conjunto, mas sempre preservando o mesmo
             nível analítico: **{category_def['selection_scope_label']}**.
             """
         )
@@ -2262,10 +2476,10 @@ def render_category_tab(category_def):
             st.info("Ainda não há instituições disponíveis nesta categoria.")
         else:
             filter_cols = st.columns([1.1, 1.1, 1.4])
-            corpus_options = ["Todos os corpora"] + [corpus_def["short_label"] for corpus_def in corpora_in_category]
+            corpus_options = ["Todas as unidades"] + [corpus_def["short_label"] for corpus_def in corpora_in_category]
             with filter_cols[0]:
                 selected_corpus = st.selectbox(
-                    "Corpus",
+                    "Unidade documental",
                     options=corpus_options,
                     key=f"{category_code}-category-corpus-filter",
                 )
@@ -2285,7 +2499,7 @@ def render_category_tab(category_def):
                 ).strip()
 
             filtered_summary_df = combined_summary_df.copy()
-            if selected_corpus != "Todos os corpora":
+            if selected_corpus != "Todas as unidades":
                 filtered_summary_df = filtered_summary_df.loc[filtered_summary_df["corpus"] == selected_corpus]
             if selected_visibility != "Todas as situações":
                 filtered_summary_df = filtered_summary_df.loc[
@@ -2313,22 +2527,22 @@ def render_category_tab(category_def):
                 hide_index=True,
             )
             render_csv_download(
-                "Baixar instituições da categoria",
+                "Exportar instituições da categoria",
                 build_category_summary_display_df(filtered_summary_df),
                 f"{category_code}_instituicoes_categoria.csv",
                 "Exporta o recorte institucional desta categoria analítica.",
             )
 
     with category_videos_tab:
-        st.markdown("### Catálogo de vídeos da categoria")
+        st.markdown("### Vídeos da categoria")
         if filtered_curatorial_videos_df.empty:
             st.info("Ainda não há vídeos curatoriais disponíveis nesta categoria.")
         else:
             filter_cols = st.columns([1.1, 1.1, 1.3])
-            corpus_options = ["Todos os corpora"] + [corpus_def["short_label"] for corpus_def in corpora_in_category]
+            corpus_options = ["Todas as unidades"] + [corpus_def["short_label"] for corpus_def in corpora_in_category]
             with filter_cols[0]:
                 selected_corpus = st.selectbox(
-                    "Corpus",
+                    "Unidade documental",
                     options=corpus_options,
                     key=f"{category_code}-video-corpus-filter",
                 )
@@ -2351,7 +2565,7 @@ def render_category_tab(category_def):
                 )
 
             filtered_video_df = filtered_curatorial_videos_df.copy()
-            if selected_corpus != "Todos os corpora":
+            if selected_corpus != "Todas as unidades":
                 filtered_video_df = filtered_video_df.loc[filtered_video_df["corpus"] == selected_corpus]
             if selected_theme != "Todos os temas":
                 filtered_video_df = filtered_video_df.loc[filtered_video_df["video_theme"] == selected_theme]
@@ -2366,7 +2580,7 @@ def render_category_tab(category_def):
                 hide_index=True,
             )
             render_csv_download(
-                "Baixar vídeos da categoria",
+                "Exportar vídeos da categoria",
                 build_category_video_display_df(filtered_video_df),
                 f"{category_code}_videos_categoria.csv",
                 "Exporta o recorte curatorial de vídeos desta categoria analítica.",
@@ -2412,11 +2626,11 @@ def render_project_tab(corpus_def):
     )
 
     if corpus_def["code"] == "ape":
-        st.subheader("Sobre o corpus APE")
+        st.subheader("Sobre o recorte APE")
         st.markdown(
             """
             Este observatório investiga a visibilidade pública do audiovisual em ambientes arquivísticos na web.
-            Nesta etapa, o corpus é formado pelo **Archives Portal Europe (APE)**, tratado como um portal
+            Nesta etapa, a unidade analisada é o **Archives Portal Europe (APE)**, tratado como um portal
             arquivístico geral, e não como um repositório especializado em audiovisual.
 
             **Objetivo**
@@ -2441,10 +2655,10 @@ def render_project_tab(corpus_def):
             """
         )
     else:
-        st.subheader(f"Sobre o corpus {corpus_def['short_label']}")
+        st.subheader(f"Sobre o recorte {corpus_def['short_label']}")
         st.markdown(
             f"""
-            Este corpus toma o **{corpus_def['label']}** como unidade especializada em audiovisual.
+            Este recorte toma o **{corpus_def['label']}** como unidade especializada em audiovisual.
             Diferentemente do APE, que funciona como portal geral de arquivos, aqui o audiovisual
             tende a ocupar uma posição institucional central.
 
@@ -2455,7 +2669,7 @@ def render_project_tab(corpus_def):
 
             **Princípio metodológico**
 
-            Neste corpus, a questão central já não é apenas a existência de evidência pública detectável,
+            Neste recorte, a questão central já não é apenas a existência de evidência pública detectável,
             mas a forma como um arquivo especializado apresenta, contextualiza e distribui seu audiovisual
             na web institucional.
             """
@@ -2463,7 +2677,7 @@ def render_project_tab(corpus_def):
 
     st.dataframe(framing_df, use_container_width=True, hide_index=True)
     st.caption(f"Política de expansão aplicável: {category_def['expansion_rule']}")
-    st.caption(f"Regra audiovisual do corpus: {corpus_def['audiovisual_scope_note']}")
+    st.caption(f"Regra audiovisual do recorte: {corpus_def['audiovisual_scope_note']}")
     st.caption(f"Leitura metodológica de retorno zero: {corpus_def['zero_result_policy']}")
     st.markdown(
         """
@@ -2577,14 +2791,14 @@ def render_panel_tab(corpus_def, context):
     )
 
     panel_summary_tab, panel_analysis_tab, panel_cases_tab = st.tabs(
-        ["Síntese institucional", "Temas e cruzamentos", "Casos e rastreabilidade"]
+        ["Síntese institucional", "Temas e relações", "Casos documentados"]
     )
 
     with panel_summary_tab:
         summary_left, summary_right = st.columns([1.1, 1])
 
         with summary_left:
-            st.subheader("Integridade dos sites institucionais")
+            st.subheader("Condição dos sites institucionais")
             st.bar_chart(integrity_counts.set_index("integridade")[["total"]])
 
             st.subheader("Disponibilidade institucional")
@@ -2636,7 +2850,7 @@ def render_panel_tab(corpus_def, context):
             else:
                 st.info("Ainda não há temas classificados para os vídeos.")
 
-            st.subheader("Plataformas detectadas")
+            st.subheader("Locais de acesso detectados")
             if not platform_counts.empty:
                 st.bar_chart(platform_counts.set_index("platform"))
             else:
@@ -2687,7 +2901,7 @@ def render_panel_tab(corpus_def, context):
 
     with panel_cases_tab:
         st.metric("Instituições indisponíveis", unavailable_count)
-        st.caption("Dentro de `quebrado`, a aplicação distingue erro explícito e página suspeita.")
+        st.caption("Dentro de 'quebrado', o observatório distingue erro explícito e página suspeita.")
 
         st.subheader("Casos indisponíveis")
         st.dataframe(
@@ -2709,7 +2923,7 @@ def render_panel_tab(corpus_def, context):
                     "archive_type": "tipo de arquivo",
                     "availability_reason": "subcategoria",
                     "integridade": "integridade",
-                    "status_tecnico": "status técnico",
+                    "status_tecnico": "situação da verificação",
                     "website_fonte": corpus_def["website_label"],
                     "video_links_found_total": "links de vídeo",
                     "partner_domain": "domínio",
@@ -2722,7 +2936,7 @@ def render_panel_tab(corpus_def, context):
         detail_left, detail_right = st.columns(2)
 
         with detail_left:
-            st.subheader("Detalhamento da categoria quebrado")
+            st.subheader("Casos com site quebrado")
             if broken_df.empty:
                 st.info("Nenhum caso enquadrado como quebrado foi detectado nesta rodada.")
             else:
@@ -2744,7 +2958,7 @@ def render_panel_tab(corpus_def, context):
                             "integridade": "integridade",
                             "final_url": "URL final",
                             "warning": "observação",
-                            "status_tecnico": "status técnico",
+                            "status_tecnico": "situação da verificação",
                             "partner_domain": "domínio",
                         }
                     ),
@@ -2752,7 +2966,7 @@ def render_panel_tab(corpus_def, context):
                 )
 
         with detail_right:
-            st.subheader("Detalhamento da categoria instável")
+            st.subheader("Casos instáveis")
             if unstable_df.empty:
                 st.info("Nenhum caso instável foi detectado nesta rodada.")
             else:
@@ -2772,7 +2986,7 @@ def render_panel_tab(corpus_def, context):
                             "institution": "instituição",
                             "archive_type": "tipo de arquivo",
                             "subcategoria_instavel": "subcategoria",
-                            "status_tecnico": "status técnico",
+                            "status_tecnico": "situação da verificação",
                             "error": "erro",
                             "partner_domain": "domínio",
                             "final_url": "URL final",
@@ -2781,7 +2995,7 @@ def render_panel_tab(corpus_def, context):
                     use_container_width=True,
                 )
 
-        with st.expander("Ver inventário dos arquivos gerados", expanded=False):
+        with st.expander("Ver arquivos de referência desta unidade", expanded=False):
             st.dataframe(generated_files_status_df, use_container_width=True, hide_index=True)
 
 
@@ -2791,15 +3005,15 @@ def render_sites_tab(corpus_def, context):
     detail_url_field = corpus_def["detail_url_field"]
     detail_url_label = corpus_def["detail_url_label"]
 
-    st.subheader(f"Instituições com links de vídeo detectados ({with_video})")
+    st.subheader(f"Instituições com vídeo localizado ({with_video})")
     st.caption(
         "Esta aba reúne as instituições em cujos sites a coleta encontrou ao menos um link explícito de vídeo."
     )
     if detected_sites_df.empty:
-        st.info(f"Nenhum link de vídeo foi detectado ainda no corpus {corpus_def['short_label']}.")
+        st.info(f"Nenhum link de vídeo foi localizado ainda no recorte {corpus_def['short_label']}.")
         if corpus_def["category_code"] == "aggregator":
             st.caption(
-                "Neste caso, o corpus continua relevante como fonte geral de pesquisa. "
+                "Neste caso, a unidade continua relevante como fonte geral de pesquisa. "
                 "O retorno zero indica que, até aqui, não houve evidência pública detectável "
                 "de audiovisual nas instituições mapeadas por esta coleta."
             )
@@ -2849,7 +3063,7 @@ def render_sites_tab(corpus_def, context):
             if pd.notna(row.get("archive_type")) and str(row.get("archive_type")).strip():
                 st.write(f"Tipo de arquivo: {row['archive_type']}")
             st.write(f"Domínio: {row['partner_domain']}")
-            st.write(f"Status técnico: {format_technical_status(row['status'])}")
+            st.write(f"Situação da verificação: {format_technical_status(row['status'])}")
             st.write(f"Links de vídeo: {int(row['video_links_found_total'])}")
             st.write(f"Sinais embutidos: {int(row['embedded_video_signals_total'])}")
             if row.get("platforms_detectadas"):
@@ -2868,12 +3082,12 @@ def render_videos_tab(corpus_def, context, selected_theme):
     access_surface_counts = context["access_surface_counts"]
     curatorial_video_total = context["curatorial_video_total"]
 
-    st.subheader("Catálogo curatorial de vídeos")
+    st.subheader("Vídeos e temas")
     if video_catalog_df.empty:
-        st.info(f"Nenhum link de vídeo foi detectado ainda no corpus {corpus_def['short_label']}.")
+        st.info(f"Nenhum link de vídeo foi localizado ainda no recorte {corpus_def['short_label']}.")
         if corpus_def["category_code"] == "aggregator":
             st.caption(
-                "Como esta é uma fonte geral de pesquisa, o retorno zero não invalida o corpus. "
+                "Como esta é uma fonte geral de pesquisa, o retorno zero não invalida a unidade. "
                 "Ele indica apenas ausência de evidência pública detectável de audiovisual nesta rodada."
             )
         return
@@ -2888,7 +3102,7 @@ def render_videos_tab(corpus_def, context, selected_theme):
     overview_cols[0].metric("Vídeos curatoriais", curatorial_video_total)
     overview_cols[1].metric("Instituições com vídeos", int(video_catalog_df["slug"].nunique()))
     overview_cols[2].metric("Temas identificados", len(theme_counts))
-    overview_cols[3].metric("Plataformas", int(video_catalog_df["platform"].nunique()))
+    overview_cols[3].metric("Locais de acesso", int(video_catalog_df["platform"].nunique()))
     overview_cols[4].metric("Modalidades de acesso", len(access_surface_counts))
 
     summary_cols = st.columns(2)
@@ -3004,7 +3218,7 @@ def render_videos_tab(corpus_def, context, selected_theme):
                         st.markdown(f"[Abrir vídeo]({row['video_link']})")
                         st.code(row["video_link"], language=None)
 
-    with st.expander("Ver quadros curatorias do catálogo", expanded=False):
+    with st.expander("Ver sínteses do catálogo de vídeos", expanded=False):
         expander_cols = st.columns(2)
         with expander_cols[0]:
             if not theme_counts.empty:
@@ -3102,10 +3316,10 @@ def render_data_tab(corpus_def, context):
     visibility_archive_type_counts = context["visibility_archive_type_counts"]
     visibility_archive_type_matrix = context["visibility_archive_type_matrix"]
 
-    st.subheader("Quadros analíticos do observatório")
+    st.subheader("Tabelas de análise")
     st.caption(
-        "Esta aba reúne os principais quadros analíticos derivados da base do corpus e permite "
-        "baixá-los em CSV para uso em pesquisa, redação, revisão metodológica e documentação."
+        "Esta aba reúne as principais tabelas derivadas do recorte e permite exportá-las "
+        "para pesquisa, redação, revisão metodológica e documentação."
     )
 
     output_files = corpus_def["output_files"]
@@ -3113,80 +3327,80 @@ def render_data_tab(corpus_def, context):
     timeline_institutions_df = load_csv(output_files["timeline_institutions"])
     extinction_signals_df = load_csv(output_files["extinction_signals"])
 
-    st.markdown("#### Conjuntos analíticos para download")
+    st.markdown("#### Tabelas disponíveis para exportação")
     download_col_1, download_col_2 = st.columns(2)
     with download_col_1:
         render_csv_download(
-            "Baixar quadro institucional analítico",
+            "Exportar quadro institucional analítico",
             available_df,
             output_files["analytic_summary"],
             "Inclui disponibilidade, segmento institucional e situação metodológica do audiovisual por instituição.",
         )
         render_csv_download(
-            "Baixar catálogo curatorial de vídeos",
+            "Exportar catálogo de vídeos",
             video_catalog_df,
             output_files["analytic_video_catalog"],
             "Inclui tema sugerido, data formatada e metadados básicos dos vídeos detectados.",
         )
         render_csv_download(
-            "Baixar síntese temática",
+            "Exportar síntese temática",
             theme_counts,
             output_files["theme_summary"],
             "Síntese da classificação temática, excluindo ruído de plataforma.",
         )
         render_csv_download(
-            "Baixar linha do tempo do corpus",
+            "Exportar linha do tempo do recorte",
             timeline_corpus_df,
             output_files["timeline_corpus"],
             "Série histórica das rodadas do corpus, com contagens agregadas por observação.",
         )
     with download_col_2:
         render_csv_download(
-            "Baixar síntese de visibilidade",
+            "Exportar síntese de visibilidade",
             visibility_counts,
             output_files["visibility_summary"],
             "Distribuição das situações metodológicas do audiovisual no corpus.",
         )
         render_csv_download(
-            "Baixar modalidades de acesso",
+            "Exportar modalidades de acesso",
             access_surface_counts,
             output_files["access_surface_summary"],
             "Síntese das modalidades de acesso detectadas no catálogo curatorial.",
         )
         render_csv_download(
-            "Baixar regimes de acesso",
+            "Exportar regimes de acesso",
             access_regime_counts,
             output_files["access_regime_summary"],
             "Síntese institucional dos regimes de acesso audiovisual detectáveis.",
         )
         render_csv_download(
-            "Baixar quadro temas por país",
+            "Exportar temas por país",
             theme_country_counts,
             output_files["theme_country"],
             "Tabela analítica dos temas por país no recorte curatorial.",
         )
         render_csv_download(
-            "Baixar quadro temas por tipo de arquivo",
+            "Exportar temas por tipo de arquivo",
             theme_archive_type_counts,
             output_files["theme_archive_type"],
             "Tabela analítica dos temas por tipo institucional declarado na fonte.",
         )
         render_csv_download(
-            "Baixar sinais de possível extinção",
+            "Exportar sinais de possível extinção",
             extinction_signals_df,
             output_files["extinction_signals"],
             "Quadro de ausência, indisponibilidade reincidente e perda de evidência audiovisual entre rodadas.",
         )
         render_csv_download(
-            "Baixar linha do tempo institucional",
+            "Exportar linha do tempo institucional",
             timeline_institutions_df,
             output_files["timeline_institutions"],
             "Série histórica por instituição, preservando os estados observados a cada rodada.",
         )
 
-    st.markdown("#### Visualização dos quadros")
+    st.markdown("#### Consulta das tabelas")
     analytic_view = st.radio(
-        "Selecione o quadro analítico",
+        "Selecione a tabela",
         options=[
             "Quadro institucional analítico",
             "Catálogo curatorial de vídeos",
@@ -3197,7 +3411,7 @@ def render_data_tab(corpus_def, context):
             "Temas por país",
             "Temas por tipo de arquivo",
             "Visibilidade por tipo de arquivo",
-            "Linha do tempo do corpus",
+            "Linha do tempo do recorte",
             "Sinais de possível extinção",
             "Linha do tempo institucional",
         ],
@@ -3257,9 +3471,9 @@ def render_data_tab(corpus_def, context):
             )
         else:
             st.dataframe(theme_archive_type_counts, use_container_width=True, hide_index=True)
-    elif analytic_view == "Linha do tempo do corpus":
+    elif analytic_view == "Linha do tempo do recorte":
         if timeline_corpus_df is None or timeline_corpus_df.empty:
-            st.info("Ainda não há linha do tempo materializada para este corpus.")
+            st.info("Ainda não há linha do tempo disponível para este recorte.")
         else:
             st.dataframe(timeline_corpus_df, use_container_width=True, hide_index=True)
     elif analytic_view == "Sinais de possível extinção":
@@ -3272,7 +3486,7 @@ def render_data_tab(corpus_def, context):
             st.dataframe(extinction_signals_df, use_container_width=True, hide_index=True)
     elif analytic_view == "Linha do tempo institucional":
         if timeline_institutions_df is None or timeline_institutions_df.empty:
-            st.info("Ainda não há linha do tempo institucional materializada para este corpus.")
+            st.info("Ainda não há linha do tempo institucional disponível para este recorte.")
         else:
             st.dataframe(timeline_institutions_df, use_container_width=True, hide_index=True)
     else:
@@ -3288,9 +3502,9 @@ def render_data_tab(corpus_def, context):
 
 def render_base_tab(corpus_def, context):
     available_df = context["available_df"]
-    st.subheader(f"Base consolidada do {corpus_def['short_label']}")
+    st.subheader(f"Instituições analisadas em {corpus_def['short_label']}")
     st.caption(
-        "Cada linha representa uma unidade institucional do corpus, complementada pela verificação "
+        "Cada linha representa uma unidade institucional do recorte, complementada pela verificação "
         "do site externo informado na fonte."
     )
 
@@ -3423,13 +3637,13 @@ def render_base_tab(corpus_def, context):
     base_metric_cols[3].metric("Indisponíveis no recorte", filtered_unavailable_total)
 
     render_csv_download(
-        "Baixar recorte atual da base consolidada",
+        "Exportar recorte atual das instituições",
         filtered_display_df,
         f"{corpus_def['code']}_base_consolidada_filtrada.csv",
         "Exporta o recorte atual da base consolidada com rótulos públicos de leitura.",
     )
 
-    st.markdown("#### Quadro sintético do recorte")
+    st.markdown("#### Síntese do recorte")
     if filtered_display_df.empty:
         st.info("Nenhuma instituição corresponde aos filtros selecionados.")
     else:
@@ -3455,7 +3669,7 @@ def render_base_tab(corpus_def, context):
             hide_index=True,
         )
 
-        with st.expander("Ver quadro completo do recorte", expanded=False):
+        with st.expander("Ver tabela completa do recorte", expanded=False):
             st.dataframe(filtered_display_df, use_container_width=True, hide_index=True)
 
 
@@ -3489,7 +3703,7 @@ def render_institution_tab(corpus_def, context, selected_slug):
         st.caption("Integridade")
         render_integrity_badge(selected_summary["integrity_status"])
     with headline_cols[1]:
-        st.caption("Status técnico")
+        st.caption("Situação da verificação")
         st.write(format_technical_status(selected_summary["status"]))
     with headline_cols[2]:
         st.caption("Situação metodológica do audiovisual")
@@ -3511,7 +3725,7 @@ def render_institution_tab(corpus_def, context, selected_slug):
     geo_cols[3].metric(corpus_def["website_label"], format_yes_no(selected_summary.get("website_available")))
 
     evidence_cols = st.columns(4)
-    evidence_cols[0].metric("HTTP", selected_summary["http_code"] if pd.notna(selected_summary["http_code"]) else "-")
+    evidence_cols[0].metric("Resposta do site", selected_summary["http_code"] if pd.notna(selected_summary["http_code"]) else "-")
     evidence_cols[1].metric("Links de vídeo", institution_video_count)
     evidence_cols[2].metric("Sinais embutidos", institution_embedded_count)
     evidence_cols[3].metric("Páginas internas", institution_internal_count)
@@ -3531,7 +3745,7 @@ def render_institution_tab(corpus_def, context, selected_slug):
         [
             "Ficha e acesso",
             f"Vídeos detectados ({len(selected_links)})",
-            f"Páginas internas ({len(selected_internal)})",
+            f"Páginas analisadas ({len(selected_internal)})",
         ]
     )
 
@@ -3563,7 +3777,7 @@ def render_institution_tab(corpus_def, context, selected_slug):
                 st.info(str(selected_summary["warning"]))
 
             if pd.notna(selected_summary.get("error")) and str(selected_summary.get("error")).strip():
-                st.caption(f"Erro registrado na coleta: {selected_summary['error']}")
+                st.caption(f"Problema registrado na verificação: {selected_summary['error']}")
 
         with overview_right:
             st.subheader("Fontes e endereços")
@@ -3584,21 +3798,21 @@ def render_institution_tab(corpus_def, context, selected_slug):
                 st.link_button("Abrir site institucional verificado", selected_summary["final_url"], use_container_width=True)
 
     with institution_tab_videos:
-        st.subheader("Vídeos detectados na instituição")
+        st.subheader("Vídeos localizados na instituição")
         if selected_links.empty:
-            st.info("Nenhum link de vídeo foi detectado automaticamente para esta instituição.")
+            st.info("Nenhum link de vídeo foi localizado automaticamente para esta instituição.")
         else:
             selected_links = selected_links.copy()
             selected_links["tema_sugerido"] = selected_links.apply(infer_video_theme, axis=1)
             selected_links = selected_links.loc[selected_links["tema_sugerido"] != NOISE_THEME_LABEL].copy()
             if selected_links.empty:
-                st.info("Nenhum vídeo curatorial permaneceu após a filtragem de ruído fora de escopo.")
+                st.info("Nenhum vídeo permaneceu no recorte curatorial após a filtragem de ruído fora de escopo.")
             selected_links["modalidade_acesso"] = selected_links.apply(analysis_utils.classify_access_surface, axis=1)
             selected_links["data_publicacao"] = selected_links["video_published_at"].apply(format_video_date)
 
             video_overview_cols = st.columns(4)
             video_overview_cols[0].metric("Vídeos curatoriais", len(selected_links))
-            video_overview_cols[1].metric("Plataformas", int(selected_links["platform"].nunique()))
+            video_overview_cols[1].metric("Locais de acesso", int(selected_links["platform"].nunique()))
             video_overview_cols[2].metric(
                 "Temas sugeridos",
                 int(selected_links["tema_sugerido"].replace(NOISE_THEME_LABEL, pd.NA).dropna().nunique()),
@@ -3668,9 +3882,9 @@ def render_institution_tab(corpus_def, context, selected_slug):
                     st.code(row["video_link"], language=None)
 
     with institution_tab_internal:
-        st.subheader("Páginas internas analisadas")
+        st.subheader("Páginas analisadas")
         if selected_internal.empty:
-            st.info("Nenhuma página interna foi analisada para esta instituição.")
+            st.info("Nenhuma página complementar foi analisada para esta instituição.")
         else:
             selected_internal = selected_internal.copy()
             selected_internal["status_tecnico"] = selected_internal["status"].map(format_technical_status)
@@ -3679,7 +3893,7 @@ def render_institution_tab(corpus_def, context, selected_slug):
             internal_embedded_hits = int(pd.to_numeric(selected_internal["embedded_signals"], errors="coerce").fillna(0).sum())
 
             internal_metric_cols = st.columns(3)
-            internal_metric_cols[0].metric("Páginas analisadas", len(selected_internal))
+            internal_metric_cols[0].metric("Páginas verificadas", len(selected_internal))
             internal_metric_cols[1].metric("Links encontrados nessas páginas", internal_video_hits)
             internal_metric_cols[2].metric("Sinais embutidos nessas páginas", internal_embedded_hits)
 
@@ -3696,9 +3910,9 @@ def render_institution_tab(corpus_def, context, selected_slug):
                     ]
                 ].rename(
                     columns={
-                        "internal_page": "página interna",
-                        "status_tecnico": "status técnico",
-                        "http_code": "HTTP",
+                        "internal_page": "página analisada",
+                        "status_tecnico": "situação da verificação",
+                        "http_code": "resposta do site",
                         "video_links_found": "links de vídeo",
                         "embedded_signals": "sinais embutidos",
                         "warning": "observação",
@@ -3740,15 +3954,13 @@ def render_corpus_tab(corpus_def):
 
     if summary_df is None:
         st.info(
-            f"Nenhum relatório de {corpus_def['short_label']} foi gerado ainda. "
-            f"Execute `{corpus_def['run_script']}` primeiro."
+            f"Nenhum relatório de {corpus_def['short_label']} está disponível nesta versão do observatório."
         )
         return
 
     if summary_df.empty:
         st.warning(
-            f"O relatório de {corpus_def['short_label']} foi gerado, mas veio sem instituições. "
-            f"Revise a execução de `{corpus_def['run_script']}`."
+            f"O relatório de {corpus_def['short_label']} está disponível, mas não trouxe instituições para análise."
         )
         return
 
@@ -3765,12 +3977,11 @@ def render_corpus_tab(corpus_def):
 
     if not available_slugs:
         st.warning(
-            f"O relatório de {corpus_def['short_label']} não trouxe slugs de instituição. "
-            "Revise o CSV principal antes de abrir a interface."
+            f"O relatório de {corpus_def['short_label']} não trouxe identificadores institucionais suficientes para navegação."
         )
         return
 
-    with st.expander("Filtros e navegação do corpus", expanded=True):
+    with st.expander("Seleção do recorte", expanded=True):
         selector_cols = st.columns([1.2, 1.4, 1.2])
         segment_options = [
             SEGMENT_AVAILABLE_WITH_VIDEOS,
@@ -3814,7 +4025,7 @@ def render_corpus_tab(corpus_def):
             )
         with selector_cols[2]:
             selected_theme = st.selectbox(
-                "Tema do catálogo",
+                "Tema dos vídeos",
                 options=["Todos os temas"] + sidebar_theme_options,
                 key=f"{corpus_def['code']}-theme",
             )
@@ -3919,14 +4130,14 @@ def render_corpus_tab(corpus_def):
 
     tab_project, tab_dashboard, tab_sites, tab_videos, tab_geo, tab_data, tab_base, tab_institution = st.tabs(
         [
-            "Projeto",
-            "Painel",
-            f"Instituições com links de vídeo ({with_video})",
-            f"Catálogo curatorial de vídeos ({curatorial_video_total})",
-            "Geografia",
-            "Quadros analíticos",
-            "Base consolidada",
-            "Página da instituição",
+            "Fundamentação",
+            "Síntese",
+            f"Instituições com vídeo ({with_video})",
+            f"Vídeos e temas ({curatorial_video_total})",
+            "Territórios",
+            "Tabelas",
+            "Instituições",
+            "Ficha institucional",
         ]
     )
 
@@ -3955,10 +4166,10 @@ st.caption(
 
 protocolled_excluded_units = load_protocolled_excluded_units()
 top_level_tabs = st.tabs(
-    ["Observatório | visão geral"]
-    + [f"Categoria | {category_def['short_label']}" for category_def in CORPUS_CATEGORIES.values()]
-    + [f"{definition['short_label']} | {definition['label']}" for definition in CORPORA.values()]
-    + [f"Protocolo | {unit['unit_label']}" for unit in protocolled_excluded_units]
+    ["Visão geral"]
+    + [f"Categoria: {category_def['short_label']}" for category_def in CORPUS_CATEGORIES.values()]
+    + [f"Unidade: {definition['short_label']}" for definition in CORPORA.values()]
+    + [f"Caso documentado: {unit['unit_label']}" for unit in protocolled_excluded_units]
 )
 
 with top_level_tabs[0]:

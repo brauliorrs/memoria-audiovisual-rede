@@ -1,0 +1,53 @@
+{
+  "source": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Ciné-Archives": 48
+  },
+  "top_domains": [
+    [
+      "cinearchives.org",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Ciné-Archives",
+      "slug": "cin-archives",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CINEARCHIVES",
+      "archive_type": "Institutional film and labour movement audiovisual archive",
+      "cinearchives_detail_url": "https://www.cinearchives.org/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "partner_domain": "cinearchives.org",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "video_links_found_total": 48,
+      "embedded_video_signals_total": 20,
+      "candidate_internal_pages": 24,
+      "priority_review": false,
+      "warning": "Corpus incorporado pelo recorte público do catálogo Ciné-Archives. A listagem declara 1020 resultados em até 43 páginas; o MVP materializa 48 fichas em até 2 páginas e enriquece até 20 fichas detalhadas, sem baixar mídia e sem afirmar catálogo total.",
+      "error": ""
+    }
+  ]
+}

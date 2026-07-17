@@ -1,0 +1,5 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+eye,eye:2026-07-15T18:52:15Z,2026-07-15T18:52:15Z,,2026-07-15T18:52:15Z,2026-07-15T18:52:15Z,scripts/run_eye_pipeline.py,1,1,1,627,627,1,2,1,1,1
+eye,eye:2026-07-15T18:54:54Z,2026-07-15T18:54:54Z,,2026-07-15T18:54:54Z,2026-07-15T18:54:53Z,scripts/run_eye_pipeline.py,1,1,1,627,627,1,2,1,1,1
+eye,eye:2026-07-15T18:57:26Z,2026-07-15T18:57:26Z,,2026-07-15T18:57:26Z,2026-07-15T18:57:23Z,scripts/run_eye_pipeline.py,1,1,1,630,630,1,2,1,1,1
+eye,eye:2026-07-15T19:05:50Z,2026-07-15T19:05:50Z,,2026-07-15T19:05:50Z,2026-07-15T19:05:47Z,scripts/run_eye_pipeline.py,1,1,1,630,630,1,2,1,1,1

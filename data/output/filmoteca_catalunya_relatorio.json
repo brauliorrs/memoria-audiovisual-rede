@@ -1,0 +1,53 @@
+{
+  "source": "https://filmo.platfo.es/pages/home",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "PLATFO FILMO": 10
+  },
+  "top_domains": [
+    [
+      "filmo.platfo.es",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Filmoteca de Catalunya",
+      "slug": "filmoteca-catalunya",
+      "country": "Spain",
+      "continent": "Europe",
+      "repository_code": "ES-CT-FILMOTECA-CATALUNYA",
+      "archive_type": "Film archive with restricted institutional catalogue and public PLATFO FILMO subset",
+      "filmoteca_catalunya_detail_url": "https://www.filmoteca.cat/web/es/coleccion-filmica",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://filmo.platfo.es/pages/home",
+      "partner_domain": "filmo.platfo.es",
+      "status": "ok",
+      "http_code": "200",
+      "integrity_status": "integro",
+      "final_url": "https://galgo-filmoteca.galgo.tv/search?copyright=205985&version=2&image-format=webp&size=10000&page=1",
+      "video_links_found_total": 10,
+      "embedded_video_signals_total": 10,
+      "candidate_internal_pages": 4,
+      "priority_review": false,
+      "warning": "PLATFO materializou 10 registros públicos de metadados com titularidade Filmoteca de Catalunya. Regime de acesso observado: register. O corpus representa o recorte público PLATFO FILMO da Filmoteca de Catalunya, não a totalidade do acervo físico, nem o catálogo institucional completo, que permanece de acesso restrito/local.",
+      "error": ""
+    }
+  ]
+}

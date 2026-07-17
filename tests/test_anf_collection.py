@@ -69,7 +69,7 @@ class AnfCollectionTests(unittest.TestCase):
         self.assertIn("12 RON", record["description"])
         self.assertIn("território romeno", record["description"])
 
-    def test_eventbook_urls_are_classified_as_external_online_exhibition(self):
+    def test_eventbook_urls_are_classified_by_access_evidence(self):
         url = "https://eventbook.ro/film/bilete-cinemateca-online-aventura-fericita"
 
         self.assertEqual(classify_platform(url), "Eventbook")
@@ -79,8 +79,21 @@ class AnfCollectionTests(unittest.TestCase):
             "Plataforma externa de exibição online",
         )
         self.assertEqual(
-            classify_access_regime(["Plataforma externa de exibição online"], "Audiovisual disponível publicamente"),
-            "Acesso mediado por plataforma externa de exibição online",
+            classify_access_surface(
+                {
+                    "platform": "Eventbook",
+                    "video_link": url,
+                    "video_description": "Regime de acesso indicado: 12 RON, com compra/login.",
+                }
+            ),
+            "Streaming pago/autenticado em plataforma externa",
+        )
+        self.assertEqual(
+            classify_access_regime(
+                ["Streaming pago/autenticado em plataforma externa"],
+                "Audiovisual disponível publicamente",
+            ),
+            "Acesso pago/autenticado em plataforma externa",
         )
 
     def test_eventbook_theme_is_not_platform_noise(self):

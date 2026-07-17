@@ -2,34 +2,34 @@
   "organism": "Memória Audiovisual em Rede",
   "role": "organismo agregador mundial em construção",
   "refresh_cadence": "mensal",
-  "generated_at": "2026-06-10T17:06:17Z",
-  "started_at": "2026-06-10T16:59:25Z",
-  "finished_at": "2026-06-10T17:06:17Z",
+  "generated_at": "2026-07-16T17:46:08Z",
+  "started_at": "2026-07-16T17:38:36Z",
+  "finished_at": "2026-07-16T17:46:08Z",
   "cycle_type": "mensal",
   "cycle_scope": "parcial",
-  "active_corpora_total": 13,
+  "active_corpora_total": 48,
   "selected_corpora_total": 1,
   "selected_corpora_codes": [
-    "aqshf"
+    "filmmuseum_dusseldorf"
   ],
   "successful_corpora_total": 1,
   "failed_corpora_total": 0,
   "cycle_results": [
     {
-      "code": "aqshf",
-      "label": "Arkivi Qendror Shtetëror i Filmit / The Albanian National Film Archive",
-      "short_label": "AQSHF",
+      "code": "filmmuseum_dusseldorf",
+      "label": "Filmmuseum Düsseldorf / d:kult online",
+      "short_label": "Filmmuseum Düsseldorf",
       "category_code": "institution",
       "coverage_level": "instituição individual europeia",
       "status": "success",
-      "refresh_started_at": "2026-06-10T17:04:56Z",
-      "refresh_finished_at": "2026-06-10T17:06:17Z",
-      "snapshot_generated_at": "2026-06-10T17:06:15Z",
-      "observation_key": "aqshf:2026-06-10T17:06:14Z",
+      "refresh_started_at": "2026-07-16T17:43:25Z",
+      "refresh_finished_at": "2026-07-16T17:46:08Z",
+      "snapshot_generated_at": "2026-07-16T17:46:05Z",
+      "observation_key": "filmmuseum_dusseldorf:2026-07-16T17:46:05Z",
       "source_status_date": "",
       "institutions": 1,
-      "video_links_total": 2736,
-      "videos_in_curatorial_catalog": 2736,
+      "video_links_total": 300,
+      "videos_in_curatorial_catalog": 300,
       "error": ""
     }
   ]

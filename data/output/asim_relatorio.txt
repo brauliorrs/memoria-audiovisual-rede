@@ -1,0 +1,31 @@
+RELATORIO - ASIM MALLORCA
+============================================================
+
+Fonte: https://www.europeanfilmgateway.eu/search-efg/Arxiu%20del%20So%20i%20de%20la%20Imatge%20de%20Mallorca
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 1
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - European Film Gateway: 97
+
+Dominios parceiros mais frequentes:
+  - europeanfilmgateway.eu: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - Arxiu del So i de la Imatge de Mallorca | links_video=97 | embeds=97 | status=ok | prioridade=baixa | url=https://www.europeanfilmgateway.eu/search-efg/Arxiu%20del%20So%20i%20de%20la%20Imatge%20de%20Mallorca
+
+Instituicoes com erro ou restricao:

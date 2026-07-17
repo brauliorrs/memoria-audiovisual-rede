@@ -1,0 +1,168 @@
+{
+  "dataset": "bnt",
+  "generated_at": "2026-06-12T20:02:17Z",
+  "generated_by": "scripts/run_bnt_pipeline.py",
+  "observation_key": "bnt:2026-06-12T20:02:17Z",
+  "source_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-12T20:02:17Z",
+  "analytic_outputs_last_modified_at": "2026-06-12T20:02:17Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 45,
+    "videos_in_curatorial_catalog": 45,
+    "visibility_categories": 1,
+    "theme_categories": 5,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "bnt_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 303,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "summary": {
+      "filename": "bnt_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 972,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "video_links": {
+      "filename": "bnt_links_video.csv",
+      "exists": true,
+      "size_bytes": 79625,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "internal_pages": {
+      "filename": "bnt_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 39290,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "analytic_summary": {
+      "filename": "bnt_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1373,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "bnt_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 86576,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "availability_summary": {
+      "filename": "bnt_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "availability_reasons": {
+      "filename": "bnt_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "visibility_summary": {
+      "filename": "bnt_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "access_surface_summary": {
+      "filename": "bnt_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 72,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "access_regime_summary": {
+      "filename": "bnt_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 76,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "theme_summary": {
+      "filename": "bnt_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 192,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "theme_country": {
+      "filename": "bnt_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 242,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "archive_type_summary": {
+      "filename": "bnt_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 67,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "theme_platform": {
+      "filename": "bnt_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 238,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "theme_archive_type": {
+      "filename": "bnt_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 401,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "visibility_archive_type": {
+      "filename": "bnt_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 127,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "timeline_corpus": {
+      "filename": "bnt_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 1085,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "timeline_institutions": {
+      "filename": "bnt_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2520,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "extinction_signals": {
+      "filename": "bnt_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "snapshot_metadata": {
+      "filename": "bnt_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5162,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "report_json": {
+      "filename": "bnt_relatorio.json",
+      "exists": true,
+      "size_bytes": 1739,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "report_txt": {
+      "filename": "bnt_relatorio.txt",
+      "exists": true,
+      "size_bytes": 882,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    },
+    "report_xlsx": {
+      "filename": "bnt_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 52053,
+      "last_modified_at": "2026-06-12T20:02:17Z"
+    }
+  }
+}

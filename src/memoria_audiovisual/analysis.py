@@ -61,7 +61,6 @@ def infer_video_theme(row):
         "topic channel",
         "vevo",
         "official audio",
-        "audio recording",
         "audio guide",
         "audioguide",
         "podcast",
@@ -69,6 +68,8 @@ def infer_video_theme(row):
         "licensed to youtube",
     ]
     if text_has_any_keyword(normalized, noise_patterns):
+        return NOISE_THEME_LABEL
+    if "audio recording" in normalized and platform != "East Anglian Film Archive":
         return NOISE_THEME_LABEL
 
     if platform == "Eventbook":
@@ -89,6 +90,490 @@ def infer_video_theme(row):
         if re.search(r"\b(dokumentar\w*|documentar\w*|documentaries|newsreel\w*|kronik\w*|xhirime\w*|archive footage|archival footage|histor)\b", normalized):
             return "Documentário e registro histórico"
         return "Catálogo filmográfico e metadados de acervo"
+
+    if platform == "Arsenal Film Database":
+        return "Catálogo filmográfico e metadados de acervo"
+
+    if platform == "Eye Filmdatabase":
+        if re.search(r"\b(advertising|reclame|propaganda|commercial|industriefilm)\b", normalized):
+            return "Publicidade e cultura comercial"
+        if re.search(r"\b(newsreel|journaal|actualit|staten-generaal|koningin|war|oorlog)\b", normalized):
+            return "Cinejornal, atualidades e história pública"
+        if re.search(r"\b(experimental|experiment|avant-garde|animation|animatie)\b", normalized):
+            return "Cinema experimental e animação"
+        return "Registro audiovisual em arquivo fílmico"
+
+    if platform == "Arkaader":
+        if re.search(r"\b(newsreel|actualities|atualidades|cinejornal)\b", normalized):
+            return "Cinejornal, atualidades e história pública"
+        if re.search(r"\b(documentary|documentario|documentário|portrait|wildlife|history|historical)\b", normalized):
+            return "Documentário e registro histórico"
+        if re.search(r"\b(animated|animation|animacao|animação|puppet|hand-drawn)\b", normalized):
+            return "Animação"
+        if re.search(r"\b(feature film|fiction|drama|comedy|thriller|horror|romantic|adventure)\b", normalized):
+            return "Ficção cinematográfica"
+        if re.search(r"\b(advertising|commercial|publicidade)\b", normalized):
+            return "Publicidade e cultura comercial"
+        if re.search(r"\b(experimental|student film|short film|music video)\b", normalized):
+            return "Cinema experimental, curta e formação"
+        return "Patrimônio fílmico estoniano"
+
+    if platform == "Filmarchiv ON":
+        if "filmgeschichte osterreich" in normalized or re.search(
+            r"\b(regie|buch|kamera|mit:|spielfilm|drama|thriller|komodie|komödie|fiction|feature)\b",
+            normalized,
+        ):
+            return "Ficção cinematográfica"
+        if re.search(r"\b(wochenschau|newsreel|wm|fussball|fußball|stadion|sport|olympia)\b", normalized):
+            return "Cinejornal, atualidades e história pública"
+        if re.search(r"\b(verkehr|strassenbahn|straßenbahn|stadt|wien|dorf|bad|thermalbad|donauinsel|alltag)\b", normalized):
+            return "Cotidiano, território e memória local"
+        if re.search(r"\b(restauriert|restaurierte fassung|35-mm|nitropositiv|sammlung filmarchiv)\b", normalized):
+            return "Preservação e memória fílmica"
+        return "Patrimônio fílmico austríaco"
+
+    if platform == "d:kult online":
+        if re.search(r"\b(werbefilm|reklame|advertising|commercial|industrie|industrial|werbung)\b", normalized):
+            return "Publicidade, indústria e cultura comercial"
+        if re.search(r"\b(amateur|privat|familie|family|home movie|kirmes|schützenfest|schuetzenfest)\b", normalized):
+            return "Filme amador e memória familiar"
+        if re.search(r"\b(düsseldorf|duesseldorf|stadt|rhein|rheinbahn|verkehr|flughafen|hafen|alltag|straße|strasse)\b", normalized):
+            return "Cotidiano, território e memória urbana"
+        if re.search(r"\b(dokumentar|documentary|wochenschau|weltkrieg|krieg|hitlerjugend|geschichte|histor)\b", normalized):
+            return "Documentário, memória histórica e política"
+        if re.search(r"\b(spielfilm|fiction|drama|komödie|komodie|kurzfilm|filmgenre)\b", normalized):
+            return "Ficção cinematográfica"
+        return "Metadados audiovisuais de acervo fílmico"
+
+    if platform == "DHM Zeughauskino online":
+        if re.search(r"\b(agriculture|milk|food|harvest|school|childish|education|educational|advertising|marketing|eighty dollars)\b", normalized):
+            return "Filmes educativos e publicidade institucional"
+        if re.search(r"\b(industry|industrial|power|harbour|harbor|canal|lines|silkmakers|electric|plant|production|work|housing|construction)\b", normalized):
+            return "Reconstrução econômica, infraestrutura e trabalho"
+        if re.search(r"\b(berlin|freedom|council|democracy|free world|colonels|peace|war|post-war|reconstruction|europe)\b", normalized):
+            return "História, reconstrução e memória política"
+        return "Plano Marshall e memória audiovisual europeia"
+
+    if platform == "ECPAD Archives":
+        if re.search(r"\b(materiel|armement|canon|caesar|obusier|vehicule|aeronef|helicoptere|infrastructure|maintenance|logistique)\b", normalized):
+            return "Tecnologia, armamentos e infraestrutura militar"
+        if re.search(r"\b(entrainement|formation|exercice|instruction|parachutiste|simulation|manoeuvre|preparation)\b", normalized):
+            return "Treinamento, doutrina e vida militar"
+        if re.search(r"\b(ceremonie|commemoration|anniversaire|defile|hommage|memoire|monument|prise d armes)\b", normalized):
+            return "Memória militar, cerimônias e comemorações"
+        if re.search(r"\b(fonds cinematographique|bobine|film amateur|famille|prive|algerie|colonial|coligny|roelly)\b", normalized):
+            return "Fundos cinematográficos, memória privada e colonial"
+        if re.search(r"\b(guerre|combat|operation|opex|chammal|barkhane|afghanistan|irak|mali|kurdistan|soldat|militaire|armee|defense|patrouille)\b", normalized):
+            return "Conflitos, defesa e operações militares"
+        return "Memória audiovisual militar e institucional"
+
+    if platform == "Institut audiovisuel de Monaco":
+        if re.search(r"\b(grand prix|course automobile|automobile|sport|rallye|moto)\b", normalized):
+            return "Esporte e automobilismo"
+        if re.search(r"\b(cirque|theatre|théâtre|festival|musique|spectacle|opera|opéra|danse)\b", normalized):
+            return "Cultura, artes e espetáculos"
+        if re.search(r"\b(prince|princesse|princier|gouvernement|politique|officiel|commemoration|commémoration)\b", normalized):
+            return "Vida pública e política"
+        if re.search(r"\b(port|quartier|condamine|monaco|beausoleil|ville|urban|commerce|plage|mer|tourisme)\b", normalized):
+            return "Território, cidade e cotidiano"
+        if re.search(r"\b(film amateur|home movie|famille|familial|8 mm|super 8)\b", normalized):
+            return "Filme amador e memória familiar"
+        return "Registro audiovisual de acervo institucional"
+
+    if platform == "Autrefois Genève":
+        if re.search(r"\b(eau|assainissement|dechets|déchets|electricite|électricité|barrage|energie|énergie|incineration|incinération)\b", normalized):
+            return "Infraestrutura urbana e serviços públicos"
+        if re.search(r"\b(zone industrielle|zones industrielles|pav|territoire|transformation urbaine)\b", normalized):
+            return "Território, cidade e infraestrutura"
+        if re.search(r"\b(metier|métier|metiers|métiers|industrie|industriel|tuilier|bois|recycleur|alimentaire|production)\b", normalized):
+            return "Trabalho, indústria e ofícios"
+        return "Patrimônio audiovisual local"
+
+    if platform == "BBC Archive":
+        if re.search(r"\b(football|soccer|cricket|rugby|tennis|marathon|olympic|sport|formula|f1|racing|athlete|world cup|euro 96)\b", normalized):
+            return "Esporte e cultura física"
+        if re.search(r"\b(news|newsnight|panorama|election|government|politic|minister|mp|law|nhs|war|ww2|strike|royal|queen|king|empire|civil rights|protest|gaddafi|taliban|kosovo|ira|apartheid|ceasefire|parliament|president|mandela|lithuania|soviet|rwanda|bomb|treaty|miners|police|foot-and-mouth|fuel protest)\b", normalized):
+            return "Vida pública, política e história"
+        if re.search(r"\b(blue peter|wogan|parkinson|nationwide|breakfast|time shift|culture show|late show|on the record|roving reporter|interlude|television|radio star)\b", normalized):
+            return "Programação televisiva e memória da mídia"
+        if re.search(r"\b(computer|technology|digital|phone|virtual reality|science|innovation|space|engineering|internet|apple|facebook|instagram|google|xbox|playstation|sega|nintendo|videogame|video game|windows|microsoft|wii|asteroid|cyber|dolly|mars)\b", normalized):
+            return "Tecnologia, ciência e inovação"
+        if re.search(r"\b(music|musician|jazz|punk|rock|beatles|song|band|carnival|steel pan|calypso|orchestra|dance|bowie|oasis|simone|faithfull)\b", normalized):
+            return "Música e cultura popular"
+        if re.search(r"\b(art|artist|painting|fashion|actor|actress|film|cinema|comedy|drama|theatre|literature|writer|book|poet|acting|directing|maggie smith|cillian murphy|peaky blinders|idris elba|jk rowling|tarantino|van gogh|beetlejuice|coppola|ishiguro|faulks|pullman)\b", normalized):
+            return "Artes, cultura e entretenimento"
+        if re.search(r"\b(village|city|town|school|children|family|house|housing|work|job|library|food|transport|london|wales|scotland|england|ireland|christmas|halloween|mother|toy|holiday|santa|snow|flood|storm|railway|train|bridge|road|hair|street)\b", normalized):
+            return "Cotidiano, território e sociedade"
+        return "Registro audiovisual de acervo televisivo"
+
+    if platform == "3Cat":
+        if re.search(r"\b(arxiu|archivo|archive|descobreix l'arxiu|tvc|tv3|historia|història|memoria|memòria|digitalitzats)\b", normalized):
+            return "Memória televisiva e arquivo público"
+        if re.search(r"\b(cultura|cinema|programa|documental|informatiu|entrevista|jocs olimpics|olimpics|olímpics)\b", normalized):
+            return "Cultura, televisão e memória pública"
+        return "Arquivo audiovisual televisivo"
+
+    if platform == "Česká televize iVysílání":
+        if re.search(r"\b(zpravodajstvi|zpravy|ct24|udalosti|politika|volby|vlada|parlament|news)\b", normalized):
+            return "Vida pública, política e história"
+        if re.search(r"\b(dokument|documentary|historie|archiv|pamet|pameti|valka|war)\b", normalized):
+            return "Documentário e registro histórico"
+        if re.search(r"\b(kultura|kulturni|festival|hudba|divadlo|film|televize|umeni|arts)\b", normalized):
+            return "Cultura, artes e memória pública"
+        return "Arquivo televisivo público"
+
+    if platform == "DRTV/Gensyn":
+        if re.search(r"\b(historie|kolde krig|besættelsen|danmarkshistorien|polit|samfund|reportage)\b", normalized):
+            return "Documentário e registro histórico"
+        if re.search(r"\b(kultur|teater|tv-film|film|musik|kunst|litteratur)\b", normalized):
+            return "Cultura, artes e patrimônio audiovisual"
+        if re.search(r"\b(boern|børn|jul|underholdning|livsstil|serier)\b", normalized):
+            return "Televisão, entretenimento e memória popular"
+        return "Arquivo televisivo público"
+
+    if platform == "ERT Archive":
+        if re.search(r"\b(ntokimanter|ντοκιμαντερ|documentar|historia|ιστορ|politic|πολιτικ|guerra|πολεμ)\b", normalized):
+            return "Documentário e registro histórico"
+        if re.search(r"\b(news|noticia|notícias|δελτι|ειδησ|reportage|ρεπορταζ|επικαιρα)\b", normalized):
+            return "Cinejornal, notícias e atualidades"
+        if re.search(r"\b(musica|μουσικ|teatro|θεατρ|cultura|πολιτισ|cinema|κινηματογραφ)\b", normalized):
+            return "Cultura, artes e memória pública"
+        if re.search(r"\b(esporte|sport|αθλητ|football|ποδοσφαιρ)\b", normalized):
+            return "Esporte e cultura física"
+        return "Arquivo televisivo público"
+
+    if platform == "East Anglian Film Archive":
+        if re.search(r"\b(news|look east|current affairs|reportage|television|broadcast|anglia|bbc east)\b", normalized):
+            return "Cinejornal, notícias e atualidades"
+        if re.search(r"\b(village|town|city|street|school|family|home movie|amateur|farm|farming|coast|railway|train|river|norfolk|suffolk|essex|cambridge|east anglian)\b", normalized):
+            return "Cotidiano, território e memória regional"
+        if re.search(r"\b(documentary|documentar|history|historical|archive|local history|oral history|wartime|war|memory)\b", normalized):
+            return "Documentário, memória local e filme amador"
+        if re.search(r"\b(advert|advertising|industry|industrial|corporate|travelogue|education|educational|public information)\b", normalized):
+            return "Filmes educativos, industriais e publicidade"
+        if re.search(r"\b(drama|fiction|comedy|animation|children|children's|cartoon)\b", normalized):
+            return "Ficção cinematográfica e produção infantil"
+        return "Arquivo audiovisual regional"
+
+    if platform == "filmportal.de":
+        if re.search(r"\b(filmanfange|filmanfang|film beginning|ausschnitt|excerpt|clip)\b", normalized):
+            return "Trecho de filme e patrimônio cinematográfico"
+        if re.search(r"\b(zu gast im dff|gesprach|interview|film talk|regisseur|kameramann|editor)\b", normalized):
+            return "Entrevista, debate e memória cinematográfica"
+        if re.search(r"\b(trailer|teaser|kinostart|premiere)\b", normalized):
+            return "Trailer e divulgação cinematográfica"
+        if re.search(r"\b(dokumentarfilm|documentary|dokumentar|nationalsozialismus|krieg|war|holocaust|geschichte|history)\b", normalized):
+            return "Documentário e registro histórico"
+        return "Patrimônio cinematográfico em plataforma pública"
+
+    if platform == "Deutsche Kinemathek Selects":
+        if re.search(r"\b(documentary|documentar|everyday|rural|community|history|histor)\b", normalized):
+            return "Documentário, cotidiano e memória cultural"
+        if re.search(r"\b(queer|gay|lesbian|identity|identidade|gender|woman|women|harlem|berlin)\b", normalized):
+            return "Cinema, identidade e memória cultural"
+        if re.search(r"\b(fiction|drama|feature|film|cinema)\b", normalized):
+            return "Patrimônio cinematográfico e cinefilia"
+        return "Cinema curatorial em arquivo fílmico"
+
+    if platform == "BFI Replay":
+        if re.search(r"\b(news|newsreel|current affairs|war|world war|government|politic|campaign|public information|police|strike|election|ceremony)\b", normalized):
+            return "Vida pública, política e história"
+        if re.search(r"\b(actuality|documentary|home movie|amateur film|travelogue|interest film|cinemagazine|local|city|town|village|workers|industry|transport)\b", normalized):
+            return "Documentário, cotidiano e memória local"
+        if re.search(r"\b(drama|comedy|fiction|fantasy|horror|romance|science fiction|thriller|melodrama|western|crime|period drama)\b", normalized):
+            return "Ficção cinematográfica"
+        if re.search(r"\b(animation|animated|trick film|puppet)\b", normalized):
+            return "Animação"
+        if re.search(r"\b(advert|advertising|promotional|sponsored film|campaigning film|public information filler)\b", normalized):
+            return "Publicidade e comunicação pública"
+        if re.search(r"\b(sport|football|cricket|rugby|tennis|boxing|cycling|racing)\b", normalized):
+            return "Esporte e cultura física"
+        if re.search(r"\b(interview|q&a|lecture|discussion|archive|film history|filmmaker)\b", normalized):
+            return "Entrevista, debate e memória cinematográfica"
+        if re.search(r"\b(artists' moving image|artist|music|musical|performance|dance|video essay|asmr|online video)\b", normalized):
+            return "Artes, música e experimentação"
+        return "Registro audiovisual em arquivo fílmico"
+
+    if platform == "Ciclic Mémoire":
+        if re.search(r"\b(fiction|ficcao|ficção|drame|drama|comedie|comédie|court metrage|court métrage)\b", normalized):
+            return "Ficção cinematográfica"
+        if re.search(r"\b(film amateur|amateur|home movie|famille|familial|super 8|8 mm|16 mm)\b", normalized):
+            return "Filme amador e memória local"
+        if re.search(r"\b(documentaire|documentary|archives|patrimoine|village|ville|ceremonie|cérémonie|fete|fête|inondation|travail|ecole|école|marche|marché)\b", normalized):
+            return "Documentário, cotidiano e memória local"
+        return "Arquivo audiovisual regional"
+
+    if platform == "CINÉAM":
+        if re.search(r"\b(famille|familial|anniversaire|enfant|appartement|repas|vacances|super 8|8 mm|film amateur)\b", normalized):
+            return "Filme amador e memória familiar"
+        if re.search(r"\b(agricole|tracteur|travail|atelier|moulin|fete|fête|foire|carnaval|sport|loisir|kermesse|ecole|école|danse|theatre|théâtre|defile|défilé|piscine|karting|musique)\b", normalized):
+            return "Documentário, cotidiano e memória local"
+        if re.search(r"\b(grands ensembles|ville|quartier|pavillon|seine|transport|aerotrain|aérotrain|ile-de-france|île-de-france|paris|pont|construction|ouvrage|auteuil|garigliano)\b", normalized):
+            return "Território, cidade e memória local"
+        return "Arquivo audiovisual regional"
+
+    if platform == "Cinémémoire":
+        if re.search(r"\b(famille|familial|repas|mariage|enfant|vacances|super 8|8 mm|9,5 mm|film amateur|film de famille)\b", normalized):
+            return "Filme amador e memória familiar"
+        if re.search(r"\b(marseille|provence|paca|bouches-du-rhone|bouches-du-rhône|nice|bandol|port|ville|quartier|campagne)\b", normalized):
+            return "Território, cidade e memória local"
+        if re.search(r"\b(colonial|post-colonial|colonie|algérie|algerie|madagascar|indochine|afrique|centrafrique|ou bangui|oubangui)\b", normalized):
+            return "História colonial, pós-colonial e memória filmada"
+        if re.search(r"\b(carnaval|fete|fête|travail|danse|musique|sport|piscine|marché|ceremonie|cérémonie)\b", normalized):
+            return "Documentário, cotidiano e memória local"
+        return "Arquivo audiovisual regional"
+
+    if platform == "Ciné-Archives":
+        if re.search(r"\b(pcf|communiste|communist|parti|front populaire|l[eé]nine|cgt|syndicat|gr[eè]ve|manifestation|militant|ouvrier|travailleur|antifasc|fasciste|guerre|paix|salazar)\b", normalized):
+            return "Vida pública, política e história"
+        if re.search(r"\b(usine|industrie|industriel|m[eé]tallo|fonderie|travail|coop[eé]rative|agricole|paysan|mineur)\b", normalized):
+            return "Trabalho, indústria e movimento operário"
+        if re.search(r"\b(banlieue|ville|municipalit[eé]|quartier|ivry|colombes|paris|territoire|logement)\b", normalized):
+            return "Território, cidade e memória local"
+        if re.search(r"\b(documentaire|documentary|reportage|actualit[eé]s|archives|reflets|journal)\b", normalized):
+            return "Documentário e registro histórico"
+        if re.search(r"\b(muet|film 35 mm|film 16 mm|cin[eé]ma|m[eé]li[eè]s|renoir|fiction|drame|com[eé]die)\b", normalized):
+            return "Patrimônio cinematográfico e cinefilia"
+        return "Arquivo audiovisual do movimento operário"
+
+    if platform == "Cinémathèque de Bretagne":
+        if re.search(r"\b(bretagne|breton|bretonne|brest|rennes|nantes|quimper|douarnenez|finist[eè]re|loire-atlantique|morbihan|c[ôo]tes-d[' ]armor)\b", normalized):
+            return "Território, cidade e memória local"
+        if re.search(r"\b(film amateur|amateur|famille|familial|scolaire|coll[eè]ge|super 8|8 mm|16 mm)\b", normalized):
+            return "Filme amador e memória local"
+        if re.search(r"\b(p[eê]che|mar[eé]e|mer|maritime|port|bateau|agriculture|agricole|travail|ouvrier|m[eé]tier)\b", normalized):
+            return "Trabalho, território e cultura marítima"
+        if re.search(r"\b(entretien|t[eé]moignage|m[eé]moire|cin[eé]math[eè]que|archives|patrimoine|anniversaire)\b", normalized):
+            return "Memória institucional e patrimonial"
+        return "Arquivo audiovisual regional"
+
+    if platform == "HENRI":
+        if re.search(r"\b(langlois|cin[eé]math[eè]que|will day|origines|muet|silencieux|incunable|avant-garde|m[eé]li[eè]s|patrimoine|restauration)\b", normalized):
+            return "Patrimônio cinematográfico e cinefilia"
+        if re.search(r"\b(exp[eé]rimental|animation|essai|documentaire|rare|collection|archives)\b", normalized):
+            return "Cinema experimental, documental e arquivos raros"
+        return "Patrimônio cinematográfico e cinefilia"
+
+    if platform == "CINEMATEK@HOME":
+        if re.search(r"\b(jeanne dielman|akerman|storck|dekeukeleire|belgian|belgique|brussels|bruxelles|cinematek|avila|sooner)\b", normalized):
+            return "Patrimônio cinematográfico e cinefilia"
+        return "Patrimônio cinematográfico e cinefilia"
+
+    if platform == "Cinémathèque des Pays de Savoie et de l'Ain":
+        if re.search(r"\b(savoie|ain|annecy|alpes|montagne|mont-blanc|chamonix|courchevel|ski|neige|lac|haute-savoie)\b", normalized):
+            return "Território, cidade e memória local"
+        if re.search(r"\b(film amateur|amateur|famille|familial|super 8|8 mm|9,5 mm|16 mm|muet)\b", normalized):
+            return "Filme amador e memória local"
+        if re.search(r"\b(tourisme|sport|fête|ruralité|agriculture|vie quotidienne|paysage|industrie|urbanisme)\b", normalized):
+            return "Documentário, cotidiano e memória local"
+        if re.search(r"\b(archives|patrimoine|cinémathèque|mémoire|collection|fonds)\b", normalized):
+            return "Patrimônio cinematográfico regional"
+        return "Arquivo audiovisual regional"
+
+    if platform == "Cinémathèque de Saint-Étienne":
+        if re.search(r"\b(saint-[ée]tienne|st[ -][ée]tienne|loire|mine|mineur|industri|couriot|chavanelle|cin[eé]-journal|ville|quartier)\b", normalized):
+            return "Território, cidade e memória local"
+        if re.search(r"\b(film amateur|amateur|famille|familial|scolaire|[ée]ducateur|office du cin[eé]ma|muet|16 mm|35 mm)\b", normalized):
+            return "Filme amador e memória local"
+        if re.search(r"\b(documentaire|archives|patrimoine|cin[eé]math[eè]que|r[eé]gional)\b", normalized):
+            return "Patrimônio cinematográfico regional"
+        return "Arquivo audiovisual regional"
+
+    if platform == "Cinémathèque de Nouvelle-Aquitaine":
+        if re.search(r"\b(nouvelle-aquitaine|limoges|bordeaux|charente|limousin|aquitaine|poitou|la rochelle|angoul[eê]me)\b", normalized):
+            return "Território, cidade e memória local"
+        if re.search(r"\b(film amateur|amateur|famille|familial|super 8|8 mm|16 mm|m[eé]moire collective)\b", normalized):
+            return "Filme amador e memória local"
+        if re.search(r"\b(village|ville|march[eé]|f[eê]te|travail|artisanat|agricole|quotidien|sc[eè]nes|portrait|pratiques culturelles)\b", normalized):
+            return "Documentário, cotidiano e memória local"
+        if re.search(r"\b(documentaire|archives|patrimoine|cin[eé]math[eè]que|filmique|r[eé]gional)\b", normalized):
+            return "Patrimônio cinematográfico regional"
+        return "Arquivo audiovisual regional"
+
+    if platform == "CNAsearch":
+        cna_primary = normalize_for_matching(
+            " ".join([normalize_optional_text(row.get("video_title")), normalize_optional_text(row.get("video_subject"))])
+        )
+        if re.search(r"\b(tour du luxembourg|sport|cyclisme|football)\b", cna_primary):
+            return "Esporte e cultura física"
+        if re.search(
+            r"\b(industrie|industriel|sid[eé]rurgie|travail|centrale|hydro[eé]lectrique|electricite|energie hydraulique|aeroport|port|mertert|acier|usine|arbed|transports|ferroviaires|navigation interieure|laiterie|lait|brasserie|viticulture|fabrication|construction|turbines|pompage)\b",
+            cna_primary,
+        ):
+            return "Trabalho, indústria e infraestrutura"
+        if re.search(r"\b(telediffusion|rtl|archives rtl|emission|television)\b", cna_primary):
+            return "Programação televisiva e memória da mídia"
+        if re.search(
+            r"\b(roi|reine|grand-duc|grande-duchesse|visite officielle|politique|ministre|gouvernement|monument|nation|liberte|croix rouge|guerre mondiale|mariages royaux)\b",
+            cna_primary,
+        ):
+            return "Vida pública, política e história"
+        if re.search(
+            r"\b(ville|dudelange|esch-sur-alzette|paysage|tourisme|touristique|randonnee|camping|promenade|chateau|foret|patrimoine|mullerthal|moselle|vianden)\b",
+            cna_primary,
+        ):
+            return "Território, cidade e memória nacional"
+        if re.search(r"\b(documentaire|documentary|court metrage|reportage)\b", cna_primary):
+            return "Documentário e registro histórico"
+        return "Catálogo audiovisual nacional"
+
+    if platform == "Archivio Luce":
+        if re.search(r"\b(cinegiornal|giornale luce|settimana incom|attualita|attualit[aà]|newsreel)\b", normalized):
+            return "Cinejornal e atualidades"
+        if re.search(r"\b(duce|mussolini|militar|guerra|stato|italia|roma|governo|ministero)\b", normalized):
+            return "Vida pública, política e história"
+        if re.search(r"\b(sport|calcio|pugil|boxe|olimpi|gara|corse)\b", normalized):
+            return "Esporte e cultura física"
+        if re.search(r"\b(scolastica|didattic|scientific|natura|api|farfalle|pianta|agricoltura|frutticoltura)\b", normalized):
+            return "Educação, ciência e natureza"
+        if re.search(r"\b(turismo|paesagg|territor|citta|città|luoghi|bruges|parigi|venezia|napoli)\b", normalized):
+            return "Território, cidade e patrimônio"
+        if re.search(r"\b(commedia|dramma|fiction|lungometraggio|cinema muto|lumi[eè]re|storia del cinema)\b", normalized):
+            return "Ficção cinematográfica"
+        if re.search(r"\b(documentar|documenta|repertor|propaganda|patrimonio|storico|edizione)\b", normalized):
+            return "Documentário e registro histórico"
+        return "Registro audiovisual em arquivo fílmico"
+
+    if platform in {"Cinemateca Digital", "Vimeo"} and "cinemateca digital" in normalized:
+        cinema_text = normalize_for_matching(
+            " ".join([normalize_optional_text(row.get("video_title")), normalize_optional_text(row.get("video_description"))])
+        )
+        if re.search(r"\b(jornal cinematografico|cinejornal|atualidades|actualidades)\b", cinema_text):
+            return "Cinejornal e atualidades"
+        if re.search(r"\b(salazar|guerra|militar|trabalhadores|republica|presidente|angola|justica|socorro social|homenagem|duarte pacheco)\b", cinema_text):
+            return "Vida pública, política e história"
+        if re.search(r"\b(cidade|lisboa|porto|figueira|alter do chao|alter do chão|paisagem|territorio|território|jardim|aldeia|estacoes|estações)\b", cinema_text):
+            return "Território, cidade e patrimônio"
+        if re.search(r"\b(futebol|natacao|natação|esgrima|clube|campeonato|jogos desportivos)\b", cinema_text):
+            return "Esporte e cultura física"
+        if re.search(r"\b(documentario|documentário|nao-ficcao|não-ficção|não ficção|nao ficcao)\b", cinema_text):
+            return "Documentário e registro histórico"
+        if re.search(r"\b(ficcao|ficção|comedia|comédia|drama|enredo)\b", cinema_text):
+            return "Ficção cinematográfica"
+        return "Registro audiovisual em cinemateca digital"
+
+    if platform == "Vimeo" and "filmoteka.eus" in normalized:
+        if re.search(r"\b(ciclismo|bicicleta|ciclista|tour|vuelta|criterium|gran premio|campeonato)\b", normalized):
+            return "Esporte e cultura física"
+        if re.search(r"\b(guerra civil|guernika|gernika|frente|asturias|aguirre|elai-alai)\b", normalized):
+            return "Guerra, memória política e história"
+        if re.search(r"\b(restauracion|restauraci[oó]n|restaurada|restauran|conservacion|preservacion)\b", normalized):
+            return "Preservação e conservação"
+        if re.search(r"\b(gotzon elortza|aberria|erria|matxitxakora|cinema vasco|euskal)\b", normalized):
+            return "Cinema basco e memória cultural"
+        if re.search(r"\b(fiesta|fiestas|semana santa|boda|playa|san fermin|sociedad|fronton|front[oó]n|bilbao|donostia|san sebastian|pamplona|irunea|getaria|hernani|anorga|a[nñ]orga|mondragon|elorrio|azkoitia)\b", normalized):
+            return "Cotidiano, território e memória local"
+        return "Patrimônio cinematográfico regional"
+
+    if "Restauraciones Filmoteca Valenciana" in platform:
+        valenciana_primary = normalize_for_matching(
+            " ".join([normalize_optional_text(row.get("video_title")), normalize_optional_text(row.get("video_subject"))])
+        )
+        if re.search(r"\b(familiar|domestico|dom[eé]stico|familia|home movie|peliculas domesticas|pel[ií]culas dom[eé]sticas)\b", valenciana_primary):
+            return "Cinema doméstico e memória familiar"
+        if re.search(r"\b(fallas|falles|fiesta|fiestas|festes|fogueres|feria|moros y cristianos|corpus|burriana|j[aá]tiva|xativa|sax)\b", valenciana_primary):
+            return "Festas, cultura popular e memória local"
+        if re.search(r"\b(guerra|fascismo|revoluci[oó]n|revolucion|retaguardia|attlee|internacional|berl[ií]n|worowski)\b", valenciana_primary):
+            return "Vida pública, política e história"
+        if re.search(r"\b(ferrocarril|f[aá]brica|industria|seda|arroz|naranjo|fumigaci[oó]n|trilla|muebles|agricultura|cultivo)\b", valenciana_primary):
+            return "Trabalho, indústria e território"
+        if re.search(r"\b(ficci[oó]n|ficcao|comedia|drama|monje|don juan|sangre y arena|pasionaria|alma torturada|reina joven|barrera)\b", valenciana_primary):
+            return "Ficção cinematográfica"
+        if re.search(r"\b(no ficci[oó]n|nao ficcao|documental|reportaje|actualidad|noticiario|cine valenciano|cine espanol|cine extranjero)\b", valenciana_primary):
+            return "Documentário e registro histórico"
+        return "Patrimônio cinematográfico restaurado"
+
+    if platform == "BNT.bg":
+        if text_has_any_keyword(normalized, ["европеиски маршрути", "европейски маршрути"]):
+            return "História, memória e patrimônio"
+        if text_has_any_keyword(normalized, ["ръкопис", "ркопис", "rakopis"]):
+            return "Cultura, música e artes"
+        if text_has_any_keyword(normalized, ["неделни нюанси"]):
+            return "Cotidiano, saúde e território"
+        if text_has_any_keyword(normalized, ["раздвижи"]):
+            return "Esporte e cultura física"
+        if text_has_any_keyword(
+            normalized,
+            ["спорт", "олимпи", "футбол", "баскетбол", "рио", "fifa", "sport", "football", "basketball"],
+        ):
+            return "Esporte e cultura física"
+        if text_has_any_keyword(
+            normalized,
+            ["новин", "полит", "избор", "общество", "пандемия", "държав", "бнт на 60", "по света и у нас", "news"],
+        ):
+            return "Vida pública, política e história"
+        if text_has_any_keyword(
+            normalized,
+            [
+                "история",
+                "историческ",
+                "документ",
+                "ленти",
+                "паисии",
+                "илинден",
+                "свободна",
+                "поколения",
+                "европеиски маршрути",
+                "европейски маршрути",
+                "memory",
+            ],
+        ):
+            return "História, memória e patrimônio"
+        if text_has_any_keyword(
+            normalized,
+            ["култур", "музик", "рок", "ръкопис", "литерат", "щастливеца", "валентин", "топ 40", "срещи", "culture", "music"],
+        ):
+            return "Cultura, música e artes"
+        if text_has_any_keyword(
+            normalized,
+            ["училище", "матура", "наука", "образован", "бизнес", "иноватив", "децата", "education", "science"],
+        ):
+            return "Educação, ciência e formação"
+        if text_has_any_keyword(
+            normalized,
+            ["здраве", "село", "храна", "вкус", "крачки", "конете", "рецепта", "territory", "health", "food"],
+        ):
+            return "Cotidiano, saúde e território"
+        return "Registro audiovisual televisivo público"
+
+    if platform == "European Film Gateway":
+        if re.search(r"\b(newsreel|actuality)\b", normalized):
+            return "Cinejornal e atualidades"
+        if re.search(r"\b(documentary|documentario|documentário|documental)\b", normalized):
+            return "Documentário e registro histórico"
+        if re.search(r"\b(amateur film|home movie|family film|filme amador|famil)\b", normalized):
+            return "Filme amador e memória familiar"
+        if re.search(r"\b(fiction|ficcao|ficção|drama|comedy|feature film)\b", normalized):
+            return "Ficção cinematográfica"
+        if re.search(r"\b(animation|animacion|animação|animated)\b", normalized):
+            return "Animação"
+        return "Registro audiovisual em catálogo"
+
+    if platform == "Memobase LOD API":
+        if re.search(r"\b(cine-journal|cinejornal|newsreel|actuality)\b", normalized):
+            return "Cinejornal e atualidades"
+        if re.search(r"\b(documentary|documentaire|documentario|documentário|documental)\b", normalized):
+            return "Documentário e registro histórico"
+        if re.search(r"\b(fiction|spielfilm|long métrage|feature film|drama|comedy)\b", normalized):
+            return "Ficção cinematográfica"
+        if re.search(r"\b(animation|animacion|animação|animated)\b", normalized):
+            return "Animação"
+        return "Registro audiovisual em catálogo"
+
+    if platform == "PLATFO FILMO":
+        if re.search(r"\b(noticiario|prensa|censura|diario|altoparlante|propaganda|informativo)\b", normalized):
+            return "Mídia, censura e esfera pública"
+        if re.search(r"\b(sera tu tierra|largo viaje hacia la ira|migracion|inmigracion|exodo rural|ciudad de acogida|urbanismo|somorrostro|desarraigo|viviendas sociales)\b", normalized):
+            return "Migração, cidade e memória social"
+        if re.search(r"\b(campo para el hombre|vida rural|campesin|reforma agraria|campo espanol|campo gallego|campo andaluz|sector agricola)\b", normalized):
+            return "Trabalho, campo e território"
+        if re.search(r"\b(huelga|movimiento obrero|trabajador|trabajadores|lucha obrera|fabrica|policia|manifestaci|dictadura|franquismo|franco|politica|spagna)\b", normalized):
+            return "Memória política, trabalho e conflito social"
+        if re.search(r"\b(ficcion|comedia|experimental|ensayo cinematografico|cortometraje experimental)\b", normalized):
+            return "Ficção, ensaio e cinema experimental"
+        if re.search(r"\b(documental|reportaje|no ficcion)\b", normalized):
+            return "Documentário social e registro histórico"
+        return "Patrimônio cinematográfico em plataforma PLATFO"
 
     theme_rules = [
         (
@@ -432,6 +917,7 @@ def infer_video_theme(row):
 
 def classify_access_surface(row):
     platform = normalize_optional_text(row.get("platform"))
+    platform_lower = platform.lower()
     video_link = normalize_optional_text(row.get("video_link")).lower()
     video_description = normalize_optional_text(row.get("video_description")).lower()
 
@@ -447,16 +933,100 @@ def classify_access_surface(row):
         return "Agregador cultural europeu com recorte audiovisual"
     if platform == "American Archive of Public Broadcasting":
         return "acesso em agregador audiovisual"
+    if platform == "Eventbook" and (
+        "compra/login" in video_description
+        or "regime de acesso indicado" in video_description
+        or re.search(r"\b\d+\s*(ron|eur|usd|brl)\b", video_description)
+    ):
+        return "Streaming pago/autenticado em plataforma externa"
     if platform == "Eventbook":
         return "Plataforma externa de exibição online"
     if platform == "AQSHF":
         return "Catálogo descritivo audiovisual institucional"
+    if platform == "Arsenal Film Database":
+        return "Catálogo descritivo audiovisual institucional"
+    if platform == "Eye Filmdatabase":
+        return "Arquivo audiovisual institucional"
+    if platform == "Arkaader":
+        if "pago" in video_description or "ingresso" in video_description:
+            return "Streaming institucional com acesso pago ou por ingresso"
+        if "georrestrição" in video_description:
+            return "Streaming institucional com restrição territorial"
+        return "Streaming audiovisual institucional público"
+    if platform == "Filmarchiv ON":
+        return "Streaming audiovisual institucional público"
+    if platform == "d:kult online":
+        return "Metadados audiovisuais públicos com mídia local/autorizada"
+    if platform == "PLATFO FILMO":
+        return "Streaming com login/cadastro obrigatório"
+    if platform == "Institut audiovisuel de Monaco":
+        return "Arquivo audiovisual institucional"
+    if platform == "Autrefois Genève":
+        return "Arquivo audiovisual institucional"
+    if platform == "BBC Archive":
+        return "Arquivo televisivo público curado"
+    if platform == "3Cat":
+        return "Arquivo televisivo público em plataforma 3Cat"
+    if platform == "Česká televize iVysílání":
+        return "Arquivo televisivo público em iVysílání"
+    if platform == "filmportal.de":
+        return "Arquivo cinematográfico público em filmportal.de"
+    if platform == "DHM Zeughauskino online":
+        return "Catálogo descritivo audiovisual institucional"
+    if platform == "ECPAD Archives":
+        if "visual_online=false" in video_description:
+            return "Metadados audiovisuais públicos com mídia local/autorizada"
+        return "Arquivo audiovisual institucional"
+    if platform == "Deutsche Kinemathek Selects":
+        return "Streaming curatorial institucional"
+    if platform == "DRTV/Gensyn":
+        if "login/cadastro" in video_description or "oferta não livre" in video_description:
+            return "Streaming com login/cadastro obrigatório"
+        return "Arquivo televisivo público em DRTV/Gensyn"
+    if platform == "ERT Archive":
+        return "Arquivo televisivo público em site institucional"
+    if platform == "East Anglian Film Archive":
+        return "Arquivo audiovisual regional em catálogo institucional"
+    if platform == "BFI Replay":
+        return "Arquivo audiovisual público curado"
+    if platform == "BNT.bg":
+        return "Arquivo televisivo público em site institucional"
     if platform == "AAMOD":
         return "Arquivo audiovisual institucional"
     if platform == "VAC":
         return "Catálogo arquivístico audiovisual institucional"
     if platform == "Archipop":
         return "Arquivo audiovisual institucional"
+    if platform == "Ciclic Mémoire":
+        return "Arquivo audiovisual institucional"
+    if platform == "CINÉAM":
+        return "Arquivo audiovisual institucional"
+    if platform == "Cinémémoire":
+        return "Arquivo audiovisual institucional"
+    if platform == "Ciné-Archives":
+        return "Arquivo audiovisual institucional"
+    if platform == "Cinémathèque de Bretagne":
+        return "Arquivo audiovisual institucional"
+    if platform == "HENRI":
+        return "Arquivo audiovisual institucional"
+    if platform == "CINEMATEK@HOME":
+        return "Streaming pago/autenticado em plataforma externa"
+    if platform == "Memobase LOD API":
+        return "Metadados audiovisuais públicos com mídia local/autorizada"
+    if platform == "Cinémathèque des Pays de Savoie et de l'Ain":
+        return "Arquivo audiovisual institucional"
+    if platform == "Cinémathèque de Saint-Étienne":
+        return "Arquivo audiovisual institucional"
+    if platform == "Cinémathèque de Nouvelle-Aquitaine":
+        return "Arquivo audiovisual institucional"
+    if platform == "CNAsearch":
+        return "Arquivo audiovisual institucional"
+    if platform == "Archivio Luce":
+        return "Arquivo audiovisual institucional"
+    if platform == "Cinemateca Digital":
+        return "Cinemateca digital institucional"
+    if platform == "Vimeo" and "cinemateca" in video_link:
+        return "Player externo incorporado em cinemateca digital"
     if platform in {"PARES", "Portal Português de Arquivos"}:
         if "objeto digital detectado" in video_description:
             return "Objeto digital em agregador arquivístico nacional"
@@ -465,7 +1035,7 @@ def classify_access_surface(row):
         return "Agregador arquivístico nacional"
     if platform == "Vimeo" and "ina.fr" in video_link:
         return "Vídeo institucional incorporado"
-    if platform in {"YouTube", "Vimeo", "Dailymotion", "Facebook", "Instagram"}:
+    if platform in {"YouTube", "Vimeo", "Dailymotion", "Facebook", "Instagram"} or "vimeo" in platform_lower:
         return "Plataforma externa de vídeo"
     if platform in {"Internet Archive", "JW Player", "Brightcove"}:
         return "Plataforma externa especializada"
@@ -492,6 +1062,7 @@ def classify_access_regime(modalities, audiovisual_visibility):
         modality = unique_modalities[0]
         single_mode_map = {
             "Streaming curatorial": "Acesso aberto em streaming",
+            "Streaming curatorial institucional": "Acesso aberto em streaming institucional",
             "Catálogo comercial de licenciamento": "Acesso comercial/licenciamento",
             "Vídeo institucional incorporado": "Acesso institucional incorporado",
             "Agregador audiovisual europeu": "Acesso por agregador audiovisual europeu",
@@ -499,9 +1070,24 @@ def classify_access_regime(modalities, audiovisual_visibility):
             "Agregador cultural europeu com recorte audiovisual": "Acesso por agregador cultural europeu com recorte audiovisual",
             "Agregador arquivístico nacional": "Acesso por agregador arquivístico nacional",
             "Plataforma externa de exibição online": "Acesso mediado por plataforma externa de exibição online",
+            "Streaming pago/autenticado em plataforma externa": "Acesso pago/autenticado em plataforma externa",
+            "Streaming com login/cadastro obrigatório": "Acesso autenticado em plataforma televisiva pública",
+            "Streaming audiovisual institucional público": "Acesso aberto em streaming audiovisual institucional",
+            "Streaming institucional com acesso pago ou por ingresso": "Acesso pago em streaming audiovisual institucional",
+            "Streaming institucional com restrição territorial": "Acesso georrestrito em streaming audiovisual institucional",
+            "Metadados audiovisuais públicos com mídia local/autorizada": "Acesso restrito/local por autorização institucional",
+            "Catálogo descritivo audiovisual institucional": "Acesso descritivo por catálogo audiovisual institucional",
             "Catálogo arquivístico audiovisual institucional": "Acesso descritivo por catálogo institucional",
             "Objeto digital em agregador arquivístico nacional": "Acesso a objeto digital em agregador arquivístico nacional",
             "Registro descritivo em agregador arquivístico nacional": "Acesso descritivo por agregador arquivístico nacional",
+            "Arquivo audiovisual institucional": "Acesso aberto em arquivo audiovisual institucional",
+            "Arquivo audiovisual regional em catálogo institucional": "Acesso aberto em arquivo audiovisual regional",
+            "Arquivo televisivo público curado": "Acesso aberto em arquivo televisivo público curado",
+            "Arquivo televisivo público em iVysílání": "Acesso aberto em plataforma pública de televisão",
+            "Arquivo cinematográfico público em filmportal.de": "Acesso aberto em plataforma pública de filmografia e vídeo",
+            "Arquivo televisivo público em DRTV/Gensyn": "Acesso aberto em plataforma pública de televisão",
+            "Arquivo audiovisual público curado": "Acesso aberto em arquivo audiovisual público curado",
+            "Arquivo televisivo público em site institucional": "Acesso aberto em site institucional de televisão pública",
             "Plataforma externa de vídeo": "Acesso por plataforma externa",
             "Plataforma externa especializada": "Acesso por plataforma externa especializada",
             "Outra superfície de acesso": "Outra forma pública de acesso",
@@ -510,8 +1096,19 @@ def classify_access_regime(modalities, audiovisual_visibility):
 
     institutional_modalities = {
         "Streaming curatorial",
+        "Streaming curatorial institucional",
+        "Streaming audiovisual institucional público",
         "Vídeo institucional incorporado",
+        "Catálogo descritivo audiovisual institucional",
         "Catálogo arquivístico audiovisual institucional",
+        "Arquivo audiovisual institucional",
+        "Arquivo audiovisual regional em catálogo institucional",
+        "Arquivo televisivo público curado",
+        "Arquivo televisivo público em iVysílání",
+        "Arquivo cinematográfico público em filmportal.de",
+        "Arquivo televisivo público em DRTV/Gensyn",
+        "Arquivo audiovisual público curado",
+        "Arquivo televisivo público em site institucional",
     }
     european_av_aggregator_modalities = {
         "Agregador audiovisual europeu",
@@ -525,9 +1122,18 @@ def classify_access_regime(modalities, audiovisual_visibility):
     }
     aggregator_modalities = european_av_aggregator_modalities | national_archival_aggregator_modalities
     commercial_modalities = {"Catálogo comercial de licenciamento"}
+    institutional_restricted_modalities = {
+        "Streaming institucional com acesso pago ou por ingresso",
+        "Streaming institucional com restrição territorial",
+    }
     external_modalities = {
         "Plataforma externa de vídeo",
         "Plataforma externa de exibição online",
+        "Streaming pago/autenticado em plataforma externa",
+        "Streaming com login/cadastro obrigatório",
+        "Streaming institucional com acesso pago ou por ingresso",
+        "Streaming institucional com restrição territorial",
+        "Metadados audiovisuais públicos com mídia local/autorizada",
         "Plataforma externa especializada",
         "Outra superfície de acesso",
     }
@@ -551,6 +1157,8 @@ def classify_access_regime(modalities, audiovisual_visibility):
         return "Acesso misto com agregador audiovisual europeu"
     if has_institutional and has_commercial and not has_external:
         return "Acesso misto entre difusão pública e licenciamento"
+    if unique_set and unique_set <= (institutional_modalities | institutional_restricted_modalities):
+        return "Acesso misto institucional aberto/restrito"
     if has_institutional and has_external:
         return "Acesso misto entre superfícies institucionais e plataformas externas"
     if has_commercial and has_external and not has_institutional:

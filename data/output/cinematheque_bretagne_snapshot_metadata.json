@@ -1,0 +1,168 @@
+{
+  "dataset": "cinematheque_bretagne",
+  "generated_at": "2026-06-19T17:33:10Z",
+  "generated_by": "scripts/run_cinematheque_bretagne_pipeline.py",
+  "observation_key": "cinematheque_bretagne:2026-06-19T17:33:10Z",
+  "source_url": "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-0.html",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-19T17:33:10Z",
+  "analytic_outputs_last_modified_at": "2026-06-19T17:33:10Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 30,
+    "videos_in_curatorial_catalog": 30,
+    "visibility_categories": 1,
+    "theme_categories": 1,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "cinematheque_bretagne_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 412,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "summary": {
+      "filename": "cinematheque_bretagne_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1083,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "video_links": {
+      "filename": "cinematheque_bretagne_links_video.csv",
+      "exists": true,
+      "size_bytes": 23473,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "internal_pages": {
+      "filename": "cinematheque_bretagne_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 10898,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "analytic_summary": {
+      "filename": "cinematheque_bretagne_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1460,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "cinematheque_bretagne_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 27744,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "availability_summary": {
+      "filename": "cinematheque_bretagne_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "availability_reasons": {
+      "filename": "cinematheque_bretagne_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "visibility_summary": {
+      "filename": "cinematheque_bretagne_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "access_surface_summary": {
+      "filename": "cinematheque_bretagne_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 56,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "access_regime_summary": {
+      "filename": "cinematheque_bretagne_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "theme_summary": {
+      "filename": "cinematheque_bretagne_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 55,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "theme_country": {
+      "filename": "cinematheque_bretagne_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 67,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "archive_type_summary": {
+      "filename": "cinematheque_bretagne_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 75,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "theme_platform": {
+      "filename": "cinematheque_bretagne_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 93,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "theme_archive_type": {
+      "filename": "cinematheque_bretagne_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 120,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "visibility_archive_type": {
+      "filename": "cinematheque_bretagne_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 135,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "timeline_corpus": {
+      "filename": "cinematheque_bretagne_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 1553,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "timeline_institutions": {
+      "filename": "cinematheque_bretagne_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 3802,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "extinction_signals": {
+      "filename": "cinematheque_bretagne_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "snapshot_metadata": {
+      "filename": "cinematheque_bretagne_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5677,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "report_json": {
+      "filename": "cinematheque_bretagne_relatorio.json",
+      "exists": true,
+      "size_bytes": 1918,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "report_txt": {
+      "filename": "cinematheque_bretagne_relatorio.txt",
+      "exists": true,
+      "size_bytes": 975,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    },
+    "report_xlsx": {
+      "filename": "cinematheque_bretagne_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 29576,
+      "last_modified_at": "2026-06-19T17:33:10Z"
+    }
+  }
+}

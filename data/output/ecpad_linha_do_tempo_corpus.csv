@@ -1,0 +1,7 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+ecpad,ecpad:2026-07-13T19:32:04Z,2026-07-13T19:32:04Z,,2026-07-13T19:32:04Z,2026-07-13T19:32:03Z,scripts/run_ecpad_pipeline.py,1,1,1,10,10,1,3,1,1,1
+ecpad,ecpad:2026-07-14T17:11:04Z,2026-07-14T17:11:04Z,,2026-07-14T17:11:04Z,2026-07-14T17:11:04Z,scripts/run_ecpad_pipeline.py,1,1,1,10,10,1,3,1,1,1
+ecpad,ecpad:2026-07-14T17:43:22Z,2026-07-14T17:43:22Z,,2026-07-14T17:43:22Z,2026-07-14T17:43:22Z,scripts/run_ecpad_pipeline.py,1,1,1,10,10,1,1,1,1,1
+ecpad,ecpad:2026-07-14T17:52:52Z,2026-07-14T17:52:54Z,,2026-07-14T17:52:52Z,2026-07-14T17:52:26Z,scripts/run_ecpad_pipeline.py,1,1,1,36029,36029,1,1,1,1,1
+ecpad,ecpad:2026-07-14T18:15:47Z,2026-07-14T18:15:50Z,,2026-07-14T18:15:47Z,2026-07-14T18:15:21Z,scripts/run_ecpad_pipeline.py,1,1,1,36301,36301,1,1,1,1,1
+ecpad,ecpad:2026-07-14T18:37:25Z,2026-07-14T18:37:42Z,,2026-07-14T18:37:25Z,2026-07-14T18:36:47Z,scripts/run_ecpad_pipeline.py,1,1,1,36026,36026,1,6,1,1,1

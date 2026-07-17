@@ -1,0 +1,3 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+ccma,ccma:2026-07-07T13:14:44Z,2026-07-07T13:14:44Z,,2026-07-07T13:14:44Z,2026-07-07T13:14:43Z,scripts/run_ccma_pipeline.py,1,1,1,16,16,1,1,1,1,1
+ccma,ccma:2026-07-07T13:15:23Z,2026-07-07T13:15:23Z,,2026-07-07T13:15:23Z,2026-07-07T13:15:23Z,scripts/run_ccma_pipeline.py,1,1,1,16,16,1,1,1,1,1

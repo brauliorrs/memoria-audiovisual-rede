@@ -1,0 +1,53 @@
+{
+  "source": "https://www.europeanfilmgateway.eu/da/search-efg/ck%20crnogorska%20kinoteka",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "acessivel": 1
+  },
+  "platform_summary": {
+    "European Film Gateway": 1
+  },
+  "top_domains": [
+    [
+      "europeanfilmgateway.eu",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Crnogorska Kinoteka",
+      "slug": "crnogorska-kinoteka",
+      "country": "Montenegro",
+      "continent": "Europe",
+      "repository_code": "ME-CK",
+      "archive_type": "National film archive / cinematheque",
+      "crnogorska_kinoteka_detail_url": "https://www.europeanfilmgateway.eu/content/crnogorska-kinoteka-podgorica",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.europeanfilmgateway.eu/da/search-efg/ck%20crnogorska%20kinoteka",
+      "partner_domain": "europeanfilmgateway.eu",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "acessivel",
+      "final_url": "https://europeanfilmgateway.eu/da/detail/Non%20%C3%A8%20resurrezione%20senza%20morte/ck%3A%3Ae7b8ca4b11b56d30c9d260216ffb18aa",
+      "video_links_found_total": 1,
+      "embedded_video_signals_total": 1,
+      "candidate_internal_pages": 3,
+      "priority_review": "baixa",
+      "warning": "Corpus institucional incorporado pelo recorte público da Crnogorska Kinoteka no EFG. A unidade custodial é a Crnogorska Kinoteka; o EFG é a superfície agregadora de acesso. A rodada registra uma ficha de vídeo pública e não baixa mídia.",
+      "error": "https://kinoteka.me/: 500 Server Error: Internal Server Error for url: https://kinoteka.me/"
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "dataset": "eye",
+  "generated_at": "2026-07-15T19:05:50Z",
+  "generated_by": "scripts/run_eye_pipeline.py",
+  "observation_key": "eye:2026-07-15T19:05:50Z",
+  "source_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith%20film%20fragment",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-15T19:05:50Z",
+  "analytic_outputs_last_modified_at": "2026-07-15T19:05:47Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 630,
+    "videos_in_curatorial_catalog": 630,
+    "visibility_categories": 1,
+    "theme_categories": 2,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "eye_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 437,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "summary": {
+      "filename": "eye_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1046,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "video_links": {
+      "filename": "eye_links_video.csv",
+      "exists": true,
+      "size_bytes": 509465,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "internal_pages": {
+      "filename": "eye_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 37687,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "analytic_summary": {
+      "filename": "eye_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1425,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "eye_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 575486,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "availability_summary": {
+      "filename": "eye_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "availability_reasons": {
+      "filename": "eye_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "visibility_summary": {
+      "filename": "eye_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "access_surface_summary": {
+      "filename": "eye_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 57,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "access_regime_summary": {
+      "filename": "eye_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "theme_summary": {
+      "filename": "eye_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 109,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "theme_country": {
+      "filename": "eye_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 138,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "archive_type_summary": {
+      "filename": "eye_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 86,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "theme_platform": {
+      "filename": "eye_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 154,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "theme_archive_type": {
+      "filename": "eye_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 242,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "visibility_archive_type": {
+      "filename": "eye_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 146,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "timeline_corpus": {
+      "filename": "eye_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 949,
+      "last_modified_at": "2026-07-15T19:05:50Z"
+    },
+    "timeline_institutions": {
+      "filename": "eye_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2830,
+      "last_modified_at": "2026-07-15T19:05:50Z"
+    },
+    "extinction_signals": {
+      "filename": "eye_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-15T19:05:50Z"
+    },
+    "snapshot_metadata": {
+      "filename": "eye_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5259,
+      "last_modified_at": "2026-07-15T19:05:50Z"
+    },
+    "report_json": {
+      "filename": "eye_relatorio.json",
+      "exists": true,
+      "size_bytes": 1934,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "report_txt": {
+      "filename": "eye_relatorio.txt",
+      "exists": true,
+      "size_bytes": 1064,
+      "last_modified_at": "2026-07-15T19:05:47Z"
+    },
+    "report_xlsx": {
+      "filename": "eye_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 171293,
+      "last_modified_at": "2026-07-15T19:05:50Z"
+    }
+  }
+}

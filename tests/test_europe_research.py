@@ -27,10 +27,17 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertIn("inedits-ad-libitum", unit_codes)
         self.assertIn("ebu-public-service-media-members", unit_codes)
         self.assertIn("german-digital-library", unit_codes)
-        self.assertIn("fiaf-cinemateca-portuguesa", unit_codes)
+        self.assertIn("cinemateca-portuguesa", unit_codes)
+        self.assertNotIn("fiaf-cinemateca-portuguesa", unit_codes)
+        self.assertIn("filmoteca-vasca", unit_codes)
+        self.assertNotIn("fiaf-filmoteca-vasca", unit_codes)
         self.assertIn("fiat-rtp", unit_codes)
         self.assertIn("fiat-rtve", unit_codes)
-        self.assertIn("euscreen-cna", unit_codes)
+        self.assertIn("ccma", unit_codes)
+        self.assertNotIn("euscreen-ccma", unit_codes)
+        self.assertIn("cna", unit_codes)
+        self.assertNotIn("euscreen-cna", unit_codes)
+        self.assertIn("cinematheque-suisse", unit_codes)
         self.assertIn("aamod", unit_codes)
         self.assertNotIn("efg-aamod", unit_codes)
         self.assertIn("sfa", unit_codes)
@@ -39,8 +46,13 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertNotIn("fiaf-cinemateca-romana", unit_codes)
         self.assertIn("archipop", unit_codes)
         self.assertNotIn("inedits-archipop", unit_codes)
+        self.assertIn("cinememoire", unit_codes)
+        self.assertNotIn("inedits-cinememoire", unit_codes)
         archipop_row = registry_df.loc[registry_df["unit_code"] == "archipop"].iloc[0]
         self.assertEqual(archipop_row["unit_type"], "corpus_ativo")
+        cinememoire_row = registry_df.loc[registry_df["unit_code"] == "cinememoire"].iloc[0]
+        self.assertEqual(cinememoire_row["organism_status"], "ativo")
+        self.assertEqual(cinememoire_row["unit_type"], "corpus_ativo")
         aamod_row = registry_df.loc[registry_df["unit_code"] == "aamod"].iloc[0]
         self.assertEqual(aamod_row["unit_type"], "corpus_ativo")
         sfa_row = registry_df.loc[registry_df["unit_code"] == "sfa"].iloc[0]
@@ -50,6 +62,39 @@ class EuropeResearchTests(unittest.TestCase):
         adlibitum_row = registry_df.loc[registry_df["unit_code"] == "inedits-ad-libitum"].iloc[0]
         self.assertEqual(adlibitum_row["organism_status"], "protocolado")
         self.assertEqual(adlibitum_row["video_location_status"], "rota_nao_estavel")
+        puy_de_dome_row = registry_df.loc[
+            registry_df["unit_code"] == "inedits-county-archives-puy-de-dome"
+        ].iloc[0]
+        self.assertEqual(puy_de_dome_row["organism_status"], "protocolado")
+        self.assertEqual(puy_de_dome_row["video_location_status"], "rota_nao_estavel")
+        self.assertIn("bnfa", unit_codes)
+        self.assertNotIn("fiaf-bulgarian-national-film-archive", unit_codes)
+        bnfa_row = registry_df.loc[registry_df["unit_code"] == "bnfa"].iloc[0]
+        self.assertEqual(bnfa_row["organism_status"], "ativo")
+        self.assertEqual(bnfa_row["unit_type"], "corpus_ativo")
+        ccma_row = registry_df.loc[registry_df["unit_code"] == "ccma"].iloc[0]
+        self.assertEqual(ccma_row["organism_status"], "ativo")
+        self.assertEqual(ccma_row["unit_type"], "corpus_ativo")
+        self.assertIn("barch", unit_codes)
+        self.assertNotIn("fiaf-bundesarchiv", unit_codes)
+        barch_row = registry_df.loc[registry_df["unit_code"] == "barch"].iloc[0]
+        self.assertEqual(barch_row["organism_status"], "ativo")
+        self.assertEqual(barch_row["unit_type"], "corpus_ativo")
+        cna_row = registry_df.loc[registry_df["unit_code"] == "cna"].iloc[0]
+        self.assertEqual(cna_row["organism_status"], "ativo")
+        self.assertEqual(cna_row["unit_type"], "corpus_ativo")
+        suisse_row = registry_df.loc[registry_df["unit_code"] == "cinematheque-suisse"].iloc[0]
+        self.assertEqual(suisse_row["organism_status"], "protocolado")
+        self.assertEqual(suisse_row["video_location_status"], "metadados_publicos_midia_restrita")
+        ec_av_row = registry_df.loc[
+            registry_df["unit_code"] == "fiat-european-commission-av-service"
+        ].iloc[0]
+        self.assertEqual(ec_av_row["organism_status"], "protocolado")
+        self.assertEqual(
+            ec_av_row["video_location_status"],
+            "api_publica_validada_ingestao_em_escala_pendente",
+        )
+        self.assertIn("VIDEO", ec_av_row["queue_reason"])
         self.assertFalse(
             registry_df["unit_type"].astype(str).str.contains("sonoro|musical", case=False).any()
         )
@@ -61,10 +106,18 @@ class EuropeResearchTests(unittest.TestCase):
 
         self.assertEqual(priority_by_code["efg-contributing-archives"], 1)
         self.assertEqual(priority_by_code["inedits-members"], 1)
-        self.assertEqual(priority_by_code["fiaf-cinemateca-portuguesa"], 2)
         self.assertEqual(priority_by_code["fiat-rtp"], 2)
-        self.assertGreater(priority_by_code["ace-members"], priority_by_code["fiaf-cinemateca-portuguesa"])
-        self.assertLess(priority_by_code["fiaf-cinemateca-portuguesa"], priority_by_code["german-digital-library"])
+        self.assertNotIn("euscreen-ccma", priority_by_code)
+        self.assertNotIn("inedits-county-archives-puy-de-dome", priority_by_code)
+        self.assertNotIn("fiaf-cinemateca-portuguesa", priority_by_code)
+        self.assertNotIn("fiaf-filmoteca-vasca", priority_by_code)
+        self.assertNotIn("fiaf-bulgarian-national-film-archive", priority_by_code)
+        self.assertNotIn("fiaf-bundesarchiv", priority_by_code)
+        self.assertNotIn("inedits-cinememoire", priority_by_code)
+        self.assertNotIn("cinematheque-suisse", priority_by_code)
+        self.assertNotIn("fiat-european-commission-av-service", priority_by_code)
+        self.assertGreater(priority_by_code["ace-members"], priority_by_code["fiat-rtp"])
+        self.assertLess(priority_by_code["fiat-rtp"], priority_by_code["german-digital-library"])
         self.assertEqual(queue_df.iloc[0]["definitive_queue_rank"], 1)
         self.assertIn("video_location_candidate_url", queue_df.columns)
         self.assertFalse(queue_df["queue_decision"].astype(str).str.contains("sonoro", case=False).any())

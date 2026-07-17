@@ -13,6 +13,11 @@ from memoria_audiovisual.config import OUTPUT_DIR
 from memoria_audiovisual.corpora import list_active_corpora
 from memoria_audiovisual.europe_research import EUROPE_RESEARCH_QUEUE_FILENAME
 from memoria_audiovisual.organism import ORGANISM_ACTIVE_CORPORA_FILENAME
+from memoria_audiovisual.public_access_index import (
+    PUBLIC_ACCESS_INDEX_BY_CORPUS_FILENAME,
+    PUBLIC_ACCESS_INDEX_FILENAME,
+    PUBLIC_ACCESS_RESTRICTED_UNITS_FILENAME,
+)
 
 
 def main():
@@ -22,6 +27,9 @@ def main():
         ROOT_DIR / "app" / "streamlit_app.py",
         OUTPUT_DIR / ORGANISM_ACTIVE_CORPORA_FILENAME,
         OUTPUT_DIR / EUROPE_RESEARCH_QUEUE_FILENAME,
+        OUTPUT_DIR / PUBLIC_ACCESS_INDEX_FILENAME,
+        OUTPUT_DIR / PUBLIC_ACCESS_INDEX_BY_CORPUS_FILENAME,
+        OUTPUT_DIR / PUBLIC_ACCESS_RESTRICTED_UNITS_FILENAME,
     ]
 
     for corpus_def in list_active_corpora(monthly_only=True):

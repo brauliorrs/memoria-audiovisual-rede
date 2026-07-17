@@ -1,0 +1,2 @@
+institution,slug,country,continent,repository_code,filmoteca_catalunya_detail_url,archive_type,external_url,website_available,content_available_in_source
+Filmoteca de Catalunya,filmoteca-catalunya,Spain,Europe,ES-CT-FILMOTECA-CATALUNYA,https://www.filmoteca.cat/web/es/coleccion-filmica,Film archive with restricted institutional catalogue and public PLATFO FILMO subset,https://filmo.platfo.es/pages/home,True,True

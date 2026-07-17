@@ -1,0 +1,4 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+filmoteca-vasca,filmoteca-vasca:2026-07-15T18:22:58Z,2026-07-15T18:22:58Z,,2026-07-15T18:22:58Z,2026-07-15T18:22:58Z,scripts/run_filmoteca_vasca_pipeline.py,1,1,1,149,149,1,5,1,1,1
+filmoteca-vasca,filmoteca-vasca:2026-07-15T18:25:59Z,2026-07-15T18:25:59Z,,2026-07-15T18:25:59Z,2026-07-15T18:25:58Z,scripts/run_filmoteca_vasca_pipeline.py,1,1,1,149,149,1,6,1,1,1
+filmoteca-vasca,filmoteca-vasca:2026-07-15T18:32:49Z,2026-07-15T18:32:49Z,,2026-07-15T18:32:49Z,2026-07-15T18:32:49Z,scripts/run_filmoteca_vasca_pipeline.py,1,1,1,149,149,1,6,1,1,1

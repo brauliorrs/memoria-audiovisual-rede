@@ -60,7 +60,17 @@ EUROPE_RESEARCH_SUMMARY_COLUMNS = [
 PROTOCOLLED_EUROPEAN_CODES = {
     "archives-hub",
     "francearchives",
+    "fiaf-arsenal-filminstitut",
+    "fiaf-cnc-aff",
+    "fiat-atresmedia",
+    "cinematheque-suisse",
+    "fiaf-filmoteca-vaticana",
+    "fiaf-filmmuseum-munchen",
+    "fiaf-cinematheque-luxembourg",
     "inedits-ad-libitum",
+    "inedits-county-archives-puy-de-dome",
+    "inedits-cinematheque-corse",
+    "inedits-prise-2",
 }
 
 DIRECTORY_EXPANSION_CODES = {
@@ -231,7 +241,7 @@ EUROPEAN_INDIVIDUAL_ARCHIVE_ROWS = [
     ("fiaf-kavi", "Kansallinen Audiovisuaalinen Instituutti / National Audiovisual Institute", "arquivo_audiovisual_individual", "FIAF", "Finlândia", "https://www.kavi.fi"),
     ("fiaf-ecpad", "ECPAD - Établissement de communication et de production audiovisuelle de la Défense", "arquivo_audiovisual_individual", "FIAF", "França", "https://www.ecpad.fr"),
     ("fiaf-dovzhenko-centre", "Oleksandr Dovzhenko National Centre", "arquivo_audiovisual_individual", "FIAF", "Ucrânia", "https://dovzhenkocentre.org"),
-    ("fiaf-cinematheque-suisse", "Cinémathèque suisse", "arquivo_audiovisual_individual", "FIAF", "Suíça", "https://www.cinematheque.ch"),
+    ("cinematheque-suisse", "Cinémathèque suisse", "arquivo_audiovisual_individual", "FIAF", "Suíça", "https://www.cinematheque.ch"),
     ("fiaf-cinemateca-portuguesa", "Cinemateca Portuguesa / Museu do Cinema", "arquivo_audiovisual_individual", "FIAF", "Portugal", "https://www.cinemateca.pt"),
     ("fiaf-slovenian-film-archive", "Arhiv Republike Slovenije - Slovenski Filmski Arhiv", "arquivo_audiovisual_individual", "FIAF", "Eslovênia", "https://www.arhiv.gov.si"),
     ("fiaf-slovenian-cinematheque", "Slovenian Cinematheque / Slovenska Kinoteka", "arquivo_audiovisual_individual", "FIAF", "Eslovênia", "https://www.kinoteka.si"),
@@ -358,10 +368,51 @@ def _active_european_code_aliases():
     aliases = {
         "archives-portal-europe": "ape",
         "efg-aamod": "aamod",
+        "efg-arxiu-mallorca": "asim",
+        "efg-crnogorska-kinoteka": "crnogorska-kinoteka",
+        "efg-deutsches-historisches-museum": "dhm",
+        "fiaf-ecpad": "ecpad",
+        "fiaf-deutsche-kinemathek": "deutsche-kinemathek",
+        "fiaf-dff": "dff",
+        "fiaf-eye-filmmuseum": "eye",
+        "fiaf-estonian-film-archive": "estonian_film_archive",
+        "fiaf-filmarchiv-austria": "filmarchiv_austria",
+        "fiaf-filmmuseum-dusseldorf": "filmmuseum_dusseldorf",
+        "fiaf-filmoteca-catalunya": "filmoteca_catalunya",
+        "fiaf-filmoteca-espanola": "filmoteca_espanola",
+        "fiaf-filmoteca-valenciana": "filmoteca_valenciana",
+        "fiat-dr": "dr",
+        "fiat-east-anglian-film-archive": "eafa",
+        "euscreen-ert": "ert",
         "fiaf-albanian-national-film-archive": "aqshf",
+        "fiaf-bfi-national-archive": "bfi",
+        "fiaf-bundesarchiv": "barch",
         "fiaf-cinemateca-romana": "anf",
+        "fiaf-cinemateca-portuguesa": "cinemateca-portuguesa",
+        "fiaf-filmoteca-vasca": "filmoteca-vasca",
         "fiaf-slovenian-film-archive": "sfa",
+        "fiat-bbc": "bbc",
+        "fiat-cinecitta-archivio-luce": "luce",
+        "fiaf-bulgarian-national-film-archive": "bnfa",
+        "fiat-bulgarian-national-television": "bnt",
+        "euscreen-ccma": "ccma",
+        "euscreen-czech-television": "czech-television",
+        "euscreen-istituto-luce-cinecitta": "luce",
+        "inedits-audiovisual-institute-monaco": "iam",
+        "inedits-autrefois-geneve": "autrefois",
         "inedits-archipop": "archipop",
+        "inedits-ciclic-centre-val-de-loire": "ciclic",
+        "inedits-cineam": "cineam",
+        "inedits-cinememoire": "cinememoire",
+        "inedits-cine-archives": "cinearchives",
+        "inedits-cinematheque-bretagne": "cinematheque-bretagne",
+        "fiaf-cinematheque-francaise": "cinematheque-francaise",
+        "fiaf-cinematek": "cinematek",
+        "inedits-cinematheque-nouvelle-aquitaine": "cdna",
+        "inedits-cinematheque-pays-savoie-ain": "cpsa",
+        "inedits-cinematheque-saint-etienne": "saint-etienne",
+        "euscreen-cna": "cna",
+        "fiaf-cnc-aff": "cnc-aff",
         "the-european-film-gateway": "european-film-gateway",
     }
     for code in CORPORA:
@@ -418,6 +469,79 @@ def _classify_research_row(row):
             "video_location_status": "mapeado_no_corpus",
             "video_location_candidate_url": CORPORA[active_code].get("source_url", ""),
             "video_location_strategy": "acompanhar saídas analíticas do corpus ativo",
+            "blocks_expansion": False,
+        }
+
+    if code == "fiat-east-anglian-film-archive":
+        return {
+            "relationship_to_current_corpus": "rota pública validada fora do corpus ativo",
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_coleta_pendente",
+            "queue_decision": "aguardar_nova_janela_de_coleta_sem_waf",
+            "queue_priority": 12,
+            "queue_reason": (
+                "O catálogo oficial EAFA expõe busca pública `hasVideo=on`; a rota anunciou 1.627 fichas "
+                "em 136 páginas e uma rodada inicial confirmou 1.625 players, mas a reexecução final ativou "
+                "AWS WAF CAPTCHA. A unidade não deve entrar como corpus ativo com saída zero."
+            ),
+            "next_action": "reexecutar `python scripts/run_eafa_pipeline.py` após liberação do WAF e validar com `python scripts/check_eafa_outputs.py`",
+            "inclusion_gate": "persistir rodada completa com links de vídeo e catálogo analítico não vazios",
+            "video_location_status": "rota_validada_bloqueio_temporario_waf",
+            "video_location_candidate_url": "https://eafa.org.uk/search/?hasVideo=on",
+            "video_location_strategy": (
+                "respeitar WAF/CAPTCHA, não contornar barreiras de verificação humana e repetir a coleta "
+                "com baixa concorrência/retries até materializar fichas públicas com player"
+            ),
+            "blocks_expansion": False,
+        }
+
+    if code == "fiat-european-commission-av-service":
+        return {
+            "relationship_to_current_corpus": "rota pública validada fora do corpus ativo",
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_incorporacao_em_escala",
+            "queue_decision": "planejar_ingestao_incremental_antes_de_ativar",
+            "queue_priority": 12,
+            "queue_reason": (
+                "O European Commission Audiovisual Service expõe API pública com mais de 177 mil "
+                "registros `VIDEO`; o detalhe `media?reference=` materializa HLS, DASH, MP4, "
+                "miniaturas, legendas, duração, temas, instituições e direitos. A unidade não deve "
+                "entrar como corpus ativo por amostra arbitrária: a incorporação exige estratégia "
+                "incremental ou particionada."
+            ),
+            "next_action": "definir_estrategia_incremental_e_criar_corpus_ec_av_service",
+            "inclusion_gate": (
+                "persistir corpus audiovisual completo por janela, ano ou shard sem inflar o snapshot "
+                "público e validar saídas não vazias"
+            ),
+            "video_location_status": "api_publica_validada_ingestao_em_escala_pendente",
+            "video_location_candidate_url": (
+                "https://8hwk2cyeyb.execute-api.eu-west-1.amazonaws.com/parrotfish-prod/search"
+                "?mediaType=VIDEO&offset=1&limit=12"
+            ),
+            "video_location_strategy": (
+                "usar apenas `mediaType=VIDEO`; coletar referências pela busca oficial e enriquecer cada "
+                "item pelo endpoint público `media?reference=...`, preservando metadados de acesso e direitos"
+            ),
+            "blocks_expansion": False,
+        }
+
+    if code == "cinematheque-suisse":
+        return {
+            "relationship_to_current_corpus": "identificada fora do corpus ativo",
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_nao_incorporacao",
+            "queue_decision": "manter_protocolo_sem_incorporacao",
+            "queue_priority": 80,
+            "queue_reason": (
+                "A rota Memobase materializa metadados públicos `Film`, mas não disponibiliza vídeo "
+                "público incorporável; a mídia é indicada como local/autorizada."
+            ),
+            "next_action": "monitorar_se_memobase_ou_site_institucional_passam_a_expor_video_publico",
+            "inclusion_gate": "não incorporar até existir rota pública de vídeo ou streaming incorporável",
+            "video_location_status": "metadados_publicos_midia_restrita",
+            "video_location_candidate_url": CORPORA[code].get("source_url", ""),
+            "video_location_strategy": "retestar Memobase, catálogo institucional e eventuais players públicos sem contornar restrições",
             "blocks_expansion": False,
         }
 
@@ -700,7 +824,7 @@ def build_europe_research_queue(registry_df):
     if registry_df is None or registry_df.empty:
         return pd.DataFrame(columns=EUROPE_RESEARCH_COLUMNS)
     queue_df = (
-        registry_df.loc[registry_df["organism_status"] != "ativo"]
+        registry_df.loc[~registry_df["organism_status"].isin(["ativo", "protocolado"])]
         .sort_values(["queue_priority", "unit_label"])
         .reset_index(drop=True)
     )

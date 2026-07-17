@@ -1,0 +1,31 @@
+RELATORIO - DR DRTV-GENSYN
+============================================================
+
+Fonte: https://www.dr.dk/drtv/gensyn
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 0
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - DRTV/Gensyn: 453
+
+Dominios parceiros mais frequentes:
+  - dr.dk: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - DR - Danmarks Radio | links_video=453 | embeds=0 | status=ok | prioridade=baixa | url=https://www.dr.dk/drtv/gensyn
+
+Instituicoes com erro ou restricao:

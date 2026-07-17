@@ -1,0 +1,53 @@
+{
+  "source": "https://www.europeanfilmgateway.eu/search-efg/Centre%20nationale%20du%20cin%C3%A9ma%20CNC",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "acessivel": 1
+  },
+  "platform_summary": {
+    "European Film Gateway": 141
+  },
+  "top_domains": [
+    [
+      "europeanfilmgateway.eu",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Centre national du cinéma et de l'image animée - Archives françaises du film",
+      "slug": "centre-national-du-cin-ma-et-de-l-image-anim-e-archives-fran-aises-du-film",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CNC-AFF",
+      "archive_type": "National film archive",
+      "cnc_aff_detail_url": "https://www.cnc.fr/a-propos-du-cnc/directions-et-services/direction-du-patrimoine-cinematographique",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.europeanfilmgateway.eu/search-efg/Centre%20nationale%20du%20cin%C3%A9ma%20CNC",
+      "partner_domain": "europeanfilmgateway.eu",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "acessivel",
+      "final_url": "https://www.europeanfilmgateway.eu/search-efg/Centre%20nationale%20du%20cin%C3%A9ma%20CNC",
+      "video_links_found_total": 141,
+      "embedded_video_signals_total": 140,
+      "candidate_internal_pages": 163,
+      "priority_review": "media",
+      "warning": "Corpus incorporado como arquivo fílmico nacional francês em superfície pública mediada pelo European Film Gateway. O EFG anunciou 141 resultados de vídeo; a rodada registrou 141 URLs cnc:: de 141 URLs de detalhe encontradas, com 140 fichas abertas. A unidade observa apenas a coleção pública CNC/AFF exposta no EFG, sem afirmar catálogo total das Archives françaises du film nem acesso direto ao domínio legado. Nenhum arquivo de mídia é baixado. Foram registrados 2 problemas em páginas contextuais. A completude deve ser lida com cautela por falha de paginação ou ficha.",
+      "error": "https://www.cnc-aff.fr: HTTPSConnectionPool(host='www.cnc-aff.fr', port=443): Max retries exceeded with url: / (Caused by NameResolutionError(\"HTTPSConnection(host='www.cnc-aff.fr', port=443): Failed to resolve 'www.cnc-aff.fr' ([Errno 11001] getaddrinfo failed)\")); https://lise.cnc.fr: 503 Server Error: Service Unavailable for url: https://lise.cnc.fr/; https://www.europeanfilmgateway.eu/detail/Régions dévastées, Arras/cnc::cd024d874701e0702b626b710bc553ef: HTTPSConnectionPool(host='www.europeanfilmgateway.eu', port=443): Read timed out. (read timeout=8)"
+    }
+  ]
+}

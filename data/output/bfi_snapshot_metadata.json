@@ -1,0 +1,168 @@
+{
+  "dataset": "bfi",
+  "generated_at": "2026-06-12T19:20:46Z",
+  "generated_by": "scripts/run_bfi_pipeline.py",
+  "observation_key": "bfi:2026-06-12T19:20:46Z",
+  "source_url": "https://replay.bfi.org.uk/search",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-12T19:20:46Z",
+  "analytic_outputs_last_modified_at": "2026-06-12T19:20:45Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 702,
+    "videos_in_curatorial_catalog": 702,
+    "visibility_categories": 1,
+    "theme_categories": 9,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "bfi_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 354,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "summary": {
+      "filename": "bfi_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1056,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "video_links": {
+      "filename": "bfi_links_video.csv",
+      "exists": true,
+      "size_bytes": 958810,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "internal_pages": {
+      "filename": "bfi_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 288557,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "analytic_summary": {
+      "filename": "bfi_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1441,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "bfi_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 1045003,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "availability_summary": {
+      "filename": "bfi_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "availability_reasons": {
+      "filename": "bfi_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 47,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "visibility_summary": {
+      "filename": "bfi_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "access_surface_summary": {
+      "filename": "bfi_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 59,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "access_regime_summary": {
+      "filename": "bfi_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 70,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "theme_summary": {
+      "filename": "bfi_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 353,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "theme_country": {
+      "filename": "bfi_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 493,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "archive_type_summary": {
+      "filename": "bfi_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 57,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "theme_platform": {
+      "filename": "bfi_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 463,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "theme_archive_type": {
+      "filename": "bfi_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 624,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "visibility_archive_type": {
+      "filename": "bfi_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 117,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "timeline_corpus": {
+      "filename": "bfi_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 803,
+      "last_modified_at": "2026-06-12T19:20:46Z"
+    },
+    "timeline_institutions": {
+      "filename": "bfi_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1648,
+      "last_modified_at": "2026-06-12T19:20:46Z"
+    },
+    "extinction_signals": {
+      "filename": "bfi_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-12T19:20:46Z"
+    },
+    "snapshot_metadata": {
+      "filename": "bfi_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5165,
+      "last_modified_at": "2026-06-12T19:20:46Z"
+    },
+    "report_json": {
+      "filename": "bfi_relatorio.json",
+      "exists": true,
+      "size_bytes": 1837,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "report_txt": {
+      "filename": "bfi_relatorio.txt",
+      "exists": true,
+      "size_bytes": 876,
+      "last_modified_at": "2026-06-12T19:20:45Z"
+    },
+    "report_xlsx": {
+      "filename": "bfi_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 812808,
+      "last_modified_at": "2026-06-12T19:20:46Z"
+    }
+  }
+}

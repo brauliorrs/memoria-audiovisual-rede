@@ -1,0 +1,5 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+cdna,cdna:2026-06-19T17:54:06Z,2026-06-19T17:54:06Z,,2026-06-19T17:54:06Z,2026-06-19T17:54:06Z,scripts/run_cdna_pipeline.py,1,1,1,72,72,1,1,1,1,1
+cdna,cdna:2026-06-19T17:54:22Z,2026-06-19T17:54:22Z,,2026-06-19T17:54:22Z,2026-06-19T17:54:22Z,scripts/run_cdna_pipeline.py,1,1,1,72,72,1,1,1,1,1
+cdna,cdna:2026-06-19T17:54:52Z,2026-06-19T17:54:52Z,,2026-06-19T17:54:52Z,2026-06-19T17:54:51Z,scripts/run_cdna_pipeline.py,1,1,1,72,72,1,5,1,1,1
+cdna,cdna:2026-06-19T18:01:42Z,2026-06-19T18:01:42Z,,2026-06-19T18:01:42Z,2026-06-19T18:01:42Z,scripts/run_cdna_pipeline.py,1,1,1,72,72,1,5,1,1,1

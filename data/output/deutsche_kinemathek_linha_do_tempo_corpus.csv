@@ -1,0 +1,4 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+deutsche-kinemathek,deutsche-kinemathek:2026-07-13T18:34:04Z,2026-07-13T18:34:04Z,,2026-07-13T18:34:04Z,2026-07-13T18:34:04Z,scripts/run_deutsche_kinemathek_pipeline.py,1,1,1,9,9,1,1,1,1,1
+deutsche-kinemathek,deutsche-kinemathek:2026-07-13T18:35:17Z,2026-07-13T18:35:17Z,,2026-07-13T18:35:17Z,2026-07-13T18:35:17Z,scripts/run_deutsche_kinemathek_pipeline.py,1,1,1,9,9,1,2,1,1,1
+deutsche-kinemathek,deutsche-kinemathek:2026-07-13T18:36:03Z,2026-07-13T18:36:03Z,,2026-07-13T18:36:03Z,2026-07-13T18:36:03Z,scripts/run_deutsche_kinemathek_pipeline.py,1,1,1,9,9,1,3,1,1,1

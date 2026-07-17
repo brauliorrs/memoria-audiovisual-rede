@@ -1,0 +1,53 @@
+{
+  "source": "https://cinematheque.saint-etienne.fr/Default/contenu-collections-test.aspx",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Cinémathèque de Saint-Étienne": 8
+  },
+  "top_domains": [
+    [
+      "cinematheque.saint-etienne.fr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Cinémathèque de Saint-Étienne",
+      "slug": "cin-math-que-de-saint-tienne",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CINEMATHEQUE-SAINT-ETIENNE",
+      "archive_type": "Municipal cinematheque and regional film archive",
+      "saint_etienne_detail_url": "https://cinematheque.saint-etienne.fr/Default/contenu-collections-test.aspx",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://cinematheque.saint-etienne.fr/",
+      "partner_domain": "cinematheque.saint-etienne.fr",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://cinematheque.saint-etienne.fr/Default/contenu-collections-test.aspx",
+      "video_links_found_total": 8,
+      "embedded_video_signals_total": 7,
+      "candidate_internal_pages": 10,
+      "priority_review": false,
+      "warning": "Corpus incorporado por fichas públicas OAI/Syracuse da Cinémathèque de Saint-Étienne. O site declara 8.000 títulos catalogados, 6.000 arquivos digitalizados e seleção de filmes visíveis; o MVP materializa 8 fichas e detecta 7 MP4 públicos, sem baixar mídia e sem afirmar cobertura total do acervo preservado.",
+      "error": ""
+    }
+  ]
+}

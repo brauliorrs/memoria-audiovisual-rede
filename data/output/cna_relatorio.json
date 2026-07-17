@@ -1,0 +1,53 @@
+{
+  "source": "https://cnasearch.public.lu/searchprofiles/run/4/film",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "CNAsearch": 79
+  },
+  "top_domains": [
+    [
+      "cnasearch.public.lu",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Centre national de l'audiovisuel (CNA)",
+      "slug": "cna-luxembourg",
+      "country": "Luxembourg",
+      "continent": "Europe",
+      "repository_code": "LU-CNA",
+      "archive_type": "National audiovisual archive",
+      "cna_detail_url": "https://cna.public.lu/en.html",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://cnasearch.public.lu/searchprofiles/run/4/film",
+      "partner_domain": "cnasearch.public.lu",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://cnasearch.public.lu/searchprofiles/run/4/film",
+      "video_links_found_total": 79,
+      "embedded_video_signals_total": 77,
+      "candidate_internal_pages": 90,
+      "priority_review": false,
+      "warning": "Corpus incorporado pelo perfil público CNAsearch `Philippe Schneider, réalisateur`. O perfil declarou 79 resultados em até 6 páginas; o MVP materializa 79 registros de imagem em movimento desse perfil, sem baixar mídia e sem afirmar catálogo total do CNA.",
+      "error": ""
+    }
+  ]
+}

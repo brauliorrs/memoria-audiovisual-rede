@@ -1,0 +1,31 @@
+RELATORIO - FILMOTECA DE CATALUNYA / PLATFO FILMO
+============================================================
+
+Fonte: https://filmo.platfo.es/pages/home
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 1
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - integro: 1
+
+Plataformas detectadas:
+  - PLATFO FILMO: 10
+
+Dominios parceiros mais frequentes:
+  - filmo.platfo.es: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - Filmoteca de Catalunya | links_video=10 | embeds=10 | status=ok | prioridade=False | url=https://galgo-filmoteca.galgo.tv/search?copyright=205985&version=2&image-format=webp&size=10000&page=1
+
+Instituicoes com erro ou restricao:

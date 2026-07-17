@@ -1,0 +1,168 @@
+{
+  "dataset": "cinematheque_francaise",
+  "generated_at": "2026-07-06T15:15:43Z",
+  "generated_by": "scripts/run_cinematheque_francaise_pipeline.py",
+  "observation_key": "cinematheque_francaise:2026-07-06T15:15:43Z",
+  "source_url": "https://www.cinematheque.fr/henri/",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-06T15:15:43Z",
+  "analytic_outputs_last_modified_at": "2026-07-06T15:15:43Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 255,
+    "videos_in_curatorial_catalog": 255,
+    "visibility_categories": 1,
+    "theme_categories": 1,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "cinematheque_francaise_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 464,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "summary": {
+      "filename": "cinematheque_francaise_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1024,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "video_links": {
+      "filename": "cinematheque_francaise_links_video.csv",
+      "exists": true,
+      "size_bytes": 150460,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "internal_pages": {
+      "filename": "cinematheque_francaise_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 12612,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "analytic_summary": {
+      "filename": "cinematheque_francaise_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1403,
+      "last_modified_at": "2026-07-06T15:15:42Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "cinematheque_francaise_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 180169,
+      "last_modified_at": "2026-07-06T15:15:42Z"
+    },
+    "availability_summary": {
+      "filename": "cinematheque_francaise_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "availability_reasons": {
+      "filename": "cinematheque_francaise_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "visibility_summary": {
+      "filename": "cinematheque_francaise_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "access_surface_summary": {
+      "filename": "cinematheque_francaise_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 57,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "access_regime_summary": {
+      "filename": "cinematheque_francaise_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "theme_summary": {
+      "filename": "cinematheque_francaise_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 58,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "theme_country": {
+      "filename": "cinematheque_francaise_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 70,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "archive_type_summary": {
+      "filename": "cinematheque_francaise_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 86,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "theme_platform": {
+      "filename": "cinematheque_francaise_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 75,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "theme_archive_type": {
+      "filename": "cinematheque_francaise_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 134,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "visibility_archive_type": {
+      "filename": "cinematheque_francaise_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 146,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "timeline_corpus": {
+      "filename": "cinematheque_francaise_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 771,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "timeline_institutions": {
+      "filename": "cinematheque_francaise_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1460,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "extinction_signals": {
+      "filename": "cinematheque_francaise_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "snapshot_metadata": {
+      "filename": "cinematheque_francaise_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5674,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "report_json": {
+      "filename": "cinematheque_francaise_relatorio.json",
+      "exists": true,
+      "size_bytes": 1796,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "report_txt": {
+      "filename": "cinematheque_francaise_relatorio.txt",
+      "exists": true,
+      "size_bytes": 897,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    },
+    "report_xlsx": {
+      "filename": "cinematheque_francaise_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 99781,
+      "last_modified_at": "2026-07-06T15:15:43Z"
+    }
+  }
+}

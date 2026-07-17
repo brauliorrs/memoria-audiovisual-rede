@@ -1,0 +1,53 @@
+{
+  "source": "https://filmoteka.eus/es/coleccion/multimedia",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "ok": 1
+  },
+  "platform_summary": {
+    "Vimeo": 149
+  },
+  "top_domains": [
+    [
+      "filmoteka.eus",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Filmoteca Vasca",
+      "slug": "filmoteca-vasca",
+      "country": "Spain",
+      "continent": "Europe",
+      "repository_code": "ES-PV-FILMOTECA-VASCA",
+      "archive_type": "Film archive with public multimedia collection",
+      "filmoteca_vasca_detail_url": "https://filmoteka.eus/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://filmoteka.eus/es/coleccion/multimedia",
+      "partner_domain": "filmoteka.eus",
+      "status": "ok",
+      "http_code": "200",
+      "integrity_status": "ok",
+      "final_url": "https://filmoteka.eus/es/coleccion/multimedia",
+      "video_links_found_total": 149,
+      "embedded_video_signals_total": 248,
+      "candidate_internal_pages": 288,
+      "priority_review": false,
+      "warning": "Corpus deduplicado por ID Vimeo; páginas oficiais duplicadas por década/coleção foram agregadas. O catálogo técnico completo permanece como fonte contextual.",
+      "error": "2 páginas internas retornaram erro"
+    }
+  ]
+}

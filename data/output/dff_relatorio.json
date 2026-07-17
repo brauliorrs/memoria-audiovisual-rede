@@ -1,0 +1,53 @@
+{
+  "source": "https://www.filmportal.de/videos",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "filmportal.de": 32
+  },
+  "top_domains": [
+    [
+      "filmportal.de",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "DFF - Deutsches Filminstitut & Filmmuseum",
+      "slug": "dff-deutsches-filminstitut-filmmuseum",
+      "country": "Germany",
+      "continent": "Europe",
+      "repository_code": "DE-DFF",
+      "archive_type": "Film institute and museum with public film portal",
+      "dff_detail_url": "https://www.filmportal.de/videos",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.filmportal.de/videos",
+      "partner_domain": "filmportal.de",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.filmportal.de/videos",
+      "video_links_found_total": 32,
+      "embedded_video_signals_total": 32,
+      "candidate_internal_pages": 38,
+      "priority_review": "baixa",
+      "warning": "Corpus institucional incorporado por rota pública do filmportal.de, plataforma digital vinculada ao DFF. A interface declarou 6771 vídeos e o MVP materializou 32 fichas nas primeiras 2 páginas da listagem pública. Não é o acervo integral do DFF, não é o Bestandskatalog completo e não baixa mídia.",
+      "error": ""
+    }
+  ]
+}

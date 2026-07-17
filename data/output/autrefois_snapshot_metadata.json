@@ -1,0 +1,168 @@
+{
+  "dataset": "autrefois",
+  "generated_at": "2026-06-11T18:06:18Z",
+  "generated_by": "scripts/run_autrefois_pipeline.py",
+  "observation_key": "autrefois:2026-06-11T18:06:18Z",
+  "source_url": "https://www.autrefoisgeneve.ch/wp-json/wp/v2/aiovg_videos",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-11T18:06:18Z",
+  "analytic_outputs_last_modified_at": "2026-06-11T18:06:18Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 8,
+    "videos_in_curatorial_catalog": 8,
+    "visibility_categories": 1,
+    "theme_categories": 3,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "autrefois_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 348,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "summary": {
+      "filename": "autrefois_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 940,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "video_links": {
+      "filename": "autrefois_links_video.csv",
+      "exists": true,
+      "size_bytes": 7584,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "internal_pages": {
+      "filename": "autrefois_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 4816,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "analytic_summary": {
+      "filename": "autrefois_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1295,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "autrefois_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 8590,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "availability_summary": {
+      "filename": "autrefois_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "availability_reasons": {
+      "filename": "autrefois_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "visibility_summary": {
+      "filename": "autrefois_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "access_surface_summary": {
+      "filename": "autrefois_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 55,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "access_regime_summary": {
+      "filename": "autrefois_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "theme_summary": {
+      "filename": "autrefois_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 138,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "theme_country": {
+      "filename": "autrefois_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 179,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "archive_type_summary": {
+      "filename": "autrefois_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 63,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "theme_platform": {
+      "filename": "autrefois_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 203,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "theme_archive_type": {
+      "filename": "autrefois_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 259,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "visibility_archive_type": {
+      "filename": "autrefois_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 123,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "timeline_corpus": {
+      "filename": "autrefois_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 525,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "timeline_institutions": {
+      "filename": "autrefois_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 848,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "extinction_signals": {
+      "filename": "autrefois_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "snapshot_metadata": {
+      "filename": "autrefois_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5316,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "report_json": {
+      "filename": "autrefois_relatorio.json",
+      "exists": true,
+      "size_bytes": 1750,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "report_txt": {
+      "filename": "autrefois_relatorio.txt",
+      "exists": true,
+      "size_bytes": 939,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    },
+    "report_xlsx": {
+      "filename": "autrefois_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 25673,
+      "last_modified_at": "2026-06-11T18:06:18Z"
+    }
+  }
+}

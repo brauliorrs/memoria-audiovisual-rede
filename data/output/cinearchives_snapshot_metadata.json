@@ -1,0 +1,168 @@
+{
+  "dataset": "cinearchives",
+  "generated_at": "2026-06-18T18:10:26Z",
+  "generated_by": "scripts/run_cinearchives_pipeline.py",
+  "observation_key": "cinearchives:2026-06-18T18:10:26Z",
+  "source_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-18T18:10:26Z",
+  "analytic_outputs_last_modified_at": "2026-06-18T18:10:26Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 48,
+    "videos_in_curatorial_catalog": 48,
+    "visibility_categories": 1,
+    "theme_categories": 3,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "cinearchives_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 361,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "summary": {
+      "filename": "cinearchives_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 894,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "video_links": {
+      "filename": "cinearchives_links_video.csv",
+      "exists": true,
+      "size_bytes": 60462,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "internal_pages": {
+      "filename": "cinearchives_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 9276,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "analytic_summary": {
+      "filename": "cinearchives_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1271,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "cinearchives_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 66221,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "availability_summary": {
+      "filename": "cinearchives_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "availability_reasons": {
+      "filename": "cinearchives_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "visibility_summary": {
+      "filename": "cinearchives_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "access_surface_summary": {
+      "filename": "cinearchives_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 56,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "access_regime_summary": {
+      "filename": "cinearchives_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "theme_summary": {
+      "filename": "cinearchives_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 138,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "theme_country": {
+      "filename": "cinearchives_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 164,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "archive_type_summary": {
+      "filename": "cinearchives_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 88,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "theme_platform": {
+      "filename": "cinearchives_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 194,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "theme_archive_type": {
+      "filename": "cinearchives_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 334,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "visibility_archive_type": {
+      "filename": "cinearchives_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 148,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "timeline_corpus": {
+      "filename": "cinearchives_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 878,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "timeline_institutions": {
+      "filename": "cinearchives_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1840,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "extinction_signals": {
+      "filename": "cinearchives_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "snapshot_metadata": {
+      "filename": "cinearchives_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5421,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "report_json": {
+      "filename": "cinearchives_relatorio.json",
+      "exists": true,
+      "size_bytes": 1695,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "report_txt": {
+      "filename": "cinearchives_relatorio.txt",
+      "exists": true,
+      "size_bytes": 905,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    },
+    "report_xlsx": {
+      "filename": "cinearchives_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 62882,
+      "last_modified_at": "2026-06-18T18:10:26Z"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "source": "https://api.3cat.cat/cercador/tot",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "3Cat": 16
+  },
+  "top_domains": [
+    [
+      "3cat.cat",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Corporació Catalana de Mitjans Audiovisuals (CCMA) / 3Cat",
+      "slug": "ccma-3cat",
+      "country": "Spain",
+      "continent": "Europe",
+      "repository_code": "ES-CCMA",
+      "archive_type": "Public service broadcaster digital video archive",
+      "ccma_detail_url": "https://www.3cat.cat/3cat/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.3cat.cat/3cat/",
+      "partner_domain": "3cat.cat",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://api.3cat.cat/cercador/tot?_format=json&text=Descobreix+l%27arxiu+de+TV3&tipologia=DTY_VIDEO_MM&items_pagina=12&pagina=1&sdom=img&version=2.0&cache=180&https=true&master=yes",
+      "video_links_found_total": 16,
+      "embedded_video_signals_total": 14,
+      "candidate_internal_pages": 21,
+      "priority_review": false,
+      "warning": "Recorte MVP: busca pública 3Cat por `Descobreix l'arxiu de TV3`, restrita a `DTY_VIDEO_MM`, até 2 páginas. Não é o acervo integral da CCMA; o serviço de venda de imagens de arquivo é registrado como superfície restrita/sob demanda, fora do corpus público.",
+      "error": ""
+    }
+  ]
+}

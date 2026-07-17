@@ -1,0 +1,168 @@
+{
+  "dataset": "filmarchiv_austria",
+  "generated_at": "2026-07-15T20:06:58Z",
+  "generated_by": "scripts/run_filmarchiv_austria_pipeline.py",
+  "observation_key": "filmarchiv_austria:2026-07-15T20:06:58Z",
+  "source_url": "https://www.filmarchiv.at/de/filmarchiv-on",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-15T20:06:58Z",
+  "analytic_outputs_last_modified_at": "2026-07-15T20:06:56Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 529,
+    "videos_in_curatorial_catalog": 529,
+    "visibility_categories": 1,
+    "theme_categories": 5,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "filmarchiv_austria_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 376,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "summary": {
+      "filename": "filmarchiv_austria_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 913,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "video_links": {
+      "filename": "filmarchiv_austria_links_video.csv",
+      "exists": true,
+      "size_bytes": 742925,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "internal_pages": {
+      "filename": "filmarchiv_austria_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 203796,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "analytic_summary": {
+      "filename": "filmarchiv_austria_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1305,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "filmarchiv_austria_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 814278,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "availability_summary": {
+      "filename": "filmarchiv_austria_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "availability_reasons": {
+      "filename": "filmarchiv_austria_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "visibility_summary": {
+      "filename": "filmarchiv_austria_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "access_surface_summary": {
+      "filename": "filmarchiv_austria_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "access_regime_summary": {
+      "filename": "filmarchiv_austria_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 70,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "theme_summary": {
+      "filename": "filmarchiv_austria_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 215,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "theme_country": {
+      "filename": "filmarchiv_austria_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 260,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "archive_type_summary": {
+      "filename": "filmarchiv_austria_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 95,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "theme_platform": {
+      "filename": "filmarchiv_austria_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 296,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "theme_archive_type": {
+      "filename": "filmarchiv_austria_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 564,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "visibility_archive_type": {
+      "filename": "filmarchiv_austria_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 155,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "timeline_corpus": {
+      "filename": "filmarchiv_austria_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 747,
+      "last_modified_at": "2026-07-15T20:06:58Z"
+    },
+    "timeline_institutions": {
+      "filename": "filmarchiv_austria_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1390,
+      "last_modified_at": "2026-07-15T20:06:58Z"
+    },
+    "extinction_signals": {
+      "filename": "filmarchiv_austria_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-15T20:06:58Z"
+    },
+    "snapshot_metadata": {
+      "filename": "filmarchiv_austria_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5578,
+      "last_modified_at": "2026-07-15T20:06:58Z"
+    },
+    "report_json": {
+      "filename": "filmarchiv_austria_relatorio.json",
+      "exists": true,
+      "size_bytes": 1701,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "report_txt": {
+      "filename": "filmarchiv_austria_relatorio.txt",
+      "exists": true,
+      "size_bytes": 905,
+      "last_modified_at": "2026-07-15T20:06:56Z"
+    },
+    "report_xlsx": {
+      "filename": "filmarchiv_austria_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 522725,
+      "last_modified_at": "2026-07-15T20:06:58Z"
+    }
+  }
+}

@@ -203,11 +203,20 @@ def is_probably_video_link(url, platform=None):
     if platform == "American Archive of Public Broadcasting":
         return path.startswith("/catalog/")
 
+    if platform == "Česká televize iVysílání":
+        return path.startswith("/porady/") and bool(re.search(r"/\d+/?$", path))
+
+    if platform == "filmportal.de":
+        return path.startswith("/video/") and len(path.split("/")) >= 3
+
     if platform == "Eventbook":
         return path.startswith("/film/")
 
     if platform == "AQSHF":
         return path.startswith("/motion_picture/")
+
+    if platform == "Arsenal Film Database":
+        return path.startswith("/detail/works/")
 
     if platform == "AAMOD":
         return path.startswith("/i-nostri-film/")

@@ -1,0 +1,53 @@
+{
+  "source": "https://www.deutsche-kinemathek.de/en/online/streaming",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Deutsche Kinemathek Selects": 9
+  },
+  "top_domains": [
+    [
+      "deutsche-kinemathek.de",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Deutsche Kinemathek / Museum für Film und Fernsehen",
+      "slug": "deutsche-kinemathek-museum-fuer-film-und-fernsehen",
+      "country": "Germany",
+      "continent": "Europe",
+      "repository_code": "DE-DEUTSCHE-KINEMATHEK",
+      "archive_type": "Film archive and museum with public curatorial streaming program",
+      "deutsche_kinemathek_detail_url": "https://www.deutsche-kinemathek.de/en/online/streaming",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.deutsche-kinemathek.de/en/online/streaming",
+      "partner_domain": "deutsche-kinemathek.de",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.deutsche-kinemathek.de/en/online/streaming",
+      "video_links_found_total": 9,
+      "embedded_video_signals_total": 9,
+      "candidate_internal_pages": 15,
+      "priority_review": "baixa",
+      "warning": "Corpus Deutsche Kinemathek incorporado pela rota pública Selects. O MVP materializa 9 filmes do programa vigente, com 9 sinais de player. A coleta não representa o Film Archive integral, não esgota o portal de busca e não baixa mídia.",
+      "error": ""
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "source": "https://www.cinematheque.fr/henri/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "HENRI": 255
+  },
+  "top_domains": [
+    [
+      "cinematheque.fr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Cinémathèque française / Musée du cinéma",
+      "slug": "cin-math-que-fran-aise-mus-e-du-cin-ma",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CINEMATHEQUE-FRANCAISE",
+      "archive_type": "National cinematheque and online film streaming platform",
+      "cinematheque_francaise_detail_url": "https://www.cinematheque.fr/les-collections-de-la-cinematheque-francaise.html",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.cinematheque.fr/henri/",
+      "partner_domain": "cinematheque.fr",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.cinematheque.fr/henri/",
+      "video_links_found_total": 255,
+      "embedded_video_signals_total": 24,
+      "candidate_internal_pages": 26,
+      "priority_review": false,
+      "warning": "Corpus incorporado pelo recorte público HENRI da Cinémathèque française. A instituição declara mais de 40.000 filmes em seu acervo físico, mas o organismo materializa 255 registros disponíveis na superfície pública HENRI e enriquece até 24 fichas, sem baixar mídia e sem afirmar cobertura total.",
+      "error": ""
+    }
+  ]
+}

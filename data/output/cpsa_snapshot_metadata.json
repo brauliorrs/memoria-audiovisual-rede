@@ -1,0 +1,168 @@
+{
+  "dataset": "cpsa",
+  "generated_at": "2026-07-06T15:00:33Z",
+  "generated_by": "scripts/run_cpsa_pipeline.py",
+  "observation_key": "cpsa:2026-07-06T15:00:33Z",
+  "source_url": "https://www.letelepherique.org/le-catalogue-des-collections-527-0-0-0.html",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-06T15:00:33Z",
+  "analytic_outputs_last_modified_at": "2026-07-06T15:00:33Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 23,
+    "videos_in_curatorial_catalog": 23,
+    "visibility_categories": 1,
+    "theme_categories": 1,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "cpsa_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 416,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "summary": {
+      "filename": "cpsa_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1032,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "video_links": {
+      "filename": "cpsa_links_video.csv",
+      "exists": true,
+      "size_bytes": 18168,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "internal_pages": {
+      "filename": "cpsa_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 10997,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "analytic_summary": {
+      "filename": "cpsa_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1409,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "cpsa_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 20930,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "availability_summary": {
+      "filename": "cpsa_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "availability_reasons": {
+      "filename": "cpsa_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "visibility_summary": {
+      "filename": "cpsa_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "access_surface_summary": {
+      "filename": "cpsa_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 56,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "access_regime_summary": {
+      "filename": "cpsa_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "theme_summary": {
+      "filename": "cpsa_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 55,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "theme_country": {
+      "filename": "cpsa_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 67,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "archive_type_summary": {
+      "filename": "cpsa_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 75,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "theme_platform": {
+      "filename": "cpsa_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 112,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "theme_archive_type": {
+      "filename": "cpsa_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 120,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "visibility_archive_type": {
+      "filename": "cpsa_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 135,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "timeline_corpus": {
+      "filename": "cpsa_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 804,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "timeline_institutions": {
+      "filename": "cpsa_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1992,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "extinction_signals": {
+      "filename": "cpsa_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "snapshot_metadata": {
+      "filename": "cpsa_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5226,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "report_json": {
+      "filename": "cpsa_relatorio.json",
+      "exists": true,
+      "size_bytes": 1886,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "report_txt": {
+      "filename": "cpsa_relatorio.txt",
+      "exists": true,
+      "size_bytes": 1000,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    },
+    "report_xlsx": {
+      "filename": "cpsa_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 30157,
+      "last_modified_at": "2026-07-06T15:00:33Z"
+    }
+  }
+}

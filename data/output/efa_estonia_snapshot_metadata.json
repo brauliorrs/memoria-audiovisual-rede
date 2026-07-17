@@ -1,0 +1,168 @@
+{
+  "dataset": "estonian_film_archive",
+  "generated_at": "2026-07-15T19:38:45Z",
+  "generated_by": "scripts/run_estonian_film_archive_pipeline.py",
+  "observation_key": "estonian_film_archive:2026-07-15T19:38:42Z",
+  "source_url": "https://arkaader.ee/landing/br/rHczO7kKnl/pbOiQfMOLr",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-15T19:38:42Z",
+  "analytic_outputs_last_modified_at": "2026-07-15T19:38:38Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 3839,
+    "videos_in_curatorial_catalog": 3839,
+    "visibility_categories": 1,
+    "theme_categories": 7,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "efa_estonia_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 454,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "summary": {
+      "filename": "efa_estonia_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 997,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "video_links": {
+      "filename": "efa_estonia_links_video.csv",
+      "exists": true,
+      "size_bytes": 4057963,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "internal_pages": {
+      "filename": "efa_estonia_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 1202,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "analytic_summary": {
+      "filename": "efa_estonia_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1493,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "efa_estonia_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 4530475,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "availability_summary": {
+      "filename": "efa_estonia_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "availability_reasons": {
+      "filename": "efa_estonia_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "visibility_summary": {
+      "filename": "efa_estonia_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "access_surface_summary": {
+      "filename": "efa_estonia_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 187,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "access_regime_summary": {
+      "filename": "efa_estonia_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 60,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "theme_summary": {
+      "filename": "efa_estonia_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 270,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "theme_country": {
+      "filename": "efa_estonia_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 331,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "archive_type_summary": {
+      "filename": "efa_estonia_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 95,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "theme_platform": {
+      "filename": "efa_estonia_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 344,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "theme_archive_type": {
+      "filename": "efa_estonia_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 751,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "visibility_archive_type": {
+      "filename": "efa_estonia_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 155,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "timeline_corpus": {
+      "filename": "efa_estonia_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 1173,
+      "last_modified_at": "2026-07-15T19:38:45Z"
+    },
+    "timeline_institutions": {
+      "filename": "efa_estonia_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2726,
+      "last_modified_at": "2026-07-15T19:38:45Z"
+    },
+    "extinction_signals": {
+      "filename": "efa_estonia_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-15T19:38:45Z"
+    },
+    "snapshot_metadata": {
+      "filename": "efa_estonia_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5434,
+      "last_modified_at": "2026-07-15T19:38:45Z"
+    },
+    "report_json": {
+      "filename": "efa_estonia_relatorio.json",
+      "exists": true,
+      "size_bytes": 1789,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "report_txt": {
+      "filename": "efa_estonia_relatorio.txt",
+      "exists": true,
+      "size_bytes": 949,
+      "last_modified_at": "2026-07-15T19:38:38Z"
+    },
+    "report_xlsx": {
+      "filename": "efa_estonia_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 2162487,
+      "last_modified_at": "2026-07-15T19:38:42Z"
+    }
+  }
+}

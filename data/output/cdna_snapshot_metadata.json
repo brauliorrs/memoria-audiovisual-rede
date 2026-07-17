@@ -1,0 +1,168 @@
+{
+  "dataset": "cdna",
+  "generated_at": "2026-06-19T18:01:42Z",
+  "generated_by": "scripts/run_cdna_pipeline.py",
+  "observation_key": "cdna:2026-06-19T18:01:42Z",
+  "source_url": "https://cdna.memoirefilmiquenouvelleaquitaine.fr/films",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-19T18:01:42Z",
+  "analytic_outputs_last_modified_at": "2026-06-19T18:01:42Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 72,
+    "videos_in_curatorial_catalog": 72,
+    "visibility_categories": 1,
+    "theme_categories": 5,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "cdna_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 396,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "summary": {
+      "filename": "cdna_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 985,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "video_links": {
+      "filename": "cdna_links_video.csv",
+      "exists": true,
+      "size_bytes": 119085,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "internal_pages": {
+      "filename": "cdna_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 2252,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "analytic_summary": {
+      "filename": "cdna_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1362,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "cdna_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 126922,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "availability_summary": {
+      "filename": "cdna_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "availability_reasons": {
+      "filename": "cdna_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "visibility_summary": {
+      "filename": "cdna_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "access_surface_summary": {
+      "filename": "cdna_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 56,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "access_regime_summary": {
+      "filename": "cdna_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "theme_summary": {
+      "filename": "cdna_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 210,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "theme_country": {
+      "filename": "cdna_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 250,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "archive_type_summary": {
+      "filename": "cdna_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 75,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "theme_platform": {
+      "filename": "cdna_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 406,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "theme_archive_type": {
+      "filename": "cdna_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 459,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "visibility_archive_type": {
+      "filename": "cdna_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 135,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "timeline_corpus": {
+      "filename": "cdna_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 953,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "timeline_institutions": {
+      "filename": "cdna_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2418,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "extinction_signals": {
+      "filename": "cdna_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "snapshot_metadata": {
+      "filename": "cdna_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5207,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "report_json": {
+      "filename": "cdna_relatorio.json",
+      "exists": true,
+      "size_bytes": 1832,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "report_txt": {
+      "filename": "cdna_relatorio.txt",
+      "exists": true,
+      "size_bytes": 994,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    },
+    "report_xlsx": {
+      "filename": "cdna_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 89613,
+      "last_modified_at": "2026-06-19T18:01:42Z"
+    }
+  }
+}

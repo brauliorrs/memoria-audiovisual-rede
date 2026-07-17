@@ -1,0 +1,168 @@
+{
+  "dataset": "saint_etienne",
+  "generated_at": "2026-07-06T15:22:49Z",
+  "generated_by": "scripts/run_saint_etienne_pipeline.py",
+  "observation_key": "saint_etienne:2026-07-06T15:22:49Z",
+  "source_url": "https://cinematheque.saint-etienne.fr/Default/contenu-collections-test.aspx",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-06T15:22:49Z",
+  "analytic_outputs_last_modified_at": "2026-07-06T15:22:49Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 8,
+    "videos_in_curatorial_catalog": 8,
+    "visibility_categories": 1,
+    "theme_categories": 1,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "saint_etienne_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 430,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "summary": {
+      "filename": "saint_etienne_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1053,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "video_links": {
+      "filename": "saint_etienne_links_video.csv",
+      "exists": true,
+      "size_bytes": 15549,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "internal_pages": {
+      "filename": "saint_etienne_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 5309,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "analytic_summary": {
+      "filename": "saint_etienne_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1428,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "saint_etienne_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 16518,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "availability_summary": {
+      "filename": "saint_etienne_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "availability_reasons": {
+      "filename": "saint_etienne_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "visibility_summary": {
+      "filename": "saint_etienne_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "access_surface_summary": {
+      "filename": "saint_etienne_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 55,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "access_regime_summary": {
+      "filename": "saint_etienne_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "theme_summary": {
+      "filename": "saint_etienne_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 54,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "theme_country": {
+      "filename": "saint_etienne_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "archive_type_summary": {
+      "filename": "saint_etienne_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 78,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "theme_platform": {
+      "filename": "saint_etienne_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 98,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "theme_archive_type": {
+      "filename": "saint_etienne_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 122,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "visibility_archive_type": {
+      "filename": "saint_etienne_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 138,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "timeline_corpus": {
+      "filename": "saint_etienne_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 709,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "timeline_institutions": {
+      "filename": "saint_etienne_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1464,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "extinction_signals": {
+      "filename": "saint_etienne_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "snapshot_metadata": {
+      "filename": "saint_etienne_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5466,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "report_json": {
+      "filename": "saint_etienne_relatorio.json",
+      "exists": true,
+      "size_bytes": 1905,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "report_txt": {
+      "filename": "saint_etienne_relatorio.txt",
+      "exists": true,
+      "size_bytes": 1009,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    },
+    "report_xlsx": {
+      "filename": "saint_etienne_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 30195,
+      "last_modified_at": "2026-07-06T15:22:49Z"
+    }
+  }
+}

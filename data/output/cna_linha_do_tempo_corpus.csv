@@ -1,0 +1,3 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+cna,cna:2026-06-17T17:55:42Z,2026-06-17T17:55:42Z,,2026-06-17T17:55:42Z,2026-06-17T17:55:42Z,scripts/run_cna_pipeline.py,1,1,1,79,79,1,6,1,1,1
+cna,cna:2026-06-17T17:59:51Z,2026-06-17T17:59:51Z,,2026-06-17T17:59:51Z,2026-06-17T17:59:51Z,scripts/run_cna_pipeline.py,1,1,1,79,79,1,6,1,1,1

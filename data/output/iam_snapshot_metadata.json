@@ -1,0 +1,168 @@
+{
+  "dataset": "iam",
+  "generated_at": "2026-06-11T17:41:35Z",
+  "generated_by": "scripts/run_iam_pipeline.py",
+  "observation_key": "iam:2026-06-11T17:41:35Z",
+  "source_url": "https://institut-audiovisuel.mc/wp-json/wp/v2/medias",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-11T17:41:35Z",
+  "analytic_outputs_last_modified_at": "2026-06-11T17:41:35Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 173,
+    "videos_in_curatorial_catalog": 173,
+    "visibility_categories": 1,
+    "theme_categories": 4,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "iam_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 333,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "summary": {
+      "filename": "iam_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 945,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "video_links": {
+      "filename": "iam_links_video.csv",
+      "exists": true,
+      "size_bytes": 247492,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "internal_pages": {
+      "filename": "iam_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 65381,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "analytic_summary": {
+      "filename": "iam_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1304,
+      "last_modified_at": "2026-06-11T17:41:34Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "iam_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 265868,
+      "last_modified_at": "2026-06-11T17:41:34Z"
+    },
+    "availability_summary": {
+      "filename": "iam_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-11T17:41:34Z"
+    },
+    "availability_reasons": {
+      "filename": "iam_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "visibility_summary": {
+      "filename": "iam_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-11T17:41:34Z"
+    },
+    "access_surface_summary": {
+      "filename": "iam_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 57,
+      "last_modified_at": "2026-06-11T17:41:34Z"
+    },
+    "access_regime_summary": {
+      "filename": "iam_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-06-11T17:41:34Z"
+    },
+    "theme_summary": {
+      "filename": "iam_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 144,
+      "last_modified_at": "2026-06-11T17:41:34Z"
+    },
+    "theme_country": {
+      "filename": "iam_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 177,
+      "last_modified_at": "2026-06-11T17:41:34Z"
+    },
+    "archive_type_summary": {
+      "filename": "iam_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 63,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "theme_platform": {
+      "filename": "iam_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 279,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "theme_archive_type": {
+      "filename": "iam_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 299,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "visibility_archive_type": {
+      "filename": "iam_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 123,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "timeline_corpus": {
+      "filename": "iam_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 657,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "timeline_institutions": {
+      "filename": "iam_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1268,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "extinction_signals": {
+      "filename": "iam_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "snapshot_metadata": {
+      "filename": "iam_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5182,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "report_json": {
+      "filename": "iam_relatorio.json",
+      "exists": true,
+      "size_bytes": 1770,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "report_txt": {
+      "filename": "iam_relatorio.txt",
+      "exists": true,
+      "size_bytes": 960,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    },
+    "report_xlsx": {
+      "filename": "iam_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 159128,
+      "last_modified_at": "2026-06-11T17:41:35Z"
+    }
+  }
+}

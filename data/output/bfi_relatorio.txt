@@ -1,0 +1,31 @@
+RELATORIO - BFI NATIONAL ARCHIVE
+============================================================
+
+Fonte: https://replay.bfi.org.uk/search
+Total de instituicoes analisadas: 1
+Instituicoes com acesso OK: 1
+Instituicoes com ao menos 1 link de video/plataforma: 1
+Instituicoes com sinais de midia embutida: 1
+
+Status dos sites parceiros:
+  - ok: 1
+
+Integridade dos links institucionais:
+  - acessivel: 1
+
+Plataformas detectadas:
+  - BFI Replay: 702
+
+Dominios parceiros mais frequentes:
+  - replay.bfi.org.uk: 1
+
+Distribuicao continental das instituicoes:
+  - Europe: 1
+
+Instituicoes com links de video por continente:
+  - Europe: 1
+
+Top 20 instituicoes com mais links de video detectados:
+  - BFI National Archive | links_video=702 | embeds=702 | status=ok | prioridade=media | url=https://replay.bfi.org.uk/search
+
+Instituicoes com erro ou restricao:

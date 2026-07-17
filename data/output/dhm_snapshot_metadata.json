@@ -1,0 +1,168 @@
+{
+  "dataset": "dhm",
+  "generated_at": "2026-07-13T19:00:12Z",
+  "generated_by": "scripts/run_dhm_pipeline.py",
+  "observation_key": "dhm:2026-07-13T19:00:12Z",
+  "source_url": "https://www.dhm.de/zeughauskino/en/programs/zeughauskino-online/films-of-the-marshall-plan/",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-13T19:00:12Z",
+  "analytic_outputs_last_modified_at": "2026-07-13T19:00:12Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 34,
+    "videos_in_curatorial_catalog": 34,
+    "visibility_categories": 1,
+    "theme_categories": 4,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "dhm_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 438,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "summary": {
+      "filename": "dhm_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1370,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "video_links": {
+      "filename": "dhm_links_video.csv",
+      "exists": true,
+      "size_bytes": 39684,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "internal_pages": {
+      "filename": "dhm_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 10190,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "analytic_summary": {
+      "filename": "dhm_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1767,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "dhm_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 44102,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "availability_summary": {
+      "filename": "dhm_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "availability_reasons": {
+      "filename": "dhm_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "visibility_summary": {
+      "filename": "dhm_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "access_surface_summary": {
+      "filename": "dhm_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 69,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "access_regime_summary": {
+      "filename": "dhm_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 75,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "theme_summary": {
+      "filename": "dhm_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 223,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "theme_country": {
+      "filename": "dhm_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 260,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "archive_type_summary": {
+      "filename": "dhm_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 95,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "theme_platform": {
+      "filename": "dhm_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 330,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "theme_archive_type": {
+      "filename": "dhm_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 506,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "visibility_archive_type": {
+      "filename": "dhm_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 155,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "timeline_corpus": {
+      "filename": "dhm_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 653,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "timeline_institutions": {
+      "filename": "dhm_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1554,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "extinction_signals": {
+      "filename": "dhm_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "snapshot_metadata": {
+      "filename": "dhm_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5218,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "report_json": {
+      "filename": "dhm_relatorio.json",
+      "exists": true,
+      "size_bytes": 2207,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "report_txt": {
+      "filename": "dhm_relatorio.txt",
+      "exists": true,
+      "size_bytes": 1010,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    },
+    "report_xlsx": {
+      "filename": "dhm_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 40287,
+      "last_modified_at": "2026-07-13T19:00:12Z"
+    }
+  }
+}

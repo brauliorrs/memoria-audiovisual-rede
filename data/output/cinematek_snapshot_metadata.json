@@ -1,0 +1,168 @@
+{
+  "dataset": "cinematek",
+  "generated_at": "2026-07-06T15:30:24Z",
+  "generated_by": "scripts/run_cinematek_pipeline.py",
+  "observation_key": "cinematek:2026-07-06T15:30:24Z",
+  "source_url": "https://cinematek.be/en/collections/be-film",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-06T15:30:24Z",
+  "analytic_outputs_last_modified_at": "2026-07-06T15:30:24Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 20,
+    "videos_in_curatorial_catalog": 20,
+    "visibility_categories": 1,
+    "theme_categories": 1,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "cinematek_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 416,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "summary": {
+      "filename": "cinematek_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 965,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "video_links": {
+      "filename": "cinematek_links_video.csv",
+      "exists": true,
+      "size_bytes": 12775,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "internal_pages": {
+      "filename": "cinematek_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 1426,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "analytic_summary": {
+      "filename": "cinematek_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1352,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "cinematek_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 15066,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "availability_summary": {
+      "filename": "cinematek_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "availability_reasons": {
+      "filename": "cinematek_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "visibility_summary": {
+      "filename": "cinematek_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "access_surface_summary": {
+      "filename": "cinematek_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 71,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "access_regime_summary": {
+      "filename": "cinematek_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 63,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "theme_summary": {
+      "filename": "cinematek_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 57,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "theme_country": {
+      "filename": "cinematek_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 70,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "archive_type_summary": {
+      "filename": "cinematek_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 88,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "theme_platform": {
+      "filename": "cinematek_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 83,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "theme_archive_type": {
+      "filename": "cinematek_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 135,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "visibility_archive_type": {
+      "filename": "cinematek_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 148,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "timeline_corpus": {
+      "filename": "cinematek_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 527,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "timeline_institutions": {
+      "filename": "cinematek_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 876,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "extinction_signals": {
+      "filename": "cinematek_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "snapshot_metadata": {
+      "filename": "cinematek_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5303,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "report_json": {
+      "filename": "cinematek_relatorio.json",
+      "exists": true,
+      "size_bytes": 1751,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "report_txt": {
+      "filename": "cinematek_relatorio.txt",
+      "exists": true,
+      "size_bytes": 905,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    },
+    "report_xlsx": {
+      "filename": "cinematek_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 24252,
+      "last_modified_at": "2026-07-06T15:30:24Z"
+    }
+  }
+}

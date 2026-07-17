@@ -1,0 +1,168 @@
+{
+  "dataset": "ecpad",
+  "generated_at": "2026-07-14T18:37:42Z",
+  "generated_by": "scripts/run_ecpad_pipeline.py",
+  "observation_key": "ecpad:2026-07-14T18:37:25Z",
+  "source_url": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-14T18:37:25Z",
+  "analytic_outputs_last_modified_at": "2026-07-14T18:36:47Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 36026,
+    "videos_in_curatorial_catalog": 36026,
+    "visibility_categories": 1,
+    "theme_categories": 6,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "ecpad_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 453,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "summary": {
+      "filename": "ecpad_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1246,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "video_links": {
+      "filename": "ecpad_links_video.csv",
+      "exists": true,
+      "size_bytes": 40254269,
+      "last_modified_at": "2026-07-14T18:36:48Z"
+    },
+    "internal_pages": {
+      "filename": "ecpad_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 2411,
+      "last_modified_at": "2026-07-14T18:36:48Z"
+    },
+    "analytic_summary": {
+      "filename": "ecpad_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1713,
+      "last_modified_at": "2026-07-14T18:36:45Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "ecpad_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 46066996,
+      "last_modified_at": "2026-07-14T18:36:46Z"
+    },
+    "availability_summary": {
+      "filename": "ecpad_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 34,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "availability_reasons": {
+      "filename": "ecpad_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 44,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "visibility_summary": {
+      "filename": "ecpad_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "access_surface_summary": {
+      "filename": "ecpad_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 127,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "access_regime_summary": {
+      "filename": "ecpad_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 87,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "theme_summary": {
+      "filename": "ecpad_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 331,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "theme_country": {
+      "filename": "ecpad_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 378,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "archive_type_summary": {
+      "filename": "ecpad_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 104,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "theme_platform": {
+      "filename": "ecpad_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 432,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "theme_archive_type": {
+      "filename": "ecpad_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 800,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "visibility_archive_type": {
+      "filename": "ecpad_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 164,
+      "last_modified_at": "2026-07-14T18:36:47Z"
+    },
+    "timeline_corpus": {
+      "filename": "ecpad_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 1283,
+      "last_modified_at": "2026-07-14T18:37:42Z"
+    },
+    "timeline_institutions": {
+      "filename": "ecpad_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 3899,
+      "last_modified_at": "2026-07-14T18:37:42Z"
+    },
+    "extinction_signals": {
+      "filename": "ecpad_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-14T18:37:42Z"
+    },
+    "snapshot_metadata": {
+      "filename": "ecpad_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5264,
+      "last_modified_at": "2026-07-14T18:37:42Z"
+    },
+    "report_json": {
+      "filename": "ecpad_relatorio.json",
+      "exists": true,
+      "size_bytes": 2065,
+      "last_modified_at": "2026-07-14T18:36:48Z"
+    },
+    "report_txt": {
+      "filename": "ecpad_relatorio.txt",
+      "exists": true,
+      "size_bytes": 1011,
+      "last_modified_at": "2026-07-14T18:36:48Z"
+    },
+    "report_xlsx": {
+      "filename": "ecpad_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 20427026,
+      "last_modified_at": "2026-07-14T18:37:25Z"
+    }
+  }
+}

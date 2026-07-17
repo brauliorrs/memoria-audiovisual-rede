@@ -1,0 +1,53 @@
+{
+  "source": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "BBC Archive": 817
+  },
+  "top_domains": [
+    [
+      "bbc.co.uk",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "BBC Archive",
+      "slug": "bbc-archive",
+      "country": "United Kingdom",
+      "continent": "Europe",
+      "repository_code": "GB-BBC-ARCHIVE",
+      "archive_type": "Broadcast audiovisual archive",
+      "bbc_detail_url": "https://www.bbc.co.uk/archive",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "partner_domain": "bbc.co.uk",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "video_links_found_total": 817,
+      "embedded_video_signals_total": 817,
+      "candidate_internal_pages": 48,
+      "priority_review": "baixa",
+      "warning": "Corpus institucional incorporado pelo tópico público BBC Archive (`/topics/c01yxyz46myt`). A rodada percorreu 42 páginas públicas e materializou 817 registros rotulados como vídeo. O recorte não equivale ao acervo total da BBC, ao Archive Search, ao BBC Rewind geobloqueado ou a serviços com registro/licença.",
+      "error": ""
+    }
+  ]
+}

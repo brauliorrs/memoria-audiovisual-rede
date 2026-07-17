@@ -1,0 +1,168 @@
+{
+  "dataset": "filmoteca-vasca",
+  "generated_at": "2026-07-15T18:32:49Z",
+  "generated_by": "scripts/run_filmoteca_vasca_pipeline.py",
+  "observation_key": "filmoteca-vasca:2026-07-15T18:32:49Z",
+  "source_url": "https://filmoteka.eus/es/coleccion/multimedia",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-15T18:32:49Z",
+  "analytic_outputs_last_modified_at": "2026-07-15T18:32:49Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 149,
+    "videos_in_curatorial_catalog": 149,
+    "visibility_categories": 1,
+    "theme_categories": 6,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "filmoteca_vasca_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 345,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "summary": {
+      "filename": "filmoteca_vasca_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 800,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "video_links": {
+      "filename": "filmoteca_vasca_links_video.csv",
+      "exists": true,
+      "size_bytes": 122706,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "internal_pages": {
+      "filename": "filmoteca_vasca_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 85934,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "analytic_summary": {
+      "filename": "filmoteca_vasca_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1154,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "filmoteca_vasca_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 137848,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "availability_summary": {
+      "filename": "filmoteca_vasca_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 34,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "availability_reasons": {
+      "filename": "filmoteca_vasca_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 44,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "visibility_summary": {
+      "filename": "filmoteca_vasca_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "access_surface_summary": {
+      "filename": "filmoteca_vasca_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 52,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "access_regime_summary": {
+      "filename": "filmoteca_vasca_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 47,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "theme_summary": {
+      "filename": "filmoteca_vasca_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 243,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "theme_country": {
+      "filename": "filmoteca_vasca_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 284,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "archive_type_summary": {
+      "filename": "filmoteca_vasca_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 76,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "theme_platform": {
+      "filename": "filmoteca_vasca_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 290,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "theme_archive_type": {
+      "filename": "filmoteca_vasca_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 544,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "visibility_archive_type": {
+      "filename": "filmoteca_vasca_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 136,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "timeline_corpus": {
+      "filename": "filmoteca_vasca_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 911,
+      "last_modified_at": "2026-07-15T18:32:50Z"
+    },
+    "timeline_institutions": {
+      "filename": "filmoteca_vasca_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1732,
+      "last_modified_at": "2026-07-15T18:32:50Z"
+    },
+    "extinction_signals": {
+      "filename": "filmoteca_vasca_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-15T18:32:50Z"
+    },
+    "snapshot_metadata": {
+      "filename": "filmoteca_vasca_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5498,
+      "last_modified_at": "2026-07-15T18:32:50Z"
+    },
+    "report_json": {
+      "filename": "filmoteca_vasca_relatorio.json",
+      "exists": true,
+      "size_bytes": 1580,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "report_txt": {
+      "filename": "filmoteca_vasca_relatorio.txt",
+      "exists": true,
+      "size_bytes": 876,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    },
+    "report_xlsx": {
+      "filename": "filmoteca_vasca_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 87023,
+      "last_modified_at": "2026-07-15T18:32:49Z"
+    }
+  }
+}

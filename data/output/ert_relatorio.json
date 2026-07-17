@@ -1,0 +1,53 @@
+{
+  "source": "https://archive.ert.gr/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "ERT Archive": 28456
+  },
+  "top_domains": [
+    [
+      "archive.ert.gr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "ERT - Hellenic Broadcasting Corporation Archive",
+      "slug": "ert-archive",
+      "country": "Greece",
+      "continent": "Europe",
+      "repository_code": "GR-ERT",
+      "archive_type": "Public service broadcaster audiovisual archive",
+      "ert_detail_url": "https://archive.ert.gr/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://archive.ert.gr/",
+      "partner_domain": "archive.ert.gr",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://archive.ert.gr/",
+      "video_links_found_total": 28456,
+      "embedded_video_signals_total": 28456,
+      "candidate_internal_pages": 387,
+      "priority_review": false,
+      "warning": "Corpus ERT incorporado pela API pública WordPress do ERT Archive. Coleções sem imagem em movimento ficam fora do escopo da coleta. Páginas API lidas: 383 de 383. Páginas recuperadas por fallback HTML público: 5. Fallbacks metodológicos: página 2: JSON com conteúdo inválido; fallback HTML público aplicado | página 88: JSON com conteúdo inválido; fallback HTML público aplicado | página 124: JSON com conteúdo inválido; fallback HTML público aplicado | página 147: JSON com conteúdo inválido; fallback HTML público aplicado | página 309: JSON com conteúdo inválido; fallback HTML público aplicado.",
+      "error": ""
+    }
+  ]
+}

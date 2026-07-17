@@ -12,11 +12,53 @@ from .config import (
     ANF_EVENTBOOK_URL,
     AQSHF_MOTION_PICTURES_URL,
     APE_CONTENT_PDF_URL,
+    ASIM_EFG_SEARCH_URL,
+    ARSENAL_FILM_DATABASE_BROWSE_URL,
     ARCHIPOP_FILMS_URL,
+    AUTREFOIS_VIDEOS_API_URL,
+    BARCH_EFG_COLLECTION_URL,
+    BBC_ARCHIVE_TOPIC_URL,
+    BFI_REPLAY_SEARCH_URL,
+    BNFA_EFG_COLLECTION_URL,
+    BNT_ARCHIVE_AZ_URL,
+    CCMA_SEARCH_API_URL,
+    CZECH_TELEVISION_IVYSILANI_URL,
+    DFF_FILMPORTAL_VIDEOS_URL,
+    DHM_MARSHALL_PLAN_URL,
+    EAFA_HOME_URL,
+    ECPAD_ONLINE_ARCHIVES_URL,
+    ERT_ARCHIVE_HOME_URL,
+    EYE_FILM_FRAGMENT_LIST_URL,
+    ARKAADER_FILM_SHELF_URL,
+    FILMARCHIV_AUSTRIA_ON_URL,
+    DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
+    FILMOTECA_CATALUNYA_PLATFO_URL,
+    FILMOTECA_ESPANOLA_PLATFO_URL,
+    FILMOTECA_VALENCIANA_RESTORATIONS_URL,
+    DEUTSCHE_KINEMATHEK_STREAMING_URL,
+    DR_GENSYN_URL,
+    CICLIC_FILMS_ARCHIVES_URL,
+    CINEAM_FILMS_URL,
+    CINEMEMOIRE_SEARCH_URL,
+    CINEARCHIVES_CATALOG_URL,
+    CDNA_FILMS_URL,
+    CINEMATHEQUE_BRETAGNE_FILMS_URL,
+    CINEMATHEQUE_FRANCAISE_HENRI_URL,
+    CINEMATHEQUE_SUISSE_MEMOBASE_RECORDSET_URL,
+    CINEMATEK_BE_FILM_URL,
+    CPSA_FILMS_URL,
+    CRNOGORSKA_KINOTEKA_EFG_SEARCH_URL,
+    SAINT_ETIENNE_COLLECTIONS_URL,
+    CINEMATECA_PT_VIDEO_LIST_URL,
+    FILMOTECA_VASCA_MULTIMEDIA_URL,
+    CNCAFF_EFG_SEARCH_URL,
+    CNA_SEARCH_PROFILE_URL,
     EUSCREEN_COLLECTIONS_URL,
     EUROPEAN_FILM_GATEWAY_HOME_URL,
     EUROPEANA_HOME_URL,
+    IAM_MEDIAS_API_URL,
     INA_INSTITUTION_URL,
+    LUCE_CATALOG_FILMS_URL,
     PARES_HOME_URL,
     PPA_HOME_URL,
     SFA_HOME_URL,
@@ -27,11 +69,53 @@ from .output_files import (
     ANF_OUTPUT_FILES,
     AQSHF_OUTPUT_FILES,
     APE_OUTPUT_FILES,
+    ASIM_OUTPUT_FILES,
+    ARSENAL_OUTPUT_FILES,
     ARCHIPOP_OUTPUT_FILES,
+    AUTREFOIS_OUTPUT_FILES,
+    BARCH_OUTPUT_FILES,
+    BBC_OUTPUT_FILES,
+    BFI_OUTPUT_FILES,
+    BNFA_OUTPUT_FILES,
+    BNT_OUTPUT_FILES,
+    CCMA_OUTPUT_FILES,
+    CZECH_TELEVISION_OUTPUT_FILES,
+    DFF_OUTPUT_FILES,
+    DHM_OUTPUT_FILES,
+    EAFA_OUTPUT_FILES,
+    ECPAD_OUTPUT_FILES,
+    ERT_OUTPUT_FILES,
+    EYE_OUTPUT_FILES,
+    ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES,
+    FILMARCHIV_AUSTRIA_OUTPUT_FILES,
+    FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
+    FILMOTECA_CATALUNYA_OUTPUT_FILES,
+    FILMOTECA_ESPANOLA_OUTPUT_FILES,
+    FILMOTECA_VALENCIANA_OUTPUT_FILES,
+    DEUTSCHE_KINEMATHEK_OUTPUT_FILES,
+    DR_OUTPUT_FILES,
+    CICLIC_OUTPUT_FILES,
+    CINEAM_OUTPUT_FILES,
+    CINEMEMOIRE_OUTPUT_FILES,
+    CINEARCHIVES_OUTPUT_FILES,
+    CDNA_OUTPUT_FILES,
+    CINEMATHEQUE_BRETAGNE_OUTPUT_FILES,
+    CINEMATHEQUE_FRANCAISE_OUTPUT_FILES,
+    CINEMATHEQUE_SUISSE_OUTPUT_FILES,
+    CINEMATEK_OUTPUT_FILES,
+    CRNOGORSKA_KINOTEKA_OUTPUT_FILES,
+    CPSA_OUTPUT_FILES,
+    SAINT_ETIENNE_OUTPUT_FILES,
+    CINEMATECA_PT_OUTPUT_FILES,
+    FILMOTECA_VASCA_OUTPUT_FILES,
+    CNCAFF_OUTPUT_FILES,
+    CNA_OUTPUT_FILES,
     EUSCREEN_OUTPUT_FILES,
     EUROPEAN_FILM_GATEWAY_OUTPUT_FILES,
     EUROPEANA_OUTPUT_FILES,
+    IAM_OUTPUT_FILES,
     INA_OUTPUT_FILES,
+    LUCE_OUTPUT_FILES,
     PARES_OUTPUT_FILES,
     PPA_OUTPUT_FILES,
     SFA_OUTPUT_FILES,
@@ -368,6 +452,826 @@ def build_aqshf_snapshot_metadata(
     )
 
 
+def build_iam_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="iam",
+        source_url=IAM_MEDIAS_API_URL,
+        output_files=IAM_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_autrefois_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="autrefois",
+        source_url=AUTREFOIS_VIDEOS_API_URL,
+        output_files=AUTREFOIS_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_bbc_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="bbc",
+        source_url=BBC_ARCHIVE_TOPIC_URL,
+        output_files=BBC_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_bfi_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="bfi",
+        source_url=BFI_REPLAY_SEARCH_URL,
+        output_files=BFI_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_bnt_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="bnt",
+        source_url=BNT_ARCHIVE_AZ_URL,
+        output_files=BNT_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_ciclic_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="ciclic",
+        source_url=CICLIC_FILMS_ARCHIVES_URL,
+        output_files=CICLIC_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cineam_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cineam",
+        source_url=CINEAM_FILMS_URL,
+        output_files=CINEAM_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cinememoire_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cinememoire",
+        source_url=CINEMEMOIRE_SEARCH_URL,
+        output_files=CINEMEMOIRE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_ccma_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="ccma",
+        source_url=CCMA_SEARCH_API_URL,
+        output_files=CCMA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_czech_television_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="czech-television",
+        source_url=CZECH_TELEVISION_IVYSILANI_URL,
+        output_files=CZECH_TELEVISION_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_dff_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="dff",
+        source_url=DFF_FILMPORTAL_VIDEOS_URL,
+        output_files=DFF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_dhm_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="dhm",
+        source_url=DHM_MARSHALL_PLAN_URL,
+        output_files=DHM_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_ecpad_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="ecpad",
+        source_url=ECPAD_ONLINE_ARCHIVES_URL,
+        output_files=ECPAD_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_eafa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="eafa",
+        source_url=EAFA_HOME_URL,
+        output_files=EAFA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_ert_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="ert",
+        source_url=ERT_ARCHIVE_HOME_URL,
+        output_files=ERT_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_deutsche_kinemathek_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="deutsche-kinemathek",
+        source_url=DEUTSCHE_KINEMATHEK_STREAMING_URL,
+        output_files=DEUTSCHE_KINEMATHEK_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_dr_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="dr",
+        source_url=DR_GENSYN_URL,
+        output_files=DR_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cinearchives_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cinearchives",
+        source_url=CINEARCHIVES_CATALOG_URL,
+        output_files=CINEARCHIVES_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cinematheque_bretagne_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cinematheque_bretagne",
+        source_url=CINEMATHEQUE_BRETAGNE_FILMS_URL,
+        output_files=CINEMATHEQUE_BRETAGNE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cinematheque_francaise_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cinematheque_francaise",
+        source_url=CINEMATHEQUE_FRANCAISE_HENRI_URL,
+        output_files=CINEMATHEQUE_FRANCAISE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cinematek_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cinematek",
+        source_url=CINEMATEK_BE_FILM_URL,
+        output_files=CINEMATEK_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_eye_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="eye",
+        source_url=EYE_FILM_FRAGMENT_LIST_URL,
+        output_files=EYE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_estonian_film_archive_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="estonian_film_archive",
+        source_url=ARKAADER_FILM_SHELF_URL,
+        output_files=ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_filmarchiv_austria_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="filmarchiv_austria",
+        source_url=FILMARCHIV_AUSTRIA_ON_URL,
+        output_files=FILMARCHIV_AUSTRIA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_filmmuseum_dusseldorf_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="filmmuseum_dusseldorf",
+        source_url=DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
+        output_files=FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_filmoteca_catalunya_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="filmoteca_catalunya",
+        source_url=FILMOTECA_CATALUNYA_PLATFO_URL,
+        output_files=FILMOTECA_CATALUNYA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_filmoteca_espanola_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="filmoteca_espanola",
+        source_url=FILMOTECA_ESPANOLA_PLATFO_URL,
+        output_files=FILMOTECA_ESPANOLA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_filmoteca_valenciana_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="filmoteca_valenciana",
+        source_url=FILMOTECA_VALENCIANA_RESTORATIONS_URL,
+        output_files=FILMOTECA_VALENCIANA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cinematheque_suisse_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cinematheque-suisse",
+        source_url=CINEMATHEQUE_SUISSE_MEMOBASE_RECORDSET_URL,
+        output_files=CINEMATHEQUE_SUISSE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cpsa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cpsa",
+        source_url=CPSA_FILMS_URL,
+        output_files=CPSA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_saint_etienne_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="saint_etienne",
+        source_url=SAINT_ETIENNE_COLLECTIONS_URL,
+        output_files=SAINT_ETIENNE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cdna_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cdna",
+        source_url=CDNA_FILMS_URL,
+        output_files=CDNA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cna_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cna",
+        source_url=CNA_SEARCH_PROFILE_URL,
+        output_files=CNA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cinemateca_portuguesa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cinemateca-portuguesa",
+        source_url=CINEMATECA_PT_VIDEO_LIST_URL,
+        output_files=CINEMATECA_PT_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_filmoteca_vasca_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="filmoteca-vasca",
+        source_url=FILMOTECA_VASCA_MULTIMEDIA_URL,
+        output_files=FILMOTECA_VASCA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_luce_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="luce",
+        source_url=LUCE_CATALOG_FILMS_URL,
+        output_files=LUCE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_cnc_aff_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="cnc-aff",
+        source_url=CNCAFF_EFG_SEARCH_URL,
+        output_files=CNCAFF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_bnfa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="bnfa",
+        source_url=BNFA_EFG_COLLECTION_URL,
+        output_files=BNFA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_barch_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="barch",
+        source_url=BARCH_EFG_COLLECTION_URL,
+        output_files=BARCH_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_arsenal_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="arsenal",
+        source_url=ARSENAL_FILM_DATABASE_BROWSE_URL,
+        output_files=ARSENAL_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_asim_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="asim",
+        source_url=ASIM_EFG_SEARCH_URL,
+        output_files=ASIM_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_ape_snapshot_metadata(
     output_dir,
     *,
@@ -501,6 +1405,686 @@ def write_aqshf_snapshot_metadata(
         dataset="aqshf",
         source_url=AQSHF_MOTION_PICTURES_URL,
         output_files=AQSHF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_iam_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="iam",
+        source_url=IAM_MEDIAS_API_URL,
+        output_files=IAM_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_autrefois_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="autrefois",
+        source_url=AUTREFOIS_VIDEOS_API_URL,
+        output_files=AUTREFOIS_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_bbc_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="bbc",
+        source_url=BBC_ARCHIVE_TOPIC_URL,
+        output_files=BBC_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_bfi_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="bfi",
+        source_url=BFI_REPLAY_SEARCH_URL,
+        output_files=BFI_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_bnt_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="bnt",
+        source_url=BNT_ARCHIVE_AZ_URL,
+        output_files=BNT_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_ciclic_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="ciclic",
+        source_url=CICLIC_FILMS_ARCHIVES_URL,
+        output_files=CICLIC_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cineam_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cineam",
+        source_url=CINEAM_FILMS_URL,
+        output_files=CINEAM_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cinememoire_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cinememoire",
+        source_url=CINEMEMOIRE_SEARCH_URL,
+        output_files=CINEMEMOIRE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_ccma_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="ccma",
+        source_url=CCMA_SEARCH_API_URL,
+        output_files=CCMA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_czech_television_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="czech-television",
+        source_url=CZECH_TELEVISION_IVYSILANI_URL,
+        output_files=CZECH_TELEVISION_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_dff_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="dff",
+        source_url=DFF_FILMPORTAL_VIDEOS_URL,
+        output_files=DFF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_dhm_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="dhm",
+        source_url=DHM_MARSHALL_PLAN_URL,
+        output_files=DHM_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_deutsche_kinemathek_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="deutsche-kinemathek",
+        source_url=DEUTSCHE_KINEMATHEK_STREAMING_URL,
+        output_files=DEUTSCHE_KINEMATHEK_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_dr_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="dr",
+        source_url=DR_GENSYN_URL,
+        output_files=DR_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cinearchives_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cinearchives",
+        source_url=CINEARCHIVES_CATALOG_URL,
+        output_files=CINEARCHIVES_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cinematheque_bretagne_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cinematheque_bretagne",
+        source_url=CINEMATHEQUE_BRETAGNE_FILMS_URL,
+        output_files=CINEMATHEQUE_BRETAGNE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cinematheque_francaise_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cinematheque_francaise",
+        source_url=CINEMATHEQUE_FRANCAISE_HENRI_URL,
+        output_files=CINEMATHEQUE_FRANCAISE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cinematek_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cinematek",
+        source_url=CINEMATEK_BE_FILM_URL,
+        output_files=CINEMATEK_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_eye_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="eye",
+        source_url=EYE_FILM_FRAGMENT_LIST_URL,
+        output_files=EYE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_estonian_film_archive_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="estonian_film_archive",
+        source_url=ARKAADER_FILM_SHELF_URL,
+        output_files=ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cinematheque_suisse_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cinematheque-suisse",
+        source_url=CINEMATHEQUE_SUISSE_MEMOBASE_RECORDSET_URL,
+        output_files=CINEMATHEQUE_SUISSE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cpsa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cpsa",
+        source_url=CPSA_FILMS_URL,
+        output_files=CPSA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_saint_etienne_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="saint_etienne",
+        source_url=SAINT_ETIENNE_COLLECTIONS_URL,
+        output_files=SAINT_ETIENNE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cdna_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cdna",
+        source_url=CDNA_FILMS_URL,
+        output_files=CDNA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cna_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cna",
+        source_url=CNA_SEARCH_PROFILE_URL,
+        output_files=CNA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cinemateca_portuguesa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cinemateca-portuguesa",
+        source_url=CINEMATECA_PT_VIDEO_LIST_URL,
+        output_files=CINEMATECA_PT_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_luce_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="luce",
+        source_url=LUCE_CATALOG_FILMS_URL,
+        output_files=LUCE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_cnc_aff_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="cnc-aff",
+        source_url=CNCAFF_EFG_SEARCH_URL,
+        output_files=CNCAFF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_bnfa_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="bnfa",
+        source_url=BNFA_EFG_COLLECTION_URL,
+        output_files=BNFA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_barch_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="barch",
+        source_url=BARCH_EFG_COLLECTION_URL,
+        output_files=BARCH_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_arsenal_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="arsenal",
+        source_url=ARSENAL_FILM_DATABASE_BROWSE_URL,
+        output_files=ARSENAL_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_asim_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="asim",
+        source_url=ASIM_EFG_SEARCH_URL,
+        output_files=ASIM_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_crnogorska_kinoteka_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="crnogorska-kinoteka",
+        source_url=CRNOGORSKA_KINOTEKA_EFG_SEARCH_URL,
+        output_files=CRNOGORSKA_KINOTEKA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_crnogorska_kinoteka_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="crnogorska-kinoteka",
+        source_url=CRNOGORSKA_KINOTEKA_EFG_SEARCH_URL,
+        output_files=CRNOGORSKA_KINOTEKA_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
@@ -648,6 +2232,106 @@ def write_euscreen_snapshot_metadata(
     )
 
 
+def write_filmarchiv_austria_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="filmarchiv_austria",
+        source_url=FILMARCHIV_AUSTRIA_ON_URL,
+        output_files=FILMARCHIV_AUSTRIA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_filmmuseum_dusseldorf_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="filmmuseum_dusseldorf",
+        source_url=DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
+        output_files=FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_filmoteca_catalunya_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="filmoteca_catalunya",
+        source_url=FILMOTECA_CATALUNYA_PLATFO_URL,
+        output_files=FILMOTECA_CATALUNYA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_filmoteca_espanola_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="filmoteca_espanola",
+        source_url=FILMOTECA_ESPANOLA_PLATFO_URL,
+        output_files=FILMOTECA_ESPANOLA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def write_filmoteca_valenciana_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return write_snapshot_metadata(
+        output_dir,
+        dataset="filmoteca_valenciana",
+        source_url=FILMOTECA_VALENCIANA_RESTORATIONS_URL,
+        output_files=FILMOTECA_VALENCIANA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
 def write_pares_snapshot_metadata(
     output_dir,
     *,
@@ -756,10 +2440,52 @@ __all__ = [
     "build_anf_snapshot_metadata",
     "build_ape_snapshot_metadata",
     "build_aqshf_snapshot_metadata",
+    "build_asim_snapshot_metadata",
+    "build_arsenal_snapshot_metadata",
     "build_archipop_snapshot_metadata",
+    "build_autrefois_snapshot_metadata",
+    "build_barch_snapshot_metadata",
+    "build_bbc_snapshot_metadata",
+    "build_bfi_snapshot_metadata",
+    "build_bnfa_snapshot_metadata",
+    "build_bnt_snapshot_metadata",
+    "build_ccma_snapshot_metadata",
+    "build_czech_television_snapshot_metadata",
+    "build_dff_snapshot_metadata",
+    "build_dhm_snapshot_metadata",
+    "build_eafa_snapshot_metadata",
+    "build_ecpad_snapshot_metadata",
+    "build_ert_snapshot_metadata",
+    "build_deutsche_kinemathek_snapshot_metadata",
+    "build_dr_snapshot_metadata",
+    "build_ciclic_snapshot_metadata",
+    "build_cineam_snapshot_metadata",
+    "build_cinememoire_snapshot_metadata",
+    "build_cinearchives_snapshot_metadata",
+    "build_cdna_snapshot_metadata",
+    "build_cinematheque_bretagne_snapshot_metadata",
+    "build_cinematheque_francaise_snapshot_metadata",
+    "build_cinematheque_suisse_snapshot_metadata",
+    "build_cinematek_snapshot_metadata",
+    "build_eye_snapshot_metadata",
+    "build_estonian_film_archive_snapshot_metadata",
+    "build_filmarchiv_austria_snapshot_metadata",
+    "build_filmmuseum_dusseldorf_snapshot_metadata",
+    "build_filmoteca_catalunya_snapshot_metadata",
+    "build_filmoteca_espanola_snapshot_metadata",
+    "build_filmoteca_valenciana_snapshot_metadata",
+    "build_crnogorska_kinoteka_snapshot_metadata",
+    "build_cpsa_snapshot_metadata",
+    "build_saint_etienne_snapshot_metadata",
+    "build_cinemateca_portuguesa_snapshot_metadata",
+    "build_filmoteca_vasca_snapshot_metadata",
+    "build_cnc_aff_snapshot_metadata",
+    "build_cna_snapshot_metadata",
+    "build_luce_snapshot_metadata",
     "build_euscreen_snapshot_metadata",
     "build_european_film_gateway_snapshot_metadata",
     "build_europeana_snapshot_metadata",
+    "build_iam_snapshot_metadata",
     "build_ina_snapshot_metadata",
     "build_pares_snapshot_metadata",
     "build_ppa_snapshot_metadata",
@@ -771,10 +2497,48 @@ __all__ = [
     "write_anf_snapshot_metadata",
     "write_ape_snapshot_metadata",
     "write_aqshf_snapshot_metadata",
+    "write_asim_snapshot_metadata",
+    "write_arsenal_snapshot_metadata",
     "write_archipop_snapshot_metadata",
+    "write_autrefois_snapshot_metadata",
+    "write_barch_snapshot_metadata",
+    "write_bbc_snapshot_metadata",
+    "write_bfi_snapshot_metadata",
+    "write_bnfa_snapshot_metadata",
+    "write_bnt_snapshot_metadata",
+    "write_ccma_snapshot_metadata",
+    "write_czech_television_snapshot_metadata",
+    "write_dff_snapshot_metadata",
+    "write_dhm_snapshot_metadata",
+    "write_deutsche_kinemathek_snapshot_metadata",
+    "write_dr_snapshot_metadata",
+    "write_ciclic_snapshot_metadata",
+    "write_cineam_snapshot_metadata",
+    "write_cinememoire_snapshot_metadata",
+    "write_cinearchives_snapshot_metadata",
+    "write_cdna_snapshot_metadata",
+    "write_cinematheque_bretagne_snapshot_metadata",
+    "write_cinematheque_francaise_snapshot_metadata",
+    "write_cinematheque_suisse_snapshot_metadata",
+    "write_cinematek_snapshot_metadata",
+    "write_eye_snapshot_metadata",
+    "write_estonian_film_archive_snapshot_metadata",
+    "write_filmarchiv_austria_snapshot_metadata",
+    "write_filmmuseum_dusseldorf_snapshot_metadata",
+    "write_filmoteca_catalunya_snapshot_metadata",
+    "write_filmoteca_espanola_snapshot_metadata",
+    "write_filmoteca_valenciana_snapshot_metadata",
+    "write_crnogorska_kinoteka_snapshot_metadata",
+    "write_cpsa_snapshot_metadata",
+    "write_saint_etienne_snapshot_metadata",
+    "write_cinemateca_portuguesa_snapshot_metadata",
+    "write_cnc_aff_snapshot_metadata",
+    "write_cna_snapshot_metadata",
+    "write_luce_snapshot_metadata",
     "write_euscreen_snapshot_metadata",
     "write_european_film_gateway_snapshot_metadata",
     "write_europeana_snapshot_metadata",
+    "write_iam_snapshot_metadata",
     "write_ina_snapshot_metadata",
     "write_pares_snapshot_metadata",
     "write_ppa_snapshot_metadata",

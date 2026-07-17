@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from .config import OUTPUT_DIR
+from .config import CINEMATHEQUE_SUISSE_MEMOBASE_RECORDSET_URL, OUTPUT_DIR
 from .corpora import CORPORA, CORPUS_CATEGORIES, list_active_corpora
 from .european_aggregators import (
     EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
@@ -25,6 +25,9 @@ EUROPE_CLOSURE_QUEUE_FILENAME = "observatorio_fila_fechamento_europa.csv"
 EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME = "observatorio_unidades_identificadas_nao_incorporadas.csv"
 EUROPE_CLOSURE_GAP_AUDIT_FILENAME = "observatorio_auditoria_lacunas_europa.csv"
 EUROPE_CLOSURE_RULE_VERSION = "2026-05-fechamento-europa-v1"
+CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY = "metadados_publicos_midia_local_autorizada_sem_video_publico"
+CINEMATHEQUE_SUISSE_NON_INCORPORATION_DECISION = "nao_incorporar_como_corpus_ativo_sem_video_publico_incorporavel"
+FILMMUSEUM_MUNCHEN_NON_INCORPORATION_CATEGORY = "arquivo_filmico_com_acervo_confirmado_sem_catalogo_publico_de_video"
 
 EUROPE_CLOSURE_MATRIX_COLUMNS = [
     "unit_code",
@@ -71,6 +74,7 @@ EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS = [
     "unit_label",
     "unit_type",
     "territorial_scope",
+    "access_category",
     "public_status",
     "methodological_decision",
     "negative_reason",
@@ -229,6 +233,49 @@ def _active_corpus_rows():
     return rows
 
 
+def _protocolled_individual_rows():
+    return [
+        {
+            "unit_code": "cinematheque-suisse",
+            "unit_label": "Cinémathèque suisse",
+            "unit_type": "arquivo_individual_protocolado",
+            "category": "Arquivos audiovisuais individuais protocolados",
+            "territorial_scope": "Suíça / instituição individual europeia",
+            "methodological_status": "identificado_com_metadados_publicos_sem_video_publico_incorporavel",
+            "evidence_status": "API Memobase retorna registros Film, mas mídia local/autorizada",
+            "audiovisual_interpretation": (
+                "A instituição é explicitamente audiovisual, mas o recorte do organismo exige vídeo público "
+                "ou rota audiovisual incorporável. A rota Memobase confirma metadados públicos, não acesso "
+                "público aos vídeos."
+            ),
+            "protocol_status": "protocolo_de_nao_incorporacao_por_acesso_restrito",
+            "incorporation_decision": CINEMATHEQUE_SUISSE_NON_INCORPORATION_DECISION,
+            "next_step": "monitorar_se_memobase_ou_site_institucional_passam_a_expor_video_publico",
+            "can_open_next_continent": True,
+            "rule_version": EUROPE_CLOSURE_RULE_VERSION,
+        },
+        {
+            "unit_code": "fiaf-filmmuseum-munchen",
+            "unit_label": "Filmmuseum München",
+            "unit_type": "arquivo_individual_protocolado",
+            "category": "Arquivos audiovisuais individuais protocolados",
+            "territorial_scope": "Munique / Alemanha / instituição individual europeia",
+            "methodological_status": "arquivo_filmico_confirmado_sem_catalogo_publico_de_video_coletavel",
+            "evidence_status": "site oficial confirma acervo fílmico, mas expõe programação e páginas institucionais",
+            "audiovisual_interpretation": (
+                "A instituição é explicitamente audiovisual e possui acervo fílmico. Nesta rodada, porém, as rotas "
+                "públicas verificadas não expõem catálogo público de vídeos de acervo nem metadados audiovisuais "
+                "coletáveis de forma reprodutível."
+            ),
+            "protocol_status": "acervo_preservado_e_programacao_publica_sem_rota_de_video_de_acervo",
+            "incorporation_decision": "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel",
+            "next_step": "retestar_site_oficial_sammlung_online_e_eventuais_catalogos_digitais_em_ciclos_futuros",
+            "can_open_next_continent": True,
+            "rule_version": EUROPE_CLOSURE_RULE_VERSION,
+        }
+    ]
+
+
 def _protocol_count(protocol_df):
     return int(len(protocol_df)) if protocol_df is not None and not protocol_df.empty else 0
 
@@ -369,6 +416,7 @@ def build_europe_closure_outputs(
     europeana_protocol_df = europeana_protocol_df if europeana_protocol_df is not None else pd.DataFrame()
 
     matrix_rows = _active_corpus_rows()
+    matrix_rows.extend(_protocolled_individual_rows())
     matrix_rows.extend(
         _candidate_rows(
             evaluation_df,
@@ -414,10 +462,11 @@ def build_europe_closure_outputs(
         {
             "criterion": "fila_europeia_organizada",
             "status": "materializado" if not queue_df.empty else "pendente",
-            "evidence": f"{len(queue_df)} unidades ordenadas na fila europeia",
+            "evidence": f"{len(queue_df)} pendências ordenadas na fila europeia",
             "interpretation": (
-                "A fila explicita o que deve virar pipeline, o que permanece protocolado e o que "
-                "segue apenas em monitoramento mensal."
+                "A fila explicita apenas pendências operacionais: o que deve virar pipeline, "
+                "o que permanece protocolado e o que ainda exige decisão. Corpora ativos ficam "
+                "na matriz e no ciclo mensal, fora da fila."
             ),
             "next_step": "executar_prioridades_europeias_antes_de_novo_continente",
             "rule_version": EUROPE_CLOSURE_RULE_VERSION,
@@ -497,9 +546,7 @@ def build_europe_closure_queue(matrix_df):
         can_open = str(row.get("can_open_next_continent", "")).lower() == "true"
 
         if unit_type == "corpus_ativo":
-            priority = 9
-            queue_status = "monitoramento_mensal"
-            queue_reason = "Corpus europeu já incorporado; precisa apenas permanecer no ciclo mensal."
+            continue
         elif protocol_status == "sem_prototipo_especifico_materializado":
             priority = 1
             queue_status = "protocolar_antes_da_expansao"
@@ -508,13 +555,28 @@ def build_europe_closure_queue(matrix_df):
             priority = 2
             queue_status = "validar_totalmente_para_incorporacao"
             queue_reason = "A sondagem indica rota pública, mas a unidade só entra após validação total."
-        elif incorporation_decision == "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel":
+        elif incorporation_decision in {
+            "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel",
+            CINEMATHEQUE_SUISSE_NON_INCORPORATION_DECISION,
+        }:
             priority = 8
             queue_status = "monitoramento_protocolado_sem_incorporacao_mvp"
-            queue_reason = (
-                "O protocolo documentou relevância, mas também ausência de rota estável; "
-                "a unidade permanece fora do corpus ativo no MVP."
-            )
+            if row.get("unit_code", "") == "cinematheque-suisse":
+                queue_reason = (
+                    "O protocolo documentou relevância e metadados públicos, mas não encontrou vídeo "
+                    "público incorporável; a unidade permanece fora do corpus ativo no MVP."
+                )
+            elif row.get("unit_code", "") == "fiaf-filmmuseum-munchen":
+                queue_reason = (
+                    "O protocolo confirmou acervo fílmico, mas as rotas públicas observadas são página "
+                    "institucional, história do acervo, programação, ingressos, vídeos institucionais gerais "
+                    "e busca instável na Sammlung Online; não há catálogo público de vídeos de acervo coletável."
+                )
+            else:
+                queue_reason = (
+                    "O protocolo documentou relevância, mas também ausência de rota estável; "
+                    "a unidade permanece fora do corpus ativo no MVP."
+                )
         else:
             priority = 3
             queue_status = "pendencia_protocolada"
@@ -546,6 +608,17 @@ def build_europe_closure_queue(matrix_df):
 
 def _collection_route_attempted(row):
     code = str(row.get("unit_code", ""))
+    if code == "cinematheque-suisse":
+        return (
+            "Página institucional do Film Department, endpoint Memobase da instituição csa, "
+            "conjunto `csa-001` e busca API `type:Film AND *:csa-001`."
+        )
+    if code == "fiaf-filmmuseum-munchen":
+        return (
+            "Página oficial do Filmmuseum, página Geschichte, Spielplan & Tickets, Filmreihen, página geral "
+            "de vídeos do Münchner Stadtmuseum, homepage da Sammlung Online e formulário público de busca "
+            "da Sammlung Online com o termo Film."
+        )
     if code == "archives-hub":
         return "SRU e OAI-PMH documentados; referência pública de APIs também sondada."
     if code == "francearchives":
@@ -555,6 +628,19 @@ def _collection_route_attempted(row):
 
 def _attempt_summary(row):
     code = str(row.get("unit_code", ""))
+    if code == "cinematheque-suisse":
+        return (
+            "A rota Memobase retornou registros Film e metadados públicos do conjunto `csa-001`, "
+            "mas os objetos digitais aparecem com acesso local/autorizado e uso sujeito a direitos. "
+            "Não foi identificado vídeo público incorporável ao corpus ativo."
+        )
+    if code == "fiaf-filmmuseum-munchen":
+        return (
+            "A página Geschichte confirma arquivo com cerca de 6.000 cópias, mas não oferece catálogo público "
+            "de vídeo. A programação lista sessões e ingressos. A página geral de vídeos usa YouTube para "
+            "conteúdo institucional do museu inteiro. A consulta controlada à Sammlung Online não produziu "
+            "rota estável de recorte Filmmuseum/Filmarchiv."
+        )
     if code == "archives-hub":
         return (
             "Foram testadas a referência pública sobre APIs, a rota SRU base, uma consulta SRU "
@@ -574,6 +660,35 @@ def _attempt_summary(row):
     )
 
 
+def _excluded_access_category(row):
+    if str(row.get("unit_code", "")) == "cinematheque-suisse":
+        return CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY
+    if str(row.get("unit_code", "")) == "fiaf-filmmuseum-munchen":
+        return FILMMUSEUM_MUNCHEN_NON_INCORPORATION_CATEGORY
+    return "rota_publica_nao_estavel_ou_nao_coletavel"
+
+
+def _excluded_methodological_explanation(row):
+    if str(row.get("unit_code", "")) == "cinematheque-suisse":
+        return (
+            "A negativa não indica ausência de acervo audiovisual. Ela registra que, nesta rodada, "
+            "o organismo encontrou apenas metadados públicos e mídia local/autorizada; como não há "
+            "vídeo público incorporável, a unidade fica fora do corpus ativo."
+        )
+    if str(row.get("unit_code", "")) == "fiaf-filmmuseum-munchen":
+        return (
+            "A negativa não indica ausência nem irrelevância do acervo audiovisual. Ela impede que programação "
+            "de sala, bilheteria, vídeos institucionais gerais ou busca instável em coleção museológica ampla "
+            "sejam tratados como corpus de arquivo fílmico."
+        )
+    return (
+        "A negativa é técnica e metodológica: sem rota estável, a fonte não pode ser "
+        "comparada aos corpora ativos. Isso não autoriza concluir ausência de acervo "
+        "audiovisual; apenas registra que o organismo não conseguiu incorporá-la com "
+        "rigor nesta rodada."
+    )
+
+
 def build_europe_excluded_units_register(matrix_df, queue_df=None):
     if matrix_df is None or matrix_df.empty:
         return pd.DataFrame(columns=EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS)
@@ -587,8 +702,12 @@ def build_europe_excluded_units_register(matrix_df, queue_df=None):
     candidates_df = matrix_df.loc[
         (matrix_df["unit_type"] != "corpus_ativo")
         & (
-            matrix_df["incorporation_decision"]
-            == "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel"
+            matrix_df["incorporation_decision"].isin(
+                [
+                    "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel",
+                    CINEMATHEQUE_SUISSE_NON_INCORPORATION_DECISION,
+                ]
+            )
         )
     ].copy()
     if candidates_df.empty:
@@ -610,17 +729,13 @@ def build_europe_excluded_units_register(matrix_df, queue_df=None):
                 "unit_label": row.get("unit_label", ""),
                 "unit_type": row.get("unit_type", ""),
                 "territorial_scope": row.get("territorial_scope", ""),
+                "access_category": _excluded_access_category(row),
                 "public_status": "Identificada, mas não incluída no corpus do organismo",
                 "methodological_decision": "não incorporar ao corpus ativo no MVP",
                 "negative_reason": negative_reason,
                 "collection_route_attempted": _collection_route_attempted(row),
                 "attempt_summary": _attempt_summary(row),
-                "methodological_explanation": (
-                    "A negativa é técnica e metodológica: sem rota estável, a fonte não pode ser "
-                    "comparada aos corpora ativos. Isso não autoriza concluir ausência de acervo "
-                    "audiovisual; apenas registra que o organismo não conseguiu incorporá-la com "
-                    "rigor nesta rodada."
-                ),
+                "methodological_explanation": _excluded_methodological_explanation(row),
                 "evidence_status": row.get("evidence_status", ""),
                 "protocol_status": row.get("protocol_status", ""),
                 "next_step": row.get("next_step", ""),
@@ -668,8 +783,8 @@ def build_europe_closure_dossier(matrix_df, summary_df, gap_audit_df=None):
             f"decisão: {row['incorporation_decision']}."
         )
 
-    lines.extend(["", "## Fila europeia"])
-    for _, row in queue_df.loc[queue_df["priority"] < 9].head(5).iterrows():
+    lines.extend(["", "## Fila europeia pendente"])
+    for _, row in queue_df.head(5).iterrows():
         lines.append(
             f"- Prioridade {row['priority']} | `{row['unit_code']}`: {row['queue_status']} | {row['next_step']}."
         )
@@ -680,6 +795,17 @@ def build_europe_closure_dossier(matrix_df, summary_df, gap_audit_df=None):
             f"- `{row['unit_code']}`: {row['unit_label']} | {row['audit_status']} | "
             f"decisão: {row['corpus_decision']}."
         )
+
+    lines.extend(
+        [
+            "",
+            "## Índice de dados públicos",
+            "- O índice de dados públicos mede apenas registros audiovisuais materializados no organismo.",
+            "- Registros restritos entram no índice somente quando pertencem a corpus ativo e têm volume quantificável.",
+            "- Bancos privados/publicitários de imagens ficam fora do índice estatístico, mesmo quando o acervo audiovisual é confirmado.",
+            "- Esses bancos permanecem documentados na auditoria de acesso pago/restrito e no registro de unidades não incorporadas.",
+        ]
+    )
 
     lines.extend(
         [
@@ -703,12 +829,20 @@ def merge_existing_excluded_units(output_dir, excluded_units_df):
         existing_df = pd.DataFrame(columns=EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS)
 
     merged_df = pd.concat([existing_df, excluded_units_df], ignore_index=True)
-    return (
+    normalized_df = (
         merged_df.drop_duplicates(subset=["unit_code"], keep="last")
         .reindex(columns=EUROPE_CLOSURE_EXCLUDED_UNITS_COLUMNS)
         .sort_values("unit_label")
         .reset_index(drop=True)
     )
+    normalized_df["access_category"] = (
+        normalized_df["access_category"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+        .replace("", "rota_publica_nao_estavel_ou_nao_coletavel")
+    )
+    return normalized_df
 
 
 def write_europe_closure_outputs(output_dir: Path = OUTPUT_DIR):
@@ -769,6 +903,8 @@ __all__ = [
     "EUROPE_CLOSURE_RULE_VERSION",
     "EUROPE_CLOSURE_SUMMARY_COLUMNS",
     "EUROPE_CLOSURE_SUMMARY_FILENAME",
+    "CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY",
+    "CINEMATHEQUE_SUISSE_NON_INCORPORATION_DECISION",
     "build_europe_closure_dossier",
     "build_europe_closure_queue",
     "build_europe_closure_outputs",

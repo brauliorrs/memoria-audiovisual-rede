@@ -1,0 +1,53 @@
+{
+  "source": "https://memoire.ciclic.fr/films-d-archives",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Ciclic Mémoire": 39
+  },
+  "top_domains": [
+    [
+      "memoire.ciclic.fr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "CICLIC - Centre-Val-de-Loire",
+      "slug": "ciclic-centre-val-de-loire",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CICLIC",
+      "archive_type": "Institutional film and audiovisual archive",
+      "ciclic_detail_url": "https://memoire.ciclic.fr/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://memoire.ciclic.fr/films-d-archives",
+      "partner_domain": "memoire.ciclic.fr",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://memoire.ciclic.fr/films-d-archives",
+      "video_links_found_total": 39,
+      "embedded_video_signals_total": 39,
+      "candidate_internal_pages": 45,
+      "priority_review": false,
+      "warning": "Corpus incorporado por listagem AJAX pública `Films d'archives`. A página declarou 14408 filmes; o MVP materializa 39 registros nas primeiras 2 páginas da listagem pública, sem baixar mídia e sem afirmar catálogo total.",
+      "error": ""
+    }
+  ]
+}

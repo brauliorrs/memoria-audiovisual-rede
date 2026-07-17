@@ -1,0 +1,53 @@
+{
+  "source": "https://cdna.memoirefilmiquenouvelleaquitaine.fr/films",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Cinémathèque de Nouvelle-Aquitaine": 72
+  },
+  "top_domains": [
+    [
+      "cdna.memoirefilmiquenouvelleaquitaine.fr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Cinémathèque de Nouvelle-Aquitaine",
+      "slug": "cin-math-que-de-nouvelle-aquitaine",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-CDNA",
+      "archive_type": "Regional audiovisual and amateur film archive",
+      "cdna_detail_url": "https://cdna.memoirefilmiquenouvelleaquitaine.fr/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://cdna.memoirefilmiquenouvelleaquitaine.fr/films",
+      "partner_domain": "cdna.memoirefilmiquenouvelleaquitaine.fr",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://cdna.memoirefilmiquenouvelleaquitaine.fr/films",
+      "video_links_found_total": 72,
+      "embedded_video_signals_total": 72,
+      "candidate_internal_pages": 5,
+      "priority_review": false,
+      "warning": "Corpus incorporado pelo endpoint público `back.film.getFilms` da plataforma Mémoire Filmique de Nouvelle-Aquitaine. O endpoint declarou 4724 filmes para a CdNA; o MVP materializa 72 registros em até 3 páginas públicas, sem baixar mídia e sem afirmar cobertura total do acervo preservado.",
+      "error": ""
+    }
+  ]
+}

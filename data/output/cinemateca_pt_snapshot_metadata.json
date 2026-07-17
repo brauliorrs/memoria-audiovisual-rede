@@ -1,0 +1,168 @@
+{
+  "dataset": "cinemateca-portuguesa",
+  "generated_at": "2026-06-18T17:50:58Z",
+  "generated_by": "scripts/run_cinemateca_portuguesa_pipeline.py",
+  "observation_key": "cinemateca-portuguesa:2026-06-18T17:50:58Z",
+  "source_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-18T17:50:58Z",
+  "analytic_outputs_last_modified_at": "2026-06-18T17:50:58Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 50,
+    "videos_in_curatorial_catalog": 50,
+    "visibility_categories": 1,
+    "theme_categories": 5,
+    "archive_type_categories": 1,
+    "platforms_detected": 2,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "cinemateca_pt_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 398,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "summary": {
+      "filename": "cinemateca_pt_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 990,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "video_links": {
+      "filename": "cinemateca_pt_links_video.csv",
+      "exists": true,
+      "size_bytes": 69389,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "internal_pages": {
+      "filename": "cinemateca_pt_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 12186,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "analytic_summary": {
+      "filename": "cinemateca_pt_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1396,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "cinemateca_pt_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 74769,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "availability_summary": {
+      "filename": "cinemateca_pt_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "availability_reasons": {
+      "filename": "cinemateca_pt_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "visibility_summary": {
+      "filename": "cinemateca_pt_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "access_surface_summary": {
+      "filename": "cinemateca_pt_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 88,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "access_regime_summary": {
+      "filename": "cinemateca_pt_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "theme_summary": {
+      "filename": "cinemateca_pt_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 209,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "theme_country": {
+      "filename": "cinemateca_pt_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 259,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "archive_type_summary": {
+      "filename": "cinemateca_pt_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "theme_platform": {
+      "filename": "cinemateca_pt_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 395,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "theme_archive_type": {
+      "filename": "cinemateca_pt_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 423,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "visibility_archive_type": {
+      "filename": "cinemateca_pt_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 128,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "timeline_corpus": {
+      "filename": "cinemateca_pt_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 959,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "timeline_institutions": {
+      "filename": "cinemateca_pt_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 2002,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "extinction_signals": {
+      "filename": "cinemateca_pt_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "snapshot_metadata": {
+      "filename": "cinemateca_pt_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5474,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "report_json": {
+      "filename": "cinemateca_pt_relatorio.json",
+      "exists": true,
+      "size_bytes": 1811,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "report_txt": {
+      "filename": "cinemateca_pt_relatorio.txt",
+      "exists": true,
+      "size_bytes": 956,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    },
+    "report_xlsx": {
+      "filename": "cinemateca_pt_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 37453,
+      "last_modified_at": "2026-06-18T17:50:58Z"
+    }
+  }
+}

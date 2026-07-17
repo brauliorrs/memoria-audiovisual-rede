@@ -1,0 +1,4 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+bfi,bfi:2026-06-12T19:11:30Z,2026-06-12T19:11:30Z,,2026-06-12T19:11:30Z,2026-06-12T19:11:29Z,scripts/run_bfi_pipeline.py,1,1,1,702,702,1,9,1,1,1
+bfi,bfi:2026-06-12T19:14:46Z,2026-06-12T19:14:46Z,,2026-06-12T19:14:46Z,2026-06-12T19:14:45Z,scripts/run_bfi_pipeline.py,1,1,1,702,702,1,9,1,1,1
+bfi,bfi:2026-06-12T19:20:46Z,2026-06-12T19:20:46Z,,2026-06-12T19:20:46Z,2026-06-12T19:20:45Z,scripts/run_bfi_pipeline.py,1,1,1,702,702,1,9,1,1,1

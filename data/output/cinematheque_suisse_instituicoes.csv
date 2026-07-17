@@ -1,0 +1,2 @@
+institution,slug,country,continent,repository_code,cinematheque_suisse_detail_url,archive_type,external_url,website_available,content_available_in_source
+Cinémathèque suisse,cin-math-que-suisse,Switzerland,Europe,CH-CINEMATHEQUE-SUISSE,https://api.memobase.ch/recordSet/csa-001?format=Json,National cinematheque with public metadata and onsite/authorized media access,https://www.cinematheque.ch/,True,True

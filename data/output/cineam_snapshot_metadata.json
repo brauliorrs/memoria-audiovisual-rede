@@ -1,0 +1,168 @@
+{
+  "dataset": "cineam",
+  "generated_at": "2026-06-16T19:57:46Z",
+  "generated_by": "scripts/run_cineam_pipeline.py",
+  "observation_key": "cineam:2026-06-16T19:57:46Z",
+  "source_url": "https://www.cineam.asso.fr/exploration-905-0-0-0.html",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-06-16T19:57:46Z",
+  "analytic_outputs_last_modified_at": "2026-06-16T19:57:46Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 36,
+    "videos_in_curatorial_catalog": 36,
+    "visibility_categories": 1,
+    "theme_categories": 3,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "cineam_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 325,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "summary": {
+      "filename": "cineam_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 813,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "video_links": {
+      "filename": "cineam_links_video.csv",
+      "exists": true,
+      "size_bytes": 50518,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "internal_pages": {
+      "filename": "cineam_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 16341,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "analytic_summary": {
+      "filename": "cineam_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1190,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "cineam_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 54696,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "availability_summary": {
+      "filename": "cineam_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "availability_reasons": {
+      "filename": "cineam_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "visibility_summary": {
+      "filename": "cineam_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "access_surface_summary": {
+      "filename": "cineam_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 56,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "access_regime_summary": {
+      "filename": "cineam_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "theme_summary": {
+      "filename": "cineam_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 139,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "theme_country": {
+      "filename": "cineam_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 165,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "archive_type_summary": {
+      "filename": "cineam_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 80,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "theme_platform": {
+      "filename": "cineam_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 174,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "theme_archive_type": {
+      "filename": "cineam_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 311,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "visibility_archive_type": {
+      "filename": "cineam_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 140,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "timeline_corpus": {
+      "filename": "cineam_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 1283,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "timeline_institutions": {
+      "filename": "cineam_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 3016,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "extinction_signals": {
+      "filename": "cineam_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 652,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "snapshot_metadata": {
+      "filename": "cineam_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5260,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "report_json": {
+      "filename": "cineam_relatorio.json",
+      "exists": true,
+      "size_bytes": 1604,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "report_txt": {
+      "filename": "cineam_relatorio.txt",
+      "exists": true,
+      "size_bytes": 880,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    },
+    "report_xlsx": {
+      "filename": "cineam_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 45340,
+      "last_modified_at": "2026-06-16T19:57:46Z"
+    }
+  }
+}
