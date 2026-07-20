@@ -9,6 +9,7 @@ from .config import OUTPUT_DIR
 from .corpora import list_active_corpora
 from .europe_closure import (
     CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY,
+    CINETECA_BOLOGNA_NON_INCORPORATION_CATEGORY,
     CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY,
     EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME,
 )
@@ -106,6 +107,9 @@ def _add_excluded_restricted_rows(rows, output_dir):
         ),
         CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY: (
             "Arquivo fílmico com streaming protegido, sem catálogo público de vídeo coletável"
+        ),
+        CINETECA_BOLOGNA_NON_INCORPORATION_CATEGORY: (
+            "Catálogo audiovisual público extenso com ingestão total pendente"
         ),
     }
     restricted_df = excluded_df.loc[excluded_df["access_category"].astype(str).isin(category_labels)]
@@ -255,6 +259,10 @@ def build_restricted_access_summary(audit_df):
         CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY: (
             "Unidade identificada fora do corpus ativo: há acervo fílmico e streaming protegido, "
             "mas não catálogo público quantificável."
+        ),
+        CINETECA_BOLOGNA_NON_INCORPORATION_CATEGORY: (
+            "Unidade identificada fora do corpus ativo: há catálogo público audiovisual extenso, "
+            "mas a ingestão total ainda não foi materializada de modo reprodutível."
         ),
     }
     summary_df["interpretation"] = summary_df["access_category"].map(interpretations).fillna("")

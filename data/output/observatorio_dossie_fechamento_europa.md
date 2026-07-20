@@ -70,7 +70,7 @@
 - Prioridade 8 | `cinematheque-suisse`: monitoramento_protocolado_sem_incorporacao_mvp | monitorar_se_memobase_ou_site_institucional_passam_a_expor_video_publico.
 - Prioridade 8 | `fiaf-filmmuseum-munchen`: monitoramento_protocolado_sem_incorporacao_mvp | retestar_site_oficial_sammlung_online_e_eventuais_catalogos_digitais_em_ciclos_futuros.
 - Prioridade 8 | `fiaf-cineteca-italiana`: monitoramento_protocolado_sem_incorporacao_mvp | retestar_site_oficial_streaming_youtube_vimeo_e_eventual_catalogo_publico_de_acervo_em_ciclos_futuros.
-- Prioridade 8 | `francearchives`: monitoramento_protocolado_sem_incorporacao_mvp | identificacao_de_api_exportacao_sitemap_ou_rota_publica_estavel.
+- Prioridade 8 | `fiaf-cineteca-bologna`: monitoramento_protocolado_sem_incorporacao_mvp | criar_ingestao_incremental_por_pagina_ou_solicitar_exportacao_publica_do_catalogo.
 
 ## Lacunas auditadas sem bloqueio
 - `ace`: Association des Cinémathèques Européennes | fonte_de_radar_institucional | decisão: não incorporar como corpus no MVP.

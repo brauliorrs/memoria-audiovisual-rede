@@ -31,6 +31,9 @@ FILMMUSEUM_MUNCHEN_NON_INCORPORATION_CATEGORY = "arquivo_filmico_com_acervo_conf
 CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY = (
     "arquivo_filmico_com_streaming_protegido_sem_catalogo_publico_de_video"
 )
+CINETECA_BOLOGNA_NON_INCORPORATION_CATEGORY = (
+    "catalogo_publico_audiovisual_extenso_com_ingestao_total_pendente"
+)
 
 EUROPE_CLOSURE_MATRIX_COLUMNS = [
     "unit_code",
@@ -297,7 +300,29 @@ def _protocolled_individual_rows():
             "next_step": "retestar_site_oficial_streaming_youtube_vimeo_e_eventual_catalogo_publico_de_acervo_em_ciclos_futuros",
             "can_open_next_continent": True,
             "rule_version": EUROPE_CLOSURE_RULE_VERSION,
-        }
+        },
+        {
+            "unit_code": "fiaf-cineteca-bologna",
+            "unit_label": "Fondazione Cineteca di Bologna",
+            "unit_type": "arquivo_individual_protocolado",
+            "category": "Arquivos audiovisuais individuais protocolados",
+            "territorial_scope": "Bolonha / Itália / instituição individual europeia",
+            "methodological_status": "catalogo_publico_audiovisual_extenso_validado_com_ingestao_total_pendente",
+            "evidence_status": (
+                "site oficial confirma Archivio audiovisivi; Catalogo Film público responde por AJAX, mas "
+                "sem exportação pública integral ou REST aberto"
+            ),
+            "audiovisual_interpretation": (
+                "A instituição é explicitamente audiovisual e possui catálogo público relevante. Nesta rodada, "
+                "porém, o organismo não incorpora amostra parcial: a coleta total exigiu varredura de milhares "
+                "de páginas AJAX, sem rota bulk ou API pública suficiente."
+            ),
+            "protocol_status": "rota_publica_validada_ingestao_total_pendente",
+            "incorporation_decision": "nao_incorporar_como_corpus_ativo_ate_haver_rota_estavel",
+            "next_step": "criar_ingestao_incremental_por_pagina_ou_solicitar_exportacao_publica_do_catalogo",
+            "can_open_next_continent": True,
+            "rule_version": EUROPE_CLOSURE_RULE_VERSION,
+        },
     ]
 
 
@@ -603,6 +628,12 @@ def build_europe_closure_queue(matrix_df):
                     "streaming protegido por conta/compra/senha, visita presencial, plataforma educativa com registro "
                     "e canal institucional recente; não há catálogo público de vídeos de acervo coletável."
                 )
+            elif row.get("unit_code", "") == "fiaf-cineteca-bologna":
+                queue_reason = (
+                    "A rota pública do Catalogo Film do Archivio audiovisivi foi validada, com resposta AJAX "
+                    "extensa, mas sem exportação pública integral, REST aberto ou coleta total viável no MVP; "
+                    "não se incorpora amostra parcial como corpus ativo."
+                )
             else:
                 queue_reason = (
                     "O protocolo documentou relevância, mas também ausência de rota estável; "
@@ -656,6 +687,11 @@ def _collection_route_attempted(row):
             "página de streaming, endpoint WordPress de streaming, visita guiada ao Arquivo Film, feed RSS do canal "
             "YouTube e The Film Corner."
         )
+    if code == "fiaf-cineteca-bologna":
+        return (
+            "Página oficial, página Archivi, Archivio audiovisivi, Catalogo Film, endpoint AJAX "
+            "`archivio_audiovisivo_apply_filters`, ficha pública de exemplo, WordPress REST e canal YouTube."
+        )
     if code == "archives-hub":
         return "SRU e OAI-PMH documentados; referência pública de APIs também sondada."
     if code == "francearchives":
@@ -685,6 +721,12 @@ def _attempt_summary(row):
             "protegidos, sem conteúdo público. A visita ao Arquivo Film é presencial. O feed YouTube é público, "
             "mas representa canal institucional recente, não catálogo público integral do acervo."
         )
+    if code == "fiaf-cineteca-bologna":
+        return (
+            "O site confirma acervo fílmico de mais de 90.000 elementos e rota pública de catálogo audiovisual. "
+            "O AJAX observado retorna 12 registros por página e total de 3.290 páginas; a REST pública retorna 401. "
+            "As fichas testadas trazem metadados, mas não player público detectado."
+        )
     if code == "archives-hub":
         return (
             "Foram testadas a referência pública sobre APIs, a rota SRU base, uma consulta SRU "
@@ -711,6 +753,8 @@ def _excluded_access_category(row):
         return FILMMUSEUM_MUNCHEN_NON_INCORPORATION_CATEGORY
     if str(row.get("unit_code", "")) == "fiaf-cineteca-italiana":
         return CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY
+    if str(row.get("unit_code", "")) == "fiaf-cineteca-bologna":
+        return CINETECA_BOLOGNA_NON_INCORPORATION_CATEGORY
     return "rota_publica_nao_estavel_ou_nao_coletavel"
 
 
@@ -732,6 +776,13 @@ def _excluded_methodological_explanation(row):
             "A negativa não indica ausência nem irrelevância do acervo audiovisual. Ela impede que programação "
             "de sala, streaming protegido, visita presencial, plataforma educativa com registro ou canal institucional "
             "recente sejam tratados como corpus público de arquivo fílmico."
+        )
+    if str(row.get("unit_code", "")) == "fiaf-cineteca-bologna":
+        return (
+            "A negativa é operacional, não substantiva. A unidade tem acervo audiovisual e catálogo público "
+            "relevante, mas não deve entrar como corpus ativo com amostra parcial. A incorporação definitiva exige "
+            "ingestão incremental, exportação oficial ou outro método reprodutível para materializar o catálogo "
+            "completo sem sobrecarregar a fonte."
         )
     return (
         "A negativa é técnica e metodológica: sem rota estável, a fonte não pode ser "
@@ -958,6 +1009,7 @@ __all__ = [
     "CINEMATHEQUE_SUISSE_NON_INCORPORATION_CATEGORY",
     "CINEMATHEQUE_SUISSE_NON_INCORPORATION_DECISION",
     "CINETECA_ITALIANA_NON_INCORPORATION_CATEGORY",
+    "CINETECA_BOLOGNA_NON_INCORPORATION_CATEGORY",
     "build_europe_closure_dossier",
     "build_europe_closure_queue",
     "build_europe_closure_outputs",

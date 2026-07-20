@@ -18,6 +18,8 @@ from memoria_audiovisual.arsenal_protocol import write_arsenal_protocol_probe
 from memoria_audiovisual.archivegrid_protocol import write_archivegrid_protocol_probe
 from memoria_audiovisual.atresmedia_protocol import write_atresmedia_protocol_probe
 from memoria_audiovisual.bnfa_protocol import write_bnfa_protocol_probe
+from memoria_audiovisual.cineteca_bologna_protocol import write_cineteca_bologna_protocol_probe
+from memoria_audiovisual.cineteca_italiana_protocol import write_cineteca_italiana_protocol_probe
 from memoria_audiovisual.cinematheque_corse_protocol import write_cinematheque_corse_protocol_probe
 from memoria_audiovisual.cinematheque_luxembourg_protocol import write_cinematheque_luxembourg_protocol_probe
 from memoria_audiovisual.cnc_aff_protocol import write_cnc_aff_protocol_probe
@@ -94,6 +96,7 @@ def main():
     write_atresmedia_protocol_probe(OUTPUT_DIR)
     write_bnfa_protocol_probe(OUTPUT_DIR)
     write_cnc_aff_protocol_probe(OUTPUT_DIR)
+    write_cineteca_italiana_protocol_probe(OUTPUT_DIR)
     write_cinematheque_corse_protocol_probe(OUTPUT_DIR)
     write_cinematheque_luxembourg_protocol_probe(OUTPUT_DIR)
     write_filmmuseum_munchen_protocol_probe(OUTPUT_DIR)
@@ -101,6 +104,7 @@ def main():
     write_archivegrid_protocol_probe(OUTPUT_DIR)
     write_iberarchivos_protocol_probe(OUTPUT_DIR)
     write_europe_closure_outputs(OUTPUT_DIR)
+    write_cineteca_bologna_protocol_probe(OUTPUT_DIR)
     write_europe_research_outputs(OUTPUT_DIR)
     write_restricted_access_audit(OUTPUT_DIR)
     write_public_access_index(OUTPUT_DIR)

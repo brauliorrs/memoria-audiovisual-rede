@@ -19,6 +19,7 @@ from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
 from memoria_audiovisual.atresmedia_protocol import ATRESMEDIA_PROTOCOL_FILENAME
 from memoria_audiovisual.bnfa_protocol import BNFA_PROTOCOL_FILENAME
+from memoria_audiovisual.cineteca_bologna_protocol import CINETECA_BOLOGNA_PROTOCOL_FILENAME
 from memoria_audiovisual.cineteca_italiana_protocol import CINETECA_ITALIANA_PROTOCOL_FILENAME
 from memoria_audiovisual.cinematheque_corse_protocol import CINEMATHEQUE_CORSE_PROTOCOL_FILENAME
 from memoria_audiovisual.cinematheque_luxembourg_protocol import CINEMATHEQUE_LUXEMBOURG_PROTOCOL_FILENAME
@@ -126,6 +127,7 @@ def main():
     atresmedia_protocol_path = OUTPUT_DIR / ATRESMEDIA_PROTOCOL_FILENAME
     bnfa_protocol_path = OUTPUT_DIR / BNFA_PROTOCOL_FILENAME
     cnc_aff_protocol_path = OUTPUT_DIR / CNCAFF_PROTOCOL_FILENAME
+    cineteca_bologna_protocol_path = OUTPUT_DIR / CINETECA_BOLOGNA_PROTOCOL_FILENAME
     cineteca_italiana_protocol_path = OUTPUT_DIR / CINETECA_ITALIANA_PROTOCOL_FILENAME
     cinematheque_corse_protocol_path = OUTPUT_DIR / CINEMATHEQUE_CORSE_PROTOCOL_FILENAME
     cinematheque_luxembourg_protocol_path = OUTPUT_DIR / CINEMATHEQUE_LUXEMBOURG_PROTOCOL_FILENAME
@@ -171,6 +173,7 @@ def main():
         (atresmedia_protocol_path, "Protocolo Atresmedia"),
         (bnfa_protocol_path, "Protocolo Bulgarian National Film Archive"),
         (cnc_aff_protocol_path, "Protocolo CNC/AFF"),
+        (cineteca_bologna_protocol_path, "Protocolo Fondazione Cineteca di Bologna"),
         (cineteca_italiana_protocol_path, "Protocolo Fondazione Cineteca Italiana"),
         (cinematheque_corse_protocol_path, "Protocolo Cinémathèque de Corse"),
         (cinematheque_luxembourg_protocol_path, "Protocolo Cinémathèque de la Ville de Luxembourg"),
@@ -220,6 +223,7 @@ def main():
     atresmedia_protocol_df = pd.read_csv(atresmedia_protocol_path)
     bnfa_protocol_df = pd.read_csv(bnfa_protocol_path)
     cnc_aff_protocol_df = pd.read_csv(cnc_aff_protocol_path)
+    cineteca_bologna_protocol_df = pd.read_csv(cineteca_bologna_protocol_path)
     cineteca_italiana_protocol_df = pd.read_csv(cineteca_italiana_protocol_path)
     cinematheque_corse_protocol_df = pd.read_csv(cinematheque_corse_protocol_path)
     cinematheque_luxembourg_protocol_df = pd.read_csv(cinematheque_luxembourg_protocol_path)
@@ -280,6 +284,7 @@ def main():
     print(f"- sondagens do protocolo Atresmedia: {len(atresmedia_protocol_df)}")
     print(f"- sondagens do protocolo Bulgarian National Film Archive: {len(bnfa_protocol_df)}")
     print(f"- sondagens do protocolo CNC/AFF: {len(cnc_aff_protocol_df)}")
+    print(f"- sondagens do protocolo Fondazione Cineteca di Bologna: {len(cineteca_bologna_protocol_df)}")
     print(f"- sondagens do protocolo Fondazione Cineteca Italiana: {len(cineteca_italiana_protocol_df)}")
     print(f"- sondagens do protocolo Cinémathèque de Corse: {len(cinematheque_corse_protocol_df)}")
     print(f"- sondagens do protocolo Cinémathèque de la Ville de Luxembourg: {len(cinematheque_luxembourg_protocol_df)}")
@@ -381,6 +386,10 @@ def main():
         print("- o protocolo CNC/AFF esta vazio")
         return 1
 
+    if cineteca_bologna_protocol_df.empty:
+        print("- o protocolo Fondazione Cineteca di Bologna esta vazio")
+        return 1
+
     if cineteca_italiana_protocol_df.empty:
         print("- o protocolo Fondazione Cineteca Italiana esta vazio")
         return 1
@@ -430,6 +439,10 @@ def main():
 
     if "fiaf-cineteca-italiana" not in excluded_unit_codes:
         print("- a Fondazione Cineteca Italiana nao foi registrada como unidade identificada fora do corpus ativo")
+        return 1
+
+    if "fiaf-cineteca-bologna" not in excluded_unit_codes:
+        print("- a Fondazione Cineteca di Bologna nao foi registrada como unidade identificada fora do corpus ativo")
         return 1
 
     if "fiaf-filmoteca-vaticana" not in excluded_unit_codes:
@@ -530,6 +543,7 @@ def main():
     print("- o protocolo Association Prise 2 foi materializado com sucesso")
     print("- o protocolo Bulgarian National Film Archive foi materializado com sucesso")
     print("- o protocolo CNC/AFF foi materializado com sucesso")
+    print("- o protocolo Fondazione Cineteca di Bologna foi materializado com sucesso")
     print("- o protocolo Fondazione Cineteca Italiana foi materializado com sucesso")
     print("- o protocolo Cinémathèque de Corse foi materializado com sucesso")
     print("- o protocolo Cinémathèque de la Ville de Luxembourg foi materializado com sucesso")

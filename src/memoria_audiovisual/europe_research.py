@@ -67,6 +67,7 @@ PROTOCOLLED_EUROPEAN_CODES = {
     "fiaf-filmoteca-vaticana",
     "fiaf-filmmuseum-munchen",
     "fiaf-cineteca-italiana",
+    "fiaf-cineteca-bologna",
     "fiaf-cinematheque-luxembourg",
     "inedits-ad-libitum",
     "inedits-county-archives-puy-de-dome",
@@ -575,6 +576,34 @@ def _classify_research_row(row):
             "video_location_strategy": (
                 "não usar programação de sala como corpus; não contornar senha, conta ou compra; monitorar canal "
                 "público apenas como recorte institucional se o projeto criar essa categoria"
+            ),
+            "blocks_expansion": False,
+        }
+
+    if code == "fiaf-cineteca-bologna":
+        return {
+            "relationship_to_current_corpus": "arquivo confirmado com catálogo público extenso e ingestão total pendente",
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_incorporacao_pendente",
+            "queue_decision": "manter_protocolo_sem_incorporacao_ate_ingestao_total",
+            "queue_priority": 80,
+            "queue_reason": (
+                "A Fondazione Cineteca di Bologna tem Archivio audiovisivi e Catalogo Film público. A rota AJAX "
+                "foi validada, mas exige varredura extensa sem exportação pública integral ou REST aberto; a tentativa "
+                "de coleta total excedeu a janela operacional do MVP. Não se incorpora amostra parcial."
+            ),
+            "next_action": "criar_ingestao_incremental_por_pagina_ou_solicitar_exportacao_publica_do_catalogo",
+            "inclusion_gate": (
+                "só incorporar após materializar o catálogo completo por rota reprodutível, sem misturar amostra "
+                "técnica com corpus ativo"
+            ),
+            "video_location_status": "catalogo_publico_extenso_sem_ingestao_total_no_mvp",
+            "video_location_candidate_url": (
+                "https://cinetecadibologna.it/archivi/archivio/archivio-audiovisivi/catalogo-film/"
+            ),
+            "video_location_strategy": (
+                "usar o endpoint AJAX oficial com paginação incremental, limites de requisição e retomada; "
+                "validar fichas individuais e distinguir metadados públicos de mídia local/autorizada"
             ),
             "blocks_expansion": False,
         }
