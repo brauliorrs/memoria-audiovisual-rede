@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
+from streamlit.delta_generator import DeltaGenerator
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -78,6 +79,13 @@ from memoria_audiovisual.european_protocols import (
     ARCHIVESHUB_PROTOCOL_FILENAME,
     FRANCEARCHIVES_PROTOCOL_FILENAME,
 )
+from memoria_audiovisual.i18n import (
+    DEFAULT_LANGUAGE,
+    LANGUAGE_OPTIONS,
+    language_code_from_label,
+    t,
+    translate_ui_text,
+)
 from memoria_audiovisual.dashboard_data import (
     DASHBOARD_SOURCE_KEYS,
     build_dashboard_base_data,
@@ -96,6 +104,200 @@ from memoria_audiovisual.organism import (
 OUTPUT_DIR = BASE_DIR / "data" / "output"
 
 st.set_page_config(page_title="Memória Audiovisual em Rede", layout="wide")
+
+APP_LANGUAGE = DEFAULT_LANGUAGE
+
+
+def tr(key, **kwargs):
+    return t(key, APP_LANGUAGE, **kwargs)
+
+
+def localize_ui(value):
+    return translate_ui_text(value, APP_LANGUAGE)
+
+
+def localize_format_func(format_func=None):
+    def formatter(value):
+        rendered = format_func(value) if format_func else str(value)
+        return localize_ui(rendered)
+
+    return formatter
+
+
+def install_streamlit_i18n(language):
+    if not hasattr(st, "_memoria_i18n_originals"):
+        st._memoria_i18n_originals = {}
+    st._memoria_i18n_language = language
+
+    def original_method(name):
+        originals = st._memoria_i18n_originals
+        if name not in originals:
+            originals[name] = getattr(st, name)
+        return originals[name]
+
+    def localize_text_call(name):
+        original = original_method(name)
+
+        def wrapped(*args, **kwargs):
+            args = list(args)
+            if args and isinstance(args[0], str):
+                args[0] = localize_ui(args[0])
+            for key in ("label", "help", "placeholder"):
+                if isinstance(kwargs.get(key), str):
+                    kwargs[key] = localize_ui(kwargs[key])
+            return original(*args, **kwargs)
+
+        setattr(st, name, wrapped)
+
+    for method_name in [
+        "title",
+        "header",
+        "subheader",
+        "markdown",
+        "caption",
+        "info",
+        "warning",
+        "error",
+        "success",
+        "download_button",
+        "link_button",
+    ]:
+        if hasattr(st, method_name):
+            localize_text_call(method_name)
+
+    def original_delta_method(name):
+        originals = st._memoria_i18n_originals
+        key = f"DeltaGenerator.{name}"
+        if key not in originals:
+            originals[key] = getattr(DeltaGenerator, name)
+        return originals[key]
+
+    def localize_delta_text_call(name):
+        original = original_delta_method(name)
+
+        def wrapped(self, *args, **kwargs):
+            args = list(args)
+            if args and isinstance(args[0], str):
+                args[0] = localize_ui(args[0])
+            for key in ("label", "help", "placeholder"):
+                if isinstance(kwargs.get(key), str):
+                    kwargs[key] = localize_ui(kwargs[key])
+            return original(self, *args, **kwargs)
+
+        setattr(DeltaGenerator, name, wrapped)
+
+    for method_name in [
+        "title",
+        "header",
+        "subheader",
+        "markdown",
+        "caption",
+        "info",
+        "warning",
+        "error",
+        "success",
+        "download_button",
+        "link_button",
+    ]:
+        if hasattr(DeltaGenerator, method_name):
+            localize_delta_text_call(method_name)
+
+    original_metric = original_method("metric")
+
+    def localized_metric(label, value, *args, **kwargs):
+        localized_value = localize_ui(value) if isinstance(value, str) else value
+        return original_metric(localize_ui(label), localized_value, *args, **kwargs)
+
+    st.metric = localized_metric
+    original_delta_metric = original_delta_method("metric")
+
+    def localized_delta_metric(self, label, value, *args, **kwargs):
+        localized_value = localize_ui(value) if isinstance(value, str) else value
+        return original_delta_metric(self, localize_ui(label), localized_value, *args, **kwargs)
+
+    DeltaGenerator.metric = localized_delta_metric
+
+    original_tabs = original_method("tabs")
+
+    def localized_tabs(tabs, *args, **kwargs):
+        return original_tabs([localize_ui(tab) if isinstance(tab, str) else tab for tab in tabs], *args, **kwargs)
+
+    st.tabs = localized_tabs
+
+    original_expander = original_method("expander")
+
+    def localized_expander(label, *args, **kwargs):
+        return original_expander(localize_ui(label), *args, **kwargs)
+
+    st.expander = localized_expander
+    original_delta_expander = original_delta_method("expander")
+
+    def localized_delta_expander(self, label, *args, **kwargs):
+        return original_delta_expander(self, localize_ui(label), *args, **kwargs)
+
+    DeltaGenerator.expander = localized_delta_expander
+
+    for control_name in ["selectbox", "radio", "multiselect"]:
+        original_control = original_method(control_name)
+        original_delta_control = original_delta_method(control_name)
+
+        def localized_control(label, *args, _original=original_control, **kwargs):
+            kwargs["format_func"] = localize_format_func(kwargs.get("format_func"))
+            return _original(localize_ui(label), *args, **kwargs)
+
+        def localized_delta_control(self, label, *args, _original=original_delta_control, **kwargs):
+            kwargs["format_func"] = localize_format_func(kwargs.get("format_func"))
+            return _original(self, localize_ui(label), *args, **kwargs)
+
+        setattr(st, control_name, localized_control)
+        setattr(DeltaGenerator, control_name, localized_delta_control)
+
+    original_text_input = original_method("text_input")
+
+    def localized_text_input(label, *args, **kwargs):
+        if isinstance(kwargs.get("placeholder"), str):
+            kwargs["placeholder"] = localize_ui(kwargs["placeholder"])
+        return original_text_input(localize_ui(label), *args, **kwargs)
+
+    st.text_input = localized_text_input
+    original_delta_text_input = original_delta_method("text_input")
+
+    def localized_delta_text_input(self, label, *args, **kwargs):
+        if isinstance(kwargs.get("placeholder"), str):
+            kwargs["placeholder"] = localize_ui(kwargs["placeholder"])
+        return original_delta_text_input(self, localize_ui(label), *args, **kwargs)
+
+    DeltaGenerator.text_input = localized_delta_text_input
+
+    original_checkbox = original_method("checkbox")
+
+    def localized_checkbox(label, *args, **kwargs):
+        return original_checkbox(localize_ui(label), *args, **kwargs)
+
+    st.checkbox = localized_checkbox
+    original_delta_checkbox = original_delta_method("checkbox")
+
+    def localized_delta_checkbox(self, label, *args, **kwargs):
+        return original_delta_checkbox(self, localize_ui(label), *args, **kwargs)
+
+    DeltaGenerator.checkbox = localized_delta_checkbox
+
+
+def render_language_selector():
+    labels = list(LANGUAGE_OPTIONS.values())
+    selected_label = st.sidebar.selectbox(
+        "Idioma / Language / Idioma",
+        options=labels,
+        index=labels.index(LANGUAGE_OPTIONS.get(APP_LANGUAGE, LANGUAGE_OPTIONS[DEFAULT_LANGUAGE])),
+        key="interface_language",
+    )
+    return language_code_from_label(selected_label)
+
+
+APP_LANGUAGE = render_language_selector()
+install_streamlit_i18n(APP_LANGUAGE)
+st.sidebar.caption(tr("language_note"))
+st.sidebar.caption(tr("raw_data_note"))
 
 
 @st.cache_data(show_spinner=False)
@@ -1020,16 +1222,14 @@ def build_category_video_display_df(dataframe):
 
 
 def render_observatory_overview_tab():
-    st.markdown("## Visão geral do observatório")
-    st.caption(
-        "O observatório opera como um organismo agregador mundial em construção. As unidades documentais permanecem "
-        "separadas por categoria analítica e por unidade própria, mas esta visão geral permite compará-las "
-        "sem misturar seus níveis de análise."
-    )
+    st.markdown(tr("overview_title"))
+    st.caption(tr("overview_caption"))
     st.info(
         f"{OBSERVATORY_PROFILE['description']} "
         f"{OBSERVATORY_PROFILE['expansion_strategy']} "
         f"{OBSERVATORY_PROFILE['audiovisual_rule']}"
+        if APP_LANGUAGE == DEFAULT_LANGUAGE
+        else tr("observatory_profile_summary")
     )
     cycle_manifest = load_json(ORGANISM_MONTHLY_CYCLE_FILENAME)
     active_corpora_registry_df = load_csv(ORGANISM_ACTIVE_CORPORA_FILENAME)
@@ -1093,33 +1293,9 @@ def render_observatory_overview_tab():
             f"gerado em {format_snapshot_timestamp(cycle_manifest.get('generated_at')) or '-'}."
         )
 
-    st.markdown("### Eixo acadêmico do projeto")
-    st.markdown(
-        """
-        Este observatório integra a formulação de um projeto de pós-doutorado a ser submetido
-        à Universidade de Valência, no âmbito do **Communication and Media Culture History
-        Research Group**.
-
-        A pergunta orientadora é: **como as plataformas digitais reorganizam a circulação
-        territorial e cultural do audiovisual contemporâneo?**
-
-        As plataformas digitais não eliminam o território; elas reorganizam o território.
-        No audiovisual contemporâneo, a circulação deixa de depender apenas do lugar físico
-        do arquivo, da cinemateca, da emissora ou da instituição custodial, e passa a depender
-        de uma combinação entre infraestrutura técnica, políticas de acesso e licenciamento,
-        idioma dos metadados, formatos de indexação, regimes de visibilidade e dependência
-        de plataformas externas.
-
-        A hipótese de trabalho é que a circulação audiovisual contemporânea é cada vez menos
-        determinada apenas pela localização física dos acervos e cada vez mais pela capacidade
-        das instituições e plataformas de tornar esses acervos detectáveis, descritos,
-        interoperáveis e acessíveis em redes digitais transnacionais.
-        """
-    )
-    st.caption(
-        "No observatório, essa pergunta é operacionalizada por variáveis como hospedagem, indexação, "
-        "descrição, idioma, regime de acesso, plataforma, visibilidade pública e escala territorial."
-    )
+    st.markdown(tr("academic_axis_title"))
+    st.markdown(tr("academic_axis_text"))
+    st.caption(tr("academic_axis_caption"))
 
     if cycle_timeline_df is not None and not cycle_timeline_df.empty:
         cycle_metric_cols = st.columns(4)
@@ -4172,18 +4348,15 @@ def render_corpus_tab(corpus_def):
     with tab_institution:
         render_institution_tab(corpus_def, context, selected_slug)
 
-st.title("Plataforma aberta de curadoria e acesso à memória audiovisual em rede")
-st.caption(
-    "O observatório funciona como um organismo agregador mundial em construção, separando explicitamente "
-    "agregadores arquivísticos e arquivos ou instituições custodiais para preservar o rigor analítico."
-)
+st.title(tr("app_title"))
+st.caption(tr("app_caption"))
 
 protocolled_excluded_units = load_protocolled_excluded_units()
 top_level_tabs = st.tabs(
-    ["Visão geral"]
-    + [f"Categoria: {category_def['short_label']}" for category_def in CORPUS_CATEGORIES.values()]
-    + [f"Unidade: {definition['short_label']}" for definition in CORPORA.values()]
-    + [f"Caso documentado: {unit['unit_label']}" for unit in protocolled_excluded_units]
+    [localize_ui("Visão geral")]
+    + [tr("category_tab", label=localize_ui(category_def["short_label"])) for category_def in CORPUS_CATEGORIES.values()]
+    + [tr("unit_tab", label=definition["short_label"]) for definition in CORPORA.values()]
+    + [tr("documented_case_tab", label=unit["unit_label"]) for unit in protocolled_excluded_units]
 )
 
 with top_level_tabs[0]:
