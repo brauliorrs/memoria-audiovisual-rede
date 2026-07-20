@@ -54,6 +54,26 @@ class I18nTests(unittest.TestCase):
         self.assertIn("restricción de acceso", translate_ui_text(source, "es"))
         self.assertIn("access restrictions", translate_ui_text(source, "en"))
 
+    def test_internal_tab_labels_follow_selected_language(self):
+        tab_labels = [
+            "Histórico geral",
+            "Sinais de possível extinção",
+            "Critérios de fechamento",
+            "Ficha e acesso",
+            "Vídeos detectados (12)",
+            "Páginas analisadas (3)",
+        ]
+
+        spanish = [translate_ui_text(label, "es") for label in tab_labels]
+        english = [translate_ui_text(label, "en") for label in tab_labels]
+
+        self.assertIn("Historial general", spanish)
+        self.assertIn("Señales de posible extinción", spanish)
+        self.assertIn("Closure Criteria", english)
+        self.assertIn("Record and Access", english)
+        self.assertIn("Detected Videos (12)", english)
+        self.assertIn("Analyzed Pages (3)", english)
+
 
 if __name__ == "__main__":
     unittest.main()
