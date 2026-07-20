@@ -36,6 +36,24 @@ class I18nTests(unittest.TestCase):
         self.assertIn("salud temporal", translate_ui_text(source, "es"))
         self.assertIn("temporal health", translate_ui_text(source, "en"))
 
+    def test_empty_state_messages_are_not_partially_translated(self):
+        source = "Ainda não há dados suficientes para cruzar temas e países."
+
+        self.assertEqual(
+            translate_ui_text(source, "es"),
+            "Todavía no hay datos suficientes para cruzar temas y países.",
+        )
+        self.assertEqual(
+            translate_ui_text(source, "en"),
+            "There is not enough data yet to cross themes and countries.",
+        )
+
+    def test_methodological_warnings_follow_selected_language(self):
+        source = "O site respondeu com restrição de acesso. Para o projeto, ele entra como não disponível."
+
+        self.assertIn("restricción de acceso", translate_ui_text(source, "es"))
+        self.assertIn("access restrictions", translate_ui_text(source, "en"))
+
 
 if __name__ == "__main__":
     unittest.main()

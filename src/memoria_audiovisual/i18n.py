@@ -434,6 +434,309 @@ PHRASE_TRANSLATIONS = {
             "Este cuadro reúne solo instituciones pertenecientes a corpus de la misma categoría analítica, evitando "
             "mezclar agregadores e instituciones custodias."
         ),
+        "### Linha do tempo e retração pública do audiovisual": "### Línea de tiempo y retracción pública del audiovisual",
+        "### Categorias analíticas do observatório": "### Categorías analíticas del observatorio",
+        "### Fila de expansão do observatório": "### Cola de expansión del observatorio",
+        "### Avaliação metodológica dos agregadores europeus": "### Evaluación metodológica de los agregadores europeos",
+        "### Comparações entre unidades documentais": "### Comparaciones entre unidades documentales",
+        "#### Tabelas disponíveis para exportação": "#### Tablas disponibles para exportación",
+        "#### Matriz de decisão de incorporação": "#### Matriz de decisión de incorporación",
+        "A avaliação dos agregadores europeus ainda não está disponível nesta versão do observatório.": (
+            "La evaluación de los agregadores europeos aún no está disponible en esta versión del observatorio."
+        ),
+        "O relatório de fechamento europeu ainda não está disponível nesta versão do observatório.": (
+            "El informe de cierre europeo aún no está disponible en esta versión del observatorio."
+        ),
+        "O mapeamento europeu ampliado ainda não está disponível.": (
+            "El mapeo europeo ampliado aún no está disponible."
+        ),
+        "Instituições com links de vídeo por unidade": "Instituciones con enlaces de video por unidad",
+        "Links de vídeo detectados por unidade": "Enlaces de video detectados por unidad",
+        "Vídeos no recorte curatorial por unidade": "Videos en el recorte curatorial por unidad",
+        "Este observatório investiga a visibilidade pública do audiovisual em ambientes arquivísticos na web. Nesta etapa, a unidade analisada é o **Archives Portal Europe (APE)**, tratado como um portal arquivístico geral, e não como um repositório especializado em audiovisual. **Objetivo** Examinar como o audiovisual se torna publicamente visível, detectável e acessível nos sites institucionais vinculados ao APE, considerando tanto a presença explícita quanto formas mais indiretas de evidência. **Princípio metodológico** A ausência de vídeo detectado não autoriza afirmar, por si só, ausência de acervo audiovisual. No contexto de um portal geral, a não detecção pode indicar pelo menos quatro situações: - o acervo audiovisual pode não existir; - o acervo pode existir, mas não estar digitalizado; - o acervo pode estar digitalizado, mas não público; - o acervo pode estar público, porém pouco visível ou não detectável com a estratégia atual de coleta. Neste observatório, fontes gerais como o APE podem permanecer mapeadas mesmo quando parte de suas instituições retorna zero audiovisual, porque esse zero também é analiticamente informativo para o estudo da visibilidade pública do acervo.": (
+            "Este observatorio investiga la visibilidad pública del audiovisual en entornos archivísticos en la web. "
+            "En esta etapa, la unidad analizada es el **Archives Portal Europe (APE)**, tratado como un portal "
+            "archivístico general y no como un repositorio especializado en audiovisual. **Objetivo** Examinar cómo "
+            "el audiovisual se vuelve públicamente visible, detectable y accesible en los sitios institucionales "
+            "vinculados al APE, considerando tanto la presencia explícita como formas más indirectas de evidencia. "
+            "**Principio metodológico** La ausencia de video detectado no autoriza afirmar, por sí sola, ausencia de "
+            "acervo audiovisual. En el contexto de un portal general, la no detección puede indicar al menos cuatro "
+            "situaciones: - el acervo audiovisual puede no existir; - el acervo puede existir, pero no estar "
+            "digitalizado; - el acervo puede estar digitalizado, pero no ser público; - el acervo puede ser público, "
+            "pero poco visible o no detectable con la estrategia actual de recolección. En este observatorio, fuentes "
+            "generales como el APE pueden permanecer mapeadas incluso cuando parte de sus instituciones retorna cero "
+            "audiovisual, porque ese cero también es analíticamente informativo para el estudio de la visibilidad "
+            "pública del acervo."
+        ),
+        "**Eixo interpretativo** A plataforma observa a circulação audiovisual como um fenômeno territorial, cultural e técnico. O problema não é apenas localizar vídeos, mas compreender quem hospeda, quem indexa, quem descreve, em qual idioma, sob qual regime de acesso, por qual plataforma e em que escala territorial esse audiovisual se torna público. **O que a plataforma afirma com maior segurança** - quando há evidência pública detectável de audiovisual; - quando há apenas evidência pública indireta; - quando não foi encontrada evidência pública detectável de audiovisual; - quando o site não pôde ser verificado. **O que a plataforma evita afirmar** - que a ausência de evidência pública detectável equivale à inexistência de acervo audiovisual; - que a visibilidade pública esgota a complexidade do acervo; - que uma única coleta resolve o problema da descrição e do acesso audiovisual.": (
+            "**Eje interpretativo** La plataforma observa la circulación audiovisual como un fenómeno territorial, "
+            "cultural y técnico. El problema no es solo localizar videos, sino comprender quién aloja, quién indexa, "
+            "quién describe, en qué idioma, bajo qué régimen de acceso, por qué plataforma y en qué escala territorial "
+            "ese audiovisual se vuelve público. **Lo que la plataforma afirma con mayor seguridad** - cuando hay "
+            "evidencia pública detectable de audiovisual; - cuando hay solo evidencia pública indirecta; - cuando no "
+            "se encontró evidencia pública detectable de audiovisual; - cuando el sitio no pudo ser verificado. **Lo "
+            "que la plataforma evita afirmar** - que la ausencia de evidencia pública detectable equivale a la "
+            "inexistencia de acervo audiovisual; - que la visibilidad pública agota la complejidad del acervo; - que "
+            "una única recolección resuelve el problema de la descripción y del acceso audiovisual."
+        ),
+        "Nenhuma instituição corresponde aos filtros selecionados.": (
+            "Ninguna institución corresponde a los filtros seleccionados."
+        ),
+        "Situação metodológica do audiovisual": "Situación metodológica del audiovisual",
+        "O site externo respondeu. Esta instituição pode seguir para curadoria pública.": (
+            "El sitio externo respondió. Esta institución puede seguir hacia la curaduría pública."
+        ),
+        "Ainda não há histórico geral disponível para o observatório.": (
+            "Todavía no hay historial general disponible para el observatorio."
+        ),
+        "Ainda não há sinais globais registrados. Isso é esperado enquanto o organismo acumula mais rodadas históricas para comparação.": (
+            "Todavía no hay señales globales registradas. Esto es esperado mientras el organismo acumula más rondas "
+            "históricas para comparación."
+        ),
+        "Ainda não há dados suficientes para comparar regimes de acesso entre unidades.": (
+            "Todavía no hay datos suficientes para comparar regímenes de acceso entre unidades."
+        ),
+        "Ainda não há dados suficientes para comparar modalidades de acesso entre unidades.": (
+            "Todavía no hay datos suficientes para comparar modalidades de acceso entre unidades."
+        ),
+        "Ainda não há unidades disponíveis nesta categoria.": (
+            "Todavía no hay unidades disponibles en esta categoría."
+        ),
+        "Ainda não há instituições disponíveis nesta categoria.": (
+            "Todavía no hay instituciones disponibles en esta categoría."
+        ),
+        "Ainda não há vídeos curatoriais disponíveis nesta categoria.": (
+            "Todavía no hay videos curatoriales disponibles en esta categoría."
+        ),
+        "Neste caso, a unidade continua relevante como fonte geral de pesquisa. O retorno zero indica que, até aqui, não houve evidência pública detectável de audiovisual nas instituições mapeadas por esta coleta.": (
+            "En este caso, la unidad continúa siendo relevante como fuente general de investigación. El retorno cero "
+            "indica que, hasta aquí, no hubo evidencia pública detectable de audiovisual en las instituciones "
+            "mapeadas por esta recolección."
+        ),
+        "Como esta é uma fonte geral de pesquisa, o retorno zero não invalida a unidade. Ele indica apenas ausência de evidência pública detectável de audiovisual nesta rodada.": (
+            "Como esta es una fuente general de investigación, el retorno cero no invalida la unidad. Indica solo "
+            "ausencia de evidencia pública detectable de audiovisual en esta ronda."
+        ),
+        "Nenhum vídeo corresponde ao tema e aos filtros selecionados.": (
+            "Ningún video corresponde al tema y a los filtros seleccionados."
+        ),
+        "Ainda não há distribuição geográfica com links de vídeo detectados.": (
+            "Todavía no hay distribución geográfica con enlaces de video detectados."
+        ),
+        "O site respondeu, mas a página final parece genérica, suspensa ou não confiável. Aqui ele entra dentro da categoria quebrado.": (
+            "El sitio respondió, pero la página final parece genérica, suspendida o no confiable. Aquí entra dentro "
+            "de la categoría roto."
+        ),
+        "Nenhum link de vídeo foi localizado automaticamente para esta instituição.": (
+            "Ningún enlace de video fue localizado automáticamente para esta institución."
+        ),
+        "Nenhuma página complementar foi analisada para esta instituição.": (
+            "Ninguna página complementaria fue analizada para esta institución."
+        ),
+        "Nenhuma instituição se enquadra neste recorte; a lista completa foi restaurada.": (
+            "Ninguna institución se encuadra en este recorte; la lista completa fue restaurada."
+        ),
+        "Ainda não há índice por unidade documental disponível.": (
+            "Todavía no hay índice por unidad documental disponible."
+        ),
+        "Ainda não há unidades restritas registradas no índice.": (
+            "Todavía no hay unidades restringidas registradas en el índice."
+        ),
+        "Esta tabela mostra apenas unidades restritas que fazem parte do índice. Bancos privados/publicitários ficam fora deste recorte.": (
+            "Esta tabla muestra solo unidades restringidas que forman parte del índice. Los bancos privados/"
+            "publicitarios quedan fuera de este recorte."
+        ),
+        "A matriz de fechamento europeu ainda não está disponível.": (
+            "La matriz de cierre europeo aún no está disponible."
+        ),
+        "Ainda não há unidades europeias documentadas fora da base ativa.": (
+            "Todavía no hay unidades europeas documentadas fuera de la base activa."
+        ),
+        "A auditoria de acesso pago/restrito ainda não está disponível.": (
+            "La auditoría de acceso pago/restringido aún no está disponible."
+        ),
+        "A auditoria de lacunas europeias ainda não está disponível.": (
+            "La auditoría de lagunas europeas aún no está disponible."
+        ),
+        "Ainda não há resultados históricos disponíveis por unidade.": (
+            "Todavía no hay resultados históricos disponibles por unidad."
+        ),
+        "Ainda não há dados suficientes para analisar a visibilidade do audiovisual.": (
+            "Todavía no hay datos suficientes para analizar la visibilidad del audiovisual."
+        ),
+        "Ainda não há dados suficientes para resumir os regimes de acesso audiovisual.": (
+            "Todavía no hay datos suficientes para resumir los regímenes de acceso audiovisual."
+        ),
+        "Ainda não há dados suficientes para resumir as modalidades de acesso.": (
+            "Todavía no hay datos suficientes para resumir las modalidades de acceso."
+        ),
+        "Ainda não há dados suficientes para resumir o tipo institucional declarado na fonte.": (
+            "Todavía no hay datos suficientes para resumir el tipo institucional declarado en la fuente."
+        ),
+        "Ainda não há temas classificados para os vídeos.": (
+            "Todavía no hay temas clasificados para los videos."
+        ),
+        "Nenhum link de vídeo foi detectado ainda.": "Ningún enlace de video fue detectado todavía.",
+        "Ainda não há dados suficientes para cruzar temas e plataformas.": (
+            "Todavía no hay datos suficientes para cruzar temas y plataformas."
+        ),
+        "Nenhum caso enquadrado como quebrado foi detectado nesta rodada.": (
+            "Ningún caso encuadrado como roto fue detectado en esta ronda."
+        ),
+        "Nenhum caso instável foi detectado nesta rodada.": (
+            "Ningún caso inestable fue detectado en esta ronda."
+        ),
+        "Ainda não há modalidades de acesso classificadas.": (
+            "Todavía no hay modalidades de acceso clasificadas."
+        ),
+        "O site respondeu com restrição de acesso. Para o projeto, ele entra como não disponível.": (
+            "El sitio respondió con restricción de acceso. Para el proyecto, entra como no disponible."
+        ),
+        "Nenhum vídeo permaneceu no recorte curatorial após a filtragem de ruído fora de escopo.": (
+            "Ningún video permaneció en el recorte curatorial después del filtrado de ruido fuera de alcance."
+        ),
+        "Ainda não há dados suficientes para cruzar temas e países.": (
+            "Todavía no hay datos suficientes para cruzar temas y países."
+        ),
+        "Ainda não há dados suficientes para cruzar temas e tipos institucionais.": (
+            "Todavía no hay datos suficientes para cruzar temas y tipos institucionales."
+        ),
+        "Ainda não há dados suficientes para cruzar visibilidade e tipos institucionais.": (
+            "Todavía no hay datos suficientes para cruzar visibilidad y tipos institucionales."
+        ),
+        "A fonte não informa um site externo para esta instituição.": (
+            "La fuente no informa un sitio externo para esta institución."
+        ),
+        "O site institucional não respondeu de forma confiável. Para o projeto, esta instituição entra como não disponível.": (
+            "El sitio institucional no respondió de forma confiable. Para el proyecto, esta institución entra como no "
+            "disponible."
+        ),
+        "Ainda não há linha do tempo disponível para este recorte.": (
+            "Todavía no hay línea de tiempo disponible para este recorte."
+        ),
+        "Ainda não há sinais registrados nesta rodada. Isso pode significar estabilidade ou ausência de histórico suficiente para comparação.": (
+            "Todavía no hay señales registradas en esta ronda. Esto puede significar estabilidad o ausencia de "
+            "historial suficiente para comparación."
+        ),
+        "Ainda não há linha do tempo institucional disponível para este recorte.": (
+            "Todavía no hay línea de tiempo institucional disponible para este recorte."
+        ),
+        "Vídeos localizados na instituição": "Videos localizados en la institución",
+        "Categoria:": "Categoría:",
+        "Subcategoria:": "Subcategoría:",
+        "Domínio:": "Dominio:",
+        "Situação da verificação:": "Situación de la verificación:",
+        "Links de vídeo:": "Enlaces de video:",
+        "Sinais embutidos:": "Señales incrustadas:",
+        "Tipo de arquivo:": "Tipo de archivo:",
+        "Plataformas detectadas:": "Plataformas detectadas:",
+        ": ainda sem dados para exportação.": ": todavía sin datos para exportación.",
+        "Etapa 1": "Etapa 1",
+        "Etapa 2": "Etapa 2",
+        "da expansão.": "de la expansión.",
+        "Regra audiovisual desta categoria:": "Regla audiovisual de esta categoría:",
+        "Critério de entrada nesta etapa:": "Criterio de entrada en esta etapa:",
+        "Categoria analítica:": "Categoría analítica:",
+        "Etapa de expansão:": "Etapa de expansión:",
+        "Unidade do observatório:": "Unidad del observatorio:",
+        "Política de expansão aplicável:": "Política de expansión aplicable:",
+        "Regra audiovisual do recorte:": "Regla audiovisual del recorte:",
+        "Leitura metodológica de retorno zero:": "Lectura metodológica de retorno cero:",
+        "Fonte-base com status de": "Fuente base con estado de",
+        "Fonte-base sem data pública de status declarada nos metadados.": (
+            "Fuente base sin fecha pública de estado declarada en los metadatos."
+        ),
+        "Camada analítica atualizada em": "Capa analítica actualizada en",
+        "Metadados da rodada gerados em": "Metadatos de la ronda generados en",
+        "Nenhum relatório de": "Ningún informe de",
+        "O relatório de": "El informe de",
+        "está disponível nesta versão do observatório.": "está disponible en esta versión del observatorio.",
+        "está disponível, mas não trouxe instituições para análise.": (
+            "está disponible, pero no trajo instituciones para análisis."
+        ),
+        "não trouxe identificadores institucionais suficientes para navegação.": (
+            "no trajo identificadores institucionales suficientes para navegación."
+        ),
+        "As verificações registram respostas dos sites, bloqueios por JS/cookies, problemas de TLS e contagens preliminares. Total de verificações bloqueadas:": (
+            "Las verificaciones registran respuestas de los sitios, bloqueos por JS/cookies, problemas de TLS y "
+            "conteos preliminares. Total de verificaciones bloqueadas:"
+        ),
+        "Esta categoria reúne apenas unidades classificadas como": (
+            "Esta categoría reúne solo unidades clasificadas como"
+        ),
+        "O observatório permite trabalhar com todas elas em conjunto, mas sempre preservando o mesmo nível analítico:": (
+            "El observatorio permite trabajar con todas ellas en conjunto, pero siempre preservando el mismo nivel "
+            "analítico:"
+        ),
+        "Este recorte toma o **": "Este recorte toma el **",
+        "** como unidade especializada em audiovisual.": "** como unidad especializada en audiovisual.",
+        "Diferentemente do APE, que funciona como portal geral de arquivos, aqui o audiovisual tende a ocupar uma posição institucional central.": (
+            "A diferencia del APE, que funciona como portal general de archivos, aquí el audiovisual tiende a ocupar "
+            "una posición institucional central."
+        ),
+        "Examinar como um arquivo explicitamente audiovisual organiza a presença pública de seus vídeos, coleções, descrições e mediações digitais.": (
+            "Examinar cómo un archivo explícitamente audiovisual organiza la presencia pública de sus videos, "
+            "colecciones, descripciones y mediaciones digitales."
+        ),
+        "Neste recorte, a questão central já não é apenas a existência de evidência pública detectável, mas a forma como um arquivo especializado apresenta, contextualiza e distribui seu audiovisual na web institucional.": (
+            "En este recorte, la cuestión central ya no es solo la existencia de evidencia pública detectable, sino "
+            "la forma en que un archivo especializado presenta, contextualiza y distribuye su audiovisual en la web "
+            "institucional."
+        ),
+        "Nenhum link de vídeo foi localizado ainda no recorte": (
+            "Ningún enlace de video fue localizado todavía en el recorte"
+        ),
+        "Tema selecionado:": "Tema seleccionado:",
+        "vídeos no recorte atual.": "videos en el recorte actual.",
+        "Instituições analisadas em": "Instituciones analizadas en",
+        "Problema registrado na verificação:": "Problema registrado en la verificación:",
+        "Plataforma:": "Plataforma:",
+        "Tema sugerido:": "Tema sugerido:",
+        "Modalidade de acesso:": "Modalidad de acceso:",
+        "Data de publicação:": "Fecha de publicación:",
+        "Abrir site institucional": "Abrir sitio institucional",
+        "Infraestruturas que reúnem descrições, metadados e links de múltiplas instituições arquivísticas.": (
+            "Infraestructuras que reúnen descripciones, metadatos y enlaces de múltiples instituciones archivísticas."
+        ),
+        "Nesta categoria, a unidade analítica central é o conjunto de instituições agregadas pela plataforma, e não a plataforma como se fosse um único arquivo.": (
+            "En esta categoría, la unidad analítica central es el conjunto de instituciones agregadas por la "
+            "plataforma, y no la plataforma como si fuera un único archivo."
+        ),
+        "Entram primeiro na expansão do observatório, porque ampliam cobertura de forma mais rápida, comparável e metodologicamente sólida.": (
+            "Entran primero en la expansión del observatorio, porque amplían la cobertura de forma más rápida, "
+            "comparable y metodológicamente sólida."
+        ),
+        "Agregadores continentais, supranacionais ou de grande escala que reúnam múltiplas instituições arquivísticas e permitam extração comparável.": (
+            "Agregadores continentales, supranacionales o de gran escala que reúnan múltiples instituciones "
+            "archivísticas y permitan extracción comparable."
+        ),
+        "instituições agregadas": "instituciones agregadas",
+        "Podem integrar o observatório mesmo quando retornam zero arquivos audiovisuais, desde que funcionem como fonte comparável de pesquisa para localizar ou testar a presença pública do audiovisual.": (
+            "Pueden integrar el observatorio incluso cuando retornan cero archivos audiovisuales, siempre que "
+            "funcionen como fuente comparable de investigación para localizar o probar la presencia pública del "
+            "audiovisual."
+        ),
+        "Arquivos e instituições custodiais tomados como unidade própria de observação, com autonomia institucional e superfície pública específica.": (
+            "Archivos e instituciones custodias tomados como unidad propia de observación, con autonomía "
+            "institucional y superficie pública específica."
+        ),
+        "Nesta categoria, a unidade analítica é o próprio arquivo ou instituição arquivística, tratada como corpus autônomo.": (
+            "En esta categoría, la unidad analítica es el propio archivo o institución archivística, tratada como "
+            "corpus autónomo."
+        ),
+        "Entram após os agregadores, preenchendo lacunas e incorporando instituições que não estejam cobertas pelas infraestruturas agregadoras.": (
+            "Entran después de los agregadores, llenando lagunas e incorporando instituciones que no estén cubiertas "
+            "por las infraestructuras agregadoras."
+        ),
+        "Instituições individuais não cobertas pelos agregadores priorizados, ou instituições estratégicas para contraste metodológico.": (
+            "Instituciones individuales no cubiertas por los agregadores priorizados, o instituciones estratégicas "
+            "para contraste metodológico."
+        ),
+        "arquivos-corpus": "archivos-corpus",
+        "Entram prioritariamente quando não estiverem cobertos pelos agregadores já mapeados e quando ajudarem a aprofundar a observação do audiovisual.": (
+            "Entran prioritariamente cuando no estén cubiertos por los agregadores ya mapeados y cuando ayuden a "
+            "profundizar la observación del audiovisual."
+        ),
         "Sim": "Sí",
         "Não": "No",
         "Abrir vídeo": "Abrir video",
@@ -704,6 +1007,297 @@ PHRASE_TRANSLATIONS = {
         "Este quadro reúne apenas instituições pertencentes a corpora da mesma categoria analítica, evitando mistura entre agregadores e instituições custodiais.": (
             "This panel includes only institutions belonging to corpora in the same analytical category, avoiding "
             "mixing aggregators with custodial institutions."
+        ),
+        "### Linha do tempo e retração pública do audiovisual": "### Timeline and Public Retraction of Audiovisual Access",
+        "### Categorias analíticas do observatório": "### Analytical Categories of the Observatory",
+        "### Fila de expansão do observatório": "### Observatory Expansion Queue",
+        "### Avaliação metodológica dos agregadores europeus": "### Methodological Evaluation of European Aggregators",
+        "### Comparações entre unidades documentais": "### Comparisons Across Documentary Units",
+        "#### Tabelas disponíveis para exportação": "#### Tables Available for Export",
+        "#### Matriz de decisão de incorporação": "#### Incorporation Decision Matrix",
+        "A avaliação dos agregadores europeus ainda não está disponível nesta versão do observatório.": (
+            "The evaluation of European aggregators is not yet available in this version of the observatory."
+        ),
+        "O relatório de fechamento europeu ainda não está disponível nesta versão do observatório.": (
+            "The European closure report is not yet available in this version of the observatory."
+        ),
+        "O mapeamento europeu ampliado ainda não está disponível.": (
+            "The expanded European mapping is not yet available."
+        ),
+        "Instituições com links de vídeo por unidade": "Institutions with video links by unit",
+        "Links de vídeo detectados por unidade": "Detected video links by unit",
+        "Vídeos no recorte curatorial por unidade": "Videos in the curatorial scope by unit",
+        "Este observatório investiga a visibilidade pública do audiovisual em ambientes arquivísticos na web. Nesta etapa, a unidade analisada é o **Archives Portal Europe (APE)**, tratado como um portal arquivístico geral, e não como um repositório especializado em audiovisual. **Objetivo** Examinar como o audiovisual se torna publicamente visível, detectável e acessível nos sites institucionais vinculados ao APE, considerando tanto a presença explícita quanto formas mais indiretas de evidência. **Princípio metodológico** A ausência de vídeo detectado não autoriza afirmar, por si só, ausência de acervo audiovisual. No contexto de um portal geral, a não detecção pode indicar pelo menos quatro situações: - o acervo audiovisual pode não existir; - o acervo pode existir, mas não estar digitalizado; - o acervo pode estar digitalizado, mas não público; - o acervo pode estar público, porém pouco visível ou não detectável com a estratégia atual de coleta. Neste observatório, fontes gerais como o APE podem permanecer mapeadas mesmo quando parte de suas instituições retorna zero audiovisual, porque esse zero também é analiticamente informativo para o estudo da visibilidade pública do acervo.": (
+            "This observatory investigates the public visibility of audiovisual material in archival environments on "
+            "the web. At this stage, the unit under analysis is the **Archives Portal Europe (APE)**, treated as a "
+            "general archival portal rather than a specialized audiovisual repository. **Objective** To examine how "
+            "audiovisual material becomes publicly visible, detectable and accessible on institutional sites linked "
+            "to APE, considering both explicit presence and more indirect forms of evidence. **Methodological "
+            "principle** The absence of detected video does not, by itself, authorize the claim that no audiovisual "
+            "collection exists. In the context of a general portal, non-detection may indicate at least four "
+            "situations: - the audiovisual collection may not exist; - the collection may exist but not be digitized; "
+            "- the collection may be digitized but not public; - the collection may be public but poorly visible or "
+            "not detectable with the current collection strategy. In this observatory, general sources such as APE "
+            "may remain mapped even when part of their institutions return zero audiovisual material, because that "
+            "zero is also analytically informative for the study of the public visibility of collections."
+        ),
+        "**Eixo interpretativo** A plataforma observa a circulação audiovisual como um fenômeno territorial, cultural e técnico. O problema não é apenas localizar vídeos, mas compreender quem hospeda, quem indexa, quem descreve, em qual idioma, sob qual regime de acesso, por qual plataforma e em que escala territorial esse audiovisual se torna público. **O que a plataforma afirma com maior segurança** - quando há evidência pública detectável de audiovisual; - quando há apenas evidência pública indireta; - quando não foi encontrada evidência pública detectável de audiovisual; - quando o site não pôde ser verificado. **O que a plataforma evita afirmar** - que a ausência de evidência pública detectável equivale à inexistência de acervo audiovisual; - que a visibilidade pública esgota a complexidade do acervo; - que uma única coleta resolve o problema da descrição e do acesso audiovisual.": (
+            "**Interpretive Axis** The platform observes audiovisual circulation as a territorial, cultural and "
+            "technical phenomenon. The problem is not only to locate videos, but to understand who hosts, who "
+            "indexes, who describes, in which language, under which access regime, through which platform and at "
+            "what territorial scale that audiovisual material becomes public. **What the platform can state with "
+            "greater confidence** - when there is detectable public audiovisual evidence; - when there is only "
+            "indirect public evidence; - when no detectable public audiovisual evidence was found; - when the site "
+            "could not be verified. **What the platform avoids claiming** - that the absence of detectable public "
+            "evidence equals the inexistence of an audiovisual collection; - that public visibility exhausts the "
+            "complexity of the collection; - that a single collection round resolves the problem of audiovisual "
+            "description and access."
+        ),
+        "Nenhuma instituição corresponde aos filtros selecionados.": (
+            "No institution matches the selected filters."
+        ),
+        "Situação metodológica do audiovisual": "Methodological status of the audiovisual material",
+        "O site externo respondeu. Esta instituição pode seguir para curadoria pública.": (
+            "The external site responded. This institution can proceed to public curation."
+        ),
+        "Ainda não há histórico geral disponível para o observatório.": (
+            "No general history is available for the observatory yet."
+        ),
+        "Ainda não há sinais globais registrados. Isso é esperado enquanto o organismo acumula mais rodadas históricas para comparação.": (
+            "No global signals have been recorded yet. This is expected while the organism accumulates more "
+            "historical rounds for comparison."
+        ),
+        "Ainda não há dados suficientes para comparar regimes de acesso entre unidades.": (
+            "There is not enough data yet to compare access regimes across units."
+        ),
+        "Ainda não há dados suficientes para comparar modalidades de acesso entre unidades.": (
+            "There is not enough data yet to compare access modalities across units."
+        ),
+        "Ainda não há unidades disponíveis nesta categoria.": "There are no units available in this category yet.",
+        "Ainda não há instituições disponíveis nesta categoria.": (
+            "There are no institutions available in this category yet."
+        ),
+        "Ainda não há vídeos curatoriais disponíveis nesta categoria.": (
+            "There are no curatorial videos available in this category yet."
+        ),
+        "Neste caso, a unidade continua relevante como fonte geral de pesquisa. O retorno zero indica que, até aqui, não houve evidência pública detectável de audiovisual nas instituições mapeadas por esta coleta.": (
+            "In this case, the unit remains relevant as a general research source. The zero return indicates that, "
+            "so far, there was no detectable public audiovisual evidence in the institutions mapped by this "
+            "collection."
+        ),
+        "Como esta é uma fonte geral de pesquisa, o retorno zero não invalida a unidade. Ele indica apenas ausência de evidência pública detectável de audiovisual nesta rodada.": (
+            "Because this is a general research source, the zero return does not invalidate the unit. It indicates "
+            "only the absence of detectable public audiovisual evidence in this round."
+        ),
+        "Nenhum vídeo corresponde ao tema e aos filtros selecionados.": (
+            "No video matches the selected theme and filters."
+        ),
+        "Ainda não há distribuição geográfica com links de vídeo detectados.": (
+            "There is no geographic distribution with detected video links yet."
+        ),
+        "O site respondeu, mas a página final parece genérica, suspensa ou não confiável. Aqui ele entra dentro da categoria quebrado.": (
+            "The site responded, but the final page appears generic, suspended or unreliable. Here it falls under "
+            "the broken category."
+        ),
+        "Nenhum link de vídeo foi localizado automaticamente para esta instituição.": (
+            "No video link was automatically located for this institution."
+        ),
+        "Nenhuma página complementar foi analisada para esta instituição.": (
+            "No complementary page was analyzed for this institution."
+        ),
+        "Nenhuma instituição se enquadra neste recorte; a lista completa foi restaurada.": (
+            "No institution fits this scope; the complete list has been restored."
+        ),
+        "Ainda não há índice por unidade documental disponível.": (
+            "There is no index by documentary unit available yet."
+        ),
+        "Ainda não há unidades restritas registradas no índice.": (
+            "There are no restricted units registered in the index yet."
+        ),
+        "Esta tabela mostra apenas unidades restritas que fazem parte do índice. Bancos privados/publicitários ficam fora deste recorte.": (
+            "This table shows only restricted units that are part of the index. Private/advertising banks remain "
+            "outside this scope."
+        ),
+        "A matriz de fechamento europeu ainda não está disponível.": (
+            "The European closure matrix is not yet available."
+        ),
+        "Ainda não há unidades europeias documentadas fora da base ativa.": (
+            "There are no European units documented outside the active base yet."
+        ),
+        "A auditoria de acesso pago/restrito ainda não está disponível.": (
+            "The paid/restricted access audit is not yet available."
+        ),
+        "A auditoria de lacunas europeias ainda não está disponível.": (
+            "The European gaps audit is not yet available."
+        ),
+        "Ainda não há resultados históricos disponíveis por unidade.": (
+            "There are no historical results available by unit yet."
+        ),
+        "Ainda não há dados suficientes para analisar a visibilidade do audiovisual.": (
+            "There is not enough data yet to analyze audiovisual visibility."
+        ),
+        "Ainda não há dados suficientes para resumir os regimes de acesso audiovisual.": (
+            "There is not enough data yet to summarize audiovisual access regimes."
+        ),
+        "Ainda não há dados suficientes para resumir as modalidades de acesso.": (
+            "There is not enough data yet to summarize access modalities."
+        ),
+        "Ainda não há dados suficientes para resumir o tipo institucional declarado na fonte.": (
+            "There is not enough data yet to summarize the institutional type declared in the source."
+        ),
+        "Ainda não há temas classificados para os vídeos.": "There are no classified video themes yet.",
+        "Nenhum link de vídeo foi detectado ainda.": "No video link has been detected yet.",
+        "Ainda não há dados suficientes para cruzar temas e plataformas.": (
+            "There is not enough data yet to cross themes and platforms."
+        ),
+        "Nenhum caso enquadrado como quebrado foi detectado nesta rodada.": (
+            "No case classified as broken was detected in this round."
+        ),
+        "Nenhum caso instável foi detectado nesta rodada.": "No unstable case was detected in this round.",
+        "Ainda não há modalidades de acesso classificadas.": (
+            "There are no classified access modalities yet."
+        ),
+        "O site respondeu com restrição de acesso. Para o projeto, ele entra como não disponível.": (
+            "The site responded with access restrictions. For the project, it is classified as unavailable."
+        ),
+        "Nenhum vídeo permaneceu no recorte curatorial após a filtragem de ruído fora de escopo.": (
+            "No video remained in the curatorial scope after filtering out-of-scope noise."
+        ),
+        "Ainda não há dados suficientes para cruzar temas e países.": (
+            "There is not enough data yet to cross themes and countries."
+        ),
+        "Ainda não há dados suficientes para cruzar temas e tipos institucionais.": (
+            "There is not enough data yet to cross themes and institutional types."
+        ),
+        "Ainda não há dados suficientes para cruzar visibilidade e tipos institucionais.": (
+            "There is not enough data yet to cross visibility and institutional types."
+        ),
+        "A fonte não informa um site externo para esta instituição.": (
+            "The source does not provide an external site for this institution."
+        ),
+        "O site institucional não respondeu de forma confiável. Para o projeto, esta instituição entra como não disponível.": (
+            "The institutional site did not respond reliably. For the project, this institution is classified as "
+            "unavailable."
+        ),
+        "Ainda não há linha do tempo disponível para este recorte.": (
+            "There is no timeline available for this scope yet."
+        ),
+        "Ainda não há sinais registrados nesta rodada. Isso pode significar estabilidade ou ausência de histórico suficiente para comparação.": (
+            "No signals were recorded in this round. This may indicate stability or insufficient history for "
+            "comparison."
+        ),
+        "Ainda não há linha do tempo institucional disponível para este recorte.": (
+            "There is no institutional timeline available for this scope yet."
+        ),
+        "Vídeos localizados na instituição": "Videos located in the institution",
+        "Categoria:": "Category:",
+        "Subcategoria:": "Subcategory:",
+        "Domínio:": "Domain:",
+        "Situação da verificação:": "Verification status:",
+        "Links de vídeo:": "Video links:",
+        "Sinais embutidos:": "Embedded signals:",
+        "Tipo de arquivo:": "Archive type:",
+        "Plataformas detectadas:": "Detected platforms:",
+        ": ainda sem dados para exportação.": ": still no data available for export.",
+        "Etapa 1": "Stage 1",
+        "Etapa 2": "Stage 2",
+        "da expansão.": "of the expansion.",
+        "Regra audiovisual desta categoria:": "Audiovisual rule for this category:",
+        "Critério de entrada nesta etapa:": "Entry criterion at this stage:",
+        "Categoria analítica:": "Analytical category:",
+        "Etapa de expansão:": "Expansion stage:",
+        "Unidade do observatório:": "Observatory unit:",
+        "Política de expansão aplicável:": "Applicable expansion policy:",
+        "Regra audiovisual do recorte:": "Audiovisual rule for the scope:",
+        "Leitura metodológica de retorno zero:": "Methodological reading of zero return:",
+        "Fonte-base com status de": "Base source with status of",
+        "Fonte-base sem data pública de status declarada nos metadados.": (
+            "Base source with no public status date declared in the metadata."
+        ),
+        "Camada analítica atualizada em": "Analytical layer updated on",
+        "Metadados da rodada gerados em": "Round metadata generated on",
+        "Nenhum relatório de": "No report for",
+        "O relatório de": "The report for",
+        "está disponível nesta versão do observatório.": "is available in this version of the observatory.",
+        "está disponível, mas não trouxe instituições para análise.": (
+            "is available, but did not return institutions for analysis."
+        ),
+        "não trouxe identificadores institucionais suficientes para navegação.": (
+            "did not return enough institutional identifiers for navigation."
+        ),
+        "As verificações registram respostas dos sites, bloqueios por JS/cookies, problemas de TLS e contagens preliminares. Total de verificações bloqueadas:": (
+            "The checks record site responses, JS/cookie blocks, TLS problems and preliminary counts. Total blocked "
+            "checks:"
+        ),
+        "Esta categoria reúne apenas unidades classificadas como": "This category includes only units classified as",
+        "O observatório permite trabalhar com todas elas em conjunto, mas sempre preservando o mesmo nível analítico:": (
+            "The observatory allows them to be examined together, while always preserving the same analytical level:"
+        ),
+        "Este recorte toma o **": "This scope takes **",
+        "** como unidade especializada em audiovisual.": "** as a specialized audiovisual unit.",
+        "Diferentemente do APE, que funciona como portal geral de arquivos, aqui o audiovisual tende a ocupar uma posição institucional central.": (
+            "Unlike APE, which functions as a general archival portal, audiovisual material tends to occupy a central "
+            "institutional position here."
+        ),
+        "Examinar como um arquivo explicitamente audiovisual organiza a presença pública de seus vídeos, coleções, descrições e mediações digitais.": (
+            "To examine how an explicitly audiovisual archive organizes the public presence of its videos, "
+            "collections, descriptions and digital mediations."
+        ),
+        "Neste recorte, a questão central já não é apenas a existência de evidência pública detectável, mas a forma como um arquivo especializado apresenta, contextualiza e distribui seu audiovisual na web institucional.": (
+            "In this scope, the central question is no longer only the existence of detectable public evidence, but "
+            "how a specialized archive presents, contextualizes and distributes its audiovisual material on the "
+            "institutional web."
+        ),
+        "Nenhum link de vídeo foi localizado ainda no recorte": "No video link has yet been located in the scope",
+        "Tema selecionado:": "Selected theme:",
+        "vídeos no recorte atual.": "videos in the current scope.",
+        "Instituições analisadas em": "Institutions analyzed in",
+        "Problema registrado na verificação:": "Problem recorded in the verification:",
+        "Plataforma:": "Platform:",
+        "Tema sugerido:": "Suggested theme:",
+        "Modalidade de acesso:": "Access modality:",
+        "Data de publicação:": "Publication date:",
+        "Abrir site institucional": "Open institutional site",
+        "Infraestruturas que reúnem descrições, metadados e links de múltiplas instituições arquivísticas.": (
+            "Infrastructures that bring together descriptions, metadata and links from multiple archival institutions."
+        ),
+        "Nesta categoria, a unidade analítica central é o conjunto de instituições agregadas pela plataforma, e não a plataforma como se fosse um único arquivo.": (
+            "In this category, the central analytical unit is the set of institutions aggregated by the platform, not "
+            "the platform as if it were a single archive."
+        ),
+        "Entram primeiro na expansão do observatório, porque ampliam cobertura de forma mais rápida, comparável e metodologicamente sólida.": (
+            "They enter the observatory expansion first because they expand coverage more quickly, comparably and "
+            "methodologically solidly."
+        ),
+        "Agregadores continentais, supranacionais ou de grande escala que reúnam múltiplas instituições arquivísticas e permitam extração comparável.": (
+            "Continental, supranational or large-scale aggregators that bring together multiple archival "
+            "institutions and allow comparable extraction."
+        ),
+        "instituições agregadas": "aggregated institutions",
+        "Podem integrar o observatório mesmo quando retornam zero arquivos audiovisuais, desde que funcionem como fonte comparável de pesquisa para localizar ou testar a presença pública do audiovisual.": (
+            "They may be part of the observatory even when they return zero audiovisual files, provided they function "
+            "as a comparable research source for locating or testing the public presence of audiovisual material."
+        ),
+        "Arquivos e instituições custodiais tomados como unidade própria de observação, com autonomia institucional e superfície pública específica.": (
+            "Archives and custodial institutions taken as their own unit of observation, with institutional autonomy "
+            "and a specific public surface."
+        ),
+        "Nesta categoria, a unidade analítica é o próprio arquivo ou instituição arquivística, tratada como corpus autônomo.": (
+            "In this category, the analytical unit is the archive or archival institution itself, treated as an "
+            "autonomous corpus."
+        ),
+        "Entram após os agregadores, preenchendo lacunas e incorporando instituições que não estejam cobertas pelas infraestruturas agregadoras.": (
+            "They enter after the aggregators, filling gaps and incorporating institutions not covered by aggregator "
+            "infrastructures."
+        ),
+        "Instituições individuais não cobertas pelos agregadores priorizados, ou instituições estratégicas para contraste metodológico.": (
+            "Individual institutions not covered by prioritized aggregators, or strategic institutions for "
+            "methodological contrast."
+        ),
+        "arquivos-corpus": "archive-corpora",
+        "Entram prioritariamente quando não estiverem cobertos pelos agregadores já mapeados e quando ajudarem a aprofundar a observação do audiovisual.": (
+            "They enter as a priority when they are not covered by already mapped aggregators and when they help "
+            "deepen the observation of audiovisual material."
         ),
         "Sim": "Yes",
         "Não": "No",

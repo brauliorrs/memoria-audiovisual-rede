@@ -159,6 +159,7 @@ def install_streamlit_i18n(language):
         "warning",
         "error",
         "success",
+        "write",
         "download_button",
         "link_button",
     ]:
@@ -196,6 +197,7 @@ def install_streamlit_i18n(language):
         "warning",
         "error",
         "success",
+        "write",
         "download_button",
         "link_button",
     ]:
