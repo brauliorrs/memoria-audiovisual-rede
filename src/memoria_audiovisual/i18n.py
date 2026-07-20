@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+
 
 LANGUAGE_OPTIONS = {
     "pt": "Português",
@@ -9,6 +11,15 @@ LANGUAGE_OPTIONS = {
 
 LANGUAGE_CODES_BY_LABEL = {label: code for code, label in LANGUAGE_OPTIONS.items()}
 DEFAULT_LANGUAGE = "pt"
+
+PROJECT_CONTEXT_SIGNALS = {
+    "postdoctoral_affiliation": {
+        "public_display": False,
+        "institutional_target": "Universidade de Valência / Universidad de Valencia / University of Valencia",
+        "research_group": "Communication and Media Culture History Research Group",
+        "note": "Contexto interno sinalizado, mas oculto da interface pública por decisão editorial.",
+    }
+}
 
 
 TRANSLATIONS = {
@@ -35,8 +46,7 @@ TRANSLATIONS = {
         ),
         "academic_axis_title": "### Eixo acadêmico do projeto",
         "academic_axis_text": (
-            "Este observatório integra a formulação de um projeto de pós-doutorado a ser submetido à Universidade "
-            "de Valência, no âmbito do **Communication and Media Culture History Research Group**.\n\n"
+            "Este observatório integra a formulação de um projeto de pós-doutorado em desenvolvimento.\n\n"
             "A pergunta orientadora é: **como as plataformas digitais reorganizam a circulação territorial e "
             "cultural do audiovisual contemporâneo?**\n\n"
             "As plataformas digitais não eliminam o território; elas reorganizam o território. No audiovisual "
@@ -84,9 +94,7 @@ TRANSLATIONS = {
         ),
         "academic_axis_title": "### Eje académico del proyecto",
         "academic_axis_text": (
-            "Este observatorio forma parte de la formulación de un proyecto de posdoctorado que será presentado "
-            "a la Universidad de Valencia, en el ámbito del **Communication and Media Culture History Research "
-            "Group**.\n\n"
+            "Este observatorio forma parte de la formulación de un proyecto de posdoctorado en desarrollo.\n\n"
             "La pregunta orientadora es: **¿cómo reorganizan las plataformas digitales la circulación territorial "
             "y cultural del audiovisual contemporáneo?**\n\n"
             "Las plataformas digitales no eliminan el territorio; lo reorganizan. En el audiovisual contemporáneo, "
@@ -134,8 +142,7 @@ TRANSLATIONS = {
         ),
         "academic_axis_title": "### Academic Axis of the Project",
         "academic_axis_text": (
-            "This observatory is part of the formulation of a postdoctoral project to be submitted to the "
-            "University of Valencia, within the **Communication and Media Culture History Research Group**.\n\n"
+            "This observatory is part of the formulation of a postdoctoral project in development.\n\n"
             "The guiding question is: **how do digital platforms reorganize the territorial and cultural "
             "circulation of contemporary audiovisual media?**\n\n"
             "Digital platforms do not eliminate territory; they reorganize it. In contemporary audiovisual "
@@ -205,6 +212,145 @@ PHRASE_TRANSLATIONS = {
         "Categoria": "Categoría",
         "Unidade": "Unidad",
         "Caso documentado": "Caso documentado",
+        "Instituição": "Institución",
+        "Informação": "Información",
+        "Domínio": "Dominio",
+        "Observação": "Observación",
+        "Código": "Código",
+        "Repositório": "Repositorio",
+        "Conteúdo": "Contenido",
+        "Ficha": "Ficha",
+        "Fonte": "Fuente",
+        "Data": "Fecha",
+        "Título": "Título",
+        "Assunto": "Asunto",
+        "Descrição": "Descripción",
+        "Link": "Enlace",
+        "Método": "Método",
+        "Tipo": "Tipo",
+        "Valor": "Valor",
+        "Conclusão": "Conclusión",
+        "Referência": "Referencia",
+        "Evidência": "Evidencia",
+        "Nível": "Nivel",
+        "Escala": "Escala",
+        "Completude": "Completitud",
+        "Limite": "Límite",
+        "Justificativa": "Justificación",
+        "Prioridade": "Prioridad",
+        "Decisão": "Decisión",
+        "Gatilho": "Disparador",
+        "Encaminhamento": "Derivación",
+        "Risco": "Riesgo",
+        "Modelo": "Modelo",
+        "Termos": "Términos",
+        "Resultado": "Resultado",
+        "Resultados": "Resultados",
+        "Ingestão": "Ingesta",
+        "Avaliado": "Evaluado",
+        "Melhor URL": "Mejor URL",
+        "Publicado": "Publicado",
+        "Possível": "Posible",
+        "Disponível": "Disponible",
+        "Restrito": "Restringido",
+        "Restrita": "Restringida",
+        "Ativo": "Activo",
+        "Ativa": "Activa",
+        "Técnico": "Técnico",
+        "Técnica": "Técnica",
+        "Metodológico": "Metodológico",
+        "Metodológica": "Metodológica",
+        "Íntegro": "Íntegro",
+        "Acessível": "Accesible",
+        "Instável": "Inestable",
+        "Sem site": "Sin sitio",
+        "Erro HTTP": "Error HTTP",
+        "Indisponíveis": "No disponibles",
+        "Disponíveis com vídeos": "Disponibles con videos",
+        "Disponíveis sem vídeos": "Disponibles sin videos",
+        "Identificada, mas não incluída na base ativa do observatório": (
+            "Identificada, pero no incluida en la base activa del observatorio"
+        ),
+        "não incorporar à base ativa no MVP": "no incorporar a la base activa en el MVP",
+        "Ausência de rota de coleta estável no protocolo atual.": (
+            "Ausencia de ruta de recolección estable en el protocolo actual."
+        ),
+        "categoria de acesso": "categoría de acceso",
+        "status público": "estado público",
+        "decisão metodológica": "decisión metodológica",
+        "motivo da não inclusão": "motivo de la no inclusión",
+        "rota de coleta tentada": "ruta de recolección intentada",
+        "tentativas registradas": "intentos registrados",
+        "explicação metodológica": "explicación metodológica",
+        "próximo passo": "próximo paso",
+        "tipo de rota": "tipo de ruta",
+        "URL da rota": "URL de la ruta",
+        "status de acesso": "estado de acceso",
+        "uso audiovisual possível": "uso audiovisual posible",
+        "nota metodológica": "nota metodológica",
+        "tipo de conteúdo": "tipo de contenido",
+        "sinal observado": "señal observada",
+        "valor observado": "valor observado",
+        "conteúdo publicado na fonte": "contenido publicado en la fuente",
+        "ficha da instituição na fonte": "ficha de la institución en la fuente",
+        "site informado na fonte": "sitio informado en la fuente",
+        "site externo informado": "sitio externo informado",
+        "URL final": "URL final",
+        "código do repositório": "código del repositorio",
+        "título do vídeo": "título del video",
+        "data do vídeo": "fecha del video",
+        "assunto do vídeo": "asunto del video",
+        "descrição do vídeo": "descripción del video",
+        "link do vídeo": "enlace del video",
+        "status_técnico": "estado_técnico",
+        "Atualizado no último ciclo": "Actualizado en el último ciclo",
+        "Pendente no ciclo parcial mais recente": "Pendiente en el ciclo parcial más reciente",
+        "Atualização atrasada": "Actualización atrasada",
+        "Falha no último ciclo": "Falla en el último ciclo",
+        "escala de cobertura": "escala de cobertura",
+        "completude da coleta": "completitud de la recolección",
+        "limite técnico": "límite técnico",
+        "nota de completude": "nota de completitud",
+        "última observação registrada": "última observación registrada",
+        "status da fonte": "estado de la fuente",
+        "chave de observação": "clave de observación",
+        "dias desde a última observação": "días desde la última observación",
+        "estado de atualização": "estado de actualización",
+        "justificativa metodológica": "justificación metodológica",
+        "registros públicos": "registros públicos",
+        "registros restritos": "registros restringidos",
+        "registros avaliados no observatório": "registros evaluados en el observatorio",
+        "% público": "% público",
+        "% restrito": "% restringido",
+        "nota do denominador": "nota del denominador",
+        "status no organismo": "estado en el organismo",
+        "categoria de restrição": "categoría de restricción",
+        "status do volume": "estado del volumen",
+        "arquivo-fonte": "archivo-fuente",
+        "tipo de sinal": "tipo de señal",
+        "etapa de expansão": "etapa de expansión",
+        "atualização analítica": "actualización analítica",
+        "critério de entrada": "criterio de entrada",
+        "regra de expansão": "regla de expansión",
+        "modelo de acesso observado": "modelo de acceso observado",
+        "status metodológico": "estado metodológico",
+        "termos sondados": "términos sondeados",
+        "termos com resultado": "términos con resultado",
+        "termos bloqueados": "términos bloqueados",
+        "recomendação de ingestão": "recomendación de ingesta",
+        "avaliado em": "evaluado en",
+        "melhor URL de sondagem": "mejor URL de sondeo",
+        "modelo observado": "modelo observado",
+        "exige nova rota": "exige nueva ruta",
+        "estado da avaliação": "estado de la evaluación",
+        "evidência observada": "evidencia observada",
+        "risco metodológico": "riesgo metodológico",
+        "encaminhamento recomendado": "encaminamiento recomendado",
+        "decisão de incorporação": "decisión de incorporación",
+        "gatilho de revisão": "disparador de revisión",
+        "referência oficial": "referencia oficial",
+        "nota da referência": "nota de la referencia",
+        "viabilidade da rota": "viabilidad de la ruta",
         "Arquivo identificado, mas não incluído na base ativa do observatório.": (
             "Archivo identificado, pero no incluido en la base activa del observatorio."
         ),
@@ -225,6 +371,19 @@ PHRASE_TRANSLATIONS = {
         "Atualizadas na última rodada": "Actualizadas en la última ronda",
         "Pendentes na rodada parcial": "Pendientes en la ronda parcial",
         "Atualizações atrasadas": "Actualizaciones atrasadas",
+        "Rodada": "Ronda",
+        "mais recente:": "más reciente:",
+        "sucessos,": "éxitos,",
+        "pendências, gerado em": "pendencias, generado en",
+        "Ver distribuição dos estados de atualização": "Ver distribución de los estados de actualización",
+        "Observações históricas das unidades": "Observaciones históricas de las unidades",
+        "Observações históricas institucionais": "Observaciones históricas institucionales",
+        "Sinais globais de possível extinção": "Señales globales de posible extinción",
+        "Unidades com histórico registrado": "Unidades con historial registrado",
+        "Exportar histórico geral das unidades": "Exportar historial general de las unidades",
+        "Exporta a linha do tempo combinada das unidades do observatório.": (
+            "Exporta la línea de tiempo combinada de las unidades del observatorio."
+        ),
         "Este quadro acompanha a saúde temporal do observatório por unidade documental, distinguindo atualizações recentes, pendências de rodadas parciais e atrasos de acompanhamento.": (
             "Este cuadro acompaña la salud temporal del observatorio por unidad documental, distinguiendo "
             "actualizaciones recientes, pendientes de rondas parciales y retrasos de seguimiento."
@@ -237,7 +396,7 @@ PHRASE_TRANSLATIONS = {
             "pago/restringido."
         ),
         "Índice público World": "Índice público mundial",
-        "Índice público Europa": "Índice público Europa",
+        "Índice público Europa": "Índice público europeo",
         "Registros restritos quantificados": "Registros restringidos cuantificados",
         "Unidades restritas no índice": "Unidades restringidas en el índice",
         "Mundo e continentes": "Mundo y continentes",
@@ -342,6 +501,24 @@ PHRASE_TRANSLATIONS = {
         "Identificados fora da base ativa": "Identificados fuera de la base activa",
         "Lacunas auditadas": "Lagunas auditadas",
         "Unidades europeias mapeadas": "Unidades europeas mapeadas",
+        "Agregador audiovisual europeu": "Agregador audiovisual europeo",
+        "Agregadores nacionais europeus": "Agregadores nacionales europeos",
+        "Lacunas europeias": "Lagunas europeas",
+        "Unidades já incorporadas": "Unidades ya incorporadas",
+        "Agregadores avaliados": "Agregadores evaluados",
+        "Prontos para validação total": "Listos para validación total",
+        "Exigem nova rota de acesso": "Exigen nueva ruta de acceso",
+        "Registros preliminares de busca": "Registros preliminares de búsqueda",
+        "Rotas oficiais analisadas": "Rutas oficiales analizadas",
+        "Verificação metodológica do Archives Hub": "Verificación metodológica de Archives Hub",
+        "Verificação metodológica do FranceArchives": "Verificación metodológica de FranceArchives",
+        "Ver verificações realizadas": "Ver verificaciones realizadas",
+        "Próxima etapa": "Próxima etapa metodológica",
+        "Ver posição dessas unidades na fila europeia": "Ver posición de estas unidades en la cola europea",
+        "Próximas análises individuais": "Análisis individuales siguientes",
+        "Diretórios a expandir": "Directorios por expandir",
+        "Ver tabela detalhada de regimes": "Ver tabla detallada de regímenes",
+        "Ver tabela detalhada de modalidades": "Ver tabla detallada de modalidades",
         "Comparações entre unidades documentais": "Comparaciones entre unidades documentales",
         "Estes quadros mostram como as unidades diferem não apenas em volume, mas também na forma como o audiovisual se torna publicamente acessível.": (
             "Estos cuadros muestran cómo las unidades difieren no solo en volumen, sino también en la forma en que "
@@ -382,7 +559,20 @@ PHRASE_TRANSLATIONS = {
         "Situação metodológica": "Situación metodológica",
         "Buscar instituição, país ou domínio": "Buscar institución, país o dominio",
         "Tema": "Tema",
+        "Plataformas": "Plataformas",
+        "Continentes": "Continentes",
+        "Continente": "Continente",
+        "País": "País de la institución",
+        "Links de vídeo": "Enlaces de video",
+        "Sinais embutidos": "Señales incrustadas",
         "Modalidade de acesso": "Modalidad de acceso",
+        "Regime de acesso audiovisual": "Régimen de acceso audiovisual",
+        "Tipo de arquivo": "Tipo de archivo",
+        "Integridade": "Integridad",
+        "Segmento institucional": "Segmento de la institución",
+        "Somente com links de vídeo": "Solo con enlaces de video",
+        "Busca textual": "Búsqueda textual",
+        "Instituição, país, domínio ou código": "Institución, país, dominio o código",
         "Seleção do recorte": "Selección del recorte",
         "Recorte da lista": "Recorte de la lista",
         "Selecione uma instituição": "Seleccione una institución",
@@ -404,8 +594,8 @@ PHRASE_TRANSLATIONS = {
         "Tipo institucional declarado na fonte": "Tipo institucional declarado en la fuente",
         "Temas dos vídeos": "Temas de los videos",
         "Locais de acesso detectados": "Lugares de acceso detectados",
-        "Temas por plataforma": "Temas por plataforma",
-        "Temas por país": "Temas por país",
+        "Temas por plataforma": "Temas según plataforma",
+        "Temas por país": "Temas según país",
         "Temas por tipo de arquivo": "Temas por tipo de archivo",
         "Visibilidade por tipo de arquivo": "Visibilidad por tipo de archivo",
         "Casos indisponíveis": "Casos no disponibles",
@@ -414,6 +604,33 @@ PHRASE_TRANSLATIONS = {
         "Distribuição geográfica das instituições com evidência pública detectável de audiovisual": (
             "Distribución geográfica de las instituciones con evidencia pública detectable de audiovisual"
         ),
+        "Sobre o recorte APE": "Sobre el recorte APE",
+        "Sobre o recorte": "Sobre el recorte",
+        "Ver referência de classificação": "Ver referencia de clasificación",
+        "Ver arquivos de referência desta unidade": "Ver archivos de referencia de esta unidad",
+        "Temas identificados": "Temas identificados por la curaduría",
+        "Locais de acesso": "Lugares de acceso",
+        "#### Distribuição temática": "#### Distribución temática",
+        "Organização dos vídeos": "Organización de los videos",
+        "Ver sínteses do catálogo de vídeos": "Ver síntesis del catálogo de videos",
+        "Distribuição por continente": "Distribución por continente",
+        "Distribuição por país": "Distribución por país",
+        "Filtrar continentes": "Filtrar por continente",
+        "#### Consulta das tabelas": "#### Consulta de las tablas",
+        "Selecione a tabela": "Seleccione la tabla",
+        "Com site informado na fonte": "Con sitio informado en la fuente",
+        "Com evidência pública detectável": "Con evidencia pública detectable",
+        "Indisponíveis no recorte": "No disponibles en el recorte",
+        "Ver tabela completa do recorte": "Ver tabla completa del recorte",
+        "Resposta do site": "Respuesta del sitio",
+        "Páginas internas": "Páginas internas verificadas",
+        "Leitura metodológica": "Lectura metodológica",
+        "Fontes e endereços": "Fuentes y direcciones",
+        "Abrir": "Abrir",
+        "Temas sugeridos": "Temas sugeridos por la clasificación",
+        "Páginas verificadas": "Páginas verificadas por la colecta",
+        "Links encontrados nessas páginas": "Enlaces encontrados en esas páginas",
+        "Sinais embutidos nessas páginas": "Señales incrustadas en esas páginas",
         "Esta aba existe justamente para não apagar a tentativa. A unidade aparece no observatório, mas fica separada das unidades ativas até que a rota de coleta seja estável, reprodutível e comparável.": (
             "Esta pestaña existe precisamente para no borrar el intento. La unidad aparece en el observatorio, pero "
             "permanece separada de las unidades activas hasta que la ruta de recolección sea estable, reproducible "
@@ -653,7 +870,7 @@ PHRASE_TRANSLATIONS = {
         "Links de vídeo:": "Enlaces de video:",
         "Sinais embutidos:": "Señales incrustadas:",
         "Tipo de arquivo:": "Tipo de archivo:",
-        "Plataformas detectadas:": "Plataformas detectadas:",
+        "Plataformas detectadas:": "Plataformas identificadas:",
         ": ainda sem dados para exportação.": ": todavía sin datos para exportación.",
         "Etapa 1": "Etapa 1",
         "Etapa 2": "Etapa 2",
@@ -714,8 +931,8 @@ PHRASE_TRANSLATIONS = {
         "vídeos no recorte atual.": "videos en el recorte actual.",
         "Instituições analisadas em": "Instituciones analizadas en",
         "Problema registrado na verificação:": "Problema registrado en la verificación:",
-        "Plataforma:": "Plataforma:",
-        "Tema sugerido:": "Tema sugerido:",
+        "Plataforma:": "Plataforma de acceso:",
+        "Tema sugerido:": "Tema sugerido por la clasificación:",
         "Modalidade de acesso:": "Modalidad de acceso:",
         "Data de publicação:": "Fecha de publicación:",
         "Abrir site institucional": "Abrir sitio institucional",
@@ -810,6 +1027,145 @@ PHRASE_TRANSLATIONS = {
         "Categoria": "Category",
         "Unidade": "Unit",
         "Caso documentado": "Documented Case",
+        "Instituição": "Institution",
+        "Informação": "Information",
+        "Domínio": "Domain",
+        "Observação": "Observation",
+        "Código": "Code",
+        "Repositório": "Repository",
+        "Conteúdo": "Content",
+        "Ficha": "Record",
+        "Fonte": "Source",
+        "Data": "Date",
+        "Título": "Title",
+        "Assunto": "Subject",
+        "Descrição": "Description",
+        "Link": "Link",
+        "Método": "Method",
+        "Tipo": "Type",
+        "Valor": "Value",
+        "Conclusão": "Conclusion",
+        "Referência": "Reference",
+        "Evidência": "Evidence",
+        "Nível": "Level",
+        "Escala": "Scale",
+        "Completude": "Completeness",
+        "Limite": "Limit",
+        "Justificativa": "Justification",
+        "Prioridade": "Priority",
+        "Decisão": "Decision",
+        "Gatilho": "Trigger",
+        "Encaminhamento": "Routing",
+        "Risco": "Risk",
+        "Modelo": "Model",
+        "Termos": "Terms",
+        "Resultado": "Result",
+        "Resultados": "Results",
+        "Ingestão": "Ingestion",
+        "Avaliado": "Evaluated",
+        "Melhor URL": "Best URL",
+        "Publicado": "Published",
+        "Possível": "Possible",
+        "Disponível": "Available",
+        "Restrito": "Restricted",
+        "Restrita": "Restricted",
+        "Ativo": "Active",
+        "Ativa": "Active",
+        "Técnico": "Technical",
+        "Técnica": "Technical",
+        "Metodológico": "Methodological",
+        "Metodológica": "Methodological",
+        "Íntegro": "Intact",
+        "Acessível": "Accessible",
+        "Instável": "Unstable",
+        "Sem site": "No site",
+        "Erro HTTP": "HTTP error",
+        "Indisponíveis": "Unavailable",
+        "Disponíveis com vídeos": "Available with videos",
+        "Disponíveis sem vídeos": "Available without videos",
+        "Identificada, mas não incluída na base ativa do observatório": (
+            "Identified, but not included in the observatory's active base"
+        ),
+        "não incorporar à base ativa no MVP": "do not incorporate into the active base in the MVP",
+        "Ausência de rota de coleta estável no protocolo atual.": (
+            "Absence of a stable collection route in the current protocol."
+        ),
+        "categoria de acesso": "access category",
+        "status público": "public status",
+        "decisão metodológica": "methodological decision",
+        "motivo da não inclusão": "reason for non-inclusion",
+        "rota de coleta tentada": "collection route attempted",
+        "tentativas registradas": "recorded attempts",
+        "explicação metodológica": "methodological explanation",
+        "próximo passo": "next step",
+        "tipo de rota": "route type",
+        "URL da rota": "route URL",
+        "status de acesso": "access status",
+        "uso audiovisual possível": "possible audiovisual use",
+        "nota metodológica": "methodological note",
+        "tipo de conteúdo": "content type",
+        "sinal observado": "observed signal",
+        "valor observado": "observed value",
+        "conteúdo publicado na fonte": "content published in the source",
+        "ficha da instituição na fonte": "institution record in the source",
+        "site informado na fonte": "site listed in the source",
+        "site externo informado": "external site listed",
+        "URL final": "final URL",
+        "código do repositório": "repository code",
+        "título do vídeo": "video title",
+        "data do vídeo": "video date",
+        "assunto do vídeo": "video subject",
+        "descrição do vídeo": "video description",
+        "link do vídeo": "video link",
+        "status_técnico": "technical_status",
+        "Atualizado no último ciclo": "Updated in the latest cycle",
+        "Pendente no ciclo parcial mais recente": "Pending in the most recent partial cycle",
+        "Atualização atrasada": "Delayed update",
+        "Falha no último ciclo": "Failure in the latest cycle",
+        "escala de cobertura": "coverage scale",
+        "completude da coleta": "collection completeness",
+        "limite técnico": "technical limit",
+        "nota de completude": "completeness note",
+        "última observação registrada": "latest recorded observation",
+        "status da fonte": "source status",
+        "chave de observação": "observation key",
+        "dias desde a última observação": "days since latest observation",
+        "estado de atualização": "update state",
+        "justificativa metodológica": "methodological justification",
+        "registros públicos": "public records",
+        "registros restritos": "restricted records",
+        "registros avaliados no observatório": "records evaluated in the observatory",
+        "% público": "% public",
+        "% restrito": "% restricted",
+        "nota do denominador": "denominator note",
+        "status no organismo": "status in the organism",
+        "categoria de restrição": "restriction category",
+        "status do volume": "volume status",
+        "arquivo-fonte": "source file",
+        "tipo de sinal": "signal type",
+        "etapa de expansão": "expansion stage",
+        "atualização analítica": "analytical update",
+        "critério de entrada": "entry criterion",
+        "regra de expansão": "expansion rule",
+        "modelo de acesso observado": "observed access model",
+        "status metodológico": "methodological status",
+        "termos sondados": "terms probed",
+        "termos com resultado": "terms with results",
+        "termos bloqueados": "blocked terms",
+        "recomendação de ingestão": "ingestion recommendation",
+        "avaliado em": "evaluated on",
+        "melhor URL de sondagem": "best probing URL",
+        "modelo observado": "observed model",
+        "exige nova rota": "requires new route",
+        "estado da avaliação": "evaluation state",
+        "evidência observada": "observed evidence",
+        "risco metodológico": "methodological risk",
+        "encaminhamento recomendado": "recommended routing",
+        "decisão de incorporação": "incorporation decision",
+        "gatilho de revisão": "review trigger",
+        "referência oficial": "official reference",
+        "nota da referência": "reference note",
+        "viabilidade da rota": "route viability",
         "Arquivo identificado, mas não incluído na base ativa do observatório.": (
             "Archive identified, but not included in the observatory's active base."
         ),
@@ -830,6 +1186,19 @@ PHRASE_TRANSLATIONS = {
         "Atualizadas na última rodada": "Updated in the latest round",
         "Pendentes na rodada parcial": "Pending in the partial round",
         "Atualizações atrasadas": "Delayed Updates",
+        "Rodada": "Round",
+        "mais recente:": "most recent:",
+        "sucessos,": "successes,",
+        "pendências, gerado em": "pending items, generated on",
+        "Ver distribuição dos estados de atualização": "View Distribution of Update States",
+        "Observações históricas das unidades": "Historical Unit Observations",
+        "Observações históricas institucionais": "Institutional Historical Observations",
+        "Sinais globais de possível extinção": "Global Signals of Possible Extinction",
+        "Unidades com histórico registrado": "Units with Registered History",
+        "Exportar histórico geral das unidades": "Export General Unit History",
+        "Exporta a linha do tempo combinada das unidades do observatório.": (
+            "Exports the combined timeline of the observatory units."
+        ),
         "Este quadro acompanha a saúde temporal do observatório por unidade documental, distinguindo atualizações recentes, pendências de rodadas parciais e atrasos de acompanhamento.": (
             "This panel tracks the temporal health of the observatory by documentary unit, distinguishing recent "
             "updates, pending items from partial rounds and monitoring delays."
@@ -944,6 +1313,24 @@ PHRASE_TRANSLATIONS = {
         "Identificados fora da base ativa": "Identified outside the active base",
         "Lacunas auditadas": "Audited Gaps",
         "Unidades europeias mapeadas": "Mapped European Units",
+        "Agregador audiovisual europeu": "European Audiovisual Aggregator",
+        "Agregadores nacionais europeus": "European National Aggregators",
+        "Lacunas europeias": "European Gaps",
+        "Unidades já incorporadas": "Already Incorporated Units",
+        "Agregadores avaliados": "Evaluated Aggregators",
+        "Prontos para validação total": "Ready for Full Validation",
+        "Exigem nova rota de acesso": "Require a New Access Route",
+        "Registros preliminares de busca": "Preliminary Search Records",
+        "Rotas oficiais analisadas": "Official Routes Analyzed",
+        "Verificação metodológica do Archives Hub": "Methodological Verification of Archives Hub",
+        "Verificação metodológica do FranceArchives": "Methodological Verification of FranceArchives",
+        "Ver verificações realizadas": "View Completed Verifications",
+        "Próxima etapa": "Next Stage",
+        "Ver posição dessas unidades na fila europeia": "View These Units in the European Queue",
+        "Próximas análises individuais": "Next Individual Analyses",
+        "Diretórios a expandir": "Directories to Expand",
+        "Ver tabela detalhada de regimes": "View Detailed Regime Table",
+        "Ver tabela detalhada de modalidades": "View Detailed Modality Table",
         "Comparações entre unidades documentais": "Comparisons Across Documentary Units",
         "Estes quadros mostram como as unidades diferem não apenas em volume, mas também na forma como o audiovisual se torna publicamente acessível.": (
             "These panels show how units differ not only in volume, but also in the way audiovisual material becomes "
@@ -983,7 +1370,20 @@ PHRASE_TRANSLATIONS = {
         "Situação metodológica": "Methodological Status",
         "Buscar instituição, país ou domínio": "Search institution, country or domain",
         "Tema": "Theme",
+        "Plataformas": "Platforms",
+        "Continentes": "Continents",
+        "Continente": "Continent",
+        "País": "Country",
+        "Links de vídeo": "Video links",
+        "Sinais embutidos": "Embedded signals",
         "Modalidade de acesso": "Access Modality",
+        "Regime de acesso audiovisual": "Audiovisual Access Regime",
+        "Tipo de arquivo": "Archive Type",
+        "Integridade": "Integrity",
+        "Segmento institucional": "Institutional Segment",
+        "Somente com links de vídeo": "Only with video links",
+        "Busca textual": "Text search",
+        "Instituição, país, domínio ou código": "Institution, country, domain or code",
         "Seleção do recorte": "Scope Selection",
         "Recorte da lista": "List Scope",
         "Selecione uma instituição": "Select an institution",
@@ -1015,6 +1415,33 @@ PHRASE_TRANSLATIONS = {
         "Distribuição geográfica das instituições com evidência pública detectável de audiovisual": (
             "Geographic Distribution of Institutions with Detectable Public Audiovisual Evidence"
         ),
+        "Sobre o recorte APE": "About the APE Scope",
+        "Sobre o recorte": "About the Scope",
+        "Ver referência de classificação": "View Classification Reference",
+        "Ver arquivos de referência desta unidade": "View Reference Files for This Unit",
+        "Temas identificados": "Identified Themes",
+        "Locais de acesso": "Access Locations",
+        "#### Distribuição temática": "#### Thematic Distribution",
+        "Organização dos vídeos": "Video Organization",
+        "Ver sínteses do catálogo de vídeos": "View Video Catalogue Summaries",
+        "Distribuição por continente": "Distribution by Continent",
+        "Distribuição por país": "Distribution by Country",
+        "Filtrar continentes": "Filter continents",
+        "#### Consulta das tabelas": "#### Table Query",
+        "Selecione a tabela": "Select the table",
+        "Com site informado na fonte": "With site listed in the source",
+        "Com evidência pública detectável": "With detectable public evidence",
+        "Indisponíveis no recorte": "Unavailable in the scope",
+        "Ver tabela completa do recorte": "View Complete Scope Table",
+        "Resposta do site": "Site response",
+        "Páginas internas": "Internal pages",
+        "Leitura metodológica": "Methodological Reading",
+        "Fontes e endereços": "Sources and Addresses",
+        "Abrir": "Open",
+        "Temas sugeridos": "Suggested Themes",
+        "Páginas verificadas": "Verified Pages",
+        "Links encontrados nessas páginas": "Links found on these pages",
+        "Sinais embutidos nessas páginas": "Embedded signals on these pages",
         "Esta aba existe justamente para não apagar a tentativa. A unidade aparece no observatório, mas fica separada das unidades ativas até que a rota de coleta seja estável, reprodutível e comparável.": (
             "This tab exists precisely so the attempt is not erased. The unit appears in the observatory, but remains "
             "separate from active units until the collection route is stable, reproducible and comparable."
@@ -1372,10 +1799,31 @@ def _compact_text(value: str) -> str:
     return " ".join(str(value).split())
 
 
+def _lower_initial(value: str) -> str:
+    return value[:1].lower() + value[1:] if value else value
+
+
+def _expand_replacements(replacements: dict[str, str]) -> dict[str, str]:
+    expanded = dict(replacements)
+    for source, target in replacements.items():
+        if source[:1].isupper():
+            expanded.setdefault(_lower_initial(source), _lower_initial(target))
+    return expanded
+
+
+def _replace_phrase(value: str, source: str, target: str) -> str:
+    pattern = re.escape(source)
+    if source[:1].isalnum():
+        pattern = rf"(?<!\w){pattern}"
+    if source[-1:].isalnum():
+        pattern = rf"{pattern}(?!\w)"
+    return re.sub(pattern, target, value)
+
+
 def translate_ui_text(value, language: str = DEFAULT_LANGUAGE):
     if not isinstance(value, str) or language == DEFAULT_LANGUAGE:
         return value
-    replacements = PHRASE_TRANSLATIONS.get(language, {})
+    replacements = _expand_replacements(PHRASE_TRANSLATIONS.get(language, {}))
     if value in replacements:
         return replacements[value]
 
@@ -1386,7 +1834,7 @@ def translate_ui_text(value, language: str = DEFAULT_LANGUAGE):
 
     translated = value
     for source, target in sorted(replacements.items(), key=lambda item: len(item[0]), reverse=True):
-        translated = translated.replace(source, target)
+        translated = _replace_phrase(translated, source, target)
     return translated
 
 

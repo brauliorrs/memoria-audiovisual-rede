@@ -8,7 +8,7 @@ Nesta etapa, o foco principal é o fechamento europeu do observatório. A expans
 
 ## Eixo acadêmico
 
-O observatório integra a formulação de um projeto de pós-doutorado a ser submetido à Universidade de Valência, no âmbito do **Communication and Media Culture History Research Group**.
+O observatório integra a formulação de um projeto de pós-doutorado em desenvolvimento.
 
 Pergunta orientadora:
 

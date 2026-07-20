@@ -124,6 +124,24 @@ def localize_format_func(format_func=None):
     return formatter
 
 
+def localize_dataframe_columns(data):
+    if APP_LANGUAGE == DEFAULT_LANGUAGE or not isinstance(data, pd.DataFrame):
+        return data
+    localized = data.copy()
+    localized.columns = [localize_ui(column) if isinstance(column, str) else column for column in localized.columns]
+    return localized
+
+
+def localize_dataframe_arguments(args, kwargs):
+    args = list(args)
+    kwargs = dict(kwargs)
+    if args:
+        args[0] = localize_dataframe_columns(args[0])
+    elif "data" in kwargs:
+        kwargs["data"] = localize_dataframe_columns(kwargs["data"])
+    return args, kwargs
+
+
 def install_streamlit_i18n(language):
     if not hasattr(st, "_memoria_i18n_originals"):
         st._memoria_i18n_originals = {}
@@ -218,6 +236,21 @@ def install_streamlit_i18n(language):
         return original_delta_metric(self, localize_ui(label), localized_value, *args, **kwargs)
 
     DeltaGenerator.metric = localized_delta_metric
+
+    original_dataframe = original_method("dataframe")
+
+    def localized_dataframe(*args, **kwargs):
+        args, kwargs = localize_dataframe_arguments(args, kwargs)
+        return original_dataframe(*args, **kwargs)
+
+    st.dataframe = localized_dataframe
+    original_delta_dataframe = original_delta_method("dataframe")
+
+    def localized_delta_dataframe(self, *args, **kwargs):
+        args, kwargs = localize_dataframe_arguments(args, kwargs)
+        return original_delta_dataframe(self, *args, **kwargs)
+
+    DeltaGenerator.dataframe = localized_delta_dataframe
 
     original_tabs = original_method("tabs")
 
