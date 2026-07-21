@@ -4,6 +4,12 @@
 
 O projeto combina coleta automatizada, curadoria metodológica, indicadores comparáveis e visualização em Streamlit para estudar como a memória audiovisual circula, aparece, desaparece ou permanece pouco visível em ambientes digitais.
 
+## Acesso público
+
+A versão pública do observatório está disponível no Streamlit:
+
+[https://memoria-audiovisual-rede-vcxnq9xh7b7uifydhwjxcy.streamlit.app/](https://memoria-audiovisual-rede-vcxnq9xh7b7uifydhwjxcy.streamlit.app/)
+
 Nesta etapa, o foco principal é o fechamento europeu do observatório. A expansão para outros continentes será feita somente depois que a Europa estiver metodologicamente documentada, incluindo unidades incorporadas, unidades protocoladas e negativas justificadas.
 
 ## Eixo acadêmico
