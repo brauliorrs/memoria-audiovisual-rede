@@ -1256,6 +1256,298 @@ def build_category_video_display_df(dataframe):
     )
 
 
+def build_research_video_catalog_frame():
+    frames = []
+    for category_def in CORPUS_CATEGORIES.values():
+        _, _, combined_video_df = build_category_combined_frames(category_def["code"])
+        if combined_video_df.empty:
+            continue
+        filtered_df = analysis_utils.filter_curatorial_video_catalog(combined_video_df)
+        if not filtered_df.empty:
+            frames.append(filtered_df)
+    if not frames:
+        return pd.DataFrame()
+    catalog_df = pd.concat(frames, ignore_index=True)
+    for column in [
+        "categoria_analitica",
+        "corpus",
+        "unidade",
+        "institution",
+        "country",
+        "continent",
+        "platform",
+        "access_surface",
+        "access_regime",
+        "video_theme",
+    ]:
+        if column not in catalog_df.columns:
+            catalog_df[column] = ""
+        catalog_df[column] = catalog_df[column].fillna("").astype(str)
+    catalog_df["continent"] = catalog_df["continent"].replace("", "Não classificado")
+    return catalog_df
+
+
+def _select_filter_options(dataframe, column, all_label):
+    if dataframe.empty or column not in dataframe.columns:
+        return [all_label]
+    options = sorted(value for value in dataframe[column].dropna().astype(str).unique().tolist() if value.strip())
+    return [all_label] + options
+
+
+def _apply_single_choice_filter(dataframe, column, selected, all_label):
+    if selected == all_label or column not in dataframe.columns:
+        return dataframe
+    return dataframe.loc[dataframe[column].astype(str) == selected].copy()
+
+
+def filter_research_catalog(
+    catalog_df,
+    *,
+    search_term,
+    selected_category,
+    selected_corpus,
+    selected_theme,
+    selected_country,
+    selected_continent,
+    selected_platform,
+    selected_access_surface,
+    selected_access_regime,
+    public_video_only,
+):
+    filtered_df = catalog_df.copy()
+    filters = [
+        ("categoria_analitica", selected_category, "Todas as categorias"),
+        ("corpus", selected_corpus, "Todas as unidades"),
+        ("video_theme", selected_theme, "Todos os temas"),
+        ("country", selected_country, "Todos os países"),
+        ("continent", selected_continent, "Todos os continentes"),
+        ("platform", selected_platform, "Todas as plataformas"),
+        ("access_surface", selected_access_surface, "Todas as modalidades"),
+        ("access_regime", selected_access_regime, "Todos os regimes"),
+    ]
+    for column, selected, all_label in filters:
+        filtered_df = _apply_single_choice_filter(filtered_df, column, selected, all_label)
+
+    if public_video_only and "video_link" in filtered_df.columns:
+        filtered_df = filtered_df.loc[filtered_df["video_link"].fillna("").astype(str).str.strip() != ""].copy()
+
+    search_term = search_term.strip()
+    if search_term:
+        search_columns = [
+            "video_title_display",
+            "video_subject",
+            "video_description",
+            "institution",
+            "unidade",
+            "corpus",
+            "country",
+            "continent",
+            "platform",
+            "video_theme",
+            "video_link",
+        ]
+        available_columns = [column for column in search_columns if column in filtered_df.columns]
+        search_lower = search_term.lower()
+        filtered_df = filtered_df.loc[
+            filtered_df[available_columns]
+            .fillna("")
+            .astype(str)
+            .apply(lambda column: column.str.lower().str.contains(search_lower, na=False, regex=False))
+            .any(axis=1)
+        ].copy()
+
+    return filtered_df
+
+
+def build_research_video_display_df(dataframe):
+    if dataframe is None or dataframe.empty:
+        return pd.DataFrame()
+    preferred_columns = [
+        "categoria_analitica",
+        "corpus",
+        "unidade",
+        "institution",
+        "country",
+        "continent",
+        "video_theme",
+        "video_title_display",
+        "video_date_display",
+        "platform",
+        "access_surface",
+        "access_regime",
+        "video_subject",
+        "video_description",
+        "video_link",
+    ]
+    available_columns = [column for column in preferred_columns if column in dataframe.columns]
+    return dataframe[available_columns].rename(
+        columns={
+            "categoria_analitica": "categoria analítica",
+            "corpus": "unidade documental",
+            "unidade": "unidade",
+            "institution": "instituição",
+            "country": "país",
+            "continent": "continente",
+            "video_theme": "tema",
+            "video_title_display": "título do vídeo",
+            "video_date_display": "data do vídeo",
+            "platform": "plataforma",
+            "access_surface": "modalidade de acesso",
+            "access_regime": "regime de acesso audiovisual",
+            "video_subject": "assunto do vídeo",
+            "video_description": "descrição do vídeo",
+            "video_link": "link do vídeo",
+        }
+    )
+
+
+def render_research_tab():
+    st.markdown("## Pesquisa no catálogo audiovisual")
+    st.caption(
+        "Ferramenta transversal para localizar vídeos, instituições, temas, países, plataformas e regimes "
+        "de acesso no catálogo curatorial consolidado do observatório."
+    )
+    st.info(
+        "Esta ferramenta permite cruzar o conjunto do organismo sem apagar a separação metodológica: "
+        "cada resultado preserva categoria analítica, unidade documental e instituição de origem."
+    )
+
+    catalog_df = build_research_video_catalog_frame()
+    if catalog_df.empty:
+        st.info("Ainda não há vídeos curatoriais disponíveis para pesquisa transversal.")
+        return
+
+    metric_cols = st.columns(5)
+    metric_cols[0].metric("Resultados encontrados", len(catalog_df))
+    metric_cols[1].metric("Unidades documentais", int(catalog_df["corpus"].nunique()))
+    metric_cols[2].metric("Instituições", int(catalog_df["institution"].nunique()))
+    metric_cols[3].metric("Países", int(catalog_df["country"].nunique()))
+    metric_cols[4].metric("Temas", int(catalog_df["video_theme"].nunique()))
+
+    st.markdown("### Filtros de pesquisa")
+    search_term = st.text_input(
+        "Busca textual",
+        placeholder="Título, assunto, descrição, instituição ou país",
+        key="global-research-search",
+    )
+    filter_cols = st.columns(4)
+    with filter_cols[0]:
+        selected_category = st.selectbox(
+            "Categoria analítica",
+            options=_select_filter_options(catalog_df, "categoria_analitica", "Todas as categorias"),
+            key="global-research-category",
+        )
+        selected_country = st.selectbox(
+            "País",
+            options=_select_filter_options(catalog_df, "country", "Todos os países"),
+            key="global-research-country",
+        )
+    with filter_cols[1]:
+        selected_corpus = st.selectbox(
+            "Unidade documental",
+            options=_select_filter_options(catalog_df, "corpus", "Todas as unidades"),
+            key="global-research-corpus",
+        )
+        selected_continent = st.selectbox(
+            "Continente",
+            options=_select_filter_options(catalog_df, "continent", "Todos os continentes"),
+            key="global-research-continent",
+        )
+    with filter_cols[2]:
+        selected_theme = st.selectbox(
+            "Tema",
+            options=_select_filter_options(catalog_df, "video_theme", "Todos os temas"),
+            key="global-research-theme",
+        )
+        selected_platform = st.selectbox(
+            "Plataforma",
+            options=_select_filter_options(catalog_df, "platform", "Todas as plataformas"),
+            key="global-research-platform",
+        )
+    with filter_cols[3]:
+        selected_access_surface = st.selectbox(
+            "Modalidade de acesso",
+            options=_select_filter_options(catalog_df, "access_surface", "Todas as modalidades"),
+            key="global-research-access-surface",
+        )
+        selected_access_regime = st.selectbox(
+            "Regime de acesso audiovisual",
+            options=_select_filter_options(catalog_df, "access_regime", "Todos os regimes"),
+            key="global-research-access-regime",
+        )
+
+    public_video_only = st.checkbox(
+        "Somente registros com link público de vídeo",
+        value=True,
+        key="global-research-public-video-only",
+    )
+
+    filtered_df = filter_research_catalog(
+        catalog_df,
+        search_term=search_term,
+        selected_category=selected_category,
+        selected_corpus=selected_corpus,
+        selected_theme=selected_theme,
+        selected_country=selected_country,
+        selected_continent=selected_continent,
+        selected_platform=selected_platform,
+        selected_access_surface=selected_access_surface,
+        selected_access_regime=selected_access_regime,
+        public_video_only=public_video_only,
+    )
+
+    st.caption(f"{len(filtered_df)} vídeos no recorte atual.")
+    result_metric_cols = st.columns(4)
+    result_metric_cols[0].metric("Unidades no recorte", int(filtered_df["corpus"].nunique()) if not filtered_df.empty else 0)
+    result_metric_cols[1].metric(
+        "Instituições no recorte",
+        int(filtered_df["institution"].nunique()) if not filtered_df.empty else 0,
+    )
+    result_metric_cols[2].metric("Países no recorte", int(filtered_df["country"].nunique()) if not filtered_df.empty else 0)
+    result_metric_cols[3].metric("Temas no recorte", int(filtered_df["video_theme"].nunique()) if not filtered_df.empty else 0)
+
+    result_mode = st.radio(
+        "Organização dos resultados",
+        options=["Tabela", "Por tema", "Por unidade documental"],
+        horizontal=True,
+        key="global-research-result-mode",
+    )
+
+    if filtered_df.empty:
+        st.info("Nenhum vídeo corresponde aos filtros selecionados.")
+        return
+
+    if result_mode == "Tabela":
+        st.dataframe(
+            build_research_video_display_df(filtered_df),
+            use_container_width=True,
+            hide_index=True,
+        )
+    else:
+        group_column = "video_theme" if result_mode == "Por tema" else "corpus"
+        group_order = filtered_df[group_column].fillna("").replace("", "Não classificado").value_counts().index.tolist()
+        for group_name in group_order:
+            group_df = filtered_df.loc[
+                filtered_df[group_column].fillna("").replace("", "Não classificado") == group_name
+            ].copy()
+            group_df = group_df.sort_values(
+                ["corpus", "institution", "video_date_display", "video_title_display"],
+                ascending=[True, True, False, True],
+            )
+            with st.expander(f"{group_name} ({len(group_df)})", expanded=False):
+                st.dataframe(
+                    build_research_video_display_df(group_df),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
+    render_csv_download(
+        "Exportar recorte da pesquisa",
+        build_research_video_display_df(filtered_df),
+        "observatorio_recorte_pesquisa_videos.csv",
+        "Exporta os vídeos filtrados na ferramenta de pesquisa transversal.",
+    )
+
 def render_observatory_overview_tab():
     st.markdown(tr("overview_title"))
     st.caption(tr("overview_caption"))
@@ -4388,7 +4680,7 @@ st.caption(tr("app_caption"))
 
 protocolled_excluded_units = load_protocolled_excluded_units()
 top_level_tabs = st.tabs(
-    [localize_ui("Visão geral")]
+    [localize_ui("Visão geral"), localize_ui("Pesquisa")]
     + [tr("category_tab", label=localize_ui(category_def["short_label"])) for category_def in CORPUS_CATEGORIES.values()]
     + [tr("unit_tab", label=definition["short_label"]) for definition in CORPORA.values()]
     + [tr("documented_case_tab", label=unit["unit_label"]) for unit in protocolled_excluded_units]
@@ -4396,10 +4688,14 @@ top_level_tabs = st.tabs(
 
 with top_level_tabs[0]:
     render_observatory_overview_tab()
+with top_level_tabs[1]:
+    render_research_tab()
 
-category_tabs = top_level_tabs[1 : 1 + len(CORPUS_CATEGORIES)]
-corpus_tabs = top_level_tabs[1 + len(CORPUS_CATEGORIES) :]
-protocolled_tabs = top_level_tabs[1 + len(CORPUS_CATEGORIES) + len(CORPORA) :]
+category_start = 2
+category_tabs = top_level_tabs[category_start : category_start + len(CORPUS_CATEGORIES)]
+corpus_start = category_start + len(CORPUS_CATEGORIES)
+corpus_tabs = top_level_tabs[corpus_start : corpus_start + len(CORPORA)]
+protocolled_tabs = top_level_tabs[corpus_start + len(CORPORA) :]
 
 for category_tab, category_def in zip(category_tabs, CORPUS_CATEGORIES.values()):
     with category_tab:

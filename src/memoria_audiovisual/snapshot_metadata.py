@@ -33,6 +33,7 @@ from .config import (
     CSC_CINETECA_VIDEO_CATALOG_URL,
     FAR_FILMS_URL,
     FINA_VIDEO_LIST_URL,
+    MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
@@ -93,6 +94,7 @@ from .output_files import (
     CSC_CINETECA_OUTPUT_FILES,
     FAR_OUTPUT_FILES,
     FINA_OUTPUT_FILES,
+    HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -991,6 +993,26 @@ def build_far_snapshot_metadata(
         dataset="far",
         source_url=FAR_FILMS_URL,
         output_files=FAR_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_home_movies_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="home-movies-memoryscapes",
+        source_url=MEMORYSCAPES_ARCHIVE_URL,
+        output_files=HOME_MOVIES_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
@@ -2537,6 +2559,7 @@ __all__ = [
     "build_eye_snapshot_metadata",
     "build_estonian_film_archive_snapshot_metadata",
     "build_far_snapshot_metadata",
+    "build_home_movies_snapshot_metadata",
     "build_fina_snapshot_metadata",
     "build_filmarchiv_austria_snapshot_metadata",
     "build_filmmuseum_dusseldorf_snapshot_metadata",

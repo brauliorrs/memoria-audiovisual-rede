@@ -1,0 +1,168 @@
+{
+  "dataset": "home-movies-memoryscapes",
+  "generated_at": "2026-07-21T17:55:42Z",
+  "generated_by": "scripts/run_home_movies_pipeline.py",
+  "observation_key": "home-movies-memoryscapes:2026-07-21T17:55:35Z",
+  "source_url": "https://www.memoryscapes.it/en/archive",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-07-21T17:55:35Z",
+  "analytic_outputs_last_modified_at": "2026-07-21T17:55:29Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 4593,
+    "videos_in_curatorial_catalog": 4593,
+    "visibility_categories": 1,
+    "theme_categories": 13,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "home_movies_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 458,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "summary": {
+      "filename": "home_movies_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 821,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "video_links": {
+      "filename": "home_movies_links_video.csv",
+      "exists": true,
+      "size_bytes": 5031799,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "internal_pages": {
+      "filename": "home_movies_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 4852,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "analytic_summary": {
+      "filename": "home_movies_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1177,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "home_movies_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 5424770,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "availability_summary": {
+      "filename": "home_movies_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 34,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "availability_reasons": {
+      "filename": "home_movies_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 44,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "visibility_summary": {
+      "filename": "home_movies_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "access_surface_summary": {
+      "filename": "home_movies_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 52,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "access_regime_summary": {
+      "filename": "home_movies_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "theme_summary": {
+      "filename": "home_movies_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 420,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "theme_country": {
+      "filename": "home_movies_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 503,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "archive_type_summary": {
+      "filename": "home_movies_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 94,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "theme_platform": {
+      "filename": "home_movies_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 600,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "theme_archive_type": {
+      "filename": "home_movies_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 1284,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "visibility_archive_type": {
+      "filename": "home_movies_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 154,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "timeline_corpus": {
+      "filename": "home_movies_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 763,
+      "last_modified_at": "2026-07-21T17:55:42Z"
+    },
+    "timeline_institutions": {
+      "filename": "home_movies_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1526,
+      "last_modified_at": "2026-07-21T17:55:42Z"
+    },
+    "extinction_signals": {
+      "filename": "home_movies_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 292,
+      "last_modified_at": "2026-07-21T17:55:42Z"
+    },
+    "snapshot_metadata": {
+      "filename": "home_movies_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5416,
+      "last_modified_at": "2026-07-21T17:55:42Z"
+    },
+    "report_json": {
+      "filename": "home_movies_relatorio.json",
+      "exists": true,
+      "size_bytes": 1600,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "report_txt": {
+      "filename": "home_movies_relatorio.txt",
+      "exists": true,
+      "size_bytes": 934,
+      "last_modified_at": "2026-07-21T17:55:29Z"
+    },
+    "report_xlsx": {
+      "filename": "home_movies_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 2448321,
+      "last_modified_at": "2026-07-21T17:55:35Z"
+    }
+  }
+}

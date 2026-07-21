@@ -2,7 +2,7 @@
 
 ## Status do corpus continental
 - Status de abertura: `autorizada_com_cautela`.
-- Corpora europeus ativos: `53`.
+- Corpora europeus ativos: `54`.
 - Candidatos europeus documentados fora do corpus ativo: `2`.
 - Escopo: Europa como corpus continental em fechamento metodológico progressivo para artigo e projeto de pós-doutorado.
 
@@ -53,6 +53,7 @@
 - `filmoteca_espanola`: Filmoteca Española / PLATFO FILMO | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `filmoteca_valenciana`: Filmoteca Valenciana / Restauraciones | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `fina`: Filmoteka Narodowa - Instytut Audiowizualny | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
+- `home-movies-memoryscapes`: Fondazione Home Movies / Memoryscapes | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `iam`: Institut audiovisuel de Monaco | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.
 - `ina`: Institut national de l'audiovisuel | Arquivos e instituições arquivísticas | instituição individual | pipeline_ativo.
 - `luce`: Cinecittà - Archivio Luce | Arquivos e instituições arquivísticas | instituição individual europeia | pipeline_ativo.

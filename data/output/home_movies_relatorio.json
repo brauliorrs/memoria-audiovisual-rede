@@ -1,0 +1,53 @@
+{
+  "source": "https://www.memoryscapes.it/en/archive",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 1,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "ok": 1
+  },
+  "platform_summary": {
+    "Memoryscapes": 4593
+  },
+  "top_domains": [
+    [
+      "memoryscapes.it",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Fondazione Home Movies / Archivio Nazionale del Film di Famiglia",
+      "slug": "fondazione-home-movies-archivio-nazionale-del-film-di-famiglia",
+      "country": "Italy",
+      "continent": "Europe",
+      "repository_code": "IT-HOME-MOVIES-MEMORYSCAPES",
+      "archive_type": "Home movie and private film archive with public digital platform",
+      "home_movies_detail_url": "https://www.homemovies.it/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.memoryscapes.it/en/archive",
+      "partner_domain": "memoryscapes.it",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "ok",
+      "final_url": "https://www.memoryscapes.it/en/project",
+      "video_links_found_total": 4593,
+      "embedded_video_signals_total": 4593,
+      "candidate_internal_pages": 11,
+      "priority_review": false,
+      "warning": "total declarado pela API: 4613; IDs listados: 4613; detalhes sem player público, com erro ou duplicados: 20",
+      "error": ""
+    }
+  ]
+}

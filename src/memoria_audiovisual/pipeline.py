@@ -79,6 +79,9 @@ from .far_exports import write_far_analysis_outputs
 from .fina import collect_fina_dataset
 from .fina_exports import build_fina_analysis_extra_sheets
 from .fina_exports import write_fina_analysis_outputs
+from .home_movies import collect_home_movies_dataset
+from .home_movies_exports import build_home_movies_analysis_extra_sheets
+from .home_movies_exports import write_home_movies_analysis_outputs
 from .filmarchiv_austria import collect_filmarchiv_austria_dataset
 from .filmarchiv_austria_exports import build_filmarchiv_austria_analysis_extra_sheets
 from .filmarchiv_austria_exports import write_filmarchiv_austria_analysis_outputs
@@ -178,6 +181,7 @@ from .config import (
     CSC_CINETECA_VIDEO_CATALOG_URL,
     FAR_FILMS_URL,
     FINA_VIDEO_LIST_URL,
+    MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
@@ -257,6 +261,7 @@ from .output_files import (
     CSC_CINETECA_OUTPUT_FILES,
     FAR_OUTPUT_FILES,
     FINA_OUTPUT_FILES,
+    HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -327,6 +332,7 @@ from .snapshot_metadata import (
     build_csc_cineteca_snapshot_metadata,
     build_far_snapshot_metadata,
     build_fina_snapshot_metadata,
+    build_home_movies_snapshot_metadata,
     build_filmarchiv_austria_snapshot_metadata,
     build_filmmuseum_dusseldorf_snapshot_metadata,
     build_filmoteca_catalunya_snapshot_metadata,
@@ -716,6 +722,18 @@ FAR_INSTITUTION_FIELDS = [field.replace("archipop_detail_url", "far_detail_url")
 FAR_SUMMARY_FIELDS = [field.replace("archipop_detail_url", "far_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS]
 FAR_VIDEO_LINK_FIELDS = [field.replace("archipop_detail_url", "far_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS]
 FAR_INTERNAL_PAGE_FIELDS = [field.replace("archipop_detail_url", "far_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS]
+HOME_MOVIES_INSTITUTION_FIELDS = [
+    field.replace("archipop_detail_url", "home_movies_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
+]
+HOME_MOVIES_SUMMARY_FIELDS = [
+    field.replace("archipop_detail_url", "home_movies_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS
+]
+HOME_MOVIES_VIDEO_LINK_FIELDS = [
+    field.replace("archipop_detail_url", "home_movies_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS
+]
+HOME_MOVIES_INTERNAL_PAGE_FIELDS = [
+    field.replace("archipop_detail_url", "home_movies_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
+]
 FILMARCHIV_AUSTRIA_INSTITUTION_FIELDS = [
     field.replace("archipop_detail_url", "filmarchiv_austria_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
 ]
@@ -2024,6 +2042,25 @@ def run_far_pipeline():
         report_title="RELATORIO - FAR / MFNA",
         institutions_sheet_title="FAR",
         generated_by="scripts/run_far_pipeline.py",
+    )
+
+
+def run_home_movies_pipeline():
+    _run_corpus_pipeline(
+        source_label="Fondazione Home Movies / Memoryscapes",
+        source_url=MEMORYSCAPES_ARCHIVE_URL,
+        collect_dataset=collect_home_movies_dataset,
+        institution_fields=HOME_MOVIES_INSTITUTION_FIELDS,
+        summary_fields=HOME_MOVIES_SUMMARY_FIELDS,
+        video_link_fields=HOME_MOVIES_VIDEO_LINK_FIELDS,
+        internal_page_fields=HOME_MOVIES_INTERNAL_PAGE_FIELDS,
+        output_files=HOME_MOVIES_OUTPUT_FILES,
+        analysis_output_writer=write_home_movies_analysis_outputs,
+        analysis_extra_sheets_builder=build_home_movies_analysis_extra_sheets,
+        snapshot_builder=build_home_movies_snapshot_metadata,
+        report_title="RELATORIO - HOME MOVIES / MEMORYSCAPES",
+        institutions_sheet_title="Home Movies",
+        generated_by="scripts/run_home_movies_pipeline.py",
     )
 
 

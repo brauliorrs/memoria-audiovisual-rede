@@ -24,6 +24,7 @@ from memoria_audiovisual.output_files import (
     ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
+    HOME_MOVIES_OUTPUT_FILES,
     DEUTSCHE_KINEMATHEK_OUTPUT_FILES,
     DR_OUTPUT_FILES,
     CICLIC_OUTPUT_FILES,
@@ -67,6 +68,7 @@ from memoria_audiovisual.output_files import (
     list_estonian_film_archive_output_filenames,
     list_filmarchiv_austria_output_filenames,
     list_filmmuseum_dusseldorf_output_filenames,
+    list_home_movies_output_filenames,
     list_deutsche_kinemathek_output_filenames,
     list_dr_output_filenames,
     list_ciclic_output_filenames,
@@ -120,6 +122,7 @@ class OutputContractsTests(unittest.TestCase):
             self.assertIn(key, ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES)
             self.assertIn(key, FILMARCHIV_AUSTRIA_OUTPUT_FILES)
             self.assertIn(key, FILMMUSEUM_DUSSELDORF_OUTPUT_FILES)
+            self.assertIn(key, HOME_MOVIES_OUTPUT_FILES)
             self.assertIn(key, DEUTSCHE_KINEMATHEK_OUTPUT_FILES)
             self.assertIn(key, DR_OUTPUT_FILES)
             self.assertIn(key, CICLIC_OUTPUT_FILES)
@@ -408,6 +411,10 @@ class OutputContractsTests(unittest.TestCase):
 
     def test_filmmuseum_dusseldorf_output_manifest_values_are_unique(self):
         filenames = list_filmmuseum_dusseldorf_output_filenames()
+        self.assertEqual(len(filenames), len(set(filenames)))
+
+    def test_home_movies_output_manifest_values_are_unique(self):
+        filenames = list_home_movies_output_filenames()
         self.assertEqual(len(filenames), len(set(filenames)))
 
     def test_pares_required_report_files_exist_in_manifest(self):
@@ -793,6 +800,18 @@ class OutputContractsTests(unittest.TestCase):
             "extinction_signals",
         ]:
             self.assertIn(key, FILMMUSEUM_DUSSELDORF_OUTPUT_FILES)
+
+    def test_home_movies_required_report_files_exist_in_manifest(self):
+        for key in [
+            "report_json",
+            "report_txt",
+            "report_xlsx",
+            "snapshot_metadata",
+            "timeline_corpus",
+            "timeline_institutions",
+            "extinction_signals",
+        ]:
+            self.assertIn(key, HOME_MOVIES_OUTPUT_FILES)
 
 
 if __name__ == "__main__":

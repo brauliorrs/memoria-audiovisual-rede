@@ -32,6 +32,7 @@ from .config import (
     FILMOTECA_VALENCIANA_OUTPUT_PREFIX,
     DEUTSCHE_KINEMATHEK_OUTPUT_PREFIX,
     DR_OUTPUT_PREFIX,
+    HOME_MOVIES_OUTPUT_PREFIX,
     CICLIC_OUTPUT_PREFIX,
     CINEARCHIVES_OUTPUT_PREFIX,
     CINEAM_OUTPUT_PREFIX,
@@ -134,6 +135,7 @@ ERT_OUTPUT_FILES = build_output_files(ERT_OUTPUT_PREFIX)
 EYE_OUTPUT_FILES = build_output_files(EYE_OUTPUT_PREFIX)
 ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES = build_output_files(ESTONIAN_FILM_ARCHIVE_OUTPUT_PREFIX)
 FAR_OUTPUT_FILES = build_output_files(FAR_OUTPUT_PREFIX)
+HOME_MOVIES_OUTPUT_FILES = build_output_files(HOME_MOVIES_OUTPUT_PREFIX)
 FINA_OUTPUT_FILES = build_output_files(FINA_OUTPUT_PREFIX)
 CSC_CINETECA_OUTPUT_FILES = build_output_files(CSC_CINETECA_OUTPUT_PREFIX)
 FILMARCHIV_AUSTRIA_OUTPUT_FILES = build_output_files(FILMARCHIV_AUSTRIA_OUTPUT_PREFIX)
@@ -267,6 +269,10 @@ def list_estonian_film_archive_output_filenames():
 
 def list_far_output_filenames():
     return list_output_filenames(FAR_OUTPUT_FILES)
+
+
+def list_home_movies_output_filenames():
+    return list_output_filenames(HOME_MOVIES_OUTPUT_FILES)
 
 
 def list_fina_output_filenames():
@@ -426,6 +432,7 @@ __all__ = [
     "EYE_OUTPUT_FILES",
     "ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES",
     "FAR_OUTPUT_FILES",
+    "HOME_MOVIES_OUTPUT_FILES",
     "FILMARCHIV_AUSTRIA_OUTPUT_FILES",
     "FILMMUSEUM_DUSSELDORF_OUTPUT_FILES",
     "FILMOTECA_CATALUNYA_OUTPUT_FILES",
@@ -484,6 +491,7 @@ __all__ = [
     "list_eye_output_filenames",
     "list_estonian_film_archive_output_filenames",
     "list_far_output_filenames",
+    "list_home_movies_output_filenames",
     "list_filmarchiv_austria_output_filenames",
     "list_filmmuseum_dusseldorf_output_filenames",
     "list_filmoteca_catalunya_output_filenames",

@@ -10,7 +10,10 @@ from memoria_audiovisual.public_access_index import (
     PUBLIC_ACCESS_INDEX_BY_CORPUS_FILENAME,
     PUBLIC_ACCESS_INDEX_FILENAME,
     PUBLIC_ACCESS_RESTRICTED_UNITS_FILENAME,
+    PUBLIC_RECORD_STATUS,
+    RESTRICTED_RECORD_STATUS,
     build_public_access_index,
+    classify_record_public_access,
     write_public_access_index,
 )
 
@@ -65,6 +68,23 @@ class PublicAccessIndexTests(unittest.TestCase):
             ]
         ).to_csv(output_dir / EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME, index=False)
 
+    def test_classify_record_public_access_does_not_restrict_italian_ingresso_as_entrance(self):
+        public_row = pd.Series(
+            {
+                "access_surface": "Outra superfície de acesso",
+                "video_title": "L'ingresso al Santiago Bernabeu",
+                "video_description": "Polonia-Italia: ingresso in campo; old ticket shown in the footage.",
+            }
+        )
+        restricted_row = pd.Series(
+            {
+                "access_surface": "Outra superfície de acesso",
+                "video_description": "Streaming institucional disponível por ingresso pago.",
+            }
+        )
+
+        self.assertEqual(classify_record_public_access(public_row), PUBLIC_RECORD_STATUS)
+        self.assertEqual(classify_record_public_access(restricted_row), RESTRICTED_RECORD_STATUS)
     def test_build_public_access_index_counts_public_restricted_and_excludes_private_banks(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             output_dir = Path(tmp_dir)

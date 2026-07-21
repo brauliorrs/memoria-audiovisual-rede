@@ -181,7 +181,7 @@ def classify_record_public_access(row):
     if access_surface in RESTRICTED_ACCESS_SURFACES:
         return RESTRICTED_RECORD_STATUS
     if re.search(
-        r"compra/login|autenticad|autoriza|onsite|licenciamento|catálogo comercial|catalogo comercial|ingresso|georrestri[cç][aã]o|\b\d+\s*(?:RON|EUR|USD|BRL)\b",
+        r"compra/login|autenticad|autoriza|onsite|licenciamento|catálogo comercial|catalogo comercial|ingresso pago|por ingresso|bilhete pago|ticket pago|paid ticket|ticketed access|ticket purchase|purchase ticket|georrestri[cç][aã]o|\b\d+\s*(?:RON|EUR|USD|BRL)\b",
         row_text,
         flags=re.IGNORECASE,
     ):

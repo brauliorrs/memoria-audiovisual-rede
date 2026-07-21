@@ -2,34 +2,34 @@
   "organism": "Memória Audiovisual em Rede",
   "role": "organismo agregador mundial em construção",
   "refresh_cadence": "mensal",
-  "generated_at": "2026-07-16T17:46:08Z",
-  "started_at": "2026-07-16T17:38:36Z",
-  "finished_at": "2026-07-16T17:46:08Z",
+  "generated_at": "2026-07-21T19:27:18Z",
+  "started_at": "2026-07-21T17:55:42Z",
+  "finished_at": "2026-07-21T19:27:18Z",
   "cycle_type": "mensal",
   "cycle_scope": "parcial",
-  "active_corpora_total": 48,
+  "active_corpora_total": 55,
   "selected_corpora_total": 1,
   "selected_corpora_codes": [
-    "filmmuseum_dusseldorf"
+    "home-movies-memoryscapes"
   ],
   "successful_corpora_total": 1,
   "failed_corpora_total": 0,
   "cycle_results": [
     {
-      "code": "filmmuseum_dusseldorf",
-      "label": "Filmmuseum Düsseldorf / d:kult online",
-      "short_label": "Filmmuseum Düsseldorf",
+      "code": "home-movies-memoryscapes",
+      "label": "Fondazione Home Movies / Memoryscapes",
+      "short_label": "Home Movies",
       "category_code": "institution",
       "coverage_level": "instituição individual europeia",
       "status": "success",
-      "refresh_started_at": "2026-07-16T17:43:25Z",
-      "refresh_finished_at": "2026-07-16T17:46:08Z",
-      "snapshot_generated_at": "2026-07-16T17:46:05Z",
-      "observation_key": "filmmuseum_dusseldorf:2026-07-16T17:46:05Z",
+      "refresh_started_at": "2026-07-21T17:55:42Z",
+      "refresh_finished_at": "2026-07-21T19:27:18Z",
+      "snapshot_generated_at": "2026-07-21T17:55:42Z",
+      "observation_key": "home-movies-memoryscapes:2026-07-21T17:55:35Z",
       "source_status_date": "",
       "institutions": 1,
-      "video_links_total": 300,
-      "videos_in_curatorial_catalog": 300,
+      "video_links_total": 4593,
+      "videos_in_curatorial_catalog": 4593,
       "error": ""
     }
   ]

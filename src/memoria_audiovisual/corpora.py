@@ -25,6 +25,7 @@ from .config import (
     CSC_CINETECA_VIDEO_CATALOG_URL,
     FAR_FILMS_URL,
     FINA_VIDEO_LIST_URL,
+    MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
@@ -85,6 +86,7 @@ from .output_files import (
     CSC_CINETECA_OUTPUT_FILES,
     FAR_OUTPUT_FILES,
     FINA_OUTPUT_FILES,
+    HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -143,6 +145,7 @@ from .output_files import (
     list_csc_cineteca_output_filenames,
     list_far_output_filenames,
     list_fina_output_filenames,
+    list_home_movies_output_filenames,
     list_filmarchiv_austria_output_filenames,
     list_filmmuseum_dusseldorf_output_filenames,
     list_filmoteca_catalunya_output_filenames,
@@ -1101,6 +1104,64 @@ CORPORA = {
         "run_script_path": "scripts/run_far_pipeline.py",
         "build_script_path": "scripts/run_far_pipeline.py",
         "check_script_path": "scripts/check_far_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "home-movies-memoryscapes": {
+        "code": "home-movies-memoryscapes",
+        "label": "Fondazione Home Movies / Memoryscapes",
+        "short_label": "Home Movies",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial com plataforma pública",
+        "coverage_level": "instituição individual europeia",
+        "scope": "arquivo italiano de filmes de família e cinema privado com plataforma pública de clipes online",
+        "methodological_unit": "API pública Memoryscapes `/api/clips/` e fichas públicas de clipes",
+        "ape_relationship": (
+            "identificada na fila europeia derivada da INEDITS e tratada como corpus institucional autônomo; "
+            "não é agregador continental nem subunidade do APE"
+        ),
+        "expansion_rationale": (
+            "Entra após validação individual da fila europeia. A Fondazione Home Movies informa a existência "
+            "do Memoryscapes como plataforma pública de cinema privado online, e a API pública retorna milhares "
+            "de clipes com metadados, localização, palavras-chave, autor/fundo, formato e player Vimeo."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "O corpus incorpora somente clipes com player público detectado na API do Memoryscapes. O Home Movies "
+            "Digital Archive com acesso por credenciais permanece como contexto institucional, não como dado público."
+        ),
+        "zero_result_policy": (
+            "Se retornar zero registros, isso indica mudança na API pública do Memoryscapes, bloqueio técnico "
+            "ou alteração do regime de publicação, não ausência automática de acervo audiovisual na instituição."
+        ),
+        "collection_completeness": "API pública Memoryscapes coletada integralmente na rodada",
+        "selection_criterion": (
+            "Pagina `/api/clips/` para obter todos os IDs declarados e detalha cada ficha em `/api/clips/{id}/`; "
+            "incorpora somente registros com `url_content` ou player público equivalente."
+        ),
+        "selection_limit": (
+            "Sem amostra arbitrária dentro da API pública; a coleta não baixa mídia e não tenta contornar "
+            "credenciais do Home Movies Digital Archive."
+        ),
+        "completeness_note": (
+            "Completo em relação aos clipes públicos enumeráveis no Memoryscapes no momento da coleta; não afirma "
+            "exaustividade do acervo físico, interno, licenciado ou acessível apenas por credenciais."
+        ),
+        "source_url": MEMORYSCAPES_ARCHIVE_URL,
+        "output_files": HOME_MOVIES_OUTPUT_FILES,
+        "list_output_filenames": list_home_movies_output_filenames,
+        "detail_url_field": "home_movies_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "site Home Movies e plataforma Memoryscapes",
+        "content_flag_label": "clipes públicos publicados no Memoryscapes",
+        "website_label": "Memoryscapes",
+        "run_script": "python scripts/run_home_movies_pipeline.py",
+        "build_script": "python scripts/run_home_movies_pipeline.py",
+        "check_script": "python scripts/check_home_movies_outputs.py",
+        "run_script_path": "scripts/run_home_movies_pipeline.py",
+        "build_script_path": "scripts/run_home_movies_pipeline.py",
+        "check_script_path": "scripts/check_home_movies_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },

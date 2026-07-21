@@ -555,6 +555,47 @@ PHRASE_TRANSLATIONS = {
         "Todas as situações": "Todas las situaciones",
         "Todos os temas": "Todos los temas",
         "Todas as modalidades": "Todas las modalidades",
+        "Pesquisa": "Búsqueda",
+        "## Pesquisa no catálogo audiovisual": "## Búsqueda en el catálogo audiovisual",
+        "Ferramenta transversal para localizar vídeos, instituições, temas, países, plataformas e regimes de acesso no catálogo curatorial consolidado do observatório.": (
+            "Herramienta transversal para localizar videos, instituciones, temas, países, plataformas y regímenes "
+            "de acceso en el catálogo curatorial consolidado del observatorio."
+        ),
+        "Esta ferramenta permite cruzar o conjunto do organismo sem apagar a separação metodológica: cada resultado preserva categoria analítica, unidade documental e instituição de origem.": (
+            "Esta herramienta permite cruzar el conjunto del organismo sin borrar la separación metodológica: "
+            "cada resultado preserva categoría analítica, unidad documental e institución de origen."
+        ),
+        "Ainda não há vídeos curatoriais disponíveis para pesquisa transversal.": (
+            "Todavía no hay videos curatoriales disponibles para búsqueda transversal."
+        ),
+        "Resultados encontrados": "Resultados encontrados",
+        "Unidades documentais": "Unidades documentales",
+        "Países": "Países detectados",
+        "Temas": "Temas detectados",
+        "### Filtros de pesquisa": "### Filtros de búsqueda",
+        "Categoria analítica": "Categoría analítica",
+        "Todas as categorias": "Todas las categorías",
+        "Todos os países": "Todos los países",
+        "Todos os continentes": "Todos los continentes",
+        "Todas as plataformas": "Todas las plataformas",
+        "Todos os regimes": "Todos los regímenes",
+        "Plataforma": "Plataforma",
+        "Somente registros com link público de vídeo": "Solo registros con enlace público de video",
+        "vídeos no recorte atual": "videos en el recorte actual",
+        "Unidades no recorte": "Unidades en el recorte",
+        "Países no recorte": "Países en el recorte",
+        "Temas no recorte": "Temas en el recorte",
+        "Organização dos resultados": "Organización de los resultados",
+        "Por tema": "Por tema",
+        "Por unidade documental": "Por unidad documental",
+        "Nenhum vídeo corresponde aos filtros selecionados.": "Ningún video corresponde a los filtros seleccionados.",
+        "Exportar recorte da pesquisa": "Exportar recorte de la búsqueda",
+        "Exporta os vídeos filtrados na ferramenta de pesquisa transversal.": (
+            "Exporta los videos filtrados en la herramienta de búsqueda transversal."
+        ),
+        "Título, assunto, descrição, instituição ou país": "Título, asunto, descripción, institución o país",
+        "categoria analítica": "categoría analítica",
+        "unidade documental": "unidad documental",
         "Unidade documental": "Unidad documental",
         "Situação metodológica": "Situación metodológica",
         "Buscar instituição, país ou domínio": "Buscar institución, país o dominio",
@@ -1366,6 +1407,47 @@ PHRASE_TRANSLATIONS = {
         "Todas as situações": "All statuses",
         "Todos os temas": "All themes",
         "Todas as modalidades": "All modalities",
+        "Pesquisa": "Search",
+        "## Pesquisa no catálogo audiovisual": "## Search the Audiovisual Catalogue",
+        "Ferramenta transversal para localizar vídeos, instituições, temas, países, plataformas e regimes de acesso no catálogo curatorial consolidado do observatório.": (
+            "Cross-cutting tool for locating videos, institutions, themes, countries, platforms and access regimes "
+            "in the observatory's consolidated curatorial catalogue."
+        ),
+        "Esta ferramenta permite cruzar o conjunto do organismo sem apagar a separação metodológica: cada resultado preserva categoria analítica, unidade documental e instituição de origem.": (
+            "This tool makes it possible to cross-search the organism without erasing methodological separation: "
+            "each result preserves analytical category, documentary unit and source institution."
+        ),
+        "Ainda não há vídeos curatoriais disponíveis para pesquisa transversal.": (
+            "There are no curatorial videos available for cross-search yet."
+        ),
+        "Resultados encontrados": "Results Found",
+        "Unidades documentais": "Documentary Units",
+        "Países": "Countries",
+        "Temas": "Themes",
+        "### Filtros de pesquisa": "### Search Filters",
+        "Categoria analítica": "Analytical Category",
+        "Todas as categorias": "All categories",
+        "Todos os países": "All countries",
+        "Todos os continentes": "All continents",
+        "Todas as plataformas": "All platforms",
+        "Todos os regimes": "All regimes",
+        "Plataforma": "Platform",
+        "Somente registros com link público de vídeo": "Only records with a public video link",
+        "vídeos no recorte atual": "videos in the current scope",
+        "Unidades no recorte": "Units in the Scope",
+        "Países no recorte": "Countries in the Scope",
+        "Temas no recorte": "Themes in the Scope",
+        "Organização dos resultados": "Results Organization",
+        "Por tema": "By Theme",
+        "Por unidade documental": "By Documentary Unit",
+        "Nenhum vídeo corresponde aos filtros selecionados.": "No video matches the selected filters.",
+        "Exportar recorte da pesquisa": "Export Search Scope",
+        "Exporta os vídeos filtrados na ferramenta de pesquisa transversal.": (
+            "Exports the videos filtered in the cross-search tool."
+        ),
+        "Título, assunto, descrição, instituição ou país": "Title, subject, description, institution or country",
+        "categoria analítica": "analytical category",
+        "unidade documental": "documentary unit",
         "Unidade documental": "Documentary Unit",
         "Situação metodológica": "Methodological Status",
         "Buscar instituição, país ou domínio": "Search institution, country or domain",

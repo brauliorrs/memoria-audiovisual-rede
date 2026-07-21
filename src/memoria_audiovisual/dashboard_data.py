@@ -38,6 +38,7 @@ _BASE_FRAME_DEFAULTS = {
     "ecpad_detail_url": "",
     "ert_detail_url": "",
     "eye_detail_url": "",
+    "home_movies_detail_url": "",
     "deutsche_kinemathek_detail_url": "",
     "dr_detail_url": "",
     "website_available": False,
