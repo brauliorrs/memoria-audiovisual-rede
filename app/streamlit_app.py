@@ -1401,7 +1401,7 @@ def build_research_video_display_df(dataframe):
     )
 
 
-def render_research_tab():
+def render_research_tab(initial_search_term="", show_search_input=True):
     st.markdown("## Pesquisa no catálogo audiovisual")
     st.caption(
         "Ferramenta transversal para localizar vídeos, instituições, temas, países, plataformas e regimes "
@@ -1425,11 +1425,14 @@ def render_research_tab():
     metric_cols[4].metric("Temas", int(catalog_df["video_theme"].nunique()))
 
     st.markdown("### Filtros de pesquisa")
-    search_term = st.text_input(
-        "Busca textual",
-        placeholder="Título, assunto, descrição, instituição ou país",
-        key="global-research-search",
-    )
+    search_term = initial_search_term
+    if show_search_input:
+        search_term = st.text_input(
+            "Busca textual",
+            value=initial_search_term,
+            placeholder="Título, assunto, descrição, instituição ou país",
+            key="global-research-search",
+        )
     filter_cols = st.columns(4)
     with filter_cols[0]:
         selected_category = st.selectbox(
@@ -4675,12 +4678,53 @@ def render_corpus_tab(corpus_def):
     with tab_institution:
         render_institution_tab(corpus_def, context, selected_slug)
 
-st.title(tr("app_title"))
-st.caption(tr("app_caption"))
+def close_global_research():
+    st.session_state["global-research-open"] = False
+    st.session_state["header-global-research"] = ""
+
+
+header_title_col, header_search_col = st.columns([5, 3], gap="large", vertical_alignment="center")
+with header_title_col:
+    st.title(tr("app_title"))
+    st.caption(tr("app_caption"))
+
+with header_search_col:
+    search_field_col, search_button_col = st.columns([5, 2], gap="small", vertical_alignment="bottom")
+    with search_field_col:
+        header_search_term = st.text_input(
+            "Pesquisa global",
+            placeholder="Pesquisar no acervo audiovisual",
+            label_visibility="collapsed",
+            key="header-global-research",
+        )
+    with search_button_col:
+        open_research = st.button(
+            "Pesquisar",
+            type="primary",
+            use_container_width=True,
+            key="header-global-research-open",
+        )
+
+if open_research:
+    st.session_state["global-research-open"] = True
+if header_search_term.strip():
+    st.session_state["global-research-open"] = True
+
+if st.session_state.get("global-research-open", False):
+    with st.container(border=True):
+        close_col = st.columns([7, 1], vertical_alignment="center")[1]
+        with close_col:
+            st.button(
+                "Fechar pesquisa",
+                use_container_width=True,
+                key="header-global-research-close",
+                on_click=close_global_research,
+            )
+        render_research_tab(initial_search_term=header_search_term, show_search_input=False)
 
 protocolled_excluded_units = load_protocolled_excluded_units()
 top_level_tabs = st.tabs(
-    [localize_ui("Visão geral"), localize_ui("Pesquisa")]
+    [localize_ui("Visão geral")]
     + [tr("category_tab", label=localize_ui(category_def["short_label"])) for category_def in CORPUS_CATEGORIES.values()]
     + [tr("unit_tab", label=definition["short_label"]) for definition in CORPORA.values()]
     + [tr("documented_case_tab", label=unit["unit_label"]) for unit in protocolled_excluded_units]
@@ -4688,10 +4732,8 @@ top_level_tabs = st.tabs(
 
 with top_level_tabs[0]:
     render_observatory_overview_tab()
-with top_level_tabs[1]:
-    render_research_tab()
 
-category_start = 2
+category_start = 1
 category_tabs = top_level_tabs[category_start : category_start + len(CORPUS_CATEGORIES)]
 corpus_start = category_start + len(CORPUS_CATEGORIES)
 corpus_tabs = top_level_tabs[corpus_start : corpus_start + len(CORPORA)]

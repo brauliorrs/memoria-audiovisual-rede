@@ -556,6 +556,11 @@ PHRASE_TRANSLATIONS = {
         "Todos os temas": "Todos los temas",
         "Todas as modalidades": "Todas las modalidades",
         "Pesquisa": "Búsqueda",
+        "Pesquisa global": "Búsqueda global",
+        "Pesquisar no acervo audiovisual": "Buscar en el acervo audiovisual",
+        "Pesquisar": "Buscar",
+        "Abrir pesquisa": "Abrir búsqueda",
+        "Fechar pesquisa": "Cerrar búsqueda",
         "## Pesquisa no catálogo audiovisual": "## Búsqueda en el catálogo audiovisual",
         "Ferramenta transversal para localizar vídeos, instituições, temas, países, plataformas e regimes de acesso no catálogo curatorial consolidado do observatório.": (
             "Herramienta transversal para localizar videos, instituciones, temas, países, plataformas y regímenes "
@@ -1408,6 +1413,11 @@ PHRASE_TRANSLATIONS = {
         "Todos os temas": "All themes",
         "Todas as modalidades": "All modalities",
         "Pesquisa": "Search",
+        "Pesquisa global": "Global search",
+        "Pesquisar no acervo audiovisual": "Search the audiovisual collection",
+        "Pesquisar": "Search",
+        "Abrir pesquisa": "Open search",
+        "Fechar pesquisa": "Close search",
         "## Pesquisa no catálogo audiovisual": "## Search the Audiovisual Catalogue",
         "Ferramenta transversal para localizar vídeos, instituições, temas, países, plataformas e regimes de acesso no catálogo curatorial consolidado do observatório.": (
             "Cross-cutting tool for locating videos, institutions, themes, countries, platforms and access regimes "
