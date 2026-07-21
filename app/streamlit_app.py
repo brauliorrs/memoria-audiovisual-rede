@@ -102,6 +102,7 @@ from memoria_audiovisual.organism import (
 )
 
 OUTPUT_DIR = BASE_DIR / "data" / "output"
+RESEARCH_RESULT_PREVIEW_LIMIT = 500
 
 st.set_page_config(page_title="Memória Audiovisual em Rede", layout="wide")
 
@@ -1256,15 +1257,59 @@ def build_category_video_display_df(dataframe):
     )
 
 
+@st.cache_data(show_spinner=False)
 def build_research_video_catalog_frame():
     frames = []
-    for category_def in CORPUS_CATEGORIES.values():
-        _, _, combined_video_df = build_category_combined_frames(category_def["code"])
-        if combined_video_df.empty:
+    search_columns = {
+        "institution",
+        "slug",
+        "country",
+        "continent",
+        "platform",
+        "video_link",
+        "video_title_display",
+        "video_date_display",
+        "video_theme",
+        "access_surface",
+        "video_subject",
+    }
+    for corpus_def in CORPORA.values():
+        output_files = corpus_def["output_files"]
+        catalog_path = OUTPUT_DIR / output_files["analytic_video_catalog"]
+        if not catalog_path.exists():
             continue
-        filtered_df = analysis_utils.filter_curatorial_video_catalog(combined_video_df)
-        if not filtered_df.empty:
-            frames.append(filtered_df)
+        catalog_df = pd.read_csv(
+            catalog_path,
+            usecols=lambda column: column in search_columns,
+            dtype=str,
+            keep_default_na=False,
+        )
+        catalog_df = analysis_utils.filter_curatorial_video_catalog(catalog_df)
+        if catalog_df.empty:
+            continue
+
+        summary_path = OUTPUT_DIR / output_files["analytic_summary"]
+        if summary_path.exists():
+            regime_df = pd.read_csv(
+                summary_path,
+                usecols=lambda column: column in {"slug", "institution", "access_regime"},
+                dtype=str,
+                keep_default_na=False,
+            )
+            join_key = "slug" if "slug" in catalog_df.columns and "slug" in regime_df.columns else "institution"
+            if join_key in catalog_df.columns and join_key in regime_df.columns and "access_regime" in regime_df.columns:
+                catalog_df = catalog_df.merge(
+                    regime_df[[join_key, "access_regime"]].drop_duplicates(join_key),
+                    on=join_key,
+                    how="left",
+                )
+
+        category_def = CORPUS_CATEGORIES[corpus_def["category_code"]]
+        catalog_df["corpus"] = corpus_def["short_label"]
+        catalog_df["unidade"] = corpus_def["label"]
+        catalog_df["categoria_analitica"] = category_def["label"]
+        frames.append(catalog_df)
+
     if not frames:
         return pd.DataFrame()
     catalog_df = pd.concat(frames, ignore_index=True)
@@ -1520,18 +1565,28 @@ def render_research_tab(initial_search_term="", show_search_input=True):
         st.info("Nenhum vídeo corresponde aos filtros selecionados.")
         return
 
+    preview_df = filtered_df.head(RESEARCH_RESULT_PREVIEW_LIMIT)
+    if len(filtered_df) > len(preview_df):
+        st.caption(
+            tr(
+                "research_preview_caption",
+                preview_total=len(preview_df),
+                filtered_total=len(filtered_df),
+            )
+        )
+
     if result_mode == "Tabela":
         st.dataframe(
-            build_research_video_display_df(filtered_df),
+            build_research_video_display_df(preview_df),
             use_container_width=True,
             hide_index=True,
         )
     else:
         group_column = "video_theme" if result_mode == "Por tema" else "corpus"
-        group_order = filtered_df[group_column].fillna("").replace("", "Não classificado").value_counts().index.tolist()
+        group_order = preview_df[group_column].fillna("").replace("", "Não classificado").value_counts().index.tolist()
         for group_name in group_order:
-            group_df = filtered_df.loc[
-                filtered_df[group_column].fillna("").replace("", "Não classificado") == group_name
+            group_df = preview_df.loc[
+                preview_df[group_column].fillna("").replace("", "Não classificado") == group_name
             ].copy()
             group_df = group_df.sort_values(
                 ["corpus", "institution", "video_date_display", "video_title_display"],
@@ -4681,6 +4736,7 @@ def render_corpus_tab(corpus_def):
 def close_global_research():
     st.session_state["global-research-open"] = False
     st.session_state["header-global-research"] = ""
+    build_research_video_catalog_frame.clear()
 
 
 header_title_col, header_search_col = st.columns([5, 3], gap="large", vertical_alignment="center")
@@ -4721,6 +4777,7 @@ if st.session_state.get("global-research-open", False):
                 on_click=close_global_research,
             )
         render_research_tab(initial_search_term=header_search_term, show_search_input=False)
+    st.stop()
 
 protocolled_excluded_units = load_protocolled_excluded_units()
 top_level_tabs = st.tabs(

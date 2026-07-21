@@ -70,6 +70,10 @@ TRANSLATIONS = {
         "category_tab": "Categoria: {label}",
         "unit_tab": "Unidade: {label}",
         "documented_case_tab": "Caso registrado: {label}",
+        "research_preview_caption": (
+            "Exibindo os primeiros {preview_total} de {filtered_total} vídeos. Use os filtros para refinar o "
+            "recorte; a exportação preserva o conjunto filtrado completo."
+        ),
     },
     "es": {
         "app_title": "Plataforma abierta de curaduría y acceso a la memoria audiovisual en red",
@@ -118,6 +122,10 @@ TRANSLATIONS = {
         "category_tab": "Categoría: {label}",
         "unit_tab": "Unidad: {label}",
         "documented_case_tab": "Caso documentado: {label}",
+        "research_preview_caption": (
+            "Se muestran los primeros {preview_total} de {filtered_total} videos. Utilice los filtros para refinar "
+            "el recorte; la exportación conserva el conjunto filtrado completo."
+        ),
     },
     "en": {
         "app_title": "Open platform for curation and access to networked audiovisual memory",
@@ -166,6 +174,10 @@ TRANSLATIONS = {
         "category_tab": "Category: {label}",
         "unit_tab": "Unit: {label}",
         "documented_case_tab": "Documented Case: {label}",
+        "research_preview_caption": (
+            "Showing the first {preview_total} of {filtered_total} videos. Use the filters to refine the selection; "
+            "the export preserves the complete filtered dataset."
+        ),
     },
 }
 
