@@ -1462,8 +1462,9 @@ def render_research_tab(initial_search_term="", show_search_input=True):
         st.info("Ainda não há vídeos curatoriais disponíveis para pesquisa transversal.")
         return
 
+    st.markdown("### Escopo indexado")
     metric_cols = st.columns(5)
-    metric_cols[0].metric("Resultados encontrados", len(catalog_df))
+    metric_cols[0].metric("Vídeos indexados", len(catalog_df))
     metric_cols[1].metric("Unidades documentais", int(catalog_df["corpus"].nunique()))
     metric_cols[2].metric("Instituições", int(catalog_df["institution"].nunique()))
     metric_cols[3].metric("Países", int(catalog_df["country"].nunique()))
@@ -1544,15 +1545,17 @@ def render_research_tab(initial_search_term="", show_search_input=True):
         public_video_only=public_video_only,
     )
 
+    st.markdown("### Resultados da consulta")
     st.caption(f"{len(filtered_df)} vídeos no recorte atual.")
-    result_metric_cols = st.columns(4)
-    result_metric_cols[0].metric("Unidades no recorte", int(filtered_df["corpus"].nunique()) if not filtered_df.empty else 0)
-    result_metric_cols[1].metric(
+    result_metric_cols = st.columns(5)
+    result_metric_cols[0].metric("Resultados encontrados", len(filtered_df))
+    result_metric_cols[1].metric("Unidades no recorte", int(filtered_df["corpus"].nunique()) if not filtered_df.empty else 0)
+    result_metric_cols[2].metric(
         "Instituições no recorte",
         int(filtered_df["institution"].nunique()) if not filtered_df.empty else 0,
     )
-    result_metric_cols[2].metric("Países no recorte", int(filtered_df["country"].nunique()) if not filtered_df.empty else 0)
-    result_metric_cols[3].metric("Temas no recorte", int(filtered_df["video_theme"].nunique()) if not filtered_df.empty else 0)
+    result_metric_cols[3].metric("Países no recorte", int(filtered_df["country"].nunique()) if not filtered_df.empty else 0)
+    result_metric_cols[4].metric("Temas no recorte", int(filtered_df["video_theme"].nunique()) if not filtered_df.empty else 0)
 
     result_mode = st.radio(
         "Organização dos resultados",

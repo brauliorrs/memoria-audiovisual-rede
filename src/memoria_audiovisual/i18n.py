@@ -586,6 +586,9 @@ PHRASE_TRANSLATIONS = {
             "Todavía no hay videos curatoriales disponibles para búsqueda transversal."
         ),
         "Resultados encontrados": "Resultados encontrados",
+        "### Escopo indexado": "### Alcance indexado",
+        "Vídeos indexados": "Videos indexados",
+        "### Resultados da consulta": "### Resultados de la consulta",
         "Unidades documentais": "Unidades documentales",
         "Países": "Países detectados",
         "Temas": "Temas detectados",
@@ -1443,6 +1446,9 @@ PHRASE_TRANSLATIONS = {
             "There are no curatorial videos available for cross-search yet."
         ),
         "Resultados encontrados": "Results Found",
+        "### Escopo indexado": "### Indexed Scope",
+        "Vídeos indexados": "Indexed Videos",
+        "### Resultados da consulta": "### Search Results",
         "Unidades documentais": "Documentary Units",
         "Países": "Countries",
         "Temas": "Themes",
