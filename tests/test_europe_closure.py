@@ -108,6 +108,7 @@ class EuropeClosureTests(unittest.TestCase):
             {
                 "archives-hub",
                 "cinematheque-suisse",
+                "fiaf-cineteca-bologna",
                 "fiaf-cineteca-italiana",
                 "fiaf-filmmuseum-munchen",
                 "francearchives",
@@ -125,6 +126,10 @@ class EuropeClosureTests(unittest.TestCase):
             outputs["excluded_units"]["unit_code"] == "fiaf-cineteca-italiana"
         ].iloc[0]
         self.assertIn("streaming protegido", italiana_excluded["methodological_explanation"])
+        bologna_excluded = outputs["excluded_units"].loc[
+            outputs["excluded_units"]["unit_code"] == "fiaf-cineteca-bologna"
+        ].iloc[0]
+        self.assertIn("amostra parcial", bologna_excluded["methodological_explanation"])
         self.assertFalse(outputs["gap_audit"]["unit_type"].astype(str).str.contains("sonoro", case=False).any())
         dossier = build_europe_closure_dossier(matrix_df, summary_df).lower()
         self.assertIn("corpus continental", dossier)

@@ -119,7 +119,7 @@ class I18nTests(unittest.TestCase):
     def test_core_project_labels_are_available_in_three_languages(self):
         self.assertEqual(
             t("app_title", "pt"),
-            "Plataforma aberta de curadoria e acesso à memória audiovisual em rede",
+            "Plataforma aberta de observação da memória audiovisual em rede",
         )
         self.assertIn("memoria audiovisual", t("app_title", "es"))
         self.assertIn("audiovisual memory", t("app_title", "en"))
