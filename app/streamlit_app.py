@@ -1626,9 +1626,9 @@ def render_scientific_parameters_section():
 
     st.markdown("### Parâmetros científicos da plataforma")
     st.caption(
-        "A plataforma continua sendo uma plataforma pública de observação e curadoria. "
-        "Esta camada explicita quais variáveis, evidências e protocolos sustentam sua "
-        "função de observatório comparativo e longitudinal."
+        "A plataforma combina observação pública, curadoria metodológica e análise comparativa. "
+        "Esta camada explicita as variáveis, evidências e protocolos que dão consistência "
+        "científica ao acompanhamento longitudinal dos acervos audiovisuais."
     )
 
     positioning_df = pd.DataFrame(

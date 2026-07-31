@@ -4,7 +4,7 @@ from collections import Counter
 RESEARCH_WORKING_TITLE = "Memória Audiovisual em Rede"
 
 RESEARCH_SUBTITLE = (
-    "plataforma aberta para observação comparativa da visibilidade, do acesso e da "
+    "Plataforma aberta para observação comparativa da visibilidade, do acesso e da "
     "circulação digital de acervos audiovisuais"
 )
 
@@ -125,4 +125,3 @@ def build_research_next_adjustment_rows():
 def summarize_research_parameter_status(rows=None):
     rows = RESEARCH_PARAMETER_ROWS if rows is None else rows
     return dict(Counter(row["estado"] for row in rows))
-
