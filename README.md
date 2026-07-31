@@ -1,8 +1,10 @@
 # Memória Audiovisual em Rede
 
-**Observatório digital para mapear, monitorar e analisar a presença pública de acervos audiovisuais em plataformas, arquivos, cinematecas e agregadores digitais.**
+**Plataforma aberta para mapear, monitorar e analisar a presença pública de acervos audiovisuais em plataformas, arquivos, cinematecas e agregadores digitais.**
 
-O projeto combina coleta automatizada, curadoria metodológica, indicadores comparáveis e visualização em Streamlit para estudar como a memória audiovisual circula, aparece, desaparece ou permanece pouco visível em ambientes digitais.
+O projeto combina coleta automatizada, curadoria metodológica, indicadores comparáveis e visualização em Streamlit para estudar como a memória audiovisual circula, aparece, desaparece, torna-se restrita ou permanece pouco visível em ambientes digitais.
+
+A plataforma permanece uma plataforma pública, com usos variados: pesquisa, ensino, pós-doutorado, artigos, relatórios, propostas competitivas e estudos comparativos sobre acervos audiovisuais. Para sustentar esses usos, cada unidade observada precisa preservar rotas, limites, completude, regimes de acesso, sinais de visibilidade, histórico de observação e evidências metodológicas auditáveis.
 
 ## Acesso público
 
@@ -12,17 +14,29 @@ A versão pública do observatório está disponível no Streamlit:
 
 Nesta etapa, o foco principal é o fechamento europeu do observatório. A expansão para outros continentes será feita somente depois que a Europa estiver metodologicamente documentada, incluindo unidades incorporadas, unidades protocoladas e negativas justificadas.
 
-## Eixo acadêmico
+## Eixo científico
 
-O observatório integra a formulação de um projeto de pós-doutorado em desenvolvimento.
+O observatório é uma plataforma científica aberta para investigações sobre acervos audiovisuais em rede.
 
 Pergunta orientadora:
 
-**Como as plataformas digitais reorganizam a circulação territorial e cultural do audiovisual contemporâneo?**
+**Sob quais condições infraestruturais, institucionais, técnicas e culturais os acervos audiovisuais se tornam visíveis, invisíveis, restritos ou instáveis em ambientes digitais?**
 
 As plataformas digitais não eliminam o território; elas reorganizam o território. No audiovisual contemporâneo, a circulação deixa de depender apenas do lugar físico do arquivo, da cinemateca, da emissora ou da instituição custodial, e passa a depender de infraestrutura técnica, políticas de acesso, licenciamento, idioma dos metadados, indexação, geobloqueio, plataformas externas, interoperabilidade e regimes algorítmicos de visibilidade.
 
-A hipótese de trabalho é que a circulação audiovisual contemporânea é cada vez menos determinada apenas pela localização física dos acervos e cada vez mais pela capacidade das instituições e plataformas de tornar esses acervos detectáveis, descritos, interoperáveis e acessíveis em redes digitais transnacionais.
+A hipótese de trabalho é que a circulação digital da memória audiovisual não é determinada apenas pela localização física ou pela dimensão material dos acervos, mas pela capacidade das instituições e plataformas de tornar esses acervos detectáveis, descritos, interoperáveis, acessíveis e estáveis em redes digitais transnacionais.
+
+## Parâmetros científicos
+
+A plataforma está sendo ajustada para explicitar parâmetros de robustez científica que podem subsidiar pesquisas de diferentes escalas:
+
+- unidades de análise separadas: agregador, arquivo, instituição custodial, corpus, registro, rota e caso fora da base ativa;
+- observação longitudinal por snapshots, data de coleta, chave de observação e estado da fonte;
+- regimes de visibilidade, acesso, restrição, instabilidade e possível extinção digital;
+- completude da coleta, critério de seleção, limite técnico e nota metodológica por corpus;
+- comparação europeia controlada, com incorporações, lacunas, negativas justificadas e casos extremos;
+- reprodutibilidade por scripts, checks, arquivos exportáveis e contratos de dados;
+- base para índices futuros de visibilidade audiovisual digital e auditoria de encontrabilidade.
 
 ## Escopo atual
 

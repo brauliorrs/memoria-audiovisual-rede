@@ -24,10 +24,10 @@ PROJECT_CONTEXT_SIGNALS = {
 
 TRANSLATIONS = {
     "pt": {
-        "app_title": "Plataforma aberta de curadoria e acesso à memória audiovisual em rede",
+        "app_title": "Plataforma aberta de observação da memória audiovisual em rede",
         "app_caption": (
-            "O observatório funciona como um organismo agregador mundial em construção, separando explicitamente "
-            "agregadores arquivísticos e arquivos ou instituições custodiais para preservar o rigor analítico."
+            "O observatório funciona como plataforma científica aberta para mapear visibilidade, acesso, "
+            "interoperabilidade e possíveis retrações digitais de acervos audiovisuais."
         ),
         "language_selector": "Idioma da interface",
         "language_note": (
@@ -44,24 +44,27 @@ TRANSLATIONS = {
             "O organismo mapeia, valida e compara agregadores e arquivos audiovisuais em escala mundial, "
             "preservando a diferença entre agregadores, arquivos individuais, bancos privados e fontes de radar."
         ),
-        "academic_axis_title": "### Eixo acadêmico do projeto",
+        "academic_axis_title": "### Eixo científico da plataforma",
         "academic_axis_text": (
-            "Este observatório integra a formulação de um projeto de pós-doutorado em desenvolvimento.\n\n"
-            "A pergunta orientadora é: **como as plataformas digitais reorganizam a circulação territorial e "
-            "cultural do audiovisual contemporâneo?**\n\n"
+            "Esta plataforma é mantida como observatório público e como infraestrutura científica para usos "
+            "variados: pesquisa, ensino, pós-doutorado, artigos, relatórios, propostas competitivas e estudos "
+            "comparativos sobre acervos audiovisuais.\n\n"
+            "A pergunta orientadora em amadurecimento é: **sob quais condições infraestruturais, institucionais "
+            "e técnicas os acervos audiovisuais se tornam visíveis, invisíveis, restritos ou instáveis em "
+            "ambientes digitais?**\n\n"
             "As plataformas digitais não eliminam o território; elas reorganizam o território. No audiovisual "
             "contemporâneo, a circulação deixa de depender apenas do lugar físico do arquivo, da cinemateca, da "
             "emissora ou da instituição custodial, e passa a depender de infraestrutura técnica, políticas de "
             "acesso e licenciamento, idioma dos metadados, formatos de indexação, regimes de visibilidade e "
             "dependência de plataformas externas.\n\n"
-            "A hipótese de trabalho é que a circulação audiovisual contemporânea é cada vez menos determinada "
-            "apenas pela localização física dos acervos e cada vez mais pela capacidade das instituições e "
-            "plataformas de tornar esses acervos detectáveis, descritos, interoperáveis e acessíveis em redes "
-            "digitais transnacionais."
+            "A hipótese de trabalho é que a circulação digital da memória audiovisual não é determinada "
+            "principalmente pela existência ou dimensão física dos acervos, mas por uma combinação de "
+            "interoperabilidade técnica, governança institucional, idioma, licenciamento, metadados e dependência "
+            "de infraestruturas digitais."
         ),
         "academic_axis_caption": (
-            "No observatório, essa pergunta é operacionalizada por variáveis como hospedagem, indexação, descrição, "
-            "idioma, regime de acesso, plataforma, visibilidade pública e escala territorial."
+            "No observatório, essa pergunta é operacionalizada por variáveis como completude, rota de coleta, "
+            "idioma, regime de acesso, interoperabilidade, visibilidade pública, estabilidade temporal e escala territorial."
         ),
         "raw_data_note": (
             "Nota linguística: tabelas, evidências de protocolo e nomes de instituições podem permanecer no idioma "
@@ -76,10 +79,10 @@ TRANSLATIONS = {
         ),
     },
     "es": {
-        "app_title": "Plataforma abierta de curaduría y acceso a la memoria audiovisual en red",
+        "app_title": "Plataforma abierta de observación de la memoria audiovisual en red",
         "app_caption": (
-            "El observatorio funciona como un organismo agregador mundial en construcción, separando explícitamente "
-            "agregadores archivísticos y archivos o instituciones custodias para preservar el rigor analítico."
+            "El observatorio funciona como plataforma científica abierta para mapear visibilidad, acceso, "
+            "interoperabilidad y posibles retracciones digitales de archivos audiovisuales."
         ),
         "language_selector": "Idioma de la interfaz",
         "language_note": (
@@ -96,24 +99,27 @@ TRANSLATIONS = {
             "El organismo mapea, valida y compara agregadores y archivos audiovisuales a escala mundial, "
             "preservando la diferencia entre agregadores, archivos individuales, bancos privados y fuentes de radar."
         ),
-        "academic_axis_title": "### Eje académico del proyecto",
+        "academic_axis_title": "### Eje científico de la plataforma",
         "academic_axis_text": (
-            "Este observatorio forma parte de la formulación de un proyecto de posdoctorado en desarrollo.\n\n"
-            "La pregunta orientadora es: **¿cómo reorganizan las plataformas digitales la circulación territorial "
-            "y cultural del audiovisual contemporáneo?**\n\n"
+            "Esta plataforma se mantiene como observatorio público y como infraestructura científica para usos "
+            "variados: investigación, enseñanza, posdoctorado, artículos, informes, propuestas competitivas y "
+            "estudios comparativos sobre archivos audiovisuales.\n\n"
+            "La pregunta orientadora en maduración es: **¿bajo qué condiciones infraestructurales, institucionales "
+            "y técnicas los archivos audiovisuales se vuelven visibles, invisibles, restringidos o inestables en "
+            "entornos digitales?**\n\n"
             "Las plataformas digitales no eliminan el territorio; lo reorganizan. En el audiovisual contemporáneo, "
             "la circulación deja de depender únicamente del lugar físico del archivo, la cinemateca, la emisora o "
             "la institución custodia, y pasa a depender de infraestructura técnica, políticas de acceso y "
             "licenciamiento, idioma de los metadatos, formatos de indexación, regímenes de visibilidad y "
             "dependencia de plataformas externas.\n\n"
-            "La hipótesis de trabajo es que la circulación audiovisual contemporánea está cada vez menos "
-            "determinada solo por la localización física de los acervos y cada vez más por la capacidad de "
-            "instituciones y plataformas para hacer esos acervos detectables, descritos, interoperables y "
-            "accesibles en redes digitales transnacionales."
+            "La hipótesis de trabajo es que la circulación digital de la memoria audiovisual no está determinada "
+            "principalmente por la existencia o dimensión física de las colecciones, sino por una combinación de "
+            "interoperabilidad técnica, gobernanza institucional, idioma, licenciamiento, metadatos y dependencia "
+            "de infraestructuras digitales."
         ),
         "academic_axis_caption": (
-            "En el observatorio, esta pregunta se operacionaliza mediante variables como hospedaje, indexación, "
-            "descripción, idioma, régimen de acceso, plataforma, visibilidad pública y escala territorial."
+            "En el observatorio, esta pregunta se operacionaliza mediante variables como completitud, ruta de "
+            "recolección, idioma, régimen de acceso, interoperabilidad, visibilidad pública, estabilidad temporal y escala territorial."
         ),
         "raw_data_note": (
             "Nota lingüística: tablas, evidencias de protocolo y nombres institucionales pueden permanecer en el "
@@ -128,10 +134,10 @@ TRANSLATIONS = {
         ),
     },
     "en": {
-        "app_title": "Open platform for curation and access to networked audiovisual memory",
+        "app_title": "Open platform for observing networked audiovisual memory",
         "app_caption": (
-            "The observatory functions as a world aggregator organism under construction, explicitly separating "
-            "archival aggregators from archives or custodial institutions in order to preserve analytical rigor."
+            "The observatory functions as an open scientific platform for mapping visibility, access, "
+            "interoperability and potential digital retrenchment of audiovisual archives."
         ),
         "language_selector": "Interface language",
         "language_note": (
@@ -148,24 +154,27 @@ TRANSLATIONS = {
             "The organism maps, validates and compares audiovisual aggregators and archives at a global scale, "
             "preserving the distinction between aggregators, individual archives, private banks and radar sources."
         ),
-        "academic_axis_title": "### Academic Axis of the Project",
+        "academic_axis_title": "### Scientific Axis of the Platform",
         "academic_axis_text": (
-            "This observatory is part of the formulation of a postdoctoral project in development.\n\n"
-            "The guiding question is: **how do digital platforms reorganize the territorial and cultural "
-            "circulation of contemporary audiovisual media?**\n\n"
+            "This platform remains a public observatory and a scientific infrastructure for varied uses: research, "
+            "teaching, postdoctoral work, articles, reports, competitive proposals and comparative studies on "
+            "audiovisual archives.\n\n"
+            "The maturing guiding question is: **under which infrastructural, institutional and algorithmic "
+            "conditions do audiovisual archives become visible, invisible, restricted or unstable in digital "
+            "environments?**\n\n"
             "Digital platforms do not eliminate territory; they reorganize it. In contemporary audiovisual "
             "circulation, access no longer depends only on the physical location of the archive, cinematheque, "
             "broadcaster or custodial institution, but also on technical infrastructure, access and licensing "
             "policies, metadata language, indexing formats, visibility regimes and dependence on external "
             "platforms.\n\n"
-            "The working hypothesis is that contemporary audiovisual circulation is increasingly less determined "
-            "only by the physical location of collections and increasingly more by the capacity of institutions "
-            "and platforms to make those collections detectable, described, interoperable and accessible in "
-            "transnational digital networks."
+            "The working hypothesis is that the digital circulation of audiovisual memory is not determined "
+            "primarily by the existence or physical size of collections, but by a combination of technical "
+            "interoperability, institutional governance, language, licensing, metadata and dependence on digital "
+            "infrastructures."
         ),
         "academic_axis_caption": (
-            "In the observatory, this question is operationalized through variables such as hosting, indexing, "
-            "description, language, access regime, platform, public visibility and territorial scale."
+            "In the observatory, this question is operationalized through variables such as completeness, collection "
+            "route, language, access regime, interoperability, public visibility, temporal stability and territorial scale."
         ),
         "raw_data_note": (
             "Language note: tables, protocol evidence and institutional names may remain in the original collection "
@@ -200,6 +209,14 @@ PHRASE_TRANSLATIONS = {
         "Ficha institucional": "Ficha de la institución",
         "Histórico geral": "Historial general",
         "Sinais de possível extinção": "Señales de posible extinción",
+        "Parâmetros científicos da plataforma": "Parámetros científicos de la plataforma",
+        "Enquadramento científico": "Marco científico",
+        "Matriz metodológica": "Matriz metodológica",
+        "Próximos ajustes": "Próximos ajustes",
+        "Parâmetros mapeados": "Parámetros mapeados",
+        "Implementados": "Implementados",
+        "Em adaptação": "En adaptación",
+        "A desenvolver": "Por desarrollar",
         "Síntese da fila": "Síntesis de la cola",
         "Fontes candidatas": "Fuentes candidatas",
         "Regimes de acesso": "Regímenes de acceso",
@@ -1064,6 +1081,14 @@ PHRASE_TRANSLATIONS = {
         "Ficha institucional": "Institution Record",
         "Histórico geral": "General History",
         "Sinais de possível extinção": "Signals of Possible Extinction",
+        "Parâmetros científicos da plataforma": "Scientific Parameters of the Platform",
+        "Enquadramento científico": "Scientific Framing",
+        "Matriz metodológica": "Methodological Matrix",
+        "Próximos ajustes": "Next Adjustments",
+        "Parâmetros mapeados": "Mapped Parameters",
+        "Implementados": "Implemented",
+        "Em adaptação": "Being Adapted",
+        "A desenvolver": "To Develop",
         "Síntese da fila": "Queue Summary",
         "Fontes candidatas": "Candidate Sources",
         "Regimes de acesso": "Access Regimes",

@@ -91,6 +91,15 @@ from memoria_audiovisual.dashboard_data import (
     build_dashboard_base_data,
     build_dashboard_overview_data,
 )
+from memoria_audiovisual.research_profile import (
+    RESEARCH_MAIN_QUESTION,
+    RESEARCH_PLATFORM_POSITIONING,
+    RESEARCH_SUBTITLE,
+    RESEARCH_WORKING_TITLE,
+    build_research_next_adjustment_rows,
+    build_research_parameter_rows,
+    summarize_research_parameter_status,
+)
 from memoria_audiovisual.output_files import list_output_filenames
 from memoria_audiovisual.organism import (
     ORGANISM_ACTIVE_CORPORA_FILENAME,
@@ -1609,6 +1618,57 @@ def render_research_tab(initial_search_term="", show_search_input=True):
         "Exporta os vídeos filtrados na ferramenta de pesquisa transversal.",
     )
 
+
+def render_scientific_parameters_section():
+    parameter_rows = build_research_parameter_rows()
+    next_adjustment_rows = build_research_next_adjustment_rows()
+    status_summary = summarize_research_parameter_status(parameter_rows)
+
+    st.markdown("### Parâmetros científicos da plataforma")
+    st.caption(
+        "A plataforma continua sendo uma plataforma pública de observação e curadoria. "
+        "Esta camada explicita quais variáveis, evidências e protocolos sustentam sua "
+        "função de observatório comparativo e longitudinal."
+    )
+
+    positioning_df = pd.DataFrame(
+        [
+            {"dimensão": key, "definição": value}
+            for key, value in RESEARCH_PLATFORM_POSITIONING.items()
+        ]
+    )
+    status_cols = st.columns(4)
+    status_cols[0].metric("Parâmetros mapeados", len(parameter_rows))
+    status_cols[1].metric("Implementados", status_summary.get("implementado", 0))
+    status_cols[2].metric("Em adaptação", status_summary.get("em adaptação", 0))
+    status_cols[3].metric("A desenvolver", status_summary.get("a desenvolver", 0))
+
+    framing_tab, matrix_tab, next_tab = st.tabs(
+        ["Enquadramento científico", "Matriz metodológica", "Próximos ajustes"]
+    )
+    with framing_tab:
+        st.markdown(f"**{RESEARCH_WORKING_TITLE}**")
+        st.caption(RESEARCH_SUBTITLE)
+        st.markdown(f"**Pergunta científica provisória:** {RESEARCH_MAIN_QUESTION}")
+        st.dataframe(positioning_df, use_container_width=True, hide_index=True)
+        st.info(
+            "A plataforma observa a visibilidade audiovisual digital por parâmetros verificáveis: "
+            "completude, rota, acesso, visibilidade, estabilidade, território, idioma, agregação e histórico."
+        )
+    with matrix_tab:
+        st.dataframe(
+            pd.DataFrame(parameter_rows),
+            use_container_width=True,
+            hide_index=True,
+        )
+    with next_tab:
+        st.dataframe(
+            pd.DataFrame(next_adjustment_rows),
+            use_container_width=True,
+            hide_index=True,
+        )
+
+
 def render_observatory_overview_tab():
     st.markdown(tr("overview_title"))
     st.caption(tr("overview_caption"))
@@ -1684,6 +1744,8 @@ def render_observatory_overview_tab():
     st.markdown(tr("academic_axis_title"))
     st.markdown(tr("academic_axis_text"))
     st.caption(tr("academic_axis_caption"))
+
+    render_scientific_parameters_section()
 
     if cycle_timeline_df is not None and not cycle_timeline_df.empty:
         cycle_metric_cols = st.columns(4)
