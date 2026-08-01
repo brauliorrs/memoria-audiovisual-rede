@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/api_response.schema.json",
+  "title": "Public API Response Envelope",
+  "type": "object",
+  "required": ["meta", "data"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["api_version", "snapshot_id", "schema_version", "generated_at", "validation_status"],
+      "properties": {
+        "api_version": {"type": "string"},
+        "snapshot_id": {"type": "string"},
+        "schema_version": {"type": "string"},
+        "methodology_version": {"type": ["string", "null"]},
+        "generated_at": {"type": "string", "format": "date-time"},
+        "validation_status": {"type": "string"},
+        "coverage": {"type": "object"},
+        "provenance": {"type": "object"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "data": {},
+    "pagination": {
+      "type": ["object", "null"],
+      "properties": {
+        "limit": {"type": ["integer", "null"], "minimum": 1},
+        "next_cursor": {"type": ["string", "null"]},
+        "previous_cursor": {"type": ["string", "null"]},
+        "count": {"type": ["integer", "null"], "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
