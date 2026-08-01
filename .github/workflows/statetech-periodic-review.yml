@@ -1,0 +1,131 @@
+name: Revisão periódica Estado-tecnologia
+
+on:
+  workflow_dispatch:
+    inputs:
+      snapshot_id:
+        description: "Identificador opcional do snapshot; vazio gera automaticamente"
+        required: false
+        type: string
+      corpus:
+        description: "Códigos de corpora separados por espaço; vazio processa todos os ativos"
+        required: false
+        type: string
+  schedule:
+    - cron: "17 3 1 * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: statetech-periodic-review
+  cancel-in-progress: false
+
+env:
+  PYTHONUNBUFFERED: "1"
+  STATETECH_STATE_DIR: data/statetech
+
+jobs:
+  review:
+    name: Auditar corpora e preservar cobertura
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependências
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            python -m pip install -r requirements.txt
+          elif [ -f pyproject.toml ]; then
+            python -m pip install .
+          else
+            python -m pip install pandas requests beautifulsoup4 jsonschema
+          fi
+
+      - name: Restaurar memória Estado-tecnologia
+        id: restore-state
+        uses: actions/cache/restore@v4
+        with:
+          path: data/statetech
+          key: statetech-state-${{ github.run_id }}
+          restore-keys: |
+            statetech-state-
+
+      - name: Gerar identificador do snapshot
+        id: snapshot
+        shell: bash
+        env:
+          REQUESTED_SNAPSHOT: ${{ inputs.snapshot_id }}
+        run: |
+          if [ -n "${REQUESTED_SNAPSHOT}" ]; then
+            SNAPSHOT_ID="${REQUESTED_SNAPSHOT}"
+          else
+            SNAPSHOT_ID="snapshot_$(date -u +'%Y_%m_%dT%H%M%SZ')"
+          fi
+          if ! printf '%s' "${SNAPSHOT_ID}" | grep -Eq '^[A-Za-z0-9][A-Za-z0-9._-]{2,127}$'; then
+            echo "snapshot_id inválido: ${SNAPSHOT_ID}" >&2
+            exit 2
+          fi
+          echo "snapshot_id=${SNAPSHOT_ID}" >> "$GITHUB_OUTPUT"
+          echo "Snapshot: ${SNAPSHOT_ID}"
+
+      - name: Preparar argumentos de corpus
+        id: corpus
+        shell: bash
+        env:
+          REQUESTED_CORPUS: ${{ inputs.corpus }}
+        run: |
+          if [ -n "${REQUESTED_CORPUS}" ]; then
+            echo "args=--corpus ${REQUESTED_CORPUS}" >> "$GITHUB_OUTPUT"
+          else
+            echo "args=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Executar revisão periódica
+        shell: bash
+        run: |
+          python scripts/audit_digital_infrastructure.py \
+            --mode ledger \
+            --snapshot-id "${{ steps.snapshot.outputs.snapshot_id }}" \
+            --result-output "data/statetech/coverage/${{ steps.snapshot.outputs.snapshot_id }}/execution_summary.json" \
+            ${{ steps.corpus.outputs.args }}
+
+      - name: Verificar produtos obrigatórios
+        shell: bash
+        run: |
+          SNAPSHOT_DIR="data/statetech/coverage/${{ steps.snapshot.outputs.snapshot_id }}"
+          test -s "${SNAPSHOT_DIR}/parameter_coverage.json"
+          test -s "${SNAPSHOT_DIR}/execution_summary.json"
+          test -s "data/statetech/coverage/snapshot_coverage_index.jsonl"
+          test -s "data/statetech/ledger.jsonl"
+          test -s "data/statetech/ingestion_batches.jsonl"
+
+      - name: Salvar memória para a próxima rodada
+        if: success()
+        uses: actions/cache/save@v4
+        with:
+          path: data/statetech
+          key: statetech-state-${{ github.run_id }}
+
+      - name: Publicar relatórios da rodada
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: statetech-${{ steps.snapshot.outputs.snapshot_id }}
+          path: |
+            data/statetech/coverage/${{ steps.snapshot.outputs.snapshot_id }}/
+            data/statetech/coverage/snapshot_coverage_index.jsonl
+            data/statetech/ingestion_batches.jsonl
+          if-no-files-found: error
+          retention-days: 90
