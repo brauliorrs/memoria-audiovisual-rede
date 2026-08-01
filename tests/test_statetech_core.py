@@ -4,7 +4,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from memoria_audiovisual.statetech.evidence import EvidenceRecord
 from memoria_audiovisual.statetech.ids import stable_id, version_id
+from memoria_audiovisual.statetech.index import VersionIndex
+from memoria_audiovisual.statetech.ledger import AtomicLedger
 from memoria_audiovisual.statetech.models import EntityRecord, ProvenanceRecord
 from memoria_audiovisual.statetech.persistence import JsonlRepository
 
@@ -51,6 +54,34 @@ class ModelAndPersistenceTests(unittest.TestCase):
             source_ids=("source_1",),
         )
         self.assertEqual(record.to_dict()["source_ids"], ["source_1"])
+
+    def test_evidence_id_is_generated(self) -> None:
+        evidence = EvidenceRecord(
+            evidence_url="https://example.org/source",
+            evidence_type="official_page",
+            collection_method="manual_review",
+            observation_date="2026-08-01T12:00:00+00:00",
+        )
+        self.assertTrue(evidence.to_dict()["evidence_id"].startswith("evidence_"))
+
+    def test_ledger_groups_records_and_builds_index(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            ledger = AtomicLedger(Path(tmp) / "ledger.jsonl")
+            ledger.append(
+                [
+                    {
+                        "record_type": "entity_version",
+                        "payload": {"entity_id": "institution_x", "version_id": "v1"},
+                    },
+                    {
+                        "record_type": "evidence",
+                        "payload": {"evidence_id": "e1", "evidence_url": "https://example.org"},
+                    },
+                ]
+            )
+            index = VersionIndex.from_ledger(ledger)
+            self.assertEqual(index.latest("institution_x")["version_id"], "v1")
+            self.assertEqual(index.evidence_by_id["e1"]["evidence_url"], "https://example.org")
 
 
 if __name__ == "__main__":
