@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field, replace
+from dataclasses import asdict, dataclass, field
 from typing import Any, Iterable, Literal, Mapping
 
 from .ids import stable_id
@@ -12,6 +12,12 @@ from .models import utc_now_iso
 ReviewDecision = Literal[
     "confirmed", "probable", "inconclusive", "false_positive", "not_assessable", "needs_evidence"
 ]
+
+SENSITIVE_GROUPS = {"ai_evidence", "restriction"}
+SENSITIVE_TERMS = {
+    "face recognition", "facial recognition", "reconhecimento facial",
+    "biometric", "biometria", "personal data", "dados pessoais",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -56,6 +62,8 @@ class ReviewQueueItem:
     automatic_confidence: str
     evidence_url: str
     current_status: str
+    sensitive: bool
+    required_confirmations: int
 
 
 class CuratorialReviewService:
@@ -95,6 +103,24 @@ class CuratorialReviewService:
         reviews = self.reviews_for(observation_id)
         return reviews[-1] if reviews else None
 
+    @staticmethod
+    def is_sensitive(observation: Mapping[str, Any]) -> bool:
+        group = str(observation.get("detector_group") or "").strip()
+        text = " ".join(
+            str(observation.get(name) or "").casefold()
+            for name in ("detected_value", "evidence_value", "review_note")
+        )
+        return group in SENSITIVE_GROUPS or any(term in text for term in SENSITIVE_TERMS)
+
+    def confirmation_count(self, observation_id: str) -> int:
+        reviewers = {
+            item.reviewer_id
+            for item in self.reviews_for(observation_id)
+            if item.decision == "confirmed"
+            and item.conflict_of_interest_status not in {"declared_recusal_required", "under_assessment"}
+        }
+        return len(reviewers)
+
     def apply_latest(self, observation: Mapping[str, Any]) -> dict[str, Any]:
         observation_id = str(observation.get("observation_id") or "")
         review = self.latest(observation_id)
@@ -108,6 +134,7 @@ class CuratorialReviewService:
         result["reviewer"] = review.reviewer_id
         result["review_note"] = review.justification
         result["curatorial_review_id"] = review.review_id
+        result["confirmation_count"] = self.confirmation_count(observation_id)
         return result
 
     def export_queue(
@@ -117,7 +144,11 @@ class CuratorialReviewService:
         for observation in observations:
             observation_id = str(observation.get("observation_id") or "").strip()
             latest = self.latest(observation_id) if observation_id else None
-            if latest is not None and not include_reviewed:
+            sensitive = self.is_sensitive(observation)
+            required = 2 if sensitive else 1
+            confirmations = self.confirmation_count(observation_id) if observation_id else 0
+            complete = latest is not None and latest.decision != "needs_evidence" and confirmations >= required
+            if complete and not include_reviewed:
                 continue
             queue.append(
                 ReviewQueueItem(
@@ -129,6 +160,8 @@ class CuratorialReviewService:
                     automatic_confidence=str(observation.get("automatic_confidence") or ""),
                     evidence_url=str(observation.get("evidence_url") or ""),
                     current_status=(latest.decision if latest else str(observation.get("review_status") or "pending_review")),
+                    sensitive=sensitive,
+                    required_confirmations=required,
                 )
             )
         return tuple(queue)
@@ -140,5 +173,8 @@ class CuratorialReviewService:
         if reviewed.get("review_status") != "confirmed":
             return None
         if reviewed.get("detection_status") != "detected":
+            return None
+        required = 2 if self.is_sensitive(reviewed) else 1
+        if self.confirmation_count(str(reviewed.get("observation_id") or "")) < required:
             return None
         return reviewed
