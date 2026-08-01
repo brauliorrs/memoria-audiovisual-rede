@@ -1,0 +1,1 @@
+audit_action_id,agent_id,agent_role,action_type,target_entity_type,target_entity_id,previous_version_id,resulting_version_id,decision_status,decision_reason,evidence_ids,conflict_of_interest_status,performed_at,software_name,software_version,configuration_hash,execution_id,notes
