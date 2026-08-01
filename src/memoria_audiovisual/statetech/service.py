@@ -1,4 +1,4 @@
-"""Serviço de aplicação para registrar entidades, evidências e proveniência."""
+"""Serviço de aplicação para registrar entidades, evidências e decisões curatoriais."""
 
 from __future__ import annotations
 
@@ -6,9 +6,10 @@ from dataclasses import replace
 from typing import Any
 
 from .contracts import SchemaRegistry
+from .entity_decisions import EntityDecision, build_redirect_map
 from .evidence import EvidenceRecord
 from .ids import stable_id
-from .integrity import IntegrityValidator
+from .integrity import IntegrityError, IntegrityValidator, LedgerIndex
 from .ledger import AtomicLedger
 from .models import EntityRecord, ProvenanceRecord
 from .validation import ContractValidator
@@ -45,9 +46,7 @@ class StatetechDataService:
         )
         evidence_payloads = tuple(evidence.to_dict() for evidence in evidences)
         evidence_ids = tuple(str(item["evidence_id"]) for item in evidence_payloads)
-        linked_evidence_ids = tuple(
-            dict.fromkeys((*provenance.evidence_ids, *evidence_ids))
-        )
+        linked_evidence_ids = tuple(dict.fromkeys((*provenance.evidence_ids, *evidence_ids)))
 
         self.integrity.validate_entity_version(
             entity_id=entity_id,
@@ -79,3 +78,58 @@ class StatetechDataService:
         ]
         self.ledger.append(records)
         return entity
+
+    def register_entity_decision(self, decision: EntityDecision) -> dict[str, Any]:
+        """Valida e persiste uma decisão curatorial como evento append-only."""
+        payload = decision.to_dict()
+        self.validator.validate("entity_decision", payload)
+
+        index = LedgerIndex.build(self.ledger)
+        referenced_entities = tuple(
+            dict.fromkeys((*decision.source_entity_ids, *decision.target_entity_ids))
+        )
+        missing_entities = sorted(set(referenced_entities) - set(index.entities))
+        if missing_entities:
+            raise IntegrityError(
+                f"decisão referencia entidades inexistentes: {', '.join(missing_entities)}"
+            )
+        self.integrity.validate_evidence_references(decision.evidence_ids)
+
+        existing_decisions = self._entity_decisions()
+        decision_id = str(payload["decision_id"])
+        if any(item.decision_id == decision_id for item in existing_decisions):
+            raise IntegrityError(f"decisão duplicada: {decision_id}")
+        if decision.supersedes_decision_id is not None and not any(
+            item.decision_id == decision.supersedes_decision_id for item in existing_decisions
+        ):
+            raise IntegrityError(
+                f"decisão substituída inexistente: {decision.supersedes_decision_id}"
+            )
+
+        # Verifica conflitos de redirecionamento incluindo a decisão candidata.
+        build_redirect_map((*existing_decisions, decision))
+        self.ledger.append(({"record_type": "entity_decision", "payload": payload},))
+        return payload
+
+    def _entity_decisions(self) -> tuple[EntityDecision, ...]:
+        decisions: list[EntityDecision] = []
+        for entry in self.ledger.read_all():
+            for envelope in entry.records:
+                if envelope.get("record_type") != "entity_decision":
+                    continue
+                payload = dict(envelope.get("payload", {}))
+                decisions.append(
+                    EntityDecision(
+                        decision_type=payload["decision_type"],
+                        source_entity_ids=tuple(payload["source_entity_ids"]),
+                        target_entity_ids=tuple(payload["target_entity_ids"]),
+                        rationale=payload["rationale"],
+                        decided_by=payload["decided_by"],
+                        evidence_ids=tuple(payload.get("evidence_ids", [])),
+                        status=payload["status"],
+                        decided_at=payload["decided_at"],
+                        supersedes_decision_id=payload.get("supersedes_decision_id"),
+                        decision_id=payload["decision_id"],
+                    )
+                )
+        return tuple(decisions)
