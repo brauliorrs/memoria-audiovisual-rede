@@ -30,19 +30,24 @@ class _Coordinator:
             adapter_version="1.0.0",
             source_count=1,
             record_count=1,
-            items=(
-                IngestionItem(
-                    position=1,
-                    entity_type="digital_infrastructure_audit",
-                    natural_key="sample",
-                    payload={"observation_id": "sample"},
-                    evidence_count=1,
-                    referenced_entity_ids=(),
-                    status=status,  # type: ignore[arg-type]
-                    entity_id="entity_1" if mode == "commit" else None,
-                    version_id="version_1" if mode == "commit" else None,
-                ),
-            ),
+            items=(IngestionItem(
+                position=1,
+                entity_type="digital_infrastructure_audit",
+                natural_key="sample",
+                payload={
+                    "observation_id": "sample",
+                    "snapshot_id": "snapshot_test",
+                    "corpus_code": "sample",
+                    "detector_group": "api_service",
+                    "detected_value": "IIIF",
+                    "detection_status": "detected",
+                },
+                evidence_count=1,
+                referenced_entity_ids=(),
+                status=status,  # type: ignore[arg-type]
+                entity_id="entity_1" if mode == "commit" else None,
+                version_id="version_1" if mode == "commit" else None,
+            ),),
             batch_id="batch_1" if mode == "commit" else None,
             source_artifact_id="artifact_1" if mode == "commit" else None,
         )
@@ -56,6 +61,18 @@ class _Coordinator:
         return self._result("commit")
 
 
+def _args(mode: str, **overrides: Any) -> Namespace:
+    values = {
+        "mode": mode,
+        "snapshot_id": "snapshot_test",
+        "result_output": None,
+        "write_coverage": False,
+        "coverage_dir": Path("data/statetech/coverage"),
+    }
+    values.update(overrides)
+    return Namespace(**values)
+
+
 class AuditExecutorModeTests(unittest.TestCase):
     def test_legacy_is_default_mode(self) -> None:
         args = SCRIPT.parse_args([])
@@ -66,45 +83,42 @@ class AuditExecutorModeTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             SCRIPT.parse_args(["--mode", "preview"])
 
-    def test_preview_does_not_call_commit(self) -> None:
+    def test_preview_builds_coverage_without_writing(self) -> None:
         coordinator = _Coordinator()
-        args = Namespace(mode="preview", snapshot_id="snapshot_test", result_output=None)
-        records = [
-            {
-                "corpus_code": "sample",
-                "institution": "Sample Archive",
-                "source_url": "https://example.org",
-                "checked_at_utc": "2026-08-01T12:00:00+00:00",
-                "entity_level": "corpus",
-            }
-        ]
-
-        summary = SCRIPT.run_statetech_mode(records, args=args, coordinator=coordinator)
-
-        self.assertEqual(summary["mode"], "preview")
+        records = [{
+            "corpus_code": "sample",
+            "institution": "Sample Archive",
+            "source_url": "https://example.org",
+            "checked_at_utc": "2026-08-01T12:00:00+00:00",
+            "entity_level": "corpus",
+        }]
+        summary = SCRIPT.run_statetech_mode(records, args=_args("preview"), coordinator=coordinator)
         self.assertEqual(summary["committed_count"], 0)
+        self.assertEqual(summary["coverage"]["parameter_count"], 7)
+        self.assertEqual(summary["coverage"]["status_counts"]["detected"], 1)
+        self.assertEqual(summary["coverage"]["status_counts"]["missing_observation"], 6)
+        self.assertNotIn("coverage_manifest", summary)
         self.assertEqual(len(coordinator.preview_calls), 1)
         self.assertEqual(coordinator.commit_calls, [])
 
-    def test_ledger_writes_optional_summary(self) -> None:
+    def test_ledger_writes_summary_and_coverage_manifest(self) -> None:
         coordinator = _Coordinator()
-        records = [
-            {
-                "corpus_code": "sample",
-                "institution": "Sample Archive",
-                "source_url": "https://example.org",
-                "checked_at_utc": "2026-08-01T12:00:00+00:00",
-                "entity_level": "corpus",
-            }
-        ]
+        records = [{
+            "corpus_code": "sample",
+            "institution": "Sample Archive",
+            "source_url": "https://example.org",
+            "checked_at_utc": "2026-08-01T12:00:00+00:00",
+            "entity_level": "corpus",
+        }]
         with tempfile.TemporaryDirectory() as temporary:
-            output = Path(temporary) / "summary.json"
-            args = Namespace(mode="ledger", snapshot_id="snapshot_test", result_output=output)
+            root = Path(temporary)
+            output = root / "summary.json"
+            args = _args("ledger", result_output=output, coverage_dir=root / "coverage")
             summary = SCRIPT.run_statetech_mode(records, args=args, coordinator=coordinator)
-
             self.assertEqual(summary["committed_count"], 1)
-            self.assertEqual(summary["batches"][0]["batch_id"], "batch_1")
             self.assertTrue(output.exists())
+            self.assertTrue(Path(summary["coverage_manifest"]["coverage_path"]).exists())
+            self.assertIsNone(summary["coverage_manifest"]["previous_snapshot_id"])
             self.assertEqual(len(coordinator.commit_calls), 1)
 
 
