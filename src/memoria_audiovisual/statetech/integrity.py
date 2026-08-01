@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
 
 from .ledger import AtomicLedger
 
@@ -18,7 +17,6 @@ class LedgerIndex:
     versions: frozenset[str]
     evidences: frozenset[str]
     latest_version_by_entity: dict[str, str]
-    natural_key_by_entity: dict[str, str]
 
     @classmethod
     def build(cls, ledger: AtomicLedger) -> "LedgerIndex":
@@ -26,29 +24,25 @@ class LedgerIndex:
         versions: set[str] = set()
         evidences: set[str] = set()
         latest: dict[str, str] = {}
-        natural_keys: dict[str, str] = {}
 
         for entry in ledger.read_all():
-            for record in entry.records:
-                record_type = record.get("record_type")
-                if record_type == "entity":
-                    entity_id = str(record["entity_id"])
-                    version_id = str(record["version_id"])
+            for envelope in entry.records:
+                record_type = envelope.get("record_type")
+                payload = envelope.get("payload", {})
+                if record_type == "entity_version":
+                    entity_id = str(payload["entity_id"])
+                    version_id = str(payload["version_id"])
                     entities.add(entity_id)
                     versions.add(version_id)
                     latest[entity_id] = version_id
-                    natural_key = record.get("natural_key")
-                    if natural_key is not None:
-                        natural_keys[entity_id] = str(natural_key)
                 elif record_type == "evidence":
-                    evidences.add(str(record["evidence_id"]))
+                    evidences.add(str(payload["evidence_id"]))
 
         return cls(
             entities=frozenset(entities),
             versions=frozenset(versions),
             evidences=frozenset(evidences),
             latest_version_by_entity=latest,
-            natural_key_by_entity=natural_keys,
         )
 
 
