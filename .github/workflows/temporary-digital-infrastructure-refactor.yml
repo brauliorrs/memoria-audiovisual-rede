@@ -2,14 +2,18 @@ name: Refatoração temporária de infraestrutura digital
 
 on:
   workflow_dispatch:
+  issues:
+    types: [opened]
   schedule:
     - cron: "*/5 * * * *"
 
 permissions:
   contents: write
+  issues: read
 
 jobs:
   refactor:
+    if: github.event_name != 'issues' || github.event.issue.title == 'EXECUTAR REFATORAÇÃO INFRAESTRUTURA DIGITAL'
     runs-on: ubuntu-latest
     steps:
       - name: Refatorar branch da Fase 2
@@ -97,8 +101,6 @@ jobs:
 
       - name: Remover workflow temporário da main
         shell: bash
-        env:
-          REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
           cd repo
