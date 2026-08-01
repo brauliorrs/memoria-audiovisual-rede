@@ -13,7 +13,7 @@ from .adapters import AdaptedRecord, SourceAdapter, validate_adapter
 from .ingestion_batches import BatchManifest, BatchManifestStore
 from .models import EntityRecord, utc_now_iso
 from .raw_artifacts import RawArtifactStore
-from .service import StatetechDataService
+from .service import DigitalInfrastructureDataService
 
 IngestionMode = Literal["preview", "commit"]
 ItemStatus = Literal["validated", "committed", "already_committed"]
@@ -57,7 +57,7 @@ class IngestionCoordinator:
 
     def __init__(
         self,
-        service: StatetechDataService,
+        service: DigitalInfrastructureDataService,
         *,
         artifact_store: RawArtifactStore | None = None,
         batch_store: BatchManifestStore | None = None,
