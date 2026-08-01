@@ -1,0 +1,16 @@
+{
+  "ruleset_version": "1.0.0",
+  "status": "structural_only",
+  "rules": [
+    {"code": "REF-001", "severity": "error", "description": "Todo identificador estrangeiro preenchido deve existir na entidade referenciada."},
+    {"code": "EVD-001", "severity": "error", "description": "Relações confirmadas devem possuir ao menos uma evidência válida associada."},
+    {"code": "EVD-002", "severity": "warning", "description": "Registros prováveis sem evidência primária não podem alimentar indicadores públicos."},
+    {"code": "TMP-001", "severity": "error", "description": "A data final não pode anteceder a data inicial."},
+    {"code": "TMP-002", "severity": "warning", "description": "Registros longitudinais devem informar a data de observação."},
+    {"code": "SEM-001", "severity": "error", "description": "Fornecedor não pode ser inferido apenas pela detecção de software ou assinatura técnica."},
+    {"code": "SEM-002", "severity": "error", "description": "Contrato não pode ser inferido apenas por menção institucional ou presença tecnológica."},
+    {"code": "SEM-003", "severity": "warning", "description": "Uso operacional de IA exige evidência distinta de anúncio, intenção ou linguagem promocional."},
+    {"code": "RSK-001", "severity": "error", "description": "Avaliação de risco alta ou crítica exige regra versionada, evidência e revisão humana."},
+    {"code": "PUB-001", "severity": "error", "description": "Registros pendentes, inconclusivos ou falsos positivos não podem alimentar indicadores publicados."}
+  ]
+}
