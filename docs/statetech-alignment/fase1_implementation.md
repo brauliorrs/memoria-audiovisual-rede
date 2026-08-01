@@ -6,34 +6,35 @@ Este incremento implementa o núcleo operacional da camada Estado–tecnologia. 
 
 ## Componentes implementados
 
-- identificadores determinísticos para entidades;
-- identificadores imutáveis de versão derivados do conteúdo;
+- identificadores determinísticos de entidades e versões;
 - modelos de entidade, evidência e proveniência;
 - validação integral com JSON Schema Draft 2020-12;
 - ledger append-only com uma linha JSONL por transação lógica;
+- lock cooperativo para serializar escritas entre processos;
 - registro conjunto de entidade, evidências e proveniência;
-- índices reconstruíveis de entidades, versões e evidências;
-- integridade referencial executável;
+- índices reconstruíveis e integridade referencial;
 - cadeia obrigatória de `previous_version_id`;
-- bloqueio de versões duplicadas e referências órfãs;
-- aliases explicitamente curados para resolução de entidades;
-- sugestões conservadoras de possíveis duplicidades, sem fusão automática;
+- aliases curados e sugestões conservadoras de duplicidade;
+- decisões formais de `merge`, `split`, `redirect` e `keep_separate`;
 - auditoria reconstruível da cadeia histórica;
-- relatório estruturado de violações por código e severidade;
-- inspeção e recuperação controlada de cauda truncada, sempre com backup;
+- recuperação controlada de cauda truncada com backup;
+- contrato de adaptadores para a Fase 2;
 - testes unitários do núcleo.
 
 ## Organização
 
 ```text
 src/memoria_audiovisual/statetech/
+├── adapters.py
 ├── audit.py
 ├── contracts.py
+├── entity_decisions.py
 ├── evidence.py
 ├── ids.py
 ├── index.py
 ├── integrity.py
 ├── ledger.py
+├── locking.py
 ├── models.py
 ├── persistence.py
 ├── recovery.py
@@ -47,57 +48,56 @@ src/memoria_audiovisual/statetech/
 ```text
 entrada
 → validação do contrato
-→ geração do entity_id e version_id
-→ reconstrução do índice do ledger
-→ validação da cadeia de versões
-→ validação das evidências e referências
-→ composição da proveniência
+→ geração de IDs
+→ reconstrução do índice
+→ validação de versões, evidências e referências
+→ aquisição do lock de escrita
 → commit lógico único no ledger
+→ liberação do lock
 ```
 
-## Resolução de entidades
+## Resolução e decisões curatoriais
 
-Aliases somente entram no ledger após associação explícita a uma entidade e identificação da fonte e do revisor. A normalização remove diferenças de caixa, acentuação e pontuação. Similaridade lexical gera apenas candidatos para revisão; nunca promove fusão automática.
+Aliases somente resolvem entidades quando foram explicitamente curados. Similaridade lexical gera candidatos, nunca fusão automática. Alterações de identidade exigem uma decisão registrada com origem, destino, justificativa, responsável, evidências, estado e data. Apenas decisões aprovadas de `merge` ou `redirect` produzem mapas de redirecionamento.
+
+## Concorrência
+
+O backend JSONL utiliza arquivo `.lock` criado de modo exclusivo. Um segundo processo cooperativo aguarda até o timeout configurado. O lock é removido ao final da operação, inclusive quando ocorre exceção. Essa garantia reduz colisões locais, mas não equivale a transações ACID nem protege contra processos que ignorem o protocolo.
 
 ## Auditoria e recuperação
 
-A auditoria percorre o ledger desde o início e pode registrar, entre outros:
+A auditoria percorre o ledger desde o início e registra violações por código e severidade. A recuperação automática só é permitida quando o defeito está restrito à última linha; antes do corte, o arquivo original é preservado em `.bak`.
 
-- `VER-001`: versão duplicada;
-- `VER-002`: primeira versão com predecessor;
-- `VER-003`: cadeia histórica quebrada;
-- `EVD-001`: evidência sem identificador;
-- `EVD-002`: evidência duplicada;
-- `EVD-003`: referência de evidência órfã.
+## Interface da Fase 2
 
-A recuperação automática só é permitida quando o defeito está restrito à última linha. Antes do corte, o arquivo original é preservado com extensão `.bak`. Falhas no meio do ledger permanecem bloqueadas para análise humana.
+`SourceAdapter` define o contrato mínimo para transformar fontes externas em `AdaptedRecord`. Adaptadores não persistem nem publicam diretamente: entregam payload, chave natural, proveniência, evidências, referências e versão anterior ao serviço da Fase 1.
 
 ## Garantias
 
-1. Versões anteriores não são sobrescritas.
-2. Uma versão idêntica não pode ser gravada duas vezes.
-3. A atualização de entidade existente deve apontar para sua versão imediatamente anterior.
-4. Referências a entidades inexistentes são bloqueadas antes do commit.
-5. Evidências novas podem ser criadas e referenciadas na mesma transação.
-6. Índices são derivados do ledger e podem ser reconstruídos.
-7. Aliases conflitantes são bloqueados.
-8. Duplicidades potenciais exigem decisão curatorial.
-9. Reparos preservam cópia do ledger anterior.
-10. A camada de publicação continua fora deste núcleo.
+1. Estados anteriores não são sobrescritos.
+2. Versões duplicadas e referências órfãs são bloqueadas.
+3. Atualizações apontam para a versão imediatamente anterior.
+4. Evidências e proveniência integram o mesmo commit lógico.
+5. Escritas cooperativas são serializadas.
+6. Aliases e redirecionamentos conflitantes são rejeitados.
+7. Merge e split exigem decisão curatorial explícita.
+8. Índices e auditorias são reconstruíveis a partir do ledger.
+9. Reparos preservam backup.
+10. Coletores e publicação permanecem desacoplados.
 
 ## Limites atuais
 
-- não há banco relacional;
-- não há controle de concorrência entre processos;
-- a atomicidade é lógica, baseada em uma linha JSONL, e não ACID;
-- a resolução utiliza aliases curados e similaridade lexical, não modelos semânticos;
-- não há fusão ou redirecionamento automático de entidades;
-- não há integração com os coletores existentes.
+- não há banco relacional ou transação ACID;
+- o lock é cooperativo e local ao sistema de arquivos;
+- não há fusão ou split automático;
+- não há compactação formal dos índices derivados;
+- o relatório de integridade ainda precisa ser exportado diretamente no schema estrutural;
+- os coletores existentes ainda não usam `SourceAdapter`.
 
-## Próximo incremento da Fase 1
+## Próximo incremento
 
-- bloqueio de escrita e controle de concorrência;
-- registro de decisões de merge, split e redirecionamento entre entidades;
-- exportação do relatório de integridade no schema já definido;
-- compactação segura de índices derivados;
-- preparação da interface para os adaptadores da Fase 2.
+- exportar auditorias no `integrity_report.schema.json`;
+- persistir decisões de entidade no ledger com validação do schema;
+- compactar e verificar índices derivados;
+- concluir critérios de aceite da Fase 1;
+- iniciar adaptadores concretos da Fase 2 somente após integração deste PR.
