@@ -7,6 +7,7 @@ from memoria_audiovisual.statetech.adapters import validate_adapter
 from memoria_audiovisual.statetech.digital_infrastructure_adapter import (
     DigitalInfrastructureAuditAdapter,
 )
+from memoria_audiovisual.statetech.parameter_coverage import EXPECTED_DETECTOR_GROUPS
 
 
 class DigitalInfrastructureAuditAdapterTests(unittest.TestCase):
@@ -16,7 +17,7 @@ class DigitalInfrastructureAuditAdapterTests(unittest.TestCase):
     def test_adapter_satisfies_protocol(self) -> None:
         validate_adapter(self.adapter)
 
-    def test_expands_aggregated_signals_into_records(self) -> None:
+    def test_expands_signals_and_records_missing_groups(self) -> None:
         source = InfrastructureAudit(
             corpus_code="example",
             institution="Example Archive",
@@ -42,16 +43,20 @@ class DigitalInfrastructureAuditAdapterTests(unittest.TestCase):
         records = self.adapter.adapt(source)
         groups = [record.payload["detector_group"] for record in records]
 
-        self.assertIn("technology", groups)
+        self.assertEqual(set(groups), set(EXPECTED_DETECTOR_GROUPS))
         self.assertEqual(groups.count("api_service"), 2)
-        self.assertIn("metadata_format", groups)
-        self.assertIn("interoperability", groups)
-        self.assertIn("search", groups)
+        absent = {
+            record.payload["detector_group"]: record.payload["detection_status"]
+            for record in records
+            if record.payload["detected_value"] == "not_detected"
+        }
+        self.assertEqual(absent["restriction"], "not_detected")
+        self.assertEqual(absent["ai_evidence"], "not_detected")
         self.assertTrue(all(record.evidences for record in records))
         self.assertTrue(all(record.provenance.evidence_ids for record in records))
         self.assertTrue(all(record.payload["review_status"] == "pending_review" for record in records))
 
-    def test_unreachable_source_is_not_assessable(self) -> None:
+    def test_unreachable_source_marks_every_group_not_assessable(self) -> None:
         source = {
             "corpus_code": "offline",
             "institution": "Offline Archive",
@@ -72,10 +77,14 @@ class DigitalInfrastructureAuditAdapterTests(unittest.TestCase):
 
         records = self.adapter.adapt(source)
 
-        self.assertEqual(len(records), 1)
-        self.assertEqual(records[0].payload["detection_status"], "unknown")
-        self.assertEqual(records[0].payload["review_status"], "not_assessable")
-        self.assertEqual(records[0].payload["collection_status"], "error")
+        self.assertEqual(len(records), len(EXPECTED_DETECTOR_GROUPS))
+        self.assertEqual(
+            {record.payload["detector_group"] for record in records},
+            set(EXPECTED_DETECTOR_GROUPS),
+        )
+        self.assertTrue(all(record.payload["detection_status"] == "unknown" for record in records))
+        self.assertTrue(all(record.payload["review_status"] == "not_assessable" for record in records))
+        self.assertTrue(all(record.payload["collection_status"] == "error" for record in records))
 
     def test_missing_identity_fields_are_rejected(self) -> None:
         with self.assertRaises(ValueError):
