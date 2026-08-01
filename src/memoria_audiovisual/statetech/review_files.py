@@ -10,11 +10,6 @@ from typing import Any, Iterable, Mapping
 
 from .curatorial_review import CuratorialReview, CuratorialReviewService
 
-REVIEW_FIELDS = (
-    "observation_id", "reviewer_id", "reviewer_role", "decision", "justification",
-    "evidence_ids", "conflict_of_interest_status", "reviewed_at", "supersedes_review_id",
-)
-
 
 def export_review_queue(
     service: CuratorialReviewService,
@@ -61,25 +56,35 @@ def import_review_decisions(
 
     reviews: list[CuratorialReview] = []
     for position, row in enumerate(rows, start=1):
-        missing = [name for name in ("observation_id", "reviewer_id", "reviewer_role", "decision", "justification") if not str(row.get(name) or "").strip()]
+        required = ("observation_id", "reviewer_id", "reviewer_role", "decision", "justification")
+        missing = [name for name in required if not str(row.get(name) or "").strip()]
         if missing:
             raise ValueError(f"linha {position}: campos obrigatórios ausentes: {', '.join(missing)}")
         raw_evidence = row.get("evidence_ids", ())
         if isinstance(raw_evidence, str):
-            evidence_ids = tuple(item.strip() for item in raw_evidence.replace(";", "|").split("|") if item.strip())
+            evidence_ids = tuple(
+                item.strip()
+                for item in raw_evidence.replace(";", "|").split("|")
+                if item.strip()
+            )
         else:
             evidence_ids = tuple(str(item).strip() for item in raw_evidence if str(item).strip())
-        review = CuratorialReview(
-            observation_id=str(row["observation_id"]).strip(),
-            reviewer_id=str(row["reviewer_id"]).strip(),
-            reviewer_role=str(row["reviewer_role"]).strip(),
-            decision=str(row["decision"]).strip(),  # type: ignore[arg-type]
-            justification=str(row["justification"]).strip(),
-            evidence_ids=evidence_ids,
-            conflict_of_interest_status=str(row.get("conflict_of_interest_status") or "none_declared").strip(),
-            reviewed_at=str(row.get("reviewed_at") or "").strip() or None,  # type: ignore[arg-type]
-            supersedes_review_id=str(row.get("supersedes_review_id") or "").strip() or None,
-        )
+        kwargs: dict[str, Any] = {
+            "observation_id": str(row["observation_id"]).strip(),
+            "reviewer_id": str(row["reviewer_id"]).strip(),
+            "reviewer_role": str(row["reviewer_role"]).strip(),
+            "decision": str(row["decision"]).strip(),
+            "justification": str(row["justification"]).strip(),
+            "evidence_ids": evidence_ids,
+            "conflict_of_interest_status": str(
+                row.get("conflict_of_interest_status") or "none_declared"
+            ).strip(),
+            "supersedes_review_id": str(row.get("supersedes_review_id") or "").strip() or None,
+        }
+        reviewed_at = str(row.get("reviewed_at") or "").strip()
+        if reviewed_at:
+            kwargs["reviewed_at"] = reviewed_at
+        review = CuratorialReview(**kwargs)
         service.register(review)
         reviews.append(review)
     return tuple(reviews)
