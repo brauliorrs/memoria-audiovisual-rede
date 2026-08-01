@@ -1,18 +1,36 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "status": "structural_only",
   "execution_performed": false,
   "schemas": [
     {"entity": "institution", "path": "schemas/statetech/institution.schema.json"},
     {"entity": "provider", "path": "schemas/statetech/provider.schema.json"},
     {"entity": "technology", "path": "schemas/statetech/technology.schema.json"},
-    {"entity": "institution_technology_relationship", "path": "schemas/statetech/institution_technology_relationship.schema.json"},
+    {"entity": "institution_technology_relation", "path": "schemas/statetech_relation.schema.json"},
     {"entity": "procurement_contract", "path": "schemas/statetech/procurement_contract.schema.json"},
     {"entity": "data_flow", "path": "schemas/statetech/data_flow.schema.json"},
     {"entity": "ai_system", "path": "schemas/statetech/ai_system.schema.json"},
     {"entity": "evidence", "path": "schemas/statetech/evidence.schema.json"},
-    {"entity": "risk_assessment", "path": "schemas/statetech/risk_assessment.schema.json"}
+    {"entity": "risk_assessment", "path": "schemas/statetech/risk_assessment.schema.json"},
+    {"entity": "provenance_record", "path": "schemas/statetech/provenance_record.schema.json"},
+    {"entity": "timeline_event", "path": "schemas/statetech/timeline_event.schema.json"},
+    {"entity": "snapshot_manifest", "path": "schemas/statetech/snapshot_manifest.schema.json"},
+    {"entity": "integrity_report", "path": "schemas/statetech/integrity_report.schema.json"},
+    {"entity": "snapshot_comparison", "path": "schemas/snapshot_comparison.schema.json"},
+    {"entity": "indicator_definition", "path": "schemas/indicator_definition.schema.json"},
+    {"entity": "indicator_result", "path": "schemas/indicator_result.schema.json"},
+    {"entity": "publication_manifest", "path": "schemas/publication_manifest.schema.json"},
+    {"entity": "api_response", "path": "schemas/api_response.schema.json"},
+    {"entity": "curatorial_assignment", "path": "schemas/curatorial_assignment.schema.json"},
+    {"entity": "curatorial_audit_action", "path": "schemas/curatorial_audit_action.schema.json"},
+    {"entity": "data_quality_assessment", "path": "schemas/data_quality_assessment.schema.json"},
+    {"entity": "ethical_legal_risk_assessment", "path": "schemas/ethical_legal_risk_assessment.schema.json"},
+    {"entity": "implementation_phase", "path": "schemas/implementation_phase.schema.json"},
+    {"entity": "digital_infrastructure_audit", "path": "schemas/digital_infrastructure_audit.schema.json"}
   ],
-  "publication_rule": "Only confirmed or explicitly curated records may feed public indicators.",
+  "supporting_rules": [
+    {"name": "integrity_rules", "path": "schemas/statetech/integrity_rules.json"}
+  ],
+  "publication_rule": "Only confirmed or explicitly curated records with valid provenance and fitness for the declared use may feed public indicators.",
   "absence_rule": "Non-detection must not be interpreted as technological absence."
 }
