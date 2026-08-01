@@ -179,6 +179,21 @@ jobs:
             --output "${STATETECH_STATE_DIR}/triage/${SNAPSHOT_ID}.json"
           test -s "${STATETECH_STATE_DIR}/triage/${SNAPSHOT_ID}.json"
 
+      - name: Gerar visão pública derivada
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ steps.snapshot.outputs.snapshot_id }}
+        run: |
+          set -euo pipefail
+          python scripts/build_statetech_public_view.py \
+            --snapshot-id "${SNAPSHOT_ID}" \
+            --events "${STATETECH_STATE_DIR}/triage/${SNAPSHOT_ID}.json" \
+            --ledger "${STATETECH_STATE_DIR}/ledger.jsonl" \
+            --output-root "${STATETECH_STATE_DIR}/public"
+          test -s "${STATETECH_STATE_DIR}/public/${SNAPSHOT_ID}/events.json"
+          test -s "${STATETECH_STATE_DIR}/public/${SNAPSHOT_ID}/manifest.json"
+          test -s "${STATETECH_STATE_DIR}/public/public_view_index.jsonl"
+
       - name: Consolidar memória na branch histórica
         if: success()
         shell: bash
@@ -212,6 +227,8 @@ jobs:
             data/statetech/preflight/${{ steps.snapshot.outputs.snapshot_id }}.json
             data/statetech/postflight/${{ steps.snapshot.outputs.snapshot_id }}.json
             data/statetech/triage/${{ steps.snapshot.outputs.snapshot_id }}.json
+            data/statetech/public/${{ steps.snapshot.outputs.snapshot_id }}/
+            data/statetech/public/public_view_index.jsonl
             data/statetech/coverage/${{ steps.snapshot.outputs.snapshot_id }}/
             data/statetech/coverage/snapshot_coverage_index.jsonl
             data/statetech/ingestion_batches.jsonl
