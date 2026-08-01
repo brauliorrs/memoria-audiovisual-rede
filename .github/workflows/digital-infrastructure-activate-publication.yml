@@ -1,0 +1,137 @@
+name: Ativar publicação vigente de infraestrutura digital
+
+on:
+  workflow_dispatch:
+    inputs:
+      snapshot_id:
+        description: "Snapshot cuja versão pública será ativada"
+        required: true
+        type: string
+      publication_kind:
+        description: "Tipo da versão a ativar"
+        required: true
+        type: choice
+        options:
+          - initial
+          - revision
+      revision_number:
+        description: "Número da revisão; obrigatório quando publication_kind=revision"
+        required: false
+        type: string
+      reason:
+        description: "Justificativa da ativação"
+        required: true
+        type: string
+      activated_by:
+        description: "Identificador do responsável pela ativação"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: digital-infrastructure-publication-activation-${{ inputs.snapshot_id }}
+  cancel-in-progress: false
+
+env:
+  DIGITAL_INFRASTRUCTURE_STATE_DIR: data/digital_infrastructure
+  DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH: digital-infrastructure-history
+
+jobs:
+  activate:
+    name: Definir versão pública vigente
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar pacote
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install -e .
+
+      - name: Restaurar memória histórica
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH}:${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH}"
+          git worktree add .digital-infrastructure-history "${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH}"
+          rm -rf "${DIGITAL_INFRASTRUCTURE_STATE_DIR}"
+          mkdir -p "${DIGITAL_INFRASTRUCTURE_STATE_DIR}"
+          cp -a ".digital-infrastructure-history/${DIGITAL_INFRASTRUCTURE_STATE_DIR}/." "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/"
+
+      - name: Validar entrada
+        shell: bash
+        env:
+          KIND: ${{ inputs.publication_kind }}
+          REVISION: ${{ inputs.revision_number }}
+        run: |
+          set -euo pipefail
+          if [ "${KIND}" = "revision" ]; then
+            [[ "${REVISION}" =~ ^[1-9][0-9]*$ ]] || { echo "revision_number inválido" >&2; exit 1; }
+          elif [ -n "${REVISION}" ]; then
+            echo "revision_number deve ficar vazio para publicação inicial" >&2
+            exit 1
+          fi
+
+      - name: Ativar publicação
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ inputs.snapshot_id }}
+          KIND: ${{ inputs.publication_kind }}
+          REVISION: ${{ inputs.revision_number }}
+          REASON: ${{ inputs.reason }}
+          ACTIVATED_BY: ${{ inputs.activated_by }}
+        run: |
+          set -euo pipefail
+          COMMAND=(
+            python scripts/activate_digital_infrastructure_publication.py
+            --snapshot-id "${SNAPSHOT_ID}"
+            --publication-kind "${KIND}"
+            --public-root "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public"
+            --activated-by "${ACTIVATED_BY}"
+            --reason "${REASON}"
+          )
+          if [ "${KIND}" = "revision" ]; then
+            COMMAND+=(--revision-number "${REVISION}")
+          fi
+          "${COMMAND[@]}"
+          test -s "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/active_publications.json"
+          test -s "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/publication_activation_history.jsonl"
+
+      - name: Consolidar registro na branch histórica
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          PUBLIC_DIR="${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public"
+          HISTORY_PUBLIC_DIR=".digital-infrastructure-history/${PUBLIC_DIR}"
+          mkdir -p "${HISTORY_PUBLIC_DIR}"
+          cp "${PUBLIC_DIR}/active_publications.json" "${HISTORY_PUBLIC_DIR}/active_publications.json"
+          cp "${PUBLIC_DIR}/publication_activation_history.jsonl" "${HISTORY_PUBLIC_DIR}/publication_activation_history.jsonl"
+          cd .digital-infrastructure-history
+          git add "${PUBLIC_DIR}/active_publications.json" "${PUBLIC_DIR}/publication_activation_history.jsonl"
+          git commit -m "data: atualizar publicação pública vigente"
+          git push origin "HEAD:${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH}"
+
+      - name: Publicar registro operacional
+        uses: actions/upload-artifact@v4
+        with:
+          name: digital-infrastructure-active-publication-${{ inputs.snapshot_id }}
+          path: |
+            data/digital_infrastructure/public/active_publications.json
+            data/digital_infrastructure/public/publication_activation_history.jsonl
+          retention-days: 90
+          if-no-files-found: error
