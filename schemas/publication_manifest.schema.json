@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/publication_manifest.schema.json",
+  "title": "Publication Manifest",
+  "type": "object",
+  "required": [
+    "product_id",
+    "product_type",
+    "publication_version",
+    "snapshot_id",
+    "schema_version",
+    "methodology_version",
+    "generated_at",
+    "publication_status",
+    "access_level",
+    "license",
+    "validation_status"
+  ],
+  "properties": {
+    "product_id": {"type": "string", "minLength": 1},
+    "product_type": {"type": "string", "minLength": 1},
+    "title": {"type": ["string", "null"]},
+    "publication_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "snapshot_id": {"type": "string", "minLength": 1},
+    "schema_version": {"type": "string", "minLength": 1},
+    "methodology_version": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "coverage_start": {"type": ["string", "null"], "format": "date"},
+    "coverage_end": {"type": ["string", "null"], "format": "date"},
+    "coverage_ratio": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "publication_status": {
+      "type": "string",
+      "enum": ["draft", "under_review", "approved", "published", "superseded", "withdrawn", "archived"]
+    },
+    "access_level": {
+      "type": "string",
+      "enum": ["internal_raw", "internal_reviewed", "restricted_research", "public_curated", "public_aggregate"]
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": ["pending_review", "confirmed", "probable", "inconclusive", "false_positive", "not_assessable", "curated"]
+    },
+    "comparability_class": {"type": ["string", "null"]},
+    "provenance_reference": {"type": ["string", "null"]},
+    "license": {"type": "string", "minLength": 1},
+    "formats": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["csv", "json", "api", "dashboard", "parquet", "package"]},
+      "uniqueItems": true
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "media_type", "checksum"],
+        "properties": {
+          "path": {"type": "string"},
+          "media_type": {"type": "string"},
+          "checksum": {"type": "string"},
+          "size_bytes": {"type": ["integer", "null"], "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+    "known_limitations": {"type": "array", "items": {"type": "string"}},
+    "supersedes_product_id": {"type": ["string", "null"]},
+    "citation": {"type": ["string", "null"]},
+    "doi": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false
+}

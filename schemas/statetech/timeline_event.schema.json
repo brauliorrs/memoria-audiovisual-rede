@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/statetech/timeline_event.schema.json",
+  "title": "Evento temporal Estado–tecnologia",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "entity_type",
+    "entity_id",
+    "event_type",
+    "observed_at",
+    "recorded_at",
+    "change_origin",
+    "validation_status"
+  ],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "entity_type": {
+      "type": "string",
+      "enum": ["institution", "provider", "technology", "institution_technology_relation", "procurement_contract", "data_flow", "ai_system", "evidence", "risk_assessment"]
+    },
+    "entity_id": {"type": "string", "minLength": 1},
+    "event_type": {"type": "string", "minLength": 1},
+    "change_origin": {
+      "type": "string",
+      "enum": ["empirical_change", "source_update", "curatorial_correction", "schema_migration", "entity_resolution"]
+    },
+    "observed_at": {"type": "string", "format": "date-time"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "valid_from": {"type": ["string", "null"], "format": "date-time"},
+    "valid_to": {"type": ["string", "null"], "format": "date-time"},
+    "source_published_at": {"type": ["string", "null"], "format": "date-time"},
+    "previous_version_id": {"type": ["string", "null"]},
+    "new_version_id": {"type": ["string", "null"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "changed_fields": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "change_summary": {"type": ["string", "null"]},
+    "validation_status": {
+      "type": "string",
+      "enum": ["pending_review", "confirmed", "probable", "inconclusive", "false_positive", "not_assessable"]
+    },
+    "reviewer": {"type": ["string", "null"]},
+    "reviewed_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

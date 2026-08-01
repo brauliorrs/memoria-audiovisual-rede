@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/ethical_legal_risk_assessment.schema.json",
+  "title": "Ethical and legal risk assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assessment_id",
+    "object_type",
+    "object_id",
+    "risk_level",
+    "assessment_status",
+    "assessed_at",
+    "assessed_by"
+  ],
+  "properties": {
+    "assessment_id": {"type": "string", "minLength": 1},
+    "object_type": {"type": "string", "minLength": 1},
+    "object_id": {"type": "string", "minLength": 1},
+    "jurisdictions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "source_terms_reviewed": {"type": ["boolean", "null"]},
+    "license_reviewed": {"type": ["boolean", "null"]},
+    "personal_data_category": {
+      "type": "string",
+      "enum": [
+        "non_personal",
+        "public_professional_identifier",
+        "personal_low_risk",
+        "personal_sensitive",
+        "special_category_or_biometric",
+        "potentially_reidentifiable",
+        "unknown_requires_review"
+      ]
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["R0_negligible", "R1_low", "R2_moderate", "R3_high", "R4_critical"]
+    },
+    "risk_categories": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "mitigations": {"type": "array", "items": {"type": "string"}},
+    "publication_restriction": {
+      "type": "string",
+      "enum": ["none", "aggregate_only", "restricted_only", "temporarily_suppressed", "publication_blocked"]
+    },
+    "assessment_status": {
+      "type": "string",
+      "enum": ["pending", "reviewed", "approved", "rejected", "requires_specialist_review", "superseded"]
+    },
+    "assessed_at": {"type": "string", "format": "date-time"},
+    "assessed_by": {"type": "string", "minLength": 1},
+    "second_reviewer": {"type": ["string", "null"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "notes": {"type": ["string", "null"]},
+    "valid_until": {"type": ["string", "null"], "format": "date-time"},
+    "supersedes_assessment_id": {"type": ["string", "null"]}
+  }
+}

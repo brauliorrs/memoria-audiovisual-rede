@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/statetech/evidence.schema.json",
+  "title": "Evidence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["evidence_id", "subject_type", "subject_id", "evidence_type", "source_url", "observed_at", "validation_status"],
+  "properties": {
+    "evidence_id": {"type": "string", "minLength": 1},
+    "subject_type": {"type": "string", "enum": ["institution", "provider", "technology", "relationship", "contract", "data_flow", "ai_system", "governance", "risk"]},
+    "subject_id": {"type": "string", "minLength": 1},
+    "evidence_type": {"type": "string", "enum": ["official_webpage", "technical_metadata", "http_header", "source_code", "api_documentation", "procurement_notice", "contract_document", "annual_report", "policy_document", "privacy_policy", "terms_of_use", "press_release", "research_publication", "other"]},
+    "source_url": {"type": "string", "format": "uri"},
+    "source_title": {"type": ["string", "null"]},
+    "excerpt": {"type": ["string", "null"]},
+    "content_hash": {"type": ["string", "null"]},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "access_status": {"type": ["string", "null"], "enum": ["accessible", "restricted", "unavailable", "unknown", null]},
+    "confidence": {"type": ["string", "null"], "enum": ["high", "moderate", "low", "unknown", null]},
+    "validation_status": {"type": "string", "enum": ["pending_review", "confirmed", "probable", "inconclusive", "false_positive", "not_assessable"]},
+    "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+    "reviewer": {"type": ["string", "null"]}
+  }
+}

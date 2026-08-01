@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/snapshot_comparison.schema.json",
+  "title": "Snapshot longitudinal comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "comparison_id",
+    "baseline_snapshot_id",
+    "target_snapshot_id",
+    "created_at",
+    "schema_compatibility",
+    "changes"
+  ],
+  "properties": {
+    "comparison_id": {"type": "string", "minLength": 1},
+    "baseline_snapshot_id": {"type": "string", "minLength": 1},
+    "target_snapshot_id": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "format": "date-time"},
+    "created_by": {"type": ["string", "null"]},
+    "comparison_rule_version": {"type": ["string", "null"]},
+    "schema_compatibility": {
+      "type": "string",
+      "enum": [
+        "fully_comparable",
+        "comparable_with_mapping",
+        "partially_comparable",
+        "not_comparable"
+      ]
+    },
+    "coverage_note": {"type": ["string", "null"]},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["entity_id", "variable", "change_type"],
+        "properties": {
+          "entity_id": {"type": "string", "minLength": 1},
+          "variable": {"type": "string", "minLength": 1},
+          "previous_value": {},
+          "current_value": {},
+          "change_type": {
+            "type": "string",
+            "enum": [
+              "added",
+              "removed",
+              "changed",
+              "unchanged",
+              "became_assessable",
+              "became_unassessable",
+              "reclassified",
+              "schema_migrated",
+              "coverage_changed",
+              "inconclusive"
+            ]
+          },
+          "change_origin": {
+            "type": ["string", "null"],
+            "enum": [
+              "empirical_change",
+              "source_update",
+              "curatorial_correction",
+              "schema_migration",
+              "entity_resolution",
+              "coverage_change",
+              null
+            ]
+          },
+          "previous_evidence_ids": {"type": "array", "items": {"type": "string"}},
+          "current_evidence_ids": {"type": "array", "items": {"type": "string"}},
+          "confidence": {
+            "type": ["string", "null"],
+            "enum": ["low", "medium", "high", null]
+          },
+          "review_status": {
+            "type": ["string", "null"],
+            "enum": [
+              "pending_review",
+              "confirmed",
+              "probable",
+              "inconclusive",
+              "false_positive",
+              "not_assessable",
+              null
+            ]
+          },
+          "note": {"type": ["string", "null"]}
+        }
+      }
+    }
+  }
+}

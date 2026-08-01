@@ -1,0 +1,1 @@
+case_id,object_type,object_id,statement_type,claim_summary,claim_status,received_at,received_from,evidence_ids,temporary_measure,reviewer_id,second_reviewer_id,decision,decision_reason,resolved_at,impact_on_snapshots,impact_on_indicators,superseding_version_id,notes
