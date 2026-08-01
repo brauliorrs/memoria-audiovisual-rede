@@ -1,0 +1,174 @@
+name: Regenerar visão pública de infraestrutura digital
+
+on:
+  workflow_dispatch:
+    inputs:
+      snapshot_id:
+        description: "Snapshot histórico cuja visão pública será regenerada"
+        required: true
+        type: string
+      reason:
+        description: "Justificativa curatorial para a nova revisão de publicação"
+        required: true
+        type: string
+      requested_by:
+        description: "Identificador do responsável pela solicitação"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: digital-infrastructure-publication-revision-${{ inputs.snapshot_id }}
+  cancel-in-progress: false
+
+env:
+  PYTHONUNBUFFERED: "1"
+  DIGITAL_INFRASTRUCTURE_STATE_DIR: data/digital_infrastructure
+  DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH: digital-infrastructure-history
+
+jobs:
+  regenerate:
+    name: Criar revisão pública derivada
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependências
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install -e .
+
+      - name: Restaurar memória histórica
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! git ls-remote --exit-code --heads origin "${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH}" >/dev/null 2>&1; then
+            echo "A branch histórica ${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH} não existe." >&2
+            exit 1
+          fi
+          git fetch origin "${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH}:${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH}"
+          git worktree add .digital-infrastructure-history "${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH}"
+          rm -rf "${DIGITAL_INFRASTRUCTURE_STATE_DIR}"
+          mkdir -p "${DIGITAL_INFRASTRUCTURE_STATE_DIR}"
+          cp -a ".digital-infrastructure-history/${DIGITAL_INFRASTRUCTURE_STATE_DIR}/." "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/"
+
+      - name: Validar pré-condições da revisão
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ inputs.snapshot_id }}
+        run: |
+          set -euo pipefail
+          case "${SNAPSHOT_ID}" in
+            snapshot_[A-Za-z0-9._-]*) ;;
+            *) echo "snapshot_id inválido: ${SNAPSHOT_ID}" >&2; exit 1 ;;
+          esac
+          BASE_DIR="${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/${SNAPSHOT_ID}"
+          test -s "${BASE_DIR}/events.json"
+          test -s "${BASE_DIR}/manifest.json"
+          test -s "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/triage/${SNAPSHOT_ID}.json"
+          test -s "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/ledger.jsonl"
+
+      - name: Regenerar visão pública
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ inputs.snapshot_id }}
+          REVISION_REASON: ${{ inputs.reason }}
+          REQUESTED_BY: ${{ inputs.requested_by }}
+        run: |
+          set -euo pipefail
+          python scripts/regenerate_digital_infrastructure_public_view.py \
+            --snapshot-id "${SNAPSHOT_ID}" \
+            --events "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/triage/${SNAPSHOT_ID}.json" \
+            --ledger "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/ledger.jsonl" \
+            --output-root "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public" \
+            --reason "${REVISION_REASON}" \
+            --requested-by "${REQUESTED_BY}"
+
+      - name: Validar revisão criada
+        id: revision
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ inputs.snapshot_id }}
+        run: |
+          set -euo pipefail
+          REVISION_DIR=$(python - <<'PY'
+          from pathlib import Path
+          import os
+
+          snapshot_id = os.environ["SNAPSHOT_ID"]
+          root = Path("data/digital_infrastructure/public") / snapshot_id / "revisions"
+          revisions = sorted(path for path in root.glob("revision_*") if path.is_dir())
+          if not revisions:
+              raise SystemExit("nenhuma revisão foi criada")
+          print(revisions[-1])
+          PY
+          )
+          test -s "${REVISION_DIR}/events.json"
+          test -s "${REVISION_DIR}/manifest.json"
+          python - "${REVISION_DIR}/manifest.json" "${SNAPSHOT_ID}" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          manifest = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          expected_snapshot = sys.argv[2]
+          if manifest.get("snapshot_id") != expected_snapshot:
+              raise SystemExit("manifesto aponta para outro snapshot")
+          if not manifest.get("reason") or not manifest.get("requested_by"):
+              raise SystemExit("manifesto sem justificativa ou responsável")
+          if int(manifest.get("publication_revision", 0)) < 1:
+              raise SystemExit("número de revisão inválido")
+          PY
+          echo "revision_dir=${REVISION_DIR}" >> "$GITHUB_OUTPUT"
+
+      - name: Consolidar revisão na branch histórica
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ inputs.snapshot_id }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          rm -rf ".digital-infrastructure-history/${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/${SNAPSHOT_ID}"
+          mkdir -p ".digital-infrastructure-history/${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public"
+          cp -a \
+            "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/${SNAPSHOT_ID}" \
+            ".digital-infrastructure-history/${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/${SNAPSHOT_ID}"
+          cp \
+            "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/public_view_index.jsonl" \
+            ".digital-infrastructure-history/${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/public_view_index.jsonl"
+
+          cd .digital-infrastructure-history
+          git add "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/${SNAPSHOT_ID}" \
+                  "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/public_view_index.jsonl"
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração foi produzida." >&2
+            exit 1
+          fi
+          git commit -m "data: revisar publicação de ${SNAPSHOT_ID}"
+          git push origin "HEAD:${DIGITAL_INFRASTRUCTURE_HISTORY_BRANCH}"
+
+      - name: Publicar cópia operacional
+        uses: actions/upload-artifact@v4
+        with:
+          name: digital-infrastructure-publication-revision-${{ inputs.snapshot_id }}
+          path: ${{ steps.revision.outputs.revision_dir }}
+          retention-days: 90
+          if-no-files-found: error
