@@ -84,22 +84,21 @@ def main() -> int:
         missing = [name for name in required if not str(row.get(name) or "").strip()]
         if missing:
             raise ValueError(f"linha {position}: campos ausentes: {', '.join(missing)}")
-        review = LongitudinalEventReview(
-            event_id=str(row["event_id"]).strip(),
-            reviewer_id=str(row["reviewer_id"]).strip(),
-            reviewer_role=str(row["reviewer_role"]).strip(),
-            decision=str(row["decision"]).strip(),  # type: ignore[arg-type]
-            justification=str(row["justification"]).strip(),
-            evidence_ids=_evidence_ids(row.get("evidence_ids")),
-            reclassified_as=str(row.get("reclassified_as") or "").strip() or None,
-            conflict_of_interest_status=str(row.get("conflict_of_interest_status") or "none_declared").strip(),
-            reviewed_at=str(row.get("reviewed_at") or "").strip() or None,  # type: ignore[arg-type]
-            supersedes_review_id=str(row.get("supersedes_review_id") or "").strip() or None,
-        )
-        if review.reviewed_at is None:  # pragma: no cover - construção defensiva
-            payload = review.to_dict()
-            payload.pop("reviewed_at", None)
-            review = LongitudinalEventReview(**payload)
+        kwargs: dict[str, Any] = {
+            "event_id": str(row["event_id"]).strip(),
+            "reviewer_id": str(row["reviewer_id"]).strip(),
+            "reviewer_role": str(row["reviewer_role"]).strip(),
+            "decision": str(row["decision"]).strip(),
+            "justification": str(row["justification"]).strip(),
+            "evidence_ids": _evidence_ids(row.get("evidence_ids")),
+            "reclassified_as": str(row.get("reclassified_as") or "").strip() or None,
+            "conflict_of_interest_status": str(row.get("conflict_of_interest_status") or "none_declared").strip(),
+            "supersedes_review_id": str(row.get("supersedes_review_id") or "").strip() or None,
+        }
+        reviewed_at = str(row.get("reviewed_at") or "").strip()
+        if reviewed_at:
+            kwargs["reviewed_at"] = reviewed_at
+        review = LongitudinalEventReview(**kwargs)
         service.register(review)
         reviews.append(review)
     print(json.dumps({"imported": len(reviews)}, ensure_ascii=False))
