@@ -15,7 +15,7 @@ on:
     - cron: "17 3 1 * *"
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: statetech-periodic-review
@@ -24,6 +24,7 @@ concurrency:
 env:
   PYTHONUNBUFFERED: "1"
   STATETECH_STATE_DIR: data/statetech
+  STATETECH_HISTORY_BRANCH: statetech-history
 
 jobs:
   review:
@@ -34,6 +35,8 @@ jobs:
     steps:
       - name: Baixar repositório
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -53,14 +56,28 @@ jobs:
             python -m pip install pandas requests beautifulsoup4 jsonschema
           fi
 
-      - name: Restaurar memória Estado-tecnologia
-        id: restore-state
-        uses: actions/cache/restore@v4
-        with:
-          path: data/statetech
-          key: statetech-state-${{ github.run_id }}
-          restore-keys: |
-            statetech-state-
+      - name: Restaurar memória durável da branch histórica
+        id: restore-history
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "${STATETECH_STATE_DIR}"
+          mkdir -p "${STATETECH_STATE_DIR}"
+
+          if git ls-remote --exit-code --heads origin "${STATETECH_HISTORY_BRANCH}" >/dev/null 2>&1; then
+            git fetch origin "${STATETECH_HISTORY_BRANCH}:${STATETECH_HISTORY_BRANCH}"
+            git worktree add .statetech-history "${STATETECH_HISTORY_BRANCH}"
+            if [ -d ".statetech-history/${STATETECH_STATE_DIR}" ]; then
+              cp -a ".statetech-history/${STATETECH_STATE_DIR}/." "${STATETECH_STATE_DIR}/"
+            fi
+            echo "history_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            git worktree add -b "${STATETECH_HISTORY_BRANCH}" .statetech-history HEAD
+            echo "history_exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          mkdir -p "${STATETECH_STATE_DIR}/coverage"
+          echo "Memória restaurada da branch ${STATETECH_HISTORY_BRANCH}."
 
       - name: Gerar identificador do snapshot
         id: snapshot
@@ -76,6 +93,10 @@ jobs:
           if ! printf '%s' "${SNAPSHOT_ID}" | grep -Eq '^[A-Za-z0-9][A-Za-z0-9._-]{2,127}$'; then
             echo "snapshot_id inválido: ${SNAPSHOT_ID}" >&2
             exit 2
+          fi
+          if [ -e "${STATETECH_STATE_DIR}/coverage/${SNAPSHOT_ID}" ]; then
+            echo "snapshot_id já existe na memória histórica: ${SNAPSHOT_ID}" >&2
+            exit 3
           fi
           echo "snapshot_id=${SNAPSHOT_ID}" >> "$GITHUB_OUTPUT"
           echo "Snapshot: ${SNAPSHOT_ID}"
@@ -111,14 +132,33 @@ jobs:
           test -s "data/statetech/ledger.jsonl"
           test -s "data/statetech/ingestion_batches.jsonl"
 
-      - name: Salvar memória para a próxima rodada
+      - name: Consolidar memória na branch histórica
         if: success()
-        uses: actions/cache/save@v4
-        with:
-          path: data/statetech
-          key: statetech-state-${{ github.run_id }}
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ steps.snapshot.outputs.snapshot_id }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Publicar relatórios da rodada
+          rm -rf ".statetech-history/${STATETECH_STATE_DIR}"
+          mkdir -p ".statetech-history/${STATETECH_STATE_DIR}"
+          cp -a "${STATETECH_STATE_DIR}/." ".statetech-history/${STATETECH_STATE_DIR}/"
+
+          # Entradas brutas podem crescer rapidamente e terão armazenamento próprio.
+          rm -rf ".statetech-history/${STATETECH_STATE_DIR}/raw_artifacts"
+
+          cd .statetech-history
+          git add "${STATETECH_STATE_DIR}"
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração histórica para consolidar."
+          else
+            git commit -m "data(statetech): preservar ${SNAPSHOT_ID}"
+            git push origin "HEAD:${STATETECH_HISTORY_BRANCH}"
+          fi
+
+      - name: Publicar cópia operacional temporária
         if: always()
         uses: actions/upload-artifact@v4
         with:
