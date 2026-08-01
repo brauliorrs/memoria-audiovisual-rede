@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/statetech/technology.schema.json",
+  "title": "Technology",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["technology_id", "name", "stack_layer", "validation_status"],
+  "properties": {
+    "technology_id": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "version": {"type": ["string", "null"]},
+    "stack_layer": {"type": "string", "enum": ["physical_infrastructure", "cloud_and_hosting", "network_and_cdn", "database", "repository_management", "metadata_layer", "api_and_interoperability", "search_and_discovery", "authentication", "rights_management", "analytics", "ai_and_automation", "presentation_interface", "external_distribution_platform", "other", "unknown"]},
+    "technology_function": {"type": ["string", "null"]},
+    "deployment_model": {"type": ["string", "null"], "enum": ["on_premises", "public_cloud", "private_cloud", "hybrid_cloud", "saas", "managed_service", "embedded_third_party", "unknown", null]},
+    "ownership_model": {"type": ["string", "null"], "enum": ["proprietary", "open_source", "mixed", "publicly_owned", "unknown", null]},
+    "hosting_location": {"type": ["string", "null"]},
+    "data_residency_country": {"type": ["string", "null"]},
+    "critical_dependency": {"type": ["boolean", "null"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "validation_status": {"type": "string", "enum": ["pending_review", "confirmed", "probable", "inconclusive", "false_positive", "not_assessable"]}
+  }
+}
