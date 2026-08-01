@@ -86,32 +86,43 @@ A execução está configurada para:
 - permitir execução manual com `workflow_dispatch`;
 - gerar automaticamente um `snapshot_id` UTC quando ele não for informado;
 - impedir duas rodadas concorrentes;
-- restaurar o diretório `data/statetech` da rodada anterior;
+- restaurar o estado da branch durável `statetech-history`;
 - executar o auditor em modo `ledger`;
 - verificar a presença dos produtos obrigatórios;
-- salvar o estado atualizado para a rodada seguinte;
-- publicar os relatórios do snapshot como artefato por 90 dias.
+- consolidar o estado atualizado na branch histórica apenas após sucesso;
+- publicar uma cópia operacional dos relatórios como artefato por 90 dias.
 
-A memória entre runners efêmeros é preservada por cache versionado por execução, com restauração pela chave comum `statetech-state-`. O cache não é tratado como produto público: os relatórios de cada rodada também são publicados como artefatos independentes.
+A branch `statetech-history` é o armazenamento longitudinal primário dentro do GitHub. O artefato de 90 dias é apenas uma cópia temporária para download e inspeção rápida; sua expiração não remove o histórico versionado.
+
+A branch histórica preserva:
+
+```text
+data/statetech/coverage/
+data/statetech/ledger.jsonl
+data/statetech/ingestion_batches.jsonl
+outros índices e manifestos leves do núcleo
+```
+
+Os artefatos brutos em `data/statetech/raw_artifacts/` não são enviados para a branch porque podem crescer rapidamente. Eles terão política própria de armazenamento durável externo antes da operação em escala.
 
 O operador pode limitar uma execução manual a corpora específicos ou fornecer um identificador próprio de snapshot. O identificador é validado antes da coleta e os relatórios de um snapshot já existente não podem ser sobrescritos.
 
 ## Ordem segura da rodada
 
 ```text
-checkout
+checkout completo
 → instalação de dependências
-→ restauração da memória anterior
+→ restauração da branch statetech-history
 → geração e validação do snapshot_id
 → auditoria dos corpora ativos
 → ledger e manifestos
 → cobertura e comparação longitudinal
 → verificação dos produtos
-→ salvamento do estado
-→ publicação do artefato
+→ commit e push na branch histórica
+→ publicação do artefato temporário
 ```
 
-O estado só é salvo para a próxima rodada quando a execução termina com sucesso. A publicação do artefato usa `if: always()` para preservar relatórios diagnósticos quando eles existirem, inclusive em uma rodada parcialmente malsucedida.
+O estado só é consolidado quando a execução termina com sucesso. Uma rodada malsucedida não altera a memória usada pela rodada seguinte. O artefato continua com `if: always()` para disponibilizar diagnósticos que tenham sido produzidos, mas não é considerado fonte arquivística.
 
 ## Revisão e materialização
 
@@ -147,19 +158,23 @@ tests/test_statetech_coverage_reports.py
 4. A primeira rodada ampliada cria a linha de base dos corpora antigos.
 5. Rodadas seguintes podem indicar aparecimento, desaparecimento ou mudança.
 6. Relatórios históricos de snapshots não são sobrescritos.
-7. O estado longitudinal é restaurado antes da nova coleta.
-8. Nenhuma detecção é confirmada automaticamente.
-9. Somente detecções positivas confirmadas podem ser materializadas.
-10. Migração histórica permanece opcional e separada da revisão normal do corpus.
+7. O estado longitudinal é restaurado da branch histórica antes da nova coleta.
+8. Uma rodada malsucedida não substitui a memória validada.
+9. A expiração do artefato de 90 dias não apaga os relatórios preservados no Git.
+10. Nenhuma detecção é confirmada automaticamente.
+11. Somente detecções positivas confirmadas podem ser materializadas.
+12. Migração histórica permanece opcional e separada da revisão normal do corpus.
 
 ## Limites atuais
 
 - nenhuma coleta, teste, workflow ou comparação empírica foi executada durante o desenvolvimento;
-- o cache do GitHub Actions é infraestrutura operacional e não substitui uma política futura de armazenamento durável externo;
-- artefatos do workflow têm retenção configurada em 90 dias;
+- o histórico Git é adequado aos relatórios e logs leves, mas o crescimento do ledger deverá ser acompanhado;
+- artefatos brutos ainda dependem de uma política futura de armazenamento externo;
+- artefatos do workflow continuam com retenção operacional de 90 dias;
 - a seleção do snapshot anterior segue a ordem append-only do índice, sem inferir cronologia pelo texto do identificador;
+- repositórios com proteção que bloqueie pushes do `GITHUB_TOKEN` exigirão ajuste de permissões ou token específico;
 - ainda não existe interface gráfica.
 
 ## Próximo incremento
 
-Adicionar um validador pré-execução do ciclo periódico, capaz de verificar contratos, caminhos, identificadores, disponibilidade da memória anterior e consistência do índice de snapshots antes de permitir a coleta.
+Adicionar um validador pré-execução do ciclo periódico, capaz de verificar contratos, caminhos, identificadores, disponibilidade e consistência da branch histórica, integridade do índice de snapshots e permissão de escrita antes de permitir a coleta.
