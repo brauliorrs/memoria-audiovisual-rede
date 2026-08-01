@@ -1,0 +1,1 @@
+cycle_id,snapshot_id,snapshot_type,scope,period_start,period_end,opened_at,opened_by,status,baseline_snapshot_id,schema_version,rule_version,expected_entities,observed_entities,not_assessable_entities,excluded_entities,coverage_note,closed_at,closed_by,published_at,supersedes_snapshot_id,manifest_path
