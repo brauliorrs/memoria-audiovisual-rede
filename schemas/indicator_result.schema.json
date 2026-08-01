@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/indicator_result.schema.json",
+  "title": "Indicator result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "result_id",
+    "indicator_id",
+    "indicator_version",
+    "snapshot_id",
+    "reference_period",
+    "publication_status",
+    "confidence_level",
+    "computed_at"
+  ],
+  "properties": {
+    "result_id": {"type": "string", "minLength": 3},
+    "indicator_id": {"type": "string"},
+    "indicator_version": {"type": "string"},
+    "snapshot_id": {"type": "string"},
+    "comparison_snapshot_id": {"type": ["string", "null"]},
+    "reference_period": {"type": "string"},
+    "scope_type": {"type": ["string", "null"]},
+    "scope_id": {"type": ["string", "null"]},
+    "value_number": {"type": ["number", "null"]},
+    "value_text": {"type": ["string", "null"]},
+    "numerator": {"type": ["number", "null"]},
+    "denominator": {"type": ["number", "null"]},
+    "assessable_count": {"type": ["integer", "null"], "minimum": 0},
+    "not_assessable_count": {"type": ["integer", "null"], "minimum": 0},
+    "coverage_ratio": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "comparison_class": {
+      "enum": ["strict", "bridged", "descriptive_only", "not_applicable"]
+    },
+    "confidence_level": {"enum": ["high", "moderate", "low", "not_publishable"]},
+    "publication_status": {
+      "enum": ["draft", "reviewed", "approved", "published", "suppressed", "withdrawn"]
+    },
+    "suppression_reason": {"type": ["string", "null"]},
+    "provenance_ids": {"type": "array", "items": {"type": "string"}},
+    "source_record_count": {"type": ["integer", "null"], "minimum": 0},
+    "computed_at": {"type": "string", "format": "date-time"},
+    "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+    "reviewed_by": {"type": ["string", "null"]},
+    "publication_note": {"type": ["string", "null"]}
+  },
+  "anyOf": [
+    {"required": ["value_number"]},
+    {"required": ["value_text"]}
+  ]
+}
