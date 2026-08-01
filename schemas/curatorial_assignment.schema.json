@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/curatorial_assignment.schema.json",
+  "title": "Curatorial assignment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["assignment_id", "agent_id", "role", "scope", "valid_from", "status"],
+  "properties": {
+    "assignment_id": {"type": "string", "minLength": 1},
+    "agent_id": {"type": "string", "minLength": 1},
+    "agent_display_name": {"type": ["string", "null"]},
+    "role": {
+      "type": "string",
+      "enum": [
+        "data_collector",
+        "technical_auditor",
+        "institutional_researcher",
+        "curator_reviewer",
+        "senior_curator",
+        "snapshot_manager",
+        "indicator_steward",
+        "publication_approver",
+        "system_administrator",
+        "automated_agent"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entity_types": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "countries": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "institutions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "indicator_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "valid_from": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": ["string", "null"], "format": "date-time"},
+    "status": {"type": "string", "enum": ["active", "suspended", "expired", "revoked"]},
+    "conflict_of_interest_declaration_id": {"type": ["string", "null"]},
+    "assigned_by": {"type": ["string", "null"]},
+    "assigned_at": {"type": ["string", "null"], "format": "date-time"},
+    "notes": {"type": ["string", "null"]}
+  }
+}
