@@ -147,9 +147,15 @@ class CuratorialReviewService:
             sensitive = self.is_sensitive(observation)
             required = 2 if sensitive else 1
             confirmations = self.confirmation_count(observation_id) if observation_id else 0
-            complete = latest is not None and latest.decision != "needs_evidence" and confirmations >= required
-            if complete and not include_reviewed:
+
+            review_complete = False
+            if latest is not None and latest.decision != "needs_evidence":
+                review_complete = (
+                    confirmations >= required if latest.decision == "confirmed" else True
+                )
+            if review_complete and not include_reviewed:
                 continue
+
             queue.append(
                 ReviewQueueItem(
                     observation_id=observation_id,
