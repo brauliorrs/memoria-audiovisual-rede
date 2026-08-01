@@ -16,6 +16,8 @@ InfrastructureAudit
 → manifesto de lote
 → StatetechDataService
 → ledger
+→ revisão curatorial
+→ materialização relacional controlada
 ```
 
 ## Adaptador da auditoria
@@ -43,95 +45,61 @@ O `IngestionCoordinator` oferece dois modos:
 
 Chaves naturais duplicadas dentro de um mesmo lote são bloqueadas antes da persistência.
 
-## Artefato bruto
+## Artefato bruto e retomada
 
-Quando `RawArtifactStore` e `BatchManifestStore` são configurados, a entrada original é serializada de forma canônica e preservada antes do commit.
-
-```text
-conteúdo bruto
-→ JSON canônico
-→ SHA-256
-→ artifact_id content-addressed
-→ arquivo imutável e deduplicado
-```
-
-O mesmo conteúdo produz sempre o mesmo `artifact_id`. O identificador do artefato é acrescentado a `input_artifact_ids` da proveniência de cada registro persistido.
-
-## Manifesto e retomada idempotente
-
-O `batch_id` é derivado de:
-
-```text
-adapter_name
-+ adapter_version
-+ source_artifact_id
-```
-
-O manifesto append-only registra `prepared`, `running`, `completed` e `failed`. Após cada registro concluído, a respectiva combinação `entity_type:natural_key` é acrescentada ao manifesto. Uma nova chamada com o mesmo conteúdo e a mesma versão do adaptador recupera as chaves concluídas e processa apenas as restantes.
+Quando `RawArtifactStore` e `BatchManifestStore` são configurados, a entrada original é serializada de forma canônica, identificada por SHA-256 e preservada antes do commit. O manifesto append-only registra `prepared`, `running`, `completed` e `failed`, permitindo retomada sem repetir chaves já concluídas.
 
 Essa retomada reduz duplicações causadas por interrupção, mas não transforma o JSONL em transação ACID.
 
 ## Executor com três modos
 
-O script `scripts/audit_digital_infrastructure.py` passou a oferecer três modos explícitos.
-
-### `legacy`
-
-É o modo padrão e preserva o comportamento anterior:
+O script `scripts/audit_digital_infrastructure.py` oferece:
 
 ```text
-coleta
-→ DataFrame
-→ digital_infrastructure_audit.csv
-→ digital_infrastructure_audit.json
+legacy  → CSV e JSON históricos
+preview → coleta, adaptação e validação sem commit
+ledger  → artefato bruto, manifesto e persistência controlada
 ```
 
-Nenhuma configuração adicional é exigida.
+`legacy` permanece como padrão. `preview` e `ledger` exigem `--snapshot-id`.
 
-### `preview`
+## Materialização curatorial
+
+O `CuratorialMaterializer` atua depois da revisão humana. Ele não lê sinais pendentes como fatos e não confirma observações automaticamente.
+
+Uma observação só pode ser promovida quando reúne simultaneamente:
 
 ```text
-coleta
-→ adaptação
-→ validação integral
-→ resumo do plano
-→ nenhum commit no ledger
+review_status = confirmed
+detection_status = detected
+institution_id resolvido
+evidence_id existente
 ```
 
-Exige `--snapshot-id`. O coordenador é criado sem stores de artefato e manifesto, evitando persistência do núcleo. Um resumo JSON pode ser solicitado com `--result-output`.
+Grupos com contrato relacional disponível são materializados assim:
 
-Exemplo:
+| Grupo confirmado | Entidade gerada | Relação gerada |
+|---|---|---|
+| `technology` | `technology` | `institution_technology_relation` |
+| `api_service` | `technology` | `institution_technology_relation` |
+| `metadata_format` | `technology` | `institution_technology_relation` |
+| `interoperability` | `technology` | `institution_technology_relation` |
+| `search` | `technology` | `institution_technology_relation` |
+| `ai_evidence` | `ai_system` | vínculo direto à instituição |
 
-```powershell
-python scripts/audit_digital_infrastructure.py --mode preview --snapshot-id snapshot_2026_q3 --limit 5 --result-output data/output/statetech_preview.json
-```
+A materialização de IA é deliberadamente conservadora: mesmo após confirmação da evidência, função e estágio de implantação permanecem `unknown` quando a observação não sustenta classificação mais específica.
 
-### `ledger`
+O grupo `restriction` ainda não é promovido, porque não existe contrato relacional próprio adequado. Ele permanece na observação curada com decisão `not_materialized`, evitando encaixá-lo artificialmente como tecnologia.
+
+Cada tentativa produz uma decisão explícita:
 
 ```text
-coleta
-→ adaptação e validação
-→ preservação do artefato bruto
-→ manifesto retomável
-→ StatetechDataService
-→ ledger append-only
+promoted
+blocked
+not_materialized
 ```
 
-Também exige `--snapshot-id`. Os caminhos padrão são:
-
-```text
-data/statetech/ledger.jsonl
-data/statetech/raw_artifacts/
-data/statetech/ingestion_batches.jsonl
-```
-
-Eles podem ser substituídos por `--ledger-path`, `--artifact-dir` e `--batch-manifest`.
-
-Exemplo:
-
-```powershell
-python scripts/audit_digital_infrastructure.py --mode ledger --snapshot-id snapshot_2026_q3 --corpus europeana ina
-```
+Bloqueios registram razões como revisão não confirmada, detecção não positiva, ausência de instituição ou ausência de evidência.
 
 ## Arquivos principais
 
@@ -141,10 +109,12 @@ src/memoria_audiovisual/statetech/digital_infrastructure_adapter.py
 src/memoria_audiovisual/statetech/ingestion.py
 src/memoria_audiovisual/statetech/raw_artifacts.py
 src/memoria_audiovisual/statetech/ingestion_batches.py
+src/memoria_audiovisual/statetech/materialization.py
 tests/test_audit_digital_infrastructure_modes.py
 tests/test_statetech_digital_infrastructure_adapter.py
 tests/test_statetech_ingestion.py
 tests/test_statetech_ingestion_artifacts.py
+tests/test_statetech_materialization.py
 ```
 
 ## Garantias metodológicas
@@ -157,19 +127,20 @@ tests/test_statetech_ingestion_artifacts.py
 6. Todos os contratos são validados antes do início do commit.
 7. A entrada bruta pode ser preservada de forma imutável e verificável.
 8. O manifesto permite retomada sem repetir chaves já concluídas.
-9. O serviço central continua responsável pela integridade referencial.
+9. Somente observações confirmadas podem alimentar entidades relacionais.
+10. Grupos sem contrato adequado não são forçados para uma entidade incompatível.
+11. O serviço central continua responsável pela integridade referencial.
 
 ## Limites atuais
 
 - nenhuma coleta ou migração histórica foi executada durante o desenvolvimento;
-- tecnologias e fornecedores ainda não são materializados como entidades relacionais;
+- a materialização exige mapas explícitos de instituição e evidência;
+- a camada ainda não oferece interface de revisão humana;
+- fornecedores não são inferidos a partir da tecnologia detectada;
+- restrições aguardam contrato de domínio próprio;
 - a retomada depende de stores locais configurados em conjunto;
-- o manifesto é append-only local, não um coordenador distribuído;
-- alteração da versão do adaptador gera um novo lote para a mesma fonte;
-- não há política automática de retenção dos artefatos brutos;
-- o executor coleta primeiro e somente depois inicia preview ou commit;
-- o modo ledger ainda não cria entidades relacionais a partir dos sinais pendentes.
+- não há política automática de retenção dos artefatos brutos.
 
 ## Próximo incremento
 
-Criar a camada de materialização curatorial para transformar apenas observações confirmadas em entidades relacionais de tecnologia, API, protocolo, formato de metadados, mecanismo de busca, restrição e sistema de IA. Sinais `pending_review`, `inconclusive` ou `false_positive` não poderão ser promovidos.
+Criar o fluxo de revisão curatorial das observações, com decisão append-only, identificação do revisor, justificativa, vínculo às evidências e exportação de uma fila de revisão. Depois, conectar somente decisões aprovadas ao `CuratorialMaterializer`.
