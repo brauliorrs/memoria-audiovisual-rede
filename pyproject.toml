@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
   "beautifulsoup4",
+  "jsonschema>=4.23",
   "openpyxl",
   "pandas",
   "playwright",

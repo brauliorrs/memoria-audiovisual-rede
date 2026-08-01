@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "status": "structural_only",
   "execution_performed": false,
   "schemas": [
@@ -16,6 +16,7 @@
     {"entity": "timeline_event", "path": "schemas/statetech/timeline_event.schema.json"},
     {"entity": "snapshot_manifest", "path": "schemas/statetech/snapshot_manifest.schema.json"},
     {"entity": "integrity_report", "path": "schemas/statetech/integrity_report.schema.json"},
+    {"entity": "entity_decision", "path": "schemas/statetech/entity_decision.schema.json"},
     {"entity": "snapshot_comparison", "path": "schemas/snapshot_comparison.schema.json"},
     {"entity": "indicator_definition", "path": "schemas/indicator_definition.schema.json"},
     {"entity": "indicator_result", "path": "schemas/indicator_result.schema.json"},
