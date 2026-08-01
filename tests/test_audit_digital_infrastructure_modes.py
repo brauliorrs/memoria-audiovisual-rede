@@ -7,7 +7,7 @@ from argparse import Namespace
 from pathlib import Path
 from typing import Any
 
-from memoria_audiovisual.statetech.ingestion import IngestionItem, IngestionResult
+from memoria_audiovisual.digital_infrastructure.ingestion import IngestionItem, IngestionResult
 
 SCRIPT_PATH = Path(__file__).resolve().parents[1] / "scripts" / "audit_digital_infrastructure.py"
 SPEC = importlib.util.spec_from_file_location("audit_digital_infrastructure_script", SCRIPT_PATH)
@@ -67,7 +67,7 @@ def _args(mode: str, **overrides: Any) -> Namespace:
         "snapshot_id": "snapshot_test",
         "result_output": None,
         "write_coverage": False,
-        "coverage_dir": Path("data/statetech/coverage"),
+        "coverage_dir": Path("data/digital_infrastructure/coverage"),
     }
     values.update(overrides)
     return Namespace(**values)
@@ -92,7 +92,7 @@ class AuditExecutorModeTests(unittest.TestCase):
             "checked_at_utc": "2026-08-01T12:00:00+00:00",
             "entity_level": "corpus",
         }]
-        summary = SCRIPT.run_statetech_mode(records, args=_args("preview"), coordinator=coordinator)
+        summary = SCRIPT.run_digital_infrastructure_mode(records, args=_args("preview"), coordinator=coordinator)
         self.assertEqual(summary["committed_count"], 0)
         self.assertEqual(summary["coverage"]["parameter_count"], 7)
         self.assertEqual(summary["coverage"]["status_counts"]["detected"], 1)
@@ -114,7 +114,7 @@ class AuditExecutorModeTests(unittest.TestCase):
             root = Path(temporary)
             output = root / "summary.json"
             args = _args("ledger", result_output=output, coverage_dir=root / "coverage")
-            summary = SCRIPT.run_statetech_mode(records, args=args, coordinator=coordinator)
+            summary = SCRIPT.run_digital_infrastructure_mode(records, args=args, coordinator=coordinator)
             self.assertEqual(summary["committed_count"], 1)
             self.assertTrue(output.exists())
             self.assertTrue(Path(summary["coverage_manifest"]["coverage_path"]).exists())

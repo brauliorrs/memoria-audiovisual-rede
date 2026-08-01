@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.2.0",
+  "status": "structural_only",
+  "execution_performed": false,
+  "schemas": [
+    {"entity": "institution", "path": "schemas/digital_infrastructure/institution.schema.json"},
+    {"entity": "provider", "path": "schemas/digital_infrastructure/provider.schema.json"},
+    {"entity": "technology", "path": "schemas/digital_infrastructure/technology.schema.json"},
+    {"entity": "institution_technology_relation", "path": "schemas/digital_infrastructure_relation.schema.json"},
+    {"entity": "procurement_contract", "path": "schemas/digital_infrastructure/procurement_contract.schema.json"},
+    {"entity": "data_flow", "path": "schemas/digital_infrastructure/data_flow.schema.json"},
+    {"entity": "ai_system", "path": "schemas/digital_infrastructure/ai_system.schema.json"},
+    {"entity": "evidence", "path": "schemas/digital_infrastructure/evidence.schema.json"},
+    {"entity": "risk_assessment", "path": "schemas/digital_infrastructure/risk_assessment.schema.json"},
+    {"entity": "provenance_record", "path": "schemas/digital_infrastructure/provenance_record.schema.json"},
+    {"entity": "timeline_event", "path": "schemas/digital_infrastructure/timeline_event.schema.json"},
+    {"entity": "snapshot_manifest", "path": "schemas/digital_infrastructure/snapshot_manifest.schema.json"},
+    {"entity": "integrity_report", "path": "schemas/digital_infrastructure/integrity_report.schema.json"},
+    {"entity": "entity_decision", "path": "schemas/digital_infrastructure/entity_decision.schema.json"},
+    {"entity": "snapshot_comparison", "path": "schemas/snapshot_comparison.schema.json"},
+    {"entity": "indicator_definition", "path": "schemas/indicator_definition.schema.json"},
+    {"entity": "indicator_result", "path": "schemas/indicator_result.schema.json"},
+    {"entity": "publication_manifest", "path": "schemas/publication_manifest.schema.json"},
+    {"entity": "api_response", "path": "schemas/api_response.schema.json"},
+    {"entity": "curatorial_assignment", "path": "schemas/curatorial_assignment.schema.json"},
+    {"entity": "curatorial_audit_action", "path": "schemas/curatorial_audit_action.schema.json"},
+    {"entity": "data_quality_assessment", "path": "schemas/data_quality_assessment.schema.json"},
+    {"entity": "ethical_legal_risk_assessment", "path": "schemas/ethical_legal_risk_assessment.schema.json"},
+    {"entity": "implementation_phase", "path": "schemas/implementation_phase.schema.json"},
+    {"entity": "digital_infrastructure_audit", "path": "schemas/digital_infrastructure_audit.schema.json"}
+  ],
+  "supporting_rules": [
+    {"name": "integrity_rules", "path": "schemas/digital_infrastructure/integrity_rules.json"}
+  ],
+  "publication_rule": "Only confirmed or explicitly curated records with valid provenance and fitness for the declared use may feed public indicators.",
+  "absence_rule": "Non-detection must not be interpreted as technological absence."
+}

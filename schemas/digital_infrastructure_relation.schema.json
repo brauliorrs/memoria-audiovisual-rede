@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/digital_infrastructure_relation.schema.json",
+  "title": "Relação instituição-tecnologia",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "relation_id",
+    "institution_id",
+    "technology_id",
+    "provider_role",
+    "evidence_id",
+    "validation_status"
+  ],
+  "properties": {
+    "relation_id": {"type": "string", "minLength": 1},
+    "institution_id": {"type": "string", "minLength": 1},
+    "technology_id": {"type": "string", "minLength": 1},
+    "provider_id": {"type": ["string", "null"]},
+    "provider_role": {
+      "type": "string",
+      "enum": [
+        "hosting", "cloud", "catalogue_software", "digitisation",
+        "metadata_management", "search_engine", "video_delivery",
+        "content_delivery_network", "authentication", "analytics",
+        "ai_service", "systems_integration", "consultancy", "maintenance",
+        "other", "unknown"
+      ]
+    },
+    "provider_relationship": {
+      "type": "string",
+      "enum": ["contracted", "operator", "maintainer", "partner", "developer", "community", "unknown"]
+    },
+    "relationship_start_date": {"type": ["string", "null"], "format": "date"},
+    "relationship_end_date": {"type": ["string", "null"], "format": "date"},
+    "evidence_id": {"type": "string", "minLength": 1},
+    "confidence": {"type": "string", "enum": ["high", "medium", "low", "unknown"]},
+    "validation_status": {
+      "type": "string",
+      "enum": ["pending_review", "confirmed", "probable", "inconclusive", "false_positive", "not_assessable"]
+    },
+    "reviewer_note": {"type": ["string", "null"]}
+  }
+}

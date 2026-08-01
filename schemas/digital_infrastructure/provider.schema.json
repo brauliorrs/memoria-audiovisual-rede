@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/digital_infrastructure/provider.schema.json",
+  "title": "Technology Provider",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["provider_id", "legal_name", "provider_type", "validation_status"],
+  "properties": {
+    "provider_id": {"type": "string", "minLength": 1},
+    "legal_name": {"type": "string", "minLength": 1},
+    "trade_name": {"type": ["string", "null"]},
+    "provider_type": {"type": "string", "enum": ["private_company", "public_company", "nonprofit", "university", "government_body", "open_source_community", "consortium", "other", "unknown"]},
+    "country": {"type": ["string", "null"]},
+    "headquarters_country": {"type": ["string", "null"]},
+    "website": {"type": ["string", "null"], "format": "uri"},
+    "ownership_status": {"type": ["string", "null"], "enum": ["public", "private", "mixed", "community", "unknown", null]},
+    "parent_company": {"type": ["string", "null"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "validation_status": {"type": "string", "enum": ["pending_review", "confirmed", "probable", "inconclusive", "false_positive", "not_assessable"]},
+    "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+    "reviewer": {"type": ["string", "null"]}
+  }
+}

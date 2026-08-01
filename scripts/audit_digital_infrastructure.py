@@ -24,23 +24,23 @@ if str(SRC_DIR) not in sys.path:
 
 from memoria_audiovisual.corpora import CORPORA
 from memoria_audiovisual.digital_infrastructure_audit import audit_url
-from memoria_audiovisual.statetech.contracts import SchemaRegistry
-from memoria_audiovisual.statetech.coverage_reports import (
+from memoria_audiovisual.digital_infrastructure.contracts import SchemaRegistry
+from memoria_audiovisual.digital_infrastructure.coverage_reports import (
     CoverageReportStore,
     observations_from_ingestion_payload,
 )
-from memoria_audiovisual.statetech.digital_infrastructure_adapter import (
+from memoria_audiovisual.digital_infrastructure.digital_infrastructure_adapter import (
     DigitalInfrastructureAuditAdapter,
 )
-from memoria_audiovisual.statetech.ingestion import IngestionCoordinator, IngestionResult
-from memoria_audiovisual.statetech.ingestion_batches import BatchManifestStore
-from memoria_audiovisual.statetech.ledger import AtomicLedger
-from memoria_audiovisual.statetech.parameter_coverage import build_coverage_matrix
-from memoria_audiovisual.statetech.raw_artifacts import RawArtifactStore
-from memoria_audiovisual.statetech.service import DigitalInfrastructureDataService
+from memoria_audiovisual.digital_infrastructure.ingestion import IngestionCoordinator, IngestionResult
+from memoria_audiovisual.digital_infrastructure.ingestion_batches import BatchManifestStore
+from memoria_audiovisual.digital_infrastructure.ledger import AtomicLedger
+from memoria_audiovisual.digital_infrastructure.parameter_coverage import build_coverage_matrix
+from memoria_audiovisual.digital_infrastructure.raw_artifacts import RawArtifactStore
+from memoria_audiovisual.digital_infrastructure.service import DigitalInfrastructureDataService
 
 OUTPUT_DIR = BASE_DIR / "data" / "output"
-STATE_DIR = BASE_DIR / "data" / "statetech"
+STATE_DIR = BASE_DIR / "data" / "digital_infrastructure"
 CSV_FILENAME = "digital_infrastructure_audit.csv"
 JSON_FILENAME = "digital_infrastructure_audit.json"
 DEFAULT_LEDGER = STATE_DIR / "ledger.jsonl"
@@ -173,14 +173,14 @@ def persist_coverage_if_enabled(payload: dict[str, Any], *, args: argparse.Names
     return manifest.to_dict()
 
 
-def run_statetech_mode(
+def run_digital_infrastructure_mode(
     records: list[dict[str, Any]],
     *,
     args: argparse.Namespace,
     coordinator: IngestionCoordinator | None = None,
 ) -> dict[str, Any]:
     if args.mode not in {"preview", "ledger"}:
-        raise ValueError("run_statetech_mode exige preview ou ledger")
+        raise ValueError("run_digital_infrastructure_mode exige preview ou ledger")
     active_coordinator = coordinator or build_coordinator(args)
     results: list[IngestionResult] = []
     for record in records:
@@ -241,7 +241,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"JSON: {json_path}")
         return 0
 
-    summary = run_statetech_mode(records, args=args)
+    summary = run_digital_infrastructure_mode(records, args=args)
     print(
         f"Modo {args.mode}: {summary['source_count']} fontes; "
         f"{summary['record_count']} observações; "

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/digital_infrastructure/data_flow.schema.json",
+  "title": "Data Flow",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["flow_id", "source_entity_id", "destination_entity_id", "flow_type", "validation_status"],
+  "properties": {
+    "flow_id": {"type": "string", "minLength": 1},
+    "source_entity_id": {"type": "string", "minLength": 1},
+    "destination_entity_id": {"type": "string", "minLength": 1},
+    "flow_type": {"type": "string", "enum": ["metadata_ingestion", "metadata_export", "media_streaming", "catalogue_synchronisation", "authentication_exchange", "analytics_tracking", "content_syndication", "api_query", "bulk_export", "manual_transfer", "other", "unknown"]},
+    "exchange_method": {"type": ["string", "null"]},
+    "data_format": {"type": ["string", "null"]},
+    "transfer_frequency": {"type": ["string", "null"]},
+    "personal_data_signal": {"type": ["boolean", "null"]},
+    "cross_border_data_flow": {"type": ["boolean", "null"]},
+    "third_party_processing": {"type": ["boolean", "null"]},
+    "automated_decision_signal": {"type": ["boolean", "null"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "validation_status": {"type": "string", "enum": ["pending_review", "confirmed", "probable", "inconclusive", "false_positive", "not_assessable"]}
+  }
+}
