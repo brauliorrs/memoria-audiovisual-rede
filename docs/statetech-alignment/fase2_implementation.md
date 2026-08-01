@@ -16,67 +16,80 @@ InfrastructureAudit
 → manifesto de lote
 → StatetechDataService
 → ledger
-→ revisão curatorial
+→ revisão curatorial append-only
 → materialização relacional controlada
 ```
 
-## Adaptador da auditoria
+## Componentes já implementados
 
-A saída agregada do coletor é desmembrada em uma observação por valor detectado. Cada observação recebe identificador, chave natural, snapshot, detector, evidência e proveniência.
+- adaptador da auditoria para observações, evidências e proveniência;
+- modos `legacy`, `preview` e `ledger` no executor;
+- preservação content-addressed da entrada bruta;
+- manifesto de lote com retomada idempotente;
+- materialização de observações confirmadas em tecnologia, relações e sistemas de IA;
+- manutenção de restrições fora de contratos relacionais incompatíveis.
 
-| Campo legado | Grupo normalizado |
-|---|---|
-| `cms` | `technology` |
-| `api_types` | `api_service` |
-| `metadata_formats` | `metadata_format` |
-| `interoperability_protocols` | `interoperability` |
-| `search_mechanisms` | `search` |
-| `access_restrictions` | `restriction` |
-| `ai_cataloguing_evidence` | `ai_evidence` |
+## Revisão curatorial append-only
 
-Detecções automáticas permanecem `pending_review`. Fontes inacessíveis geram `unknown` e `not_assessable`, nunca ausência tecnológica. Evidências textuais de IA recebem confiança baixa e não confirmam uso operacional.
+O `CuratorialReviewService` registra cada decisão como novo evento no ledger. Revisões anteriores não são alteradas ou apagadas.
 
-## Coordenador de ingestão
-
-O `IngestionCoordinator` oferece dois modos:
-
-- `preview`: adapta e valida o lote sem gravar entidades no ledger;
-- `commit`: pré-valida o lote e encaminha cada registro ao serviço central.
-
-Chaves naturais duplicadas dentro de um mesmo lote são bloqueadas antes da persistência.
-
-## Artefato bruto e retomada
-
-Quando `RawArtifactStore` e `BatchManifestStore` são configurados, a entrada original é serializada de forma canônica, identificada por SHA-256 e preservada antes do commit. O manifesto append-only registra `prepared`, `running`, `completed` e `failed`, permitindo retomada sem repetir chaves já concluídas.
-
-Essa retomada reduz duplicações causadas por interrupção, mas não transforma o JSONL em transação ACID.
-
-## Executor com três modos
-
-O script `scripts/audit_digital_infrastructure.py` oferece:
+Cada revisão preserva:
 
 ```text
-legacy  → CSV e JSON históricos
-preview → coleta, adaptação e validação sem commit
-ledger  → artefato bruto, manifesto e persistência controlada
+observation_id
+review_id
+reviewer_id
+reviewer_role
+decision
+justification
+evidence_ids
+conflict_of_interest_status
+reviewed_at
+supersedes_review_id
 ```
 
-`legacy` permanece como padrão. `preview` e `ledger` exigem `--snapshot-id`.
+Decisões admitidas:
 
-## Materialização curatorial
+```text
+confirmed
+probable
+inconclusive
+false_positive
+not_assessable
+needs_evidence
+```
 
-O `CuratorialMaterializer` atua depois da revisão humana. Ele não lê sinais pendentes como fatos e não confirma observações automaticamente.
+Uma nova revisão de uma observação já decidida precisa declarar explicitamente qual revisão anterior substitui. Assim, o estado atual é reconstruído a partir da cadeia histórica, sem sobrescrita.
 
-Uma observação só pode ser promovida quando reúne simultaneamente:
+Decisões `confirmed`, `probable` e `false_positive` exigem ao menos uma evidência vinculada. A justificativa textual é obrigatória em qualquer decisão.
+
+## Fila de revisão
+
+A exportação da fila reúne, por observação:
+
+- instituição e corpus;
+- grupo do detector;
+- valor detectado;
+- confiança automática;
+- URL da evidência;
+- estado curatorial atual.
+
+Por padrão, observações já revisadas são excluídas. Elas podem ser incluídas para auditoria ou revalidação.
+
+## Liberação para materialização
+
+A revisão não materializa diretamente. O serviço aplica a decisão mais recente à observação e somente libera para o `CuratorialMaterializer` quando:
 
 ```text
 review_status = confirmed
 detection_status = detected
-institution_id resolvido
-evidence_id existente
 ```
 
-Grupos com contrato relacional disponível são materializados assim:
+Além disso, a materialização continua exigindo `institution_id` resolvido e `evidence_id` existente. Decisões `probable`, `inconclusive`, `false_positive`, `not_assessable` ou `needs_evidence` permanecem fora da camada relacional.
+
+## Materialização curatorial
+
+Os grupos confirmados seguem este mapeamento:
 
 | Grupo confirmado | Entidade gerada | Relação gerada |
 |---|---|---|
@@ -87,19 +100,7 @@ Grupos com contrato relacional disponível são materializados assim:
 | `search` | `technology` | `institution_technology_relation` |
 | `ai_evidence` | `ai_system` | vínculo direto à instituição |
 
-A materialização de IA é deliberadamente conservadora: mesmo após confirmação da evidência, função e estágio de implantação permanecem `unknown` quando a observação não sustenta classificação mais específica.
-
-O grupo `restriction` ainda não é promovido, porque não existe contrato relacional próprio adequado. Ele permanece na observação curada com decisão `not_materialized`, evitando encaixá-lo artificialmente como tecnologia.
-
-Cada tentativa produz uma decisão explícita:
-
-```text
-promoted
-blocked
-not_materialized
-```
-
-Bloqueios registram razões como revisão não confirmada, detecção não positiva, ausência de instituição ou ausência de evidência.
+A materialização de IA permanece conservadora: função e estágio ficam `unknown` quando a evidência não sustenta classificação específica. Fornecedores não são inferidos pela simples detecção de uma tecnologia.
 
 ## Arquivos principais
 
@@ -109,11 +110,13 @@ src/memoria_audiovisual/statetech/digital_infrastructure_adapter.py
 src/memoria_audiovisual/statetech/ingestion.py
 src/memoria_audiovisual/statetech/raw_artifacts.py
 src/memoria_audiovisual/statetech/ingestion_batches.py
+src/memoria_audiovisual/statetech/curatorial_review.py
 src/memoria_audiovisual/statetech/materialization.py
 tests/test_audit_digital_infrastructure_modes.py
 tests/test_statetech_digital_infrastructure_adapter.py
 tests/test_statetech_ingestion.py
 tests/test_statetech_ingestion_artifacts.py
+tests/test_statetech_curatorial_review.py
 tests/test_statetech_materialization.py
 ```
 
@@ -121,26 +124,23 @@ tests/test_statetech_materialization.py
 
 1. Ausência de detecção não é ausência tecnológica.
 2. Nenhuma detecção é confirmada automaticamente.
-3. O modo histórico permanece o padrão seguro.
-4. `preview` não modifica o ledger.
-5. `ledger` exige snapshot explícito.
-6. Todos os contratos são validados antes do início do commit.
-7. A entrada bruta pode ser preservada de forma imutável e verificável.
-8. O manifesto permite retomada sem repetir chaves já concluídas.
-9. Somente observações confirmadas podem alimentar entidades relacionais.
-10. Grupos sem contrato adequado não são forçados para uma entidade incompatível.
-11. O serviço central continua responsável pela integridade referencial.
+3. Revisões são append-only e possuem cadeia explícita de substituição.
+4. Decisões críticas exigem justificativa e evidência.
+5. A fila separa observações pendentes das já revisadas.
+6. Somente a decisão mais recente e confirmada pode liberar materialização.
+7. Grupos sem contrato adequado não são forçados para entidades incompatíveis.
+8. O serviço central continua responsável pela integridade referencial.
 
 ## Limites atuais
 
 - nenhuma coleta ou migração histórica foi executada durante o desenvolvimento;
-- a materialização exige mapas explícitos de instituição e evidência;
-- a camada ainda não oferece interface de revisão humana;
-- fornecedores não são inferidos a partir da tecnologia detectada;
+- ainda não existe interface gráfica ou CLI para o revisor humano;
+- a identificação da instituição e das evidências continua dependendo de mapas explícitos;
+- não foi implementada assinatura digital da decisão;
+- a dupla revisão para casos de alto risco ainda não é aplicada automaticamente;
 - restrições aguardam contrato de domínio próprio;
-- a retomada depende de stores locais configurados em conjunto;
-- não há política automática de retenção dos artefatos brutos.
+- stores e manifestos permanecem locais.
 
 ## Próximo incremento
 
-Criar o fluxo de revisão curatorial das observações, com decisão append-only, identificação do revisor, justificativa, vínculo às evidências e exportação de uma fila de revisão. Depois, conectar somente decisões aprovadas ao `CuratorialMaterializer`.
+Criar uma interface operacional de revisão em arquivo/CLI, com exportação da fila em CSV ou JSON, importação validada das decisões e exigência de dupla revisão para grupos ou riscos sensíveis antes da materialização.
