@@ -15,7 +15,7 @@ from .models import EntityRecord, ProvenanceRecord
 from .validation import ContractValidator
 
 
-class StatetechDataService:
+class DigitalInfrastructureDataService:
     def __init__(self, ledger: AtomicLedger, schemas: SchemaRegistry) -> None:
         self.ledger = ledger
         self.schemas = schemas
@@ -106,7 +106,6 @@ class StatetechDataService:
                 f"decisão substituída inexistente: {decision.supersedes_decision_id}"
             )
 
-        # Verifica conflitos de redirecionamento incluindo a decisão candidata.
         build_redirect_map((*existing_decisions, decision))
         self.ledger.append(({"record_type": "entity_decision", "payload": payload},))
         return payload
