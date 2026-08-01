@@ -12,9 +12,9 @@ CORPORA existente
 → DigitalInfrastructureAuditAdapter
 → observação explícita para cada parâmetro esperado
 → matriz de cobertura por corpus e snapshot
-→ preview ou commit controlado
-→ ledger e revisão curatorial
+→ commit controlado no ledger
 → comparação longitudinal
+→ fila de revisão curatorial
 → materialização relacional controlada
 ```
 
@@ -39,18 +39,29 @@ O adaptador produz ao menos uma observação para cada grupo e snapshot. Assim, 
 Estados possíveis:
 
 ```text
-detected       → valor encontrado
-not_detected   → detector executado, sem sinal positivo
-not_assessable → superfície ou evidência insuficiente
-error           → falha de coleta ou processamento
-missing_observation → lacuna estrutural de execução antiga ou incompleta
+detected            → valor encontrado
+not_detected         → detector executado, sem sinal positivo
+not_assessable       → superfície ou evidência insuficiente
+error                → falha de coleta ou processamento
+missing_observation  → lacuna estrutural de execução antiga ou incompleta
 ```
 
 Para fontes inacessíveis, todos os grupos são registrados como `unknown` com revisão `not_assessable`. Para fontes alcançáveis sem sinal, o grupo recebe `not_detected`.
 
 ## Matriz de cobertura e comparação longitudinal
 
-O módulo `parameter_coverage.py` gera uma linha por corpus, snapshot e grupo. Ele permite identificar:
+O módulo `parameter_coverage.py` gera uma linha por corpus, snapshot e grupo. O módulo `coverage_reports.py` persiste a cobertura por snapshot e compara a rodada atual com a anterior.
+
+```text
+data/statetech/coverage/
+├── snapshot_coverage_index.jsonl
+└── <snapshot_id>/
+    ├── parameter_coverage.json
+    ├── parameter_changes.json
+    └── execution_summary.json
+```
+
+A primeira execução ampliada cria a linha de base. As execuções seguintes podem registrar:
 
 ```text
 baseline_created
@@ -63,9 +74,44 @@ error
 still_missing
 ```
 
-Dessa forma, o mesmo ciclo periódico usado para acompanhar apagamento, desaparecimento e alteração do acervo também pode completar os parâmetros ausentes dos corpora antigos e comparar a infraestrutura digital entre snapshots.
+Dessa forma, o mesmo ciclo periódico usado para acompanhar apagamento, desaparecimento e alteração do acervo também completa os parâmetros ausentes dos corpora antigos e compara a infraestrutura digital entre snapshots.
 
-A primeira execução com os detectores ampliados cria a linha de base. As execuções seguintes distinguem adoção, desaparecimento e mudança de tecnologias, APIs, formatos, interoperabilidade, busca, restrições e sinais de IA.
+## Workflow periódico
+
+O arquivo `.github/workflows/statetech-periodic-review.yml` conecta o executor ao GitHub Actions.
+
+A execução está configurada para:
+
+- rodar mensalmente no primeiro dia do mês, às 03:17 UTC;
+- permitir execução manual com `workflow_dispatch`;
+- gerar automaticamente um `snapshot_id` UTC quando ele não for informado;
+- impedir duas rodadas concorrentes;
+- restaurar o diretório `data/statetech` da rodada anterior;
+- executar o auditor em modo `ledger`;
+- verificar a presença dos produtos obrigatórios;
+- salvar o estado atualizado para a rodada seguinte;
+- publicar os relatórios do snapshot como artefato por 90 dias.
+
+A memória entre runners efêmeros é preservada por cache versionado por execução, com restauração pela chave comum `statetech-state-`. O cache não é tratado como produto público: os relatórios de cada rodada também são publicados como artefatos independentes.
+
+O operador pode limitar uma execução manual a corpora específicos ou fornecer um identificador próprio de snapshot. O identificador é validado antes da coleta e os relatórios de um snapshot já existente não podem ser sobrescritos.
+
+## Ordem segura da rodada
+
+```text
+checkout
+→ instalação de dependências
+→ restauração da memória anterior
+→ geração e validação do snapshot_id
+→ auditoria dos corpora ativos
+→ ledger e manifestos
+→ cobertura e comparação longitudinal
+→ verificação dos produtos
+→ salvamento do estado
+→ publicação do artefato
+```
+
+O estado só é salvo para a próxima rodada quando a execução termina com sucesso. A publicação do artefato usa `if: always()` para preservar relatórios diagnósticos quando eles existirem, inclusive em uma rodada parcialmente malsucedida.
 
 ## Revisão e materialização
 
@@ -80,14 +126,17 @@ O `HistoricalMigrationAnalyzer` permanece disponível apenas para CSV/JSON anter
 ## Arquivos principais
 
 ```text
+.github/workflows/statetech-periodic-review.yml
 scripts/audit_digital_infrastructure.py
 src/memoria_audiovisual/statetech/digital_infrastructure_adapter.py
 src/memoria_audiovisual/statetech/parameter_coverage.py
+src/memoria_audiovisual/statetech/coverage_reports.py
 src/memoria_audiovisual/statetech/curatorial_review.py
 src/memoria_audiovisual/statetech/materialization.py
 src/memoria_audiovisual/statetech/historical_migration.py
 tests/test_statetech_digital_infrastructure_adapter.py
 tests/test_statetech_parameter_coverage.py
+tests/test_statetech_coverage_reports.py
 ```
 
 ## Garantias metodológicas
@@ -97,18 +146,20 @@ tests/test_statetech_parameter_coverage.py
 3. Não detecção não é confundida com detector não executado.
 4. A primeira rodada ampliada cria a linha de base dos corpora antigos.
 5. Rodadas seguintes podem indicar aparecimento, desaparecimento ou mudança.
-6. Nenhuma detecção é confirmada automaticamente.
-7. Somente detecções positivas confirmadas podem ser materializadas.
-8. Migração histórica permanece opcional e separada da revisão normal do corpus.
+6. Relatórios históricos de snapshots não são sobrescritos.
+7. O estado longitudinal é restaurado antes da nova coleta.
+8. Nenhuma detecção é confirmada automaticamente.
+9. Somente detecções positivas confirmadas podem ser materializadas.
+10. Migração histórica permanece opcional e separada da revisão normal do corpus.
 
 ## Limites atuais
 
-- nenhuma coleta, teste ou comparação empírica foi executada durante o desenvolvimento;
-- o agendamento periódico existente ainda precisa chamar o modo `ledger` com `snapshot_id` explícito;
-- a matriz está implementada como componente, mas ainda não é exportada automaticamente pelo executor;
-- não existe interface gráfica;
-- artefatos e manifestos permanecem locais.
+- nenhuma coleta, teste, workflow ou comparação empírica foi executada durante o desenvolvimento;
+- o cache do GitHub Actions é infraestrutura operacional e não substitui uma política futura de armazenamento durável externo;
+- artefatos do workflow têm retenção configurada em 90 dias;
+- a seleção do snapshot anterior segue a ordem append-only do índice, sem inferir cronologia pelo texto do identificador;
+- ainda não existe interface gráfica.
 
 ## Próximo incremento
 
-Integrar a matriz de cobertura ao resultado do executor e ao ciclo periódico, salvando por snapshot o relatório de completude e, quando houver snapshot anterior, o relatório de mudanças Estado–tecnologia junto aos demais indicadores de memória.
+Adicionar um validador pré-execução do ciclo periódico, capaz de verificar contratos, caminhos, identificadores, disponibilidade da memória anterior e consistência do índice de snapshots antes de permitir a coleta.
