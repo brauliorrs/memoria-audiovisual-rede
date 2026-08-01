@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "status": "structural_only",
+  "execution_performed": false,
+  "schemas": [
+    {"entity": "institution", "path": "schemas/statetech/institution.schema.json"},
+    {"entity": "provider", "path": "schemas/statetech/provider.schema.json"},
+    {"entity": "technology", "path": "schemas/statetech/technology.schema.json"},
+    {"entity": "institution_technology_relationship", "path": "schemas/statetech/institution_technology_relationship.schema.json"},
+    {"entity": "procurement_contract", "path": "schemas/statetech/procurement_contract.schema.json"},
+    {"entity": "data_flow", "path": "schemas/statetech/data_flow.schema.json"},
+    {"entity": "ai_system", "path": "schemas/statetech/ai_system.schema.json"},
+    {"entity": "evidence", "path": "schemas/statetech/evidence.schema.json"},
+    {"entity": "risk_assessment", "path": "schemas/statetech/risk_assessment.schema.json"}
+  ],
+  "publication_rule": "Only confirmed or explicitly curated records may feed public indicators.",
+  "absence_rule": "Non-detection must not be interpreted as technological absence."
+}
