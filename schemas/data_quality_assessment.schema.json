@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoria-audiovisual-rede/schemas/data_quality_assessment.schema.json",
+  "title": "Data quality assessment",
+  "type": "object",
+  "required": [
+    "quality_assessment_id",
+    "object_type",
+    "object_id",
+    "object_version_id",
+    "quality_model_version",
+    "assessed_at",
+    "assessor_agent_id",
+    "dimensions",
+    "maturity_level",
+    "fitness_for_use"
+  ],
+  "properties": {
+    "quality_assessment_id": {"type": "string", "minLength": 1},
+    "object_type": {"type": "string", "minLength": 1},
+    "object_id": {"type": "string", "minLength": 1},
+    "object_version_id": {"type": "string", "minLength": 1},
+    "snapshot_id": {"type": ["string", "null"]},
+    "quality_model_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "assessed_at": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": ["string", "null"], "format": "date-time"},
+    "assessor_agent_id": {"type": "string", "minLength": 1},
+    "dimensions": {
+      "type": "object",
+      "required": ["completeness", "timeliness", "consistency", "traceability", "evidence_strength", "coverage", "comparability", "reproducibility", "curatorial_confidence", "fitness_for_use"],
+      "additionalProperties": false,
+      "properties": {
+        "completeness": {"$ref": "#/$defs/score"},
+        "timeliness": {"$ref": "#/$defs/score"},
+        "consistency": {"$ref": "#/$defs/score"},
+        "traceability": {"$ref": "#/$defs/score"},
+        "evidence_strength": {"$ref": "#/$defs/score"},
+        "coverage": {"$ref": "#/$defs/score"},
+        "comparability": {"$ref": "#/$defs/score"},
+        "reproducibility": {"$ref": "#/$defs/score"},
+        "curatorial_confidence": {"$ref": "#/$defs/score"},
+        "fitness_for_use": {"$ref": "#/$defs/score"}
+      }
+    },
+    "assessment_coverage": {"type": "number", "minimum": 0, "maximum": 1},
+    "aggregate_score": {"type": ["number", "null"], "minimum": 0, "maximum": 4},
+    "maturity_level": {
+      "enum": ["M0_unregistered", "M1_observed", "M2_structured", "M3_reviewed", "M4_research_ready", "M5_publication_ready", "M6_longitudinal_ready"]
+    },
+    "fitness_for_use": {
+      "type": "object",
+      "additionalProperties": {"enum": ["approved", "approved_with_limits", "not_approved", "not_assessed"]}
+    },
+    "critical_blockers": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "justification": {"type": "string"},
+    "supersedes_assessment_id": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "score": {
+      "type": "object",
+      "required": ["value", "status"],
+      "properties": {
+        "value": {"type": "integer", "minimum": 0, "maximum": 4},
+        "status": {"enum": ["not_assessed", "insufficient", "limited", "adequate", "strong"]},
+        "note": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    }
+  }
+}
