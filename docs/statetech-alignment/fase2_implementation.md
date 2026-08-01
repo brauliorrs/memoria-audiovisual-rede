@@ -7,103 +7,108 @@ Conectar a auditoria heurística de infraestrutura digital ao núcleo de dados e
 ## Fluxo implementado
 
 ```text
-InfrastructureAudit
+CORPORA existente
+→ revisão periódica das superfícies públicas
 → DigitalInfrastructureAuditAdapter
-→ observações normalizadas por sinal
-→ IngestionCoordinator
+→ observação explícita para cada parâmetro esperado
+→ matriz de cobertura por corpus e snapshot
 → preview ou commit controlado
-→ artefato bruto e manifesto
-→ ledger
-→ fila de revisão CSV/JSON
-→ decisões humanas append-only
-→ dupla revisão quando sensível
+→ ledger e revisão curatorial
+→ comparação longitudinal
 → materialização relacional controlada
 ```
 
-## Interface operacional de revisão
+## Cobertura dos corpora existentes
 
-O script `scripts/review_statetech_observations.py` exporta a fila em CSV/JSON e importa decisões validadas para o ledger append-only. Observações sensíveis exigem duas confirmações de revisores distintos; conflitos de interesse podem impedir que uma confirmação conte para o quórum.
+A auditoria continua partindo do registro `CORPORA`; não cria um corpus paralelo. Cada nova execução aplica os detectores atuais também aos corpora incorporados antes da ampliação Estado–tecnologia.
 
-## Materialização
-
-Somente observações com detecção positiva, decisão `confirmed`, quórum suficiente, instituição resolvida e evidência existente podem ser encaminhadas ao `CuratorialMaterializer`. Fornecedores não são inferidos pela mera detecção de tecnologia. Restrições continuam fora da materialização até existir contrato de domínio próprio.
-
-## Preparação da migração histórica
-
-O módulo `HistoricalMigrationAnalyzer` e o script `scripts/prepare_statetech_historical_migration.py` analisam CSV ou JSON legados exclusivamente em modo `dry-run`.
+Os sete grupos obrigatórios são:
 
 ```text
-arquivo histórico
-→ leitura sem persistência
-→ normalização mínima
-→ verificação de campos obrigatórios
-→ detecção de chaves duplicadas
-→ contagem de sinais migráveis
-→ identificação de campos desconhecidos
-→ relatório JSON de compatibilidade
+technology
+api_service
+metadata_format
+interoperability
+search
+restriction
+ai_evidence
 ```
 
-Exemplo:
+O adaptador produz ao menos uma observação para cada grupo e snapshot. Assim, ausência de linha deixa de ser confundida com ausência do parâmetro.
 
-```powershell
-python scripts/prepare_statetech_historical_migration.py --input data/output/digital_infrastructure_audit.json --report data/migration/historical_report.json --fail-on-blocked
-```
-
-O relatório classifica cada linha como:
+Estados possíveis:
 
 ```text
-compatible
-review_required
-blocked
+detected       → valor encontrado
+not_detected   → detector executado, sem sinal positivo
+not_assessable → superfície ou evidência insuficiente
+error           → falha de coleta ou processamento
+missing_observation → lacuna estrutural de execução antiga ou incompleta
 ```
 
-Códigos iniciais:
+Para fontes inacessíveis, todos os grupos são registrados como `unknown` com revisão `not_assessable`. Para fontes alcançáveis sem sinal, o grupo recebe `not_detected`.
 
-- `MIG-001`: campos obrigatórios ausentes;
-- `MIG-002`: registro sem sinais tecnológicos migráveis;
-- `MIG-003`: chave histórica duplicada;
-- `MIG-004`: campo não reconhecido, preservado somente no artefato bruto.
+## Matriz de cobertura e comparação longitudinal
 
-A chave de comparação inicial usa `corpus_code|source_url`. Todas as ocorrências de uma chave duplicada são bloqueadas para impedir seleção silenciosa de uma versão. Campos desconhecidos não são descartados nem promovidos automaticamente.
+O módulo `parameter_coverage.py` gera uma linha por corpus, snapshot e grupo. Ele permite identificar:
 
-O dry-run não cria artefatos de ingestão, manifestos, entidades, evidências ou transações no ledger. O único arquivo produzido é o relatório solicitado pelo operador.
+```text
+baseline_created
+unchanged
+appeared
+disappeared
+changed
+not_assessable
+error
+still_missing
+```
+
+Dessa forma, o mesmo ciclo periódico usado para acompanhar apagamento, desaparecimento e alteração do acervo também pode completar os parâmetros ausentes dos corpora antigos e comparar a infraestrutura digital entre snapshots.
+
+A primeira execução com os detectores ampliados cria a linha de base. As execuções seguintes distinguem adoção, desaparecimento e mudança de tecnologias, APIs, formatos, interoperabilidade, busca, restrições e sinais de IA.
+
+## Revisão e materialização
+
+O script `scripts/review_statetech_observations.py` exporta filas em CSV/JSON e importa decisões para o ledger append-only. Observações sensíveis exigem duas confirmações independentes.
+
+Somente detecções positivas confirmadas, com quórum suficiente, instituição resolvida e evidência existente, podem ser encaminhadas ao `CuratorialMaterializer`. Registros `not_detected`, `unknown` ou `not_assessable` permanecem como memória metodológica e nunca geram entidades tecnológicas.
+
+## Preparação histórica
+
+O `HistoricalMigrationAnalyzer` permanece disponível apenas para CSV/JSON anteriores que se queira incorporar como observações retrospectivas. Ele não é necessário para que os corpora existentes recebam os novos parâmetros: isso ocorre naturalmente na próxima revisão periódica.
 
 ## Arquivos principais
 
 ```text
 scripts/audit_digital_infrastructure.py
-scripts/review_statetech_observations.py
-scripts/prepare_statetech_historical_migration.py
+src/memoria_audiovisual/statetech/digital_infrastructure_adapter.py
+src/memoria_audiovisual/statetech/parameter_coverage.py
 src/memoria_audiovisual/statetech/curatorial_review.py
-src/memoria_audiovisual/statetech/review_files.py
 src/memoria_audiovisual/statetech/materialization.py
 src/memoria_audiovisual/statetech/historical_migration.py
-tests/test_statetech_curatorial_review.py
-tests/test_statetech_review_files.py
-tests/test_statetech_historical_migration.py
+tests/test_statetech_digital_infrastructure_adapter.py
+tests/test_statetech_parameter_coverage.py
 ```
 
 ## Garantias metodológicas
 
-1. Nenhuma detecção é confirmada automaticamente.
-2. Revisões são append-only e possuem cadeia explícita de substituição.
-3. Observações sensíveis exigem dois revisores distintos.
-4. Somente o estado curatorial vigente e suficiente libera materialização.
-5. Fornecedores não são inferidos pela mera detecção de tecnologia.
-6. A migração histórica começa obrigatoriamente por dry-run.
-7. Duplicidades e campos ausentes bloqueiam a migração automática.
-8. Campos desconhecidos são reportados e preservados no arquivo de origem.
+1. O corpus existente continua sendo a unidade de origem.
+2. Todos os grupos de parâmetros recebem estado explícito em cada nova revisão.
+3. Não detecção não é confundida com detector não executado.
+4. A primeira rodada ampliada cria a linha de base dos corpora antigos.
+5. Rodadas seguintes podem indicar aparecimento, desaparecimento ou mudança.
+6. Nenhuma detecção é confirmada automaticamente.
+7. Somente detecções positivas confirmadas podem ser materializadas.
+8. Migração histórica permanece opcional e separada da revisão normal do corpus.
 
 ## Limites atuais
 
-- nenhuma coleta, migração histórica ou teste foi executado durante o desenvolvimento;
-- o analisador não grava no ledger e ainda não gera plano executável de ingestão;
-- a equivalência entre colunas históricas de diferentes versões ainda depende de regras explícitas;
+- nenhuma coleta, teste ou comparação empírica foi executada durante o desenvolvimento;
+- o agendamento periódico existente ainda precisa chamar o modo `ledger` com `snapshot_id` explícito;
+- a matriz está implementada como componente, mas ainda não é exportada automaticamente pelo executor;
 - não existe interface gráfica;
-- a importação de revisões não oferece rollback global do lote;
-- não há assinatura digital das decisões;
 - artefatos e manifestos permanecem locais.
 
 ## Próximo incremento
 
-Criar um plano de migração versionado a partir de relatórios sem bloqueios, com mapeamento explícito de colunas, snapshot histórico obrigatório, hash do arquivo de origem e comando separado de `apply` protegido por confirmação. O modo `apply` não deverá ser executado durante o desenvolvimento estrutural.
+Integrar a matriz de cobertura ao resultado do executor e ao ciclo periódico, salvando por snapshot o relatório de completude e, quando houver snapshot anterior, o relatório de mudanças Estado–tecnologia junto aos demais indicadores de memória.
