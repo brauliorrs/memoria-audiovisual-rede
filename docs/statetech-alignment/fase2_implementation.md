@@ -2,62 +2,25 @@
 
 ## Objetivo
 
-Conectar a auditoria heurística de infraestrutura digital ao núcleo de dados e proveniência concluído na Fase 1, sem executar coleta e sem publicar resultados.
+Conectar a auditoria heurística de infraestrutura digital ao núcleo de dados e proveniência da Fase 1, sem executar coleta e sem publicar resultados.
 
 ## Fluxo implementado
 
 ```text
 InfrastructureAudit
 → DigitalInfrastructureAuditAdapter
-→ uma observação normalizada por sinal
-→ evidência vinculada
-→ proveniência vinculada
-→ AdaptedRecord
+→ observações normalizadas por sinal
 → IngestionCoordinator
-→ pré-visualização validada ou commit controlado
+→ preview validado ou commit controlado
+→ artefato bruto imutável
+→ manifesto de lote
 → StatetechDataService
+→ ledger
 ```
 
 ## Adaptador da auditoria
 
-A saída agregada do coletor é desmembrada em uma observação por valor detectado. Cada observação recebe `observation_id`, chave natural, snapshot, detector, versão, evidência e proveniência.
-
-Regras metodológicas:
-
-1. Toda detecção permanece `pending_review` até decisão curatorial.
-2. Fontes inacessíveis geram `unknown` e `not_assessable`, nunca ausência tecnológica.
-3. Evidências textuais de IA recebem confiança baixa e não significam uso operacional confirmado.
-4. O adaptador transforma dados, mas não grava no ledger e não publica.
-5. A auditoria original permanece preservada.
-
-## Coordenador de ingestão
-
-O `IngestionCoordinator` separa dois modos:
-
-### Preview
-
-```text
-adaptar
-→ validar o adaptador
-→ validar todos os contratos
-→ detectar chaves duplicadas no lote
-→ devolver plano de ingestão
-→ não modificar o ledger
-```
-
-### Commit
-
-```text
-adaptar
-→ pré-validar o lote completo
-→ encaminhar cada registro ao StatetechDataService
-→ persistir entidade, evidências e proveniência
-→ devolver entity_id e version_id
-```
-
-A pré-validação impede que um erro de contrato encontrado no meio do lote inicie a persistência. Ainda assim, o commit ocorre registro a registro, porque a unidade transacional da Fase 1 é uma entidade com suas evidências e proveniência. Uma falha externa durante a escrita de um lote pode, portanto, exigir retomada controlada.
-
-## Mapeamento inicial
+A saída agregada do coletor é desmembrada em uma observação por valor detectado. Cada observação recebe identificador, chave natural, snapshot, detector, evidência e proveniência.
 
 | Campo legado | Grupo normalizado |
 |---|---|
@@ -69,39 +32,101 @@ A pré-validação impede que um erro de contrato encontrado no meio do lote ini
 | `access_restrictions` | `restriction` |
 | `ai_cataloguing_evidence` | `ai_evidence` |
 
-## Arquivos
+Detecções automáticas permanecem `pending_review`. Fontes inacessíveis geram `unknown` e `not_assessable`, nunca ausência tecnológica. Evidências textuais de IA recebem confiança baixa e não confirmam uso operacional.
+
+## Coordenador de ingestão
+
+O `IngestionCoordinator` oferece dois modos:
+
+- `preview`: adapta e valida o lote sem gravar entidades no ledger;
+- `commit`: pré-valida o lote e encaminha cada registro ao serviço central.
+
+Chaves naturais duplicadas dentro de um mesmo lote são bloqueadas antes da persistência.
+
+## Artefato bruto
+
+Quando `RawArtifactStore` e `BatchManifestStore` são configurados, a entrada original é serializada de forma canônica e preservada antes do commit.
+
+```text
+conteúdo bruto
+→ JSON canônico
+→ SHA-256
+→ artifact_id content-addressed
+→ arquivo imutável e deduplicado
+```
+
+O mesmo conteúdo produz sempre o mesmo `artifact_id`. O identificador do artefato é acrescentado a `input_artifact_ids` da proveniência de cada registro persistido.
+
+## Manifesto e retomada idempotente
+
+O `batch_id` é derivado de:
+
+```text
+adapter_name
++ adapter_version
++ source_artifact_id
+```
+
+O manifesto append-only registra os estados:
+
+```text
+prepared
+running
+completed
+failed
+```
+
+Após cada registro concluído, a respectiva combinação `entity_type:natural_key` é acrescentada ao manifesto. Se a ingestão for interrompida, uma nova chamada com o mesmo conteúdo e a mesma versão do adaptador:
+
+1. localiza o mesmo lote;
+2. recupera as chaves já concluídas;
+3. não grava novamente esses registros;
+4. continua a partir dos registros restantes;
+5. encerra o lote como `completed` ou registra nova falha.
+
+Essa retomada evita duplicação causada por interrupção do processo, mas não substitui a integridade do serviço central nem transforma o JSONL em transação ACID.
+
+## Arquivos principais
 
 ```text
 src/memoria_audiovisual/statetech/digital_infrastructure_adapter.py
 src/memoria_audiovisual/statetech/ingestion.py
+src/memoria_audiovisual/statetech/raw_artifacts.py
+src/memoria_audiovisual/statetech/ingestion_batches.py
 tests/test_statetech_digital_infrastructure_adapter.py
 tests/test_statetech_ingestion.py
+tests/test_statetech_ingestion_artifacts.py
 ```
 
-## Garantias atuais
+## Garantias metodológicas
 
-- ausência de detecção não é convertida em ausência de tecnologia;
-- nenhuma detecção é confirmada automaticamente;
-- preview não persiste dados;
-- todos os registros são validados antes do início do commit;
-- chaves naturais duplicadas no mesmo lote são rejeitadas;
-- adaptadores não acessam diretamente o ledger;
-- o serviço central permanece responsável pela integridade e persistência.
+1. Ausência de detecção não é ausência tecnológica.
+2. Nenhuma detecção é confirmada automaticamente.
+3. Adaptadores não coletam, persistem ou publicam.
+4. Preview não modifica o ledger.
+5. Todos os contratos são validados antes do início do commit.
+6. A entrada bruta pode ser preservada de forma imutável e verificável.
+7. O manifesto permite retomada sem repetir chaves já concluídas.
+8. O serviço central continua responsável pela integridade referencial.
 
 ## Limites atuais
 
-- não altera o script de coleta;
-- não executa auditoria;
-- não cria instituições, tecnologias ou fornecedores como entidades relacionais;
-- não preserva ainda o artefato bruto da resposta HTTP;
-- não resolve automaticamente URLs de evidência específicas para cada sinal;
-- não migra os CSV/JSON históricos;
-- não oferece retomada automática de lote parcialmente persistido.
+- o executor existente ainda não oferece modos `preview` e `ledger`;
+- nenhuma coleta ou migração histórica foi executada;
+- tecnologias e fornecedores ainda não são materializados como entidades relacionais;
+- a retomada depende de stores locais configurados em conjunto;
+- o manifesto é append-only local, não um coordenador distribuído;
+- alteração da versão do adaptador gera um novo lote, mesmo para a mesma fonte;
+- não há ainda política automática de retenção dos artefatos brutos.
 
-## Próximos incrementos
+## Próximo incremento
 
-1. Preservar a saída bruta da auditoria como artefato de proveniência com hash.
-2. Adaptar o executor para oferecer modo legado, preview e ledger.
-3. Criar manifesto de lote e mecanismo de retomada idempotente.
-4. Materializar tecnologias, APIs e protocolos confirmados como entidades relacionais.
-5. Preparar migração controlada de arquivos históricos, sem execução automática.
+Adaptar o executor da auditoria para oferecer explicitamente:
+
+```text
+legacy  → CSV/JSON atuais
+preview → validação e plano sem commit
+ledger  → artefato bruto, manifesto e persistência controlada
+```
+
+Depois, materializar tecnologias, APIs e protocolos confirmados como entidades relacionais, sem promover sinais pendentes automaticamente.
