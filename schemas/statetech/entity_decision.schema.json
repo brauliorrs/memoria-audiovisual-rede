@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/statetech/entity_decision.schema.json",
+  "title": "Decisão curatorial sobre entidades",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decision_id", "decision_type", "source_entity_ids", "target_entity_ids", "rationale", "decided_by", "status", "decided_at"],
+  "properties": {
+    "decision_id": {"type": "string", "minLength": 1},
+    "decision_type": {"type": "string", "enum": ["merge", "split", "redirect", "keep_separate"]},
+    "source_entity_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "target_entity_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "rationale": {"type": "string", "minLength": 1},
+    "decided_by": {"type": "string", "minLength": 1},
+    "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "status": {"type": "string", "enum": ["proposed", "approved", "rejected", "superseded"]},
+    "decided_at": {"type": "string", "format": "date-time"},
+    "supersedes_decision_id": {"type": ["string", "null"]}
+  }
+}
