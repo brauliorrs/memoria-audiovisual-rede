@@ -8,6 +8,7 @@ from typing import Any
 from .contracts import SchemaRegistry
 from .evidence import EvidenceRecord
 from .ids import stable_id
+from .integrity import IntegrityValidator
 from .ledger import AtomicLedger
 from .models import EntityRecord, ProvenanceRecord
 from .validation import ContractValidator
@@ -18,6 +19,7 @@ class StatetechDataService:
         self.ledger = ledger
         self.schemas = schemas
         self.validator = ContractValidator(schemas)
+        self.integrity = IntegrityValidator(ledger)
 
     def register_entity(
         self,
@@ -28,6 +30,7 @@ class StatetechDataService:
         provenance: ProvenanceRecord,
         evidences: tuple[EvidenceRecord, ...] = (),
         previous_version_id: str | None = None,
+        referenced_entity_ids: tuple[str, ...] = (),
     ) -> EntityRecord:
         entity_id = stable_id(entity_type, natural_key)
         schema_record = dict(payload)
@@ -42,13 +45,31 @@ class StatetechDataService:
         )
         evidence_payloads = tuple(evidence.to_dict() for evidence in evidences)
         evidence_ids = tuple(str(item["evidence_id"]) for item in evidence_payloads)
+        linked_evidence_ids = tuple(
+            dict.fromkeys((*provenance.evidence_ids, *evidence_ids))
+        )
+
+        self.integrity.validate_entity_version(
+            entity_id=entity_id,
+            version_id=entity.version_id,
+            previous_version_id=previous_version_id,
+        )
+        self.integrity.validate_evidence_ids(evidence_ids)
+        self.integrity.validate_entity_references(referenced_entity_ids)
+        self.integrity.validate_evidence_references(
+            linked_evidence_ids,
+            pending_evidence_ids=evidence_ids,
+        )
+
         linked_provenance = replace(
             provenance,
             entity_type=entity_type,
             entity_id=entity_id,
             version_id=entity.version_id,
-            evidence_ids=tuple(dict.fromkeys((*provenance.evidence_ids, *evidence_ids))),
-            output_record_ids=tuple(dict.fromkeys((*provenance.output_record_ids, entity.version_id))),
+            evidence_ids=linked_evidence_ids,
+            output_record_ids=tuple(
+                dict.fromkeys((*provenance.output_record_ids, entity.version_id))
+            ),
         )
 
         records: list[dict[str, Any]] = [
