@@ -167,6 +167,18 @@ jobs:
             --report "${STATETECH_STATE_DIR}/postflight/${SNAPSHOT_ID}.json"
           test -s "${STATETECH_STATE_DIR}/postflight/${SNAPSHOT_ID}.json"
 
+      - name: Triar eventos longitudinais
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ steps.snapshot.outputs.snapshot_id }}
+        run: |
+          set -euo pipefail
+          python scripts/triage_statetech_longitudinal_events.py \
+            --snapshot-id "${SNAPSHOT_ID}" \
+            --coverage-dir "${STATETECH_STATE_DIR}/coverage" \
+            --output "${STATETECH_STATE_DIR}/triage/${SNAPSHOT_ID}.json"
+          test -s "${STATETECH_STATE_DIR}/triage/${SNAPSHOT_ID}.json"
+
       - name: Consolidar memória na branch histórica
         if: success()
         shell: bash
@@ -180,8 +192,6 @@ jobs:
           rm -rf ".statetech-history/${STATETECH_STATE_DIR}"
           mkdir -p ".statetech-history/${STATETECH_STATE_DIR}"
           cp -a "${STATETECH_STATE_DIR}/." ".statetech-history/${STATETECH_STATE_DIR}/"
-
-          # Entradas brutas podem crescer rapidamente e terão armazenamento próprio.
           rm -rf ".statetech-history/${STATETECH_STATE_DIR}/raw_artifacts"
 
           cd .statetech-history
@@ -201,6 +211,7 @@ jobs:
           path: |
             data/statetech/preflight/${{ steps.snapshot.outputs.snapshot_id }}.json
             data/statetech/postflight/${{ steps.snapshot.outputs.snapshot_id }}.json
+            data/statetech/triage/${{ steps.snapshot.outputs.snapshot_id }}.json
             data/statetech/coverage/${{ steps.snapshot.outputs.snapshot_id }}/
             data/statetech/coverage/snapshot_coverage_index.jsonl
             data/statetech/ingestion_batches.jsonl
