@@ -37,7 +37,7 @@ from memoria_audiovisual.statetech.ingestion_batches import BatchManifestStore
 from memoria_audiovisual.statetech.ledger import AtomicLedger
 from memoria_audiovisual.statetech.parameter_coverage import build_coverage_matrix
 from memoria_audiovisual.statetech.raw_artifacts import RawArtifactStore
-from memoria_audiovisual.statetech.service import StatetechDataService
+from memoria_audiovisual.statetech.service import DigitalInfrastructureDataService
 
 OUTPUT_DIR = BASE_DIR / "data" / "output"
 STATE_DIR = BASE_DIR / "data" / "statetech"
@@ -125,7 +125,7 @@ def write_legacy_outputs(records: list[dict[str, Any]]) -> tuple[Path, Path]:
 
 def build_coordinator(args: argparse.Namespace) -> IngestionCoordinator:
     registry = SchemaRegistry(BASE_DIR)
-    service = StatetechDataService(AtomicLedger(args.ledger_path), registry)
+    service = DigitalInfrastructureDataService(AtomicLedger(args.ledger_path), registry)
     if args.mode == "ledger":
         return IngestionCoordinator(
             service,
