@@ -1,0 +1,1 @@
+risk_id,institution_id,risk_dimension,risk_level,affected_technology_ids,affected_provider_ids,assessment_rule_version,evidence_ids,mitigation_detected,reviewer_rationale,validation_status,assessment_date
