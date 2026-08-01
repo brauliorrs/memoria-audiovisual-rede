@@ -1,0 +1,108 @@
+name: Refatorar nomenclatura de infraestrutura digital
+
+on:
+  push:
+    branches:
+      - feature/fase2-adaptador-auditoria-infraestrutura
+
+permissions:
+  contents: write
+
+jobs:
+  refactor:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/fase2-adaptador-auditoria-infraestrutura
+          fetch-depth: 0
+
+      - name: Substituir nomenclatura em caminhos e conteúdos
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+
+          root = Path('.')
+          self_path = Path('.github/workflows/refactor-digital-infrastructure.yml')
+
+          replacements = [
+              ('statetech-history', 'digital-infrastructure-history'),
+              ('statetech-periodic-review', 'digital-infrastructure-periodic-review'),
+              ('statetech-alignment', 'digital-infrastructure-alignment'),
+              ('statetech-', 'digital-infrastructure-'),
+              ('STATETECH', 'DIGITAL_INFRASTRUCTURE'),
+              ('Statetech', 'Digital Infrastructure'),
+              ('statetech', 'digital_infrastructure'),
+              ('Estado–tecnologia', 'infraestrutura digital'),
+              ('Estado-tecnologia', 'infraestrutura digital'),
+              ('Estado–Tecnologia', 'Infraestrutura digital'),
+              ('Estado-Tecnologia', 'Infraestrutura digital'),
+          ]
+
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          tracked = [Path(item) for item in tracked if item and Path(item) != self_path]
+
+          def renamed(path: Path) -> Path:
+              text = path.as_posix()
+              if text == '.github/workflows/statetech-periodic-review.yml':
+                  text = '.github/workflows/digital-infrastructure-periodic-review.yml'
+              elif text.startswith('docs/statetech-alignment/'):
+                  text = text.replace('docs/statetech-alignment/', 'docs/digital-infrastructure-alignment/', 1)
+              else:
+                  text = text.replace('statetech', 'digital_infrastructure')
+              return Path(text)
+
+          for old in tracked:
+              if not old.exists() or not old.is_file():
+                  continue
+              raw = old.read_bytes()
+              try:
+                  text = raw.decode('utf-8')
+              except UnicodeDecodeError:
+                  continue
+              for source, target in replacements:
+                  text = text.replace(source, target)
+              new = renamed(old)
+              new.parent.mkdir(parents=True, exist_ok=True)
+              new.write_text(text, encoding='utf-8')
+              if new != old:
+                  subprocess.run(['git', 'rm', '-f', '--ignore-unmatch', old.as_posix()], check=True)
+                  subprocess.run(['git', 'add', new.as_posix()], check=True)
+              else:
+                  subprocess.run(['git', 'add', old.as_posix()], check=True)
+
+          subprocess.run(['git', 'rm', '-f', self_path.as_posix()], check=True)
+
+          forbidden = []
+          for path in root.rglob('*'):
+              if not path.is_file() or '.git' in path.parts:
+                  continue
+              if 'statetech' in path.as_posix().casefold():
+                  forbidden.append(path.as_posix())
+                  continue
+              try:
+                  text = path.read_text(encoding='utf-8')
+              except (UnicodeDecodeError, OSError):
+                  continue
+              if 'statetech' in text.casefold():
+                  forbidden.append(path.as_posix())
+          if forbidden:
+              raise SystemExit('Termo proibido ainda presente em: ' + ', '.join(sorted(set(forbidden))))
+          PY
+
+      - name: Registrar refatoração
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração necessária."
+            exit 0
+          fi
+          git commit -m "refactor: substituir nomenclatura por infraestrutura digital"
+          git push origin HEAD:feature/fase2-adaptador-auditoria-infraestrutura
