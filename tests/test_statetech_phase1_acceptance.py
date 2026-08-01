@@ -15,7 +15,7 @@ from memoria_audiovisual.statetech.index_store import (
 from memoria_audiovisual.statetech.integrity import IntegrityError
 from memoria_audiovisual.statetech.ledger import AtomicLedger
 from memoria_audiovisual.statetech.reporting import export_integrity_report
-from memoria_audiovisual.statetech.service import StatetechDataService
+from memoria_audiovisual.statetech.service import DigitalInfrastructureDataService
 
 
 class Phase1AcceptanceTests(unittest.TestCase):
@@ -56,7 +56,7 @@ class Phase1AcceptanceTests(unittest.TestCase):
                     },
                 )
             )
-            service = StatetechDataService(ledger, self.schemas)
+            service = DigitalInfrastructureDataService(ledger, self.schemas)
             result = service.register_entity_decision(
                 EntityDecision(
                     decision_type="redirect",
@@ -74,7 +74,7 @@ class Phase1AcceptanceTests(unittest.TestCase):
     def test_entity_decision_rejects_orphan_reference(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             ledger = AtomicLedger(Path(tmp) / "ledger.jsonl")
-            service = StatetechDataService(ledger, self.schemas)
+            service = DigitalInfrastructureDataService(ledger, self.schemas)
             with self.assertRaises(IntegrityError):
                 service.register_entity_decision(
                     EntityDecision(
