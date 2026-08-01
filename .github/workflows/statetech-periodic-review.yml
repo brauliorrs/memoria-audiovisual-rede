@@ -90,37 +90,59 @@ jobs:
           else
             SNAPSHOT_ID="snapshot_$(date -u +'%Y_%m_%dT%H%M%SZ')"
           fi
-          if ! printf '%s' "${SNAPSHOT_ID}" | grep -Eq '^[A-Za-z0-9][A-Za-z0-9._-]{2,127}$'; then
-            echo "snapshot_id inválido: ${SNAPSHOT_ID}" >&2
-            exit 2
-          fi
-          if [ -e "${STATETECH_STATE_DIR}/coverage/${SNAPSHOT_ID}" ]; then
-            echo "snapshot_id já existe na memória histórica: ${SNAPSHOT_ID}" >&2
-            exit 3
-          fi
           echo "snapshot_id=${SNAPSHOT_ID}" >> "$GITHUB_OUTPUT"
-          echo "Snapshot: ${SNAPSHOT_ID}"
+          echo "Snapshot proposto: ${SNAPSHOT_ID}"
 
-      - name: Preparar argumentos de corpus
+      - name: Preparar seleção de corpora
         id: corpus
         shell: bash
         env:
           REQUESTED_CORPUS: ${{ inputs.corpus }}
         run: |
+          set -euo pipefail
+          printf '%s' "${REQUESTED_CORPUS}" > .statetech-corpora-input
           if [ -n "${REQUESTED_CORPUS}" ]; then
-            echo "args=--corpus ${REQUESTED_CORPUS}" >> "$GITHUB_OUTPUT"
+            echo "has_selection=true" >> "$GITHUB_OUTPUT"
           else
-            echo "args=" >> "$GITHUB_OUTPUT"
+            echo "has_selection=false" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Validar ciclo antes da coleta
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ steps.snapshot.outputs.snapshot_id }}
+          HISTORY_EXISTS: ${{ steps.restore-history.outputs.history_exists }}
+        run: |
+          set -euo pipefail
+          mapfile -t CORPORA_ARGS < <(xargs -n1 < .statetech-corpora-input)
+          HISTORY_ARG=()
+          if [ "${HISTORY_EXISTS}" = "true" ]; then
+            HISTORY_ARG=(--history-exists)
+          fi
+          python scripts/preflight_statetech_periodic_review.py \
+            --snapshot-id "${SNAPSHOT_ID}" \
+            --state-dir "${STATETECH_STATE_DIR}" \
+            --report "${STATETECH_STATE_DIR}/preflight/${SNAPSHOT_ID}.json" \
+            "${HISTORY_ARG[@]}" \
+            --corpus "${CORPORA_ARGS[@]}"
 
       - name: Executar revisão periódica
         shell: bash
+        env:
+          SNAPSHOT_ID: ${{ steps.snapshot.outputs.snapshot_id }}
         run: |
-          python scripts/audit_digital_infrastructure.py \
-            --mode ledger \
-            --snapshot-id "${{ steps.snapshot.outputs.snapshot_id }}" \
-            --result-output "data/statetech/coverage/${{ steps.snapshot.outputs.snapshot_id }}/execution_summary.json" \
-            ${{ steps.corpus.outputs.args }}
+          set -euo pipefail
+          mapfile -t CORPORA_ARGS < <(xargs -n1 < .statetech-corpora-input)
+          COMMAND=(
+            python scripts/audit_digital_infrastructure.py
+            --mode ledger
+            --snapshot-id "${SNAPSHOT_ID}"
+            --result-output "data/statetech/coverage/${SNAPSHOT_ID}/execution_summary.json"
+          )
+          if [ "${#CORPORA_ARGS[@]}" -gt 0 ]; then
+            COMMAND+=(--corpus "${CORPORA_ARGS[@]}")
+          fi
+          "${COMMAND[@]}"
 
       - name: Verificar produtos obrigatórios
         shell: bash
@@ -131,6 +153,7 @@ jobs:
           test -s "data/statetech/coverage/snapshot_coverage_index.jsonl"
           test -s "data/statetech/ledger.jsonl"
           test -s "data/statetech/ingestion_batches.jsonl"
+          test -s "data/statetech/preflight/${{ steps.snapshot.outputs.snapshot_id }}.json"
 
       - name: Consolidar memória na branch histórica
         if: success()
@@ -164,8 +187,9 @@ jobs:
         with:
           name: statetech-${{ steps.snapshot.outputs.snapshot_id }}
           path: |
+            data/statetech/preflight/${{ steps.snapshot.outputs.snapshot_id }}.json
             data/statetech/coverage/${{ steps.snapshot.outputs.snapshot_id }}/
             data/statetech/coverage/snapshot_coverage_index.jsonl
             data/statetech/ingestion_batches.jsonl
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 90
