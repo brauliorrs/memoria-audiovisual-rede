@@ -38,6 +38,40 @@ A plataforma está sendo ajustada para explicitar parâmetros de robustez cient�
 - reprodutibilidade por scripts, checks, arquivos exportáveis e contratos de dados;
 - base para índices futuros de visibilidade audiovisual digital e auditoria de encontrabilidade.
 
+## Auditoria de infraestrutura digital
+
+A plataforma inclui uma ferramenta reprodutível para observar a camada técnica das superfícies públicas dos arquivos e agregadores. A auditoria registra, por corpus:
+
+- tecnologias e sistemas detectáveis, como CMS e softwares de repositório;
+- existência e tipo de APIs ou serviços públicos, incluindo REST, GraphQL, OAI-PMH, OpenAPI e IIIF;
+- formatos de metadados, como JSON-LD/Schema.org, Dublin Core, EAD, METS, MODS, MARC, EDM, PBCore e EBUCore;
+- protocolos e sinais de interoperabilidade, como IIIF, OAI-PMH, OpenSearch, RSS/Atom, sitemaps e Linked Open Data;
+- mecanismos de busca, incluindo formulários HTML e sinais de Solr, Elasticsearch, Algolia ou busca facetada;
+- restrições públicas detectáveis, como autenticação, cadastro, assinatura, geobloqueio, direitos condicionados e restrições de indexação;
+- evidências textuais públicas de uso de IA, aprendizado de máquina, transcrição automática, reconhecimento de fala, visão computacional ou classificação automatizada na catalogação.
+
+A ferramenta é **heurística**: registra evidências encontradas no HTML, nos metadados e nos cabeçalhos HTTP da rota observada. Ausência de sinal não significa ausência da tecnologia, e uma detecção deve ser validada antes de sustentar afirmações institucionais. A auditoria não contorna login, paywall, robots.txt ou outras barreiras.
+
+Execução completa dos corpora ativos:
+
+```powershell
+python scripts/audit_digital_infrastructure.py
+```
+
+Execução controlada:
+
+```powershell
+python scripts/audit_digital_infrastructure.py --corpus europeana ina bfi
+python scripts/audit_digital_infrastructure.py --limit 5 --timeout 30
+```
+
+Saídas versionáveis:
+
+- `data/output/digital_infrastructure_audit.csv`;
+- `data/output/digital_infrastructure_audit.json`.
+
+O código principal está em `src/memoria_audiovisual/digital_infrastructure_audit.py`, e o executor está em `scripts/audit_digital_infrastructure.py`.
+
 ## Escopo atual
 
 O organismo trabalha com corpora ativos e unidades documentadas fora do corpus ativo.
@@ -169,8 +203,10 @@ GitHub Pages não é suficiente para esta versão porque a interface é uma apli
 │   ├── input/
 │   └── output/
 ├── scripts/
+│   └── audit_digital_infrastructure.py
 ├── src/
 │   └── memoria_audiovisual/
+│       └── digital_infrastructure_audit.py
 ├── tests/
 ├── pyproject.toml
 ├── requirements.txt
