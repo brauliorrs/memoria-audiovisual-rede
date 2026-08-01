@@ -155,6 +155,18 @@ jobs:
           test -s "data/statetech/ingestion_batches.jsonl"
           test -s "data/statetech/preflight/${{ steps.snapshot.outputs.snapshot_id }}.json"
 
+      - name: Validar coerência semântica da rodada
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ steps.snapshot.outputs.snapshot_id }}
+        run: |
+          set -euo pipefail
+          python scripts/postflight_statetech_periodic_review.py \
+            --snapshot-id "${SNAPSHOT_ID}" \
+            --state-dir "${STATETECH_STATE_DIR}" \
+            --report "${STATETECH_STATE_DIR}/postflight/${SNAPSHOT_ID}.json"
+          test -s "${STATETECH_STATE_DIR}/postflight/${SNAPSHOT_ID}.json"
+
       - name: Consolidar memória na branch histórica
         if: success()
         shell: bash
@@ -188,6 +200,7 @@ jobs:
           name: statetech-${{ steps.snapshot.outputs.snapshot_id }}
           path: |
             data/statetech/preflight/${{ steps.snapshot.outputs.snapshot_id }}.json
+            data/statetech/postflight/${{ steps.snapshot.outputs.snapshot_id }}.json
             data/statetech/coverage/${{ steps.snapshot.outputs.snapshot_id }}/
             data/statetech/coverage/snapshot_coverage_index.jsonl
             data/statetech/ingestion_batches.jsonl
