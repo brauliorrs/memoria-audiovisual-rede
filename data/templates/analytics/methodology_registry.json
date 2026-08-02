@@ -1,5 +1,5 @@
 {
-  "registry_version": "1.1.0",
+  "registry_version": "1.2.0",
   "methodologies": [
     {
       "indicator_id": "api_coverage",
@@ -82,6 +82,30 @@
       "included_statuses": ["detected", "not_detected", "unknown"],
       "excluded_statuses": ["error", "not_assessable", "missing_observation"],
       "limitations": ["A detecção do formato não comprova validade, vocabulário utilizado ou qualidade semântica."]
+    },
+    {
+      "indicator_id": "interoperability_index",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Média dos escores de interoperabilidade dos corpora elegíveis, calculados a partir da presença observada de IIIF, OAI-PMH, Dublin Core, Schema.org e JSON-LD.",
+      "formula": "media_corpora(100 * soma_pesos_componentes_presentes / soma_pesos_componentes_avaliaveis)",
+      "source": "parameter_coverage.json:interoperability e metadata_format",
+      "components": [
+        {"name": "IIIF", "weight": 0.2},
+        {"name": "OAI-PMH", "weight": 0.2},
+        {"name": "Dublin Core", "weight": 0.2},
+        {"name": "Schema.org", "weight": 0.2},
+        {"name": "JSON-LD", "weight": 0.2}
+      ],
+      "minimum_evaluable_components": 3,
+      "missing_data_policy": "Renormalizar os pesos disponíveis somente quando ao menos três dos cinco componentes forem avaliáveis; excluir o corpus caso contrário.",
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": [
+        "Os pesos iguais são uma escolha metodológica inicial e não representam consenso externo.",
+        "O índice mede presença observada de sinais, não conformidade, qualidade ou maturidade integral.",
+        "A renormalização permite comparabilidade operacional, mas deve ser considerada ao interpretar corpora com dados parciais."
+      ]
     }
   ]
 }
