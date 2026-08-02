@@ -5,11 +5,19 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable, Mapping
+from typing import Any, Mapping
 
 from .base import IndicatorContext
 from .engine import AnalyticsEngine, AnalyticsRun
-from .indicators import ApiCoverageIndicator, InteroperabilityCoverageIndicator
+from .indicators import (
+    ApiCoverageIndicator,
+    DublinCoreCoverageIndicator,
+    IiifCoverageIndicator,
+    InteroperabilityCoverageIndicator,
+    JsonLdCoverageIndicator,
+    OaiPmhCoverageIndicator,
+    SchemaOrgCoverageIndicator,
+)
 from .registry import IndicatorRegistry
 from .storage import AnalyticsManifest, AnalyticsStore
 
@@ -22,7 +30,15 @@ class SnapshotAnalyticsResult:
 
 def default_indicator_registry() -> IndicatorRegistry:
     """Retorna o conjunto nativo e explicitamente versionado de indicadores."""
-    return IndicatorRegistry((ApiCoverageIndicator(), InteroperabilityCoverageIndicator()))
+    return IndicatorRegistry((
+        ApiCoverageIndicator(),
+        DublinCoreCoverageIndicator(),
+        IiifCoverageIndicator(),
+        InteroperabilityCoverageIndicator(),
+        JsonLdCoverageIndicator(),
+        OaiPmhCoverageIndicator(),
+        SchemaOrgCoverageIndicator(),
+    ))
 
 
 def load_coverage_rows(path: str | Path, *, snapshot_id: str) -> tuple[dict[str, Any], ...]:
