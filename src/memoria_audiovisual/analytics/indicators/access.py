@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import unicodedata
 from typing import Any, Mapping
 
 from ..base import Indicator, IndicatorContext, IndicatorResult
@@ -23,11 +24,19 @@ _BARRIERS = (
 )
 
 
+def _normalize_text(value: Any) -> str:
+    normalized = unicodedata.normalize("NFKD", str(value).casefold())
+    without_accents = "".join(
+        char for char in normalized if not unicodedata.combining(char)
+    )
+    return " ".join(without_accents.replace("-", " ").split())
+
+
 def _normalized_values(row: Mapping[str, Any]) -> tuple[str, ...]:
     values = row.get("detected_values", ())
     if not isinstance(values, (list, tuple)):
         raise ValueError("detected_values deve ser uma lista")
-    return tuple(str(value).casefold().replace("-", " ").strip() for value in values)
+    return tuple(_normalize_text(value) for value in values)
 
 
 class AudiovisualArchiveAccessIndex(Indicator):
