@@ -38,13 +38,29 @@ class AnalyticsPipelineTests(unittest.TestCase):
                     "detector_group": "interoperability",
                     "status": "detected",
                     "observation_count": 1,
-                    "detected_values": ["IIIF"],
+                    "detected_values": ["IIIF", "OAI-PMH"],
                 },
                 {
                     "corpus_code": "archive_b",
                     "snapshot_id": self.snapshot_id,
                     "detector_group": "interoperability",
                     "status": "not_assessable",
+                    "observation_count": 1,
+                    "detected_values": [],
+                },
+                {
+                    "corpus_code": "ina",
+                    "snapshot_id": self.snapshot_id,
+                    "detector_group": "metadata_format",
+                    "status": "detected",
+                    "observation_count": 1,
+                    "detected_values": ["Dublin Core", "Schema.org", "JSON-LD"],
+                },
+                {
+                    "corpus_code": "archive_b",
+                    "snapshot_id": self.snapshot_id,
+                    "detector_group": "metadata_format",
+                    "status": "not_detected",
                     "observation_count": 1,
                     "detected_values": [],
                 },
@@ -63,10 +79,15 @@ class AnalyticsPipelineTests(unittest.TestCase):
             output_root=output,
         )
         self.assertEqual(result.run.status, "completed")
-        self.assertEqual(result.run.indicator_count, 2)
+        self.assertEqual(result.run.indicator_count, 7)
         values = {item.indicator_id: item.value for item in result.run.results}
         self.assertEqual(values["api_coverage"], 50.0)
         self.assertEqual(values["interoperability_coverage"], 100.0)
+        self.assertEqual(values["iiif_coverage"], 100.0)
+        self.assertEqual(values["oai_pmh_coverage"], 100.0)
+        self.assertEqual(values["dublin_core_coverage"], 50.0)
+        self.assertEqual(values["schema_org_coverage"], 50.0)
+        self.assertEqual(values["json_ld_coverage"], 50.0)
         self.assertIsNotNone(result.manifest)
         self.assertTrue((output / self.snapshot_id / "snapshot_indicators.json").exists())
         self.assertTrue((output / "indicator_history.jsonl").exists())
