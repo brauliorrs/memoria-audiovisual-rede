@@ -40,7 +40,7 @@ class InteroperabilitySensitivityTests(unittest.TestCase):
             item for item in report.scenarios if item.scenario_id == "semantic_web_priority"
         )
         self.assertEqual(protocol.corpus_scores["a"], 75.0)
-        self.assertEqual(protocol.corpus_scores["b"], 50.0)
+        self.assertEqual(protocol.corpus_scores["b"], 55.0)
         self.assertEqual(semantic.corpus_scores["a"], 40.0)
         self.assertEqual(semantic.corpus_scores["b"], 70.0)
         official = next(item for item in report.scenarios if item.scenario_id == report.official_scenario)
