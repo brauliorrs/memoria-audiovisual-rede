@@ -133,3 +133,7 @@ Composite indexes require a minimum number of evaluable components and document 
 The methodology supports reproducibility through versioned code, schemas, data contracts, provenance and immutable historical products.
 
 It does not claim that public technical inspection reveals every internal system used by an institution. Results must always be interpreted according to observable evidence, route coverage, temporal context and known technical limitations.
+
+---
+
+[← Previous: Scientific Framework](02_scientific_framework.md) · [Research Handbook](README.md) · [Next: System Architecture →](04_system_architecture.md)
