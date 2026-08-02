@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Executa e persiste os indicadores nativos de um snapshot consolidado."""
+"""Executa, persiste e avalia a sensibilidade analítica de um snapshot."""
 
 from __future__ import annotations
 
@@ -7,7 +7,9 @@ import argparse
 import json
 from pathlib import Path
 
-from memoria_audiovisual.analytics.pipeline import analyze_snapshot
+from memoria_audiovisual.analytics.base import IndicatorContext
+from memoria_audiovisual.analytics.pipeline import analyze_snapshot, load_coverage_rows
+from memoria_audiovisual.analytics.sensitivity import analyze_interoperability_sensitivity
 
 
 def parse_args() -> argparse.Namespace:
@@ -20,6 +22,11 @@ def parse_args() -> argparse.Namespace:
         "--run-output",
         type=Path,
         help="Cópia opcional da execução antes da persistência.",
+    )
+    parser.add_argument(
+        "--sensitivity-output",
+        type=Path,
+        help="Destino opcional; por padrão usa o diretório analítico do snapshot.",
     )
     return parser.parse_args()
 
@@ -40,12 +47,37 @@ def main() -> int:
             json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
         )
+
+    coverage_rows = load_coverage_rows(args.coverage, snapshot_id=args.snapshot_id)
+    sensitivity = analyze_interoperability_sensitivity(
+        IndicatorContext(
+            snapshot_id=args.snapshot_id,
+            coverage_rows=coverage_rows,
+            methodology_version=args.methodology_version,
+        )
+    )
+    sensitivity_output = args.sensitivity_output or (
+        args.output_root / args.snapshot_id / "interoperability_sensitivity.json"
+    )
+    sensitivity_output.parent.mkdir(parents=True, exist_ok=True)
+    if sensitivity_output.exists():
+        raise FileExistsError(
+            f"relatório de sensibilidade já existe: {sensitivity_output}"
+        )
+    sensitivity_output.write_text(
+        json.dumps(sensitivity.to_dict(), ensure_ascii=False, indent=2, sort_keys=True)
+        + "\n",
+        encoding="utf-8",
+    )
+
     print(json.dumps({
         "snapshot_id": result.run.snapshot_id,
         "methodology_version": result.run.methodology_version,
         "indicator_count": result.run.indicator_count,
         "status": result.run.status,
         "manifest": result.manifest.to_dict() if result.manifest else None,
+        "sensitivity_output": str(sensitivity_output),
+        "sensitivity_interpretation": sensitivity.interpretation,
     }, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
 
