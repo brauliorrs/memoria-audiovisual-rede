@@ -92,3 +92,7 @@ Adaptation requires a new unit of analysis, corpus policy, observation schema, v
 ## Project position
 
 Memória Audiovisual em Rede shifts the study of audiovisual archives from static description toward continuous observation of the socio-technical conditions under which digital memory becomes accessible, restricted, unstable or invisible.
+
+---
+
+[Main README](../../README.md) · [Research Handbook](README.md) · [Introduction](00_introduction.md)
