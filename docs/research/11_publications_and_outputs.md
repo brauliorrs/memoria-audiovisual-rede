@@ -91,3 +91,7 @@ Publications must distinguish:
 - descriptive indicators from causal explanations.
 
 These distinctions are essential to avoid overstating what computational observation can establish.
+
+---
+
+[← Previous: Future Research](10_future_research.md) · [Research Handbook](README.md) · [Next: Reuse and Research Collaboration →](12_reuse_and_collaboration.md)
