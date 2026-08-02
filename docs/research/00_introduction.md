@@ -79,3 +79,7 @@ A detected signal is not automatically equivalent to verified institutional adop
 The core architecture is implemented. The project is currently validating its detectors, corpus decisions, longitudinal workflow and analytical indicators against real-world cases.
 
 The next chapter defines the scientific problem that motivated this infrastructure.
+
+---
+
+[Research Handbook](README.md) · [Next: Research Problem →](01_research_problem.md)
