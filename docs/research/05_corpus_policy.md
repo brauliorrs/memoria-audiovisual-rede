@@ -146,3 +146,7 @@ Automatic rules may support preliminary classification, but ambiguous cases requ
 A published result must make it possible to determine not only which archives were counted, but also which discovered entities were not counted and why.
 
 This policy therefore treats corpus construction as part of the scientific method rather than as an invisible preprocessing step.
+
+---
+
+[← Previous: System Architecture](04_system_architecture.md) · [Research Handbook](README.md) · [Next: Analytics →](06_analytics.md)
