@@ -16,54 +16,12 @@ class AnalyticsPipelineTests(unittest.TestCase):
         self.coverage_path = self.root / "parameter_coverage.json"
         self.coverage_path.write_text(
             json.dumps([
-                {
-                    "corpus_code": "ina",
-                    "snapshot_id": self.snapshot_id,
-                    "detector_group": "api_service",
-                    "status": "detected",
-                    "observation_count": 1,
-                    "detected_values": ["IIIF API"],
-                },
-                {
-                    "corpus_code": "archive_b",
-                    "snapshot_id": self.snapshot_id,
-                    "detector_group": "api_service",
-                    "status": "not_detected",
-                    "observation_count": 1,
-                    "detected_values": [],
-                },
-                {
-                    "corpus_code": "ina",
-                    "snapshot_id": self.snapshot_id,
-                    "detector_group": "interoperability",
-                    "status": "detected",
-                    "observation_count": 1,
-                    "detected_values": ["IIIF", "OAI-PMH"],
-                },
-                {
-                    "corpus_code": "archive_b",
-                    "snapshot_id": self.snapshot_id,
-                    "detector_group": "interoperability",
-                    "status": "not_assessable",
-                    "observation_count": 1,
-                    "detected_values": [],
-                },
-                {
-                    "corpus_code": "ina",
-                    "snapshot_id": self.snapshot_id,
-                    "detector_group": "metadata_format",
-                    "status": "detected",
-                    "observation_count": 1,
-                    "detected_values": ["Dublin Core", "Schema.org", "JSON-LD"],
-                },
-                {
-                    "corpus_code": "archive_b",
-                    "snapshot_id": self.snapshot_id,
-                    "detector_group": "metadata_format",
-                    "status": "not_detected",
-                    "observation_count": 1,
-                    "detected_values": [],
-                },
+                {"corpus_code": "ina", "snapshot_id": self.snapshot_id, "detector_group": "api_service", "status": "detected", "observation_count": 1, "detected_values": ["IIIF API"]},
+                {"corpus_code": "archive_b", "snapshot_id": self.snapshot_id, "detector_group": "api_service", "status": "not_detected", "observation_count": 1, "detected_values": []},
+                {"corpus_code": "ina", "snapshot_id": self.snapshot_id, "detector_group": "interoperability", "status": "detected", "observation_count": 1, "detected_values": ["IIIF", "OAI-PMH"]},
+                {"corpus_code": "archive_b", "snapshot_id": self.snapshot_id, "detector_group": "interoperability", "status": "not_assessable", "observation_count": 1, "detected_values": []},
+                {"corpus_code": "ina", "snapshot_id": self.snapshot_id, "detector_group": "metadata_format", "status": "detected", "observation_count": 1, "detected_values": ["Dublin Core", "Schema.org", "JSON-LD"]},
+                {"corpus_code": "archive_b", "snapshot_id": self.snapshot_id, "detector_group": "metadata_format", "status": "not_detected", "observation_count": 1, "detected_values": []},
             ]),
             encoding="utf-8",
         )
@@ -73,13 +31,9 @@ class AnalyticsPipelineTests(unittest.TestCase):
 
     def test_executes_native_indicators_and_persists(self) -> None:
         output = self.root / "analytics"
-        result = analyze_snapshot(
-            snapshot_id=self.snapshot_id,
-            coverage_path=self.coverage_path,
-            output_root=output,
-        )
+        result = analyze_snapshot(snapshot_id=self.snapshot_id, coverage_path=self.coverage_path, output_root=output)
         self.assertEqual(result.run.status, "completed")
-        self.assertEqual(result.run.indicator_count, 7)
+        self.assertEqual(result.run.indicator_count, 8)
         values = {item.indicator_id: item.value for item in result.run.results}
         self.assertEqual(values["api_coverage"], 50.0)
         self.assertEqual(values["interoperability_coverage"], 100.0)
@@ -88,6 +42,7 @@ class AnalyticsPipelineTests(unittest.TestCase):
         self.assertEqual(values["dublin_core_coverage"], 50.0)
         self.assertEqual(values["schema_org_coverage"], 50.0)
         self.assertEqual(values["json_ld_coverage"], 50.0)
+        self.assertEqual(values["interoperability_index"], 50.0)
         self.assertIsNotNone(result.manifest)
         self.assertTrue((output / self.snapshot_id / "snapshot_indicators.json").exists())
         self.assertTrue((output / "indicator_history.jsonl").exists())
@@ -113,17 +68,9 @@ class AnalyticsPipelineTests(unittest.TestCase):
 
     def test_does_not_overwrite_same_snapshot(self) -> None:
         output = self.root / "analytics"
-        analyze_snapshot(
-            snapshot_id=self.snapshot_id,
-            coverage_path=self.coverage_path,
-            output_root=output,
-        )
+        analyze_snapshot(snapshot_id=self.snapshot_id, coverage_path=self.coverage_path, output_root=output)
         with self.assertRaises(FileExistsError):
-            analyze_snapshot(
-                snapshot_id=self.snapshot_id,
-                coverage_path=self.coverage_path,
-                output_root=output,
-            )
+            analyze_snapshot(snapshot_id=self.snapshot_id, coverage_path=self.coverage_path, output_root=output)
 
 
 if __name__ == "__main__":
