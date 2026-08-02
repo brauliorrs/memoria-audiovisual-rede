@@ -121,3 +121,7 @@ New collectors, detector groups and indicators can be added through explicit con
 ## Current implementation status
 
 The core architecture is implemented and under operational validation. A full real-world cycle remains necessary to verify detector accuracy, false positives, false negatives, performance and end-to-end historical consolidation.
+
+---
+
+[← Previous: Methodological Framework](03_methodological_framework.md) · [Research Handbook](README.md) · [Next: Corpus Policy →](05_corpus_policy.md)
