@@ -1,5 +1,6 @@
 """Indicadores analíticos nativos."""
 
+from .access import AudiovisualArchiveAccessIndex
 from .composites import InteroperabilityIndexIndicator
 from .coverage import ApiCoverageIndicator, InteroperabilityCoverageIndicator
 from .patterns import (
@@ -12,6 +13,7 @@ from .patterns import (
 
 __all__ = [
     "ApiCoverageIndicator",
+    "AudiovisualArchiveAccessIndex",
     "DublinCoreCoverageIndicator",
     "IiifCoverageIndicator",
     "InteroperabilityCoverageIndicator",
