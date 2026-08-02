@@ -71,3 +71,7 @@ The framework follows a central rule:
 > Observable technical evidence supports documented claims only within the limits of the source, method, date and review status attached to that evidence.
 
 This principle connects the scientific framework to the provenance, review and publication architecture described in the following chapters.
+
+---
+
+[← Previous: Research Problem](01_research_problem.md) · [Research Handbook](README.md) · [Next: Methodological Framework →](03_methodological_framework.md)
