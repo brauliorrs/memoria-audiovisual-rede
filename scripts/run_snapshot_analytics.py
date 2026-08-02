@@ -8,7 +8,12 @@ import json
 from pathlib import Path
 
 from memoria_audiovisual.analytics.base import IndicatorContext
-from memoria_audiovisual.analytics.pipeline import analyze_snapshot, load_coverage_rows
+from memoria_audiovisual.analytics.catalog import IndicatorCatalog
+from memoria_audiovisual.analytics.pipeline import (
+    analyze_snapshot,
+    default_indicator_registry,
+    load_coverage_rows,
+)
 from memoria_audiovisual.analytics.sensitivity import analyze_interoperability_sensitivity
 
 
@@ -18,6 +23,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--coverage", required=True, type=Path)
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--methodology-version", default="1.0.0")
+    parser.add_argument(
+        "--catalog",
+        type=Path,
+        default=Path("data/templates/analytics/indicator_catalog.json"),
+        help="Catálogo científico que justifica todos os indicadores registrados.",
+    )
     parser.add_argument(
         "--run-output",
         type=Path,
@@ -33,12 +44,21 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    registry = default_indicator_registry()
+    catalog = IndicatorCatalog.load(args.catalog)
+    catalog.validate_registry(registry)
+
     result = analyze_snapshot(
         snapshot_id=args.snapshot_id,
         coverage_path=args.coverage,
         methodology_version=args.methodology_version,
+        registry=registry,
         output_root=args.output_root,
-        metadata={"coverage_path": str(args.coverage)},
+        metadata={
+            "coverage_path": str(args.coverage),
+            "indicator_catalog_path": str(args.catalog),
+            "indicator_catalog_version": catalog.catalog_version,
+        },
     )
     payload = result.run.to_dict()
     if args.run_output is not None:
@@ -73,6 +93,7 @@ def main() -> int:
     print(json.dumps({
         "snapshot_id": result.run.snapshot_id,
         "methodology_version": result.run.methodology_version,
+        "indicator_catalog_version": catalog.catalog_version,
         "indicator_count": result.run.indicator_count,
         "status": result.run.status,
         "manifest": result.manifest.to_dict() if result.manifest else None,
