@@ -194,6 +194,30 @@ jobs:
           test -s "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/${SNAPSHOT_ID}/manifest.json"
           test -s "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/public/public_view_index.jsonl"
 
+      - name: Calcular e persistir indicadores do snapshot
+        shell: bash
+        env:
+          SNAPSHOT_ID: ${{ steps.snapshot.outputs.snapshot_id }}
+        run: |
+          set -euo pipefail
+          ANALYTICS_DIR="${DIGITAL_INFRASTRUCTURE_STATE_DIR}/analytics"
+          SNAPSHOT_ANALYTICS_DIR="${ANALYTICS_DIR}/${SNAPSHOT_ID}"
+          python scripts/run_snapshot_analytics.py \
+            --snapshot-id "${SNAPSHOT_ID}" \
+            --coverage "${DIGITAL_INFRASTRUCTURE_STATE_DIR}/coverage/${SNAPSHOT_ID}/parameter_coverage.json" \
+            --output-root "${ANALYTICS_DIR}" \
+            --methodology-version "1.0.0" \
+            --run-output "${SNAPSHOT_ANALYTICS_DIR}/analytics_run.json"
+          test -s "${SNAPSHOT_ANALYTICS_DIR}/analytics_run.json"
+          test -s "${SNAPSHOT_ANALYTICS_DIR}/snapshot_indicators.json"
+          test -s "${SNAPSHOT_ANALYTICS_DIR}/manifest.json"
+          test -s "${ANALYTICS_DIR}/indicator_history.jsonl"
+          python scripts/persist_analytics_run.py \
+            --run "${SNAPSHOT_ANALYTICS_DIR}/analytics_run.json" \
+            --output-root "${ANALYTICS_DIR}" \
+            --verify-only \
+            --snapshot-id "${SNAPSHOT_ID}"
+
       - name: Consolidar memória na branch histórica
         if: success()
         shell: bash
@@ -231,6 +255,8 @@ jobs:
             data/digital_infrastructure/public/public_view_index.jsonl
             data/digital_infrastructure/coverage/${{ steps.snapshot.outputs.snapshot_id }}/
             data/digital_infrastructure/coverage/snapshot_coverage_index.jsonl
+            data/digital_infrastructure/analytics/${{ steps.snapshot.outputs.snapshot_id }}/
+            data/digital_infrastructure/analytics/indicator_history.jsonl
             data/digital_infrastructure/ingestion_batches.jsonl
           if-no-files-found: warn
           retention-days: 90
