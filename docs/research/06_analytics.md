@@ -110,3 +110,7 @@ The analytics layer must not create certainty that is absent from the evidence. 
 ## Reuse
 
 Although the present implementation is applied to audiovisual archives, the engine is designed so that additional indicators can be registered without modifying the historical observation layer. This makes the analytical framework reusable in other institutional domains that require longitudinal observation of digital infrastructures.
+
+---
+
+[← Previous: Corpus Policy](05_corpus_policy.md) · [Research Handbook](README.md) · [Next: Scientific Indicators →](07_scientific_indicators.md)
