@@ -1,5 +1,5 @@
 {
-  "registry_version": "1.0.0",
+  "registry_version": "1.1.0",
   "methodologies": [
     {
       "indicator_id": "api_coverage",
@@ -10,24 +10,78 @@
       "source": "parameter_coverage.json",
       "included_statuses": ["detected", "not_detected", "unknown"],
       "excluded_statuses": ["error", "not_assessable", "missing_observation"],
-      "limitations": [
-        "A detecção técnica não comprova que a API seja aberta, documentada ou funcional.",
-        "O resultado depende das superfícies efetivamente auditadas no snapshot."
-      ]
+      "limitations": ["A detecção técnica não comprova que a API seja aberta, documentada ou funcional."]
     },
     {
       "indicator_id": "interoperability_coverage",
       "indicator_version": "1.0.0",
       "methodology_version": "1.0.0",
-      "definition": "Percentual de corpora avaliáveis com ao menos um protocolo ou padrão de interoperabilidade detectado no snapshot.",
+      "definition": "Percentual de corpora avaliáveis com ao menos um protocolo ou padrão de interoperabilidade detectado.",
       "formula": "100 * corpora_com_interoperabilidade_detectada / corpora_avaliaveis",
       "source": "parameter_coverage.json",
       "included_statuses": ["detected", "not_detected", "unknown"],
       "excluded_statuses": ["error", "not_assessable", "missing_observation"],
-      "limitations": [
-        "A presença detectada não mede implementação completa nem qualidade da interoperabilidade.",
-        "Padrões não expostos nas páginas auditadas podem permanecer não observados."
-      ]
+      "limitations": ["A presença detectada não mede implementação completa nem qualidade da interoperabilidade."]
+    },
+    {
+      "indicator_id": "iiif_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em interoperabilidade com IIIF explicitamente identificado.",
+      "formula": "100 * corpora_com_IIIF / corpora_avaliaveis_em_interoperabilidade",
+      "source": "parameter_coverage.json:interoperability.detected_values",
+      "aliases": ["IIIF", "International Image Interoperability Framework"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A menção detectada não comprova implementação integral ou conformidade com a especificação."]
+    },
+    {
+      "indicator_id": "oai_pmh_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em interoperabilidade com OAI-PMH explicitamente identificado.",
+      "formula": "100 * corpora_com_OAI_PMH / corpora_avaliaveis_em_interoperabilidade",
+      "source": "parameter_coverage.json:interoperability.detected_values",
+      "aliases": ["OAI-PMH", "Open Archives Initiative Protocol for Metadata Harvesting"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A detecção não comprova disponibilidade, documentação ou funcionamento do endpoint."]
+    },
+    {
+      "indicator_id": "dublin_core_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em formatos de metadados com Dublin Core identificado.",
+      "formula": "100 * corpora_com_Dublin_Core / corpora_avaliaveis_em_metadados",
+      "source": "parameter_coverage.json:metadata_format.detected_values",
+      "aliases": ["Dublin Core", "DCMI"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A detecção não mede completude, qualidade ou conformidade dos campos."]
+    },
+    {
+      "indicator_id": "schema_org_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em formatos de metadados com Schema.org identificado.",
+      "formula": "100 * corpora_com_Schema_org / corpora_avaliaveis_em_metadados",
+      "source": "parameter_coverage.json:metadata_format.detected_values",
+      "aliases": ["Schema.org", "schema org"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A presença de marcação não comprova cobertura semântica adequada."]
+    },
+    {
+      "indicator_id": "json_ld_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em formatos de metadados com JSON-LD identificado.",
+      "formula": "100 * corpora_com_JSON_LD / corpora_avaliaveis_em_metadados",
+      "source": "parameter_coverage.json:metadata_format.detected_values",
+      "aliases": ["JSON-LD", "JavaScript Object Notation for Linked Data"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A detecção do formato não comprova validade, vocabulário utilizado ou qualidade semântica."]
     }
   ]
 }
