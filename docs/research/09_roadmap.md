@@ -124,3 +124,7 @@ Each phase requires an explicit decision gate:
 - **Scientific gate:** the available data support the proposed interpretation.
 
 This phased structure protects the project from presenting architectural readiness as empirical validation or public deployment maturity.
+
+---
+
+[← Previous: Operational Validation](08_operational_validation.md) · [Research Handbook](README.md) · [Next: Future Research →](10_future_research.md)
