@@ -100,3 +100,7 @@ The project aims to contribute:
 - a bridge between audiovisual heritage studies, digital methods and infrastructure research.
 
 The following chapters will describe the scientific framework and methodological implementation used to address this problem.
+
+---
+
+[← Previous: Introduction](00_introduction.md) · [Research Handbook](README.md) · [Next: Scientific Framework →](02_scientific_framework.md)
