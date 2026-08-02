@@ -132,3 +132,7 @@ data/templates/analytics/indicator_catalog.json
 ```
 
 The technical methodology registry is stored separately so that explanatory documentation and executable analytical contracts can evolve without being conflated.
+
+---
+
+[← Previous: Analytics](06_analytics.md) · [Research Handbook](README.md) · [Next: Operational Validation →](08_operational_validation.md)
