@@ -1,0 +1,112 @@
+# Analytics
+
+## Purpose
+
+The analytics layer converts validated snapshot products into reproducible research results. It does not collect data, alter historical observations, or replace human review. Its role is to calculate, persist, compare, and document indicators derived from already consolidated evidence.
+
+## Analytical architecture
+
+```text
+Validated coverage matrix
+        ↓
+Indicator registry
+        ↓
+Analytics engine
+        ↓
+Versioned indicator results
+        ↓
+Manifest and integrity hash
+        ↓
+Append-only indicator history
+        ↓
+Derived sensitivity analyses
+```
+
+The analytical layer is separated from collection and publication so that changes in formulas do not silently modify the underlying evidence.
+
+## Indicator registry
+
+Every active indicator is registered with a stable identifier and an explicit version. The registry prevents duplicate combinations of indicator identifier and version and enables deterministic execution.
+
+Each result preserves at least:
+
+- indicator identifier;
+- indicator version;
+- methodology version;
+- snapshot identifier;
+- title and category;
+- value and unit;
+- numerator and denominator, when applicable;
+- corpus count;
+- status and notes;
+- analytical dimensions and exclusions.
+
+## Methodological versioning
+
+Indicator code and indicator methodology are treated as related but distinct objects. A code change does not automatically imply that a scientific definition has changed, and a methodological revision must be documented explicitly.
+
+A change in formula, weights, inclusion rules, or interpretation requires a new methodology version. Historical results remain linked to the methodology used when they were produced.
+
+## Persistence
+
+Analytical runs are stored under:
+
+```text
+data/digital_infrastructure/analytics/
+├── indicator_history.jsonl
+└── <snapshot_id>/
+    ├── analytics_run.json
+    ├── snapshot_indicators.json
+    ├── manifest.json
+    └── interoperability_sensitivity.json
+```
+
+The analytical key combines:
+
+```text
+snapshot_id
++ indicator_id
++ indicator_version
++ methodology_version
+```
+
+The same analytical key cannot be silently overwritten.
+
+## Integrity
+
+The manifest records the indicator count, output paths, result keys, generation time, methodology version, and a SHA-256 hash of the canonical indicator payload. Verification can therefore detect later alteration of persisted results.
+
+## Composite indexes
+
+Composite indexes combine multiple documented components. Their weights, minimum data requirements, treatment of missing observations, and interpretation must be versioned.
+
+The current interoperability index combines five components:
+
+- IIIF;
+- OAI-PMH;
+- Dublin Core;
+- Schema.org;
+- JSON-LD.
+
+The official version currently uses equal weights. Missing or non-assessable components are not automatically treated as absence. A corpus requires a minimum number of evaluable components before a score can be calculated.
+
+## Sensitivity analysis
+
+Sensitivity analysis compares the official result with alternative, methodologically plausible weight scenarios. It is a derived analytical product and does not replace the official index.
+
+The analysis reports:
+
+- aggregate scores by scenario;
+- corpus-level scores;
+- score ranges;
+- maximum corpus variation;
+- rank changes;
+- an operational interpretation of robustness.
+
+## Scientific safeguard
+
+The analytics layer must not create certainty that is absent from the evidence. Unknown, error, not-assessable, and missing-observation states remain distinguishable from confirmed absence.
+
+## Reuse
+
+Although the present implementation is applied to audiovisual archives, the engine is designed so that additional indicators can be registered without modifying the historical observation layer. This makes the analytical framework reusable in other institutional domains that require longitudinal observation of digital infrastructures.
