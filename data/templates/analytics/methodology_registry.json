@@ -1,0 +1,33 @@
+{
+  "registry_version": "1.0.0",
+  "methodologies": [
+    {
+      "indicator_id": "api_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis com ao menos uma API detectada no snapshot.",
+      "formula": "100 * corpora_com_api_detectada / corpora_avaliaveis",
+      "source": "parameter_coverage.json",
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": [
+        "A detecção técnica não comprova que a API seja aberta, documentada ou funcional.",
+        "O resultado depende das superfícies efetivamente auditadas no snapshot."
+      ]
+    },
+    {
+      "indicator_id": "interoperability_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis com ao menos um protocolo ou padrão de interoperabilidade detectado no snapshot.",
+      "formula": "100 * corpora_com_interoperabilidade_detectada / corpora_avaliaveis",
+      "source": "parameter_coverage.json",
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": [
+        "A presença detectada não mede implementação completa nem qualidade da interoperabilidade.",
+        "Padrões não expostos nas páginas auditadas podem permanecer não observados."
+      ]
+    }
+  ]
+}
