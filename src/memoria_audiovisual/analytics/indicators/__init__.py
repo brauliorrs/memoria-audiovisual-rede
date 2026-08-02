@@ -1,5 +1,6 @@
 """Indicadores analíticos nativos."""
 
+from .composites import InteroperabilityIndexIndicator
 from .coverage import ApiCoverageIndicator, InteroperabilityCoverageIndicator
 from .patterns import (
     DublinCoreCoverageIndicator,
@@ -14,6 +15,7 @@ __all__ = [
     "DublinCoreCoverageIndicator",
     "IiifCoverageIndicator",
     "InteroperabilityCoverageIndicator",
+    "InteroperabilityIndexIndicator",
     "JsonLdCoverageIndicator",
     "OaiPmhCoverageIndicator",
     "SchemaOrgCoverageIndicator",
