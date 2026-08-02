@@ -34,8 +34,8 @@ The infrastructure combines:
 - longitudinal comparison;
 - cautious event detection;
 - human review for sensitive or material claims;
-- immutable historical records;
-- versioned public views;
+- append-only historical records;
+- versioned public views with controlled revisions;
 - reproducible scientific indicators.
 
 The system separates discovery from corpus inclusion. Commercial image and video banks may be identified and catalogued, but they do not enter the scientific corpus or the denominators of archive indicators.
@@ -44,7 +44,7 @@ The system separates discovery from corpus inclusion. Commercial image and video
 
 The current analytical layer includes indicators for:
 
-- public access without registration or formal request;
+- public access without registration, payment or formal request;
 - API availability;
 - interoperability signals;
 - IIIF and OAI-PMH adoption;
@@ -68,17 +68,20 @@ Potential longitudinal questions include:
 
 ## Current stage
 
-The core architecture, governance mechanisms, analytical engine and research documentation have been implemented. The project is now in operational validation.
+The core architecture, governance mechanisms, analytical engine and research documentation are implemented in the feature branch associated with Pull Request #5.
 
-The immediate priorities are:
+Automated quality checks have passed, including dependency installation, Python compilation, unit tests and the deployment snapshot check. This confirms structural and test-suite readiness, but it does not yet establish empirical detector accuracy on real archive websites.
 
-1. complete automated quality checks;
-2. run a controlled sample of real corpora;
-3. manually review detector outputs;
-4. correct false positives and false negatives;
-5. validate the restored access index;
-6. confirm end-to-end snapshot and publication workflows;
-7. prepare the first stable scientific release.
+The project is therefore in **operational validation**. The immediate priorities are:
+
+1. select a small and representative sample of real corpora;
+2. establish manually reviewed expected observations for that sample;
+3. run the controlled collection without initiating the complete corpus cycle;
+4. compare detector outputs with the reviewed expectations;
+5. record false positives, false negatives and inconclusive cases;
+6. verify eligibility decisions and the Audiovisual Archive Access Index denominator;
+7. test snapshot, review and publication flows end to end;
+8. correct only the defects revealed by the controlled validation.
 
 ## Reuse and collaboration
 
