@@ -107,3 +107,7 @@ External contributors should begin by identifying one bounded contribution, such
 - translating research documentation.
 
 Large architectural changes should be discussed before implementation so that provenance, compatibility and longitudinal continuity are preserved.
+
+---
+
+[← Previous: Publications and Research Outputs](11_publications_and_outputs.md) · [Research Handbook](README.md) · [Main README](../../README.md)
