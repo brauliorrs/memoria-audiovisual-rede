@@ -2,7 +2,7 @@
 
 ## An Open Scientific Research Infrastructure for the Longitudinal Observation of Digital Infrastructures in Audiovisual Archives
 
-[Português](README.pt-BR.md) · [Research Handbook](docs/research/README.md) · [Public Observatory](https://memoria-audiovisual-rede-vcxnq9xh7b7uifydhwjxcy.streamlit.app/)
+[Português](README.pt-BR.md) · [Executive Summary](docs/research/executive_summary.md) · [Research Handbook](docs/research/README.md) · [Public Observatory](https://memoria-audiovisual-rede-vcxnq9xh7b7uifydhwjxcy.streamlit.app/)
 
 > **Memória Audiovisual em Rede** is an open scientific research infrastructure that introduces a reusable longitudinal methodology for observing institutional digital infrastructures, demonstrated through the domain of audiovisual archives.
 
@@ -122,21 +122,23 @@ Periodic snapshots make it possible to reconstruct these transformations rather 
 
 **Current phase: Operational validation**
 
-Implemented:
+The following components are implemented in the feature branch associated with Pull Request #5:
 
 - discovery and corpus classification;
 - corpus eligibility policy;
 - provenance and append-only historical records;
 - periodic snapshots and longitudinal comparison;
 - event triage and human-review workflows;
-- immutable and revisable public views;
+- versioned public views with controlled revisions;
 - historical publication registry;
 - analytics engine and methodological registry;
 - scientific indicator catalogue;
 - access and interoperability indicators;
 - sensitivity analysis for the interoperability index.
 
-Current work focuses on validating detectors, eligibility decisions and analytical outputs against real-world observations before the first official longitudinal cycle.
+Automated quality checks, including Python compilation, unit tests and the deployment snapshot check, have passed. The project has **not yet completed empirical validation of detector accuracy on a controlled sample of real archive websites**.
+
+Current work therefore focuses on validating detectors, eligibility decisions and analytical outputs against real-world observations before the first official longitudinal cycle.
 
 ## Reproducibility
 
@@ -154,14 +156,25 @@ The project prioritises scientific reproducibility and methodological transparen
 
 ## Documentation
 
-The [Research Handbook](docs/research/README.md) presents the scientific rationale and methodological design.
+For a concise presentation, read the [Executive Summary](docs/research/executive_summary.md).
 
-Initial chapters:
+The complete [Research Handbook](docs/research/README.md) includes:
 
 - [Introduction](docs/research/00_introduction.md)
 - [Research problem](docs/research/01_research_problem.md)
+- [Scientific framework](docs/research/02_scientific_framework.md)
+- [Methodological framework](docs/research/03_methodological_framework.md)
+- [System architecture](docs/research/04_system_architecture.md)
+- [Corpus policy](docs/research/05_corpus_policy.md)
+- [Analytics](docs/research/06_analytics.md)
+- [Scientific indicators](docs/research/07_scientific_indicators.md)
+- [Operational validation](docs/research/08_operational_validation.md)
+- [Roadmap](docs/research/09_roadmap.md)
+- [Future research](docs/research/10_future_research.md)
+- [Publications and research outputs](docs/research/11_publications_and_outputs.md)
+- [Reuse and research collaboration](docs/research/12_reuse_and_collaboration.md)
 
-Technical and operational documentation remains available under `docs/`.
+Technical and operational documentation remains available under `docs/analytics/` and `docs/digital-infrastructure-alignment/`.
 
 ## Running locally
 
