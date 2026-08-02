@@ -33,7 +33,7 @@ class AnalyticsPipelineTests(unittest.TestCase):
         output = self.root / "analytics"
         result = analyze_snapshot(snapshot_id=self.snapshot_id, coverage_path=self.coverage_path, output_root=output)
         self.assertEqual(result.run.status, "completed")
-        self.assertEqual(result.run.indicator_count, 8)
+        self.assertEqual(result.run.indicator_count, 9)
         values = {item.indicator_id: item.value for item in result.run.results}
         self.assertEqual(values["api_coverage"], 50.0)
         self.assertEqual(values["interoperability_coverage"], 100.0)
@@ -43,6 +43,7 @@ class AnalyticsPipelineTests(unittest.TestCase):
         self.assertEqual(values["schema_org_coverage"], 50.0)
         self.assertEqual(values["json_ld_coverage"], 50.0)
         self.assertEqual(values["interoperability_index"], 50.0)
+        self.assertIn("audiovisual_archive_access_index", values)
         self.assertIsNotNone(result.manifest)
         self.assertTrue((output / self.snapshot_id / "snapshot_indicators.json").exists())
         self.assertTrue((output / "indicator_history.jsonl").exists())
