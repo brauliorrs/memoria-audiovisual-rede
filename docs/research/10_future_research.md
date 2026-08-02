@@ -159,3 +159,7 @@ External adaptation or collaboration should preserve the project’s core princi
 - versioned methodology;
 - transparent limitations;
 - reproducibility.
+
+---
+
+[← Previous: Roadmap](09_roadmap.md) · [Research Handbook](README.md) · [Next: Publications and Research Outputs →](11_publications_and_outputs.md)
