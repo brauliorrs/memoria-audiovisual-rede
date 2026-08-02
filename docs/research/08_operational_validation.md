@@ -168,3 +168,7 @@ Each validation cycle should produce a concise report containing:
 - final acceptance status.
 
 Operational validation is therefore both a software-quality process and a methodological audit.
+
+---
+
+[← Previous: Scientific Indicators](07_scientific_indicators.md) · [Research Handbook](README.md) · [Next: Roadmap →](09_roadmap.md)
