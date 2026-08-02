@@ -4,6 +4,8 @@ This handbook presents the scientific rationale, methodological framework, analy
 
 The repository contains both a public observatory and a reusable longitudinal research methodology. The handbook therefore focuses on research design, evidence governance and reproducibility rather than on user-interface instructions.
 
+For a concise international presentation, see the [Executive Summary](executive_summary.md).
+
 ## Contents
 
 1. [Introduction](00_introduction.md)
@@ -17,6 +19,8 @@ The repository contains both a public observatory and a reusable longitudinal re
 9. [Operational validation](08_operational_validation.md)
 10. [Roadmap](09_roadmap.md)
 11. [Future research](10_future_research.md)
+12. [Publications and research outputs](11_publications_and_outputs.md)
+13. [Reuse and research collaboration](12_reuse_and_collaboration.md)
 
 ## Core proposition
 
@@ -34,6 +38,8 @@ The project therefore preserves not only collected records, but also the conditi
 - Avoid silently replacing historical observations.
 - Distinguish technical readiness from empirical validation.
 - Require explicit denominators and exclusions for analytical claims.
+- Link publications and datasets to their snapshots, corpus versions and methodologies.
+- Treat cross-domain reuse as adaptation requiring new validation, not automatic transfer.
 
 ## Current phase
 
