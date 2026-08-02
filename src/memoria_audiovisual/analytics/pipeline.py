@@ -11,6 +11,7 @@ from .base import IndicatorContext
 from .engine import AnalyticsEngine, AnalyticsRun
 from .indicators import (
     ApiCoverageIndicator,
+    AudiovisualArchiveAccessIndex,
     DublinCoreCoverageIndicator,
     IiifCoverageIndicator,
     InteroperabilityCoverageIndicator,
@@ -33,6 +34,7 @@ def default_indicator_registry() -> IndicatorRegistry:
     """Retorna o conjunto nativo e explicitamente versionado de indicadores."""
     return IndicatorRegistry((
         ApiCoverageIndicator(),
+        AudiovisualArchiveAccessIndex(),
         DublinCoreCoverageIndicator(),
         IiifCoverageIndicator(),
         InteroperabilityCoverageIndicator(),
