@@ -10,6 +10,15 @@ on:
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
       - ".github/workflows/i18n-audit.yml"
+  pull_request:
+    branches:
+      - feature/fase2-adaptador-auditoria-infraestrutura
+    paths:
+      - "app/**/*.py"
+      - "src/memoria_audiovisual/i18n.py"
+      - "src/memoria_audiovisual/research_profile.py"
+      - "scripts/audit_streamlit_i18n.py"
+      - ".github/workflows/i18n-audit.yml"
   workflow_dispatch:
 
 jobs:
