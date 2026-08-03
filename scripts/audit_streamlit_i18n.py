@@ -2,51 +2,53 @@ from __future__ import annotations
 
 import ast
 import json
+import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
 
 STREAMLIT_TEXT_CALLS = {
-    "title",
-    "header",
-    "subheader",
-    "markdown",
-    "caption",
-    "info",
-    "warning",
-    "error",
-    "success",
-    "write",
-    "button",
-    "download_button",
-    "link_button",
-    "checkbox",
-    "toggle",
-    "radio",
-    "selectbox",
-    "multiselect",
-    "text_input",
-    "text_area",
-    "number_input",
-    "date_input",
-    "time_input",
-    "slider",
-    "select_slider",
-    "file_uploader",
-    "metric",
-    "expander",
-    "tabs",
+    "title", "header", "subheader", "markdown", "caption", "info", "warning",
+    "error", "success", "write", "button", "download_button", "link_button",
+    "checkbox", "toggle", "radio", "selectbox", "multiselect", "text_input",
+    "text_area", "number_input", "date_input", "time_input", "slider",
+    "select_slider", "file_uploader", "metric", "expander", "tabs",
 }
+I18N_SAFE_CALLS = {"tr", "t", "localize_ui", "localize_dataframe_columns"}
 
-I18N_SAFE_CALLS = {"tr", "t", "localize_ui"}
+LANGUAGE_MARKERS = {
+    "pt": {
+        "aberta", "para", "observação", "comparativa", "visibilidade", "acesso",
+        "circulação", "acervos", "audiovisuais", "pergunta", "científica", "provisória",
+        "condições", "institucionais", "técnicas", "culturais", "próximos", "ajustes",
+        "implementado", "adaptação", "desenvolver", "evidência", "estado", "plataforma",
+    },
+    "en": {
+        "open", "platform", "observation", "comparative", "visibility", "access",
+        "circulation", "archives", "audiovisual", "research", "question", "scientific",
+        "provisional", "conditions", "institutional", "technical", "cultural", "next",
+        "adjustments", "implemented", "adapted", "developed", "evidence", "status",
+    },
+    "es": {
+        "abierta", "para", "observación", "comparativa", "visibilidad", "acceso",
+        "circulación", "archivos", "audiovisuales", "pregunta", "científica", "provisional",
+        "condiciones", "institucionales", "técnicas", "culturales", "próximos", "ajustes",
+        "implementado", "adaptación", "desarrollar", "evidencia", "estado", "plataforma",
+    },
+}
+TOKEN_RE = re.compile(r"[A-Za-zÀ-ÖØ-öø-ÿ]+", re.UNICODE)
 
 
 @dataclass(frozen=True)
 class Finding:
     path: str
+    page: str
     line: int
+    kind: str
+    severity: str
     call: str
     text: str
+    languages: tuple[str, ...] = ()
 
 
 def _call_name(node: ast.AST) -> str | None:
@@ -64,12 +66,37 @@ def _is_i18n_wrapped(node: ast.AST) -> bool:
 def _literal_strings(node: ast.AST) -> list[str]:
     if isinstance(node, ast.Constant) and isinstance(node.value, str):
         return [node.value]
+    if isinstance(node, ast.JoinedStr):
+        return [part.value for part in node.values if isinstance(part, ast.Constant) and isinstance(part.value, str)]
     if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
         values: list[str] = []
         for element in node.elts:
             values.extend(_literal_strings(element))
         return values
+    if isinstance(node, ast.Dict):
+        values: list[str] = []
+        for value in node.values:
+            values.extend(_literal_strings(value))
+        return values
     return []
+
+
+def _page_name(path: Path, root: Path) -> str:
+    relative = path.relative_to(root)
+    if relative.parts[:1] == ("app",):
+        return relative.stem.replace("streamlit_", "").replace("_", " ").title()
+    return relative.stem.replace("_", " ").title()
+
+
+def _detect_languages(text: str) -> tuple[str, ...]:
+    tokens = {token.lower() for token in TOKEN_RE.findall(text)}
+    scores = {language: len(tokens & markers) for language, markers in LANGUAGE_MARKERS.items()}
+    detected = tuple(sorted(language for language, score in scores.items() if score >= 2))
+    return detected
+
+
+def _compact(text: str) -> str:
+    return " ".join(text.split())[:300]
 
 
 def audit_file(path: Path, root: Path) -> list[Finding]:
@@ -78,39 +105,53 @@ def audit_file(path: Path, root: Path) -> list[Finding]:
     except (SyntaxError, UnicodeDecodeError):
         return []
 
+    relative = str(path.relative_to(root)).replace("\\", "/")
+    page = _page_name(path, root)
     findings: list[Finding] = []
+
     for node in ast.walk(tree):
-        if not isinstance(node, ast.Call):
-            continue
-        call = _call_name(node.func)
-        if call not in STREAMLIT_TEXT_CALLS or not node.args:
-            continue
-        first_arg = node.args[0]
-        if _is_i18n_wrapped(first_arg):
-            continue
-        for text in _literal_strings(first_arg):
-            compact = " ".join(text.split())
-            if compact:
-                findings.append(
-                    Finding(
-                        path=str(path.relative_to(root)).replace("\\", "/"),
-                        line=getattr(node, "lineno", 0),
-                        call=call,
-                        text=compact[:240],
-                    )
-                )
-    return findings
+        if isinstance(node, ast.Call):
+            call = _call_name(node.func)
+            if call in STREAMLIT_TEXT_CALLS and node.args:
+                first_arg = node.args[0]
+                if not _is_i18n_wrapped(first_arg):
+                    literals = _literal_strings(first_arg)
+                    if literals:
+                        for text in literals:
+                            compact = _compact(text)
+                            if compact:
+                                findings.append(Finding(relative, page, node.lineno, "unwrapped_public_text", "high", call, compact))
+                    elif isinstance(first_arg, (ast.Name, ast.Attribute, ast.JoinedStr, ast.BinOp)):
+                        findings.append(Finding(relative, page, node.lineno, "dynamic_public_text", "medium", call, ast.unparse(first_arg)[:300]))
+
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            compact = _compact(node.value)
+            if len(compact.split()) < 4:
+                continue
+            languages = _detect_languages(compact)
+            if len(languages) >= 2:
+                findings.append(Finding(relative, page, node.lineno, "hybrid_language", "high", "string", compact, languages))
+
+    unique: dict[tuple, Finding] = {}
+    for finding in findings:
+        key = (finding.path, finding.line, finding.kind, finding.call, finding.text)
+        unique[key] = finding
+    return list(unique.values())
 
 
 def run(root: Path) -> list[Finding]:
-    paths = [root / "app"]
+    targets = [
+        root / "app",
+        root / "src" / "memoria_audiovisual" / "research_profile.py",
+    ]
     findings: list[Finding] = []
-    for base in paths:
-        if not base.exists():
-            continue
-        for path in sorted(base.rglob("*.py")):
-            findings.extend(audit_file(path, root))
-    return findings
+    for target in targets:
+        if target.is_file():
+            findings.extend(audit_file(target, root))
+        elif target.exists():
+            for path in sorted(target.rglob("*.py")):
+                findings.extend(audit_file(path, root))
+    return sorted(findings, key=lambda item: (item.page, item.path, item.line, item.kind))
 
 
 def main() -> int:
