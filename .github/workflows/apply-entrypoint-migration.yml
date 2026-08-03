@@ -1,0 +1,53 @@
+name: Apply entrypoint migration
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/apply-entrypoint-migration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Apply versioned migration
+        run: python scripts/migrate_streamlit_entrypoint.py
+
+      - name: Validate migrated entrypoint
+        run: |
+          python scripts/migrate_streamlit_entrypoint.py --check
+          python -m py_compile app/streamlit_app.py
+          python -m py_compile src/memoria_audiovisual/ui/navigation.py
+          python -m py_compile src/memoria_audiovisual/ui/scientific_infrastructure.py
+          python -m unittest tests.test_streamlit_entrypoint_migration tests.test_ui_navigation -v
+
+      - name: Synchronize canonical Portuguese catalogue
+        run: python scripts/sync_portuguese_catalog.py
+
+      - name: Remove disposable executor
+        run: rm .github/workflows/apply-entrypoint-migration.yml
+
+      - name: Commit definitive source state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/streamlit_app.py src/memoria_audiovisual/locales/pt.json .github/workflows/apply-entrypoint-migration.yml
+          git diff --cached --check
+          git commit -m "feat: integrar definitivamente a infraestrutura científica"
+          git push origin HEAD:presentation/rpv-1
