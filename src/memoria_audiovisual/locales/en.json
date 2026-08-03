@@ -1,0 +1,13 @@
+{
+  "research.section.title": "Scientific Parameters of the Platform",
+  "research.section.caption": "The platform combines public observation, methodological curation and comparative analysis. This layer makes explicit the variables, evidence and protocols that provide scientific consistency for the longitudinal monitoring of audiovisual archives.",
+  "research.tabs.framing": "Scientific Framing",
+  "research.tabs.matrix": "Methodological Matrix",
+  "research.tabs.next_adjustments": "Next Adjustments",
+  "research.question.label": "Provisional research question",
+  "research.parameters.summary": "The platform examines the digital visibility of audiovisual archives through verifiable parameters: completeness, collection route, access, visibility, stability, territory, language, aggregation and historical continuity.",
+  "research.metrics.mapped": "Mapped Parameters",
+  "research.metrics.implemented": "Implemented",
+  "research.metrics.adapting": "Being Adapted",
+  "research.metrics.to_develop": "To Be Developed"
+}
