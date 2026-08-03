@@ -10,7 +10,7 @@ on:
       - "src/memoria_audiovisual/locales/**"
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
-      - "scripts/migrate_overview_catalog.py"
+      - "scripts/audit_overview_catalog.py"
       - ".github/workflows/i18n-audit.yml"
       - "docs/project/BACKLOG.md"
   pull_request:
@@ -22,42 +22,12 @@ on:
       - "src/memoria_audiovisual/locales/**"
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
-      - "scripts/migrate_overview_catalog.py"
+      - "scripts/audit_overview_catalog.py"
       - ".github/workflows/i18n-audit.yml"
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-  migrate-overview:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: presentation/rpv-1
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Migrate remaining Overview UI strings
-        run: python scripts/migrate_overview_catalog.py
-      - name: Commit Overview migration
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add app/streamlit_app.py src/memoria_audiovisual/locales/pt.json
-          if git diff --cached --quiet; then
-            echo 'Overview strings already migrated.'
-          else
-            git commit -m 'refactor(i18n): complete Overview catalogue migration [skip ci]'
-            git pull --rebase origin presentation/rpv-1
-            git push origin HEAD:presentation/rpv-1
-          fi
-
   audit:
-    needs: migrate-overview
-    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -68,6 +38,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Audit Overview semantic catalogue
+        run: python scripts/audit_overview_catalog.py
       - name: Run Streamlit language audit
         shell: bash
         run: |
