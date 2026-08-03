@@ -1,0 +1,123 @@
+name: Migrate Overview Third Block
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/migrate-overview-third-block.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply Overview third-block migration
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          app_path = Path('app/streamlit_app.py')
+          locale_path = Path('src/memoria_audiovisual/locales/pt.json')
+          text = app_path.read_text(encoding='utf-8')
+
+          replacements = {
+              '"Exportar índice de dados públicos",': 'tr_key("overview.public_access.download.scope.label"),',
+              '"Exporta o índice World/continentes de dados públicos e restritos.",': 'tr_key("overview.public_access.download.scope.help"),',
+              'st.info("Ainda não há índice por unidade documental disponível.")': 'st.info(tr_key("overview.public_access.empty.corpus"))',
+              '"Exportar índice por unidade documental",': 'tr_key("overview.public_access.download.corpus.label"),',
+              '"Exporta o índice de dados públicos por unidade documental ativa.",': 'tr_key("overview.public_access.download.corpus.help"),',
+              'st.info("Ainda não há unidades restritas registradas no índice.")': 'st.info(tr_key("overview.public_access.empty.restricted"))',
+              '"Esta tabela mostra apenas unidades restritas que fazem parte do índice. "\n                    "Bancos privados/publicitários ficam fora deste recorte."': 'tr_key("overview.public_access.restricted.caption")',
+              '"Exportar unidades restritas do índice",': 'tr_key("overview.public_access.download.restricted.label"),',
+              '"Exporta unidades com acesso restrito, cadastro, pagamento ou licenciamento.",': 'tr_key("overview.public_access.download.restricted.help"),',
+              'st.info("Ainda não há histórico geral disponível para o observatório.")': 'st.info(tr_key("overview.timeline.empty.history"))',
+              '"Cada linha preserva uma observação histórica de uma unidade documental, mantendo explícita sua "\n                "categoria analítica e escala de cobertura."': 'tr_key("overview.timeline.history.caption")',
+              '"Exportar histórico geral das unidades",': 'tr_key("overview.timeline.download.history.label"),',
+              '"Exporta a linha do tempo combinada das unidades do observatório.",': 'tr_key("overview.timeline.download.history.help"),',
+              '"Ainda não há sinais globais registrados. Isso é esperado enquanto o organismo acumula "\n                "mais rodadas históricas para comparação."': 'tr_key("overview.timeline.empty.signals")',
+              '"Os sinais abaixo não afirmam extinção por si só. Eles indicam mudanças que merecem "\n                "observação longitudinal e interpretação metodológica cuidadosa."': 'tr_key("overview.timeline.signals.caption")',
+              '"Exportar sinais de possível extinção",': 'tr_key("overview.timeline.download.signals.label"),',
+              '"Exporta os sinais combinados de retração e possível extinção detectados no observatório.",': 'tr_key("overview.timeline.download.signals.help"),',
+              'metric_cols[0].metric("Unidades documentais ativas", total_corpora)': 'metric_cols[0].metric(tr_key("overview.summary.metrics.corpora"), total_corpora)',
+              'metric_cols[1].metric("Instituições no observatório", total_institutions)': 'metric_cols[1].metric(tr_key("overview.summary.metrics.institutions"), total_institutions)',
+              'metric_cols[2].metric("Instituições com links de vídeo", total_with_video_links)': 'metric_cols[2].metric(tr_key("overview.summary.metrics.institutions_with_video"), total_with_video_links)',
+              'metric_cols[3].metric("Links de vídeo detectados", total_video_links)': 'metric_cols[3].metric(tr_key("overview.summary.metrics.video_links"), total_video_links)',
+              'metric_cols[4].metric("Vídeos no recorte curatorial", total_curatorial_videos)': 'metric_cols[4].metric(tr_key("overview.summary.metrics.curatorial_videos"), total_curatorial_videos)',
+              'queue_metric_cols[0].metric("Agregador audiovisual europeu", european_av_aggregator_total)': 'queue_metric_cols[0].metric(tr_key("overview.queue.metrics.audiovisual_aggregator"), european_av_aggregator_total)',
+              '"Agregadores nacionais europeus",': 'tr_key("overview.queue.metrics.national_aggregators"),',
+              'queue_metric_cols[2].metric("Lacunas europeias", european_gap_total)': 'queue_metric_cols[2].metric(tr_key("overview.queue.metrics.gaps"), european_gap_total)',
+              'queue_metric_cols[3].metric("Unidades já incorporadas", already_active_total)': 'queue_metric_cols[3].metric(tr_key("overview.queue.metrics.active"), already_active_total)',
+              '["Síntese da fila", "Fontes candidatas"]': '[tr_key("overview.queue.tabs.summary"), tr_key("overview.queue.tabs.candidates")]',
+              '"Exportar síntese da fila",': 'tr_key("overview.queue.download.summary.label"),',
+              '"Exporta a síntese das decisões de expansão do observatório.",': 'tr_key("overview.queue.download.summary.help"),',
+              '"Exportar fila de expansão",': 'tr_key("overview.queue.download.queue.label"),',
+              '"Exporta a fila atual de fontes candidatas priorizadas pelo observatório.",': 'tr_key("overview.queue.download.queue.help"),',
+              '"Cada linha mostra uma unidade potencial, a decisão automática aplicada e o próximo passo "\n            "sugerido pelo protocolo do organismo."': 'tr_key("overview.queue.candidates.caption")',
+              '"Exportar registro completo de candidatos",': 'tr_key("overview.queue.download.registry.label"),',
+              '"Exporta o registro completo de candidatos e unidades já incorporadas ao observatório.",': 'tr_key("overview.queue.download.registry.help"),',
+          }
+
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f'Missing expected source text: {old}')
+              text = text.replace(old, new, 1)
+
+          app_path.write_text(text, encoding='utf-8')
+
+          catalogue = json.loads(locale_path.read_text(encoding='utf-8'))
+          catalogue.update({
+              "overview.public_access.download.scope.label": "Exportar índice de dados públicos",
+              "overview.public_access.download.scope.help": "Exporta o índice mundial e continental de dados públicos e restritos.",
+              "overview.public_access.empty.corpus": "Ainda não há índice por unidade documental disponível.",
+              "overview.public_access.download.corpus.label": "Exportar índice por unidade documental",
+              "overview.public_access.download.corpus.help": "Exporta o índice de dados públicos por unidade documental ativa.",
+              "overview.public_access.empty.restricted": "Ainda não há unidades restritas registradas no índice.",
+              "overview.public_access.restricted.caption": "Esta tabela mostra apenas unidades restritas que fazem parte do índice. Bancos privados ou publicitários ficam fora deste recorte.",
+              "overview.public_access.download.restricted.label": "Exportar unidades restritas do índice",
+              "overview.public_access.download.restricted.help": "Exporta unidades com acesso restrito, cadastro, pagamento ou licenciamento.",
+              "overview.timeline.empty.history": "Ainda não há histórico geral disponível para o observatório.",
+              "overview.timeline.history.caption": "Cada linha preserva uma observação histórica de uma unidade documental, mantendo explícitas sua categoria analítica e sua escala de cobertura.",
+              "overview.timeline.download.history.label": "Exportar histórico geral das unidades",
+              "overview.timeline.download.history.help": "Exporta a linha do tempo combinada das unidades do observatório.",
+              "overview.timeline.empty.signals": "Ainda não há sinais globais registrados. Isso é esperado enquanto o organismo acumula mais rodadas históricas para comparação.",
+              "overview.timeline.signals.caption": "Os sinais abaixo não afirmam extinção por si sós. Eles indicam mudanças que merecem observação longitudinal e interpretação metodológica cuidadosa.",
+              "overview.timeline.download.signals.label": "Exportar sinais de possível extinção",
+              "overview.timeline.download.signals.help": "Exporta os sinais combinados de retração e possível extinção detectados no observatório.",
+              "overview.summary.metrics.corpora": "Unidades documentais ativas",
+              "overview.summary.metrics.institutions": "Instituições no observatório",
+              "overview.summary.metrics.institutions_with_video": "Instituições com links de vídeo",
+              "overview.summary.metrics.video_links": "Links de vídeo detectados",
+              "overview.summary.metrics.curatorial_videos": "Vídeos no recorte curatorial",
+              "overview.queue.metrics.audiovisual_aggregator": "Agregador audiovisual europeu",
+              "overview.queue.metrics.national_aggregators": "Agregadores nacionais europeus",
+              "overview.queue.metrics.gaps": "Lacunas europeias",
+              "overview.queue.metrics.active": "Unidades já incorporadas",
+              "overview.queue.tabs.summary": "Síntese da fila",
+              "overview.queue.tabs.candidates": "Fontes candidatas",
+              "overview.queue.download.summary.label": "Exportar síntese da fila",
+              "overview.queue.download.summary.help": "Exporta a síntese das decisões de expansão do observatório.",
+              "overview.queue.download.queue.label": "Exportar fila de expansão",
+              "overview.queue.download.queue.help": "Exporta a fila atual de fontes candidatas priorizadas pelo observatório.",
+              "overview.queue.candidates.caption": "Cada linha mostra uma unidade potencial, a decisão automática aplicada e o próximo passo sugerido pelo protocolo do organismo.",
+              "overview.queue.download.registry.label": "Exportar registro completo de candidatos",
+              "overview.queue.download.registry.help": "Exporta o registro completo de candidatos e unidades já incorporadas ao observatório."
+          })
+          locale_path.write_text(json.dumps(catalogue, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          compile(text, str(app_path), 'exec')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/streamlit_app.py src/memoria_audiovisual/locales/pt.json
+          git commit -m 'refactor(i18n): migrate Overview third block to semantic catalogue [skip ci]'
+          git push origin HEAD:presentation/rpv-1
