@@ -30,15 +30,41 @@ jobs:
       - name: Apply versioned migration
         run: python scripts/migrate_scientific_infrastructure_registry.py
 
-      - name: Validate central registry integration
+      - name: Validate canonical indicator registry integration
         run: |
           python scripts/migrate_scientific_infrastructure_registry.py --check
+          python scripts/audit_indicator_registry_consistency.py
           python -m py_compile src/memoria_audiovisual/scientific_infrastructure/registry.py
           python -m py_compile src/memoria_audiovisual/scientific_infrastructure/loaders.py
+          python -m py_compile src/memoria_audiovisual/scientific_infrastructure/indicator_registry.py
           python -m py_compile src/memoria_audiovisual/ui/scientific_infrastructure.py
           pytest -q \
             tests/test_scientific_infrastructure_registry.py \
-            tests/test_scientific_infrastructure_registry_migration.py
+            tests/test_scientific_infrastructure_registry_migration.py \
+            tests/test_indicator_registry.py \
+            tests/test_indicator_consistency.py
+
+      - name: Prohibit operational use of legacy indicator catalogue
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          operational_paths = [
+              Path("src/memoria_audiovisual/scientific_infrastructure/registry.py"),
+              Path("src/memoria_audiovisual/scientific_infrastructure/loaders.py"),
+              Path("src/memoria_audiovisual/ui/scientific_infrastructure.py"),
+          ]
+          forbidden = ("indicator_catalog", "indicator_catalog.json")
+          findings = []
+          for path in operational_paths:
+              text = path.read_text(encoding="utf-8")
+              for token in forbidden:
+                  if token in text:
+                      findings.append(f"{path}: {token}")
+          if findings:
+              raise SystemExit("Uso operacional legado detectado: " + "; ".join(findings))
+          print("Somente indicator_registry.json é utilizado operacionalmente.")
+          PY
 
       - name: Remove disposable executor
         run: rm .github/workflows/apply-scientific-registry-migration.yml
@@ -49,5 +75,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/memoria_audiovisual/ui/scientific_infrastructure.py .github/workflows/apply-scientific-registry-migration.yml
           git diff --cached --check
-          git commit -m "refactor: centralizar registro da infraestrutura científica"
+          git commit -m "refactor: consumir exclusivamente o registro canônico de indicadores"
           git push origin HEAD:presentation/rpv-1
