@@ -1,0 +1,75 @@
+name: Integrate scientific infrastructure
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message != 'feat: integrar infraestrutura científica à interface'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Patch Streamlit entry point
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('app/streamlit_app.py')
+          text = path.read_text(encoding='utf-8')
+          import_line = 'from memoria_audiovisual.ui.scientific_infrastructure import render_scientific_infrastructure\n'
+          anchor = 'from memoria_audiovisual.output_files import list_output_filenames\n'
+          if import_line not in text:
+              if anchor not in text:
+                  raise SystemExit('import anchor not found')
+              text = text.replace(anchor, import_line + anchor, 1)
+
+          old = '''top_level_tabs = st.tabs(\n    [tr_key("navigation.overview")]\n    + [tr_key("navigation.category", label=category_def["short_label"]) for category_def in CORPUS_CATEGORIES.values()]\n'''
+          new = '''top_level_tabs = st.tabs(\n    [tr_key("navigation.overview"), "Infraestrutura científica"]\n    + [tr_key("navigation.category", label=category_def["short_label"]) for category_def in CORPUS_CATEGORIES.values()]\n'''
+          if old in text:
+              text = text.replace(old, new, 1)
+          elif '"Infraestrutura científica"' not in text:
+              raise SystemExit('top-level tabs anchor not found')
+
+          old_render = '''with top_level_tabs[0]:\n    render_observatory_overview_tab()\n\ncategory_start = 1\n'''
+          new_render = '''with top_level_tabs[0]:\n    render_observatory_overview_tab()\n\nwith top_level_tabs[1]:\n    render_scientific_infrastructure(BASE_DIR)\n\ncategory_start = 2\n'''
+          if old_render in text:
+              text = text.replace(old_render, new_render, 1)
+          elif 'render_scientific_infrastructure(BASE_DIR)' not in text:
+              raise SystemExit('render anchor not found')
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Sync canonical Portuguese catalogue
+        run: python scripts/sync_portuguese_catalog.py
+
+      - name: Validate syntax and focused tests
+        run: |
+          python -m py_compile app/streamlit_app.py src/memoria_audiovisual/ui/scientific_infrastructure.py
+          pytest -q tests/test_incorporation_eligibility.py tests/test_european_queue_eligibility.py tests/test_european_queue_probe.py
+
+      - name: Commit integration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/streamlit_app.py src/memoria_audiovisual/locales/pt.json
+          if git diff --cached --quiet; then
+            echo "No integration changes"
+            exit 0
+          fi
+          git commit -m "feat: integrar infraestrutura científica à interface"
+          git push origin HEAD:presentation/rpv-1
