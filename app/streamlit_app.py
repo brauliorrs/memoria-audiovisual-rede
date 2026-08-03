@@ -1747,17 +1747,17 @@ def render_observatory_overview_tab():
 
     if cycle_timeline_df is not None and not cycle_timeline_df.empty:
         cycle_metric_cols = st.columns(4)
-        cycle_metric_cols[0].metric("Rodadas registradas", len(cycle_timeline_df))
+        cycle_metric_cols[0].metric(tr_key('overview.ui.metric.rodadas_registradas'), len(cycle_timeline_df))
         cycle_metric_cols[1].metric(
-            "Último escopo",
+            tr_key('overview.ui.metric.ultimo_escopo'),
             str(cycle_timeline_df.iloc[-1].get("cycle_scope", "-")),
         )
         cycle_metric_cols[2].metric(
-            "Unidades avaliadas na última rodada",
+            tr_key('overview.ui.metric.unidades_avaliadas_na_ultima_rodada'),
             int(pd.to_numeric(cycle_timeline_df.iloc[-1].get("selected_corpora_total", 0), errors="coerce")),
         )
         cycle_metric_cols[3].metric(
-            "Pendências na última rodada",
+            tr_key('overview.ui.metric.pendencias_na_ultima_rodada'),
             int(pd.to_numeric(cycle_timeline_df.iloc[-1].get("failed_corpora_total", 0), errors="coerce")),
         )
 
@@ -2188,14 +2188,11 @@ def render_observatory_overview_tab():
 
     st.markdown(tr_key("overview.european_aggregators.title"))
     st.caption(
-        "Esta camada não incorpora novas unidades automaticamente. Ela observa a superfície pública de "
-        "Archives Hub, FranceArchives, PARES e Portal Português de Arquivos para decidir, com "
-        "evidência registrada, qual fonte pode seguir para validação total e qual exige nova rota "
-        "de acesso."
+        tr_key('overview.ui.caption.esta_camada_nao_incorpora_novas_unidades_automaticam')
     )
     if european_aggregator_evaluation_df is None or european_aggregator_evaluation_df.empty:
         st.info(
-            "A avaliação dos agregadores europeus ainda não está disponível nesta versão do observatório."
+            tr_key('overview.ui.info.a_avaliacao_dos_agregadores_europeus_ainda_nao_esta_')
         )
     else:
         ready_count = int(
@@ -2227,17 +2224,15 @@ def render_observatory_overview_tab():
             .sum()
         )
         european_eval_metric_cols = st.columns(4)
-        european_eval_metric_cols[0].metric("Agregadores avaliados", len(european_aggregator_evaluation_df))
-        european_eval_metric_cols[1].metric("Prontos para validação total", ready_count)
-        european_eval_metric_cols[2].metric("Exigem nova rota de acesso", protocol_count)
+        european_eval_metric_cols[0].metric(tr_key('overview.ui.metric.agregadores_avaliados'), len(european_aggregator_evaluation_df))
+        european_eval_metric_cols[1].metric(tr_key('overview.ui.metric.prontos_para_validacao_total'), ready_count)
+        european_eval_metric_cols[2].metric(tr_key('overview.ui.metric.exigem_nova_rota_de_acesso'), protocol_count)
         european_eval_metric_cols[3].metric(
-            "Registros preliminares de busca",
+            tr_key('overview.ui.metric.registros_preliminares_de_busca'),
             format_integer_pt(result_total),
         )
         st.caption(
-            "Os registros preliminares de busca somam os resultados brutos retornados nas verificações "
-            "dos agregadores. Eles não equivalem a vídeos incorporados ao corpus: indicam apenas volume potencial "
-            "a validar, deduplicar e classificar."
+            tr_key('overview.ui.caption.os_registros_preliminares_de_busca_somam_os_resultad')
         )
 
         evaluation_display_df = european_aggregator_evaluation_df.rename(
@@ -2280,11 +2275,9 @@ def render_observatory_overview_tab():
         )
 
         if european_aggregator_protocols_df is not None and not european_aggregator_protocols_df.empty:
-            st.markdown("#### Matriz de decisão de incorporação")
+            st.markdown(tr_key('overview.ui.markdown.matriz_de_decisao_de_incorporacao'))
             st.caption(
-                "Esta matriz separa decisão metodológica de disponibilidade técnica: uma fonte pode "
-                "ser relevante para o fechamento europeu e, ainda assim, permanecer fora das unidades "
-                "ativas até existir uma rota estável de acesso."
+                tr_key('overview.ui.caption.esta_matriz_separa_decisao_metodologica_de_disponibi')
             )
             protocol_display_df = european_aggregator_protocols_df.rename(
                 columns={
@@ -2324,10 +2317,9 @@ def render_observatory_overview_tab():
             )
 
         if european_aggregator_access_routes_df is not None and not european_aggregator_access_routes_df.empty:
-            with st.expander("Rotas oficiais analisadas", expanded=False):
+            with st.expander(tr_key('overview.ui.expander.rotas_oficiais_analisadas'), expanded=False):
                 st.caption(
-                    "Estas rotas não promovem automaticamente uma fonte a unidade ativa. Elas registram "
-                    "caminhos oficiais ou documentados que podem ser testados antes da incorporação."
+                    tr_key('overview.ui.caption.estas_rotas_nao_promovem_automaticamente_uma_fonte_a')
                 )
                 access_route_display_df = european_aggregator_access_routes_df.rename(
                     columns={
@@ -2367,10 +2359,9 @@ def render_observatory_overview_tab():
                 )
 
         if archiveshub_protocol_df is not None and not archiveshub_protocol_df.empty:
-            with st.expander("Verificação metodológica do Archives Hub", expanded=False):
+            with st.expander(tr_key('overview.ui.expander.verificacao_metodologica_do_archives_hub'), expanded=False):
                 st.caption(
-                    "Este quadro testa SRU e OAI-PMH em modo mínimo, sem promover o Archives Hub "
-                    "a unidade ativa enquanto a rota de acesso não estiver estável."
+                    tr_key('overview.ui.caption.este_quadro_testa_sru_e_oai_pmh_em_modo_minimo_sem_p')
                 )
                 archiveshub_protocol_display_df = archiveshub_protocol_df.rename(
                     columns={
@@ -2410,10 +2401,9 @@ def render_observatory_overview_tab():
                 )
 
         if francearchives_protocol_df is not None and not francearchives_protocol_df.empty:
-            with st.expander("Verificação metodológica do FranceArchives", expanded=False):
+            with st.expander(tr_key('overview.ui.expander.verificacao_metodologica_do_francearchives'), expanded=False):
                 st.caption(
-                    "Este quadro testa sinais mínimos de viabilidade técnica para FranceArchives "
-                    "sem transferir integralmente o pacote XML e sem transformar a fonte em unidade ativa."
+                    tr_key('overview.ui.caption.este_quadro_testa_sinais_minimos_de_viabilidade_tecn')
                 )
                 francearchives_protocol_display_df = francearchives_protocol_df.rename(
                     columns={
@@ -2452,7 +2442,7 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
 
-        with st.expander("Ver verificações realizadas", expanded=False):
+        with st.expander(tr_key('overview.ui.expander.ver_verificacoes_realizadas'), expanded=False):
             st.caption(
                 f"As verificações registram respostas dos sites, bloqueios por JS/cookies, problemas de TLS "
                 f"e contagens preliminares. Total de verificações bloqueadas: {blocked_probe_total}."
@@ -2478,63 +2468,61 @@ def render_observatory_overview_tab():
         european_download_cols = st.columns(7)
         with european_download_cols[0]:
             render_csv_download(
-                "Exportar avaliação dos agregadores europeus",
+                tr_key('overview.download.label.exportar_avaliacao_dos_agregadores_europeus'),
                 european_aggregator_evaluation_df,
                 EUROPEAN_AGGREGATOR_EVALUATION_FILENAME,
-                "Exporta a síntese metodológica por agregador europeu candidato.",
+                tr_key('overview.download.help.exporta_a_sintese_metodologica_por_agregador_europeu'),
             )
         with european_download_cols[1]:
             render_csv_download(
-                "Exportar verificações realizadas",
+                tr_key('overview.download.label.exportar_verificacoes_realizadas'),
                 european_aggregator_probes_df,
                 EUROPEAN_AGGREGATOR_PROBES_FILENAME,
-                "Exporta cada sondagem executada nas superfícies públicas dos agregadores.",
+                tr_key('overview.download.help.exporta_cada_sondagem_executada_nas_superficies_publ'),
             )
         with european_download_cols[2]:
             render_csv_download(
-                "Exportar rotas analisadas",
+                tr_key('overview.download.label.exportar_rotas_analisadas'),
                 european_aggregator_access_routes_df,
                 EUROPEAN_AGGREGATOR_ACCESS_ROUTES_FILENAME,
-                "Exporta rotas oficiais ou documentadas para resolver protocolos de acesso.",
+                tr_key('overview.download.help.exporta_rotas_oficiais_ou_documentadas_para_resolver'),
             )
         with european_download_cols[3]:
             render_csv_download(
-                "Exportar decisões metodológicas europeias",
+                tr_key('overview.download.label.exportar_decisoes_metodologicas_europeias'),
                 european_aggregator_protocols_df,
                 EUROPEAN_AGGREGATOR_PROTOCOLS_FILENAME,
-                "Exporta a matriz de protocolos e decisões metodológicas por agregador candidato.",
+                tr_key('overview.download.help.exporta_a_matriz_de_protocolos_e_decisoes_metodologi'),
             )
         with european_download_cols[4]:
             render_csv_download(
-                "Exportar verificação do Archives Hub",
+                tr_key('overview.download.label.exportar_verificacao_do_archives_hub'),
                 archiveshub_protocol_df,
                 ARCHIVESHUB_PROTOCOL_FILENAME,
-                "Exporta o protótipo leve de validação técnica do Archives Hub.",
+                tr_key('overview.download.help.exporta_o_prototipo_leve_de_validacao_tecnica_do_arc'),
             )
         with european_download_cols[5]:
             render_csv_download(
-                "Exportar verificação do FranceArchives",
+                tr_key('overview.download.label.exportar_verificacao_do_francearchives'),
                 francearchives_protocol_df,
                 FRANCEARCHIVES_PROTOCOL_FILENAME,
-                "Exporta o protótipo leve de validação técnica do FranceArchives.",
+                tr_key('overview.download.help.exporta_o_prototipo_leve_de_validacao_tecnica_do_fra'),
             )
         with european_download_cols[6]:
             render_csv_download(
-                "Exportar síntese da avaliação europeia",
+                tr_key('overview.download.label.exportar_sintese_da_avaliacao_europeia'),
                 european_aggregator_summary_df,
                 EUROPEAN_AGGREGATOR_SUMMARY_FILENAME,
-                "Exporta a síntese dos estados metodológicos observados.",
+                tr_key('overview.download.help.exporta_a_sintese_dos_estados_metodologicos_observad'),
             )
 
     st.markdown(tr_key("overview.europe_closure.title"))
     st.caption(
-        "Este quadro explicita o estado metodológico da etapa Europa. Ele não afirma que todos os "
-        "arquivos audiovisuais europeus foram identificados; registra o que já opera como unidade ativa, "
-        "o que está protocolado e o que segue em fila auditável de expansão."
+        tr_key('overview.ui.caption.este_quadro_explicita_o_estado_metodologico_da_etapa')
     )
     if europe_closure_summary_df is None or europe_closure_summary_df.empty:
         st.info(
-            "O relatório de fechamento europeu ainda não está disponível nesta versão do observatório."
+            tr_key('overview.ui.info.o_relatorio_de_fechamento_europeu_ainda_nao_esta_dis')
         )
     else:
         closure_status = (
@@ -2559,50 +2547,49 @@ def render_observatory_overview_tab():
             audited_gaps = len(europe_gap_audit_df)
 
         closure_cols = st.columns(5)
-        closure_cols[0].metric("Unidades europeias ativas", active_units)
-        closure_cols[1].metric("Candidatos em avaliação", pending_units)
-        closure_cols[2].metric("Identificados fora da base ativa", excluded_units)
-        closure_cols[3].metric("Lacunas auditadas", audited_gaps)
+        closure_cols[0].metric(tr_key('overview.ui.metric.unidades_europeias_ativas'), active_units)
+        closure_cols[1].metric(tr_key('overview.ui.metric.candidatos_em_avaliacao'), pending_units)
+        closure_cols[2].metric(tr_key('overview.ui.metric.identificados_fora_da_base_ativa'), excluded_units)
+        closure_cols[3].metric(tr_key('overview.ui.metric.lacunas_auditadas'), audited_gaps)
         closure_cols[4].metric(
-            "Próxima etapa",
+            tr_key('overview.ui.metric.proxima_etapa'),
             closure_status[0].replace("_", " ") if closure_status else "-",
         )
 
         closure_tab_summary, closure_tab_matrix, closure_tab_excluded, closure_tab_paid_access, closure_tab_gap_audit = st.tabs(
             [
-                "Critérios de fechamento",
-                "Matriz europeia",
-                "Fora da base ativa",
-                "Acesso pago/restrito",
-                "Lacunas documentadas",
+                tr_key('overview.tabs.criterios_de_fechamento'),
+                tr_key('overview.tabs.matriz_europeia'),
+                tr_key('overview.tabs.fora_da_base_ativa'),
+                tr_key('overview.tabs.acesso_pago_restrito'),
+                tr_key('overview.tabs.lacunas_documentadas'),
             ]
         )
         with closure_tab_summary:
             st.dataframe(europe_closure_summary_df, use_container_width=True, hide_index=True)
             render_csv_download(
-                "Exportar síntese do fechamento europeu",
+                tr_key('overview.download.label.exportar_sintese_do_fechamento_europeu'),
                 europe_closure_summary_df,
                 EUROPE_CLOSURE_SUMMARY_FILENAME,
-                "Exporta os critérios metodológicos usados para liberar a próxima etapa continental.",
+                tr_key('overview.download.help.exporta_os_criterios_metodologicos_usados_para_liber'),
             )
         with closure_tab_matrix:
             if europe_closure_matrix_df is None or europe_closure_matrix_df.empty:
-                st.info("A matriz de fechamento europeu ainda não está disponível.")
+                st.info(tr_key('overview.ui.info.a_matriz_de_fechamento_europeu_ainda_nao_esta_dispon'))
             else:
                 st.dataframe(europe_closure_matrix_df, use_container_width=True, hide_index=True)
                 render_csv_download(
-                    "Exportar matriz de fechamento europeu",
+                    tr_key('overview.download.label.exportar_matriz_de_fechamento_europeu'),
                     europe_closure_matrix_df,
                     EUROPE_CLOSURE_MATRIX_FILENAME,
-                    "Exporta a situação de cada corpus ou candidato europeu.",
+                    tr_key('overview.download.help.exporta_a_situacao_de_cada_corpus_ou_candidato_europ'),
                 )
         with closure_tab_excluded:
             if europe_excluded_units_df is None or europe_excluded_units_df.empty:
-                st.info("Ainda não há unidades europeias documentadas fora da base ativa.")
+                st.info(tr_key('overview.ui.info.ainda_nao_ha_unidades_europeias_documentadas_fora_da'))
             else:
                 st.caption(
-                    "Essas unidades foram identificadas e preservadas no observatório, mas não entram "
-                    "na base ativa enquanto a rota de coleta não for estável e reprodutível."
+                    tr_key('overview.ui.caption.essas_unidades_foram_identificadas_e_preservadas_no_')
                 )
                 excluded_display_df = europe_excluded_units_df.rename(
                     columns={
@@ -2644,26 +2631,24 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
                 if europe_closure_queue_df is not None and not europe_closure_queue_df.empty:
-                    with st.expander("Ver posição dessas unidades na fila europeia", expanded=False):
+                    with st.expander(tr_key('overview.ui.expander.ver_posicao_dessas_unidades_na_fila_europeia'), expanded=False):
                         not_included_codes = set(europe_excluded_units_df["unit_code"].astype(str))
                         queue_display_df = europe_closure_queue_df.loc[
                             europe_closure_queue_df["unit_code"].astype(str).isin(not_included_codes)
                         ].copy()
                         st.dataframe(queue_display_df, use_container_width=True, hide_index=True)
                 render_csv_download(
-                    "Exportar unidades identificadas não incorporadas",
+                    tr_key('overview.download.label.exportar_unidades_identificadas_nao_incorporadas'),
                     europe_excluded_units_df,
                     EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME,
-                    "Exporta as unidades europeias identificadas, mas mantidas fora da base ativa.",
+                    tr_key('overview.download.help.exporta_as_unidades_europeias_identificadas_mas_mant'),
                 )
         with closure_tab_paid_access:
             if restricted_access_audit_df is None or restricted_access_audit_df.empty:
-                st.info("A auditoria de acesso pago/restrito ainda não está disponível.")
+                st.info(tr_key('overview.ui.info.a_auditoria_de_acesso_pago_restrito_ainda_nao_esta_d'))
             else:
                 st.caption(
-                    "Esta auditoria separa bancos privados pagos, catálogos comerciais de licenciamento "
-                    "e streaming pago/autenticado. Nem todo acesso comercial fica fora da base ativa: quando "
-                    "há registros públicos avaliados no observatório, ele permanece como modalidade analítica própria."
+                    tr_key('overview.ui.caption.esta_auditoria_separa_bancos_privados_pagos_catalogo')
                 )
                 if restricted_access_summary_df is not None and not restricted_access_summary_df.empty:
                     st.dataframe(restricted_access_summary_df, use_container_width=True, hide_index=True)
@@ -2700,19 +2685,17 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
                 render_csv_download(
-                    "Exportar auditoria de acesso pago/restrito",
+                    tr_key('overview.download.label.exportar_auditoria_de_acesso_pago_restrito'),
                     restricted_access_audit_df,
                     RESTRICTED_ACCESS_AUDIT_FILENAME,
-                    "Exporta os casos auditados com categorias metodológicas de acesso pago ou restrito.",
+                    tr_key('overview.download.help.exporta_os_casos_auditados_com_categorias_metodologi'),
                 )
         with closure_tab_gap_audit:
             if europe_gap_audit_df is None or europe_gap_audit_df.empty:
-                st.info("A auditoria de lacunas europeias ainda não está disponível.")
+                st.info(tr_key('overview.ui.info.a_auditoria_de_lacunas_europeias_ainda_nao_esta_disp'))
             else:
                 st.caption(
-                    "Esta auditoria impede que o fechamento europeu seja lido como exaustividade absoluta. "
-                    "Ela documenta unidades cobertas por bases ativas, fontes legadas, radares e candidatos "
-                    "futuros, mantendo o MVP continental aberto à expansão controlada."
+                    tr_key('overview.ui.caption.esta_auditoria_impede_que_o_fechamento_europeu_seja_')
                 )
                 gap_audit_display_df = europe_gap_audit_df.rename(
                     columns={
@@ -2748,33 +2731,28 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
                 render_csv_download(
-                    "Exportar lacunas europeias documentadas",
+                    tr_key('overview.download.label.exportar_lacunas_europeias_documentadas'),
                     europe_gap_audit_df,
                     EUROPE_CLOSURE_GAP_AUDIT_FILENAME,
-                    "Exporta a auditoria que delimita o que ficou fora da base europeia ativa do MVP.",
+                    tr_key('overview.download.help.exporta_a_auditoria_que_delimita_o_que_ficou_fora_da'),
                 )
 
     st.markdown(tr_key("overview.europe_mapping.title"))
     st.caption(
-        "Este módulo separa o registro europeu completo da fila operacional de pendências. Ele identifica "
-        "agregadores, redes, diretórios e arquivos "
-        "audiovisuais europeus sem chute: agregadores primeiro, diretórios especializados depois, "
-        "arquivos individuais por expansão controlada. A varredura de fontes oficiais inclui Europeana, "
-        "FIAF, EFG, EUscreen, FIAT/IFTA, INEDITS, ACE e EBU. A presença no registro não significa "
-        "incorporação automática; a presença na fila significa análise pendente."
+        tr_key('overview.ui.caption.este_modulo_separa_o_registro_europeu_completo_da_fi')
     )
     if europe_research_registry_df is None or europe_research_registry_df.empty:
-        st.info("O mapeamento europeu ampliado ainda não está disponível.")
+        st.info(tr_key('overview.ui.info.o_mapeamento_europeu_ampliado_ainda_nao_esta_disponi'))
     else:
         europe_queue_layer = europe_research_queue_df.get("queue_layer", pd.Series(dtype="object")).astype(str)
         europe_research_cols = st.columns(4)
-        europe_research_cols[0].metric("Unidades europeias mapeadas", len(europe_research_registry_df))
+        europe_research_cols[0].metric(tr_key('overview.ui.metric.unidades_europeias_mapeadas'), len(europe_research_registry_df))
         europe_research_cols[1].metric(
-            "Próximas análises individuais",
+            tr_key('overview.ui.metric.proximas_analises_individuais'),
             int((europe_queue_layer == "fila_definitiva_um_por_um").sum()),
         )
         europe_research_cols[2].metric(
-            "Diretórios a expandir",
+            tr_key('overview.ui.metric.diretorios_a_expandir'),
             int(
                 (
                     europe_research_registry_df["queue_decision"]
@@ -2783,7 +2761,7 @@ def render_observatory_overview_tab():
             ),
         )
         europe_research_cols[3].metric(
-            "Arquivos individuais",
+            tr_key('overview.ui.metric.arquivos_individuais'),
             int(
                 (
                     europe_research_registry_df["queue_decision"]
@@ -2792,7 +2770,7 @@ def render_observatory_overview_tab():
             ),
         )
         research_tab_queue, research_tab_registry, research_tab_summary = st.tabs(
-            ["Próximas unidades", "Mapa europeu", "Síntese do mapeamento"]
+            [tr_key('overview.tabs.proximas_unidades'), tr_key('overview.tabs.mapa_europeu'), tr_key('overview.tabs.sintese_do_mapeamento')]
         )
         with research_tab_queue:
             queue_display_df = europe_research_queue_df.rename(
@@ -2831,38 +2809,38 @@ def render_observatory_overview_tab():
                 hide_index=True,
             )
             render_csv_download(
-                "Exportar fila europeia de análise",
+                tr_key('overview.download.label.exportar_fila_europeia_de_analise'),
                 europe_research_queue_df,
                 EUROPE_RESEARCH_QUEUE_FILENAME,
-                "Exporta a fila operacional para incorporar ou documentar unidades europeias uma por uma.",
+                tr_key('overview.download.help.exporta_a_fila_operacional_para_incorporar_ou_docume'),
             )
         with research_tab_registry:
             st.dataframe(europe_research_registry_df, use_container_width=True, hide_index=True)
             render_csv_download(
-                "Exportar mapa europeu ampliado",
+                tr_key('overview.download.label.exportar_mapa_europeu_ampliado'),
                 europe_research_registry_df,
                 EUROPE_RESEARCH_REGISTRY_FILENAME,
-                "Exporta o registro ampliado de agregadores, redes, diretórios e fontes europeias.",
+                tr_key('overview.download.help.exporta_o_registro_ampliado_de_agregadores_redes_dir'),
             )
         with research_tab_summary:
             st.dataframe(europe_research_summary_df, use_container_width=True, hide_index=True)
             render_csv_download(
-                "Exportar síntese do mapeamento europeu",
+                tr_key('overview.download.label.exportar_sintese_do_mapeamento_europeu'),
                 europe_research_summary_df,
                 EUROPE_RESEARCH_SUMMARY_FILENAME,
-                "Exporta a síntese por categoria e decisão de fila.",
+                tr_key('overview.download.help.exporta_a_sintese_por_categoria_e_decisao_de_fila'),
             )
 
     chart_cols = st.columns(3)
     chart_base = overview_df.set_index("corpus")
     with chart_cols[0]:
-        st.caption("Instituições com links de vídeo por unidade")
+        st.caption(tr_key('overview.ui.caption.instituicoes_com_links_de_video_por_unidade'))
         st.bar_chart(chart_base[["institutions_with_video_links"]])
     with chart_cols[1]:
-        st.caption("Links de vídeo detectados por unidade")
+        st.caption(tr_key('overview.ui.caption.links_de_video_detectados_por_unidade'))
         st.bar_chart(chart_base[["video_links_total"]])
     with chart_cols[2]:
-        st.caption("Vídeos no recorte curatorial por unidade")
+        st.caption(tr_key('overview.ui.caption.videos_no_recorte_curatorial_por_unidade'))
         st.bar_chart(chart_base[["videos_in_curatorial_catalog"]])
 
     regime_long_df, regime_matrix_df = build_cross_corpus_breakdown(
@@ -2876,8 +2854,7 @@ def render_observatory_overview_tab():
 
     st.markdown(tr_key("overview.comparisons.title"))
     st.caption(
-        "Estes quadros mostram como as unidades diferem não apenas em volume, mas também na forma "
-        "como o audiovisual se torna publicamente acessível."
+        tr_key('overview.ui.caption.estes_quadros_mostram_como_as_unidades_diferem_nao_a')
     )
 
     compare_tab_regimes, compare_tab_modalities = st.tabs(
@@ -2886,32 +2863,32 @@ def render_observatory_overview_tab():
 
     with compare_tab_regimes:
         if regime_long_df.empty:
-            st.info("Ainda não há dados suficientes para comparar regimes de acesso entre unidades.")
+            st.info(tr_key('overview.ui.info.ainda_nao_ha_dados_suficientes_para_comparar_regimes'))
         else:
             st.caption(
-                "Linhas representam unidades documentais; colunas representam regimes institucionais de acesso audiovisual detectável."
+                tr_key('overview.ui.caption.linhas_representam_unidades_documentais_colunas_repr')
             )
             st.dataframe(
                 style_matrix_display(prepare_matrix_display(regime_matrix_df)),
                 use_container_width=True,
                 hide_index=True,
             )
-            with st.expander("Ver tabela detalhada de regimes", expanded=False):
+            with st.expander(tr_key('overview.ui.expander.ver_tabela_detalhada_de_regimes'), expanded=False):
                 st.dataframe(regime_long_df, use_container_width=True, hide_index=True)
 
     with compare_tab_modalities:
         if modality_long_df.empty:
-            st.info("Ainda não há dados suficientes para comparar modalidades de acesso entre unidades.")
+            st.info(tr_key('overview.ui.info.ainda_nao_ha_dados_suficientes_para_comparar_modalid'))
         else:
             st.caption(
-                "Linhas representam unidades documentais; colunas representam modalidades públicas de acesso encontradas nos catálogos."
+                tr_key('overview.ui.caption.linhas_representam_unidades_documentais_colunas_repr_2')
             )
             st.dataframe(
                 style_matrix_display(prepare_matrix_display(modality_matrix_df)),
                 use_container_width=True,
                 hide_index=True,
             )
-            with st.expander("Ver tabela detalhada de modalidades", expanded=False):
+            with st.expander(tr_key('overview.ui.expander.ver_tabela_detalhada_de_modalidades'), expanded=False):
                 st.dataframe(modality_long_df, use_container_width=True, hide_index=True)
 
     if cycle_timeline_df is not None and not cycle_timeline_df.empty:
@@ -2921,8 +2898,7 @@ def render_observatory_overview_tab():
         )
         with cycle_history_tab:
             st.caption(
-                "Cada linha representa uma rodada do observatório, permitindo acompanhar cadência, "
-                "escopo e estabilidade das atualizações ao longo do tempo."
+                tr_key('overview.ui.caption.cada_linha_representa_uma_rodada_do_observatorio_per')
             )
             st.dataframe(
                 cycle_timeline_df.sort_values("generated_at", ascending=False),
@@ -2931,10 +2907,10 @@ def render_observatory_overview_tab():
             )
         with cycle_results_tab:
             if cycle_results_df is None or cycle_results_df.empty:
-                st.info("Ainda não há resultados históricos disponíveis por unidade.")
+                st.info(tr_key('overview.ui.info.ainda_nao_ha_resultados_historicos_disponiveis_por_u'))
             else:
                 st.caption(
-                    "Este quadro preserva o desempenho de cada unidade documental em cada rodada do observatório."
+                    tr_key('overview.ui.caption.este_quadro_preserva_o_desempenho_de_cada_unidade_do')
                 )
                 st.dataframe(
                     cycle_results_df.sort_values(["generated_at", "code"], ascending=[False, True]),
@@ -2943,8 +2919,7 @@ def render_observatory_overview_tab():
                 )
         with cycle_files_tab:
             st.caption(
-                "Estes arquivos preservam a rastreabilidade global do observatório, permitindo "
-                "auditar rodadas, unidades ativas e resultados históricos."
+                tr_key('overview.ui.caption.estes_arquivos_preservam_a_rastreabilidade_global_do')
             )
             organism_files_df = pd.DataFrame(
                 [
@@ -2980,29 +2955,29 @@ def render_observatory_overview_tab():
             download_cols = st.columns(2)
             with download_cols[0]:
                 render_json_download(
-                    "Exportar síntese da última rodada",
+                    tr_key('overview.download.label.exportar_sintese_da_ultima_rodada'),
                     cycle_manifest,
                     ORGANISM_MONTHLY_CYCLE_FILENAME,
-                    "Exporta a síntese global da rodada mais recente do observatório.",
+                    tr_key('overview.download.help.exporta_a_sintese_global_da_rodada_mais_recente_do_o'),
                 )
                 render_csv_download(
-                    "Exportar unidades ativas do observatório",
+                    tr_key('overview.download.label.exportar_unidades_ativas_do_observatorio'),
                     active_corpora_registry_df,
                     ORGANISM_ACTIVE_CORPORA_FILENAME,
-                    "Exporta o inventário atual das unidades ativas do observatório.",
+                    tr_key('overview.download.help.exporta_o_inventario_atual_das_unidades_ativas_do_ob'),
                 )
             with download_cols[1]:
                 render_csv_download(
-                    "Exportar linha do tempo das rodadas",
+                    tr_key('overview.download.label.exportar_linha_do_tempo_das_rodadas'),
                     cycle_timeline_df,
                     ORGANISM_CYCLE_TIMELINE_FILENAME,
-                    "Exporta a linha do tempo global das rodadas mensais do observatório.",
+                    tr_key('overview.download.help.exporta_a_linha_do_tempo_global_das_rodadas_mensais_'),
                 )
                 render_csv_download(
-                    "Exportar resultados históricos por unidade",
+                    tr_key('overview.download.label.exportar_resultados_historicos_por_unidade'),
                     cycle_results_df,
                     ORGANISM_CYCLE_RESULTS_FILENAME,
-                    "Exporta o histórico consolidado dos resultados por unidade em cada rodada.",
+                    tr_key('overview.download.help.exporta_o_historico_consolidado_dos_resultados_por_u'),
                 )
 
 
