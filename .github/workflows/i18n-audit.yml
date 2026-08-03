@@ -10,6 +10,7 @@ on:
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
       - ".github/workflows/i18n-audit.yml"
+      - "docs/project/BACKLOG.md"
   pull_request:
     branches:
       - feature/fase2-adaptador-auditoria-infraestrutura
@@ -35,38 +36,54 @@ jobs:
 
       - name: Run Streamlit language audit
         id: audit
-        continue-on-error: true
+        shell: bash
         run: |
+          set +e
           python scripts/audit_streamlit_i18n.py > i18n-audit.json
-          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          code=$?
+          set -e
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          test -s i18n-audit.json || echo '[]' > i18n-audit.json
 
       - name: Build readable audit report
         run: |
           python - <<'PY'
           import json
-          from collections import Counter
+          from collections import Counter, defaultdict
           from pathlib import Path
 
           findings = json.loads(Path("i18n-audit.json").read_text(encoding="utf-8"))
-          by_file = Counter(item["path"] for item in findings)
-          by_call = Counter(item["call"] for item in findings)
+          by_page = Counter(item["page"] for item in findings)
+          by_kind = Counter(item["kind"] for item in findings)
+          by_severity = Counter(item["severity"] for item in findings)
+          grouped = defaultdict(list)
+          for item in findings:
+              grouped[item["page"]].append(item)
 
           lines = [
-              "# Streamlit language audit",
+              "# Language MVP+ audit",
               "",
-              f"Unwrapped public text occurrences: **{len(findings)}**",
+              f"Total findings: **{len(findings)}**",
               "",
-              "## By file",
+              "## By page or module",
               "",
           ]
-          lines.extend(f"- `{path}`: {count}" for path, count in sorted(by_file.items()))
-          lines.extend(["", "## By Streamlit call", ""])
-          lines.extend(f"- `{call}`: {count}" for call, count in sorted(by_call.items()))
-          lines.extend(["", "## Findings", ""])
-          for item in findings:
-              lines.append(
-                  f"- `{item['path']}:{item['line']}` — `{item['call']}` — {item['text']}"
-              )
+          lines.extend(f"- **{page}**: {count}" for page, count in sorted(by_page.items()))
+          lines.extend(["", "## By finding type", ""])
+          lines.extend(f"- `{kind}`: {count}" for kind, count in sorted(by_kind.items()))
+          lines.extend(["", "## By severity", ""])
+          lines.extend(f"- `{severity}`: {count}" for severity, count in sorted(by_severity.items()))
+
+          for page in sorted(grouped):
+              lines.extend(["", f"## {page}", ""])
+              for item in grouped[page]:
+                  languages = ", ".join(item.get("languages") or [])
+                  language_note = f" — languages: `{languages}`" if languages else ""
+                  lines.append(
+                      f"- **{item['severity']}** — `{item['kind']}` — "
+                      f"`{item['path']}:{item['line']}` — `{item['call']}`{language_note} — {item['text']}"
+                  )
+
           Path("i18n-audit.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
           PY
 
@@ -81,5 +98,5 @@ jobs:
       - name: Enforce audit result
         if: steps.audit.outputs.exit_code != '0'
         run: |
-          echo "Unwrapped Streamlit interface text was found. See the i18n-audit-report artifact."
+          echo "Language MVP+ findings remain. See the i18n-audit-report artifact."
           exit 1
