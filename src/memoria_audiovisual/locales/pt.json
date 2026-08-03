@@ -9,5 +9,15 @@
   "research.metrics.mapped": "Parâmetros mapeados",
   "research.metrics.implemented": "Implementados",
   "research.metrics.adapting": "Em adaptação",
-  "research.metrics.to_develop": "A desenvolver"
+  "research.metrics.to_develop": "A desenvolver",
+  "home.title": "Plataforma aberta de observação da memória audiovisual em rede",
+  "home.caption": "O observatório funciona como plataforma científica aberta para mapear visibilidade, acesso, interoperabilidade e possíveis retrações digitais de acervos audiovisuais.",
+  "home.search.label": "Pesquisa global",
+  "home.search.placeholder": "Pesquisar no acervo audiovisual",
+  "home.search.button": "Pesquisar",
+  "home.search.close": "Fechar pesquisa",
+  "navigation.overview": "Visão geral",
+  "navigation.category": "Categoria: {label}",
+  "navigation.unit": "Unidade: {label}",
+  "navigation.documented_case": "Caso registrado: {label}"
 }

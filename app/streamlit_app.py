@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 import json
 from importlib.util import find_spec
 from pathlib import Path
@@ -86,6 +86,7 @@ from memoria_audiovisual.i18n import (
     t,
     translate_ui_text,
 )
+from memoria_audiovisual.locale_catalog import translate_key
 from memoria_audiovisual.dashboard_data import (
     DASHBOARD_SOURCE_KEYS,
     build_dashboard_base_data,
@@ -120,6 +121,10 @@ APP_LANGUAGE = DEFAULT_LANGUAGE
 
 def tr(key, **kwargs):
     return t(key, APP_LANGUAGE, **kwargs)
+
+
+def tr_key(key, **kwargs):
+    return translate_key(key, APP_LANGUAGE, **kwargs)
 
 
 def localize_ui(value):
@@ -339,10 +344,9 @@ def render_language_selector():
     return language_code_from_label(selected_label)
 
 
-APP_LANGUAGE = render_language_selector()
-install_streamlit_i18n(APP_LANGUAGE)
-st.sidebar.caption(tr("language_note"))
-st.sidebar.caption(tr("raw_data_note"))
+# The multilingual selector remains disabled during the semantic-catalogue migration.
+# Portuguese is the sole active interface language until the English catalogue is rebuilt.
+APP_LANGUAGE = DEFAULT_LANGUAGE
 
 
 @st.cache_data(show_spinner=False)
@@ -4806,21 +4810,21 @@ def close_global_research():
 
 header_title_col, header_search_col = st.columns([5, 3], gap="large", vertical_alignment="center")
 with header_title_col:
-    st.title(tr("app_title"))
-    st.caption(tr("app_caption"))
+    st.title(tr_key("home.title"))
+    st.caption(tr_key("home.caption"))
 
 with header_search_col:
     search_field_col, search_button_col = st.columns([5, 2], gap="small", vertical_alignment="bottom")
     with search_field_col:
         header_search_term = st.text_input(
-            "Pesquisa global",
-            placeholder="Pesquisar no acervo audiovisual",
+            tr_key("home.search.label"),
+            placeholder=tr_key("home.search.placeholder"),
             label_visibility="collapsed",
             key="header-global-research",
         )
     with search_button_col:
         open_research = st.button(
-            "Pesquisar",
+            tr_key("home.search.button"),
             type="primary",
             use_container_width=True,
             key="header-global-research-open",
@@ -4836,7 +4840,7 @@ if st.session_state.get("global-research-open", False):
         close_col = st.columns([7, 1], vertical_alignment="center")[1]
         with close_col:
             st.button(
-                "Fechar pesquisa",
+                tr_key("home.search.close"),
                 use_container_width=True,
                 key="header-global-research-close",
                 on_click=close_global_research,
@@ -4846,10 +4850,10 @@ if st.session_state.get("global-research-open", False):
 
 protocolled_excluded_units = load_protocolled_excluded_units()
 top_level_tabs = st.tabs(
-    [localize_ui("Visão geral")]
-    + [tr("category_tab", label=localize_ui(category_def["short_label"])) for category_def in CORPUS_CATEGORIES.values()]
-    + [tr("unit_tab", label=definition["short_label"]) for definition in CORPORA.values()]
-    + [tr("documented_case_tab", label=unit["unit_label"]) for unit in protocolled_excluded_units]
+    [tr_key("navigation.overview")]
+    + [tr_key("navigation.category", label=category_def["short_label"]) for category_def in CORPUS_CATEGORIES.values()]
+    + [tr_key("navigation.unit", label=definition["short_label"]) for definition in CORPORA.values()]
+    + [tr_key("navigation.documented_case", label=unit["unit_label"]) for unit in protocolled_excluded_units]
 )
 
 with top_level_tabs[0]:
