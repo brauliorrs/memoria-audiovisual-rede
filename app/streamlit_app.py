@@ -1872,14 +1872,14 @@ def render_observatory_overview_tab():
             )
             st.dataframe(index_display_df, use_container_width=True, hide_index=True)
             render_csv_download(
-                "Exportar índice de dados públicos",
+                tr_key("overview.public_access.download.scope.label"),
                 public_access_index_df,
                 PUBLIC_ACCESS_INDEX_FILENAME,
-                "Exporta o índice World/continentes de dados públicos e restritos.",
+                tr_key("overview.public_access.download.scope.help"),
             )
         with corpus_index_tab:
             if public_access_by_corpus_df is None or public_access_by_corpus_df.empty:
-                st.info("Ainda não há índice por unidade documental disponível.")
+                st.info(tr_key("overview.public_access.empty.corpus"))
             else:
                 corpus_display_df = public_access_by_corpus_df.rename(
                     columns={
@@ -1897,18 +1897,17 @@ def render_observatory_overview_tab():
                 )
                 st.dataframe(corpus_display_df, use_container_width=True, hide_index=True)
                 render_csv_download(
-                    "Exportar índice por unidade documental",
+                    tr_key("overview.public_access.download.corpus.label"),
                     public_access_by_corpus_df,
                     PUBLIC_ACCESS_INDEX_BY_CORPUS_FILENAME,
-                    "Exporta o índice de dados públicos por unidade documental ativa.",
+                    tr_key("overview.public_access.download.corpus.help"),
                 )
         with restricted_units_tab:
             if public_access_restricted_units_df is None or public_access_restricted_units_df.empty:
-                st.info("Ainda não há unidades restritas registradas no índice.")
+                st.info(tr_key("overview.public_access.empty.restricted"))
             else:
                 st.caption(
-                    "Esta tabela mostra apenas unidades restritas que fazem parte do índice. "
-                    "Bancos privados/publicitários ficam fora deste recorte."
+                    tr_key("overview.public_access.restricted.caption")
                 )
                 restricted_display_df = public_access_restricted_units_df.rename(
                     columns={
@@ -1925,10 +1924,10 @@ def render_observatory_overview_tab():
                 )
                 st.dataframe(restricted_display_df, use_container_width=True, hide_index=True)
                 render_csv_download(
-                    "Exportar unidades restritas do índice",
+                    tr_key("overview.public_access.download.restricted.label"),
                     public_access_restricted_units_df,
                     PUBLIC_ACCESS_RESTRICTED_UNITS_FILENAME,
-                    "Exporta unidades com acesso restrito, cadastro, pagamento ou licenciamento.",
+                    tr_key("overview.public_access.download.restricted.help"),
                 )
 
     st.markdown(tr_key("overview.timeline.title"))
@@ -1956,11 +1955,10 @@ def render_observatory_overview_tab():
     )
     with global_history_tab:
         if global_corpus_timeline_df is None or global_corpus_timeline_df.empty:
-            st.info("Ainda não há histórico geral disponível para o observatório.")
+            st.info(tr_key("overview.timeline.empty.history"))
         else:
             st.caption(
-                "Cada linha preserva uma observação histórica de uma unidade documental, mantendo explícita sua "
-                "categoria analítica e escala de cobertura."
+                tr_key("overview.timeline.history.caption")
             )
             st.dataframe(
                 global_corpus_timeline_df.sort_values(
@@ -1971,16 +1969,15 @@ def render_observatory_overview_tab():
                 hide_index=True,
             )
             render_csv_download(
-                "Exportar histórico geral das unidades",
+                tr_key("overview.timeline.download.history.label"),
                 global_corpus_timeline_df,
                 "observatorio_linha_do_tempo_global_corpora.csv",
-                "Exporta a linha do tempo combinada das unidades do observatório.",
+                tr_key("overview.timeline.download.history.help"),
             )
     with global_signals_tab:
         if global_extinction_signals_df is None or global_extinction_signals_df.empty:
             st.info(
-                "Ainda não há sinais globais registrados. Isso é esperado enquanto o organismo acumula "
-                "mais rodadas históricas para comparação."
+                tr_key("overview.timeline.empty.signals")
             )
         else:
             signal_summary_df = (
@@ -1999,8 +1996,7 @@ def render_observatory_overview_tab():
                 )
             )
             st.caption(
-                "Os sinais abaixo não afirmam extinção por si só. Eles indicam mudanças que merecem "
-                "observação longitudinal e interpretação metodológica cuidadosa."
+                tr_key("overview.timeline.signals.caption")
             )
             summary_col, detail_col = st.columns([1, 2])
             with summary_col:
@@ -2015,10 +2011,10 @@ def render_observatory_overview_tab():
                     hide_index=True,
                 )
             render_csv_download(
-                "Exportar sinais de possível extinção",
+                tr_key("overview.timeline.download.signals.label"),
                 global_extinction_signals_df,
                 "observatorio_sinais_globais_possivel_extincao.csv",
-                "Exporta os sinais combinados de retração e possível extinção detectados no observatório.",
+                tr_key("overview.timeline.download.signals.help"),
             )
 
     overview_rows = [build_corpus_overview_record(corpus_def) for corpus_def in CORPORA.values()]
@@ -2040,11 +2036,11 @@ def render_observatory_overview_tab():
     )
 
     metric_cols = st.columns(5)
-    metric_cols[0].metric("Unidades documentais ativas", total_corpora)
-    metric_cols[1].metric("Instituições no observatório", total_institutions)
-    metric_cols[2].metric("Instituições com links de vídeo", total_with_video_links)
-    metric_cols[3].metric("Links de vídeo detectados", total_video_links)
-    metric_cols[4].metric("Vídeos no recorte curatorial", total_curatorial_videos)
+    metric_cols[0].metric(tr_key("overview.summary.metrics.corpora"), total_corpora)
+    metric_cols[1].metric(tr_key("overview.summary.metrics.institutions"), total_institutions)
+    metric_cols[2].metric(tr_key("overview.summary.metrics.institutions_with_video"), total_with_video_links)
+    metric_cols[3].metric(tr_key("overview.summary.metrics.video_links"), total_video_links)
+    metric_cols[4].metric(tr_key("overview.summary.metrics.curatorial_videos"), total_curatorial_videos)
 
     comparison_df = overview_df.rename(
         columns={
@@ -2150,45 +2146,44 @@ def render_observatory_overview_tab():
             == "ja_incorporado"
         ).sum()
     )
-    queue_metric_cols[0].metric("Agregador audiovisual europeu", european_av_aggregator_total)
+    queue_metric_cols[0].metric(tr_key("overview.queue.metrics.audiovisual_aggregator"), european_av_aggregator_total)
     queue_metric_cols[1].metric(
-        "Agregadores nacionais europeus",
+        tr_key("overview.queue.metrics.national_aggregators"),
         european_national_aggregator_total,
     )
-    queue_metric_cols[2].metric("Lacunas europeias", european_gap_total)
-    queue_metric_cols[3].metric("Unidades já incorporadas", already_active_total)
+    queue_metric_cols[2].metric(tr_key("overview.queue.metrics.gaps"), european_gap_total)
+    queue_metric_cols[3].metric(tr_key("overview.queue.metrics.active"), already_active_total)
 
     discovery_summary_tab, discovery_queue_tab = st.tabs(
-        ["Síntese da fila", "Fontes candidatas"]
+        [tr_key("overview.queue.tabs.summary"), tr_key("overview.queue.tabs.candidates")]
     )
     with discovery_summary_tab:
         st.dataframe(discovery_summary_df, use_container_width=True, hide_index=True)
         summary_download_cols = st.columns(2)
         with summary_download_cols[0]:
             render_csv_download(
-                "Exportar síntese da fila",
+                tr_key("overview.queue.download.summary.label"),
                 discovery_summary_df,
                 DISCOVERY_SUMMARY_FILENAME,
-                "Exporta a síntese das decisões de expansão do observatório.",
+                tr_key("overview.queue.download.summary.help"),
             )
         with summary_download_cols[1]:
             render_csv_download(
-                "Exportar fila de expansão",
+                tr_key("overview.queue.download.queue.label"),
                 discovery_queue_df,
                 DISCOVERY_QUEUE_FILENAME,
-                "Exporta a fila atual de fontes candidatas priorizadas pelo observatório.",
+                tr_key("overview.queue.download.queue.help"),
             )
     with discovery_queue_tab:
         st.caption(
-            "Cada linha mostra uma unidade potencial, a decisão automática aplicada e o próximo passo "
-            "sugerido pelo protocolo do organismo."
+            tr_key("overview.queue.candidates.caption")
         )
         st.dataframe(discovery_queue_df, use_container_width=True, hide_index=True)
         render_csv_download(
-            "Exportar registro completo de candidatos",
+            tr_key("overview.queue.download.registry.label"),
             discovery_registry_df,
             DISCOVERY_REGISTRY_FILENAME,
-            "Exporta o registro completo de candidatos e unidades já incorporadas ao observatório.",
+            tr_key("overview.queue.download.registry.help"),
         )
 
     st.markdown(tr_key("overview.european_aggregators.title"))
