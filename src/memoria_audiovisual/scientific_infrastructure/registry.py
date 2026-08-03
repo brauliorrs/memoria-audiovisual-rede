@@ -77,11 +77,10 @@ class InfrastructureRegistry:
 
     def resolve(self, key: str, *, snapshot_dir: Path | None = None) -> tuple[Path, ...]:
         spec = self.get(key)
-        if spec.scope is ArtifactScope.ANALYTICS_SNAPSHOT:
-            if snapshot_dir is None:
-                raise ValueError(f"snapshot_dir is required for artifact {key}")
-            root = snapshot_dir
-        elif spec.scope is ArtifactScope.COVERAGE_SNAPSHOT:
+        if spec.scope in {
+            ArtifactScope.ANALYTICS_SNAPSHOT,
+            ArtifactScope.COVERAGE_SNAPSHOT,
+        }:
             if snapshot_dir is None:
                 raise ValueError(f"snapshot_dir is required for artifact {key}")
             root = snapshot_dir
@@ -94,13 +93,16 @@ def build_default_registry(base_dir: str | Path) -> InfrastructureRegistry:
     """Cria o registro canônico da versão atual da plataforma."""
     artifacts = (
         ArtifactSpec(
-            key="indicator_catalog",
-            label="Catálogo de indicadores",
-            relative_path="data/templates/analytics/indicator_catalog.json",
+            key="indicator_registry",
+            label="Registro científico de indicadores",
+            relative_path="data/templates/analytics/indicator_registry.json",
             format=ArtifactFormat.JSON,
             scope=ArtifactScope.STATIC,
             required=True,
-            description="Definições canônicas dos indicadores científicos.",
+            description=(
+                "Fonte operacional única para identidade, escopo e versão dos "
+                "indicadores científicos."
+            ),
         ),
         ArtifactSpec(
             key="methodology_registry",
