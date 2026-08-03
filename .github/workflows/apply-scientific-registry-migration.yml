@@ -1,6 +1,11 @@
 name: Apply scientific registry migration
 
 on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/apply-scientific-registry-migration.yml"
   workflow_dispatch:
 
 permissions:
