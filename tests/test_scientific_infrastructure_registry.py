@@ -4,9 +4,9 @@ from pathlib import Path
 import pytest
 
 from memoria_audiovisual.scientific_infrastructure import (
+    ArtifactFormat,
     ArtifactScope,
     ArtifactSpec,
-    ArtifactFormat,
     ArtifactState,
     InfrastructureRegistry,
     ScientificInfrastructureLoader,
@@ -14,15 +14,54 @@ from memoria_audiovisual.scientific_infrastructure import (
 )
 
 
+def _valid_indicator_registry() -> dict:
+    return {
+        "registry": {
+            "registry_id": "scientific_indicator_registry",
+            "registry_version": "1.0.0",
+            "schema_version": "1.0.0",
+            "indicator_count": 1,
+        },
+        "indicators": [
+            {
+                "indicator_id": "test_indicator",
+                "indicator_version": "1.0.0",
+                "status": "implemented",
+                "title": "Indicador de teste",
+                "scientific_question": "O que o indicador mede?",
+                "scientific_rationale": "Racional científico.",
+                "selection_rationale": "Justificativa de seleção.",
+                "dimension": "test",
+                "unit": "percent",
+                "expected_range": {"minimum": 0, "maximum": 100},
+                "result_type": "coverage_percentage",
+                "interpretation": "Valores maiores indicam maior cobertura.",
+                "does_not_measure": ["qualidade"],
+                "relationship_to_other_indicators": "Independente.",
+                "corpus_rule": "Somente corpora avaliáveis.",
+                "evidence_requirements": ["evidência verificável"],
+                "dependencies": [],
+                "methodology_id": "test_indicator",
+                "methodology_reference": "methodology_registry.json#test_indicator",
+            }
+        ],
+    }
+
+
 def test_default_registry_contains_canonical_artifacts(tmp_path: Path):
     registry = build_default_registry(tmp_path)
 
-    assert "indicator_catalog" in registry
+    assert "indicator_registry" in registry
+    assert "indicator_catalog" not in registry
     assert "methodology_registry" in registry
     assert "snapshot_indicators" in registry
     assert "parameter_coverage" in registry
     assert "ledger" in registry
     assert len(registry.all()) == 12
+
+    indicator_spec = registry.get("indicator_registry")
+    assert indicator_spec.relative_path.endswith("indicator_registry.json")
+    assert "indicator_catalog.json" not in indicator_spec.relative_path
 
 
 def test_registry_rejects_duplicate_keys(tmp_path: Path):
@@ -37,27 +76,44 @@ def test_registry_rejects_duplicate_keys(tmp_path: Path):
         InfrastructureRegistry(tmp_path, [duplicated, duplicated])
 
 
-def test_loader_reports_missing_invalid_empty_and_found(tmp_path: Path):
+def test_loader_reports_missing_invalid_and_found_for_canonical_registry(tmp_path: Path):
     registry = build_default_registry(tmp_path)
     loader = ScientificInfrastructureLoader(registry)
 
-    missing = loader.load("indicator_catalog")
+    missing = loader.load_indicator_registry()
     assert missing.state is ArtifactState.MISSING
 
-    indicator_path = tmp_path / "data/templates/analytics/indicator_catalog.json"
+    indicator_path = tmp_path / "data/templates/analytics/indicator_registry.json"
     indicator_path.parent.mkdir(parents=True)
     indicator_path.write_text("{invalid", encoding="utf-8")
-    invalid = loader.load("indicator_catalog")
-    assert invalid.state is ArtifactState.INVALID
+    invalid_json = loader.load_indicator_registry()
+    assert invalid_json.state is ArtifactState.INVALID
 
     indicator_path.write_text("{}", encoding="utf-8")
-    empty = loader.load("indicator_catalog")
-    assert empty.state is ArtifactState.EMPTY
+    invalid_contract = loader.load_indicator_registry()
+    assert invalid_contract.state is ArtifactState.INVALID
 
-    indicator_path.write_text(json.dumps({"indicators": [{"indicator_id": "x"}]}), encoding="utf-8")
-    found = loader.load("indicator_catalog")
+    indicator_path.write_text(
+        json.dumps(_valid_indicator_registry(), ensure_ascii=False),
+        encoding="utf-8",
+    )
+    found = loader.load_indicator_registry()
     assert found.state is ArtifactState.FOUND
     assert found.is_usable
+
+    parsed = loader.parsed_indicator_registry()
+    assert parsed is not None
+    assert parsed.get("test_indicator").title == "Indicador de teste"
+
+
+def test_static_loader_exposes_only_canonical_indicator_source(tmp_path: Path):
+    registry = build_default_registry(tmp_path)
+    loader = ScientificInfrastructureLoader(registry)
+
+    loaded = loader.load_static()
+
+    assert set(loaded) == {"indicator_registry", "methodology_registry"}
+    assert "indicator_catalog" not in loaded
 
 
 def test_loader_uses_coverage_alternative_path(tmp_path: Path):
@@ -65,7 +121,9 @@ def test_loader_uses_coverage_alternative_path(tmp_path: Path):
     loader = ScientificInfrastructureLoader(registry)
     snapshot_dir = registry.coverage_root / "snapshot-1"
     snapshot_dir.mkdir(parents=True)
-    (snapshot_dir / "coverage.json").write_text(json.dumps({"rows": [1]}), encoding="utf-8")
+    (snapshot_dir / "coverage.json").write_text(
+        json.dumps({"rows": [1]}), encoding="utf-8"
+    )
 
     loaded = loader.load("parameter_coverage", snapshot_dir=snapshot_dir)
 
@@ -78,7 +136,9 @@ def test_latest_snapshot_loaders_preserve_public_keys(tmp_path: Path):
     loader = ScientificInfrastructureLoader(registry)
     analytics = registry.analytics_root / "2026-08-03"
     analytics.mkdir(parents=True)
-    (analytics / "snapshot_indicators.json").write_text(json.dumps({"indicators": []}), encoding="utf-8")
+    (analytics / "snapshot_indicators.json").write_text(
+        json.dumps({"indicators": []}), encoding="utf-8"
+    )
 
     loaded = loader.load_latest_analytics_snapshot()
 
