@@ -29,7 +29,6 @@ permissions:
 
 jobs:
   migrate-overview:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/presentation/rpv-1'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -145,7 +144,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          ref: presentation/rpv-1
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -166,14 +165,12 @@ jobs:
           import json
           from collections import Counter, defaultdict
           from pathlib import Path
-
           findings = json.loads(Path("i18n-audit.json").read_text(encoding="utf-8"))
           by_page = Counter(item["page"] for item in findings)
           by_kind = Counter(item["kind"] for item in findings)
           by_severity = Counter(item["severity"] for item in findings)
           grouped = defaultdict(list)
-          for item in findings:
-              grouped[item["page"]].append(item)
+          for item in findings: grouped[item["page"]].append(item)
           lines = ["# Language MVP+ audit", "", f"Total findings: **{len(findings)}**", "", "## By page or module", ""]
           lines.extend(f"- **{page}**: {count}" for page, count in sorted(by_page.items()))
           lines.extend(["", "## By finding type", ""])
