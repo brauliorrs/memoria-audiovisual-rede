@@ -1674,15 +1674,9 @@ def render_scientific_parameters_section():
 
 
 def render_observatory_overview_tab():
-    st.markdown(tr("overview_title"))
-    st.caption(tr("overview_caption"))
-    st.info(
-        f"{OBSERVATORY_PROFILE['description']} "
-        f"{OBSERVATORY_PROFILE['expansion_strategy']} "
-        f"{OBSERVATORY_PROFILE['audiovisual_rule']}"
-        if APP_LANGUAGE == DEFAULT_LANGUAGE
-        else tr("observatory_profile_summary")
-    )
+    st.markdown(tr_key("overview.title"))
+    st.caption(tr_key("overview.caption"))
+    st.info(tr_key("overview.profile_summary"))
     cycle_manifest = load_json(ORGANISM_MONTHLY_CYCLE_FILENAME)
     active_corpora_registry_df = load_csv(ORGANISM_ACTIVE_CORPORA_FILENAME)
     discovery_registry_df = load_csv(DISCOVERY_REGISTRY_FILENAME)
@@ -1745,9 +1739,9 @@ def render_observatory_overview_tab():
             f"gerado em {format_snapshot_timestamp(cycle_manifest.get('generated_at')) or '-'}."
         )
 
-    st.markdown(tr("academic_axis_title"))
-    st.markdown(tr("academic_axis_text"))
-    st.caption(tr("academic_axis_caption"))
+    st.markdown(tr_key("overview.academic_axis.title"))
+    st.markdown(tr_key("overview.academic_axis.text"))
+    st.caption(tr_key("overview.academic_axis.caption"))
 
     render_scientific_parameters_section()
 
@@ -1778,16 +1772,13 @@ def render_observatory_overview_tab():
         stale_count = int((refresh_status_df["refresh_state"] == "Atualização atrasada").sum())
         failure_count = int((refresh_status_df["refresh_state"] == "Falha no último ciclo").sum())
 
-        st.markdown("### Acompanhamento das atualizações")
-        st.caption(
-            "Este quadro acompanha a saúde temporal do observatório por unidade documental, distinguindo "
-            "atualizações recentes, pendências de rodadas parciais e atrasos de acompanhamento."
-        )
+        st.markdown(tr_key("overview.refresh.title"))
+        st.caption(tr_key("overview.refresh.caption"))
         refresh_metric_cols = st.columns(4)
-        refresh_metric_cols[0].metric("Atualizadas na última rodada", latest_cycle_updates)
-        refresh_metric_cols[1].metric("Pendentes na rodada parcial", partial_pending)
-        refresh_metric_cols[2].metric("Atualizações atrasadas", stale_count)
-        refresh_metric_cols[3].metric("Pendências na última rodada", failure_count)
+        refresh_metric_cols[0].metric(tr_key("overview.refresh.metrics.updated"), latest_cycle_updates)
+        refresh_metric_cols[1].metric(tr_key("overview.refresh.metrics.partial_pending"), partial_pending)
+        refresh_metric_cols[2].metric(tr_key("overview.refresh.metrics.stale"), stale_count)
+        refresh_metric_cols[3].metric(tr_key("overview.refresh.metrics.failed"), failure_count)
 
         refresh_display_df = refresh_status_df.rename(
             columns={
@@ -1823,17 +1814,12 @@ def render_observatory_overview_tab():
             "última observação registrada"
         ].map(format_snapshot_timestamp)
         st.dataframe(refresh_display_df, use_container_width=True, hide_index=True)
-        with st.expander("Ver distribuição dos estados de atualização", expanded=False):
+        with st.expander(tr_key("overview.refresh.states_expander"), expanded=False):
             st.dataframe(refresh_counts, use_container_width=True, hide_index=True)
 
     if public_access_index_df is not None and not public_access_index_df.empty:
-        st.markdown("### Índice de dados públicos")
-        st.caption(
-            "O índice compara registros audiovisuais disponíveis em superfície pública com registros "
-            "cujo acesso ao audiovisual exige pagamento, autenticação, cadastro ou licenciamento. "
-            "Bancos privados/publicitários de imagens não entram no índice; permanecem documentados "
-            "apenas na auditoria metodológica de acesso pago/restrito."
-        )
+        st.markdown(tr_key("overview.public_access.title"))
+        st.caption(tr_key("overview.public_access.caption"))
 
         def public_access_scope_row(scope):
             matches = public_access_index_df.loc[public_access_index_df["scope"].astype(str) == scope]
@@ -1945,11 +1931,8 @@ def render_observatory_overview_tab():
                     "Exporta unidades com acesso restrito, cadastro, pagamento ou licenciamento.",
                 )
 
-    st.markdown("### Linha do tempo e retração pública do audiovisual")
-    st.caption(
-        "Esta camada reúne a memória histórica das unidades documentais e prepara o observatório para detectar "
-        "ausências, indisponibilidades recorrentes e perda de evidência pública detectável de audiovisual."
-    )
+    st.markdown(tr_key("overview.timeline.title"))
+    st.caption(tr_key("overview.timeline.caption"))
     global_history_cols = st.columns(4)
     global_history_cols[0].metric(
         "Observações históricas das unidades",
@@ -2086,11 +2069,8 @@ def render_observatory_overview_tab():
     )
     st.dataframe(comparison_df, use_container_width=True, hide_index=True)
 
-    st.markdown("### Categorias analíticas do observatório")
-    st.caption(
-        "As categorias abaixo delimitam níveis diferentes de observação. Elas são comparáveis, "
-        "mas não são tratadas como equivalentes do ponto de vista metodológico."
-    )
+    st.markdown(tr_key("overview.categories.title"))
+    st.caption(tr_key("overview.categories.caption"))
     st.dataframe(
         category_overview_df.rename(
             columns={
@@ -2121,18 +2101,12 @@ def render_observatory_overview_tab():
             )
         ]
     )
-    st.markdown("### Estratégia de expansão")
-    st.caption(
-        "O organismo cresce primeiro por agregadores continentais e, depois, incorpora "
-        "arquivos e instituições não cobertos por esses agregadores."
-    )
+    st.markdown(tr_key("overview.expansion.title"))
+    st.caption(tr_key("overview.expansion.caption"))
     st.dataframe(strategy_df, use_container_width=True, hide_index=True)
 
-    st.markdown("### Fila de expansão do observatório")
-    st.caption(
-        "A fila abaixo é gerada por regra pública e reprodutível. Neste momento, ela prioriza "
-        "o fechamento da Europa antes da abertura sistemática de novos continentes."
-    )
+    st.markdown(tr_key("overview.queue.title"))
+    st.caption(tr_key("overview.queue.caption"))
     queue_metric_cols = st.columns(4)
     european_av_aggregator_total = int(
         (
