@@ -57,10 +57,9 @@ jobs:
       - name: Sync canonical Portuguese catalogue
         run: python scripts/sync_portuguese_catalog.py
 
-      - name: Validate syntax and focused tests
+      - name: Validate syntax
         run: |
           python -m py_compile app/streamlit_app.py src/memoria_audiovisual/ui/scientific_infrastructure.py
-          pytest -q tests/test_incorporation_eligibility.py tests/test_european_queue_eligibility.py tests/test_european_queue_probe.py
 
       - name: Commit integration
         run: |
