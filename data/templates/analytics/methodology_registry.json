@@ -1,0 +1,111 @@
+{
+  "registry_version": "1.2.0",
+  "methodologies": [
+    {
+      "indicator_id": "api_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis com ao menos uma API detectada no snapshot.",
+      "formula": "100 * corpora_com_api_detectada / corpora_avaliaveis",
+      "source": "parameter_coverage.json",
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A detecção técnica não comprova que a API seja aberta, documentada ou funcional."]
+    },
+    {
+      "indicator_id": "interoperability_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis com ao menos um protocolo ou padrão de interoperabilidade detectado.",
+      "formula": "100 * corpora_com_interoperabilidade_detectada / corpora_avaliaveis",
+      "source": "parameter_coverage.json",
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A presença detectada não mede implementação completa nem qualidade da interoperabilidade."]
+    },
+    {
+      "indicator_id": "iiif_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em interoperabilidade com IIIF explicitamente identificado.",
+      "formula": "100 * corpora_com_IIIF / corpora_avaliaveis_em_interoperabilidade",
+      "source": "parameter_coverage.json:interoperability.detected_values",
+      "aliases": ["IIIF", "International Image Interoperability Framework"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A menção detectada não comprova implementação integral ou conformidade com a especificação."]
+    },
+    {
+      "indicator_id": "oai_pmh_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em interoperabilidade com OAI-PMH explicitamente identificado.",
+      "formula": "100 * corpora_com_OAI_PMH / corpora_avaliaveis_em_interoperabilidade",
+      "source": "parameter_coverage.json:interoperability.detected_values",
+      "aliases": ["OAI-PMH", "Open Archives Initiative Protocol for Metadata Harvesting"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A detecção não comprova disponibilidade, documentação ou funcionamento do endpoint."]
+    },
+    {
+      "indicator_id": "dublin_core_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em formatos de metadados com Dublin Core identificado.",
+      "formula": "100 * corpora_com_Dublin_Core / corpora_avaliaveis_em_metadados",
+      "source": "parameter_coverage.json:metadata_format.detected_values",
+      "aliases": ["Dublin Core", "DCMI"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A detecção não mede completude, qualidade ou conformidade dos campos."]
+    },
+    {
+      "indicator_id": "schema_org_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em formatos de metadados com Schema.org identificado.",
+      "formula": "100 * corpora_com_Schema_org / corpora_avaliaveis_em_metadados",
+      "source": "parameter_coverage.json:metadata_format.detected_values",
+      "aliases": ["Schema.org", "schema org"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A presença de marcação não comprova cobertura semântica adequada."]
+    },
+    {
+      "indicator_id": "json_ld_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de corpora avaliáveis em formatos de metadados com JSON-LD identificado.",
+      "formula": "100 * corpora_com_JSON_LD / corpora_avaliaveis_em_metadados",
+      "source": "parameter_coverage.json:metadata_format.detected_values",
+      "aliases": ["JSON-LD", "JavaScript Object Notation for Linked Data"],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": ["A detecção do formato não comprova validade, vocabulário utilizado ou qualidade semântica."]
+    },
+    {
+      "indicator_id": "interoperability_index",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Média dos escores de interoperabilidade dos corpora elegíveis, calculados a partir da presença observada de IIIF, OAI-PMH, Dublin Core, Schema.org e JSON-LD.",
+      "formula": "media_corpora(100 * soma_pesos_componentes_presentes / soma_pesos_componentes_avaliaveis)",
+      "source": "parameter_coverage.json:interoperability e metadata_format",
+      "components": [
+        {"name": "IIIF", "weight": 0.2},
+        {"name": "OAI-PMH", "weight": 0.2},
+        {"name": "Dublin Core", "weight": 0.2},
+        {"name": "Schema.org", "weight": 0.2},
+        {"name": "JSON-LD", "weight": 0.2}
+      ],
+      "minimum_evaluable_components": 3,
+      "missing_data_policy": "Renormalizar os pesos disponíveis somente quando ao menos três dos cinco componentes forem avaliáveis; excluir o corpus caso contrário.",
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "limitations": [
+        "Os pesos iguais são uma escolha metodológica inicial e não representam consenso externo.",
+        "O índice mede presença observada de sinais, não conformidade, qualidade ou maturidade integral.",
+        "A renormalização permite comparabilidade operacional, mas deve ser considerada ao interpretar corpora com dados parciais."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/digital_infrastructure/procurement_contract.schema.json",
+  "title": "Procurement Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_id", "contracting_authority_id", "supplier_id", "title", "validation_status"],
+  "properties": {
+    "contract_id": {"type": "string", "minLength": 1},
+    "procurement_identifier": {"type": ["string", "null"]},
+    "contracting_authority_id": {"type": "string", "minLength": 1},
+    "supplier_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "scope": {"type": ["string", "null"]},
+    "contract_value": {"type": ["number", "null"], "minimum": 0},
+    "currency": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+    "award_date": {"type": ["string", "null"], "format": "date"},
+    "start_date": {"type": ["string", "null"], "format": "date"},
+    "end_date": {"type": ["string", "null"], "format": "date"},
+    "procurement_method": {"type": ["string", "null"]},
+    "procurement_portal": {"type": ["string", "null"]},
+    "contract_url": {"type": ["string", "null"], "format": "uri"},
+    "contract_status": {"type": ["string", "null"], "enum": ["announced", "awarded", "active", "completed", "cancelled", "unknown", null]},
+    "technology_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "validation_status": {"type": "string", "enum": ["pending_review", "confirmed", "probable", "inconclusive", "false_positive", "not_assessable"]}
+  }
+}

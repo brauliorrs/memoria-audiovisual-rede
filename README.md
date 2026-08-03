@@ -1,218 +1,213 @@
 # Memória Audiovisual em Rede
 
-**Plataforma aberta para mapear, monitorar e analisar a presença pública de acervos audiovisuais em plataformas, arquivos, cinematecas e agregadores digitais.**
+## An Open Scientific Research Infrastructure for the Longitudinal Observation of Digital Infrastructures in Audiovisual Archives
 
-O projeto combina coleta automatizada, curadoria metodológica, indicadores comparáveis e visualização em Streamlit para estudar como a memória audiovisual circula, aparece, desaparece, torna-se restrita ou permanece pouco visível em ambientes digitais.
+[Português](README.pt-BR.md) · [Executive Summary](docs/research/executive_summary.md) · [Research Handbook](docs/research/README.md) · [Public Observatory](https://memoria-audiovisual-rede-vcxnq9xh7b7uifydhwjxcy.streamlit.app/)
 
-A plataforma permanece uma plataforma pública, com usos variados: pesquisa, ensino, pós-doutorado, artigos, relatórios, propostas competitivas e estudos comparativos sobre acervos audiovisuais. Para sustentar esses usos, cada unidade observada precisa preservar rotas, limites, completude, regimes de acesso, sinais de visibilidade, histórico de observação e evidências metodológicas auditáveis.
+> **Memória Audiovisual em Rede** is an open scientific research infrastructure that introduces a reusable longitudinal methodology for observing institutional digital infrastructures, demonstrated through the domain of audiovisual archives.
 
-## Acesso público
+The project combines computational observation, human validation and reproducible analytics to study how audiovisual archives evolve over time in relation to accessibility, interoperability, metadata standards, digital preservation practices, artificial intelligence adoption and technological dependencies.
 
-A versão pública do observatório está disponível no Streamlit:
+Although the current empirical application focuses on audiovisual archives, the methodological framework was intentionally designed to be reusable across other institutional domains requiring longitudinal observation of digital infrastructures.
 
-[https://memoria-audiovisual-rede-vcxnq9xh7b7uifydhwjxcy.streamlit.app/](https://memoria-audiovisual-rede-vcxnq9xh7b7uifydhwjxcy.streamlit.app/)
+## The research problem
 
-Nesta etapa, o foco principal é o fechamento europeu do observatório. A expansão para outros continentes será feita somente depois que a Europa estiver metodologicamente documentada, incluindo unidades incorporadas, unidades protocoladas e negativas justificadas.
+Audiovisual archives increasingly depend on complex digital infrastructures, including content management systems, metadata standards, APIs, interoperability frameworks, cloud services, external platforms and artificial intelligence.
 
-## Eixo científico
+These infrastructures shape whether audiovisual heritage can be found, described, accessed, reused and preserved. Yet most existing initiatives provide catalogues, inventories or isolated datasets. They rarely document technological change over time, preserve complete provenance or expose reproducible evidence of infrastructural transformation.
 
-O observatório é uma plataforma científica aberta para investigações sobre acervos audiovisuais em rede.
+**Memória Audiovisual em Rede addresses this gap by shifting from static inventory towards continuous scientific observation.**
 
-Pergunta orientadora:
+## Guiding research question
 
-**Sob quais condições infraestruturais, institucionais, técnicas e culturais os acervos audiovisuais se tornam visíveis, invisíveis, restritos ou instáveis em ambientes digitais?**
+> Under which infrastructural, institutional, technical and cultural conditions do audiovisual collections become visible, invisible, restricted or unstable in digital environments?
 
-As plataformas digitais não eliminam o território; elas reorganizam o território. No audiovisual contemporâneo, a circulação deixa de depender apenas do lugar físico do arquivo, da cinemateca, da emissora ou da instituição custodial, e passa a depender de infraestrutura técnica, políticas de acesso, licenciamento, idioma dos metadados, indexação, geobloqueio, plataformas externas, interoperabilidade e regimes algorítmicos de visibilidade.
+## Research questions
 
-A hipótese de trabalho é que a circulação digital da memória audiovisual não é determinada apenas pela localização física ou pela dimensão material dos acervos, mas pela capacidade das instituições e plataformas de tornar esses acervos detectáveis, descritos, interoperáveis, acessíveis e estáveis em redes digitais transnacionais.
+The infrastructure supports questions such as:
 
-## Parâmetros científicos
+- How do audiovisual archives evolve technologically over time?
+- Which interoperability and metadata standards are being adopted?
+- Are archives becoming more accessible or more restrictive?
+- Which technologies, services and public routes appear, disappear or become unstable?
+- How transparent is the adoption of artificial intelligence in archival infrastructures?
+- How can institutional digital infrastructures be documented through reproducible computational methods?
 
-A plataforma está sendo ajustada para explicitar parâmetros de robustez científica que podem subsidiar pesquisas de diferentes escalas:
+## Scientific contributions
 
-- unidades de análise separadas: agregador, arquivo, instituição custodial, corpus, registro, rota e caso fora da base ativa;
-- observação longitudinal por snapshots, data de coleta, chave de observação e estado da fonte;
-- regimes de visibilidade, acesso, restrição, instabilidade e possível extinção digital;
-- completude da coleta, critério de seleção, limite técnico e nota metodológica por corpus;
-- comparação europeia controlada, com incorporações, lacunas, negativas justificadas e casos extremos;
-- reprodutibilidade por scripts, checks, arquivos exportáveis e contratos de dados;
-- base para índices futuros de visibilidade audiovisual digital e auditoria de encontrabilidade.
+- Longitudinal observation instead of static inventories.
+- Snapshot-based reconstruction of technological change.
+- Provenance for sources, acquisition methods, transformations and reviews.
+- Human-reviewed evidence for sensitive or ambiguous events.
+- Versioned data, schemas, indicators and analytical methodologies.
+- Explicit separation between discovery records and the scientific corpus.
+- Reproducible scientific indicators and composite indexes.
+- Historical preservation without silent overwrite.
+- Public research outputs traceable to observations and evidence.
 
-## Auditoria de infraestrutura digital
+## Research workflow
 
-A plataforma inclui uma ferramenta reprodutível para observar a camada técnica das superfícies públicas dos arquivos e agregadores. A auditoria registra, por corpus:
-
-- tecnologias e sistemas detectáveis, como CMS e softwares de repositório;
-- existência e tipo de APIs ou serviços públicos, incluindo REST, GraphQL, OAI-PMH, OpenAPI e IIIF;
-- formatos de metadados, como JSON-LD/Schema.org, Dublin Core, EAD, METS, MODS, MARC, EDM, PBCore e EBUCore;
-- protocolos e sinais de interoperabilidade, como IIIF, OAI-PMH, OpenSearch, RSS/Atom, sitemaps e Linked Open Data;
-- mecanismos de busca, incluindo formulários HTML e sinais de Solr, Elasticsearch, Algolia ou busca facetada;
-- restrições públicas detectáveis, como autenticação, cadastro, assinatura, geobloqueio, direitos condicionados e restrições de indexação;
-- evidências textuais públicas de uso de IA, aprendizado de máquina, transcrição automática, reconhecimento de fala, visão computacional ou classificação automatizada na catalogação.
-
-A ferramenta é **heurística**: registra evidências encontradas no HTML, nos metadados e nos cabeçalhos HTTP da rota observada. Ausência de sinal não significa ausência da tecnologia, e uma detecção deve ser validada antes de sustentar afirmações institucionais. A auditoria não contorna login, paywall, robots.txt ou outras barreiras.
-
-Execução completa dos corpora ativos:
-
-```powershell
-python scripts/audit_digital_infrastructure.py
+```text
+Discovery
+    ↓
+Classification
+    ↓
+Corpus eligibility
+    ↓
+Observation and normalisation
+    ↓
+Provenance and snapshots
+    ↓
+Longitudinal comparison
+    ↓
+Event detection
+    ↓
+Human review when required
+    ↓
+Versioned publication
+    ↓
+Analytics engine
+    ↓
+Scientific indicators
+    ↓
+Research datasets
 ```
 
-Execução controlada:
+## Corpus policy
 
-```powershell
-python scripts/audit_digital_infrastructure.py --corpus europeana ina bfi
-python scripts/audit_digital_infrastructure.py --limit 5 --timeout 30
-```
+The project distinguishes between the **Discovery Registry** and the **Scientific Corpus**.
 
-Saídas versionáveis:
+Every relevant entity identified during research may remain documented in the discovery layer. Only eligible audiovisual archives and institutional collections enter the analytical corpus.
 
-- `data/output/digital_infrastructure_audit.csv`;
-- `data/output/digital_infrastructure_audit.json`.
+Commercial image banks, paid stock repositories, commercial video banks, generic search engines, social media services and other out-of-scope entities may be identified and catalogued, but they are excluded from scientific denominators. Their exclusion is recorded rather than hidden.
 
-O código principal está em `src/memoria_audiovisual/digital_infrastructure_audit.py`, e o executor está em `scripts/audit_digital_infrastructure.py`.
+This policy prevents commercial access models from distorting indicators designed to describe public audiovisual archives.
 
-## Escopo atual
+## Digital infrastructure observation
 
-O organismo trabalha com corpora ativos e unidades documentadas fora do corpus ativo.
+The platform records publicly observable evidence related to:
 
-- Corpora ativos materializados: `51`.
-- Agregadores ativos: `7`.
-- Arquivos e instituições ativos: `44`.
-- Fila europeia de fechamento documentada no MVP.
-- Snapshot público atual: aproximadamente `277 MB`.
-- Interface principal: `app/streamlit_app.py`.
+- content management systems and repository software;
+- public APIs and service interfaces;
+- IIIF, OAI-PMH and other interoperability mechanisms;
+- Dublin Core, Schema.org, JSON-LD and other metadata formats;
+- search systems and discovery mechanisms;
+- authentication, registration, payment and formal-request barriers;
+- external hosting and platform dependencies;
+- public signals of artificial intelligence or automated cataloguing;
+- changes, disappearance and recurrent unavailability over time.
 
-Agregadores ativos:
+The detectors are heuristic. Absence of a detected signal does not prove absence of a technology, and sensitive conclusions require human validation.
 
-- `APE`, `EUscreen`, `European Film Gateway`, `Europeana`, `PARES`, `Portal Português de Arquivos` e `American Archive of Public Broadcasting`.
+## Scientific indicators
 
-Arquivos e instituições ativos:
+| Dimension | Current indicators |
+|---|---|
+| Access | Audiovisual Archive Access Index |
+| Infrastructure | API Coverage |
+| Metadata | Dublin Core Coverage, Schema.org Coverage, JSON-LD Coverage |
+| Interoperability | Interoperability Coverage, IIIF Coverage, OAI-PMH Coverage, Interoperability Index |
 
-- `INA`, `AAMOD`, `ANF`, `AQSHF`, `ARCHIPOP`, `Archivio Luce`, `ASIM`, `Autrefois`, `BArch`, `BBC`, `BFI`, `BNFA`, `BNT`, `CCMA/3Cat`, `CdNA`, `CICLIC`, `CINÉAM`, `Ciné-Archives`, `Cinemateca Portuguesa`, `CINEMATEK`, `Cinémathèque de Bretagne`, `Cinémathèque française`, `Cinémémoire`, `CNA Luxembourg`, `CPSA`, `Crnogorska Kinoteka`, `Czech Television`, `Deutsche Kinemathek`, `DFF`, `DHM`, `DR`, `ECPAD`, `ERT`, `Estonian Film Archive`, `Eye`, `Filmarchiv Austria`, `Filmmuseum Düsseldorf`, `Filmoteca de Catalunya`, `Filmoteca Española`, `Filmoteca Valenciana`, `Filmoteca Vasca`, `IAM`, `Saint-Étienne` e `SFA`.
+The **Audiovisual Archive Access Index** preserves the simple logic of the earlier platform: the percentage of eligible archives accessible without registration, authentication, payment or formal request, divided by the total number of eligible and assessable archives.
 
-O `American Archive of Public Broadcasting` aparece como corpus extraeuropeu controlado para comparação metodológica. A abertura sistemática de novos continentes permanece em etapa posterior.
+Every registered indicator must include a scientific question, selection rationale, formula, interpretation, limitations and a versioned methodological definition.
 
-## Regra audiovisual
+## Why longitudinal observation?
 
-O recorte do observatório é audiovisual. Arquivos exclusivamente sonoros, documentais ou textuais não entram no corpus ativo, mesmo quando são relevantes para a história dos arquivos.
+Digital infrastructures are not stable objects. Public routes disappear, APIs are introduced or withdrawn, access conditions change, platforms migrate and metadata practices evolve.
 
-Critérios centrais:
+Periodic snapshots make it possible to reconstruct these transformations rather than replacing yesterday's observation with today's result. The platform preserves source, method, date, transformation, review and publication history for each cycle.
 
-- fontes gerais podem ser registradas como fontes de pesquisa quando retornam zero evidência audiovisual;
-- arquivos explicitamente audiovisuais que retornam zero são tratados como anomalia metodológica relevante;
-- bancos privados, publicitários ou comerciais com acesso pago entram apenas como unidades documentadas quando não oferecem catálogo público quantificável;
-- registros descritivos, players públicos, objetos digitais e links externos são classificados separadamente;
-- nenhum número é apresentado como total do acervo físico quando a rota pública observada não permite essa afirmação.
+## Current status
 
-Essa regra evita confundir existência institucional do acervo com visibilidade pública digital do audiovisual.
+**Current phase: Operational validation**
 
-## Estratégia de expansão
+The following components are implemented in the feature branch associated with Pull Request #5:
 
-O crescimento do organismo segue duas etapas:
+- discovery and corpus classification;
+- corpus eligibility policy;
+- provenance and append-only historical records;
+- periodic snapshots and longitudinal comparison;
+- event triage and human-review workflows;
+- versioned public views with controlled revisions;
+- historical publication registry;
+- analytics engine and methodological registry;
+- scientific indicator catalogue;
+- access and interoperability indicators;
+- sensitivity analysis for the interoperability index.
 
-1. **Agregadores primeiro.** Prioriza agregadores continentais, supranacionais ou nacionais, pois eles permitem mapear grandes superfícies institucionais com maior comparabilidade.
-2. **Instituições depois.** Incorpora arquivos, cinematecas e instituições individuais quando há lacunas relevantes, exceções metodológicas ou rotas públicas de coleta suficientemente estáveis.
+Automated quality checks, including Python compilation, unit tests and the deployment snapshot check, have passed. The project has **not yet completed empirical validation of detector accuracy on a controlled sample of real archive websites**.
 
-Cada nova unidade deve ser classificada sem misturar níveis analíticos:
+Current work therefore focuses on validating detectors, eligibility decisions and analytical outputs against real-world observations before the first official longitudinal cycle.
 
-- agregador;
-- arquivo ou instituição custodial;
-- unidade identificada, mas não incorporada;
-- banco privado ou comercial fora do índice estatístico;
-- fonte contextual fora do escopo audiovisual.
+## Reproducibility
 
-## Completude da coleta
+Every analytical result can be traced to:
 
-Nenhum corpus parcial é apresentado como catálogo total.
+- source and acquisition method;
+- observation timestamp;
+- corpus and snapshot identifiers;
+- transformation history;
+- evidence and human-review decisions;
+- indicator and methodology versions;
+- publication and revision history.
 
-Cada corpus declara:
+The project prioritises scientific reproducibility and methodological transparency over convenience.
 
-- completude da coleta;
-- critério de seleção;
-- limite técnico;
-- nota metodológica;
-- tipo de evidência encontrada;
-- grau de estabilidade da rota usada.
+## Documentation
 
-Assim, registros por termo, páginas coletadas ou vídeos detectados representam uma rodada reprodutível de observação pública, não necessariamente a totalidade do acervo institucional.
+For a concise presentation, read the [Executive Summary](docs/research/executive_summary.md).
 
-## Índice de dados públicos
+The complete [Research Handbook](docs/research/README.md) includes:
 
-O índice de dados públicos mede apenas registros audiovisuais materializados no organismo. O denominador é formado por registros coletáveis, descritos ou detectáveis em corpus ativo; ele não tenta estimar o tamanho total de acervos privados, comerciais ou não expostos por catálogo público.
+- [Introduction](docs/research/00_introduction.md)
+- [Research problem](docs/research/01_research_problem.md)
+- [Scientific framework](docs/research/02_scientific_framework.md)
+- [Methodological framework](docs/research/03_methodological_framework.md)
+- [System architecture](docs/research/04_system_architecture.md)
+- [Corpus policy](docs/research/05_corpus_policy.md)
+- [Analytics](docs/research/06_analytics.md)
+- [Scientific indicators](docs/research/07_scientific_indicators.md)
+- [Operational validation](docs/research/08_operational_validation.md)
+- [Roadmap](docs/research/09_roadmap.md)
+- [Future research](docs/research/10_future_research.md)
+- [Publications and research outputs](docs/research/11_publications_and_outputs.md)
+- [Reuse and research collaboration](docs/research/12_reuse_and_collaboration.md)
 
-Indicadores atuais do snapshot:
+Technical and operational documentation remains available under `docs/analytics/` and `docs/digital-infrastructure-alignment/`.
 
-- mundo: `52.444` registros públicos, `25.041` restritos, `67,68%` de dados públicos;
-- Europa: `52.416` registros públicos, `25.041` restritos, `67,67%` de dados públicos;
-- América do Norte: `28` registros públicos, `0` restritos, `100%` de dados públicos no corpus comparativo ativo.
+## Running locally
 
-Bancos de imagens publicitárias ou comerciais não entram no índice quando não há catálogo público quantificável. Eles podem permanecer documentados como negativa metodológica.
-
-## Linha do tempo do organismo
-
-O observatório registra a história das rodadas para acompanhar crescimento, retração e possíveis extinções digitais.
-
-Cada ciclo pode registrar:
-
-- linha do tempo do corpus;
-- linha do tempo institucional;
-- sinais de possível extinção digital;
-- indisponibilidade recorrente;
-- perda de evidência audiovisual detectável;
-- mudança no regime de acesso público.
-
-O princípio é simples: o observatório não deve apenas mostrar onde há audiovisual, mas também preservar a história de aparecimento, ausência, retração e transformação da visibilidade pública dos acervos.
-
-## Como rodar localmente
-
-```powershell
+```bash
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 streamlit run app/streamlit_app.py
 ```
 
-Validação rápida antes de publicar:
+Validation:
 
-```powershell
-python -m compileall -q app src
+```bash
+python -m compileall -q app src scripts tests
+python -m unittest discover -s tests -v
 python scripts/check_deployment_ready.py
 ```
 
-## Publicação
+## Future directions
 
-O GitHub guarda o código, os dados públicos versionados e a memória técnica do projeto. Para abrir a interface como aplicação web, use Streamlit Cloud.
+- international comparative studies;
+- digital-preservation maturity indicators;
+- AI-governance and transparency indicators;
+- technology-diffusion and dependency analysis;
+- network analysis of platforms, providers and institutions;
+- public analytical dashboards and open APIs;
+- reusable adaptations to other public and cultural digital infrastructures.
 
-Configuração sugerida no Streamlit Cloud:
+## Citation
 
-- repositório: `brauliorrs/memoria-audiovisual-rede`;
-- branch: `main`;
-- arquivo principal: `app/streamlit_app.py`;
-- dependências: `requirements.txt`.
+Formal citation instructions will be added with the first stable research release and archived dataset.
 
-GitHub Pages não é suficiente para esta versão porque a interface é uma aplicação Python/Streamlit, não uma página estática.
+## Author
 
-## Estrutura do repositório
-
-```text
-.
-├── app/
-│   └── streamlit_app.py
-├── data/
-│   ├── input/
-│   └── output/
-├── scripts/
-│   └── audit_digital_infrastructure.py
-├── src/
-│   └── memoria_audiovisual/
-│       └── digital_infrastructure_audit.py
-├── tests/
-├── pyproject.toml
-├── requirements.txt
-└── README.md
-```
-
-## Status do MVP
-
-O MVP está pronto para publicação experimental controlada. A plataforma já permite apresentar o organismo, navegar por agregadores e instituições, consultar vídeos identificados, examinar regimes de acesso, acompanhar o fechamento europeu e documentar unidades identificadas que ainda não puderam ser incorporadas ao corpus ativo.
+**Bráulio Roberto Rangel da Silva**  
+PhD in Communication Sciences  
+Federal Institute of Paraíba, Brazil

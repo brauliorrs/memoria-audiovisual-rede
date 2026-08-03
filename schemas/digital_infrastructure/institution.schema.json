@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/digital_infrastructure/institution.schema.json",
+  "title": "Institution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["institution_id", "name", "institution_type", "country", "validation_status"],
+  "properties": {
+    "institution_id": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "institution_type": {"type": "string", "enum": ["national_government", "regional_government", "local_government", "public_archive", "public_broadcaster", "public_foundation", "supranational_body", "public_private_partnership", "nonprofit", "private_company", "other", "unknown"]},
+    "institutional_level": {"type": ["string", "null"], "enum": ["supranational", "national", "regional", "local", "institutional", "unknown", null]},
+    "legal_status": {"type": ["string", "null"]},
+    "government_affiliation": {"type": ["string", "null"]},
+    "administrative_autonomy": {"type": ["string", "null"], "enum": ["high", "moderate", "low", "unknown", null]},
+    "public_service_function": {"type": ["string", "null"]},
+    "funding_model": {"type": ["string", "null"]},
+    "country": {"type": "string", "minLength": 2},
+    "official_url": {"type": ["string", "null"], "format": "uri"},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "validation_status": {"type": "string", "enum": ["pending_review", "confirmed", "probable", "inconclusive", "false_positive", "not_assessable"]},
+    "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+    "reviewer": {"type": ["string", "null"]}
+  }
+}

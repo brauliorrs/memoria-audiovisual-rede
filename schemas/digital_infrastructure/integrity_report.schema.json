@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/brauliorrs/memoria-audiovisual-rede/schemas/digital_infrastructure/integrity_report.schema.json",
+  "title": "Relatório de integridade relacional infraestrutura digital",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "status", "summary", "issues"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "status": {"type": "string", "enum": ["not_run", "passed", "passed_with_warnings", "failed"]},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["records_checked", "errors", "warnings", "info"],
+      "properties": {
+        "records_checked": {"type": "integer", "minimum": 0},
+        "errors": {"type": "integer", "minimum": 0},
+        "warnings": {"type": "integer", "minimum": 0},
+        "info": {"type": "integer", "minimum": 0}
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/issue"}
+    }
+  },
+  "$defs": {
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issue_id", "rule_code", "severity", "entity_type", "record_id", "message", "resolution_status"],
+      "properties": {
+        "issue_id": {"type": "string", "minLength": 1},
+        "rule_code": {"type": "string", "pattern": "^[A-Z]+-[0-9]{3}$"},
+        "rule_version": {"type": "string", "default": "1.0.0"},
+        "severity": {"type": "string", "enum": ["error", "warning", "info"]},
+        "entity_type": {
+          "type": "string",
+          "enum": ["institution", "provider", "technology", "institution_technology_relation", "contract", "data_flow", "ai_system", "risk_assessment", "evidence"]
+        },
+        "record_id": {"type": "string", "minLength": 1},
+        "field_name": {"type": ["string", "null"]},
+        "referenced_entity_type": {"type": ["string", "null"]},
+        "referenced_record_id": {"type": ["string", "null"]},
+        "message": {"type": "string", "minLength": 1},
+        "resolution_status": {"type": "string", "enum": ["open", "accepted_exception", "resolved", "false_alarm"]},
+        "resolution_note": {"type": ["string", "null"]}
+      }
+    }
+  }
+}
