@@ -47,10 +47,7 @@ def migrate() -> int:
     replacements: list[tuple[int, int, str]] = []
     used = set(catalogue)
 
-    def add_string(node: ast.AST, prefix: str) -> None:
-        if not isinstance(node, ast.Constant) or not isinstance(node.value, str) or not node.value.strip():
-            return
-        text = node.value
+    def register(text: str, prefix: str) -> str:
         base = f"overview.{prefix}.{slugify(text)}"
         key = base
         index = 2
@@ -59,8 +56,43 @@ def migrate() -> int:
             index += 1
         used.add(key)
         catalogue[key] = text
-        start, end = position(node)
-        replacements.append((start, end, f"tr_key({key!r})"))
+        return key
+
+    def add_text_node(node: ast.AST, prefix: str) -> None:
+        if isinstance(node, ast.Constant) and isinstance(node.value, str) and node.value.strip():
+            key = register(node.value, prefix)
+            start, end = position(node)
+            replacements.append((start, end, f"tr_key({key!r})"))
+            return
+
+        if isinstance(node, ast.JoinedStr):
+            template_parts: list[str] = []
+            arguments: list[str] = []
+            placeholder_index = 0
+            for value in node.values:
+                if isinstance(value, ast.Constant) and isinstance(value.value, str):
+                    template_parts.append(value.value.replace("{", "{{").replace("}", "}}"))
+                elif isinstance(value, ast.FormattedValue):
+                    name = f"value_{placeholder_index}"
+                    placeholder_index += 1
+                    conversion = f"!{chr(value.conversion)}" if value.conversion != -1 else ""
+                    format_spec = ""
+                    if value.format_spec is not None:
+                        segment = ast.get_source_segment(source, value.format_spec)
+                        if segment:
+                            format_spec = f":{segment.strip('f').strip(chr(34)).strip(chr(39))}"
+                    template_parts.append(f"{{{name}{conversion}{format_spec}}}")
+                    expression = ast.get_source_segment(source, value.value) or ast.unparse(value.value)
+                    arguments.append(f"{name}={expression}")
+            template = "".join(template_parts)
+            if template.strip():
+                key = register(template, prefix)
+                call = f"tr_key({key!r}"
+                if arguments:
+                    call += ", " + ", ".join(arguments)
+                call += ")"
+                start, end = position(node)
+                replacements.append((start, end, call))
 
     for node in ast.walk(target):
         if not isinstance(node, ast.Call):
@@ -70,24 +102,34 @@ def migrate() -> int:
             else node.func.id if isinstance(node.func, ast.Name)
             else None
         )
+
         if name in TEXT_METHODS and node.args:
-            add_string(node.args[0], f"ui.{name}")
+            add_text_node(node.args[0], f"ui.{name}")
             for keyword in node.keywords:
                 if keyword.arg in {"label", "help", "placeholder"}:
-                    add_string(keyword.value, f"ui.{name}.{keyword.arg}")
+                    add_text_node(keyword.value, f"ui.{name}.{keyword.arg}")
+
         if name in {"render_csv_download", "render_json_download"}:
             if len(node.args) > 0:
-                add_string(node.args[0], "download.label")
+                add_text_node(node.args[0], "download.label")
             if len(node.args) > 3:
-                add_string(node.args[3], "download.help")
+                add_text_node(node.args[3], "download.help")
+
         if name == "tabs" and node.args and isinstance(node.args[0], (ast.List, ast.Tuple)):
             for element in node.args[0].elts:
-                add_string(element, "tabs")
+                add_text_node(element, "tabs")
 
-    # Deduplicate identical source spans, then apply from the end of the file.
+        if name == "rename":
+            for keyword in node.keywords:
+                if keyword.arg == "columns" and isinstance(keyword.value, ast.Dict):
+                    for value in keyword.value.values:
+                        add_text_node(value, "table.column")
+
     unique = {(start, end): replacement for start, end, replacement in replacements}
-    ordered = sorted(((start, end, replacement) for (start, end), replacement in unique.items()), reverse=True)
-    for start, end, replacement in ordered:
+    for start, end, replacement in sorted(
+        ((start, end, replacement) for (start, end), replacement in unique.items()),
+        reverse=True,
+    ):
         source = source[:start] + replacement + source[end:]
 
     compile(source, str(APP_PATH), "exec")
@@ -108,16 +150,22 @@ def migrate() -> int:
             else node.func.id if isinstance(node.func, ast.Name)
             else None
         )
-        if name in TEXT_METHODS and node.args and isinstance(node.args[0], ast.Constant) and isinstance(node.args[0].value, str):
-            remaining.append((node.lineno, name, node.args[0].value[:80]))
+        if name in TEXT_METHODS and node.args and isinstance(node.args[0], (ast.Constant, ast.JoinedStr)):
+            remaining.append((node.lineno, name, ast.get_source_segment(source, node.args[0]) or ""))
         if name in {"render_csv_download", "render_json_download"}:
             for index in (0, 3):
-                if len(node.args) > index and isinstance(node.args[index], ast.Constant) and isinstance(node.args[index].value, str):
-                    remaining.append((node.lineno, name, node.args[index].value[:80]))
+                if len(node.args) > index and isinstance(node.args[index], (ast.Constant, ast.JoinedStr)):
+                    remaining.append((node.lineno, name, ast.get_source_segment(source, node.args[index]) or ""))
+        if name == "rename":
+            for keyword in node.keywords:
+                if keyword.arg == "columns" and isinstance(keyword.value, ast.Dict):
+                    for value in keyword.value.values:
+                        if isinstance(value, ast.Constant) and isinstance(value.value, str):
+                            remaining.append((value.lineno, "table.column", value.value))
     if remaining:
-        raise SystemExit(f"Remaining static Overview UI strings: {remaining[:20]}")
+        raise SystemExit(f"Remaining Overview UI literals: {remaining[:20]}")
     return len(unique)
 
 
 if __name__ == "__main__":
-    print(f"Migrated {migrate()} static Overview strings.")
+    print(f"Migrated {migrate()} Overview strings and table labels.")
