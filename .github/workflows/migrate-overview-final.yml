@@ -76,35 +76,21 @@ jobs:
           for node in ast.walk(target):
               if not isinstance(node, ast.Call):
                   continue
-              name = None
-              if isinstance(node.func, ast.Attribute):
-                  name = node.func.attr
-              elif isinstance(node.func, ast.Name):
-                  name = node.func.id
-
+              name = node.func.attr if isinstance(node.func, ast.Attribute) else node.func.id if isinstance(node.func, ast.Name) else None
               if name in text_methods and node.args:
                   add_string(node.args[0], f'ui.{name}')
                   for kw in node.keywords:
                       if kw.arg in {'label','help','placeholder'}:
                           add_string(kw.value, f'ui.{name}.{kw.arg}')
-
-              if name == 'render_csv_download':
+              if name in {'render_csv_download','render_json_download'}:
                   if len(node.args) > 0:
                       add_string(node.args[0], 'download.label')
                   if len(node.args) > 3:
                       add_string(node.args[3], 'download.help')
-
-              if name == 'render_json_download':
-                  if len(node.args) > 0:
-                      add_string(node.args[0], 'download_json.label')
-                  if len(node.args) > 3:
-                      add_string(node.args[3], 'download_json.help')
-
               if name == 'tabs' and node.args and isinstance(node.args[0], (ast.List, ast.Tuple)):
                   for element in node.args[0].elts:
                       add_string(element, 'tabs')
 
-          # Do not replace strings already nested inside an earlier replacement.
           replacements.sort(key=lambda item: (item[0], -(item[1] - item[0])))
           filtered = []
           last_end = -1
@@ -112,7 +98,6 @@ jobs:
               if item[0] >= last_end:
                   filtered.append(item)
                   last_end = item[1]
-
           for start, end, replacement in reversed(filtered):
               source = source[:start] + replacement + source[end:]
 
@@ -120,7 +105,6 @@ jobs:
           app_path.write_text(source, encoding='utf-8')
           locale_path.write_text(json.dumps(catalogue, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
-          # Audit remaining static public literals in the Overview function.
           audited = ast.parse(source)
           overview = next(n for n in audited.body if isinstance(n, ast.FunctionDef) and n.name == 'render_observatory_overview_tab')
           remaining = []
