@@ -1,0 +1,98 @@
+name: Migrate Overview Second Block
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/migrate-overview-second-block.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply semantic catalogue migration
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          app_path = Path('app/streamlit_app.py')
+          locale_path = Path('src/memoria_audiovisual/locales/pt.json')
+          text = app_path.read_text(encoding='utf-8')
+
+          replacements = {
+              'access_metric_cols[0].metric(\n            "Índice público World",': 'access_metric_cols[0].metric(\n            tr_key("overview.public_access.metrics.world"),',
+              'access_metric_cols[1].metric(\n            "Índice público Europa",': 'access_metric_cols[1].metric(\n            tr_key("overview.public_access.metrics.europe"),',
+              'access_metric_cols[2].metric(\n            "Registros restritos quantificados",': 'access_metric_cols[2].metric(\n            tr_key("overview.public_access.metrics.restricted_records"),',
+              'access_metric_cols[3].metric(\n            "Unidades restritas no índice",': 'access_metric_cols[3].metric(\n            tr_key("overview.public_access.metrics.restricted_units"),',
+              '["Mundo e continentes", "Por unidade documental", "Acesso restrito"]': '[tr_key("overview.public_access.tabs.scope"), tr_key("overview.public_access.tabs.corpus"), tr_key("overview.public_access.tabs.restricted")]',
+              '"Observações históricas das unidades",': 'tr_key("overview.timeline.metrics.units"),',
+              '"Observações históricas institucionais",': 'tr_key("overview.timeline.metrics.institutions"),',
+              '"Sinais globais de possível extinção",': 'tr_key("overview.timeline.metrics.signals"),',
+              '"Unidades com histórico registrado",': 'tr_key("overview.timeline.metrics.registered_units"),',
+              '["Histórico geral", "Sinais de possível extinção"]': '[tr_key("overview.timeline.tabs.history"), tr_key("overview.timeline.tabs.signals")]',
+              'st.markdown("### Avaliação metodológica dos agregadores europeus")': 'st.markdown(tr_key("overview.european_aggregators.title"))',
+              'st.markdown("### Fechamento da etapa Europa")': 'st.markdown(tr_key("overview.europe_closure.title"))',
+              'st.markdown("### Mapeamento europeu ampliado")': 'st.markdown(tr_key("overview.europe_mapping.title"))',
+              'st.markdown("### Comparações entre unidades documentais")': 'st.markdown(tr_key("overview.comparisons.title"))',
+              '["Regimes de acesso", "Modalidades de acesso"]': '[tr_key("overview.comparisons.tabs.regimes"), tr_key("overview.comparisons.tabs.modalities")]',
+              'st.markdown("### Histórico do observatório")': 'st.markdown(tr_key("overview.history.title"))',
+              '["Linha do tempo das rodadas", "Resultados por unidade", "Arquivos de referência"]': '[tr_key("overview.history.tabs.cycles"), tr_key("overview.history.tabs.results"), tr_key("overview.history.tabs.files")]',
+          }
+
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f'Missing expected source text: {old}')
+              text = text.replace(old, new, 1)
+
+          app_path.write_text(text, encoding='utf-8')
+
+          catalogue = json.loads(locale_path.read_text(encoding='utf-8'))
+          catalogue.update({
+              "overview.public_access.metrics.world": "Índice público mundial",
+              "overview.public_access.metrics.europe": "Índice público europeu",
+              "overview.public_access.metrics.restricted_records": "Registros restritos quantificados",
+              "overview.public_access.metrics.restricted_units": "Unidades restritas no índice",
+              "overview.public_access.tabs.scope": "Mundo e continentes",
+              "overview.public_access.tabs.corpus": "Por unidade documental",
+              "overview.public_access.tabs.restricted": "Acesso restrito",
+              "overview.timeline.metrics.units": "Observações históricas das unidades",
+              "overview.timeline.metrics.institutions": "Observações históricas institucionais",
+              "overview.timeline.metrics.signals": "Sinais globais de possível extinção",
+              "overview.timeline.metrics.registered_units": "Unidades com histórico registrado",
+              "overview.timeline.tabs.history": "Histórico geral",
+              "overview.timeline.tabs.signals": "Sinais de possível extinção",
+              "overview.european_aggregators.title": "### Avaliação metodológica dos agregadores europeus",
+              "overview.europe_closure.title": "### Fechamento da etapa Europa",
+              "overview.europe_mapping.title": "### Mapeamento europeu ampliado",
+              "overview.comparisons.title": "### Comparações entre unidades documentais",
+              "overview.comparisons.tabs.regimes": "Regimes de acesso",
+              "overview.comparisons.tabs.modalities": "Modalidades de acesso",
+              "overview.history.title": "### Histórico do observatório",
+              "overview.history.tabs.cycles": "Linha do tempo das rodadas",
+              "overview.history.tabs.results": "Resultados por unidade",
+              "overview.history.tabs.files": "Arquivos de referência"
+          })
+          locale_path.write_text(json.dumps(catalogue, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          compile(text, str(app_path), 'exec')
+          for key in catalogue:
+              if key.startswith('overview.') and f'tr_key("{key}")' in text:
+                  continue
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/streamlit_app.py src/memoria_audiovisual/locales/pt.json
+          git commit -m 'refactor(i18n): migrate Overview second block to semantic catalogue [skip ci]'
+          git push origin HEAD:presentation/rpv-1
