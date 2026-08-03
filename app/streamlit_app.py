@@ -1733,10 +1733,7 @@ def render_observatory_overview_tab():
     )
     if cycle_manifest:
         st.caption(
-            f"Rodada {cycle_manifest.get('cycle_type', '-')} mais recente: "
-            f"{cycle_manifest.get('successful_corpora_total', 0)} sucessos, "
-            f"{cycle_manifest.get('failed_corpora_total', 0)} pendências, "
-            f"gerado em {format_snapshot_timestamp(cycle_manifest.get('generated_at')) or '-'}."
+            tr_key('overview.ui.caption.rodada_value_0_mais_recente_value_1_sucessos_value_2', value_0=cycle_manifest.get('cycle_type', '-'), value_1=cycle_manifest.get('successful_corpora_total', 0), value_2=cycle_manifest.get('failed_corpora_total', 0), value_3=format_snapshot_timestamp(cycle_manifest.get('generated_at')) or '-')
         )
 
     st.markdown(tr_key("overview.academic_axis.title"))
@@ -1782,23 +1779,23 @@ def render_observatory_overview_tab():
 
         refresh_display_df = refresh_status_df.rename(
             columns={
-                "corpus": "unidade documental",
-                "category_label": "categoria analítica",
-                "coverage_level": "escala de cobertura",
-                "scope": "escopo",
-                "collection_completeness": "completude da coleta",
-                "selection_limit": "limite técnico",
-                "completeness_note": "nota de completude",
-                "included_in_latest_cycle": "incluída na última rodada",
-                "latest_cycle_scope": "escopo da última rodada",
-                "latest_cycle_status": "situação na última rodada",
-                "last_successful_cycle_at": "última rodada bem-sucedida",
-                "last_snapshot_generated_at": "última observação registrada",
-                "source_status_date": "status da fonte",
-                "observation_key": "chave de observação",
-                "days_since_last_observation": "dias desde a última observação",
-                "refresh_state": "estado de atualização",
-                "refresh_state_reason": "justificativa metodológica",
+                "corpus": tr_key('overview.table.column.unidade_documental'),
+                "category_label": tr_key('overview.table.column.categoria_analitica'),
+                "coverage_level": tr_key('overview.table.column.escala_de_cobertura'),
+                "scope": tr_key('overview.table.column.escopo'),
+                "collection_completeness": tr_key('overview.table.column.completude_da_coleta'),
+                "selection_limit": tr_key('overview.table.column.limite_tecnico'),
+                "completeness_note": tr_key('overview.table.column.nota_de_completude'),
+                "included_in_latest_cycle": tr_key('overview.table.column.incluida_na_ultima_rodada'),
+                "latest_cycle_scope": tr_key('overview.table.column.escopo_da_ultima_rodada'),
+                "latest_cycle_status": tr_key('overview.table.column.situacao_na_ultima_rodada'),
+                "last_successful_cycle_at": tr_key('overview.table.column.ultima_rodada_bem_sucedida'),
+                "last_snapshot_generated_at": tr_key('overview.table.column.ultima_observacao_registrada'),
+                "source_status_date": tr_key('overview.table.column.status_da_fonte'),
+                "observation_key": tr_key('overview.table.column.chave_de_observacao'),
+                "days_since_last_observation": tr_key('overview.table.column.dias_desde_a_ultima_observacao'),
+                "refresh_state": tr_key('overview.table.column.estado_de_atualizacao'),
+                "refresh_state_reason": tr_key('overview.table.column.justificativa_metodologica'),
             }
         ).copy()
         refresh_display_df["incluída na última rodada"] = refresh_display_df["incluída na última rodada"].map(
@@ -1858,16 +1855,16 @@ def render_observatory_overview_tab():
         with index_tab:
             index_display_df = public_access_index_df.rename(
                 columns={
-                    "scope_level": "nível",
-                    "scope": "recorte",
-                    "public_records": "registros públicos",
-                    "restricted_records": "registros restritos",
-                    "materialized_records_total": "registros avaliados no observatório",
-                    "public_records_percent": "% público",
-                    "restricted_records_percent": "% restrito",
-                    "restricted_units_without_public_catalog": "unidades não quantificáveis no índice",
-                    "restricted_unit_codes": "unidades restritas",
-                    "denominator_note": "nota do denominador",
+                    "scope_level": tr_key('overview.table.column.nivel'),
+                    "scope": tr_key('overview.table.column.recorte'),
+                    "public_records": tr_key('overview.table.column.registros_publicos'),
+                    "restricted_records": tr_key('overview.table.column.registros_restritos'),
+                    "materialized_records_total": tr_key('overview.table.column.registros_avaliados_no_observatorio'),
+                    "public_records_percent": tr_key('overview.table.column.publico'),
+                    "restricted_records_percent": tr_key('overview.table.column.restrito'),
+                    "restricted_units_without_public_catalog": tr_key('overview.table.column.unidades_nao_quantificaveis_no_indice'),
+                    "restricted_unit_codes": tr_key('overview.table.column.unidades_restritas'),
+                    "denominator_note": tr_key('overview.table.column.nota_do_denominador'),
                 }
             )
             st.dataframe(index_display_df, use_container_width=True, hide_index=True)
@@ -1883,16 +1880,16 @@ def render_observatory_overview_tab():
             else:
                 corpus_display_df = public_access_by_corpus_df.rename(
                     columns={
-                        "corpus_code": "código",
-                        "corpus": "unidade documental",
-                        "category_label": "categoria",
-                        "continent": "continente",
-                        "public_records": "registros públicos",
-                        "restricted_records": "registros restritos",
-                        "materialized_records_total": "registros avaliados no observatório",
-                        "public_records_percent": "% público",
-                        "restricted_records_percent": "% restrito",
-                        "denominator_note": "nota do denominador",
+                        "corpus_code": tr_key('overview.table.column.codigo'),
+                        "corpus": tr_key('overview.table.column.unidade_documental'),
+                        "category_label": tr_key('overview.table.column.categoria'),
+                        "continent": tr_key('overview.table.column.continente'),
+                        "public_records": tr_key('overview.table.column.registros_publicos'),
+                        "restricted_records": tr_key('overview.table.column.registros_restritos'),
+                        "materialized_records_total": tr_key('overview.table.column.registros_avaliados_no_observatorio'),
+                        "public_records_percent": tr_key('overview.table.column.publico'),
+                        "restricted_records_percent": tr_key('overview.table.column.restrito'),
+                        "denominator_note": tr_key('overview.table.column.nota_do_denominador'),
                     }
                 )
                 st.dataframe(corpus_display_df, use_container_width=True, hide_index=True)
@@ -1911,15 +1908,15 @@ def render_observatory_overview_tab():
                 )
                 restricted_display_df = public_access_restricted_units_df.rename(
                     columns={
-                        "unit_code": "código",
-                        "unit_label": "unidade",
-                        "continent": "continente",
-                        "corpus_status": "status no organismo",
-                        "category_label": "categoria de restrição",
-                        "restricted_records": "registros restritos",
-                        "restricted_volume_status": "status do volume",
-                        "source_file": "arquivo-fonte",
-                        "evidence": "evidência",
+                        "unit_code": tr_key('overview.table.column.codigo'),
+                        "unit_label": tr_key('overview.table.column.unidade'),
+                        "continent": tr_key('overview.table.column.continente'),
+                        "corpus_status": tr_key('overview.table.column.status_no_organismo'),
+                        "category_label": tr_key('overview.table.column.categoria_de_restricao'),
+                        "restricted_records": tr_key('overview.table.column.registros_restritos'),
+                        "restricted_volume_status": tr_key('overview.table.column.status_do_volume'),
+                        "source_file": tr_key('overview.table.column.arquivo_fonte'),
+                        "evidence": tr_key('overview.table.column.evidencia'),
                     }
                 )
                 st.dataframe(restricted_display_df, use_container_width=True, hide_index=True)
@@ -1989,9 +1986,9 @@ def render_observatory_overview_tab():
                 .reset_index(name="total")
                 .rename(
                     columns={
-                        "corpus": "corpus",
-                        "signal_type": "tipo de sinal",
-                        "signal_level": "nível",
+                        "corpus": tr_key('overview.table.column.corpus'),
+                        "signal_type": tr_key('overview.table.column.tipo_de_sinal'),
+                        "signal_level": tr_key('overview.table.column.nivel'),
                     }
                 )
             )
@@ -2044,23 +2041,23 @@ def render_observatory_overview_tab():
 
     comparison_df = overview_df.rename(
         columns={
-            "corpus": "unidade documental",
-            "label": "unidade",
-            "category": "categoria analítica",
-            "coverage_level": "escala de cobertura",
-            "expansion_stage": "etapa de expansão",
-            "entity_level": "nível da unidade",
-            "scope": "escopo",
-            "collection_completeness": "completude da coleta",
-            "selection_limit": "limite técnico",
-            "source_status_date": "status da fonte",
-            "updated_at": "atualização analítica",
-            "institutions": "instituições",
-            "institutions_with_video_links": "instituições com links de vídeo",
-            "video_links_total": "links de vídeo",
-            "videos_in_curatorial_catalog": "vídeos no recorte curatorial",
-            "detected_visibility": "evidência pública detectável",
-            "status": "situação",
+            "corpus": tr_key('overview.table.column.unidade_documental'),
+            "label": tr_key('overview.table.column.unidade'),
+            "category": tr_key('overview.table.column.categoria_analitica'),
+            "coverage_level": tr_key('overview.table.column.escala_de_cobertura'),
+            "expansion_stage": tr_key('overview.table.column.etapa_de_expansao'),
+            "entity_level": tr_key('overview.table.column.nivel_da_unidade'),
+            "scope": tr_key('overview.table.column.escopo'),
+            "collection_completeness": tr_key('overview.table.column.completude_da_coleta'),
+            "selection_limit": tr_key('overview.table.column.limite_tecnico'),
+            "source_status_date": tr_key('overview.table.column.status_da_fonte'),
+            "updated_at": tr_key('overview.table.column.atualizacao_analitica'),
+            "institutions": tr_key('overview.table.column.instituicoes'),
+            "institutions_with_video_links": tr_key('overview.table.column.instituicoes_com_links_de_video'),
+            "video_links_total": tr_key('overview.table.column.links_de_video'),
+            "videos_in_curatorial_catalog": tr_key('overview.table.column.videos_no_recorte_curatorial'),
+            "detected_visibility": tr_key('overview.table.column.evidencia_publica_detectavel'),
+            "status": tr_key('overview.table.column.situacao'),
         }
     )
     st.dataframe(comparison_df, use_container_width=True, hide_index=True)
@@ -2070,13 +2067,13 @@ def render_observatory_overview_tab():
     st.dataframe(
         category_overview_df.rename(
             columns={
-                "category": "categoria analítica",
-                "expansion_stage": "etapa de expansão",
-                "corpora": "unidades documentais",
-                "institutions": "instituições",
-                "institutions_with_video_links": "instituições com links de vídeo",
-                "video_links_total": "links de vídeo",
-                "videos_in_curatorial_catalog": "vídeos no recorte curatorial",
+                "category": tr_key('overview.table.column.categoria_analitica'),
+                "expansion_stage": tr_key('overview.table.column.etapa_de_expansao'),
+                "corpora": tr_key('overview.table.column.unidades_documentais'),
+                "institutions": tr_key('overview.table.column.instituicoes'),
+                "institutions_with_video_links": tr_key('overview.table.column.instituicoes_com_links_de_video'),
+                "video_links_total": tr_key('overview.table.column.links_de_video'),
+                "videos_in_curatorial_catalog": tr_key('overview.table.column.videos_no_recorte_curatorial'),
             }
         ),
         use_container_width=True,
@@ -2237,19 +2234,19 @@ def render_observatory_overview_tab():
 
         evaluation_display_df = european_aggregator_evaluation_df.rename(
             columns={
-                "label": "agregador",
-                "country_scope": "país/escopo",
-                "coverage_level": "escala",
-                "access_model": "modelo de acesso observado",
-                "candidate_status": "status metodológico",
-                "audiovisual_probe_terms": "termos sondados",
-                "search_result_count_total": "registros preliminares de busca",
-                "successful_probe_terms": "termos com resultado",
-                "blocked_probe_terms": "termos bloqueados",
-                "ingestion_recommendation": "recomendação de ingestão",
-                "next_step": "próximo passo",
-                "evaluated_at": "avaliado em",
-                "best_probe_url": "melhor URL de sondagem",
+                "label": tr_key('overview.table.column.agregador'),
+                "country_scope": tr_key('overview.table.column.pais_escopo'),
+                "coverage_level": tr_key('overview.table.column.escala'),
+                "access_model": tr_key('overview.table.column.modelo_de_acesso_observado'),
+                "candidate_status": tr_key('overview.table.column.status_metodologico'),
+                "audiovisual_probe_terms": tr_key('overview.table.column.termos_sondados'),
+                "search_result_count_total": tr_key('overview.table.column.registros_preliminares_de_busca'),
+                "successful_probe_terms": tr_key('overview.table.column.termos_com_resultado'),
+                "blocked_probe_terms": tr_key('overview.table.column.termos_bloqueados'),
+                "ingestion_recommendation": tr_key('overview.table.column.recomendacao_de_ingestao'),
+                "next_step": tr_key('overview.table.column.proximo_passo'),
+                "evaluated_at": tr_key('overview.table.column.avaliado_em'),
+                "best_probe_url": tr_key('overview.table.column.melhor_url_de_sondagem'),
             }
         )
         st.dataframe(
@@ -2281,18 +2278,18 @@ def render_observatory_overview_tab():
             )
             protocol_display_df = european_aggregator_protocols_df.rename(
                 columns={
-                    "label": "agregador",
-                    "country_scope": "país/escopo",
-                    "candidate_status": "status metodológico",
-                    "access_model": "modelo observado",
-                    "protocol_needed": "exige nova rota",
-                    "protocol_status": "estado da avaliação",
-                    "evidence_summary": "evidência observada",
-                    "methodological_risk": "risco metodológico",
-                    "recommended_protocol": "encaminhamento recomendado",
-                    "incorporation_decision": "decisão de incorporação",
-                    "priority": "prioridade",
-                    "next_review_trigger": "gatilho de revisão",
+                    "label": tr_key('overview.table.column.agregador'),
+                    "country_scope": tr_key('overview.table.column.pais_escopo'),
+                    "candidate_status": tr_key('overview.table.column.status_metodologico'),
+                    "access_model": tr_key('overview.table.column.modelo_observado'),
+                    "protocol_needed": tr_key('overview.table.column.exige_nova_rota'),
+                    "protocol_status": tr_key('overview.table.column.estado_da_avaliacao'),
+                    "evidence_summary": tr_key('overview.table.column.evidencia_observada'),
+                    "methodological_risk": tr_key('overview.table.column.risco_metodologico'),
+                    "recommended_protocol": tr_key('overview.table.column.encaminhamento_recomendado'),
+                    "incorporation_decision": tr_key('overview.table.column.decisao_de_incorporacao'),
+                    "priority": tr_key('overview.table.column.prioridade'),
+                    "next_review_trigger": tr_key('overview.table.column.gatilho_de_revisao'),
                 }
             )
             st.dataframe(
@@ -2323,18 +2320,18 @@ def render_observatory_overview_tab():
                 )
                 access_route_display_df = european_aggregator_access_routes_df.rename(
                     columns={
-                        "label": "agregador",
-                        "country_scope": "país/escopo",
-                        "route_type": "tipo de rota",
-                        "route_url": "URL da rota",
-                        "source_reference_url": "referência oficial",
-                        "source_reference_note": "nota da referência",
-                        "http_status": "resposta do site",
-                        "content_type": "tipo de conteúdo",
-                        "access_status": "status de acesso",
-                        "route_viability": "viabilidade da rota",
-                        "audiovisual_use": "uso audiovisual possível",
-                        "methodological_note": "nota metodológica",
+                        "label": tr_key('overview.table.column.agregador'),
+                        "country_scope": tr_key('overview.table.column.pais_escopo'),
+                        "route_type": tr_key('overview.table.column.tipo_de_rota'),
+                        "route_url": tr_key('overview.table.column.url_da_rota'),
+                        "source_reference_url": tr_key('overview.table.column.referencia_oficial'),
+                        "source_reference_note": tr_key('overview.table.column.nota_da_referencia'),
+                        "http_status": tr_key('overview.table.column.resposta_do_site'),
+                        "content_type": tr_key('overview.table.column.tipo_de_conteudo'),
+                        "access_status": tr_key('overview.table.column.status_de_acesso'),
+                        "route_viability": tr_key('overview.table.column.viabilidade_da_rota'),
+                        "audiovisual_use": tr_key('overview.table.column.uso_audiovisual_possivel'),
+                        "methodological_note": tr_key('overview.table.column.nota_metodologica'),
                     }
                 )
                 st.dataframe(
@@ -2365,18 +2362,18 @@ def render_observatory_overview_tab():
                 )
                 archiveshub_protocol_display_df = archiveshub_protocol_df.rename(
                     columns={
-                        "probe_label": "sondagem",
-                        "method": "método",
-                        "http_status": "resposta do site",
-                        "content_type": "tipo de conteúdo",
-                        "content_length": "tamanho informado",
-                        "access_status": "status de acesso",
-                        "evidence_signal": "sinal observado",
-                        "observed_value": "valor observado",
-                        "protocol_conclusion": "conclusão do protocolo",
-                        "next_step": "próximo passo",
-                        "methodological_note": "nota metodológica",
-                        "url": "URL",
+                        "probe_label": tr_key('overview.table.column.sondagem'),
+                        "method": tr_key('overview.table.column.metodo'),
+                        "http_status": tr_key('overview.table.column.resposta_do_site'),
+                        "content_type": tr_key('overview.table.column.tipo_de_conteudo'),
+                        "content_length": tr_key('overview.table.column.tamanho_informado'),
+                        "access_status": tr_key('overview.table.column.status_de_acesso'),
+                        "evidence_signal": tr_key('overview.table.column.sinal_observado'),
+                        "observed_value": tr_key('overview.table.column.valor_observado'),
+                        "protocol_conclusion": tr_key('overview.table.column.conclusao_do_protocolo'),
+                        "next_step": tr_key('overview.table.column.proximo_passo'),
+                        "methodological_note": tr_key('overview.table.column.nota_metodologica'),
+                        "url": tr_key('overview.table.column.url'),
                     }
                 )
                 st.dataframe(
@@ -2407,18 +2404,18 @@ def render_observatory_overview_tab():
                 )
                 francearchives_protocol_display_df = francearchives_protocol_df.rename(
                     columns={
-                        "probe_label": "sondagem",
-                        "method": "método",
-                        "http_status": "resposta do site",
-                        "content_type": "tipo de conteúdo",
-                        "content_length": "tamanho informado",
-                        "access_status": "status de acesso",
-                        "evidence_signal": "sinal observado",
-                        "observed_value": "valor observado",
-                        "protocol_conclusion": "conclusão do protocolo",
-                        "next_step": "próximo passo",
-                        "methodological_note": "nota metodológica",
-                        "url": "URL",
+                        "probe_label": tr_key('overview.table.column.sondagem'),
+                        "method": tr_key('overview.table.column.metodo'),
+                        "http_status": tr_key('overview.table.column.resposta_do_site'),
+                        "content_type": tr_key('overview.table.column.tipo_de_conteudo'),
+                        "content_length": tr_key('overview.table.column.tamanho_informado'),
+                        "access_status": tr_key('overview.table.column.status_de_acesso'),
+                        "evidence_signal": tr_key('overview.table.column.sinal_observado'),
+                        "observed_value": tr_key('overview.table.column.valor_observado'),
+                        "protocol_conclusion": tr_key('overview.table.column.conclusao_do_protocolo'),
+                        "next_step": tr_key('overview.table.column.proximo_passo'),
+                        "methodological_note": tr_key('overview.table.column.nota_metodologica'),
+                        "url": tr_key('overview.table.column.url'),
                     }
                 )
                 st.dataframe(
@@ -2444,24 +2441,23 @@ def render_observatory_overview_tab():
 
         with st.expander(tr_key('overview.ui.expander.ver_verificacoes_realizadas'), expanded=False):
             st.caption(
-                f"As verificações registram respostas dos sites, bloqueios por JS/cookies, problemas de TLS "
-                f"e contagens preliminares. Total de verificações bloqueadas: {blocked_probe_total}."
+                tr_key('overview.ui.caption.as_verificacoes_registram_respostas_dos_sites_bloque', value_0=blocked_probe_total)
             )
             if european_aggregator_summary_df is not None and not european_aggregator_summary_df.empty:
                 st.dataframe(european_aggregator_summary_df, use_container_width=True, hide_index=True)
             if european_aggregator_probes_df is not None and not european_aggregator_probes_df.empty:
                 probe_display_df = european_aggregator_probes_df.rename(
                     columns={
-                        "label": "agregador",
-                        "probe_type": "tipo de verificação",
-                        "query": "termo",
-                        "http_status": "resposta do site",
-                        "access_status": "status de acesso",
-                        "js_cookie_required": "exige JS/cookies",
-                        "tls_verification_failed": "falha TLS",
-                        "result_count": "resultados",
-                        "final_url": "URL final",
-                        "methodological_note": "nota metodológica",
+                        "label": tr_key('overview.table.column.agregador'),
+                        "probe_type": tr_key('overview.table.column.tipo_de_verificacao'),
+                        "query": tr_key('overview.table.column.termo'),
+                        "http_status": tr_key('overview.table.column.resposta_do_site'),
+                        "access_status": tr_key('overview.table.column.status_de_acesso'),
+                        "js_cookie_required": tr_key('overview.table.column.exige_js_cookies'),
+                        "tls_verification_failed": tr_key('overview.table.column.falha_tls'),
+                        "result_count": tr_key('overview.table.column.resultados'),
+                        "final_url": tr_key('overview.table.column.url_final'),
+                        "methodological_note": tr_key('overview.table.column.nota_metodologica'),
                     }
                 )
                 st.dataframe(probe_display_df, use_container_width=True, hide_index=True)
@@ -2593,19 +2589,19 @@ def render_observatory_overview_tab():
                 )
                 excluded_display_df = europe_excluded_units_df.rename(
                     columns={
-                        "unit_label": "unidade",
-                        "unit_type": "tipo de unidade",
-                        "territorial_scope": "escopo territorial",
-                        "access_category": "categoria de acesso",
-                        "public_status": "status público",
-                        "methodological_decision": "decisão metodológica",
-                        "negative_reason": "motivo da não inclusão",
-                        "collection_route_attempted": "rota tentada",
-                        "attempt_summary": "tentativas registradas",
-                        "methodological_explanation": "explicação metodológica",
-                        "protocol_status": "estado da avaliação",
-                        "next_step": "próximo passo",
-                        "blocks_expansion": "bloqueia expansão",
+                        "unit_label": tr_key('overview.table.column.unidade'),
+                        "unit_type": tr_key('overview.table.column.tipo_de_unidade'),
+                        "territorial_scope": tr_key('overview.table.column.escopo_territorial'),
+                        "access_category": tr_key('overview.table.column.categoria_de_acesso'),
+                        "public_status": tr_key('overview.table.column.status_publico'),
+                        "methodological_decision": tr_key('overview.table.column.decisao_metodologica'),
+                        "negative_reason": tr_key('overview.table.column.motivo_da_nao_inclusao'),
+                        "collection_route_attempted": tr_key('overview.table.column.rota_tentada'),
+                        "attempt_summary": tr_key('overview.table.column.tentativas_registradas'),
+                        "methodological_explanation": tr_key('overview.table.column.explicacao_metodologica'),
+                        "protocol_status": tr_key('overview.table.column.estado_da_avaliacao'),
+                        "next_step": tr_key('overview.table.column.proximo_passo'),
+                        "blocks_expansion": tr_key('overview.table.column.bloqueia_expansao'),
                     }
                 )
                 st.dataframe(
@@ -2654,16 +2650,16 @@ def render_observatory_overview_tab():
                     st.dataframe(restricted_access_summary_df, use_container_width=True, hide_index=True)
                 paid_access_display_df = restricted_access_audit_df.rename(
                     columns={
-                        "unit_label": "unidade",
-                        "corpus_status": "situação no observatório",
-                        "access_category": "categoria de acesso",
-                        "category_label": "categoria legível",
-                        "total_records": "registros",
-                        "evidence": "evidência",
-                        "methodological_decision": "decisão metodológica",
-                        "include_in_private_paid_bank_category": "entra como banco privado pago",
-                        "source_file": "arquivo-fonte",
-                        "example_titles": "exemplos",
+                        "unit_label": tr_key('overview.table.column.unidade'),
+                        "corpus_status": tr_key('overview.table.column.situacao_no_observatorio'),
+                        "access_category": tr_key('overview.table.column.categoria_de_acesso'),
+                        "category_label": tr_key('overview.table.column.categoria_legivel'),
+                        "total_records": tr_key('overview.table.column.registros'),
+                        "evidence": tr_key('overview.table.column.evidencia'),
+                        "methodological_decision": tr_key('overview.table.column.decisao_metodologica'),
+                        "include_in_private_paid_bank_category": tr_key('overview.table.column.entra_como_banco_privado_pago'),
+                        "source_file": tr_key('overview.table.column.arquivo_fonte'),
+                        "example_titles": tr_key('overview.table.column.exemplos'),
                     }
                 )
                 st.dataframe(
@@ -2699,16 +2695,16 @@ def render_observatory_overview_tab():
                 )
                 gap_audit_display_df = europe_gap_audit_df.rename(
                     columns={
-                        "unit_label": "unidade",
-                        "unit_type": "tipo de unidade",
-                        "territorial_scope": "escopo territorial",
-                        "audit_status": "status da auditoria",
-                        "relation_to_active_corpus": "relação com a base ativa",
-                        "corpus_decision": "decisão sobre a base",
-                        "methodological_reason": "justificativa metodológica",
-                        "source_url": "fonte",
-                        "next_step": "próximo passo",
-                        "blocks_expansion": "bloqueia expansão",
+                        "unit_label": tr_key('overview.table.column.unidade'),
+                        "unit_type": tr_key('overview.table.column.tipo_de_unidade'),
+                        "territorial_scope": tr_key('overview.table.column.escopo_territorial'),
+                        "audit_status": tr_key('overview.table.column.status_da_auditoria'),
+                        "relation_to_active_corpus": tr_key('overview.table.column.relacao_com_a_base_ativa'),
+                        "corpus_decision": tr_key('overview.table.column.decisao_sobre_a_base'),
+                        "methodological_reason": tr_key('overview.table.column.justificativa_metodologica'),
+                        "source_url": tr_key('overview.table.column.fonte'),
+                        "next_step": tr_key('overview.table.column.proximo_passo'),
+                        "blocks_expansion": tr_key('overview.table.column.bloqueia_expansao'),
                     }
                 )
                 st.dataframe(
@@ -2775,17 +2771,17 @@ def render_observatory_overview_tab():
         with research_tab_queue:
             queue_display_df = europe_research_queue_df.rename(
                 columns={
-                    "definitive_queue_rank": "ordem",
-                    "unit_label": "unidade",
-                    "unit_type": "tipo",
-                    "source_family": "fonte",
-                    "country_or_scope": "país/escopo",
-                    "queue_layer": "camada da fila",
-                    "queue_decision": "decisão",
-                    "video_location_status": "status do local dos vídeos",
-                    "video_location_candidate_url": "URL inicial",
-                    "inclusion_gate": "porta metodológica",
-                    "next_action": "próxima ação",
+                    "definitive_queue_rank": tr_key('overview.table.column.ordem'),
+                    "unit_label": tr_key('overview.table.column.unidade'),
+                    "unit_type": tr_key('overview.table.column.tipo'),
+                    "source_family": tr_key('overview.table.column.fonte'),
+                    "country_or_scope": tr_key('overview.table.column.pais_escopo'),
+                    "queue_layer": tr_key('overview.table.column.camada_da_fila'),
+                    "queue_decision": tr_key('overview.table.column.decisao'),
+                    "video_location_status": tr_key('overview.table.column.status_do_local_dos_videos'),
+                    "video_location_candidate_url": tr_key('overview.table.column.url_inicial'),
+                    "inclusion_gate": tr_key('overview.table.column.porta_metodologica'),
+                    "next_action": tr_key('overview.table.column.proxima_acao'),
                 }
             )
             st.dataframe(
