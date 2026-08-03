@@ -1,0 +1,120 @@
+name: Migrate Scientific Parameters
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/migrate-scientific-parameters.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Migrate scientific parameters to semantic catalogue
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, re
+
+          app_path = Path('app/streamlit_app.py')
+          profile_path = Path('src/memoria_audiovisual/research_profile.py')
+          locale_path = Path('src/memoria_audiovisual/locales/pt.json')
+
+          profile_path.write_text('''from collections import Counter\n\nRESEARCH_WORKING_TITLE = "research.profile.title"\nRESEARCH_SUBTITLE = "research.profile.subtitle"\nRESEARCH_MAIN_QUESTION = "research.profile.main_question"\n\nRESEARCH_PLATFORM_POSITIONING = [\n    ("research.positioning.function.label", "research.positioning.function.value"),\n    ("research.positioning.uses.label", "research.positioning.uses.value"),\n    ("research.positioning.current_scope.label", "research.positioning.current_scope.value"),\n    ("research.positioning.maturation.label", "research.positioning.maturation.value"),\n]\n\nRESEARCH_PARAMETER_ROWS = [\n    ("research.parameter.question", "research.parameter.question.platform", "research.parameter.question.evidence", "adapting"),\n    ("research.parameter.infrastructure", "research.parameter.infrastructure.platform", "research.parameter.infrastructure.evidence", "implemented"),\n    ("research.parameter.units", "research.parameter.units.platform", "research.parameter.units.evidence", "implemented"),\n    ("research.parameter.longitudinal", "research.parameter.longitudinal.platform", "research.parameter.longitudinal.evidence", "implemented"),\n    ("research.parameter.visibility", "research.parameter.visibility.platform", "research.parameter.visibility.evidence", "implemented"),\n    ("research.parameter.europe", "research.parameter.europe.platform", "research.parameter.europe.evidence", "adapting"),\n    ("research.parameter.reproducibility", "research.parameter.reproducibility.platform", "research.parameter.reproducibility.evidence", "implemented"),\n    ("research.parameter.indicators", "research.parameter.indicators.platform", "research.parameter.indicators.evidence", "to_develop"),\n    ("research.parameter.findability", "research.parameter.findability.platform", "research.parameter.findability.evidence", "adapting"),\n    ("research.parameter.ethics", "research.parameter.ethics.platform", "research.parameter.ethics.evidence", "to_develop"),\n]\n\nRESEARCH_NEXT_ADJUSTMENT_ROWS = [\n    ("1", "research.adjustment.visibility_index", "research.adjustment.visibility_index.result"),\n    ("2", "research.adjustment.europe_design", "research.adjustment.europe_design.result"),\n    ("3", "research.adjustment.detectability", "research.adjustment.detectability.result"),\n    ("4", "research.adjustment.ethics", "research.adjustment.ethics.result"),\n    ("5", "research.adjustment.report", "research.adjustment.report.result"),\n]\n\nSTATUS_KEYS = {\n    "implemented": "research.status.implemented",\n    "adapting": "research.status.adapting",\n    "to_develop": "research.status.to_develop",\n}\n\ndef build_research_positioning_rows(translator):\n    return [\n        {translator("research.columns.dimension"): translator(label), translator("research.columns.definition"): translator(value)}\n        for label, value in RESEARCH_PLATFORM_POSITIONING\n    ]\n\ndef build_research_parameter_rows(translator):\n    return [\n        {\n            translator("research.columns.parameter"): translator(parameter),\n            translator("research.columns.platform_translation"): translator(platform),\n            translator("research.columns.current_evidence"): translator(evidence),\n            translator("research.columns.status"): translator(STATUS_KEYS[status]),\n        }\n        for parameter, platform, evidence, status in RESEARCH_PARAMETER_ROWS\n    ]\n\ndef build_research_next_adjustment_rows(translator):\n    return [\n        {\n            translator("research.columns.priority"): priority,\n            translator("research.columns.adjustment"): translator(adjustment),\n            translator("research.columns.expected_result"): translator(result),\n        }\n        for priority, adjustment, result in RESEARCH_NEXT_ADJUSTMENT_ROWS\n    ]\n\ndef summarize_research_parameter_status(rows=None):\n    source = RESEARCH_PARAMETER_ROWS if rows is None else rows\n    if source and isinstance(source[0], tuple):\n        return dict(Counter(row[3] for row in source))\n    return {}\n''', encoding='utf-8')
+
+          app = app_path.read_text(encoding='utf-8')
+          app = app.replace('    build_research_next_adjustment_rows,\n    build_research_parameter_rows,', '    build_research_next_adjustment_rows,\n    build_research_parameter_rows,\n    build_research_positioning_rows,')
+          start = app.index('def render_scientific_parameters_section():')
+          end = app.index('\n\ndef render_observatory_overview_tab():', start)
+          replacement = '''def render_scientific_parameters_section():\n    parameter_rows = build_research_parameter_rows(tr_key)\n    next_adjustment_rows = build_research_next_adjustment_rows(tr_key)\n    positioning_rows = build_research_positioning_rows(tr_key)\n    status_summary = summarize_research_parameter_status()\n\n    st.markdown(tr_key("research.section.title"))\n    st.caption(tr_key("research.section.caption"))\n\n    status_cols = st.columns(4)\n    status_cols[0].metric(tr_key("research.metrics.mapped"), len(parameter_rows))\n    status_cols[1].metric(tr_key("research.metrics.implemented"), status_summary.get("implemented", 0))\n    status_cols[2].metric(tr_key("research.metrics.adapting"), status_summary.get("adapting", 0))\n    status_cols[3].metric(tr_key("research.metrics.to_develop"), status_summary.get("to_develop", 0))\n\n    framing_tab, matrix_tab, next_tab = st.tabs([\n        tr_key("research.tabs.framing"),\n        tr_key("research.tabs.matrix"),\n        tr_key("research.tabs.next_adjustments"),\n    ])\n    with framing_tab:\n        st.markdown(f"**{tr_key(RESEARCH_WORKING_TITLE)}**")\n        st.caption(tr_key(RESEARCH_SUBTITLE))\n        st.markdown(f"**{tr_key('research.question.label')}:** {tr_key(RESEARCH_MAIN_QUESTION)}")\n        st.dataframe(pd.DataFrame(positioning_rows), use_container_width=True, hide_index=True)\n        st.info(tr_key("research.parameters.summary"))\n    with matrix_tab:\n        st.dataframe(pd.DataFrame(parameter_rows), use_container_width=True, hide_index=True)\n    with next_tab:\n        st.dataframe(pd.DataFrame(next_adjustment_rows), use_container_width=True, hide_index=True)\n'''
+          app = app[:start] + replacement + app[end:]
+          compile(app, str(app_path), 'exec')
+          app_path.write_text(app, encoding='utf-8')
+
+          catalogue = json.loads(locale_path.read_text(encoding='utf-8'))
+          catalogue.update({
+            "research.profile.title": "Memória Audiovisual em Rede",
+            "research.profile.subtitle": "Plataforma aberta para observação comparativa da visibilidade, do acesso e da circulação digital de acervos audiovisuais",
+            "research.profile.main_question": "Sob quais condições infraestruturais, institucionais, técnicas e culturais os acervos audiovisuais se tornam visíveis, invisíveis, restritos ou instáveis em ambientes digitais?",
+            "research.columns.dimension": "Dimensão",
+            "research.columns.definition": "Definição",
+            "research.columns.parameter": "Parâmetro científico",
+            "research.columns.platform_translation": "Tradução na plataforma",
+            "research.columns.current_evidence": "Evidência atual",
+            "research.columns.status": "Estado",
+            "research.columns.priority": "Prioridade",
+            "research.columns.adjustment": "Ajuste",
+            "research.columns.expected_result": "Resultado esperado",
+            "research.positioning.function.label": "Função",
+            "research.positioning.function.value": "Plataforma científica aberta",
+            "research.positioning.uses.label": "Usos",
+            "research.positioning.uses.value": "Pesquisa, ensino, pós-doutorado, propostas competitivas, artigos e relatórios",
+            "research.positioning.current_scope.label": "Escopo atual",
+            "research.positioning.current_scope.value": "Fechamento europeu e comparação controlada",
+            "research.positioning.maturation.label": "Maturação",
+            "research.positioning.maturation.value": "Agenda comparativa de longo prazo",
+            "research.status.implemented": "Implementado",
+            "research.status.adapting": "Em adaptação",
+            "research.status.to_develop": "A desenvolver",
+            "research.parameter.question": "Pergunta de pesquisa",
+            "research.parameter.question.platform": "A interface explicita visibilidade, invisibilidade, restrição e instabilidade digital como problemas observáveis",
+            "research.parameter.question.evidence": "Eixo científico, sínteses de visibilidade, regimes de acesso e linha do tempo",
+            "research.parameter.infrastructure": "Infraestrutura científica",
+            "research.parameter.infrastructure.platform": "O observatório permanece plataforma pública, mas seus dados operam como infraestrutura de pesquisa",
+            "research.parameter.infrastructure.evidence": "Corpora ativos, agregadores, instituições, snapshots e arquivos exportáveis",
+            "research.parameter.units": "Unidades de análise separadas",
+            "research.parameter.units.platform": "Agregadores, arquivos, instituições custodiais e casos fora da base ativa não são misturados",
+            "research.parameter.units.evidence": "Categorias analíticas, fichas por unidade e matriz de fechamento europeu",
+            "research.parameter.longitudinal": "Observação longitudinal",
+            "research.parameter.longitudinal.platform": "Cada rodada preserva data, chave de observação, estado da fonte e histórico de mudanças",
+            "research.parameter.longitudinal.evidence": "Linha do tempo das rodadas, histórico por corpus e sinais de possível extinção",
+            "research.parameter.visibility": "Regimes de visibilidade",
+            "research.parameter.visibility.platform": "A plataforma diferencia evidência pública detectável, evidência indireta, restrição e ausência",
+            "research.parameter.visibility.evidence": "Sínteses de visibilidade, modalidades e regimes de acesso audiovisual",
+            "research.parameter.europe": "Comparação europeia",
+            "research.parameter.europe.platform": "O fechamento da Europa se torna base comparativa, não apenas fila operacional de incorporação",
+            "research.parameter.europe.evidence": "Mapeamento europeu ampliado, fila Europa, agregadores avaliados e lacunas auditadas",
+            "research.parameter.reproducibility": "Reprodutibilidade",
+            "research.parameter.reproducibility.platform": "Cada corpus declara rota, limite técnico, completude e critério de seleção",
+            "research.parameter.reproducibility.evidence": "Campos de completude, notas metodológicas, scripts de execução e verificações por corpus",
+            "research.parameter.indicators": "Índices e indicadores",
+            "research.parameter.indicators.platform": "Indicadores públicos evoluem para medidas comparáveis de visibilidade audiovisual digital",
+            "research.parameter.indicators.evidence": "Índice de dados públicos e tabelas por unidade documental",
+            "research.parameter.findability": "Auditoria de encontrabilidade",
+            "research.parameter.findability.platform": "Rotas oficiais, agregadores e mecanismos de busca são avaliados como condições de detectabilidade",
+            "research.parameter.findability.evidence": "Rotas oficiais analisadas, sondagens, protocolos europeus e negativas metodológicas",
+            "research.parameter.ethics": "Ética e governança de dados",
+            "research.parameter.ethics.platform": "A plataforma prioriza metadados, identificadores, URLs, datas e evidências permitidas",
+            "research.parameter.ethics.evidence": "Armazenamento orientado a metadados e documentação de limites de acesso",
+            "research.adjustment.visibility_index": "Consolidar um índice de visibilidade audiovisual digital",
+            "research.adjustment.visibility_index.result": "Índice calculável por corpus, país, idioma, agregador, regime de acesso e estabilidade da rota",
+            "research.adjustment.europe_design": "Transformar o fechamento da Europa em desenho comparativo",
+            "research.adjustment.europe_design.result": "Amostra europeia justificada, com critérios de inclusão, exclusão, negativos e casos extremos",
+            "research.adjustment.detectability": "Criar camada de auditoria de detectabilidade",
+            "research.adjustment.detectability.result": "Métricas sobre idioma dos metadados, rotas oficiais, indexação, APIs, links persistentes e agregação",
+            "research.adjustment.ethics": "Formalizar protocolo de ética, direito e dados",
+            "research.adjustment.ethics.result": "Separação clara entre metadados observáveis, evidências permitidas, conteúdo protegido e dados pessoais",
+            "research.adjustment.report": "Gerar relatório científico a partir do snapshot",
+            "research.adjustment.report.result": "Evidências preliminares exportáveis para artigos, relatórios metodológicos e propostas futuras"
+          })
+          locale_path.write_text(json.dumps(catalogue, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+      - name: Validate and commit
+        run: |
+          python -m py_compile app/streamlit_app.py src/memoria_audiovisual/research_profile.py
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/streamlit_app.py src/memoria_audiovisual/research_profile.py src/memoria_audiovisual/locales/pt.json
+          git commit -m 'refactor(i18n): migrate scientific parameters to semantic catalogue [skip ci]'
+          git pull --rebase origin presentation/rpv-1
+          git push origin HEAD:presentation/rpv-1
