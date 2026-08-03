@@ -12,6 +12,7 @@ on:
       - "scripts/audit_streamlit_i18n.py"
       - "scripts/audit_overview_catalog.py"
       - "scripts/audit_research_catalog.py"
+      - "scripts/sync_portuguese_catalog.py"
       - ".github/workflows/i18n-audit.yml"
       - "docs/project/BACKLOG.md"
   pull_request:
@@ -25,6 +26,7 @@ on:
       - "scripts/audit_streamlit_i18n.py"
       - "scripts/audit_overview_catalog.py"
       - "scripts/audit_research_catalog.py"
+      - "scripts/sync_portuguese_catalog.py"
       - ".github/workflows/i18n-audit.yml"
   workflow_dispatch:
 
@@ -40,6 +42,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Check complete Portuguese catalogue coverage
+        run: python scripts/sync_portuguese_catalog.py --check
       - name: Audit Overview semantic catalogue
         run: python scripts/audit_overview_catalog.py
       - name: Audit scientific parameters semantic catalogue
@@ -64,7 +68,7 @@ jobs:
           grouped = defaultdict(list)
           for item in findings:
               grouped[item["page"]].append(item)
-          lines = ["# Language MVP+ audit", "", f"Total findings: **{len(findings)}**", "", "## By page or module", ""]
+          lines = ["# Language audit", "", f"Total findings: **{len(findings)}**", "", "## By page or module", ""]
           lines.extend(f"- **{page}**: {count}" for page, count in sorted(by_page.items()))
           lines.extend(["", "## By finding type", ""])
           lines.extend(f"- `{kind}`: {count}" for kind, count in sorted(by_kind.items()))
@@ -92,6 +96,6 @@ jobs:
           from pathlib import Path
           findings = json.loads(Path("i18n-audit.json").read_text(encoding="utf-8"))
           if findings:
-              raise SystemExit(f"Language MVP+ findings remain: {len(findings)}. See the i18n-audit-report artifact.")
-          print("Language MVP+ audit passed with zero blocking findings.")
+              raise SystemExit(f"Language findings remain: {len(findings)}. See the i18n-audit-report artifact.")
+          print("Language audit passed with zero blocking findings.")
           PY
