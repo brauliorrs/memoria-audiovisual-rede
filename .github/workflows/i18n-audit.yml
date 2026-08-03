@@ -11,6 +11,7 @@ on:
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
       - "scripts/audit_overview_catalog.py"
+      - "scripts/audit_research_catalog.py"
       - ".github/workflows/i18n-audit.yml"
       - "docs/project/BACKLOG.md"
   pull_request:
@@ -23,6 +24,7 @@ on:
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
       - "scripts/audit_overview_catalog.py"
+      - "scripts/audit_research_catalog.py"
       - ".github/workflows/i18n-audit.yml"
   workflow_dispatch:
 
@@ -40,6 +42,8 @@ jobs:
           python-version: "3.12"
       - name: Audit Overview semantic catalogue
         run: python scripts/audit_overview_catalog.py
+      - name: Audit scientific parameters semantic catalogue
+        run: python scripts/audit_research_catalog.py
       - name: Run Streamlit language audit
         shell: bash
         run: |
