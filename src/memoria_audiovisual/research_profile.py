@@ -1,6 +1,11 @@
 from collections import Counter
 
-from memoria_audiovisual.i18n import PHRASE_TRANSLATIONS
+from memoria_audiovisual.i18n import (
+    PHRASE_TRANSLATIONS,
+    DEFAULT_LANGUAGE,
+    language_code_from_label,
+    translate_ui_text,
+)
 
 
 RESEARCH_WORKING_TITLE = "Memória Audiovisual em Rede"
@@ -206,12 +211,42 @@ def _register_profile_translations():
 _register_profile_translations()
 
 
-def build_research_parameter_rows():
-    return [row.copy() for row in RESEARCH_PARAMETER_ROWS]
+def _active_language():
+    """Resolve the current Streamlit interface language without coupling callers to Streamlit."""
+    try:
+        import streamlit as st
+
+        selected = st.session_state.get("interface_language")
+        if selected in PHRASE_TRANSLATIONS:
+            return selected
+        if isinstance(selected, str):
+            return language_code_from_label(selected)
+    except Exception:
+        pass
+    return DEFAULT_LANGUAGE
 
 
-def build_research_next_adjustment_rows():
-    return [row.copy() for row in RESEARCH_NEXT_ADJUSTMENT_ROWS]
+def _localize_rows(rows, language=None):
+    language = language or _active_language()
+    if language == DEFAULT_LANGUAGE:
+        return [row.copy() for row in rows]
+    return [
+        {
+            translate_ui_text(key, language): translate_ui_text(value, language)
+            if isinstance(value, str)
+            else value
+            for key, value in row.items()
+        }
+        for row in rows
+    ]
+
+
+def build_research_parameter_rows(language=None):
+    return _localize_rows(RESEARCH_PARAMETER_ROWS, language)
+
+
+def build_research_next_adjustment_rows(language=None):
+    return _localize_rows(RESEARCH_NEXT_ADJUSTMENT_ROWS, language)
 
 
 def summarize_research_parameter_status(rows=None):
