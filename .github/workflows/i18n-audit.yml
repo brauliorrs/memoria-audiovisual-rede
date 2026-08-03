@@ -10,6 +10,7 @@ on:
       - "src/memoria_audiovisual/locales/**"
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
+      - "scripts/migrate_overview_catalog.py"
       - ".github/workflows/i18n-audit.yml"
       - "docs/project/BACKLOG.md"
   pull_request:
@@ -21,6 +22,7 @@ on:
       - "src/memoria_audiovisual/locales/**"
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
+      - "scripts/migrate_overview_catalog.py"
       - ".github/workflows/i18n-audit.yml"
   workflow_dispatch:
 
@@ -38,92 +40,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Migrate remaining static Overview UI strings
-        run: |
-          python - <<'PY'
-          from __future__ import annotations
-          import ast, json, re, unicodedata
-          from pathlib import Path
-
-          app_path = Path('app/streamlit_app.py')
-          locale_path = Path('src/memoria_audiovisual/locales/pt.json')
-          source = app_path.read_text(encoding='utf-8')
-          tree = ast.parse(source)
-          lines = source.splitlines(keepends=True)
-          offsets = [0]
-          for line in lines:
-              offsets.append(offsets[-1] + len(line))
-
-          def pos(node):
-              return offsets[node.lineno - 1] + node.col_offset, offsets[node.end_lineno - 1] + node.end_col_offset
-
-          target = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'render_observatory_overview_tab')
-          catalogue = json.loads(locale_path.read_text(encoding='utf-8'))
-          replacements, used = [], set(catalogue)
-
-          def slugify(text):
-              value = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii').lower()
-              return (re.sub(r'[^a-z0-9]+', '_', value).strip('_')[:52] or 'text')
-
-          def add_string(node, prefix):
-              if not isinstance(node, ast.Constant) or not isinstance(node.value, str) or not node.value.strip():
-                  return
-              text = node.value
-              base = f'overview.{prefix}.{slugify(text)}'
-              key, index = base, 2
-              while key in used and catalogue.get(key) != text:
-                  key, index = f'{base}_{index}', index + 1
-              used.add(key)
-              catalogue[key] = text
-              start, end = pos(node)
-              replacements.append((start, end, f'tr_key({key!r})'))
-
-          text_methods = {'title','header','subheader','markdown','caption','info','warning','error','success','write','button','download_button','link_button','text_input','checkbox','radio','selectbox','multiselect','expander','metric'}
-          for node in ast.walk(target):
-              if not isinstance(node, ast.Call):
-                  continue
-              name = node.func.attr if isinstance(node.func, ast.Attribute) else node.func.id if isinstance(node.func, ast.Name) else None
-              if name in text_methods and node.args:
-                  add_string(node.args[0], f'ui.{name}')
-                  for kw in node.keywords:
-                      if kw.arg in {'label','help','placeholder'}:
-                          add_string(kw.value, f'ui.{name}.{kw.arg}')
-              if name in {'render_csv_download','render_json_download'}:
-                  if len(node.args) > 0: add_string(node.args[0], 'download.label')
-                  if len(node.args) > 3: add_string(node.args[3], 'download.help')
-              if name == 'tabs' and node.args and isinstance(node.args[0], (ast.List, ast.Tuple)):
-                  for element in node.args[0].elts:
-                      add_string(element, 'tabs')
-
-          replacements.sort(key=lambda item: (item[0], -(item[1] - item[0])))
-          filtered, last_end = [], -1
-          for item in replacements:
-              if item[0] >= last_end:
-                  filtered.append(item)
-                  last_end = item[1]
-          for start, end, replacement in reversed(filtered):
-              source = source[:start] + replacement + source[end:]
-
-          compile(source, str(app_path), 'exec')
-          app_path.write_text(source, encoding='utf-8')
-          locale_path.write_text(json.dumps(catalogue, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-
-          audited = ast.parse(source)
-          overview = next(n for n in audited.body if isinstance(n, ast.FunctionDef) and n.name == 'render_observatory_overview_tab')
-          remaining = []
-          for node in ast.walk(overview):
-              if not isinstance(node, ast.Call):
-                  continue
-              name = node.func.attr if isinstance(node.func, ast.Attribute) else node.func.id if isinstance(node.func, ast.Name) else None
-              if name in text_methods and node.args and isinstance(node.args[0], ast.Constant) and isinstance(node.args[0].value, str):
-                  remaining.append((node.lineno, name, node.args[0].value[:80]))
-              if name in {'render_csv_download','render_json_download'}:
-                  for index in (0, 3):
-                      if len(node.args) > index and isinstance(node.args[index], ast.Constant) and isinstance(node.args[index].value, str):
-                          remaining.append((node.lineno, name, node.args[index].value[:80]))
-          if remaining:
-              raise SystemExit(f'Remaining static Overview UI strings: {remaining[:20]}')
-          print(f'Migrated {len(filtered)} static Overview strings.')
-          PY
+        run: python scripts/migrate_overview_catalog.py
       - name: Commit Overview migration
         run: |
           git config user.name 'github-actions[bot]'
@@ -145,12 +62,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: presentation/rpv-1
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Run Streamlit language audit
         shell: bash
         run: |
@@ -158,7 +73,6 @@ jobs:
           python scripts/audit_streamlit_i18n.py > i18n-audit.json
           set -e
           test -s i18n-audit.json || echo '[]' > i18n-audit.json
-
       - name: Build readable audit report
         run: |
           python - <<'PY'
@@ -170,7 +84,8 @@ jobs:
           by_kind = Counter(item["kind"] for item in findings)
           by_severity = Counter(item["severity"] for item in findings)
           grouped = defaultdict(list)
-          for item in findings: grouped[item["page"]].append(item)
+          for item in findings:
+              grouped[item["page"]].append(item)
           lines = ["# Language MVP+ audit", "", f"Total findings: **{len(findings)}**", "", "## By page or module", ""]
           lines.extend(f"- **{page}**: {count}" for page, count in sorted(by_page.items()))
           lines.extend(["", "## By finding type", ""])
@@ -185,7 +100,6 @@ jobs:
                   lines.append(f"- **{item['severity']}** — `{item['kind']}` — `{item['path']}:{item['line']}` — `{item['call']}`{language_note} — {item['text']}")
           Path("i18n-audit.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
           PY
-
       - name: Upload audit report
         uses: actions/upload-artifact@v4
         with:
@@ -193,7 +107,6 @@ jobs:
           path: |
             i18n-audit.json
             i18n-audit.md
-
       - name: Enforce audit result
         run: |
           python - <<'PY'
