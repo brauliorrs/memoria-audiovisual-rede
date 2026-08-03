@@ -2,13 +2,13 @@
 
 - Arquivos: **1413**
 - Tamanho total: **307.23 MiB**
-- Arquivos pertencentes aos pacotes padronizados de 24 produtos: **1368**
-- Arquivos fora do pacote padronizado: **45**
-- Prefixos com pacote completo de 24 produtos: **0**
-- Prefixos incompletos: **171**
-- CSVs sem linhas de dados: **61**
+- Arquivos dos pacotes padronizados: **1368**
+- Arquivos fora dos pacotes: **45**
+- Corpora com pacote completo de 24 produtos: **57**
+- Corpora com pacote incompleto: **0**
+- CSVs sem linhas: **61**
 - CSVs com zero ou uma linha: **670**
-- Arquivos com nomes relacionados à nova camada analítica: **0**
+- Produtos da nova camada analítica encontrados em `data/output`: **0**
 
 ## Extensões
 
@@ -18,189 +18,19 @@
 - `.txt`: 57
 - `.xlsx`: 57
 
-## Prefixos completos (24 produtos)
+## Corpora com pacote completo
+
+`aamod`, `aapb`, `anf`, `ape`, `aqshf`, `archipop`, `asim`, `autrefois`, `barch`, `bbc`, `bfi`, `bnfa`, `bnt`, `ccma`, `cdna`, `ciclic`, `cineam`, `cinearchives`, `cinemateca_pt`, `cinematek`, `cinematheque_bretagne`, `cinematheque_francaise`, `cinematheque_suisse`, `cinememoire`, `cna`, `cnc_aff`, `cpsa`, `crnogorska_kinoteka`, `csc_cineteca`, `czech_tv`, `deutsche_kinemathek`, `dff`, `dhm`, `dr`, `ecpad`, `efa_estonia`, `efg`, `ert`, `europeana`, `euscreen`, `eye`, `far`, `filmarchiv_austria`, `filmmuseum_dusseldorf`, `filmoteca_catalunya`, `filmoteca_espanola`, `filmoteca_valenciana`, `filmoteca_vasca`, `fina`, `home_movies`, `iam`, `ina`, `luce`, `pares`, `ppa`, `saint_etienne`, `sfa`
+
+## Corpora com pacote incompleto
 
 Nenhum.
 
-## Prefixos incompletos
-
-- `aamod`: 22/24
-- `aamod_linha_do_tempo`: 1/24
-- `aamod_resumo`: 1/24
-- `aapb`: 22/24
-- `aapb_linha_do_tempo`: 1/24
-- `aapb_resumo`: 1/24
-- `anf`: 22/24
-- `anf_linha_do_tempo`: 1/24
-- `anf_resumo`: 1/24
-- `ape`: 22/24
-- `ape_linha_do_tempo`: 1/24
-- `ape_resumo`: 1/24
-- `aqshf`: 22/24
-- `aqshf_linha_do_tempo`: 1/24
-- `aqshf_resumo`: 1/24
-- `archipop`: 22/24
-- `archipop_linha_do_tempo`: 1/24
-- `archipop_resumo`: 1/24
-- `asim`: 22/24
-- `asim_linha_do_tempo`: 1/24
-- `asim_resumo`: 1/24
-- `autrefois`: 22/24
-- `autrefois_linha_do_tempo`: 1/24
-- `autrefois_resumo`: 1/24
-- `barch`: 22/24
-- `barch_linha_do_tempo`: 1/24
-- `barch_resumo`: 1/24
-- `bbc`: 22/24
-- `bbc_linha_do_tempo`: 1/24
-- `bbc_resumo`: 1/24
-- `bfi`: 22/24
-- `bfi_linha_do_tempo`: 1/24
-- `bfi_resumo`: 1/24
-- `bnfa`: 22/24
-- `bnfa_linha_do_tempo`: 1/24
-- `bnfa_resumo`: 1/24
-- `bnt`: 22/24
-- `bnt_linha_do_tempo`: 1/24
-- `bnt_resumo`: 1/24
-- `ccma`: 22/24
-- `ccma_linha_do_tempo`: 1/24
-- `ccma_resumo`: 1/24
-- `cdna`: 22/24
-- `cdna_linha_do_tempo`: 1/24
-- `cdna_resumo`: 1/24
-- `ciclic`: 22/24
-- `ciclic_linha_do_tempo`: 1/24
-- `ciclic_resumo`: 1/24
-- `cineam`: 22/24
-- `cineam_linha_do_tempo`: 1/24
-- `cineam_resumo`: 1/24
-- `cinearchives`: 22/24
-- `cinearchives_linha_do_tempo`: 1/24
-- `cinearchives_resumo`: 1/24
-- `cinemateca_pt`: 22/24
-- `cinemateca_pt_linha_do_tempo`: 1/24
-- `cinemateca_pt_resumo`: 1/24
-- `cinematek`: 22/24
-- `cinematek_linha_do_tempo`: 1/24
-- `cinematek_resumo`: 1/24
-- `cinematheque_bretagne`: 22/24
-- `cinematheque_bretagne_linha_do_tempo`: 1/24
-- `cinematheque_bretagne_resumo`: 1/24
-- `cinematheque_francaise`: 22/24
-- `cinematheque_francaise_linha_do_tempo`: 1/24
-- `cinematheque_francaise_resumo`: 1/24
-- `cinematheque_suisse`: 22/24
-- `cinematheque_suisse_linha_do_tempo`: 1/24
-- `cinematheque_suisse_resumo`: 1/24
-- `cinememoire`: 22/24
-- `cinememoire_linha_do_tempo`: 1/24
-- `cinememoire_resumo`: 1/24
-- `cna`: 22/24
-- `cna_linha_do_tempo`: 1/24
-- `cna_resumo`: 1/24
-- `cnc_aff`: 22/24
-- `cnc_aff_linha_do_tempo`: 1/24
-- `cnc_aff_resumo`: 1/24
-- `cpsa`: 22/24
-- `cpsa_linha_do_tempo`: 1/24
-- `cpsa_resumo`: 1/24
-- `crnogorska_kinoteka`: 22/24
-- `crnogorska_kinoteka_linha_do_tempo`: 1/24
-- `crnogorska_kinoteka_resumo`: 1/24
-- `csc_cineteca`: 22/24
-- `csc_cineteca_linha_do_tempo`: 1/24
-- `csc_cineteca_resumo`: 1/24
-- `czech_tv`: 22/24
-- `czech_tv_linha_do_tempo`: 1/24
-- `czech_tv_resumo`: 1/24
-- `deutsche_kinemathek`: 22/24
-- `deutsche_kinemathek_linha_do_tempo`: 1/24
-- `deutsche_kinemathek_resumo`: 1/24
-- `dff`: 22/24
-- `dff_linha_do_tempo`: 1/24
-- `dff_resumo`: 1/24
-- `dhm`: 22/24
-- `dhm_linha_do_tempo`: 1/24
-- `dhm_resumo`: 1/24
-- `dr`: 22/24
-- `dr_linha_do_tempo`: 1/24
-- `dr_resumo`: 1/24
-- `ecpad`: 22/24
-- `ecpad_linha_do_tempo`: 1/24
-- `ecpad_resumo`: 1/24
-- `efa_estonia`: 22/24
-- `efa_estonia_linha_do_tempo`: 1/24
-- `efa_estonia_resumo`: 1/24
-- `efg`: 22/24
-- `efg_linha_do_tempo`: 1/24
-- `efg_resumo`: 1/24
-- `ert`: 22/24
-- `ert_linha_do_tempo`: 1/24
-- `ert_resumo`: 1/24
-- `europeana`: 22/24
-- `europeana_linha_do_tempo`: 1/24
-- `europeana_resumo`: 1/24
-- `euscreen`: 22/24
-- `euscreen_linha_do_tempo`: 1/24
-- `euscreen_resumo`: 1/24
-- `eye`: 22/24
-- `eye_linha_do_tempo`: 1/24
-- `eye_resumo`: 1/24
-- `far`: 22/24
-- `far_linha_do_tempo`: 1/24
-- `far_resumo`: 1/24
-- `filmarchiv_austria`: 22/24
-- `filmarchiv_austria_linha_do_tempo`: 1/24
-- `filmarchiv_austria_resumo`: 1/24
-- `filmmuseum_dusseldorf`: 22/24
-- `filmmuseum_dusseldorf_linha_do_tempo`: 1/24
-- `filmmuseum_dusseldorf_resumo`: 1/24
-- `filmoteca_catalunya`: 22/24
-- `filmoteca_catalunya_linha_do_tempo`: 1/24
-- `filmoteca_catalunya_resumo`: 1/24
-- `filmoteca_espanola`: 22/24
-- `filmoteca_espanola_linha_do_tempo`: 1/24
-- `filmoteca_espanola_resumo`: 1/24
-- `filmoteca_valenciana`: 22/24
-- `filmoteca_valenciana_linha_do_tempo`: 1/24
-- `filmoteca_valenciana_resumo`: 1/24
-- `filmoteca_vasca`: 22/24
-- `filmoteca_vasca_linha_do_tempo`: 1/24
-- `filmoteca_vasca_resumo`: 1/24
-- `fina`: 22/24
-- `fina_linha_do_tempo`: 1/24
-- `fina_resumo`: 1/24
-- `home_movies`: 22/24
-- `home_movies_linha_do_tempo`: 1/24
-- `home_movies_resumo`: 1/24
-- `iam`: 22/24
-- `iam_linha_do_tempo`: 1/24
-- `iam_resumo`: 1/24
-- `ina`: 22/24
-- `ina_linha_do_tempo`: 1/24
-- `ina_resumo`: 1/24
-- `luce`: 22/24
-- `luce_linha_do_tempo`: 1/24
-- `luce_resumo`: 1/24
-- `pares`: 22/24
-- `pares_linha_do_tempo`: 1/24
-- `pares_resumo`: 1/24
-- `ppa`: 22/24
-- `ppa_linha_do_tempo`: 1/24
-- `ppa_resumo`: 1/24
-- `saint_etienne`: 22/24
-- `saint_etienne_linha_do_tempo`: 1/24
-- `saint_etienne_resumo`: 1/24
-- `sfa`: 22/24
-- `sfa_linha_do_tempo`: 1/24
-- `sfa_resumo`: 1/24
-
-## Arquivos da nova camada analítica encontrados em `data/output`
+## Produtos da nova camada analítica encontrados
 
 - Nenhum arquivo correspondente encontrado.
 
-## Arquivos fora do pacote padronizado
+## Arquivos fora dos pacotes padronizados
 
 - `data/output/observatorio_auditoria_acesso_pago_restrito.csv` — 9801 bytes
 - `data/output/observatorio_auditoria_lacunas_europa.csv` — 3081 bytes
@@ -250,7 +80,7 @@ Nenhum.
 
 ## 25 maiores arquivos
 
-| Caminho | Tamanho (MiB) | Linhas/itens |
+| Caminho | MiB | Linhas/itens |
 |---|---:|---:|
 | `data/output/ert_catalogo_videos_analitico.csv` | 60.89 | 28456 |
 | `data/output/ert_links_video.csv` | 55.95 | 28456 |
@@ -277,8 +107,3 @@ Nenhum.
 | `data/output/bfi_relatorio.xlsx` | 0.78 | — |
 | `data/output/filmarchiv_austria_links_video.csv` | 0.71 | 529 |
 | `data/output/dr_catalogo_videos_analitico.csv` | 0.68 | 453 |
-
-## Diagnóstico preliminar
-
-- A existência de fórmulas e motores analíticos no código não implica que seus resultados tenham sido materializados em `data/output`.
-- A ausência de arquivos analíticos será tratada como **infraestrutura implementada sem execução materializada**, e não como resultado empírico.
