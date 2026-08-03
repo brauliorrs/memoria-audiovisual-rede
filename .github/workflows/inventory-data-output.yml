@@ -1,0 +1,120 @@
+name: Inventory data output
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/inventory-data-output.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout presentation branch
+        uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+          fetch-depth: 1
+
+      - name: Build data/output inventory
+        run: |
+          python - <<'PY'
+          from __future__ import annotations
+          import csv
+          import hashlib
+          import json
+          from collections import Counter, defaultdict
+          from pathlib import Path
+
+          root = Path('data/output')
+          report_dir = Path('docs/audit')
+          report_dir.mkdir(parents=True, exist_ok=True)
+          entries = []
+
+          if root.exists():
+              for path in sorted(p for p in root.rglob('*') if p.is_file()):
+                  rel = path.as_posix()
+                  raw = path.read_bytes()
+                  item = {
+                      'path': rel,
+                      'name': path.name,
+                      'extension': path.suffix.lower() or '<sem extensão>',
+                      'size_bytes': len(raw),
+                      'sha256': hashlib.sha256(raw).hexdigest(),
+                      'rows': None,
+                      'columns': None,
+                      'json_type': None,
+                  }
+                  try:
+                      if path.suffix.lower() == '.csv':
+                          with path.open(encoding='utf-8-sig', newline='') as handle:
+                              reader = csv.reader(handle)
+                              rows = list(reader)
+                          item['rows'] = max(len(rows) - 1, 0)
+                          item['columns'] = len(rows[0]) if rows else 0
+                      elif path.suffix.lower() == '.json':
+                          payload = json.loads(path.read_text(encoding='utf-8-sig'))
+                          item['json_type'] = type(payload).__name__
+                          if isinstance(payload, list):
+                              item['rows'] = len(payload)
+                          elif isinstance(payload, dict):
+                              item['rows'] = len(payload)
+                  except Exception as exc:
+                      item['inspection_error'] = f'{type(exc).__name__}: {exc}'
+                  entries.append(item)
+
+          ext_counts = Counter(item['extension'] for item in entries)
+          top_groups = defaultdict(int)
+          for item in entries:
+              stem = item['name'].split('_', 1)[0]
+              top_groups[stem] += 1
+
+          payload = {
+              'root_exists': root.exists(),
+              'file_count': len(entries),
+              'total_size_bytes': sum(item['size_bytes'] for item in entries),
+              'extensions': dict(sorted(ext_counts.items())),
+              'prefix_groups': dict(sorted(top_groups.items(), key=lambda x: (-x[1], x[0]))),
+              'files': entries,
+          }
+          (report_dir / 'data_output_inventory.json').write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8'
+          )
+
+          lines = [
+              '# Inventário de `data/output`', '',
+              f'- Diretório existe: **{root.exists()}**',
+              f'- Arquivos: **{len(entries)}**',
+              f'- Tamanho total: **{payload["total_size_bytes"]} bytes**', '',
+              '## Distribuição por extensão', '',
+          ]
+          if ext_counts:
+              lines.extend(f'- `{ext}`: {count}' for ext, count in sorted(ext_counts.items()))
+          else:
+              lines.append('- Nenhum arquivo encontrado.')
+          lines.extend(['', '## Arquivos', '', '| Caminho | Tipo | Tamanho | Linhas/itens | Colunas |', '|---|---:|---:|---:|---:|'])
+          for item in entries:
+              lines.append(
+                  f'| `{item["path"]}` | `{item["extension"]}` | {item["size_bytes"]} | '
+                  f'{item["rows"] if item["rows"] is not None else "—"} | '
+                  f'{item["columns"] if item["columns"] is not None else "—"} |'
+              )
+          (report_dir / 'data_output_inventory.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+          PY
+
+      - name: Commit inventory
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/audit/data_output_inventory.json docs/audit/data_output_inventory.md
+          if git diff --cached --quiet; then
+            echo "Inventory unchanged."
+            exit 0
+          fi
+          git commit -m "docs(audit): inventory data output [skip ci]"
+          git push origin HEAD:presentation/rpv-1
