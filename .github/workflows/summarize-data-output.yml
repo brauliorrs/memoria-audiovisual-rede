@@ -1,0 +1,128 @@
+name: Summarize data output inventory
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/summarize-data-output.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Summarize inventory
+        run: |
+          python - <<'PY'
+          import json
+          from collections import Counter, defaultdict
+          from pathlib import Path
+
+          inventory_path = Path('docs/audit/data_output_inventory.json')
+          payload = json.loads(inventory_path.read_text(encoding='utf-8'))
+          files = payload['files']
+
+          expected_suffixes = {
+              'instituicoes.csv','resumo_instituicoes.csv','links_video.csv','paginas_internas.csv',
+              'resumo_instituicoes_analitico.csv','catalogo_videos_analitico.csv','resumo_disponibilidade.csv',
+              'subcategorias_disponibilidade.csv','resumo_visibilidade.csv','resumo_modalidades_acesso.csv',
+              'resumo_regimes_acesso.csv','resumo_temas.csv','tema_pais.csv','resumo_tipos_arquivo.csv',
+              'tema_plataforma.csv','tema_tipo_arquivo.csv','visibilidade_tipo_arquivo.csv',
+              'linha_do_tempo_corpus.csv','linha_do_tempo_instituicoes.csv','sinais_possivel_extincao.csv',
+              'snapshot_metadata.json','relatorio.json','relatorio.txt','relatorio.xlsx'
+          }
+
+          def matches_bundle(name):
+              return any(name.endswith('_' + suffix) for suffix in expected_suffixes)
+
+          standard = [f for f in files if matches_bundle(f['name'])]
+          nonstandard = [f for f in files if not matches_bundle(f['name'])]
+          empty_csvs = [f for f in files if f['extension'] == '.csv' and f.get('rows') == 0]
+          very_small_csvs = [f for f in files if f['extension'] == '.csv' and (f.get('rows') or 0) <= 1]
+          largest = sorted(files, key=lambda x: x['size_bytes'], reverse=True)[:25]
+
+          analytics_terms = ('indicator','analytics','sensitivity','coverage','parameter_coverage','manifest','history','methodology')
+          analytics_like = [f for f in files if any(term in f['path'].lower() for term in analytics_terms)]
+
+          by_prefix = defaultdict(list)
+          for f in standard:
+              suffix = next((s for s in expected_suffixes if f['name'].endswith('_'+s)), None)
+              prefix = f['name'][:-(len(suffix)+1)] if suffix else f['name']
+              by_prefix[prefix].append(f)
+          complete = sorted(p for p, rows in by_prefix.items() if len(rows) == 24)
+          incomplete = sorted((p, len(rows)) for p, rows in by_prefix.items() if len(rows) != 24)
+
+          duplicate_groups = defaultdict(list)
+          for f in files:
+              duplicate_groups[f['sha256']].append(f['path'])
+          duplicates = sorted((paths for paths in duplicate_groups.values() if len(paths) > 1), key=lambda x: (-len(x), x[0]))
+
+          summary = {
+              'file_count': len(files),
+              'total_size_bytes': payload['total_size_bytes'],
+              'extensions': payload['extensions'],
+              'standard_bundle_files': len(standard),
+              'nonstandard_files': len(nonstandard),
+              'complete_24_file_prefixes': complete,
+              'incomplete_prefixes': incomplete,
+              'zero_row_csv_count': len(empty_csvs),
+              'one_or_zero_row_csv_count': len(very_small_csvs),
+              'analytics_like_files': analytics_like,
+              'largest_files': largest,
+              'nonstandard_file_list': nonstandard,
+              'duplicate_content_groups_count': len(duplicates),
+              'largest_duplicate_groups': duplicates[:20],
+          }
+          out = Path('docs/audit/data_output_summary.json')
+          out.write_text(json.dumps(summary, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+
+          lines = [
+              '# Síntese do inventário de `data/output`','',
+              f'- Arquivos: **{len(files)}**',
+              f'- Tamanho total: **{payload["total_size_bytes"] / (1024*1024):.2f} MiB**',
+              f'- Arquivos pertencentes aos pacotes padronizados de 24 produtos: **{len(standard)}**',
+              f'- Arquivos fora do pacote padronizado: **{len(nonstandard)}**',
+              f'- Prefixos com pacote completo de 24 produtos: **{len(complete)}**',
+              f'- Prefixos incompletos: **{len(incomplete)}**',
+              f'- CSVs sem linhas de dados: **{len(empty_csvs)}**',
+              f'- CSVs com zero ou uma linha: **{len(very_small_csvs)}**',
+              f'- Arquivos com nomes relacionados à nova camada analítica: **{len(analytics_like)}**','',
+              '## Extensões',''
+          ]
+          lines.extend(f'- `{k}`: {v}' for k,v in sorted(payload['extensions'].items()))
+          lines += ['', '## Prefixos completos (24 produtos)', '', ', '.join(f'`{p}`' for p in complete) or 'Nenhum.']
+          lines += ['', '## Prefixos incompletos', '']
+          lines.extend(f'- `{p}`: {n}/24' for p,n in incomplete) if incomplete else lines.append('Nenhum.')
+          lines += ['', '## Arquivos da nova camada analítica encontrados em `data/output`', '']
+          if analytics_like:
+              lines.extend(f'- `{f["path"]}` ({f["size_bytes"]} bytes)' for f in analytics_like)
+          else:
+              lines.append('- Nenhum arquivo correspondente encontrado.')
+          lines += ['', '## Arquivos fora do pacote padronizado', '']
+          lines.extend(f'- `{f["path"]}` — {f["size_bytes"]} bytes' for f in nonstandard)
+          lines += ['', '## 25 maiores arquivos', '', '| Caminho | Tamanho (MiB) | Linhas/itens |', '|---|---:|---:|']
+          for f in largest:
+              lines.append(f'| `{f["path"]}` | {f["size_bytes"]/(1024*1024):.2f} | {f.get("rows") if f.get("rows") is not None else "—"} |')
+          lines += ['', '## Diagnóstico preliminar', '']
+          lines.append('- A existência de fórmulas e motores analíticos no código não implica que seus resultados tenham sido materializados em `data/output`.')
+          lines.append('- A ausência de arquivos analíticos será tratada como **infraestrutura implementada sem execução materializada**, e não como resultado empírico.')
+          Path('docs/audit/data_output_summary.md').write_text('\n'.join(lines)+'\n', encoding='utf-8')
+          PY
+      - name: Commit summary
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/audit/data_output_summary.json docs/audit/data_output_summary.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "docs(audit): summarize data output inventory [skip ci]"
+          git push origin HEAD:presentation/rpv-1
