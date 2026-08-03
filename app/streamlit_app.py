@@ -102,6 +102,8 @@ from memoria_audiovisual.research_profile import (
     build_research_positioning_rows,
     summarize_research_parameter_status,
 )
+from memoria_audiovisual.ui.navigation import build_navigation_contract
+from memoria_audiovisual.ui.scientific_infrastructure import render_scientific_infrastructure
 from memoria_audiovisual.output_files import list_output_filenames
 from memoria_audiovisual.organism import (
     ORGANISM_ACTIVE_CORPORA_FILENAME,
@@ -4772,21 +4774,29 @@ if st.session_state.get("global-research-open", False):
     st.stop()
 
 protocolled_excluded_units = load_protocolled_excluded_units()
-top_level_tabs = st.tabs(
-    [tr_key("navigation.overview")]
-    + [tr_key("navigation.category", label=category_def["short_label"]) for category_def in CORPUS_CATEGORIES.values()]
-    + [tr_key("navigation.unit", label=definition["short_label"]) for definition in CORPORA.values()]
-    + [tr_key("navigation.documented_case", label=unit["unit_label"]) for unit in protocolled_excluded_units]
+category_definitions = list(CORPUS_CATEGORIES.values())
+corpus_definitions = list(CORPORA.values())
+navigation_labels, navigation_slices = build_navigation_contract(
+    tr_key=tr_key,
+    category_definitions=category_definitions,
+    corpus_definitions=corpus_definitions,
+    protocolled_units=protocolled_excluded_units,
 )
+top_level_tabs = st.tabs(navigation_labels)
 
-with top_level_tabs[0]:
+with top_level_tabs[navigation_slices.overview_index]:
     render_observatory_overview_tab()
 
-category_start = 1
-category_tabs = top_level_tabs[category_start : category_start + len(CORPUS_CATEGORIES)]
-corpus_start = category_start + len(CORPUS_CATEGORIES)
-corpus_tabs = top_level_tabs[corpus_start : corpus_start + len(CORPORA)]
-protocolled_tabs = top_level_tabs[corpus_start + len(CORPORA) :]
+with top_level_tabs[navigation_slices.scientific_infrastructure_index]:
+    render_scientific_infrastructure(BASE_DIR)
+
+category_tabs = top_level_tabs[
+    navigation_slices.category_start : navigation_slices.category_stop
+]
+corpus_tabs = top_level_tabs[
+    navigation_slices.corpus_start : navigation_slices.corpus_stop
+]
+protocolled_tabs = top_level_tabs[navigation_slices.protocolled_start :]
 
 for category_tab, category_def in zip(category_tabs, CORPUS_CATEGORIES.values()):
     with category_tab:
