@@ -16,15 +16,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: presentation/rpv-1
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+          pip install pytest
 
       - name: Apply versioned migration
         run: python scripts/migrate_streamlit_entrypoint.py
@@ -35,10 +42,16 @@ jobs:
           python -m py_compile app/streamlit_app.py
           python -m py_compile src/memoria_audiovisual/ui/navigation.py
           python -m py_compile src/memoria_audiovisual/ui/scientific_infrastructure.py
-          python -m unittest tests.test_streamlit_entrypoint_migration tests.test_ui_navigation -v
+          pytest -q tests/test_streamlit_entrypoint_migration.py tests/test_ui_navigation.py
 
       - name: Synchronize canonical Portuguese catalogue
         run: python scripts/sync_portuguese_catalog.py
+
+      - name: Verify final source state
+        run: |
+          python scripts/migrate_streamlit_entrypoint.py --check
+          python scripts/sync_portuguese_catalog.py --check
+          git diff --check
 
       - name: Remove disposable executor
         run: rm .github/workflows/apply-entrypoint-migration.yml
