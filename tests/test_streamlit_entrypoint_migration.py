@@ -1,4 +1,4 @@
-import pytest
+import unittest
 
 from scripts.migrate_streamlit_entrypoint import (
     INFRASTRUCTURE_IMPORT,
@@ -18,29 +18,31 @@ def _legacy_source() -> str:
     )
 
 
-def test_transform_adds_imports_and_modular_navigation():
-    transformed = transform_entrypoint(_legacy_source())
+class StreamlitEntrypointMigrationTests(unittest.TestCase):
+    def test_transform_adds_imports_and_modular_navigation(self):
+        transformed = transform_entrypoint(_legacy_source())
 
-    assert NAVIGATION_IMPORT in transformed
-    assert INFRASTRUCTURE_IMPORT in transformed
-    assert MODULAR_NAVIGATION_BLOCK in transformed
-    assert LEGACY_NAVIGATION_BLOCK not in transformed
-    validate_transformed_source(transformed)
+        self.assertIn(NAVIGATION_IMPORT, transformed)
+        self.assertIn(INFRASTRUCTURE_IMPORT, transformed)
+        self.assertIn(MODULAR_NAVIGATION_BLOCK, transformed)
+        self.assertNotIn(LEGACY_NAVIGATION_BLOCK, transformed)
+        validate_transformed_source(transformed)
+
+    def test_transform_is_idempotent(self):
+        first = transform_entrypoint(_legacy_source())
+        second = transform_entrypoint(first)
+        self.assertEqual(second, first)
+
+    def test_transform_rejects_unknown_structure(self):
+        with self.assertRaisesRegex(RuntimeError, "Bloco legado"):
+            transform_entrypoint(
+                "from memoria_audiovisual.output_files import list_output_filenames\n"
+            )
+
+    def test_validation_rejects_partial_integration(self):
+        with self.assertRaisesRegex(RuntimeError, "Integração incompleta"):
+            validate_transformed_source(NAVIGATION_IMPORT + INFRASTRUCTURE_IMPORT)
 
 
-def test_transform_is_idempotent():
-    first = transform_entrypoint(_legacy_source())
-    second = transform_entrypoint(first)
-    assert second == first
-
-
-def test_transform_rejects_unknown_structure():
-    with pytest.raises(RuntimeError, match="Bloco legado"):
-        transform_entrypoint(
-            "from memoria_audiovisual.output_files import list_output_filenames\n"
-        )
-
-
-def test_validation_rejects_partial_integration():
-    with pytest.raises(RuntimeError, match="Integração incompleta"):
-        validate_transformed_source(NAVIGATION_IMPORT + INFRASTRUCTURE_IMPORT)
+if __name__ == "__main__":
+    unittest.main()
