@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import json
 import re
+import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -14,29 +15,32 @@ STREAMLIT_TEXT_CALLS = {
     "text_area", "number_input", "date_input", "time_input", "slider",
     "select_slider", "file_uploader", "metric", "expander", "tabs",
 }
-I18N_SAFE_CALLS = {"tr", "t", "localize_ui", "localize_dataframe_columns"}
 
-LANGUAGE_MARKERS = {
+# Only language-distinctive markers are used. Shared Romance-language words such as
+# "plataforma", "comparativa" and "acesso/acceso" are deliberately excluded.
+DISTINCTIVE_MARKERS = {
     "pt": {
-        "aberta", "para", "observação", "comparativa", "visibilidade", "acesso",
-        "circulação", "acervos", "audiovisuais", "pergunta", "científica", "provisória",
-        "condições", "institucionais", "técnicas", "culturais", "próximos", "ajustes",
-        "implementado", "adaptação", "desenvolver", "evidência", "estado", "plataforma",
+        "aberta", "observação", "circulação", "acervos", "condições", "técnicas",
+        "próximos", "desenvolver", "evidência", "pergunta", "provisória", "não",
+        "ainda", "instituições", "visibilidade", "restrito", "arquivos", "ajustes",
+        "pesquisa", "dados", "públicos", "rodada", "unidades", "relatório",
     },
     "en": {
-        "open", "platform", "observation", "comparative", "visibility", "access",
-        "circulation", "archives", "audiovisual", "research", "question", "scientific",
-        "provisional", "conditions", "institutional", "technical", "cultural", "next",
-        "adjustments", "implemented", "adapted", "developed", "evidence", "status",
+        "open", "observation", "circulation", "archives", "conditions", "technical",
+        "next", "developed", "evidence", "question", "provisional", "not", "yet",
+        "institutions", "visibility", "restricted", "files", "adjustments", "research",
+        "data", "public", "round", "units", "report", "platform", "scientific",
     },
     "es": {
-        "abierta", "para", "observación", "comparativa", "visibilidad", "acceso",
-        "circulación", "archivos", "audiovisuales", "pregunta", "científica", "provisional",
-        "condiciones", "institucionales", "técnicas", "culturales", "próximos", "ajustes",
-        "implementado", "adaptación", "desarrollar", "evidencia", "estado", "plataforma",
+        "abierta", "observación", "circulación", "archivos", "condiciones", "técnicas",
+        "siguientes", "desarrollar", "evidencia", "pregunta", "provisional", "todavía",
+        "instituciones", "visibilidad", "restringido", "ajustes", "investigación",
+        "datos", "públicos", "ronda", "unidades", "informe", "científica",
     },
 }
+
 TOKEN_RE = re.compile(r"[A-Za-zÀ-ÖØ-öø-ÿ]+", re.UNICODE)
+HTML_RE = re.compile(r"<[^>]+>")
 
 
 @dataclass(frozen=True)
@@ -59,26 +63,33 @@ def _call_name(node: ast.AST) -> str | None:
     return None
 
 
-def _is_i18n_wrapped(node: ast.AST) -> bool:
-    return isinstance(node, ast.Call) and _call_name(node.func) in I18N_SAFE_CALLS
-
-
 def _literal_strings(node: ast.AST) -> list[str]:
     if isinstance(node, ast.Constant) and isinstance(node.value, str):
         return [node.value]
     if isinstance(node, ast.JoinedStr):
-        return [part.value for part in node.values if isinstance(part, ast.Constant) and isinstance(part.value, str)]
+        return [
+            part.value
+            for part in node.values
+            if isinstance(part, ast.Constant) and isinstance(part.value, str)
+        ]
     if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
         values: list[str] = []
         for element in node.elts:
             values.extend(_literal_strings(element))
         return values
-    if isinstance(node, ast.Dict):
-        values: list[str] = []
-        for value in node.values:
-            values.extend(_literal_strings(value))
-        return values
     return []
+
+
+def _compact(text: str) -> str:
+    return " ".join(HTML_RE.sub(" ", text).split())[:500]
+
+
+def _tokens(text: str) -> set[str]:
+    return {token.lower() for token in TOKEN_RE.findall(text)}
+
+
+def _marker_hits(text: str, language: str) -> set[str]:
+    return _tokens(text) & DISTINCTIVE_MARKERS[language]
 
 
 def _page_name(path: Path, root: Path) -> str:
@@ -88,70 +99,132 @@ def _page_name(path: Path, root: Path) -> str:
     return relative.stem.replace("_", " ").title()
 
 
-def _detect_languages(text: str) -> tuple[str, ...]:
-    tokens = {token.lower() for token in TOKEN_RE.findall(text)}
-    scores = {language: len(tokens & markers) for language, markers in LANGUAGE_MARKERS.items()}
-    detected = tuple(sorted(language for language, score in scores.items() if score >= 2))
-    return detected
-
-
-def _compact(text: str) -> str:
-    return " ".join(text.split())[:300]
-
-
-def audit_file(path: Path, root: Path) -> list[Finding]:
+def collect_visible_literals(path: Path, root: Path) -> list[tuple[int, str, str]]:
     try:
         tree = ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     except (SyntaxError, UnicodeDecodeError):
         return []
 
-    relative = str(path.relative_to(root)).replace("\\", "/")
-    page = _page_name(path, root)
-    findings: list[Finding] = []
-
+    values: list[tuple[int, str, str]] = []
     for node in ast.walk(tree):
-        if isinstance(node, ast.Call):
-            call = _call_name(node.func)
-            if call in STREAMLIT_TEXT_CALLS and node.args:
-                first_arg = node.args[0]
-                if not _is_i18n_wrapped(first_arg):
-                    literals = _literal_strings(first_arg)
-                    if literals:
-                        for text in literals:
-                            compact = _compact(text)
-                            if compact:
-                                findings.append(Finding(relative, page, node.lineno, "unwrapped_public_text", "high", call, compact))
-                    elif isinstance(first_arg, (ast.Name, ast.Attribute, ast.JoinedStr, ast.BinOp)):
-                        findings.append(Finding(relative, page, node.lineno, "dynamic_public_text", "medium", call, ast.unparse(first_arg)[:300]))
+        if not isinstance(node, ast.Call) or not node.args:
+            continue
+        call = _call_name(node.func)
+        if call not in STREAMLIT_TEXT_CALLS:
+            continue
+        for text in _literal_strings(node.args[0]):
+            compact = _compact(text)
+            if compact and len(compact) >= 4:
+                values.append((getattr(node, "lineno", 0), call, compact))
+    return values
 
-        if isinstance(node, ast.Constant) and isinstance(node.value, str):
-            compact = _compact(node.value)
-            if len(compact.split()) < 4:
-                continue
-            languages = _detect_languages(compact)
-            if len(languages) >= 2:
-                findings.append(Finding(relative, page, node.lineno, "hybrid_language", "high", "string", compact, languages))
 
-    unique: dict[tuple, Finding] = {}
-    for finding in findings:
-        key = (finding.path, finding.line, finding.kind, finding.call, finding.text)
-        unique[key] = finding
-    return list(unique.values())
+def load_runtime_samples(root: Path) -> tuple[object, list[tuple[str, int, str, str]]]:
+    src = root / "src"
+    if str(src) not in sys.path:
+        sys.path.insert(0, str(src))
+
+    from memoria_audiovisual.i18n import translate_ui_text
+    from memoria_audiovisual import research_profile
+
+    samples: list[tuple[str, int, str, str]] = []
+    profile_path = "src/memoria_audiovisual/research_profile.py"
+
+    for value in (
+        research_profile.RESEARCH_SUBTITLE,
+        research_profile.RESEARCH_MAIN_QUESTION,
+        *research_profile.RESEARCH_PLATFORM_POSITIONING.keys(),
+        *research_profile.RESEARCH_PLATFORM_POSITIONING.values(),
+    ):
+        samples.append((profile_path, 0, "research_profile", str(value)))
+
+    for row in (
+        research_profile.build_research_parameter_rows()
+        + research_profile.build_research_next_adjustment_rows()
+    ):
+        for key, value in row.items():
+            samples.append((profile_path, 0, "research_profile", str(key)))
+            samples.append((profile_path, 0, "research_profile", str(value)))
+
+    app_path = root / "app" / "streamlit_app.py"
+    for line, call, text in collect_visible_literals(app_path, root):
+        samples.append(("app/streamlit_app.py", line, call, text))
+
+    return translate_ui_text, samples
+
+
+def audit_rendered_translation(
+    *,
+    path: str,
+    line: int,
+    call: str,
+    source: str,
+    target_language: str,
+    rendered: str,
+) -> Finding | None:
+    source_compact = _compact(source)
+    rendered_compact = _compact(rendered)
+    if not source_compact or not rendered_compact:
+        return None
+
+    # Source records and proper names may legitimately remain unchanged. The audit is
+    # limited to Portuguese-authored interface text with at least two distinctive markers.
+    source_pt_hits = _marker_hits(source_compact, "pt")
+    if len(source_pt_hits) < 2:
+        return None
+
+    residual_pt = _marker_hits(rendered_compact, "pt")
+    target_hits = _marker_hits(rendered_compact, target_language)
+
+    # Blocking: a translated public sentence still carries several distinctive Portuguese
+    # markers, whether or not isolated target-language substitutions were also applied.
+    if len(residual_pt) >= 2:
+        languages = tuple(sorted({"pt", target_language} if target_hits else {"pt"}))
+        return Finding(
+            path=path,
+            page="App" if path.startswith("app/") else "Research Profile",
+            line=line,
+            kind="residual_source_language",
+            severity="high",
+            call=call,
+            text=f"[{target_language}] {rendered_compact}",
+            languages=languages,
+        )
+
+    return None
 
 
 def run(root: Path) -> list[Finding]:
-    targets = [
-        root / "app",
-        root / "src" / "memoria_audiovisual" / "research_profile.py",
-    ]
+    translate_ui_text, samples = load_runtime_samples(root)
     findings: list[Finding] = []
-    for target in targets:
-        if target.is_file():
-            findings.extend(audit_file(target, root))
-        elif target.exists():
-            for path in sorted(target.rglob("*.py")):
-                findings.extend(audit_file(path, root))
-    return sorted(findings, key=lambda item: (item.page, item.path, item.line, item.kind))
+
+    for path, line, call, source in samples:
+        for target_language in ("en", "es"):
+            rendered = translate_ui_text(source, target_language)
+            finding = audit_rendered_translation(
+                path=path,
+                line=line,
+                call=call,
+                source=source,
+                target_language=target_language,
+                rendered=rendered,
+            )
+            if finding:
+                findings.append(finding)
+
+    unique: dict[tuple, Finding] = {}
+    for finding in findings:
+        key = (
+            finding.path,
+            finding.line,
+            finding.kind,
+            finding.call,
+            finding.text,
+            finding.languages,
+        )
+        unique[key] = finding
+
+    return sorted(unique.values(), key=lambda item: (item.page, item.path, item.line, item.text))
 
 
 def main() -> int:
