@@ -1,5 +1,11 @@
 """Registro e carregamento canônico dos artefatos da infraestrutura científica."""
 
+from .indicator_registry import (
+    IndicatorRegistry,
+    IndicatorRegistryError,
+    load_indicator_registry,
+    validate_indicator_registry,
+)
 from .registry import (
     ArtifactFormat,
     ArtifactScope,
@@ -18,8 +24,12 @@ __all__ = [
     "ArtifactScope",
     "ArtifactSpec",
     "ArtifactState",
+    "IndicatorRegistry",
+    "IndicatorRegistryError",
     "InfrastructureRegistry",
     "LoadedArtifact",
     "ScientificInfrastructureLoader",
     "build_default_registry",
+    "load_indicator_registry",
+    "validate_indicator_registry",
 ]
