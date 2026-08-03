@@ -55,7 +55,7 @@ OLD_RENDER_SETUP = '''    paths = ScientificInfrastructurePaths(Path(base_dir))
 NEW_RENDER_SETUP = '''    registry = build_default_registry(Path(base_dir))
     loader = ScientificInfrastructureLoader(registry)
     static_artifacts = loader.load_static()
-    catalog_artifact = static_artifacts["indicator_catalog"]
+    catalog_artifact = static_artifacts["indicator_registry"]
     methodology_artifact = static_artifacts["methodology_registry"]
     snapshot = loader.load_latest_analytics_snapshot()
     coverage = loader.load_latest_coverage_snapshot()
@@ -90,6 +90,7 @@ def validate(source: str) -> None:
         "ScientificInfrastructureLoader",
         "build_default_registry",
         "registry = build_default_registry(Path(base_dir))",
+        'static_artifacts["indicator_registry"]',
         "loader.load_latest_analytics_snapshot()",
         "loader.load_latest_coverage_snapshot()",
         "loader.load_governance()",
@@ -101,13 +102,16 @@ def validate(source: str) -> None:
         "class ScientificInfrastructurePaths",
         "def _read_json(",
         "def _read_jsonl(",
+        "def load_indicator_catalog(",
         "def load_latest_snapshot(",
         "def load_latest_coverage(",
         "def load_governance_artifacts(",
+        'static_artifacts["indicator_catalog"]',
+        "data/templates/analytics/indicator_catalog.json",
     )
     remaining = [fragment for fragment in forbidden if fragment in source]
     if remaining:
-        raise RuntimeError(f"Descoberta duplicada ainda presente: {remaining}")
+        raise RuntimeError(f"Descoberta ou catálogo legado ainda presente: {remaining}")
 
 
 def migrate(path: Path, *, check: bool = False) -> bool:
@@ -128,7 +132,7 @@ def main() -> int:
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     changed = migrate(args.path, check=args.check)
-    print("interface migrada" if changed else "interface já usa o registro central")
+    print("interface migrada" if changed else "interface já usa o registro canônico")
     return 0
 
 
