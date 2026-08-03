@@ -1836,24 +1836,24 @@ def render_observatory_overview_tab():
         europe_public_access_row = public_access_scope_row("Europe")
         access_metric_cols = st.columns(4)
         access_metric_cols[0].metric(
-            "Índice público World",
+            tr_key("overview.public_access.metrics.world"),
             percent_label(world_public_access_row, "public_records_percent"),
         )
         access_metric_cols[1].metric(
-            "Índice público Europa",
+            tr_key("overview.public_access.metrics.europe"),
             percent_label(europe_public_access_row, "public_records_percent"),
         )
         access_metric_cols[2].metric(
-            "Registros restritos quantificados",
+            tr_key("overview.public_access.metrics.restricted_records"),
             int(numeric_cell(world_public_access_row, "restricted_records")),
         )
         access_metric_cols[3].metric(
-            "Unidades restritas no índice",
+            tr_key("overview.public_access.metrics.restricted_units"),
             int(numeric_cell(world_public_access_row, "restricted_units_total")),
         )
 
         index_tab, corpus_index_tab, restricted_units_tab = st.tabs(
-            ["Mundo e continentes", "Por unidade documental", "Acesso restrito"]
+            [tr_key("overview.public_access.tabs.scope"), tr_key("overview.public_access.tabs.corpus"), tr_key("overview.public_access.tabs.restricted")]
         )
         with index_tab:
             index_display_df = public_access_index_df.rename(
@@ -1935,24 +1935,24 @@ def render_observatory_overview_tab():
     st.caption(tr_key("overview.timeline.caption"))
     global_history_cols = st.columns(4)
     global_history_cols[0].metric(
-        "Observações históricas das unidades",
+        tr_key("overview.timeline.metrics.units"),
         len(global_corpus_timeline_df) if global_corpus_timeline_df is not None else 0,
     )
     global_history_cols[1].metric(
-        "Observações históricas institucionais",
+        tr_key("overview.timeline.metrics.institutions"),
         len(global_institution_timeline_df) if global_institution_timeline_df is not None else 0,
     )
     global_history_cols[2].metric(
-        "Sinais globais de possível extinção",
+        tr_key("overview.timeline.metrics.signals"),
         len(global_extinction_signals_df) if global_extinction_signals_df is not None else 0,
     )
     global_history_cols[3].metric(
-        "Unidades com histórico registrado",
+        tr_key("overview.timeline.metrics.registered_units"),
         int(global_corpus_timeline_df["corpus"].nunique()) if global_corpus_timeline_df is not None and not global_corpus_timeline_df.empty else 0,
     )
 
     global_history_tab, global_signals_tab = st.tabs(
-        ["Histórico geral", "Sinais de possível extinção"]
+        [tr_key("overview.timeline.tabs.history"), tr_key("overview.timeline.tabs.signals")]
     )
     with global_history_tab:
         if global_corpus_timeline_df is None or global_corpus_timeline_df.empty:
@@ -2191,7 +2191,7 @@ def render_observatory_overview_tab():
             "Exporta o registro completo de candidatos e unidades já incorporadas ao observatório.",
         )
 
-    st.markdown("### Avaliação metodológica dos agregadores europeus")
+    st.markdown(tr_key("overview.european_aggregators.title"))
     st.caption(
         "Esta camada não incorpora novas unidades automaticamente. Ela observa a superfície pública de "
         "Archives Hub, FranceArchives, PARES e Portal Português de Arquivos para decidir, com "
@@ -2531,7 +2531,7 @@ def render_observatory_overview_tab():
                 "Exporta a síntese dos estados metodológicos observados.",
             )
 
-    st.markdown("### Fechamento da etapa Europa")
+    st.markdown(tr_key("overview.europe_closure.title"))
     st.caption(
         "Este quadro explicita o estado metodológico da etapa Europa. Ele não afirma que todos os "
         "arquivos audiovisuais europeus foram identificados; registra o que já opera como unidade ativa, "
@@ -2759,7 +2759,7 @@ def render_observatory_overview_tab():
                     "Exporta a auditoria que delimita o que ficou fora da base europeia ativa do MVP.",
                 )
 
-    st.markdown("### Mapeamento europeu ampliado")
+    st.markdown(tr_key("overview.europe_mapping.title"))
     st.caption(
         "Este módulo separa o registro europeu completo da fila operacional de pendências. Ele identifica "
         "agregadores, redes, diretórios e arquivos "
@@ -2879,14 +2879,14 @@ def render_observatory_overview_tab():
         "modalidade",
     )
 
-    st.markdown("### Comparações entre unidades documentais")
+    st.markdown(tr_key("overview.comparisons.title"))
     st.caption(
         "Estes quadros mostram como as unidades diferem não apenas em volume, mas também na forma "
         "como o audiovisual se torna publicamente acessível."
     )
 
     compare_tab_regimes, compare_tab_modalities = st.tabs(
-        ["Regimes de acesso", "Modalidades de acesso"]
+        [tr_key("overview.comparisons.tabs.regimes"), tr_key("overview.comparisons.tabs.modalities")]
     )
 
     with compare_tab_regimes:
@@ -2920,9 +2920,9 @@ def render_observatory_overview_tab():
                 st.dataframe(modality_long_df, use_container_width=True, hide_index=True)
 
     if cycle_timeline_df is not None and not cycle_timeline_df.empty:
-        st.markdown("### Histórico do observatório")
+        st.markdown(tr_key("overview.history.title"))
         cycle_history_tab, cycle_results_tab, cycle_files_tab = st.tabs(
-            ["Linha do tempo das rodadas", "Resultados por unidade", "Arquivos de referência"]
+            [tr_key("overview.history.tabs.cycles"), tr_key("overview.history.tabs.results"), tr_key("overview.history.tabs.files")]
         )
         with cycle_history_tab:
             st.caption(
