@@ -35,14 +35,11 @@ jobs:
           python-version: "3.12"
 
       - name: Run Streamlit language audit
-        id: audit
         shell: bash
         run: |
           set +e
           python scripts/audit_streamlit_i18n.py > i18n-audit.json
-          code=$?
           set -e
-          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           test -s i18n-audit.json || echo '[]' > i18n-audit.json
 
       - name: Build readable audit report
@@ -96,7 +93,16 @@ jobs:
             i18n-audit.md
 
       - name: Enforce audit result
-        if: steps.audit.outputs.exit_code != '0'
         run: |
-          echo "Language MVP+ findings remain. See the i18n-audit-report artifact."
-          exit 1
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          findings = json.loads(Path("i18n-audit.json").read_text(encoding="utf-8"))
+          if findings:
+              raise SystemExit(
+                  f"Language MVP+ findings remain: {len(findings)}. "
+                  "See the i18n-audit-report artifact."
+              )
+          print("Language MVP+ audit passed with zero blocking findings.")
+          PY
