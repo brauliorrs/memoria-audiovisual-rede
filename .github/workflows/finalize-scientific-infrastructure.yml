@@ -1,0 +1,87 @@
+name: Finalize scientific infrastructure integration
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message == 'chore: finalizar integração permanente da infraestrutura científica'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Apply permanent application integration
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          app = Path('app/streamlit_app.py')
+          text = app.read_text(encoding='utf-8')
+
+          import_line = (
+              'from memoria_audiovisual.ui.scientific_infrastructure import '
+              'render_scientific_infrastructure\n'
+          )
+          import_anchor = 'from memoria_audiovisual.output_files import list_output_filenames\n'
+          if import_line not in text:
+              if import_anchor not in text:
+                  raise SystemExit('Permanent integration failed: import anchor not found')
+              text = text.replace(import_anchor, import_line + import_anchor, 1)
+
+          old_tabs = '''top_level_tabs = st.tabs(\n    [tr_key("navigation.overview")]\n    + [tr_key("navigation.category", label=category_def["short_label"]) for category_def in CORPUS_CATEGORIES.values()]\n'''
+          new_tabs = '''top_level_tabs = st.tabs(\n    [tr_key("navigation.overview"), "Infraestrutura científica"]\n    + [tr_key("navigation.category", label=category_def["short_label"]) for category_def in CORPUS_CATEGORIES.values()]\n'''
+          if old_tabs in text:
+              text = text.replace(old_tabs, new_tabs, 1)
+          elif '[tr_key("navigation.overview"), "Infraestrutura científica"]' not in text:
+              raise SystemExit('Permanent integration failed: navigation anchor not found')
+
+          old_render = '''with top_level_tabs[0]:\n    render_observatory_overview_tab()\n\ncategory_start = 1\n'''
+          new_render = '''with top_level_tabs[0]:\n    render_observatory_overview_tab()\n\nwith top_level_tabs[1]:\n    render_scientific_infrastructure(BASE_DIR)\n\ncategory_start = 2\n'''
+          if old_render in text:
+              text = text.replace(old_render, new_render, 1)
+          elif 'render_scientific_infrastructure(BASE_DIR)' not in text or 'category_start = 2' not in text:
+              raise SystemExit('Permanent integration failed: render anchor not found')
+
+          app.write_text(text, encoding='utf-8')
+
+          test = Path('tests/test_scientific_infrastructure_integration.py')
+          test.write_text(
+              '''from pathlib import Path\n\n\ndef test_scientific_infrastructure_is_permanently_integrated():\n    source = Path("app/streamlit_app.py").read_text(encoding="utf-8")\n    assert "from memoria_audiovisual.ui.scientific_infrastructure import render_scientific_infrastructure" in source\n    assert '[tr_key("navigation.overview"), "Infraestrutura científica"]' in source\n    assert "render_scientific_infrastructure(BASE_DIR)" in source\n    assert "category_start = 2" in source\n\n\ndef test_no_code_mutating_integration_workflow_remains():\n    assert not Path(".github/workflows/integrate-scientific-infrastructure.yml").exists()\n    assert not Path(".github/workflows/finalize-scientific-infrastructure.yml").exists()\n''',
+              encoding='utf-8',
+          )
+
+          for workflow in (
+              Path('.github/workflows/integrate-scientific-infrastructure.yml'),
+              Path('.github/workflows/finalize-scientific-infrastructure.yml'),
+          ):
+              workflow.unlink(missing_ok=True)
+          PY
+
+      - name: Synchronize Portuguese catalogue
+        run: python scripts/sync_portuguese_catalog.py
+
+      - name: Validate permanent integration
+        run: |
+          python -m py_compile app/streamlit_app.py src/memoria_audiovisual/ui/scientific_infrastructure.py
+          pytest -q tests/test_scientific_infrastructure_integration.py
+
+      - name: Commit definitive state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: integrar definitivamente a infraestrutura científica"
+          git push origin HEAD:presentation/rpv-1
