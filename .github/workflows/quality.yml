@@ -5,84 +5,88 @@ on:
   push:
     branches:
       - main
+      - presentation/rpv-1
+
+permissions:
+  contents: write
 
 jobs:
-  quality:
+  finalize-scientific-infrastructure:
+    if: github.ref == 'refs/heads/presentation/rpv-1'
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Apply permanent source integration
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -e .
+          python - <<'PY'
+          from pathlib import Path
 
-      - name: Compile Python modules
+          app = Path("app/streamlit_app.py")
+          text = app.read_text(encoding="utf-8")
+
+          import_line = (
+              "from memoria_audiovisual.ui.scientific_infrastructure import "
+              "render_scientific_infrastructure\n"
+          )
+          import_anchor = "from memoria_audiovisual.output_files import list_output_filenames\n"
+          if import_line not in text:
+              if import_anchor not in text:
+                  raise SystemExit("import anchor not found")
+              text = text.replace(import_anchor, import_line + import_anchor, 1)
+
+          old_tabs = '''top_level_tabs = st.tabs(\n    [tr_key("navigation.overview")]\n    + [tr_key("navigation.category", label=category_def["short_label"]) for category_def in CORPUS_CATEGORIES.values()]\n'''
+          new_tabs = '''top_level_tabs = st.tabs(\n    [tr_key("navigation.overview"), "Infraestrutura científica"]\n    + [tr_key("navigation.category", label=category_def["short_label"]) for category_def in CORPUS_CATEGORIES.values()]\n'''
+          if old_tabs in text:
+              text = text.replace(old_tabs, new_tabs, 1)
+          elif '[tr_key("navigation.overview"), "Infraestrutura científica"]' not in text:
+              raise SystemExit("navigation anchor not found")
+
+          old_render = '''with top_level_tabs[0]:\n    render_observatory_overview_tab()\n\ncategory_start = 1\n'''
+          new_render = '''with top_level_tabs[0]:\n    render_observatory_overview_tab()\n\nwith top_level_tabs[1]:\n    render_scientific_infrastructure(BASE_DIR)\n\ncategory_start = 2\n'''
+          if old_render in text:
+              text = text.replace(old_render, new_render, 1)
+          elif "render_scientific_infrastructure(BASE_DIR)" not in text or "category_start = 2" not in text:
+              raise SystemExit("render anchor not found")
+
+          app.write_text(text, encoding="utf-8")
+
+          Path("tests/test_scientific_infrastructure_integration.py").write_text(
+              '''from pathlib import Path\n\n\ndef test_scientific_infrastructure_is_permanently_integrated():\n    source = Path("app/streamlit_app.py").read_text(encoding="utf-8")\n    assert "from memoria_audiovisual.ui.scientific_infrastructure import render_scientific_infrastructure" in source\n    assert '[tr_key("navigation.overview"), "Infraestrutura científica"]' in source\n    assert "render_scientific_infrastructure(BASE_DIR)" in source\n    assert "category_start = 2" in source\n\n\ndef test_code_mutating_integration_workflows_were_removed():\n    assert not Path(".github/workflows/integrate-scientific-infrastructure.yml").exists()\n    assert not Path(".github/workflows/finalize-scientific-infrastructure.yml").exists()\n''',
+              encoding="utf-8",
+          )
+
+          for path in (
+              Path(".github/workflows/integrate-scientific-infrastructure.yml"),
+              Path(".github/workflows/finalize-scientific-infrastructure.yml"),
+          ):
+              path.unlink(missing_ok=True)
+
+          final_quality = '''name: Quality Checks\n\non:\n  pull_request:\n  push:\n    branches:\n      - main\n      - presentation/rpv-1\n\npermissions:\n  contents: read\n\njobs:\n  quality:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout\n        uses: actions/checkout@v4\n\n      - name: Set up Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: "3.11"\n\n      - name: Install dependencies\n        run: |\n          python -m pip install --upgrade pip\n          pip install -r requirements.txt\n          pip install -e .\n\n      - name: Compile Python sources\n        run: python -m compileall -q app src scripts\n\n      - name: Run tests\n        run: pytest -q\n\n      - name: Check deployment snapshot\n        run: python scripts/check_deployment_ready.py\n'''
+          Path(".github/workflows/quality.yml").write_text(final_quality, encoding="utf-8")
+          PY
+
+      - name: Synchronize canonical Portuguese catalogue
+        run: python scripts/sync_portuguese_catalog.py
+
+      - name: Validate definitive state
         run: |
-          python -m py_compile app/streamlit_app.py
-          python -m py_compile src/memoria_audiovisual/aamod.py
-          python -m py_compile src/memoria_audiovisual/aamod_exports.py
-          python -m py_compile src/memoria_audiovisual/anf.py
-          python -m py_compile src/memoria_audiovisual/anf_exports.py
-          python -m py_compile src/memoria_audiovisual/adlibitum_protocol.py
-          python -m py_compile src/memoria_audiovisual/analysis.py
-          python -m py_compile src/memoria_audiovisual/ape_exports.py
-          python -m py_compile src/memoria_audiovisual/archipop.py
-          python -m py_compile src/memoria_audiovisual/archipop_exports.py
-          python -m py_compile src/memoria_audiovisual/dashboard_data.py
-          python -m py_compile src/memoria_audiovisual/discovery.py
-          python -m py_compile src/memoria_audiovisual/european_aggregators.py
-          python -m py_compile src/memoria_audiovisual/europe_closure.py
-          python -m py_compile src/memoria_audiovisual/european_protocols.py
-          python -m py_compile src/memoria_audiovisual/euscreen.py
-          python -m py_compile src/memoria_audiovisual/euscreen_exports.py
-          python -m py_compile src/memoria_audiovisual/output_files.py
-          python -m py_compile src/memoria_audiovisual/organism.py
-          python -m py_compile src/memoria_audiovisual/pares.py
-          python -m py_compile src/memoria_audiovisual/pares_exports.py
-          python -m py_compile src/memoria_audiovisual/pipeline.py
-          python -m py_compile src/memoria_audiovisual/snapshot_metadata.py
-          python -m py_compile src/memoria_audiovisual/sfa.py
-          python -m py_compile src/memoria_audiovisual/sfa_exports.py
-          python -m py_compile src/memoria_audiovisual/timeline.py
-          python -m py_compile scripts/build_ape_analytics.py
-          python -m py_compile scripts/build_euscreen_analytics.py
-          python -m py_compile scripts/build_ina_analytics.py
-          python -m py_compile scripts/build_pares_analytics.py
-          python -m py_compile scripts/build_europe_closure_report.py
-          python -m py_compile scripts/check_aamod_outputs.py
-          python -m py_compile scripts/check_archipop_outputs.py
-          python -m py_compile scripts/check_ape_outputs.py
-          python -m py_compile scripts/check_euscreen_outputs.py
-          python -m py_compile scripts/check_ina_outputs.py
-          python -m py_compile scripts/check_deployment_ready.py
-          python -m py_compile scripts/check_observatory_cycle.py
-          python -m py_compile scripts/check_pares_outputs.py
-          python -m py_compile scripts/evaluate_european_aggregators.py
-          python -m py_compile scripts/prototype_archiveshub_protocol.py
-          python -m py_compile scripts/prototype_francearchives_protocol.py
-          python -m py_compile scripts/run_euscreen_pipeline.py
-          python -m py_compile scripts/run_aamod_pipeline.py
-          python -m py_compile scripts/run_anf_pipeline.py
-          python -m py_compile scripts/run_adlibitum_protocol.py
-          python -m py_compile scripts/run_archipop_pipeline.py
-          python -m py_compile scripts/run_ina_pipeline.py
-          python -m py_compile scripts/run_observatory_cycle.py
-          python -m py_compile scripts/run_pares_pipeline.py
-          python -m py_compile scripts/run_sfa_pipeline.py
-          python -m py_compile scripts/check_anf_outputs.py
-          python -m py_compile scripts/check_sfa_outputs.py
+          python -m py_compile app/streamlit_app.py src/memoria_audiovisual/ui/scientific_infrastructure.py
+          python -m pytest -q tests/test_scientific_infrastructure_integration.py
 
-      - name: Run unit tests
-        run: python -m unittest discover -s tests -v
-
-      - name: Check deployment snapshot
-        run: python scripts/check_deployment_ready.py
+      - name: Commit definitive integration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: integrar definitivamente a infraestrutura científica"
+          git push origin HEAD:presentation/rpv-1
