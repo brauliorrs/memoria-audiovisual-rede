@@ -36,10 +36,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: presentation/rpv-1
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Migrate remaining static Overview UI strings
+      - name: Migrate remaining Overview UI strings
         run: python scripts/migrate_overview_catalog.py
       - name: Commit Overview migration
         run: |
@@ -47,9 +48,10 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add app/streamlit_app.py src/memoria_audiovisual/locales/pt.json
           if git diff --cached --quiet; then
-            echo 'Overview static strings already migrated.'
+            echo 'Overview strings already migrated.'
           else
-            git commit -m 'refactor(i18n): complete static Overview catalogue migration [skip ci]'
+            git commit -m 'refactor(i18n): complete Overview catalogue migration [skip ci]'
+            git pull --rebase origin presentation/rpv-1
             git push origin HEAD:presentation/rpv-1
           fi
 
