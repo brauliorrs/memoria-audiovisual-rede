@@ -133,7 +133,7 @@ class ScientificInfrastructureLoader:
         artifact = self.load_indicator_registry()
         if artifact.state is not ArtifactState.FOUND:
             return None
-        return IndicatorRegistry.from_payload(artifact.payload)
+        return validate_indicator_registry(artifact.payload)
 
     def load_static(self) -> dict[str, LoadedArtifact]:
         return {
