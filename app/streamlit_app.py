@@ -99,6 +99,7 @@ from memoria_audiovisual.research_profile import (
     RESEARCH_WORKING_TITLE,
     build_research_next_adjustment_rows,
     build_research_parameter_rows,
+    build_research_positioning_rows,
     summarize_research_parameter_status,
 )
 from memoria_audiovisual.output_files import list_output_filenames
@@ -1624,53 +1625,35 @@ def render_research_tab(initial_search_term="", show_search_input=True):
 
 
 def render_scientific_parameters_section():
-    parameter_rows = build_research_parameter_rows()
-    next_adjustment_rows = build_research_next_adjustment_rows()
-    status_summary = summarize_research_parameter_status(parameter_rows)
+    parameter_rows = build_research_parameter_rows(tr_key)
+    next_adjustment_rows = build_research_next_adjustment_rows(tr_key)
+    positioning_rows = build_research_positioning_rows(tr_key)
+    status_summary = summarize_research_parameter_status()
 
-    st.markdown("### Parâmetros científicos da plataforma")
-    st.caption(
-        "A plataforma combina observação pública, curadoria metodológica e análise comparativa. "
-        "Esta camada explicita as variáveis, evidências e protocolos que dão consistência "
-        "científica ao acompanhamento longitudinal dos acervos audiovisuais."
-    )
+    st.markdown(tr_key("research.section.title"))
+    st.caption(tr_key("research.section.caption"))
 
-    positioning_df = pd.DataFrame(
-        [
-            {"dimensão": key, "definição": value}
-            for key, value in RESEARCH_PLATFORM_POSITIONING.items()
-        ]
-    )
     status_cols = st.columns(4)
-    status_cols[0].metric("Parâmetros mapeados", len(parameter_rows))
-    status_cols[1].metric("Implementados", status_summary.get("implementado", 0))
-    status_cols[2].metric("Em adaptação", status_summary.get("em adaptação", 0))
-    status_cols[3].metric("A desenvolver", status_summary.get("a desenvolver", 0))
+    status_cols[0].metric(tr_key("research.metrics.mapped"), len(parameter_rows))
+    status_cols[1].metric(tr_key("research.metrics.implemented"), status_summary.get("implemented", 0))
+    status_cols[2].metric(tr_key("research.metrics.adapting"), status_summary.get("adapting", 0))
+    status_cols[3].metric(tr_key("research.metrics.to_develop"), status_summary.get("to_develop", 0))
 
-    framing_tab, matrix_tab, next_tab = st.tabs(
-        ["Enquadramento científico", "Matriz metodológica", "Próximos ajustes"]
-    )
+    framing_tab, matrix_tab, next_tab = st.tabs([
+        tr_key("research.tabs.framing"),
+        tr_key("research.tabs.matrix"),
+        tr_key("research.tabs.next_adjustments"),
+    ])
     with framing_tab:
-        st.markdown(f"**{RESEARCH_WORKING_TITLE}**")
-        st.caption(RESEARCH_SUBTITLE)
-        st.markdown(f"**Pergunta científica provisória:** {RESEARCH_MAIN_QUESTION}")
-        st.dataframe(positioning_df, use_container_width=True, hide_index=True)
-        st.info(
-            "A plataforma observa a visibilidade audiovisual digital por parâmetros verificáveis: "
-            "completude, rota, acesso, visibilidade, estabilidade, território, idioma, agregação e histórico."
-        )
+        st.markdown(f"**{tr_key(RESEARCH_WORKING_TITLE)}**")
+        st.caption(tr_key(RESEARCH_SUBTITLE))
+        st.markdown(f"**{tr_key('research.question.label')}:** {tr_key(RESEARCH_MAIN_QUESTION)}")
+        st.dataframe(pd.DataFrame(positioning_rows), use_container_width=True, hide_index=True)
+        st.info(tr_key("research.parameters.summary"))
     with matrix_tab:
-        st.dataframe(
-            pd.DataFrame(parameter_rows),
-            use_container_width=True,
-            hide_index=True,
-        )
+        st.dataframe(pd.DataFrame(parameter_rows), use_container_width=True, hide_index=True)
     with next_tab:
-        st.dataframe(
-            pd.DataFrame(next_adjustment_rows),
-            use_container_width=True,
-            hide_index=True,
-        )
+        st.dataframe(pd.DataFrame(next_adjustment_rows), use_container_width=True, hide_index=True)
 
 
 def render_observatory_overview_tab():
