@@ -8,6 +8,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
+from .indicator_registry import IndicatorRegistry, validate_indicator_registry
 from .registry import ArtifactFormat, InfrastructureRegistry
 
 
@@ -85,6 +86,19 @@ class ScientificInfrastructureLoader:
         except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
             return LoadedArtifact(key, spec.label, path, ArtifactState.INVALID, error=str(exc))
 
+        if key == "indicator_registry":
+            try:
+                validate_indicator_registry(payload)
+            except (TypeError, ValueError) as exc:
+                return LoadedArtifact(
+                    key,
+                    spec.label,
+                    path,
+                    ArtifactState.INVALID,
+                    payload=payload,
+                    error=str(exc),
+                )
+
         state = ArtifactState.EMPTY if self._is_empty(payload) else ArtifactState.FOUND
         return LoadedArtifact(key, spec.label, path, state, payload=payload)
 
@@ -110,10 +124,21 @@ class ScientificInfrastructureLoader:
             return len(payload) == 0
         return False
 
+    def load_indicator_registry(self) -> LoadedArtifact:
+        """Carrega e valida a fonte operacional única dos indicadores."""
+        return self.load("indicator_registry")
+
+    def parsed_indicator_registry(self) -> IndicatorRegistry | None:
+        """Retorna o registro tipado quando o artefato canônico é válido."""
+        artifact = self.load_indicator_registry()
+        if artifact.state is not ArtifactState.FOUND:
+            return None
+        return IndicatorRegistry.from_payload(artifact.payload)
+
     def load_static(self) -> dict[str, LoadedArtifact]:
         return {
             key: self.load(key)
-            for key in ("indicator_catalog", "methodology_registry")
+            for key in ("indicator_registry", "methodology_registry")
         }
 
     def load_latest_analytics_snapshot(self) -> dict[str, LoadedArtifact]:
