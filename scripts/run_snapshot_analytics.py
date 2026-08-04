@@ -24,10 +24,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--methodology-version", default="1.0.0")
     parser.add_argument(
+        "--registry",
         "--catalog",
+        dest="registry",
         type=Path,
-        default=Path("data/templates/analytics/indicator_catalog.json"),
-        help="Catálogo científico que justifica todos os indicadores registrados.",
+        default=Path("data/templates/analytics/indicator_registry.json"),
+        help="Registro científico canônico dos indicadores.",
     )
     parser.add_argument(
         "--run-output",
@@ -45,7 +47,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     registry = default_indicator_registry()
-    catalog = IndicatorCatalog.load(args.catalog)
+    catalog = IndicatorCatalog.load(args.registry)
     catalog.validate_registry(registry)
 
     result = analyze_snapshot(
@@ -56,8 +58,8 @@ def main() -> int:
         output_root=args.output_root,
         metadata={
             "coverage_path": str(args.coverage),
-            "indicator_catalog_path": str(args.catalog),
-            "indicator_catalog_version": catalog.catalog_version,
+            "indicator_registry_path": str(args.registry),
+            "indicator_registry_version": catalog.catalog_version,
         },
     )
     payload = result.run.to_dict()
@@ -93,7 +95,7 @@ def main() -> int:
     print(json.dumps({
         "snapshot_id": result.run.snapshot_id,
         "methodology_version": result.run.methodology_version,
-        "indicator_catalog_version": catalog.catalog_version,
+        "indicator_registry_version": catalog.catalog_version,
         "indicator_count": result.run.indicator_count,
         "status": result.run.status,
         "manifest": result.manifest.to_dict() if result.manifest else None,
