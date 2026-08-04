@@ -37,5 +37,8 @@ jobs:
       - name: Run tests
         run: python -m pytest -q
 
+      - name: Audit scientific integrity
+        run: python scripts/audit_scientific_integrity.py
+
       - name: Check deployment snapshot
         run: python scripts/check_deployment_ready.py
