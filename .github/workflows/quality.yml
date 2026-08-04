@@ -37,6 +37,9 @@ jobs:
       - name: Run tests
         run: python -m pytest -q
 
+      - name: Audit methodology consistency
+        run: python scripts/audit_methodology_consistency.py
+
       - name: Audit scientific integrity
         run: python scripts/audit_scientific_integrity.py
 
