@@ -1,0 +1,3232 @@
+{
+  "coverage_snapshot": {
+    "coverage_snapshot_id": "coverage_snapshot_v1_0",
+    "version": "1.0.0",
+    "status": "completed",
+    "scientific_snapshot_id": "scientific_snapshot_v1_0",
+    "source_snapshot_id": "scientific-coverage-v1-30942134205"
+  },
+  "reference_corpus": {
+    "manifest_version": "1.0.0",
+    "source_content_hash": "64a8c8937131182ddbdf82df4e49ff9b3d8a4657",
+    "entities": 58
+  },
+  "execution": {
+    "started_at": "2026-08-04T19:12:06Z",
+    "finished_at": "2026-08-04T19:14:17Z",
+    "duration_seconds": 131.0,
+    "pipeline_commit": "bc4e713838791a54fc6da64beed19698c5ae143c",
+    "mode": "real_public_surface_audit"
+  },
+  "summary": {
+    "corpus_count": 58,
+    "detector_group_count": 7,
+    "parameter_count": 406,
+    "status_counts": {
+      "detected": 120,
+      "not_detected": 209,
+      "unknown": 77
+    },
+    "detector_groups": {
+      "technology": {
+        "corpus_count": 58,
+        "detected": 23,
+        "evaluable": 58,
+        "coverage_percent": 39.6552,
+        "status_counts": {
+          "detected": 23,
+          "not_detected": 24,
+          "unknown": 11
+        }
+      },
+      "api_service": {
+        "corpus_count": 58,
+        "detected": 20,
+        "evaluable": 58,
+        "coverage_percent": 34.4828,
+        "status_counts": {
+          "detected": 20,
+          "not_detected": 27,
+          "unknown": 11
+        }
+      },
+      "metadata_format": {
+        "corpus_count": 58,
+        "detected": 26,
+        "evaluable": 58,
+        "coverage_percent": 44.8276,
+        "status_counts": {
+          "detected": 26,
+          "not_detected": 21,
+          "unknown": 11
+        }
+      },
+      "interoperability": {
+        "corpus_count": 58,
+        "detected": 20,
+        "evaluable": 58,
+        "coverage_percent": 34.4828,
+        "status_counts": {
+          "detected": 20,
+          "not_detected": 27,
+          "unknown": 11
+        }
+      },
+      "search": {
+        "corpus_count": 58,
+        "detected": 25,
+        "evaluable": 58,
+        "coverage_percent": 43.1034,
+        "status_counts": {
+          "detected": 25,
+          "not_detected": 22,
+          "unknown": 11
+        }
+      },
+      "restriction": {
+        "corpus_count": 58,
+        "detected": 6,
+        "evaluable": 58,
+        "coverage_percent": 10.3448,
+        "status_counts": {
+          "detected": 6,
+          "not_detected": 41,
+          "unknown": 11
+        }
+      },
+      "ai_evidence": {
+        "corpus_count": 58,
+        "detected": 0,
+        "evaluable": 58,
+        "coverage_percent": 0.0,
+        "status_counts": {
+          "not_detected": 47,
+          "unknown": 11
+        }
+      }
+    }
+  },
+  "coverage_rows": [
+    {
+      "corpus_code": "aamod",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aamod",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "aamod",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "RSS/Atom"
+      ]
+    },
+    {
+      "corpus_code": "aamod",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aamod",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aamod",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aamod",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "WordPress 7.0.2"
+      ]
+    },
+    {
+      "corpus_code": "aapb",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aapb",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aapb",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "OpenSearch"
+      ]
+    },
+    {
+      "corpus_code": "aapb",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aapb",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aapb",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Formulário de busca HTML",
+        "OpenSearch"
+      ]
+    },
+    {
+      "corpus_code": "aapb",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "WordPress"
+      ]
+    },
+    {
+      "corpus_code": "anf",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "anf",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "IIIF"
+      ]
+    },
+    {
+      "corpus_code": "anf",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "anf",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "anf",
+      "detector_group": "restriction",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Autenticação/login",
+        "Direitos autorais condicionam o acesso"
+      ]
+    },
+    {
+      "corpus_code": "anf",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "anf",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ape",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ape",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ape",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ape",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ape",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ape",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ape",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aqshf",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aqshf",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "aqshf",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "RSS/Atom"
+      ]
+    },
+    {
+      "corpus_code": "aqshf",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "aqshf",
+      "detector_group": "restriction",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Autenticação/login",
+        "Direitos autorais condicionam o acesso"
+      ]
+    },
+    {
+      "corpus_code": "aqshf",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "aqshf",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "WordPress 7.0.2"
+      ]
+    },
+    {
+      "corpus_code": "archipop",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "archipop",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "archipop",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "archipop",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "archipop",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "archipop",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "archipop",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "asim",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "asim",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "asim",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Linked Open Data",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "asim",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "asim",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "asim",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Apache Solr",
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "asim",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 8 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "autrefois",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "autrefois",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "autrefois",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "autrefois",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "autrefois",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "autrefois",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "autrefois",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "WordPress"
+      ]
+    },
+    {
+      "corpus_code": "barch",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "barch",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "barch",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Linked Open Data",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "barch",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "barch",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "barch",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Apache Solr",
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "barch",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 8 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "bbc",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bbc",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "IIIF"
+      ]
+    },
+    {
+      "corpus_code": "bbc",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "bbc",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "JSON-LD / Schema.org",
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "bbc",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bbc",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bbc",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bfi",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bfi",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bfi",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bfi",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bfi",
+      "detector_group": "restriction",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Direitos autorais condicionam o acesso"
+      ]
+    },
+    {
+      "corpus_code": "bfi",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bfi",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal"
+      ]
+    },
+    {
+      "corpus_code": "bnfa",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bnfa",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bnfa",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Linked Open Data",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "bnfa",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bnfa",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bnfa",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Apache Solr",
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "bnfa",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 8 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "bnt",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bnt",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bnt",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bnt",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "bnt",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "bnt",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "bnt",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ccma",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ccma",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ccma",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ccma",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ccma",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ccma",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ccma",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cdna",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cdna",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "cdna",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cdna",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "cdna",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cdna",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cdna",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Onemo 17.3.24"
+      ]
+    },
+    {
+      "corpus_code": "ciclic",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ciclic",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "ciclic",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ciclic",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "ciclic",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ciclic",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "ciclic",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal"
+      ]
+    },
+    {
+      "corpus_code": "cineam",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cineam",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cineam",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cineam",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cineam",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cineam",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cineam",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinearchives",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinearchives",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinearchives",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinearchives",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinearchives",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinearchives",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinearchives",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinemateca-portuguesa",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinemateca-portuguesa",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinemateca-portuguesa",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinemateca-portuguesa",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinemateca-portuguesa",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinemateca-portuguesa",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "cinemateca-portuguesa",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematek",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematek",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematek",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematek",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematek",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematek",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematek",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-bretagne",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-bretagne",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-bretagne",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-bretagne",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-bretagne",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-bretagne",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-bretagne",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-francaise",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-francaise",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "IIIF"
+      ]
+    },
+    {
+      "corpus_code": "cinematheque-francaise",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-francaise",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "cinematheque-francaise",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-francaise",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-francaise",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-suisse",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-suisse",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-suisse",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Linked Open Data"
+      ]
+    },
+    {
+      "corpus_code": "cinematheque-suisse",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-suisse",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-suisse",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinematheque-suisse",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinememoire",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinememoire",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinememoire",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinememoire",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "cinememoire",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cinememoire",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "cinememoire",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Cinémémoire.net PHP engine by Jumi.J4"
+      ]
+    },
+    {
+      "corpus_code": "cna",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cna",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cna",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cna",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cna",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cna",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cna",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cnc-aff",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cnc-aff",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cnc-aff",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Linked Open Data",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "cnc-aff",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cnc-aff",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cnc-aff",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Apache Solr",
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "cnc-aff",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 8 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "cpsa",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cpsa",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cpsa",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cpsa",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cpsa",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cpsa",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "cpsa",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "crnogorska-kinoteka",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "crnogorska-kinoteka",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "crnogorska-kinoteka",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Linked Open Data",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "crnogorska-kinoteka",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "crnogorska-kinoteka",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "crnogorska-kinoteka",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Apache Solr",
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "crnogorska-kinoteka",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 8 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "csc-cineteca-nazionale",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "csc-cineteca-nazionale",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "csc-cineteca-nazionale",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "csc-cineteca-nazionale",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "csc-cineteca-nazionale",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "csc-cineteca-nazionale",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "csc-cineteca-nazionale",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "czech-television",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "czech-television",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "GraphQL",
+        "IIIF"
+      ]
+    },
+    {
+      "corpus_code": "czech-television",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "czech-television",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "JSON-LD / Schema.org",
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "czech-television",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "czech-television",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "czech-television",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "deutsche-kinemathek",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "deutsche-kinemathek",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "deutsche-kinemathek",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "deutsche-kinemathek",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "deutsche-kinemathek",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "deutsche-kinemathek",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "deutsche-kinemathek",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 10 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "dff",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dff",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dff",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dff",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dff",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dff",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "dff",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 10 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "dhm",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dhm",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dhm",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dhm",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dhm",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dhm",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dhm",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dr",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dr",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "IIIF",
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "dr",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dr",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "dr",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dr",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "dr",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "eafa",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "eafa",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "eafa",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "eafa",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "eafa",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "eafa",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "eafa",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ecpad",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ecpad",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ecpad",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ecpad",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "ecpad",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ecpad",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Busca facetada"
+      ]
+    },
+    {
+      "corpus_code": "ecpad",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ert",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ert",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "ert",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "RSS/Atom",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "ert",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ert",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ert",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ert",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "WordPress 6.8.3"
+      ]
+    },
+    {
+      "corpus_code": "estonian_film_archive",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "estonian_film_archive",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "estonian_film_archive",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "estonian_film_archive",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "estonian_film_archive",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "estonian_film_archive",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "estonian_film_archive",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "european-film-gateway",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "european-film-gateway",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "european-film-gateway",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 3,
+      "detected_values": [
+        "Linked Open Data",
+        "RSS/Atom",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "european-film-gateway",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "european-film-gateway",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "european-film-gateway",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Apache Solr",
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "european-film-gateway",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 8 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "europeana",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "europeana",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "SPARQL"
+      ]
+    },
+    {
+      "corpus_code": "europeana",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "europeana",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "europeana",
+      "detector_group": "restriction",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Autenticação/login"
+      ]
+    },
+    {
+      "corpus_code": "europeana",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "europeana",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "euscreen",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "euscreen",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "euscreen",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "RSS/Atom",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "euscreen",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "JSON-LD / Schema.org",
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "euscreen",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "euscreen",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "euscreen",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "WordPress 7.0.2"
+      ]
+    },
+    {
+      "corpus_code": "eye",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "eye",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "eye",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Linked Open Data"
+      ]
+    },
+    {
+      "corpus_code": "eye",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Open Graph",
+        "RDFa"
+      ]
+    },
+    {
+      "corpus_code": "eye",
+      "detector_group": "restriction",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Direitos autorais condicionam o acesso",
+        "Restrição de indexação (robots meta)"
+      ]
+    },
+    {
+      "corpus_code": "eye",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "eye",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 7 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "far",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "far",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "far",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "far",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "far",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "far",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "far",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Onemo 17.3.24"
+      ]
+    },
+    {
+      "corpus_code": "filmarchiv_austria",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmarchiv_austria",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "IIIF"
+      ]
+    },
+    {
+      "corpus_code": "filmarchiv_austria",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmarchiv_austria",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "EAD",
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "filmarchiv_austria",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmarchiv_austria",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmarchiv_austria",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmmuseum_dusseldorf",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmmuseum_dusseldorf",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "IIIF"
+      ]
+    },
+    {
+      "corpus_code": "filmmuseum_dusseldorf",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmmuseum_dusseldorf",
+      "detector_group": "metadata_format",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmmuseum_dusseldorf",
+      "detector_group": "restriction",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Restrição de indexação (robots meta)"
+      ]
+    },
+    {
+      "corpus_code": "filmmuseum_dusseldorf",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "filmmuseum_dusseldorf",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca-vasca",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca-vasca",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca-vasca",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca-vasca",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "filmoteca-vasca",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca-vasca",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "filmoteca-vasca",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "DSpace"
+      ]
+    },
+    {
+      "corpus_code": "filmoteca_catalunya",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_catalunya",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_catalunya",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_catalunya",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "filmoteca_catalunya",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_catalunya",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_catalunya",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_espanola",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_espanola",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_espanola",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_espanola",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "filmoteca_espanola",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_espanola",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_espanola",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_valenciana",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_valenciana",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "filmoteca_valenciana",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "RSS/Atom",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "filmoteca_valenciana",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "JSON-LD / Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "filmoteca_valenciana",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_valenciana",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "filmoteca_valenciana",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "WordPress 7.0.2"
+      ]
+    },
+    {
+      "corpus_code": "fina",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "fina",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "fina",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "fina",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "fina",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "fina",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "fina",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "home-movies-memoryscapes",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "home-movies-memoryscapes",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "REST/JSON"
+      ]
+    },
+    {
+      "corpus_code": "home-movies-memoryscapes",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "home-movies-memoryscapes",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "home-movies-memoryscapes",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "home-movies-memoryscapes",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "home-movies-memoryscapes",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "iam",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "iam",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "iam",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "iam",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "iam",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "iam",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "iam",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ina",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ina",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ina",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "Linked Open Data",
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "ina",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "JSON-LD / Schema.org",
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "ina",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ina",
+      "detector_group": "search",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "ina",
+      "detector_group": "technology",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Drupal 11 (https://www.drupal.org)"
+      ]
+    },
+    {
+      "corpus_code": "luce",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "luce",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "luce",
+      "detector_group": "interoperability",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "luce",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "luce",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "luce",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "luce",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "pares",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "pares",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "pares",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "pares",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "pares",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "pares",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "pares",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "portal-portugues-arquivos",
+      "detector_group": "ai_evidence",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "portal-portugues-arquivos",
+      "detector_group": "api_service",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "portal-portugues-arquivos",
+      "detector_group": "interoperability",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "portal-portugues-arquivos",
+      "detector_group": "metadata_format",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "portal-portugues-arquivos",
+      "detector_group": "restriction",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "portal-portugues-arquivos",
+      "detector_group": "search",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "portal-portugues-arquivos",
+      "detector_group": "technology",
+      "status": "unknown",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "saint-etienne",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "saint-etienne",
+      "detector_group": "api_service",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "saint-etienne",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "saint-etienne",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 3,
+      "detected_values": [
+        "Dublin Core",
+        "JSON-LD / Schema.org",
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "saint-etienne",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "saint-etienne",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "saint-etienne",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "sfa",
+      "detector_group": "ai_evidence",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "sfa",
+      "detector_group": "api_service",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "IIIF"
+      ]
+    },
+    {
+      "corpus_code": "sfa",
+      "detector_group": "interoperability",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Schema.org"
+      ]
+    },
+    {
+      "corpus_code": "sfa",
+      "detector_group": "metadata_format",
+      "status": "detected",
+      "observation_count": 2,
+      "detected_values": [
+        "JSON-LD / Schema.org",
+        "Open Graph"
+      ]
+    },
+    {
+      "corpus_code": "sfa",
+      "detector_group": "restriction",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    },
+    {
+      "corpus_code": "sfa",
+      "detector_group": "search",
+      "status": "detected",
+      "observation_count": 1,
+      "detected_values": [
+        "Formulário de busca HTML"
+      ]
+    },
+    {
+      "corpus_code": "sfa",
+      "detector_group": "technology",
+      "status": "not_detected",
+      "observation_count": 1,
+      "detected_values": []
+    }
+  ],
+  "governance": {
+    "derived_from_public_observations": true,
+    "does_not_duplicate_corpus_definitions": true,
+    "unknown_is_not_negative": true,
+    "errors_are_not_counted_as_absence": true,
+    "all_reference_corpus_units_included": true
+  }
+}
