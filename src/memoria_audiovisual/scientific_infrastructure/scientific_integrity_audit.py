@@ -15,7 +15,7 @@ from .single_source_audit import find_duplicate_definitions
 METHODOLOGY_PATH = Path("data/templates/analytics/methodology_registry.json")
 LEGACY_CATALOG_PATH = Path("data/templates/analytics/indicator_catalog.json")
 INTERFACE_PATH = Path("src/memoria_audiovisual/ui/scientific_infrastructure.py")
-ALLOWED_PENDING_METHODOLOGIES = frozenset({"audiovisual_archive_access_index"})
+ALLOWED_PENDING_METHODOLOGIES: frozenset[str] = frozenset()
 INTERFACE_CONTRACT_TOKENS = (
     "build_indicator_presentations",
     "registry_summary",
@@ -53,8 +53,11 @@ def _read_json(path: Path) -> Mapping[str, Any]:
     return payload
 
 
-def _methodologies(root: Path) -> dict[str, Mapping[str, Any]]:
-    payload = _read_json(root / METHODOLOGY_PATH)
+def _methodology_payload(root: Path) -> Mapping[str, Any]:
+    return _read_json(root / METHODOLOGY_PATH)
+
+
+def _methodologies(payload: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
     rows = payload.get("methodologies")
     if not isinstance(rows, list):
         raise ValueError("methodology_registry.json: methodologies deve ser lista")
@@ -104,12 +107,24 @@ def _implementation_findings(registry: IndicatorRegistry) -> tuple[IntegrityFind
 
 def _methodology_findings(
     registry: IndicatorRegistry,
+    methodology_payload: Mapping[str, Any],
     methodologies: Mapping[str, Mapping[str, Any]],
 ) -> tuple[tuple[str, ...], tuple[IntegrityFinding, ...]]:
     canonical_ids = set(registry.indicator_ids)
     methodology_ids = set(methodologies)
     pending = tuple(sorted(canonical_ids - methodology_ids))
     findings: list[IntegrityFinding] = []
+
+    declared_version = str(registry.metadata.get("methodology_registry_version") or "")
+    actual_version = str(methodology_payload.get("registry_version") or "")
+    if declared_version != actual_version:
+        findings.append(
+            IntegrityFinding(
+                "methodology",
+                "versão do registro metodológico divergente: "
+                f"declarada={declared_version!r}, real={actual_version!r}",
+            )
+        )
 
     unexpected_pending = sorted(set(pending) - ALLOWED_PENDING_METHODOLOGIES)
     for indicator_id in unexpected_pending:
@@ -153,7 +168,8 @@ def _interface_findings(root: Path) -> tuple[IntegrityFinding, ...]:
 def audit_scientific_integrity(repository_root: str | Path) -> ScientificIntegrityReport:
     root = Path(repository_root).resolve()
     registry = load_indicator_registry(root)
-    methodologies = _methodologies(root)
+    methodology_payload = _methodology_payload(root)
+    methodologies = _methodologies(methodology_payload)
     implementations = tuple(default_indicator_registry())
     findings: list[IntegrityFinding] = []
 
@@ -169,7 +185,11 @@ def audit_scientific_integrity(repository_root: str | Path) -> ScientificIntegri
         )
 
     findings.extend(_implementation_findings(registry))
-    pending, methodology_findings = _methodology_findings(registry, methodologies)
+    pending, methodology_findings = _methodology_findings(
+        registry,
+        methodology_payload,
+        methodologies,
+    )
     findings.extend(methodology_findings)
     findings.extend(_interface_findings(root))
 
