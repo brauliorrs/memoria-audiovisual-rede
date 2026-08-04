@@ -37,6 +37,9 @@ jobs:
       - name: Run tests
         run: python -m pytest -q
 
+      - name: Validate reference corpus manifest
+        run: python scripts/audit_reference_corpus_manifest.py
+
       - name: Audit methodology consistency
         run: python scripts/audit_methodology_consistency.py
 
