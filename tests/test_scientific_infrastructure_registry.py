@@ -70,10 +70,11 @@ def test_default_registry_contains_canonical_artifacts(tmp_path: Path):
     assert "indicator_registry" in registry
     assert "indicator_catalog" not in registry
     assert "methodology_registry" in registry
+    assert "indicator_results_registry" in registry
     assert "snapshot_indicators" in registry
     assert "parameter_coverage" in registry
     assert "ledger" in registry
-    assert len(registry.all()) == 12
+    assert len(registry.all()) == 13
 
     indicator_spec = registry.get("indicator_registry")
     assert indicator_spec.relative_path.endswith("indicator_registry.json")
@@ -128,7 +129,11 @@ def test_static_loader_exposes_only_canonical_indicator_source(tmp_path: Path):
 
     loaded = loader.load_static()
 
-    assert set(loaded) == {"indicator_registry", "methodology_registry"}
+    assert set(loaded) == {
+        "indicator_registry",
+        "methodology_registry",
+        "indicator_results_registry",
+    }
     assert "indicator_catalog" not in loaded
 
 
