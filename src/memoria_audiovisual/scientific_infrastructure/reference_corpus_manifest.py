@@ -60,9 +60,26 @@ def _literal_assignment_count(path: Path, selector: str) -> int:
     raise ValueError(f"seletor {selector!r} não localizado em {path}")
 
 
+def _missing_report(field: str, message: str) -> ReferenceCorpusReport:
+    return ReferenceCorpusReport(
+        version="",
+        dataset_path="",
+        entity_count=0,
+        content_hash="",
+        findings=(ReferenceCorpusFinding(field, message),),
+    )
+
+
 def audit_reference_corpus_manifest(repository_root: str | Path) -> ReferenceCorpusReport:
     root = Path(repository_root).resolve()
-    manifest = _read_json(root / MANIFEST_PATH)
+    manifest_path = root / MANIFEST_PATH
+    try:
+        manifest = _read_json(manifest_path)
+    except FileNotFoundError:
+        return _missing_report("manifest", f"manifesto inexistente: {MANIFEST_PATH}")
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        return _missing_report("manifest", f"manifesto inválido: {exc}")
+
     reference = manifest.get("reference_corpus")
     dataset = manifest.get("dataset")
     context = manifest.get("scientific_context")
@@ -107,7 +124,7 @@ def audit_reference_corpus_manifest(repository_root: str | Path) -> ReferenceCor
         actual_hash = _git_blob_sha1(content)
         try:
             actual_count = _literal_assignment_count(source, selector)
-        except ValueError as exc:
+        except (OSError, UnicodeDecodeError, SyntaxError, ValueError) as exc:
             actual_count = 0
             findings.append(ReferenceCorpusFinding("dataset.selector", str(exc)))
 
@@ -126,20 +143,40 @@ def audit_reference_corpus_manifest(repository_root: str | Path) -> ReferenceCor
             )
         )
 
-    indicator_payload = _read_json(root / INDICATOR_REGISTRY_PATH)
-    methodology_payload = _read_json(root / METHODOLOGY_REGISTRY_PATH)
-    indicator_version = str(
-        (indicator_payload.get("registry") or {}).get("registry_version") or ""
-    )
-    methodology_version = str(methodology_payload.get("registry_version") or "")
-    if context.get("indicator_registry_version") != indicator_version:
+    try:
+        indicator_payload = _read_json(root / INDICATOR_REGISTRY_PATH)
+        indicator_version = str(
+            (indicator_payload.get("registry") or {}).get("registry_version") or ""
+        )
+    except (FileNotFoundError, OSError, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        indicator_version = ""
+        findings.append(
+            ReferenceCorpusFinding(
+                "scientific_context.indicator_registry_version",
+                f"registro de indicadores indisponível: {exc}",
+            )
+        )
+
+    try:
+        methodology_payload = _read_json(root / METHODOLOGY_REGISTRY_PATH)
+        methodology_version = str(methodology_payload.get("registry_version") or "")
+    except (FileNotFoundError, OSError, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        methodology_version = ""
+        findings.append(
+            ReferenceCorpusFinding(
+                "scientific_context.methodology_registry_version",
+                f"registro metodológico indisponível: {exc}",
+            )
+        )
+
+    if indicator_version and context.get("indicator_registry_version") != indicator_version:
         findings.append(
             ReferenceCorpusFinding(
                 "scientific_context.indicator_registry_version",
                 f"manifesto={context.get('indicator_registry_version')!r}, real={indicator_version!r}",
             )
         )
-    if context.get("methodology_registry_version") != methodology_version:
+    if methodology_version and context.get("methodology_registry_version") != methodology_version:
         findings.append(
             ReferenceCorpusFinding(
                 "scientific_context.methodology_registry_version",
