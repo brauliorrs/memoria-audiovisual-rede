@@ -1,6 +1,11 @@
 name: Apply indicator semantic interface
 
 on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/apply-indicator-semantic-interface.yml"
   workflow_dispatch:
 
 permissions:
