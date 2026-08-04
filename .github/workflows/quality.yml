@@ -46,6 +46,9 @@ jobs:
       - name: Validate scientific snapshot
         run: python scripts/audit_scientific_snapshot.py
 
+      - name: Validate scientific indicator results
+        run: python scripts/audit_indicator_results.py
+
       - name: Audit methodology consistency
         run: python scripts/audit_methodology_consistency.py
 
