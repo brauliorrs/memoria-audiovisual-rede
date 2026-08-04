@@ -18,6 +18,10 @@ from memoria_audiovisual.scientific_infrastructure import (
     ScientificInfrastructureLoader,
     build_default_registry,
 )
+from memoria_audiovisual.ui.indicator_presentation import (
+    build_indicator_presentations,
+    registry_summary,
+)
 
 
 def _as_list(value: object) -> list[Any]:
@@ -99,37 +103,78 @@ def build_operational_status(
     return pd.DataFrame(rows)
 
 
-def _render_indicator_catalog(indicators: list[dict[str, Any]], methodologies_by_id: dict[str, dict[str, Any]]) -> None:
+def _render_indicator_registry(
+    registry_payload: dict[str, Any],
+    methodologies_by_id: dict[str, dict[str, Any]],
+) -> None:
     st.subheader("Indicadores científicos")
     st.caption(
-        "O catálogo apresenta o que a plataforma mede. A existência de uma definição ou fórmula não significa que já exista resultado empírico materializado."
+        "O registro apresenta o que a plataforma mede. Conceito, método e "
+        "resultado permanecem separados e versionados."
     )
+    indicators = [
+        item
+        for item in registry_payload.get("indicators", [])
+        if isinstance(item, dict)
+    ]
     if not indicators:
-        st.warning("O catálogo oficial de indicadores não pôde ser carregado.")
+        st.warning("O registro científico de indicadores não pôde ser carregado.")
         return
 
-    dimension_counts = pd.Series([_dimension_label(item.get("dimension")) for item in indicators]).value_counts()
-    metric_columns = st.columns(3)
-    metric_columns[0].metric("Indicadores registrados", len(indicators))
-    metric_columns[1].metric("Dimensões analíticas", int(dimension_counts.size))
-    metric_columns[2].metric("Versão do catálogo", "1.0.0")
+    summary = registry_summary(registry_payload)
+    metric_columns = st.columns(4)
+    metric_columns[0].metric("Indicadores registrados", summary["indicator_count"])
+    metric_columns[1].metric("Dimensões analíticas", summary["dimension_count"])
+    metric_columns[2].metric("Versão do registro", summary["version"])
+    metric_columns[3].metric("Situação", summary["status"])
+    st.caption(
+        f"Idioma: {summary['language']} · versão metodológica declarada: "
+        f"{summary['methodology_registry_version']}"
+    )
 
-    for indicator in indicators:
-        indicator_id = str(indicator.get("indicator_id", ""))
-        methodology = methodologies_by_id.get(indicator_id, {})
-        with st.expander(str(indicator.get("title", indicator_id)), expanded=False):
-            st.markdown(f"**Pergunta científica:** {indicator.get('scientific_question', '—')}")
-            st.markdown(f"**Dimensão:** {_dimension_label(indicator.get('dimension'))}")
-            st.markdown(f"**Interpretação:** {indicator.get('interpretation', '—')}")
-            st.markdown(f"**Justificativa de seleção:** {indicator.get('selection_rationale', '—')}")
-            if methodology.get("formula"):
-                st.code(str(methodology["formula"]), language=None)
-            st.markdown(f"**O que não mede:** {_format_list(indicator.get('does_not_measure'))}")
+    presentations = build_indicator_presentations(indicators, methodologies_by_id)
+    for indicator in presentations:
+        label = f"{indicator.title} · v{indicator.version}"
+        with st.expander(label, expanded=False):
+            header = st.columns(4)
+            header[0].metric("Situação", indicator.status)
+            header[1].metric("Dimensão", indicator.dimension)
+            header[2].metric("Unidade", indicator.unit)
+            header[3].metric("Intervalo esperado", indicator.expected_range)
+
+            st.markdown(f"**Identificador:** `{indicator.indicator_id}`")
+            st.markdown(f"**Pergunta científica:** {indicator.scientific_question}")
+            st.markdown(f"**Fundamentação científica:** {indicator.scientific_rationale}")
+            st.markdown(f"**Justificativa de seleção:** {indicator.selection_rationale}")
+            st.markdown(f"**Tipo de resultado:** `{indicator.result_type}`")
+            st.markdown(f"**Interpretação:** {indicator.interpretation}")
             st.markdown(
-                f"**Relação com outros indicadores:** {indicator.get('relationship_to_other_indicators', '—')}"
+                f"**O que não mede:** {_format_list(indicator.does_not_measure)}"
             )
-            if indicator.get("corpus_rule"):
-                st.info(str(indicator["corpus_rule"]))
+            st.markdown(
+                "**Relação com outros indicadores:** "
+                f"{indicator.relationship_to_other_indicators}"
+            )
+            st.markdown(
+                "**Requisitos de evidência:** "
+                f"{_format_list(indicator.evidence_requirements)}"
+            )
+            st.markdown(
+                f"**Dependências:** {_format_list(indicator.dependencies)}"
+            )
+            st.info(f"Regra de corpus: {indicator.corpus_rule}")
+
+            methodology_status = (
+                "Metodologia disponível"
+                if indicator.methodology_available
+                else "Metodologia pendente no registro metodológico"
+            )
+            st.markdown(f"**Vínculo metodológico:** {methodology_status}")
+            st.markdown(f"**ID metodológico:** `{indicator.methodology_id}`")
+            st.caption(f"Referência: {indicator.methodology_reference}")
+            if indicator.formula:
+                st.markdown("**Fórmula registrada**")
+                st.code(indicator.formula, language=None)
 
 
 def _render_methodology(methodologies: list[dict[str, Any]]) -> None:
@@ -320,7 +365,7 @@ def render_scientific_infrastructure(base_dir: str | Path) -> None:
         ]
     )
     with indicator_tab:
-        _render_indicator_catalog(indicators, methodologies_by_id)
+        _render_indicator_registry(catalog_payload, methodologies_by_id)
     with methodology_tab:
         _render_methodology(methodologies)
     with status_tab:
