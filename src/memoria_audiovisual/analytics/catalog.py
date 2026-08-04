@@ -41,11 +41,20 @@ class IndicatorCatalog:
         payload = json.loads(source.read_text(encoding="utf-8"))
         if not isinstance(payload, Mapping):
             raise ValueError("registro deve conter um objeto JSON")
+
+        registry_metadata = payload.get("registry")
+        if registry_metadata is not None and not isinstance(registry_metadata, Mapping):
+            raise ValueError("registry deve conter um objeto JSON")
+        metadata = registry_metadata if isinstance(registry_metadata, Mapping) else payload
         version = str(
-            payload.get("registry_version") or payload.get("catalog_version") or ""
+            metadata.get("registry_version")
+            or payload.get("registry_version")
+            or payload.get("catalog_version")
+            or ""
         ).strip()
         if not version:
             raise ValueError("registry_version é obrigatório")
+
         raw_entries = payload.get("indicators")
         if not isinstance(raw_entries, list) or not raw_entries:
             raise ValueError("registro deve conter uma lista não vazia de indicadores")
