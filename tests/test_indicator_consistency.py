@@ -41,6 +41,7 @@ class IndicatorConsistencyTests(unittest.TestCase):
         report = self._report()
         self.assertTrue(report.identity_is_consolidated)
         self.assertEqual(report.identity_divergences, ())
+        self.assertGreater(len(report.operational_refinements), 0)
         assert_consolidated_identity(report)
 
     def test_nine_indicator_ids_are_preserved(self):
@@ -64,6 +65,19 @@ class IndicatorConsistencyTests(unittest.TestCase):
         report = compare_indicator_sources(canonical, legacy, [])
         with self.assertRaisesRegex(ValueError, "divergência de identidade"):
             assert_consolidated_identity(report)
+
+    def test_corpus_rule_refinement_is_reported_but_not_blocking(self):
+        canonical = [dict(self.canonical["indicators"][0])]
+        legacy = [dict(self.legacy["indicators"][0])]
+        canonical[0]["corpus_rule"] = "Regra operacional refinada"
+        report = compare_indicator_sources(canonical, legacy, [])
+
+        self.assertEqual(report.identity_divergences, ())
+        self.assertEqual(
+            report.operational_refinements,
+            ("audiovisual_archive_access_index.corpus_rule: refinamento operacional",),
+        )
+        assert_consolidated_identity(report)
 
 
 if __name__ == "__main__":
