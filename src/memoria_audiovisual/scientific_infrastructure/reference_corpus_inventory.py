@@ -95,9 +95,6 @@ def build_reference_corpus_inventory(
         },
         "distributions": {
             "category_code": _counter(rows, "category_code"),
-            "expansion_priority": _counter(rows, "expansion_priority"),
-            "entity_level": _counter(rows, "entity_level"),
-            "coverage_level": _counter(rows, "coverage_level"),
         },
         "field_completeness": {
             "required_fields": list(CORE_FIELDS),
