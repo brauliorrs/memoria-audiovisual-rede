@@ -43,6 +43,9 @@ jobs:
       - name: Validate derived reference corpus inventory
         run: python scripts/build_reference_corpus_inventory.py --check
 
+      - name: Validate scientific snapshot
+        run: python scripts/audit_scientific_snapshot.py
+
       - name: Audit methodology consistency
         run: python scripts/audit_methodology_consistency.py
 
