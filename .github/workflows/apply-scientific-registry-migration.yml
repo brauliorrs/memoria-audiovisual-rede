@@ -59,7 +59,14 @@ jobs:
               Path("src/memoria_audiovisual/scientific_infrastructure/loaders.py"),
               Path("src/memoria_audiovisual/ui/scientific_infrastructure.py"),
           ]
-          forbidden = ("indicator_catalog", "indicator_catalog.json")
+          forbidden = (
+              "indicator_catalog.json",
+              'static_artifacts["indicator_catalog"]',
+              "static_artifacts['indicator_catalog']",
+              "def load_indicator_catalog(",
+              "class ScientificInfrastructurePaths",
+              ".indicator_catalog",
+          )
           findings = []
           for path in operational_paths:
               text = path.read_text(encoding="utf-8")
