@@ -1,8 +1,8 @@
 """Interface pública da infraestrutura científica do observatório.
 
-A seção expõe a arquitetura já implementada sem transformar metodologia em
-resultado empírico. Os carregadores são tolerantes à ausência de artefatos e
-sempre distinguem estrutura disponível, execução e materialização.
+A seção apresenta a arquitetura científica, os resultados materializados e
+sua proveniência sem recalcular indicadores na camada de interface. Os
+carregadores distinguem estrutura disponível, execução e materialização.
 """
 
 from __future__ import annotations
@@ -214,7 +214,11 @@ def _render_methodology(methodologies: list[dict[str, Any]]) -> None:
             st.markdown(f"**Limitações:** {_format_list(methodology.get('limitations'))}")
 
 
-def _render_operational_status(status_df: pd.DataFrame, snapshot: dict[str, LoadedArtifact], coverage: dict[str, LoadedArtifact]) -> None:
+def _render_operational_status(
+    status_df: pd.DataFrame,
+    indicator_results_available: bool,
+    coverage: dict[str, LoadedArtifact],
+) -> None:
     st.subheader("Estado operacional")
     st.caption(
         "Esta camada distingue a existência do catálogo e do motor metodológico da existência de resultados efetivamente materializados."
@@ -228,7 +232,10 @@ def _render_operational_status(status_df: pd.DataFrame, snapshot: dict[str, Load
     operational[0].metric("Indicadores no catálogo", len(status_df))
     operational[1].metric("Com metodologia", int(status_df["Metodologia"].eq("Disponível").sum()))
     operational[2].metric("Com resultado", int(status_df["Resultado"].eq("Materializado").sum()))
-    operational[3].metric("Snapshot analítico", "Disponível" if snapshot else "Ausente")
+    operational[3].metric(
+        "Registro de resultados",
+        "Disponível" if indicator_results_available else "Ausente",
+    )
 
     if not coverage:
         st.warning("A matriz de cobertura por parâmetro ainda não foi materializada no diretório operacional.")
@@ -302,7 +309,11 @@ def _render_materialized_indicator_results(artifact: LoadedArtifact) -> None:
     for item in results:
         value = item.get("value")
         unit = str(item.get("unit") or "")
-        rendered_value = f"{value:.4f}%" if isinstance(value, (int, float)) and unit == "percent" else value
+        rendered_value = (
+            f"{value:.2f}%"
+            if isinstance(value, (int, float)) and unit == "percent"
+            else value
+        )
         rows.append({
             "Indicador": item.get("title") or item.get("indicator_id"),
             "ID": item.get("indicator_id"),
@@ -416,7 +427,11 @@ def render_scientific_infrastructure(base_dir: str | Path) -> None:
     with methodology_tab:
         _render_methodology(methodologies)
     with status_tab:
-        _render_operational_status(status_df, snapshot, coverage)
+        _render_operational_status(
+            status_df,
+            bool(indicator_results_artifact and indicator_results_artifact.available),
+            coverage,
+        )
     with results_tab:
         if indicator_results_artifact and indicator_results_artifact.available:
             _render_materialized_indicator_results(indicator_results_artifact)
