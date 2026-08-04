@@ -1,8 +1,8 @@
 {
   "artifact": {
     "artifact_id": "scientific_indicator_results_v1_0",
-    "created_at": "2026-08-04T19:46:56+00:00",
-    "pipeline_stage": "2C.3",
+    "created_at": "2026-08-04T19:56:30+00:00",
+    "pipeline_stage": "2C.3B",
     "status": "completed",
     "type": "indicator_results",
     "version": "1.0.0"
@@ -2856,17 +2856,38 @@
     "derived_from_coverage_snapshot": true,
     "does_not_modify_source_artifacts": true,
     "methodologies_are_referenced_not_duplicated": true,
-    "results_are_engine_generated": true
+    "results_are_engine_generated": true,
+    "source_artifacts_are_content_addressed": true
   },
   "provenance": {
     "coverage_snapshot_id": "coverage_snapshot_v1_0",
-    "coverage_snapshot_path": "data/reference_corpus/snapshots/coverage_snapshot_v1.0.json",
-    "coverage_snapshot_sha256": "b85184b216608f710143a633b29d2a010bfa295d8014a481f999d4fe06a600c9",
     "indicator_registry_version": "1.0.0",
     "methodology_registry_version": "1.3.0",
-    "pipeline_commit": "4212f1543f55a0991f8b5b830e8a4104e6f6a438",
+    "pipeline_commit": "bd54e6a96a1000fde43dc70313e4039a240a0dc4",
     "reference_corpus_hash": "64a8c8937131182ddbdf82df4e49ff9b3d8a4657",
     "reference_corpus_version": "1.0.0",
-    "scientific_snapshot_id": "scientific_snapshot_v1_0"
+    "scientific_snapshot_id": "scientific_snapshot_v1_0",
+    "source_artifacts": {
+      "coverage_snapshot": {
+        "path": "data/reference_corpus/snapshots/coverage_snapshot_v1.0.json",
+        "sha256": "b85184b216608f710143a633b29d2a010bfa295d8014a481f999d4fe06a600c9"
+      },
+      "indicator_registry": {
+        "path": "data/templates/analytics/indicator_registry.json",
+        "sha256": "21d423226923405f1951edd8ca9d28fd30517b7275b099878abf8f450e3e8f5d"
+      },
+      "methodology_registry": {
+        "path": "data/templates/analytics/methodology_registry.json",
+        "sha256": "ab9d522c06c937ed2912de1e63d6218fff82cc191769df5ca56cbb18d2016b9e"
+      },
+      "reference_corpus_manifest": {
+        "path": "data/reference_corpus/manifest.json",
+        "sha256": "684e82d19c4171f5a5b5133a23f2d2877b59086c7ccb2f0f0f0eda9788351f6a"
+      },
+      "scientific_snapshot": {
+        "path": "data/reference_corpus/snapshots/snapshot_v1.0.json",
+        "sha256": "b88e1177089876dcce211b3383c6f9e5fdc332b4c2f079fffad956d914a8d2fc"
+      }
+    }
   }
 }
