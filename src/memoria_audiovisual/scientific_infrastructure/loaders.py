@@ -138,7 +138,11 @@ class ScientificInfrastructureLoader:
     def load_static(self) -> dict[str, LoadedArtifact]:
         return {
             key: self.load(key)
-            for key in ("indicator_registry", "methodology_registry")
+            for key in (
+                "indicator_registry",
+                "methodology_registry",
+                "indicator_results_registry",
+            )
         }
 
     def load_latest_analytics_snapshot(self) -> dict[str, LoadedArtifact]:
