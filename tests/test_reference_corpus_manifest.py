@@ -18,7 +18,7 @@ def test_reference_corpus_manifest_matches_canonical_source():
     assert report.is_valid
     assert report.version == "1.0.0"
     assert report.dataset_path == "src/memoria_audiovisual/corpora.py"
-    assert report.entity_count == 49
+    assert report.entity_count == 58
     assert report.content_hash == "64a8c8937131182ddbdf82df4e49ff9b3d8a4657"
     assert_reference_corpus_manifest(report)
 
