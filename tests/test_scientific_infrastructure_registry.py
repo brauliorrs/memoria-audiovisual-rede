@@ -18,9 +18,25 @@ def _valid_indicator_registry() -> dict:
     return {
         "registry": {
             "registry_id": "scientific_indicator_registry",
+            "name": "Registro científico de indicadores",
+            "platform": "Memória Audiovisual em Rede",
             "registry_version": "1.0.0",
+            "methodology_registry_version": "1.0.0",
             "schema_version": "1.0.0",
+            "language": "pt-BR",
+            "status": "active",
             "indicator_count": 1,
+            "compatibility": {
+                "pipeline": ">=1.0.0",
+                "interface": ">=1.0.0",
+                "snapshot": ">=1.0.0",
+            },
+            "governance": {
+                "identity_is_stable": True,
+                "methodology_is_versioned_separately": True,
+                "results_are_not_stored_in_registry": True,
+                "breaking_changes_require_major_version": True,
+            },
         },
         "indicators": [
             {
