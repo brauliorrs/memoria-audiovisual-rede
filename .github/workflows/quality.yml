@@ -40,6 +40,9 @@ jobs:
       - name: Validate reference corpus manifest
         run: python scripts/audit_reference_corpus_manifest.py
 
+      - name: Validate derived reference corpus inventory
+        run: python scripts/build_reference_corpus_inventory.py --check
+
       - name: Audit methodology consistency
         run: python scripts/audit_methodology_consistency.py
 
