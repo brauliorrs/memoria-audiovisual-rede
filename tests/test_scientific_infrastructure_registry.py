@@ -119,7 +119,7 @@ def test_loader_reports_missing_invalid_and_found_for_canonical_registry(tmp_pat
 
     parsed = loader.parsed_indicator_registry()
     assert parsed is not None
-    assert parsed.get("test_indicator").title == "Indicador de teste"
+    assert parsed.get("test_indicator")["title"] == "Indicador de teste"
 
 
 def test_static_loader_exposes_only_canonical_indicator_source(tmp_path: Path):
