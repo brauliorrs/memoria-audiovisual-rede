@@ -6,6 +6,13 @@ on:
       - presentation/rpv-1
     paths:
       - ".github/workflows/materialize-indicator-results.yml"
+      - "src/memoria_audiovisual/scientific_infrastructure/indicator_results_registry.py"
+      - "scripts/materialize_indicator_results.py"
+      - "data/reference_corpus/snapshots/coverage_snapshot_v1.0.json"
+      - "data/reference_corpus/snapshots/snapshot_v1.0.json"
+      - "data/reference_corpus/manifest.json"
+      - "data/templates/analytics/indicator_registry.json"
+      - "data/templates/analytics/methodology_registry.json"
   workflow_dispatch:
 
 permissions:
@@ -51,13 +58,24 @@ jobs:
           content = payload.get("content") or {}
           results = content.get("results") or []
           ids = [item.get("indicator_id") for item in results]
+          provenance = payload.get("provenance") or {}
+          sources = provenance.get("source_artifacts") or {}
           if content.get("indicator_count") != 9 or len(results) != 9:
               raise SystemExit("o registro deve conter exatamente 9 indicadores")
           if len(ids) != len(set(ids)):
               raise SystemExit("indicadores duplicados no registro")
           if payload.get("artifact", {}).get("status") != "completed":
               raise SystemExit("registro de resultados não concluído")
-          print(json.dumps({"indicator_count": len(results), "status": "completed"}, indent=2))
+          if len(sources) != 5:
+              raise SystemExit("proveniência deve conter cinco artefatos de origem")
+          for name, reference in sources.items():
+              if not reference.get("path") or not reference.get("sha256"):
+                  raise SystemExit(f"proveniência incompleta: {name}")
+          print(json.dumps({
+              "indicator_count": len(results),
+              "source_artifact_count": len(sources),
+              "status": "completed",
+          }, indent=2))
           PY
 
       - name: Commit indicator results registry
@@ -69,5 +87,5 @@ jobs:
             echo "Nenhuma alteração para registrar."
             exit 0
           fi
-          git commit -m "data(science): materializar resultados dos 9 indicadores [skip ci]"
+          git commit -m "data(science): completar proveniência dos resultados [skip ci]"
           git push origin HEAD:presentation/rpv-1
