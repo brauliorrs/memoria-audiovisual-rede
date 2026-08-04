@@ -10,6 +10,7 @@ from typing import Any, Mapping
 from memoria_audiovisual.analytics.pipeline import default_indicator_registry
 
 from .indicator_registry import IndicatorRegistry, load_indicator_registry
+from .methodology_consistency_audit import audit_methodologies
 from .single_source_audit import find_duplicate_definitions
 
 METHODOLOGY_PATH = Path("data/templates/analytics/methodology_registry.json")
@@ -170,7 +171,8 @@ def audit_scientific_integrity(repository_root: str | Path) -> ScientificIntegri
     registry = load_indicator_registry(root)
     methodology_payload = _methodology_payload(root)
     methodologies = _methodologies(methodology_payload)
-    implementations = tuple(default_indicator_registry())
+    engine_registry = default_indicator_registry()
+    implementations = tuple(engine_registry)
     findings: list[IntegrityFinding] = []
 
     if (root / LEGACY_CATALOG_PATH).exists():
@@ -191,6 +193,18 @@ def audit_scientific_integrity(repository_root: str | Path) -> ScientificIntegri
         methodologies,
     )
     findings.extend(methodology_findings)
+
+    methodology_report = audit_methodologies(
+        methodologies.values(),
+        engine_registry,
+    )
+    findings.extend(
+        IntegrityFinding(
+            "methodology_consistency",
+            f"{item.indicator_id}.{item.rule}: {item.message}",
+        )
+        for item in methodology_report.findings
+    )
     findings.extend(_interface_findings(root))
 
     return ScientificIntegrityReport(
