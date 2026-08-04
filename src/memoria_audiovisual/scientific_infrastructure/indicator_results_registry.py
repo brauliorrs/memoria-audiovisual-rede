@@ -16,6 +16,9 @@ from memoria_audiovisual.analytics.pipeline import default_indicator_registry
 COVERAGE_SNAPSHOT_PATH = Path(
     "data/reference_corpus/snapshots/coverage_snapshot_v1.0.json"
 )
+SCIENTIFIC_SNAPSHOT_PATH = Path(
+    "data/reference_corpus/snapshots/snapshot_v1.0.json"
+)
 RESULTS_PATH = Path(
     "data/reference_corpus/snapshots/indicator_results_v1.0.json"
 )
@@ -51,6 +54,16 @@ def _read_json(path: Path) -> Mapping[str, Any]:
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _artifact_reference(root: Path, path: Path) -> dict[str, str]:
+    source = root / path
+    if not source.exists():
+        raise FileNotFoundError(f"artefato de proveniência inexistente: {source}")
+    return {
+        "path": str(path),
+        "sha256": _sha256(source),
+    }
 
 
 def _coverage_rows(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ...]:
@@ -116,18 +129,23 @@ def build_indicator_results_registry(
             "version": "1.0.0",
             "status": "completed",
             "created_at": timestamp,
-            "pipeline_stage": "2C.3",
+            "pipeline_stage": "2C.3B",
         },
         "provenance": {
             "scientific_snapshot_id": "scientific_snapshot_v1_0",
             "coverage_snapshot_id": coverage_identity.get("coverage_snapshot_id"),
-            "coverage_snapshot_path": str(COVERAGE_SNAPSHOT_PATH),
-            "coverage_snapshot_sha256": _sha256(coverage_path),
             "reference_corpus_version": reference_corpus.get("version"),
             "reference_corpus_hash": dataset.get("content_hash"),
             "indicator_registry_version": indicator_registry.get("registry_version"),
             "methodology_registry_version": methodology_version,
             "pipeline_commit": pipeline_commit,
+            "source_artifacts": {
+                "reference_corpus_manifest": _artifact_reference(root, MANIFEST_PATH),
+                "scientific_snapshot": _artifact_reference(root, SCIENTIFIC_SNAPSHOT_PATH),
+                "coverage_snapshot": _artifact_reference(root, COVERAGE_SNAPSHOT_PATH),
+                "indicator_registry": _artifact_reference(root, INDICATOR_REGISTRY_PATH),
+                "methodology_registry": _artifact_reference(root, METHODOLOGY_REGISTRY_PATH),
+            },
         },
         "content": {
             "indicator_count": run.indicator_count,
@@ -139,6 +157,7 @@ def build_indicator_results_registry(
             "does_not_modify_source_artifacts": True,
             "results_are_engine_generated": True,
             "methodologies_are_referenced_not_duplicated": True,
+            "source_artifacts_are_content_addressed": True,
         },
     }
 
@@ -220,11 +239,21 @@ def audit_indicator_results_registry(
     if set(ids) != registered:
         findings.append(IndicatorResultsFinding("content.results", "IDs divergem do registro canônico"))
 
+    source_artifacts = provenance.get("source_artifacts")
+    if not isinstance(source_artifacts, Mapping) or len(source_artifacts) != 5:
+        findings.append(
+            IndicatorResultsFinding(
+                "provenance.source_artifacts",
+                "devem existir cinco referências de origem com hash",
+            )
+        )
+
     for field in (
         "derived_from_coverage_snapshot",
         "does_not_modify_source_artifacts",
         "results_are_engine_generated",
         "methodologies_are_referenced_not_duplicated",
+        "source_artifacts_are_content_addressed",
     ):
         if governance.get(field) is not True:
             findings.append(IndicatorResultsFinding(f"governance.{field}", "deve ser true"))
