@@ -68,7 +68,7 @@ def _status_label(structure: bool, result: bool) -> str:
     if result:
         return "Resultado materializado"
     if structure:
-        return "Estrutura implementada; resultado não materializado"
+        return "Resultado não disponível"
     return "Não disponível"
 
 
@@ -98,9 +98,9 @@ def build_operational_status(
             {
                 "Indicador": indicator.get("title", indicator_id),
                 "Versão": indicator.get("indicator_version", "—"),
-                "Catálogo": "Disponível",
+                "Registro": "Disponível",
                 "Metodologia": "Disponível" if indicator_id in methodology_ids else "Não localizada",
-                "Resultado": "Materializado" if result else "Aguardando execução",
+                "Resultado": "Materializado" if result else "Não disponível",
                 "Valor": _extract_result_value(result) if result else "—",
                 "Situação": _status_label(True, bool(result)),
             }
@@ -172,7 +172,7 @@ def _render_indicator_registry(
             methodology_status = (
                 "Metodologia disponível"
                 if indicator.methodology_available
-                else "Metodologia pendente no registro metodológico"
+                else "Metodologia não localizada no registro metodológico"
             )
             st.markdown(f"**Vínculo metodológico:** {methodology_status}")
             st.markdown(f"**ID metodológico:** `{indicator.methodology_id}`")
@@ -221,7 +221,7 @@ def _render_operational_status(
 ) -> None:
     st.subheader("Estado operacional")
     st.caption(
-        "Esta camada distingue a existência do catálogo e do motor metodológico da existência de resultados efetivamente materializados."
+        "Esta seção apresenta a disponibilidade dos registros científicos, das metodologias e dos resultados materializados."
     )
     if status_df.empty:
         st.info("Não foi possível construir o quadro operacional dos indicadores.")
@@ -229,7 +229,7 @@ def _render_operational_status(
     st.dataframe(status_df, use_container_width=True, hide_index=True)
 
     operational = st.columns(4)
-    operational[0].metric("Indicadores no catálogo", len(status_df))
+    operational[0].metric("Indicadores no registro", len(status_df))
     operational[1].metric("Com metodologia", int(status_df["Metodologia"].eq("Disponível").sum()))
     operational[2].metric("Com resultado", int(status_df["Resultado"].eq("Materializado").sum()))
     operational[3].metric(
@@ -238,7 +238,7 @@ def _render_operational_status(
     )
 
     if not coverage:
-        st.warning("A matriz de cobertura por parâmetro ainda não foi materializada no diretório operacional.")
+        st.warning("A matriz de cobertura por parâmetro não está disponível nesta execução.")
 
 
 def _artifact_table(artifacts: dict[str, LoadedArtifact]) -> pd.DataFrame:
@@ -259,10 +259,10 @@ def _render_results_and_snapshots(snapshot: dict[str, LoadedArtifact], coverage:
     st.subheader("Resultados e snapshots")
     if not snapshot:
         st.info(
-            "A infraestrutura analítica está implementada, mas ainda não existe snapshot analítico materializado para apresentação de resultados empíricos."
+            "O registro canônico de resultados não está disponível e não foi localizado um snapshot analítico alternativo."
         )
         st.caption(
-            "Quando o pipeline for executado, esta seção carregará automaticamente resultados, manifesto, versão metodológica e análise de sensibilidade."
+            "Verifique a disponibilidade dos artefatos científicos desta execução."
         )
     else:
         snapshot_id = snapshot["snapshot"].payload.get("snapshot_id", "—")
@@ -275,7 +275,7 @@ def _render_results_and_snapshots(snapshot: dict[str, LoadedArtifact], coverage:
                 result_df = pd.DataFrame(results)
                 st.dataframe(result_df, use_container_width=True, hide_index=True)
             else:
-                st.warning("O arquivo de indicadores existe, mas não contém resultados reconhecíveis pelo carregador.")
+                st.warning("O arquivo de indicadores não contém uma coleção de resultados válida.")
 
         sensitivity = snapshot.get("sensitivity")
         if sensitivity and sensitivity.available and isinstance(sensitivity.payload, dict):
@@ -296,7 +296,7 @@ def _render_materialized_indicator_results(artifact: LoadedArtifact) -> None:
     provenance = payload.get("provenance") if isinstance(payload.get("provenance"), dict) else {}
 
     if not results:
-        st.warning("O registro científico existe, mas não contém resultados reconhecíveis.")
+        st.warning("O registro científico não contém uma coleção de resultados válida.")
         return
 
     metrics = st.columns(4)
@@ -350,7 +350,7 @@ def _record_type_counts(rows: list[dict[str, Any]]) -> pd.DataFrame:
 def _render_provenance(governance: dict[str, LoadedArtifact], snapshot: dict[str, LoadedArtifact]) -> None:
     st.subheader("Proveniência, evidências e integridade")
     st.caption(
-        "Esta camada documenta por que os resultados podem ser auditados: versões, evidências, eventos append-only, manifests e hashes permanecem separados da interpretação científica."
+        "Esta camada documenta por que os resultados podem ser auditados: versões, evidências, eventos append-only, manifestos e hashes permanecem separados da interpretação científica."
     )
 
     concepts = pd.DataFrame(
@@ -359,7 +359,7 @@ def _render_provenance(governance: dict[str, LoadedArtifact], snapshot: dict[str
             {"Componente": "Evidências", "Função": "Vincula afirmações técnicas às superfícies e registros observados."},
             {"Componente": "Proveniência", "Função": "Registra origem, transformação, versão e produtos derivados."},
             {"Componente": "Snapshot", "Função": "Congela uma execução analítica identificável e comparável."},
-            {"Componente": "Manifest e hash", "Função": "Permitem verificar composição e integridade dos artefatos."},
+            {"Componente": "Manifesto e hash", "Função": "Permitem verificar composição e integridade dos artefatos."},
             {"Componente": "Decisões curatoriais", "Função": "Separam ingestão técnica de incorporação científica."},
         ]
     )
@@ -377,12 +377,12 @@ def _render_provenance(governance: dict[str, LoadedArtifact], snapshot: dict[str
 
     manifest = snapshot.get("manifest") if snapshot else None
     if manifest and manifest.available and isinstance(manifest.payload, dict):
-        with st.expander("Manifest do snapshot mais recente", expanded=False):
+        with st.expander("Manifesto do snapshot mais recente", expanded=False):
             st.json(manifest.payload)
 
 
 def render_scientific_infrastructure(base_dir: str | Path) -> None:
-    """Renderiza a seção completa na ordem de leitura científica acordada."""
+    """Renderiza a seção pública da infraestrutura científica."""
     registry = build_default_registry(Path(base_dir))
     loader = ScientificInfrastructureLoader(registry)
     static_artifacts = loader.load_static()
