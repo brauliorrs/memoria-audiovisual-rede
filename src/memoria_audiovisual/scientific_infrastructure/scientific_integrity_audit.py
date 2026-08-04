@@ -11,6 +11,7 @@ from memoria_audiovisual.analytics.pipeline import default_indicator_registry
 
 from .indicator_registry import IndicatorRegistry, load_indicator_registry
 from .methodology_consistency_audit import audit_methodologies
+from .reference_corpus_manifest import audit_reference_corpus_manifest
 from .single_source_audit import find_duplicate_definitions
 
 METHODOLOGY_PATH = Path("data/templates/analytics/methodology_registry.json")
@@ -174,6 +175,15 @@ def audit_scientific_integrity(repository_root: str | Path) -> ScientificIntegri
     engine_registry = default_indicator_registry()
     implementations = tuple(engine_registry)
     findings: list[IntegrityFinding] = []
+
+    reference_report = audit_reference_corpus_manifest(root)
+    findings.extend(
+        IntegrityFinding(
+            "reference_corpus_manifest",
+            f"{item.field}: {item.message}",
+        )
+        for item in reference_report.findings
+    )
 
     if (root / LEGACY_CATALOG_PATH).exists():
         findings.append(IntegrityFinding("single_source", "catálogo legado voltou ao repositório"))
