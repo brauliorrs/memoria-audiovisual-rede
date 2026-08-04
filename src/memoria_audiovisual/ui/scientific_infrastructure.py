@@ -7,139 +7,17 @@ sempre distinguem estrutura disponível, execução e materialização.
 
 from __future__ import annotations
 
-import json
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
 import pandas as pd
 import streamlit as st
 
-
-@dataclass(frozen=True, slots=True)
-class ScientificInfrastructurePaths:
-    base_dir: Path
-
-    @property
-    def indicator_catalog(self) -> Path:
-        return self.base_dir / "data/templates/analytics/indicator_catalog.json"
-
-    @property
-    def methodology_registry(self) -> Path:
-        return self.base_dir / "data/templates/analytics/methodology_registry.json"
-
-    @property
-    def analytics_root(self) -> Path:
-        return self.base_dir / "data/output/analytics"
-
-    @property
-    def coverage_root(self) -> Path:
-        return self.base_dir / "data/digital_infrastructure/coverage"
-
-    @property
-    def ledger(self) -> Path:
-        return self.base_dir / "data/digital_infrastructure/ledger.jsonl"
-
-    @property
-    def ingestion_batches(self) -> Path:
-        return self.base_dir / "data/digital_infrastructure/ingestion_batches.jsonl"
-
-
-@dataclass(frozen=True, slots=True)
-class LoadedArtifact:
-    name: str
-    path: Path
-    available: bool
-    payload: Any = None
-    error: str = ""
-
-
-def _read_json(path: Path) -> LoadedArtifact:
-    if not path.exists():
-        return LoadedArtifact(path.name, path, False)
-    try:
-        return LoadedArtifact(path.name, path, True, json.loads(path.read_text(encoding="utf-8")))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        return LoadedArtifact(path.name, path, False, error=str(exc))
-
-
-def _read_jsonl(path: Path) -> LoadedArtifact:
-    if not path.exists():
-        return LoadedArtifact(path.name, path, False)
-    rows: list[dict[str, Any]] = []
-    try:
-        with path.open(encoding="utf-8") as handle:
-            for line_number, line in enumerate(handle, start=1):
-                if not line.strip():
-                    continue
-                item = json.loads(line)
-                if isinstance(item, dict):
-                    rows.append(item)
-                else:
-                    rows.append({"linha": line_number, "valor": item})
-        return LoadedArtifact(path.name, path, True, rows)
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        return LoadedArtifact(path.name, path, False, error=str(exc))
-
-
-def load_indicator_catalog(paths: ScientificInfrastructurePaths) -> LoadedArtifact:
-    return _read_json(paths.indicator_catalog)
-
-
-def load_methodology_registry(paths: ScientificInfrastructurePaths) -> LoadedArtifact:
-    return _read_json(paths.methodology_registry)
-
-
-def _snapshot_directories(root: Path) -> tuple[Path, ...]:
-    if not root.exists():
-        return ()
-    return tuple(
-        sorted(
-            (item for item in root.iterdir() if item.is_dir()),
-            key=lambda item: item.stat().st_mtime,
-            reverse=True,
-        )
-    )
-
-
-def load_latest_snapshot(paths: ScientificInfrastructurePaths) -> dict[str, LoadedArtifact]:
-    snapshots = _snapshot_directories(paths.analytics_root)
-    if not snapshots:
-        return {}
-    latest = snapshots[0]
-    return {
-        "snapshot": LoadedArtifact("snapshot", latest, True, {"snapshot_id": latest.name}),
-        "indicators": _read_json(latest / "snapshot_indicators.json"),
-        "manifest": _read_json(latest / "manifest.json"),
-        "run": _read_json(latest / "run.json"),
-        "sensitivity": _read_json(latest / "interoperability_sensitivity.json"),
-    }
-
-
-def load_latest_coverage(paths: ScientificInfrastructurePaths) -> dict[str, LoadedArtifact]:
-    snapshots = _snapshot_directories(paths.coverage_root)
-    if not snapshots:
-        return {}
-    latest = snapshots[0]
-    candidates = (
-        latest / "parameter_coverage.json",
-        latest / "coverage.json",
-    )
-    coverage_path = next((path for path in candidates if path.exists()), candidates[0])
-    return {
-        "snapshot": LoadedArtifact("snapshot", latest, True, {"snapshot_id": latest.name}),
-        "coverage": _read_json(coverage_path),
-        "manifest": _read_json(latest / "manifest.json"),
-        "changes": _read_json(latest / "changes.json"),
-    }
-
-
-def load_governance_artifacts(paths: ScientificInfrastructurePaths) -> dict[str, LoadedArtifact]:
-    return {
-        "ledger": _read_jsonl(paths.ledger),
-        "ingestion_batches": _read_jsonl(paths.ingestion_batches),
-        "indicator_history": _read_jsonl(paths.analytics_root / "indicator_history.jsonl"),
-    }
+from memoria_audiovisual.scientific_infrastructure import (
+    LoadedArtifact,
+    ScientificInfrastructureLoader,
+    build_default_registry,
+)
 
 
 def _as_list(value: object) -> list[Any]:
@@ -406,12 +284,14 @@ def _render_provenance(governance: dict[str, LoadedArtifact], snapshot: dict[str
 
 def render_scientific_infrastructure(base_dir: str | Path) -> None:
     """Renderiza a seção completa na ordem de leitura científica acordada."""
-    paths = ScientificInfrastructurePaths(Path(base_dir))
-    catalog_artifact = load_indicator_catalog(paths)
-    methodology_artifact = load_methodology_registry(paths)
-    snapshot = load_latest_snapshot(paths)
-    coverage = load_latest_coverage(paths)
-    governance = load_governance_artifacts(paths)
+    registry = build_default_registry(Path(base_dir))
+    loader = ScientificInfrastructureLoader(registry)
+    static_artifacts = loader.load_static()
+    catalog_artifact = static_artifacts["indicator_registry"]
+    methodology_artifact = static_artifacts["methodology_registry"]
+    snapshot = loader.load_latest_analytics_snapshot()
+    coverage = loader.load_latest_coverage_snapshot()
+    governance = loader.load_governance()
 
     catalog_payload = catalog_artifact.payload if isinstance(catalog_artifact.payload, dict) else {}
     methodology_payload = methodology_artifact.payload if isinstance(methodology_artifact.payload, dict) else {}
