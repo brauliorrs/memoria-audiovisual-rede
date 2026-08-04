@@ -33,6 +33,11 @@ def _indicator_results(payload: Any) -> list[dict[str, Any]]:
         return [item for item in payload if isinstance(item, dict)]
     if not isinstance(payload, dict):
         return []
+    content = payload.get("content")
+    if isinstance(content, dict):
+        nested = _indicator_results(content)
+        if nested:
+            return nested
     for key in ("indicators", "results", "indicator_results"):
         rows = payload.get(key)
         if isinstance(rows, list):
@@ -276,6 +281,44 @@ def _render_results_and_snapshots(snapshot: dict[str, LoadedArtifact], coverage:
         st.dataframe(_artifact_table(coverage), use_container_width=True, hide_index=True)
 
 
+def _render_materialized_indicator_results(artifact: LoadedArtifact) -> None:
+    st.subheader("Resultados científicos materializados")
+    payload = artifact.payload if isinstance(artifact.payload, dict) else {}
+    results = _indicator_results(payload)
+    content = payload.get("content") if isinstance(payload.get("content"), dict) else {}
+    provenance = payload.get("provenance") if isinstance(payload.get("provenance"), dict) else {}
+
+    if not results:
+        st.warning("O registro científico existe, mas não contém resultados reconhecíveis.")
+        return
+
+    metrics = st.columns(4)
+    metrics[0].metric("Indicadores", len(results))
+    metrics[1].metric("Status", content.get("execution_status", "—"))
+    metrics[2].metric("Coverage Snapshot", provenance.get("coverage_snapshot_id", "—"))
+    metrics[3].metric("Corpus", results[0].get("corpus_count", "—"))
+
+    rows = []
+    for item in results:
+        value = item.get("value")
+        unit = str(item.get("unit") or "")
+        rendered_value = f"{value:.4f}%" if isinstance(value, (int, float)) and unit == "percent" else value
+        rows.append({
+            "Indicador": item.get("title") or item.get("indicator_id"),
+            "ID": item.get("indicator_id"),
+            "Valor": rendered_value,
+            "Numerador": item.get("numerator"),
+            "Denominador": item.get("denominator"),
+            "Status": item.get("status"),
+            "Versão": item.get("indicator_version"),
+        })
+    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+    st.caption(
+        "Valores lidos diretamente do Scientific Indicator Results Registry; "
+        "a interface não recalcula indicadores."
+    )
+
+
 def _record_type_counts(rows: list[dict[str, Any]]) -> pd.DataFrame:
     counts: dict[str, int] = {}
     for row in rows:
@@ -334,6 +377,7 @@ def render_scientific_infrastructure(base_dir: str | Path) -> None:
     static_artifacts = loader.load_static()
     catalog_artifact = static_artifacts["indicator_registry"]
     methodology_artifact = static_artifacts["methodology_registry"]
+    indicator_results_artifact = static_artifacts.get("indicator_results_registry")
     snapshot = loader.load_latest_analytics_snapshot()
     coverage = loader.load_latest_coverage_snapshot()
     governance = loader.load_governance()
@@ -345,9 +389,12 @@ def render_scientific_infrastructure(base_dir: str | Path) -> None:
     methodologies_by_id = {str(item.get("indicator_id")): item for item in methodologies}
 
     result_rows: list[dict[str, Any]] = []
-    indicators_artifact = snapshot.get("indicators") if snapshot else None
-    if indicators_artifact and indicators_artifact.available:
-        result_rows = _indicator_results(indicators_artifact.payload)
+    if indicator_results_artifact and indicator_results_artifact.available:
+        result_rows = _indicator_results(indicator_results_artifact.payload)
+    else:
+        indicators_artifact = snapshot.get("indicators") if snapshot else None
+        if indicators_artifact and indicators_artifact.available:
+            result_rows = _indicator_results(indicators_artifact.payload)
     status_df = build_operational_status(indicators, methodologies, result_rows)
 
     st.markdown("## Infraestrutura científica")
@@ -371,6 +418,9 @@ def render_scientific_infrastructure(base_dir: str | Path) -> None:
     with status_tab:
         _render_operational_status(status_df, snapshot, coverage)
     with results_tab:
-        _render_results_and_snapshots(snapshot, coverage)
+        if indicator_results_artifact and indicator_results_artifact.available:
+            _render_materialized_indicator_results(indicator_results_artifact)
+        else:
+            _render_results_and_snapshots(snapshot, coverage)
     with provenance_tab:
         _render_provenance(governance, snapshot)

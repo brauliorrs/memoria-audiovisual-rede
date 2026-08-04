@@ -114,6 +114,15 @@ def build_default_registry(base_dir: str | Path) -> InfrastructureRegistry:
             description="Fórmulas, componentes, pesos e políticas metodológicas.",
         ),
         ArtifactSpec(
+            key="indicator_results_registry",
+            label="Registro científico de resultados",
+            relative_path="data/reference_corpus/snapshots/indicator_results_v1.0.json",
+            format=ArtifactFormat.JSON,
+            scope=ArtifactScope.STATIC,
+            required=True,
+            description="Nove resultados oficiais materializados pelo motor analítico.",
+        ),
+        ArtifactSpec(
             key="snapshot_indicators",
             label="Resultados dos indicadores",
             relative_path="snapshot_indicators.json",
