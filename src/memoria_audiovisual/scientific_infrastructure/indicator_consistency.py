@@ -1,8 +1,10 @@
 """Auditoria de consistência do registro científico de indicadores.
 
 A identidade científica é comparada com o catálogo legado durante a migração.
-A disponibilidade metodológica é reportada separadamente, pois fórmulas e
-regras de cálculo pertencem ao Methodology Registry.
+Regras operacionais de elegibilidade, como ``corpus_rule``, podem ser refinadas
+no registro canônico sem alterar o conceito medido. A disponibilidade
+metodológica é reportada separadamente, pois fórmulas e regras de cálculo
+pertencem ao Methodology Registry.
 """
 
 from __future__ import annotations
@@ -20,9 +22,12 @@ IDENTITY_FIELDS = (
     "interpretation",
     "does_not_measure",
     "relationship_to_other_indicators",
-    "corpus_rule",
     "methodology_reference",
 )
+
+# Campos operacionais podem ganhar maior precisão durante a consolidação sem
+# representar mudança da identidade científica do indicador.
+OPERATIONAL_FIELDS = ("corpus_rule",)
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,6 +38,7 @@ class IndicatorConsistencyReport:
     missing_from_canonical: tuple[str, ...]
     absent_from_legacy: tuple[str, ...]
     identity_divergences: tuple[str, ...]
+    operational_refinements: tuple[str, ...]
     missing_methodologies: tuple[str, ...]
     orphan_methodologies: tuple[str, ...]
 
@@ -79,12 +85,19 @@ def compare_indicator_sources(
     methodology_ids = set(methodology)
 
     divergences: list[str] = []
+    operational_refinements: list[str] = []
     for indicator_id in sorted(canonical_ids & legacy_ids):
         current = canonical[indicator_id]
         previous = legacy[indicator_id]
         for field in IDENTITY_FIELDS:
             if current.get(field) != previous.get(field):
                 divergences.append(f"{indicator_id}.{field}: divergência de identidade")
+
+        for field in OPERATIONAL_FIELDS:
+            if current.get(field) != previous.get(field):
+                operational_refinements.append(
+                    f"{indicator_id}.{field}: refinamento operacional"
+                )
 
         methodology_id = current.get("methodology_id")
         if methodology_id != indicator_id:
@@ -99,12 +112,13 @@ def compare_indicator_sources(
         missing_from_canonical=tuple(sorted(legacy_ids - canonical_ids)),
         absent_from_legacy=tuple(sorted(canonical_ids - legacy_ids)),
         identity_divergences=tuple(divergences),
+        operational_refinements=tuple(operational_refinements),
         missing_methodologies=tuple(sorted(canonical_ids - methodology_ids)),
         orphan_methodologies=tuple(sorted(methodology_ids - canonical_ids)),
     )
 
 
 def assert_consolidated_identity(report: IndicatorConsistencyReport) -> None:
-    """Bloqueia divergências científicas, sem confundir lacunas do Sprint 2B."""
+    """Bloqueia divergências científicas, sem confundir refinamentos operacionais."""
     if report.blocking_errors:
         raise ValueError("; ".join(report.blocking_errors))
