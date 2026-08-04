@@ -26,9 +26,15 @@ def test_static_loader_exposes_only_canonical_indicator_source():
 
     static = loader.load_static()
 
-    assert set(static) == {"indicator_registry", "methodology_registry"}
+    assert set(static) == {
+        "indicator_registry",
+        "methodology_registry",
+        "indicator_results_registry",
+    }
     assert static["indicator_registry"].state is ArtifactState.FOUND
     assert static["indicator_registry"].path.name == "indicator_registry.json"
+    assert static["indicator_results_registry"].state is ArtifactState.FOUND
+    assert static["indicator_results_registry"].path.name == "indicator_results_v1.0.json"
 
 
 def test_parsed_indicator_registry_returns_nine_validated_indicators():
