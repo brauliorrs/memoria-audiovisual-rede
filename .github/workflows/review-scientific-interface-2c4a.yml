@@ -1,0 +1,65 @@
+name: Review Scientific Interface 2C.4A
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/review-scientific-interface-2c4a.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  review-interface:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout presentation branch
+        uses: actions/checkout@v5
+        with:
+          ref: presentation/rpv-1
+
+      - name: Apply focused visual review
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("src/memoria_audiovisual/ui/scientific_infrastructure.py")
+          text = path.read_text(encoding="utf-8")
+
+          replacements = {
+              "A seção expõe a arquitetura já implementada sem transformar metodologia em\nresultado empírico. Os carregadores são tolerantes à ausência de artefatos e\nsempre distinguem estrutura disponível, execução e materialização.":
+              "A seção apresenta a arquitetura científica, os resultados materializados e\nsua proveniência sem recalcular indicadores na camada de interface. Os\ncarregadores distinguem estrutura disponível, execução e materialização.",
+              "def _render_operational_status(status_df: pd.DataFrame, snapshot: dict[str, LoadedArtifact], coverage: dict[str, LoadedArtifact]) -> None:":
+              "def _render_operational_status(\n    status_df: pd.DataFrame,\n    indicator_results_available: bool,\n    coverage: dict[str, LoadedArtifact],\n) -> None:",
+              "operational[3].metric(\"Snapshot analítico\", \"Disponível\" if snapshot else \"Ausente\")":
+              "operational[3].metric(\n        \"Registro de resultados\",\n        \"Disponível\" if indicator_results_available else \"Ausente\",\n    )",
+              "rendered_value = f\"{value:.4f}%\" if isinstance(value, (int, float)) and unit == \"percent\" else value":
+              "rendered_value = (\n            f\"{value:.2f}%\"\n            if isinstance(value, (int, float)) and unit == \"percent\"\n            else value\n        )",
+              "_render_operational_status(status_df, snapshot, coverage)":
+              "_render_operational_status(\n            status_df,\n            bool(indicator_results_artifact and indicator_results_artifact.available),\n            coverage,\n        )",
+          }
+
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f"Trecho esperado não encontrado: {old[:80]!r}")
+              text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Compile reviewed module
+        run: python -m compileall -q src/memoria_audiovisual/ui/scientific_infrastructure.py
+
+      - name: Commit review
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/memoria_audiovisual/ui/scientific_infrastructure.py
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração para registrar."
+            exit 0
+          fi
+          git commit -m "ui: revisar apresentação científica para 2C.4A [skip ci]"
+          git push origin HEAD:presentation/rpv-1
