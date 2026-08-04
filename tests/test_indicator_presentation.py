@@ -62,7 +62,7 @@ def test_semantic_fields_are_exposed_from_registry():
     assert presentation.methodology_reference == source["methodology_reference"]
 
 
-def test_missing_methodology_is_explicit_not_fabricated():
+def test_access_index_methodology_is_available_and_resolved():
     registry, methodologies = _payloads()
     source = next(
         item
@@ -70,6 +70,28 @@ def test_missing_methodology_is_explicit_not_fabricated():
         if item["indicator_id"] == "audiovisual_archive_access_index"
     )
     presentation = build_indicator_presentations([source], methodologies)[0]
+
+    assert presentation.methodology_available
+    assert presentation.methodology_id == "audiovisual_archive_access_index"
+    assert presentation.methodology_reference == (
+        "methodology_registry.json#audiovisual_archive_access_index"
+    )
+    assert presentation.formula == (
+        "100 * arquivos_elegiveis_sem_barreira_observada / "
+        "arquivos_elegiveis_avaliaveis"
+    )
+
+
+def test_missing_methodology_remains_explicit_for_unregistered_definition():
+    indicator = {
+        "indicator_id": "example_without_methodology",
+        "title": "Exemplo sem metodologia",
+        "methodology_id": "example_without_methodology",
+        "methodology_reference": (
+            "methodology_registry.json#example_without_methodology"
+        ),
+    }
+    presentation = build_indicator_presentations([indicator], {})[0]
 
     assert not presentation.methodology_available
     assert presentation.formula == ""
