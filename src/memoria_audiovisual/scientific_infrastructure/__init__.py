@@ -18,6 +18,12 @@ from .loaders import (
     LoadedArtifact,
     ScientificInfrastructureLoader,
 )
+from .scientific_integrity_audit import (
+    IntegrityFinding,
+    ScientificIntegrityReport,
+    assert_scientific_integrity,
+    audit_scientific_integrity,
+)
 
 __all__ = [
     "ArtifactFormat",
@@ -27,8 +33,12 @@ __all__ = [
     "IndicatorRegistry",
     "IndicatorRegistryError",
     "InfrastructureRegistry",
+    "IntegrityFinding",
     "LoadedArtifact",
     "ScientificInfrastructureLoader",
+    "ScientificIntegrityReport",
+    "assert_scientific_integrity",
+    "audit_scientific_integrity",
     "build_default_registry",
     "load_indicator_registry",
     "validate_indicator_registry",
