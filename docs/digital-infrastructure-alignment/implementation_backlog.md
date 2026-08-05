@@ -19,7 +19,8 @@ Este documento não cria uma segunda ordem de prioridades. Ele registra apenas o
 | Licença, citação e contribuição | implementada | `LICENSE`, `CITATION.cff`, `CONTRIBUTING.md` | release estável, DOI e revisão jurídica futura |
 | Interface pública | implementada | quatro áreas principais, três idiomas, carregamento progressivo | auditoria manual, desempenho e responsividade |
 | Corpus de referência | materializado | manifesto congelado com 58 entidades | nova versão apenas mediante mudança canônica |
-| Corpus operacional | ativo parcialmente | 55 entidades ativas globais | primeiro ciclo completo dos 55 corpora |
+| Corpus operacional | ativo parcialmente | 55 entidades ativas globais | primeiro ciclo completo após preparação mínima de IA |
+| IA experimental | protocolo documentado | três dimensões separadas e regras de cautela | contratos, armazenamento, feature flag, amostra, coleta sombra e validação |
 | Produtos europeus | sincronizados | 54 ativos europeus, 118 registros na fila, validação obrigatória no CI | operação da sondagem e do gate |
 | Indicadores de referência | materializados | nove indicadores, cobertura e proveniência | validação operacional viva e histórico longitudinal |
 | Núcleo de dados e proveniência | implementado estruturalmente | modelos, IDs, evidências, integridade, persistência e revisão | materializar ledger e lotes reais |
@@ -46,15 +47,33 @@ Concluído:
 9. integração do check ao workflow `Quality Checks`;
 10. classificação de `observatorio_fila_fechamento_europa.csv` como histórico.
 
-## T1 — execução integral do organismo
+## T0A — preparação experimental de IA antes do ciclo
 
 **Estado:** próximo portão técnico.
 
+A preparação deverá ser mínima, modular e incapaz de bloquear o pipeline oficial.
+
+1. finalizar contratos e campos das três dimensões de IA;
+2. separar uso institucional de IA, IA de triagem do observatório e vídeo gerado ou modificado por IA;
+3. implementar armazenamento append-only ou versionado para previsões e evidências;
+4. implementar feature flags independentes, desativadas por padrão;
+5. registrar modelo, versão, configuração, prompt, custo, duração, erro e proveniência;
+6. garantir que falha da IA não altere o status do ciclo oficial;
+7. definir amostra inicial multilíngue e geograficamente diversa;
+8. preparar recálculo posterior sem nova coleta integral.
+
+## T1 — execução integral do organismo
+
+**Estado:** executa após T0A.
+
 1. executar todos os 55 corpora ativos em um ciclo completo;
-2. registrar sucesso, falha e não avaliabilidade sem exclusão silenciosa;
-3. atualizar manifesto, linha do tempo e resultados do ciclo;
-4. verificar snapshots e observation keys por corpus;
-5. congelar o primeiro baseline operacional completo.
+2. coletar sinais experimentais de IA quando as flags controladas estiverem ativas;
+3. registrar sucesso, falha e não avaliabilidade sem exclusão silenciosa;
+4. registrar separadamente falhas e custos das tarefas de IA;
+5. atualizar manifesto, linha do tempo e resultados do ciclo;
+6. verificar snapshots e observation keys por corpus;
+7. congelar o primeiro baseline operacional completo sem dependência da IA;
+8. preservar evidências para revisão e recálculo posterior.
 
 ## T2 — materialização científica operacional
 
@@ -84,6 +103,19 @@ Concluído:
 3. iniciar histórico append-only de indicadores;
 4. materializar ledger e lotes de ingestão;
 5. diferenciar na interface baseline de referência e execução operacional.
+
+## T2A — validação pós-baseline dos componentes de IA
+
+**Estado:** posterior ao ciclo e ao baseline oficial.
+
+1. revisar humanamente a amostra inicial;
+2. calcular precisão, revocação, F1 e matriz de confusão por tarefa;
+3. medir falsos positivos e falsos negativos por idioma, continente e tipo de instituição;
+4. avaliar estabilidade entre versões, custo, tempo e dependência de fornecedor;
+5. decidir separadamente quais componentes podem ser ativados;
+6. registrar metodologia e indicador somente após aprovação científica;
+7. recalcular apenas os indicadores de IA usando as evidências armazenadas;
+8. não repetir a coleta integral salvo insuficiência documentada das evidências.
 
 ## T3 — fila europeia
 
@@ -184,6 +216,10 @@ A pesquisa de fontes pode ocorrer em paralelo. A ativação de novas ondas perma
 
 ## Fora do primeiro ciclo operacional
 
+A coleta experimental de sinais de IA poderá acompanhar o ciclo. Permanecem fora do primeiro baseline oficial:
+
+- ativação pública dos indicadores de IA;
+- decisões automáticas baseadas em previsões de IA;
 - inferência automática de contratos;
 - classificação autônoma de riscos por IA;
 - publicação de dados pessoais;
@@ -196,8 +232,15 @@ A pesquisa de fontes pode ocorrer em paralelo. A ativação de novas ondas perma
 
 ```text
 Concluído: regenerar e validar os produtos europeus
-1. Executar o ciclo completo dos 55 corpora ativos globais
-2. Materializar analytics, histórico, ledger e lotes
-3. Executar sondagem e elegibilidade europeias
-4. Abrir revisão curatorial controlada
+1. Finalizar contratos e campos das três dimensões de IA
+2. Implementar armazenamento separado e feature flags
+3. Definir a amostra inicial de validação
+4. Executar o ciclo completo dos 55 corpora ativos
+5. Coletar sinais experimentais de IA em modo sombra
+6. Materializar o baseline oficial, analytics, histórico, ledger e lotes sem dependência da IA
+7. Revisar a amostra e calcular métricas por idioma
+8. Decidir ativações por componente
+9. Recalcular somente os indicadores de IA com as evidências armazenadas
+10. Executar sondagem e elegibilidade europeias
+11. Abrir revisão curatorial controlada
 ```

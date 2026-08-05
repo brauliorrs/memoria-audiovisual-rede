@@ -47,7 +47,9 @@ Registro, fila, resumo e corpus canônico apresentam denominadores coerentes com
 
 ## P1 — primeiro ciclo operacional completo
 
-**Estado:** próxima prioridade executiva.
+**Estado:** execução autorizada após a preparação mínima da camada experimental de IA definida em P2A.
+
+O ciclo integral continua sendo o próximo grande marco empírico. Antes de iniciá-lo, porém, devem estar concluídos os contratos, o armazenamento separado, a execução opcional por feature flag e a amostra inicial de validação das três dimensões de IA. Essa antecipação evita nova coleta das mesmas superfícies sem tornar a IA dependência do baseline oficial.
 
 O último ciclo registrado, concluído em **21 de julho de 2026**, foi parcial e processou apenas `home-movies-memoryscapes`. A linha do tempo não contém um ciclo completo dos 55 corpora ativos globais.
 
@@ -55,21 +57,25 @@ A linha do tempo demonstra alguma execução para 36 códigos únicos; 19 corpor
 
 ### Ações
 
-1. executar ciclo integral dos 55 corpora ativos;
-2. manter falhas, ausências e estados não avaliáveis explicitamente registrados;
-3. gerar manifesto do ciclo completo;
-4. atualizar linha do tempo e resultados por corpus;
-5. verificar se todos os corpora ativos possuem snapshot e observation key;
-6. produzir relatório formal de validação operacional;
-7. congelar o primeiro baseline operacional completo.
+1. confirmar que os contratos e campos das três dimensões de IA foram finalizados;
+2. confirmar armazenamento experimental separado e execução opcional por feature flag;
+3. confirmar a amostra inicial de validação antes de iniciar a rodada;
+4. executar o ciclo integral dos 55 corpora ativos;
+5. coletar simultaneamente os sinais experimentais de IA em modo sombra, sem alterar elegibilidade, denominadores ou indicadores oficiais;
+6. manter falhas, ausências e estados não avaliáveis explicitamente registrados;
+7. gerar manifesto do ciclo completo e registrar a configuração da feature flag;
+8. atualizar linha do tempo e resultados por corpus;
+9. verificar se todos os corpora ativos possuem snapshot e observation key;
+10. concluir e congelar o primeiro baseline operacional oficial sem depender da IA;
+11. preservar as evidências experimentais para revisão e recálculo posterior, sem necessidade de nova coleta integral.
 
 ### Critério de conclusão
 
-Todos os 55 corpora ativos aparecem em um ciclo completo, com resultado, falha ou estado não avaliável auditável.
+Todos os 55 corpora ativos aparecem em um ciclo completo, com resultado, falha ou estado não avaliável auditável. O baseline oficial é reproduzível mesmo quando a IA está desativada ou falha, enquanto os sinais experimentais ficam preservados em armazenamento separado para validação posterior.
 
 ## P2 — materialização da infraestrutura já implementada
 
-**Estado:** código existente; produtos operacionais incompletos.
+**Estado:** código existente; produtos operacionais incompletos. A materialização operacional será concluída com o baseline oficial posterior ao ciclo integral.
 
 ### Produtos científicos
 
@@ -104,7 +110,7 @@ A interface consegue carregar um snapshot operacional reproduzível, com proveni
 
 ## P2A — indicadores experimentais relacionados à inteligência artificial
 
-**Estado:** não implantado; protocolo de evidências de IA existente, metodologia, modelo, validação e integração analítica pendentes.
+**Estado:** prioridade executiva imediata antes do ciclo integral; implantação científica ainda pendente. O protocolo existe, mas contratos, armazenamento, feature flag, amostra, validação e integração analítica precisam ser implementados por fases.
 
 A plataforma deverá estudar o uso de inteligência artificial como apoio à identificação de sinais que os detectores determinísticos não conseguem classificar com segurança. O protocolo geral de cautela e evidência está documentado em:
 
@@ -119,6 +125,37 @@ A plataforma deverá manter três dimensões científicas independentes:
 3. **detecção de vídeos gerados, sintetizados ou materialmente modificados por IA** — classificação aplicada ao item audiovisual, à versão ou ao segmento, e não à instituição como um todo.
 
 Essas dimensões não podem compartilhar automaticamente o mesmo indicador, denominador ou conclusão. Um arquivo pode utilizar IA em transcrição ou restauração e não custodiar vídeos gerados por IA. Também pode custodiar vídeos sintéticos sem utilizar IA em seus próprios processos. A IA empregada pelo observatório nunca deverá ser atribuída ao arquivo analisado.
+
+### Sequência de implantação aprovada
+
+A ordem obrigatória para esta frente é:
+
+1. finalizar os contratos e campos das três dimensões de IA;
+2. implementar armazenamento separado e execução opcional por feature flag;
+3. definir uma amostra inicial de validação;
+4. executar o ciclo completo dos 55 corpora ativos;
+5. coletar simultaneamente os sinais experimentais de IA;
+6. concluir o baseline oficial sem depender da IA;
+7. revisar humanamente a amostra;
+8. calcular precisão, revocação, F1, matriz de confusão e erros por idioma;
+9. decidir quais componentes de IA podem ser ativados;
+10. recalcular somente os indicadores de IA a partir das evidências armazenadas.
+
+A sequência divide a implementação em duas fases:
+
+- **pré-ciclo e ciclo:** contratos, campos, armazenamento, feature flag, amostra e coleta experimental em modo sombra;
+- **pós-baseline:** revisão humana, métricas, decisão de ativação e recálculo exclusivo dos indicadores de IA.
+
+### Regras da execução opcional
+
+- a feature flag deverá permanecer desativada por padrão fora das execuções controladas;
+- a falha, indisponibilidade ou custo excessivo da IA não poderá interromper o ciclo oficial;
+- as três dimensões deverão possuir flags, estados de execução e armazenamento distinguíveis;
+- previsões experimentais não entram em numeradores, denominadores, elegibilidade ou publicação oficial;
+- toda saída deverá registrar modelo, versão, configuração, prompt ou classificador, custo, duração e erro;
+- o snapshot oficial deverá ser reproduzível sem dependência de fornecedor de IA;
+- evidências textuais, estruturais e audiovisuais reutilizáveis deverão ser preservadas para permitir recálculo sem nova varredura integral;
+- a ativação posterior deverá ocorrer por componente, e não como aprovação genérica de toda a camada de IA.
 
 ### P2A.1 — presença institucional de ferramentas de IA e identificação das ferramentas
 
@@ -561,19 +598,26 @@ Escopo potencial:
 
 ```text
 Concluído: sincronizar e validar corpus, registro, fila e resumo europeus
-1. Executar o ciclo completo dos 55 corpora ativos globais
-2. Materializar validação controlada, analytics vivo, ledger e lotes
-3. Modelar o corpus geral e os recortes geográficos versionados
-4. Operacionalizar sondagem e elegibilidade da fila europeia
-5. Desenvolver e validar separadamente: uso institucional de IA, IA de triagem do observatório e detecção de vídeos gerados ou modificados por IA
-6. Simular e validar a política dos 20 corpora
-7. Fechar a onda europeia
-8. Consolidar a América do Norte
-9. Preparar a fila da América Latina e Caribe
-10. Manter descoberta preparatória de África, Ásia e Oceania
-11. Ativar publicação derivada e entrega pública versionada
+1. Finalizar contratos e campos das três dimensões de IA
+2. Implementar armazenamento separado e execução opcional por feature flag
+3. Definir a amostra inicial de validação
+4. Executar o ciclo completo dos 55 corpora ativos globais
+5. Coletar simultaneamente os sinais experimentais de IA em modo sombra
+6. Concluir o baseline oficial sem depender da IA, materializando analytics, histórico, ledger e lotes
+7. Revisar humanamente a amostra de IA
+8. Calcular precisão, revocação, F1, matriz de confusão e erros por idioma
+9. Decidir quais componentes de IA podem ser ativados
+10. Recalcular somente os indicadores de IA a partir das evidências armazenadas
+11. Modelar o corpus geral e os recortes geográficos versionados
+12. Operacionalizar sondagem e elegibilidade da fila europeia
+13. Simular e validar a política dos 20 corpora
+14. Fechar a onda europeia
+15. Consolidar a América do Norte
+16. Preparar a fila da América Latina e Caribe
+17. Manter descoberta preparatória de África, Ásia e Oceania
+18. Ativar publicação derivada e entrega pública versionada
 ```
 
 ## Regra do backlog
 
-Novas funcionalidades não devem anteceder a execução dos módulos científicos e de governança que já existem. A prioridade é transformar código estrutural em um ciclo operacional completo, auditável e publicável.
+Novas funcionalidades não devem anteceder a execução dos módulos científicos e de governança que já existem. A única antecipação autorizada é a infraestrutura mínima de IA necessária para coletar sinais experimentais durante o ciclo e evitar nova varredura integral. A ativação científica da IA permanece posterior ao baseline oficial.

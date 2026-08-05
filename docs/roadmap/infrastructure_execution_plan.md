@@ -76,15 +76,28 @@ O workflow de validação controlada prevê:
 
 O produto `data/output/controlled_validation_summary.json` ainda não está materializado na branch auditada.
 
-### Etapa 5 — Atualização integral dos corpora atuais
+### Etapa 5 — Preparação experimental de IA antes do ciclo
 
 **Estado: próxima prioridade executiva.**
 
+Antes do novo ciclo devem ser finalizados:
+
+- contratos e campos das três dimensões de IA;
+- armazenamento experimental separado;
+- execução opcional por feature flag;
+- amostra inicial de validação.
+
+A preparação existe para permitir coleta simultânea sem nova varredura integral. A IA permanece em modo sombra e não interfere em elegibilidade, denominadores, indicadores, falhas ou conclusão do baseline oficial.
+
+### Etapa 6 — Atualização integral dos corpora atuais
+
+**Estado: autorizada após a preparação mínima de IA.**
+
 O corpus científico possui 58 entidades, das quais 55 estão ativas globalmente. O último ciclo, concluído em 21 de julho de 2026, foi parcial e processou somente `home-movies-memoryscapes`.
 
-Não existe ciclo completo materializado para os 55 corpora ativos.
+Não existe ciclo completo materializado para os 55 corpora ativos. A nova rodada coletará sinais experimentais de IA quando a feature flag estiver ativa, mas deverá concluir normalmente com a IA desativada ou indisponível.
 
-### Etapa 6 — Produtos e fila europeus
+### Etapa 7 — Produtos e fila europeus
 
 **Estado dos produtos canônicos: sincronização concluída.**
 
@@ -141,14 +154,22 @@ A sequência só pode ser alterada mediante inventário comparável, justificati
 
 ## Ordem executiva autorizada
 
-1. executar o ciclo completo dos 55 corpora ativos globais;
-2. materializar validação controlada, analytics operacional, histórico, ledger e lotes;
-3. operacionalizar a sondagem e o gate da fila europeia;
-4. criar revisão curatorial sem promoção automática;
-5. simular e automatizar a política dos 20 corpora;
-6. fechar a onda europeia;
-7. consolidar a América do Norte;
-8. preparar a fila da América Latina e Caribe.
+1. finalizar contratos e campos das três dimensões de IA;
+2. implementar armazenamento separado e execução opcional por feature flag;
+3. definir a amostra inicial de validação;
+4. executar o ciclo completo dos 55 corpora ativos globais;
+5. coletar simultaneamente os sinais experimentais de IA;
+6. concluir o baseline oficial sem depender da IA, materializando analytics, histórico, ledger e lotes;
+7. revisar humanamente a amostra;
+8. calcular precisão, revocação, F1, matriz de confusão e erros por idioma;
+9. decidir quais componentes de IA podem ser ativados;
+10. recalcular somente os indicadores de IA a partir das evidências armazenadas;
+11. operacionalizar a sondagem e o gate da fila europeia;
+12. criar revisão curatorial sem promoção automática;
+13. simular e automatizar a política dos 20 corpora;
+14. fechar a onda europeia;
+15. consolidar a América do Norte;
+16. preparar a fila da América Latina e Caribe.
 
 ## Bloqueios atuais
 
@@ -159,8 +180,10 @@ Até a conclusão das etapas anteriores, a plataforma não deve:
 - recalcular índices publicados com denominadores não congelados;
 - misturar fontes de descoberta com corpora elegíveis;
 - apresentar snapshots de referência como ciclo operacional vivo;
-- publicar observações sem revisão e ativação formal.
+- publicar observações sem revisão e ativação formal;
+- usar previsões experimentais de IA em indicadores oficiais antes da validação;
+- permitir que falha ou indisponibilidade da IA bloqueie o ciclo oficial.
 
 ## Próxima ação autorizada
 
-Preparar e executar o primeiro ciclo integral dos 55 corpora ativos globais. A operação da fila europeia permanece posterior à materialização desse baseline operacional completo.
+Finalizar os contratos e campos das três dimensões de IA, implementar armazenamento experimental separado e execução opcional por feature flag e definir a amostra inicial de validação. Somente depois desses três portões será iniciado o ciclo integral dos 55 corpora, com coleta de IA em modo sombra e baseline oficial independente.
