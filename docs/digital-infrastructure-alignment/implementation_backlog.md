@@ -19,8 +19,8 @@ Este documento não cria uma segunda ordem de prioridades. Ele registra apenas o
 | Licença, citação e contribuição | implementada | `LICENSE`, `CITATION.cff`, `CONTRIBUTING.md` | release estável, DOI e revisão jurídica futura |
 | Interface pública | implementada | quatro áreas principais, três idiomas, carregamento progressivo | auditoria manual, desempenho e responsividade |
 | Corpus de referência | materializado | manifesto congelado com 58 entidades | nova versão apenas mediante mudança canônica |
-| Corpus operacional | ativo parcialmente | 55 entidades ativas globais | primeiro ciclo completo após preparação mínima de IA |
-| IA experimental | protocolo documentado | três dimensões separadas e regras de cautela | contratos, armazenamento, feature flag, amostra, coleta sombra e validação |
+| Corpus operacional | validado em escala controlada | 55 entidades ativas globais; Europeana, INA e BFI executados com sucesso | primeiro ciclo completo dos 55 corpora |
+| IA experimental | implementada estruturalmente | contratos, armazenamento separado, feature flags, amostra, coleta sombra e integração fail-open | anotação humana, modelos avaliáveis e detecção sintética no nível de item |
 | Produtos europeus | sincronizados | 54 ativos europeus, 118 registros na fila, validação obrigatória no CI | operação da sondagem e do gate |
 | Indicadores de referência | materializados | nove indicadores, cobertura e proveniência | validação operacional viva e histórico longitudinal |
 | Núcleo de dados e proveniência | implementado estruturalmente | modelos, IDs, evidências, integridade, persistência e revisão | materializar ledger e lotes reais |
@@ -30,7 +30,7 @@ Este documento não cria uma segunda ordem de prioridades. Ele registra apenas o
 
 ## T0 — consistência canônica
 
-**Estado:** concluído nesta rodada.
+**Estado:** concluído.
 
 O corpus ativo global possui 55 entidades. Os produtos europeus contêm corretamente 54 corpora ativos, pois o AAPB pertence ao recorte norte-americano.
 
@@ -49,33 +49,84 @@ Concluído:
 
 ## T0A — preparação experimental de IA antes do ciclo
 
-**Estado:** próximo portão técnico.
+**Estado:** concluído estruturalmente e validado em execução controlada.
 
-A preparação deverá ser mínima, modular e incapaz de bloquear o pipeline oficial.
+### Implementado
 
-1. finalizar contratos e campos das três dimensões de IA;
-2. separar uso institucional de IA, IA de triagem do observatório e vídeo gerado ou modificado por IA;
-3. implementar armazenamento append-only ou versionado para previsões e evidências;
-4. implementar feature flags independentes, desativadas por padrão;
-5. registrar modelo, versão, configuração, prompt, custo, duração, erro e proveniência;
-6. garantir que falha da IA não altere o status do ciclo oficial;
-7. definir amostra inicial multilíngue e geograficamente diversa;
-8. preparar recálculo posterior sem nova coleta integral.
+1. contratos versionados para as três dimensões e quatro tarefas operacionais de IA;
+2. separação entre uso institucional de IA, triagem do observatório e vídeo gerado ou modificado por IA;
+3. registros imutáveis com identificador estável e versão;
+4. proveniência para evidência, modelo, configuração, prompt ou classificador, duração, custo e erro;
+5. armazenamento JSONL append-only separado do baseline oficial;
+6. feature flags independentes e desligadas por padrão;
+7. bloqueio de execução fora do modo sombra;
+8. executor fail-open que não propaga falhas ao ciclo oficial;
+9. manifesto próprio para início e encerramento da execução experimental;
+10. baseline determinístico para comparação futura com modelos de IA;
+11. amostra inicial canônica com APE, Europeana, INA, BFI, ARCHIPOP e AAPB;
+12. validação automática da amostra no CI;
+13. integração opcional ao `scripts/run_observatory_cycle.py`;
+14. separação entre contexto institucional e detecção sintética no nível de item, versão ou segmento;
+15. documentação do runtime em `ai_experimental_runtime.md`;
+16. testes de contratos, flags, armazenamento, falhas, baselines, amostra e integração.
+
+### Validação controlada concluída
+
+O workflow `Controlled observatory cycle` executou Europeana, INA e BFI em 5 de agosto de 2026:
+
+- corpora selecionados: 3;
+- sucessos: 3;
+- falhas: 0;
+- registros de uso institucional de IA: 3;
+- registros de triagem do observatório: 6;
+- manifestos da execução experimental: 2;
+- erros experimentais: 0;
+- dependência do baseline oficial em relação à IA: não.
+
+A execução identificou um sinal institucional de IA no INA pendente de revisão. A ausência de sinal em Europeana e BFI permanece classificada apenas como `not_identified_on_assessed_surfaces`.
+
+### Pendências que não bloqueiam T1
+
+- anotação humana da amostra;
+- integração de modelos probabilísticos ou LLMs;
+- medição de desempenho;
+- detecção de vídeo sintético no nível de item;
+- ativação científica de qualquer componente.
 
 ## T1 — execução integral do organismo
 
-**Estado:** executa após T0A.
+**Estado:** validação controlada concluída; rodada integral dos 55 corpora é o próximo portão.
 
-1. executar todos os 55 corpora ativos em um ciclo completo;
-2. coletar sinais experimentais de IA quando as flags controladas estiverem ativas;
-3. registrar sucesso, falha e não avaliabilidade sem exclusão silenciosa;
-4. registrar separadamente falhas e custos das tarefas de IA;
-5. atualizar manifesto, linha do tempo e resultados do ciclo;
-6. verificar snapshots e observation keys por corpus;
-7. congelar o primeiro baseline operacional completo sem dependência da IA;
+### Proteções implantadas
+
+- seleção explícita de corpora por argumento;
+- opção controlada para ignorar a sondagem global sem alterar o ciclo integral;
+- timeout configurável por script de corpus;
+- registro de timeout como falha auditável;
+- continuidade para os corpora seguintes após falha ou timeout;
+- coleta de IA somente após coleta e verificação oficiais bem-sucedidas;
+- IA desligada por padrão e habilitada por tarefa;
+- falhas da IA não alteram o código de saída do ciclo oficial;
+- preservação de manifestos, resumos e artefatos mesmo em ciclos controlados com falha.
+
+### Próxima execução
+
+1. executar todos os 55 corpora ativos com o prelude global habilitado;
+2. habilitar em modo sombra as tarefas institucionais e de triagem;
+3. manter a detecção de vídeo sintético desligada até existir contexto por item;
+4. registrar sucesso, falha, timeout e não avaliabilidade sem exclusão silenciosa;
+5. registrar separadamente falhas e custos das tarefas experimentais;
+6. atualizar manifesto, linha do tempo e resultados do ciclo;
+7. verificar snapshots e observation keys por corpus;
 8. preservar evidências para revisão e recálculo posterior.
 
+### Critério de conclusão
+
+Todos os 55 corpora aparecem no manifesto da mesma rodada com estado auditável. A conclusão do T1 não exige sucesso de 100% das fontes, mas exige que nenhuma seja omitida e que toda falha possua diagnóstico reproduzível.
+
 ## T2 — materialização científica operacional
+
+**Estado:** posterior à rodada integral do T1.
 
 ### Já materializado
 
@@ -98,11 +149,13 @@ A preparação deverá ser mínima, modular e incapaz de bloquear o pipeline ofi
 
 ### Ações
 
-1. executar o workflow controlado com `europeana`, `ina` e `bfi`;
+1. executar o workflow controlado com `europeana`, `ina` e `bfi` para os nove indicadores;
 2. persistir cobertura, nove indicadores, sensibilidade, run e manifesto;
-3. iniciar histórico append-only de indicadores;
-4. materializar ledger e lotes de ingestão;
-5. diferenciar na interface baseline de referência e execução operacional.
+3. materializar o snapshot oficial derivado da rodada integral;
+4. iniciar histórico append-only de indicadores;
+5. materializar ledger e lotes de ingestão;
+6. diferenciar na interface baseline de referência e execução operacional;
+7. demonstrar que os produtos oficiais são idênticos com a IA desligada.
 
 ## T2A — validação pós-baseline dos componentes de IA
 
@@ -232,15 +285,13 @@ A coleta experimental de sinais de IA poderá acompanhar o ciclo. Permanecem for
 
 ```text
 Concluído: regenerar e validar os produtos europeus
-1. Finalizar contratos e campos das três dimensões de IA
-2. Implementar armazenamento separado e feature flags
-3. Definir a amostra inicial de validação
-4. Executar o ciclo completo dos 55 corpora ativos
-5. Coletar sinais experimentais de IA em modo sombra
-6. Materializar o baseline oficial, analytics, histórico, ledger e lotes sem dependência da IA
-7. Revisar a amostra e calcular métricas por idioma
-8. Decidir ativações por componente
-9. Recalcular somente os indicadores de IA com as evidências armazenadas
-10. Executar sondagem e elegibilidade europeias
-11. Abrir revisão curatorial controlada
+Concluído: T0A — contratos, armazenamento, flags, amostra e integração sombra
+Concluído: validação controlada do T1 com Europeana, INA e BFI
+1. Executar o ciclo integral dos 55 corpora ativos
+2. Materializar o baseline oficial, analytics, histórico, ledger e lotes sem dependência da IA
+3. Revisar a amostra e calcular métricas por idioma
+4. Decidir ativações por componente
+5. Recalcular somente os indicadores de IA com as evidências armazenadas
+6. Executar sondagem e elegibilidade europeias
+7. Abrir revisão curatorial controlada
 ```
