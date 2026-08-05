@@ -2,7 +2,7 @@
 
 ## An Open Scientific Research Infrastructure for the Longitudinal Observation of Digital Infrastructures in Audiovisual Archives
 
-[Português](README.pt-BR.md) · [Executive Summary](docs/research/executive_summary.md) · [Research Handbook](docs/research/README.md) · [Public Observatory](https://memoria-audiovisual-rede-vcxnq9xh7b7uifydhwjxcy.streamlit.app/)
+[Português](README.pt-BR.md) · [Executive Summary](docs/research/executive_summary.md) · [Research Handbook](docs/research/README.md) · [Public Observatory](https://memoria-audiovisual-rede-hv3dgxwqgaka2i6ahhmb5v.streamlit.app/)
 
 > **Memória Audiovisual em Rede** is an open scientific research infrastructure that introduces a reusable longitudinal methodology for observing institutional digital infrastructures, demonstrated through the domain of audiovisual archives.
 
