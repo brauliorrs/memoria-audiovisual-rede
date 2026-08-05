@@ -65,7 +65,7 @@ jobs:
         run: python scripts/check_deployment_ready.py
 
   apply-ai-docs-once:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/presentation/rpv-1'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
