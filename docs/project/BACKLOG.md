@@ -102,6 +102,127 @@ Ainda não materializado operacionalmente:
 
 A interface consegue carregar um snapshot operacional reproduzível, com proveniência, hashes, histórico, ledger e lote de ingestão.
 
+## P2A — indicador experimental de IA para detecção de acervo e presença de vídeo
+
+**Estado:** não implantado; protocolo de evidências de IA existente, metodologia, modelo, validação e integração analítica pendentes.
+
+A plataforma deverá estudar o uso de inteligência artificial como apoio à identificação de sinais que os detectores determinísticos não conseguem classificar com segurança. O protocolo geral de cautela e evidência está documentado em:
+
+`docs/digital-infrastructure-alignment/ai_systems_protocol.md`
+
+O componente não deverá ser implementado como uma única classificação genérica. Ele deverá produzir duas avaliações independentes e complementares:
+
+1. **detecção de evidência de acervo audiovisual** — identifica sinais de que a instituição preserva, descreve, disponibiliza ou administra coleção audiovisual, mesmo quando o site não utiliza terminologia padronizada;
+2. **detecção de presença pública de vídeo** — identifica sinais de vídeo reproduzível ou publicamente exposto nas superfícies observadas, distinguindo página institucional, ficha de catálogo, player incorporado, arquivo de mídia, streaming e simples menção textual.
+
+### Fontes observáveis
+
+A IA poderá analisar, sempre dentro das rotas públicas e autorizadas:
+
+- texto de páginas institucionais e páginas de coleção;
+- títulos, descrições, assuntos, gêneros e tipos documentais;
+- metadados estruturados e não estruturados;
+- resultados de busca interna;
+- documentos públicos e trechos extraídos;
+- textos alternativos, legendas e transcrições disponíveis;
+- elementos de interface associados a player ou reprodução;
+- miniaturas e imagens públicas, quando a análise visual for metodologicamente aprovada;
+- códigos de incorporação e referências a YouTube, Vimeo, IIIF AV, HLS, DASH, MP4, WebM ou formatos equivalentes;
+- evidências já produzidas pelos detectores determinísticos.
+
+A análise de imagens ou miniaturas não autoriza reconhecimento de pessoas, identificação biométrica ou inferência sensível. Reconhecimento facial permanecerá fora deste indicador.
+
+### Estados avaliativos separados
+
+Cada uma das duas tarefas deverá preservar estados como:
+
+- `detected_pending_review`;
+- `verified_public_evidence`;
+- `ambiguous`;
+- `not_identified_on_assessed_surfaces`;
+- `not_assessable`;
+- `error`;
+- `withdrawn_or_corrected`.
+
+`not_identified_on_assessed_surfaces` significa apenas que o procedimento declarado não encontrou evidência nas superfícies examinadas. Não significa ausência de acervo audiovisual nem ausência de vídeo em toda a instituição.
+
+### Campos mínimos de proveniência
+
+Cada resultado deverá registrar:
+
+- `entity_id` e `observation_id`;
+- tarefa executada: `audiovisual_collection_detection` ou `public_video_presence_detection`;
+- URL e superfície analisada;
+- idioma do conteúdo;
+- evidência textual, estrutural ou visual que sustentou a classificação;
+- detector determinístico relacionado;
+- modelo, fornecedor, versão e configuração;
+- versão do prompt ou do classificador;
+- data e duração da execução;
+- classe prevista e nível de confiança;
+- justificativa produzida para revisão;
+- decisão do revisor humano;
+- estado final e referência da correção, quando houver.
+
+A confiança do modelo não poderá ser convertida diretamente em evidência científica positiva ou negativa.
+
+### Validação obrigatória
+
+Antes de integrar os resultados ao catálogo científico, será necessário:
+
+1. construir amostra-ouro multilíngue, estratificada por continente, país, tipo de instituição, agregador e arquivo individual;
+2. incluir casos positivos, negativos, ambíguos, bloqueados e sem evidência suficiente;
+3. comparar a IA com os detectores determinísticos e com avaliação humana independente;
+4. medir precisão, revocação, F1, matriz de confusão e desempenho por idioma e tipo de instituição;
+5. estimar falsos positivos e falsos negativos separadamente para acervo e vídeo;
+6. testar estabilidade entre versões do modelo e do prompt;
+7. definir limiar de encaminhamento para revisão, sem aprovação automática;
+8. avaliar custo, tempo, privacidade, reprodutibilidade e dependência de fornecedor;
+9. documentar vieses linguísticos, geográficos e tecnológicos;
+10. realizar revisão humana de todos os positivos e de amostra controlada dos negativos;
+11. versionar metodologia, vocabulário, modelo e cobertura;
+12. registrar o indicador em `indicator_registry.json` e `methodology_registry.json` somente após aprovação científica.
+
+### Relação com a fila de expansão
+
+A IA poderá apoiar a triagem da fila ao:
+
+- priorizar páginas que apresentam sinais de acervo audiovisual;
+- localizar termos e descrições equivalentes em diferentes idiomas;
+- sugerir fichas ou superfícies com possível player;
+- identificar casos ambíguos que precisam de revisão humana;
+- reduzir trabalho manual repetitivo na descoberta de evidências.
+
+Ela não poderá:
+
+- incluir ou excluir automaticamente candidatos;
+- definir elegibilidade científica;
+- alterar `CORPORA` ou `organism_active`;
+- transformar ausência de detecção em negativa metodológica;
+- substituir o gate de elegibilidade ou a decisão curatorial;
+- publicar resultados institucionais sem revisão.
+
+### Produtos a implementar
+
+1. definir dois contratos independentes de classificação;
+2. criar conjunto de treinamento e avaliação com proveniência e licença compatíveis;
+3. implementar baseline determinístico para comparação;
+4. testar classificador textual multilíngue;
+5. testar detecção estrutural de players, embeds e formatos de vídeo;
+6. avaliar, em etapa separada, se análise visual de miniaturas agrega valor mensurável;
+7. criar fila de revisão humana e interface de confirmação;
+8. persistir evidências, confiança, versão do modelo e decisão final;
+9. produzir relatório de desempenho por idioma, continente e tipo de instituição;
+10. executar estudo de sensibilidade de limiares;
+11. integrar o resultado validado aos snapshots sem sobrescrever observações históricas;
+12. criar visualização que separe previsão automática, evidência verificada e resultado não avaliável;
+13. documentar a metodologia no livro científico antes da ativação pública;
+14. manter o indicador desativado no catálogo analítico até o cumprimento dos critérios de validação.
+
+### Critério de conclusão
+
+O indicador somente poderá ser considerado implantado quando as duas tarefas forem avaliadas separadamente em amostra multilíngue e geograficamente diversa, alcançarem desempenho mínimo previamente definido, preservarem evidência reproduzível, tiverem revisão humana operacional e estiverem registradas com metodologia e versões próprias. Até esse ponto, qualquer resultado será tratado como experimento de apoio à triagem, não como medida científica publicada.
+
 ## P3 — operacionalização segura da fila europeia
 
 **Estado:** fila disponível; sondagem e gate ainda não operacionalizados.
@@ -365,12 +486,13 @@ Concluído: sincronizar e validar corpus, registro, fila e resumo europeus
 2. Materializar validação controlada, analytics vivo, ledger e lotes
 3. Modelar o corpus geral e os recortes geográficos versionados
 4. Operacionalizar sondagem e elegibilidade da fila europeia
-5. Simular e validar a política dos 20 corpora
-6. Fechar a onda europeia
-7. Consolidar a América do Norte
-8. Preparar a fila da América Latina e Caribe
-9. Manter descoberta preparatória de África, Ásia e Oceania
-10. Ativar publicação derivada e entrega pública versionada
+5. Desenvolver e validar experimentalmente a detecção por IA de acervo e presença de vídeo
+6. Simular e validar a política dos 20 corpora
+7. Fechar a onda europeia
+8. Consolidar a América do Norte
+9. Preparar a fila da América Latina e Caribe
+10. Manter descoberta preparatória de África, Ásia e Oceania
+11. Ativar publicação derivada e entrega pública versionada
 ```
 
 ## Regra do backlog
