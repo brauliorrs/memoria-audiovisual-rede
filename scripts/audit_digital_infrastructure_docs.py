@@ -31,6 +31,14 @@ BLOCKING_PATTERNS = {
         r"(?:não foi detectad[oa]|nenhuma evidência foi encontrada).{0,80}(?:não usa|não utiliza|ausência de) (?:IA|inteligência artificial)",
         re.IGNORECASE,
     ),
+    "automatic_confirmation_as_publication": re.compile(
+        r"confirm(?:ed|ado).{0,80}(?:publica(?:ção|do) automática|automaticamente publicad)",
+        re.IGNORECASE,
+    ),
+    "snapshot_rewrite_allowed": re.compile(
+        r"snapshot fechado.{0,60}(?:pode|poderá|deve).{0,30}(?:ser )?(?:reescrito|sobrescrito)",
+        re.IGNORECASE,
+    ),
 }
 
 WARNING_PATTERNS = {
@@ -48,6 +56,14 @@ REQUIRED_SECTIONS = {
     "indicator_catalog.md": ("## Status deste documento", "## Regra de ativação"),
     "ai_systems_protocol.md": ("## Estados avaliativos", "## Relação com indicadores"),
     "module_mapping.md": ("## Fluxo arquitetural", "## Regras permanentes"),
+    "snapshot_policy.md": ("## Comparabilidade", "## Estado atual"),
+    "longitudinal_comparison_policy.md": ("## Comparações proibidas", "## Relação com triagem e publicação"),
+    "longitudinal_event_triage.md": ("## Regras conservadoras", "## Estado atual"),
+    "longitudinal_event_review.md": ("## Elegibilidade posterior", "## Estado atual"),
+    "publication_access_policy.md": ("## Portões de publicação", "## Estados editoriais"),
+    "public_derived_view.md": ("## Limite deliberado", "## Estado atual"),
+    "publication_revision_policy.md": ("## Tipos de revisão", "## Estado atual"),
+    "claims_corrections_and_contestations.md": ("## Medidas cautelares", "## Estado atual"),
 }
 
 
