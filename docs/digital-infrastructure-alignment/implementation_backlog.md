@@ -2,7 +2,7 @@
 
 ## Foco atual — prioridade alta: apresentação científica
 
-A plataforma já foi apresentada externamente. O ciclo atual consolida o pacote científico, jurídico e editorial antes de ampliar a divulgação institucional ou iniciar uma nova expansão ampla do corpus.
+A plataforma já foi apresentada externamente. O ciclo atual consolida o pacote científico, jurídico, editorial e público antes de ampliar a divulgação institucional ou iniciar uma nova expansão ampla do corpus.
 
 ### Estado consolidado da prioridade alta
 
@@ -14,6 +14,7 @@ A plataforma já foi apresentada externamente. O ciclo atual consolida o pacote 
 | A4 — Revisão editorial | primeira etapa concluída | revisão dos READMEs, Research Handbook e distinção entre implementação e validação empírica | revisão integral dos documentos especializados e textos da aplicação |
 | A5 — Verificação de links | automatização implementada | `scripts/check_markdown_links.py` e workflow `Documentation Quality` | executar e corrigir falhas encontradas; validar links externos essenciais |
 | A6 — Harmonização documental | primeira etapa concluída | `docs/DOCUMENTATION_GOVERNANCE.md`, hierarquia canônica e glossário comum | auditoria cruzada completa de `docs/analytics/` e `docs/digital-infrastructure-alignment/` |
+| A7 — Vitrine pública do projeto | definição pendente | observatório público disponível no Streamlit Cloud | definir arquitetura, identidade visual, domínio, desempenho e relação entre vitrine e ambiente analítico |
 
 ## A1 — Licença do repositório
 
@@ -24,7 +25,7 @@ A plataforma já foi apresentada externamente. O ciclo atual consolida o pacote 
 - arquivo `LICENSE` na raiz;
 - licença MIT para código, scripts, testes e componentes de software;
 - licença CC BY 4.0 para documentação original e dados produzidos e publicados pelo projeto;
-- ressalva explícita sobre direitos, licenças e restrições de materiais e fontes de terceiros;
+- ressalva sobre direitos e restrições de materiais e fontes de terceiros;
 - referência nos READMEs.
 
 **Estado:** implementado, sujeito a revisão jurídica futura.
@@ -73,7 +74,7 @@ A plataforma já foi apresentada externamente. O ciclo atual consolida o pacote 
 
 - revisão do `README.md` internacional;
 - revisão do `README.pt-BR.md`;
-- revisão do índice e terminologia do Research Handbook;
+- revisão do índice e da terminologia do Research Handbook;
 - inclusão de licença, citação, contribuição e governança documental;
 - explicitação de que testes estruturais não equivalem à validação empírica;
 - distinção entre `não identificado`, `não avaliável` e ausência institucional.
@@ -83,7 +84,7 @@ A plataforma já foi apresentada externamente. O ciclo atual consolida o pacote 
 - revisar integralmente `docs/research/`;
 - revisar `docs/analytics/` contra as definições canônicas;
 - revisar `docs/digital-infrastructure-alignment/` e remover duplicações;
-- revisar textos públicos da aplicação Streamlit nos três idiomas.
+- revisar textos públicos da aplicação nos três idiomas.
 
 **Estado:** primeira etapa concluída; auditoria editorial integral pendente.
 
@@ -93,14 +94,14 @@ A plataforma já foi apresentada externamente. O ciclo atual consolida o pacote 
 
 **Implementado:**
 
-- `scripts/check_markdown_links.py` para validação de links relativos em arquivos Markdown;
-- workflow `.github/workflows/documentation-quality.yml` acionado em pushes e pull requests documentais;
-- validação automática do `CITATION.cff` no mesmo workflow;
+- `scripts/check_markdown_links.py` para validação de links relativos em Markdown;
+- workflow `.github/workflows/documentation-quality.yml`;
+- validação automática do `CITATION.cff`;
 - atualização do endereço público do Streamlit nos READMEs.
 
 **Próxima etapa:**
 
-- observar a primeira execução do workflow e corrigir links internos detectados;
+- observar as execuções do workflow e corrigir links internos detectados;
 - testar manualmente links externos essenciais;
 - documentar exceções decorrentes de bloqueios, redirecionamentos ou mecanismos anti-bot.
 
@@ -127,13 +128,106 @@ A plataforma já foi apresentada externamente. O ciclo atual consolida o pacote 
 
 **Estado:** estrutura de governança implantada; auditoria cruzada integral pendente.
 
+## A7 — Vitrine pública do projeto
+
+**Objetivo:** definir uma porta de entrada institucional, científica e internacional que apresente o projeto com carregamento rápido, identidade visual própria e navegação independente do ambiente analítico.
+
+### Diagnóstico atual
+
+- o Streamlit Cloud funciona como demonstração pública e ambiente analítico;
+- o endereço e a implantação ainda não foram tratados como solução definitiva;
+- o primeiro carregamento foi percebido como lento;
+- uma aplicação Streamlit pode entrar em suspensão e exigir inicialização antes de responder;
+- a interface analítica não deve concentrar, sozinha, apresentação institucional, documentação, divulgação e exploração dos dados.
+
+### Princípio arquitetural
+
+A **vitrine pública** e o **observatório analítico** devem ser tratados como camadas distintas:
+
+1. **Vitrine pública:** página leve, rápida, indexável e orientada à apresentação do projeto, seus objetivos, métodos, resultados, equipe, publicações, colaboração e acesso aos produtos.
+2. **Observatório analítico:** aplicação interativa para consulta, filtros, indicadores, evidências e exploração dos corpora.
+3. **Repositório científico:** código, documentação metodológica, dados versionados, governança e histórico técnico.
+
+O Streamlit pode permanecer como observatório analítico, mas não deve ser adotado automaticamente como vitrine definitiva.
+
+### Decisões pendentes
+
+1. definir se a vitrine será uma página estática ou aplicação web leve;
+2. comparar opções de hospedagem, como GitHub Pages, Vercel, Cloudflare Pages ou serviço institucional;
+3. definir domínio ou subdomínio próprio;
+4. decidir se o Streamlit permanecerá no plano gratuito, será otimizado, receberá hospedagem dedicada ou será substituído em etapa futura;
+5. definir selo, logotipo e sistema visual definitivos;
+6. definir arquitetura de informação e percurso do visitante;
+7. estabelecer versões em português, inglês e espanhol;
+8. definir métricas mínimas de desempenho, disponibilidade e acessibilidade.
+
+### Conteúdo mínimo da vitrine
+
+- nome, subtítulo e proposta científica;
+- problema e pergunta de pesquisa;
+- explicação resumida da infraestrutura longitudinal;
+- números principais do corpus e da cobertura;
+- indicadores científicos disponíveis;
+- limitações e estado de validação;
+- demonstração visual do observatório;
+- links para observatório, repositório, documentação, datasets e citação;
+- autoria, afiliação, contato e formas de colaboração;
+- publicações, apresentações e atualizações do projeto.
+
+### Avaliação de desempenho do Streamlit
+
+Antes de decidir pela permanência da implantação atual, devem ser medidos:
+
+- tempo de primeira resposta após período de inatividade;
+- tempo até a primeira tela útil;
+- consumo de memória na inicialização;
+- tamanho e quantidade de arquivos carregados no início;
+- operações executadas antes da seleção do usuário;
+- uso de cache para dados e recursos;
+- impacto das traduções, imagens, gráficos e leitura dos corpora;
+- comportamento em dispositivos móveis e conexões mais lentas.
+
+### Ações de otimização candidatas
+
+- adiar carregamentos pesados até a abertura da seção correspondente;
+- usar cache para datasets, transformações e recursos estáveis;
+- carregar agregados pré-computados na página inicial;
+- reduzir leituras repetidas de CSV e JSON;
+- evitar criação antecipada de gráficos e tabelas não visíveis;
+- separar dados de apresentação dos arquivos científicos completos;
+- criar uma tela inicial mínima antes da exploração analítica;
+- avaliar hospedagem com processo permanentemente ativo quando o projeto exigir disponibilidade institucional.
+
+### Entregáveis
+
+1. documento de decisão arquitetural da vitrine;
+2. comparação técnica e financeira das alternativas de hospedagem;
+3. identidade visual e selo definitivos;
+4. wireframe ou protótipo da página inicial;
+5. orçamento de desempenho do observatório;
+6. relatório de diagnóstico do carregamento do Streamlit;
+7. plano de domínio e URLs permanentes;
+8. integração clara entre vitrine, observatório, GitHub e documentação.
+
+### Critérios de conclusão
+
+- visitante compreende a proposta do projeto sem esperar o observatório carregar;
+- vitrine abre rapidamente em computador e dispositivo móvel;
+- URLs públicas possuem função clara e não se confundem;
+- identidade visual é consistente e adequada à apresentação científica internacional;
+- observatório possui desempenho medido e limites documentados;
+- decisão sobre permanência, otimização ou substituição do Streamlit é registrada;
+- links permanentes são atualizados nos READMEs e metadados de citação.
+
+**Estado:** nova frente prioritária; definição arquitetural, selo definitivo e diagnóstico de desempenho pendentes.
+
 ## Relação com a fila de incorporação europeia
 
 A gestão de novas unidades permanece separada em:
 
 `data/output/observatorio_fila_fechamento_europa.csv`
 
-A fila europeia continua registrando incorporações potenciais, negativas metodológicas e monitoramento. Durante a consolidação científica, novas incorporações amplas não devem substituir a validação documental, analítica e operacional.
+A fila europeia continua registrando incorporações potenciais, negativas metodológicas e monitoramento. Durante a consolidação científica e da vitrine, novas incorporações amplas não devem substituir a validação documental, analítica, operacional e pública.
 
 ## P0 — fundação obrigatória
 
@@ -198,7 +292,7 @@ A fila europeia continua registrando incorporações potenciais, negativas metod
 
 ## P4 — acesso público
 
-> Estado atual: parcialmente implementado.
+> Estado atual: parcialmente implementado. A vitrine pública passa a ser tratada em A7.
 
 1. API somente leitura;
 2. painel de infraestrutura digital;
