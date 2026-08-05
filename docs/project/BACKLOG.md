@@ -210,6 +210,83 @@ Após o fechamento europeu:
 2. criar inventário e fila da América Latina e Caribe, usando Iberarchivos apenas como fonte de descoberta e curadoria;
 3. manter pesquisa preparatória de África, Ásia e Oceania sem incorporação prematura.
 
+## P5A — corpus geral, corpora continentais e recortes geográficos
+
+**Estado:** política incluída no backlog; modelagem, materialização e interface pendentes.
+
+A plataforma deve preservar **um único corpus geral canônico**, reunindo todas as entidades elegíveis e ativas, e produzir a partir dele **corpora continentais, regionais e nacionais derivados e versionados**.
+
+Esses corpora derivados não serão cópias independentes dos dados. Serão visões analíticas construídas por uma matriz de pertencimento geográfico, de modo que cada entidade mantenha identidade única, proveniência única e histórico único no corpus geral.
+
+### Níveis de análise previstos
+
+A infraestrutura deverá permitir estudos em cinco níveis:
+
+1. **país individual** — comparação entre instituições situadas ou atuantes em um mesmo país;
+2. **conjunto de países** — grupos definidos e versionados, como recortes linguísticos, políticos, culturais, econômicos ou de pesquisa;
+3. **região ou subcontinente** — por exemplo, América Latina e Caribe, Europa do Sul ou países nórdicos, desde que a composição seja declarada;
+4. **continente** — corpora continentais derivados do corpus geral;
+5. **comparação entre continentes** — resultados harmonizados entre dois ou mais recortes continentais.
+
+### Estrutura canônica
+
+A implementação deverá distinguir:
+
+- `global_corpus_id`: versão do corpus geral;
+- `entity_id`: identidade única da instituição ou agregador;
+- `institution_country_code`: país de localização institucional principal;
+- `coverage_country_codes`: países efetivamente cobertos pelo corpus ou agregador;
+- `region_codes`: regiões analíticas aplicáveis;
+- `continent_codes`: continentes aplicáveis;
+- `geographic_role`: localização institucional, cobertura, agregação ou atuação transcontinental;
+- `membership_version`: versão da classificação geográfica;
+- `valid_from` e `valid_to`: validade temporal do pertencimento;
+- `decision_reference`: fonte e decisão que justificam a classificação.
+
+### Regras de pertencimento e contagem
+
+- cada entidade aparece uma única vez no corpus geral;
+- uma entidade pode participar de mais de um recorte derivado quando sua cobertura for multinacional ou transcontinental;
+- participação múltipla não pode gerar dupla contagem no indicador global;
+- análises nacionais devem declarar se usam localização institucional, cobertura territorial ou ambos;
+- agregadores devem separar o país de sede dos países cobertos;
+- grupos de países devem possuir identificador, nome, lista de membros, justificativa científica e versão;
+- fontes supranacionais e mundiais devem usar regra explícita de atribuição e não ser forçadas artificialmente a um único continente;
+- alterações de fronteira, país, sede ou cobertura devem preservar o pertencimento histórico válido em cada snapshot.
+
+### Comparabilidade científica
+
+Comparações entre países, grupos ou continentes só serão publicáveis quando compartilharem:
+
+- mesma versão metodológica do indicador;
+- snapshot ou janela temporal comparável;
+- regras de elegibilidade e assessabilidade compatíveis;
+- distinção entre agregadores e instituições individuais;
+- denominadores explícitos;
+- cobertura e dados ausentes declarados;
+- tratamento documentado de instituições multinacionais e transcontinentais.
+
+Diferenças de tamanho entre os corpora não devem ser ocultadas. A plataforma deverá apresentar valores absolutos, proporções, denominadores, intervalos ou medidas de sensibilidade adequadas ao indicador.
+
+### Produtos a implementar
+
+1. criar registro geográfico canônico e versionado;
+2. criar tabela muitos-para-muitos entre entidades e recortes geográficos;
+3. criar catálogo versionado de países, grupos de países, regiões e continentes;
+4. materializar manifesto do corpus geral e manifestos derivados por recorte;
+5. gerar matrizes de pertencimento e cobertura;
+6. criar filtros por país, conjunto de países, região e continente;
+7. permitir seleção de dois ou mais recortes para comparação;
+8. gerar resultados analíticos com denominadores próprios por recorte;
+9. impedir dupla contagem no corpus geral e documentar sobreposição entre recortes;
+10. criar testes de consistência geográfica e de soma dos denominadores;
+11. integrar os recortes aos snapshots, ao histórico de indicadores e aos downloads;
+12. documentar a política no livro científico antes da publicação de comparações internacionais.
+
+### Critério de conclusão
+
+A plataforma consegue reconstruir, a partir do mesmo corpus geral versionado, estudos por país, conjunto declarado de países, região, continente e comparação intercontinental, preservando identidade única das entidades, denominadores explícitos, sobreposições documentadas e reprodutibilidade histórica.
+
 ## P6 — publicação derivada e entrega pública
 
 **Estado:** código estrutural existente; implantação pendente.
@@ -286,13 +363,14 @@ Escopo potencial:
 Concluído: sincronizar e validar corpus, registro, fila e resumo europeus
 1. Executar o ciclo completo dos 55 corpora ativos globais
 2. Materializar validação controlada, analytics vivo, ledger e lotes
-3. Operacionalizar sondagem e elegibilidade da fila europeia
-4. Simular e validar a política dos 20 corpora
-5. Fechar a onda europeia
-6. Consolidar a América do Norte
-7. Preparar a fila da América Latina e Caribe
-8. Manter descoberta preparatória de África, Ásia e Oceania
-9. Ativar publicação derivada e entrega pública versionada
+3. Modelar o corpus geral e os recortes geográficos versionados
+4. Operacionalizar sondagem e elegibilidade da fila europeia
+5. Simular e validar a política dos 20 corpora
+6. Fechar a onda europeia
+7. Consolidar a América do Norte
+8. Preparar a fila da América Latina e Caribe
+9. Manter descoberta preparatória de África, Ásia e Oceania
+10. Ativar publicação derivada e entrega pública versionada
 ```
 
 ## Regra do backlog
