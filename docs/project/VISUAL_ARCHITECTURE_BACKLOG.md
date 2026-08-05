@@ -95,32 +95,64 @@ A validação deve verificar:
 - ordem lógica dos componentes após o empilhamento;
 - carregamento e navegação em orientação vertical e horizontal do dispositivo.
 
-## Auditoria inicial proposta
+## Inventário visual concluído
 
-Para cada página ou aba do Streamlit, registrar:
+O inventário automatizado foi executado sobre `app/streamlit_app.py` e registrado em:
 
-- número de colunas usadas;
-- quantidade de métricas na mesma linha;
-- tabelas com mais de seis colunas visíveis;
-- componentes que exigem rolagem horizontal;
-- gráficos exibidos lado a lado;
-- blocos repetidos ou redundantes;
-- conteúdo que pode ser carregado sob demanda;
-- prioridade científica de cada elemento;
-- comportamento em celular, tablet e desktop.
+`docs/audit/streamlit_visual_inventory.md`
+
+Principais resultados:
+
+- 18 funções de renderização analisadas;
+- `render_observatory_overview_tab` classificada como prioridade máxima, com 1.295 linhas, 14 chamadas de colunas, até 7 colunas simultâneas, 38 métricas e 37 tabelas;
+- `render_panel_tab` com 19 tabelas e 9 gráficos;
+- `render_data_tab` com 15 tabelas e nenhum expansor;
+- sete páginas ou seções adicionais classificadas como críticas por excesso de colunas, métricas ou densidade analítica;
+- confirmação objetiva de que a principal interface está excessivamente horizontal e concentrada.
+
+A auditoria permanece executável por:
+
+```bash
+python scripts/audit_streamlit_visual_layout.py
+```
+
+Ela também passou a integrar o workflow `Quality Checks`.
+
+## Ordem de redesign aprovada
+
+### Ciclo 1 — protótipos prioritários
+
+1. `render_observatory_overview_tab` — Visão Geral;
+2. `render_corpus_tab` ou `render_data_tab` — modelo para corpus extenso.
+
+### Ciclo 2 — páginas de alta densidade
+
+3. `render_panel_tab`;
+4. `render_institution_tab`;
+5. `render_videos_tab`;
+6. `render_category_tab`;
+7. `render_research_tab`.
+
+### Ciclo 3 — harmonização e validação
+
+8. `render_base_tab`;
+9. `render_protocolled_excluded_unit_tab`;
+10. `render_scientific_parameters_section`;
+11. `render_geo_tab`;
+12. páginas de baixa pressão e componentes auxiliares.
 
 ## Entregáveis
 
-1. inventário visual por página e aba;
-2. mapa da arquitetura de informação atual;
-3. proposta de nova hierarquia visual;
-4. regras de responsividade para componentes Streamlit;
-5. protótipo da página Visão Geral;
-6. protótipo de uma página com corpus extenso;
-7. padrão para tabelas, cartões, listas, métricas e gráficos;
-8. teste manual em celular e tablet;
-9. comparação antes/depois com capturas de tela;
-10. checklist de aceite visual e responsivo.
+1. inventário visual por página e aba — **concluído**;
+2. mapa da arquitetura de informação atual — **parcialmente concluído pelo inventário**;
+3. proposta de nova hierarquia visual — **pendente**;
+4. regras de responsividade para componentes Streamlit — **definidas em nível geral; implementação pendente**;
+5. protótipo da página Visão Geral — **próxima ação**;
+6. protótipo de uma página com corpus extenso — **próxima ação**;
+7. padrão para tabelas, cartões, listas, métricas e gráficos — **pendente**;
+8. teste manual em celular e tablet — **pendente**;
+9. comparação antes/depois com capturas de tela — **pendente**;
+10. checklist de aceite visual e responsivo — **pendente**.
 
 ## Critérios de conclusão
 
@@ -146,4 +178,6 @@ Esta frente deve ser articulada com:
 
 ## Estado
 
-**Pendente.** A percepção inicial é de poluição visual e excesso de organização horizontal. A próxima ação é realizar o inventário visual da aplicação e selecionar a página Visão Geral e uma página de corpus extenso para os primeiros protótipos.
+**Inventário concluído; redesign pendente.**
+
+A próxima ação é criar a nova hierarquia e o primeiro protótipo vertical da página Visão Geral. Em seguida, deve ser criado o padrão de apresentação vertical para `render_corpus_tab` ou `render_data_tab`.
