@@ -4798,6 +4798,7 @@ navigation_labels, navigation_slices = build_navigation_contract(
     category_definitions=category_definitions,
     corpus_definitions=corpus_definitions,
     protocolled_units=protocolled_excluded_units,
+    scientific_infrastructure_label=localize_ui("Infraestrutura científica"),
 )
 selected_primary_section = st.radio(
     tr_key("navigation.primary_section"),
