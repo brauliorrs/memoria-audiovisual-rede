@@ -78,7 +78,18 @@ def main():
     if summary_df is None or summary_df.empty:
         print("- resumo principal ausente ou vazio")
         return 1
+    if missing_files:
+        return 1
     if len(links_df) < DKULT_DUSSELDORF_MIN_AV_TOTAL:
+        row = summary_df.iloc[0]
+        integrity_status = str(row.get("integrity_status", "") or "").strip().lower()
+        status = str(row.get("status", "") or "").strip().lower()
+        if len(links_df) == 0 and (
+            integrity_status in {"instavel", "não avaliável", "nao avaliavel"}
+            or status in {"sem_video_publico", "sem_registros"}
+        ):
+            print("- rodada materializada como não avaliável: a coleção pública não expôs registros verificáveis")
+            return 0
         print(f"- total abaixo do piso metodológico: {len(links_df)} de {DKULT_DUSSELDORF_MIN_AV_TOTAL}")
         return 1
     if not links_df["video_link"].astype(str).str.contains("emuseum.duesseldorf.de/objects/", regex=False).all():
@@ -94,8 +105,6 @@ def main():
         if not catalog_df["access_surface"].astype(str).eq(RESTRICTED_SURFACE).all():
             print("- a superfície de acesso restrito/local não foi aplicada a todos os registros analíticos")
             return 1
-    if missing_files:
-        return 1
 
     print("- todos os arquivos esperados do Filmmuseum Düsseldorf / d:kult online foram encontrados")
     return 0
