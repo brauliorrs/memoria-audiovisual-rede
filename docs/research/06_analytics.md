@@ -103,6 +103,8 @@ The analytical layer preserves the distinction among detected, not detected on a
 
 A unit enters a denominator only when the active methodology defines it as eligible and assessable for that indicator. Error, missing-observation and not-assessable states are not silently converted into negative observations.
 
+Changes produced by a regional or continental incorporation wave require a new versioned corpus declaration. Historical analytical products remain attached to the denominator valid for their snapshot and are not silently recalculated after expansion.
+
 ## Composite indexes
 
 Composite indexes combine multiple documented components. Their weights, minimum data requirements, treatment of unavailable observations, and interpretation must be versioned.
@@ -140,4 +142,4 @@ Although the present implementation is applied to audiovisual archives, the engi
 
 ---
 
-[← Previous: Corpus Policy](05_corpus_policy.md) · [Research Handbook](README.md) · [Next: Scientific Indicators →](07_scientific_indicators.md)
+[← Previous: Scientific Expansion Policy](05a_scientific_expansion_policy.md) · [Research Handbook](README.md) · [Next: Scientific Indicators →](07_scientific_indicators.md)
