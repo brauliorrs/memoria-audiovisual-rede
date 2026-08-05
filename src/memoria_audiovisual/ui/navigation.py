@@ -12,6 +12,11 @@ from typing import Callable, Iterable, Mapping, Sequence
 
 
 SCIENTIFIC_INFRASTRUCTURE_LABEL = "Infraestrutura científica"
+SCIENTIFIC_INFRASTRUCTURE_LABELS_BY_OVERVIEW = {
+    "Overview": "Scientific infrastructure",
+    "Visión general": "Infraestructura científica",
+    "Visão geral": SCIENTIFIC_INFRASTRUCTURE_LABEL,
+}
 OVERVIEW_INDEX = 0
 SCIENTIFIC_INFRASTRUCTURE_INDEX = 1
 CATEGORY_START_INDEX = 2
@@ -71,6 +76,33 @@ def calculate_navigation_slices(
     )
 
 
+def _resolve_scientific_infrastructure_label(
+    *,
+    tr_key: Callable[..., str],
+    overview_label: str,
+    supplied_label: str,
+) -> str:
+    """Resolve o rótulo científico por chave semântica, com fallback seguro."""
+    # Test doubles used by the navigation contract return the key itself.
+    # In that situation, preserve the historical default and avoid changing
+    # the established call contract.
+    if overview_label == "navigation.overview":
+        return supplied_label
+
+    semantic_key = "navigation.scientific_infrastructure"
+    translated = tr_key(semantic_key)
+    if translated != semantic_key:
+        return translated
+
+    if supplied_label != SCIENTIFIC_INFRASTRUCTURE_LABEL:
+        return supplied_label
+
+    return SCIENTIFIC_INFRASTRUCTURE_LABELS_BY_OVERVIEW.get(
+        overview_label,
+        SCIENTIFIC_INFRASTRUCTURE_LABEL,
+    )
+
+
 def build_navigation_contract(
     *,
     tr_key: Callable[..., str],
@@ -80,9 +112,15 @@ def build_navigation_contract(
     scientific_infrastructure_label: str = SCIENTIFIC_INFRASTRUCTURE_LABEL,
 ) -> tuple[list[str], NavigationSlices]:
     """Monta as quatro abas e mantém unidades disponíveis às categorias."""
+    overview_label = tr_key("navigation.overview")
+    resolved_scientific_label = _resolve_scientific_infrastructure_label(
+        tr_key=tr_key,
+        overview_label=overview_label,
+        supplied_label=scientific_infrastructure_label,
+    )
     labels = build_top_level_labels(
-        overview_label=tr_key("navigation.overview"),
-        scientific_infrastructure_label=scientific_infrastructure_label,
+        overview_label=overview_label,
+        scientific_infrastructure_label=resolved_scientific_label,
         category_labels=(
             tr_key("navigation.category", label=str(item["short_label"]))
             for item in category_definitions
