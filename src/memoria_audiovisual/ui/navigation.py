@@ -1,8 +1,8 @@
 """Plano canônico de navegação da interface pública.
 
-Este módulo mantém a ordem estrutural da aplicação separada do ponto de entrada
-Streamlit. Ele não executa renderização por conta própria; apenas descreve o
-contrato estável que o entrypoint deve consumir.
+A navegação principal permanece deliberadamente curta. As unidades documentais
+são acessadas dentro de sua categoria, evitando uma aba superior para cada
+corpus.
 """
 
 from __future__ import annotations
@@ -32,16 +32,19 @@ def build_top_level_labels(
     *,
     overview_label: str,
     category_labels: Iterable[str],
-    corpus_labels: Iterable[str],
-    protocolled_labels: Iterable[str],
+    corpus_labels: Iterable[str] = (),
+    protocolled_labels: Iterable[str] = (),
 ) -> list[str]:
-    """Retorna os rótulos na ordem pública canônica."""
+    """Retorna apenas as quatro áreas públicas de primeiro nível.
+
+    ``corpus_labels`` e ``protocolled_labels`` permanecem na assinatura por
+    compatibilidade, mas as unidades são navegadas dentro das categorias.
+    """
+    del corpus_labels, protocolled_labels
     return [
         overview_label,
         SCIENTIFIC_INFRASTRUCTURE_LABEL,
         *list(category_labels),
-        *list(corpus_labels),
-        *list(protocolled_labels),
     ]
 
 
@@ -50,22 +53,20 @@ def calculate_navigation_slices(
     category_total: int,
     corpus_total: int,
 ) -> NavigationSlices:
-    """Calcula índices sem números mágicos espalhados pelo entrypoint."""
+    """Calcula as fatias para duas categorias e nenhuma aba unitária."""
     if category_total < 0 or corpus_total < 0:
         raise ValueError("Navigation totals cannot be negative")
 
     category_start = CATEGORY_START_INDEX
     category_stop = category_start + category_total
-    corpus_start = category_stop
-    corpus_stop = corpus_start + corpus_total
     return NavigationSlices(
         overview_index=OVERVIEW_INDEX,
         scientific_infrastructure_index=SCIENTIFIC_INFRASTRUCTURE_INDEX,
         category_start=category_start,
         category_stop=category_stop,
-        corpus_start=corpus_start,
-        corpus_stop=corpus_stop,
-        protocolled_start=corpus_stop,
+        corpus_start=category_stop,
+        corpus_stop=category_stop,
+        protocolled_start=category_stop,
     )
 
 
@@ -76,21 +77,15 @@ def build_navigation_contract(
     corpus_definitions: Sequence[Mapping[str, object]],
     protocolled_units: Sequence[Mapping[str, object]],
 ) -> tuple[list[str], NavigationSlices]:
-    """Monta rótulos e fatias a partir das definições públicas existentes."""
+    """Monta as quatro abas e mantém unidades disponíveis às categorias."""
     labels = build_top_level_labels(
         overview_label=tr_key("navigation.overview"),
         category_labels=(
             tr_key("navigation.category", label=str(item["short_label"]))
             for item in category_definitions
         ),
-        corpus_labels=(
-            tr_key("navigation.unit", label=str(item["short_label"]))
-            for item in corpus_definitions
-        ),
-        protocolled_labels=(
-            tr_key("navigation.documented_case", label=str(item["unit_label"]))
-            for item in protocolled_units
-        ),
+        corpus_labels=(str(item["short_label"]) for item in corpus_definitions),
+        protocolled_labels=(str(item["unit_label"]) for item in protocolled_units),
     )
     slices = calculate_navigation_slices(
         category_total=len(category_definitions),
