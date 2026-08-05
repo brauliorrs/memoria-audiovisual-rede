@@ -3149,6 +3149,30 @@ def render_category_tab(category_def):
             )
 
 
+    st.divider()
+    st.markdown("### Unidades desta categoria")
+    st.caption(
+        "Selecione uma unidade para abrir seu conteúdo completo nesta mesma aba, "
+        "sem criar uma aba principal adicional."
+    )
+    if not corpora_in_category:
+        st.info("Ainda não há unidades disponíveis nesta categoria.")
+        return
+
+    unit_labels = {
+        corpus_def["short_label"]: corpus_def
+        for corpus_def in corpora_in_category
+    }
+    selected_unit_label = st.selectbox(
+        "Abrir unidade",
+        options=list(unit_labels),
+        key=f"category-unit-detail-selector-{category_code}",
+    )
+    selected_unit = unit_labels[selected_unit_label]
+    with st.container(border=True):
+        render_corpus_tab(selected_unit)
+
+
 def format_institution_label(summary_df, slug):
     label_series = summary_df.loc[summary_df["slug"].astype(str) == str(slug), "institution"]
     if label_series.empty:
