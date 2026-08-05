@@ -35,7 +35,7 @@ BLOCKING_PATTERNS = {
 
 WARNING_PATTERNS = {
     "provisional_branch_reference": re.compile(
-        r"(?:presentation/rpv-1|feature/fase|digital-infrastructure-history)", re.IGNORECASE
+        r"(?:presentation/rpv-1|feature/fase)", re.IGNORECASE
     ),
     "pull_request_reference": re.compile(r"\bPR\s*#?\d+\b", re.IGNORECASE),
     "future_module_language": re.compile(r"\bmódulos? futuros?\b", re.IGNORECASE),
@@ -47,6 +47,7 @@ REQUIRED_SECTIONS = {
     "technical_implementation_roadmap.md": ("## Fase 5 — indicadores", "## Próximo portão técnico"),
     "indicator_catalog.md": ("## Status deste documento", "## Regra de ativação"),
     "ai_systems_protocol.md": ("## Estados avaliativos", "## Relação com indicadores"),
+    "module_mapping.md": ("## Fluxo arquitetural", "## Regras permanentes"),
 }
 
 
