@@ -11,10 +11,10 @@ from memoria_audiovisual.ui.navigation import (
 
 
 class NavigationContractTests(unittest.TestCase):
-    def test_top_level_labels_keep_scientific_infrastructure_after_overview(self):
+    def test_top_level_labels_include_only_overview_infrastructure_and_categories(self):
         labels = build_top_level_labels(
             overview_label="Visão geral",
-            category_labels=["Agregadores"],
+            category_labels=["Agregadores", "Arquivos"],
             corpus_labels=["INA"],
             protocolled_labels=["Caso documentado"],
         )
@@ -25,22 +25,23 @@ class NavigationContractTests(unittest.TestCase):
                 "Visão geral",
                 SCIENTIFIC_INFRASTRUCTURE_LABEL,
                 "Agregadores",
-                "INA",
-                "Caso documentado",
+                "Arquivos",
             ],
         )
+        self.assertNotIn("INA", labels)
+        self.assertNotIn("Caso documentado", labels)
 
-    def test_navigation_slices_start_categories_after_scientific_infrastructure(self):
+    def test_navigation_slices_end_after_category_tabs(self):
         slices = calculate_navigation_slices(category_total=3, corpus_total=5)
 
         self.assertEqual(slices.scientific_infrastructure_index, SCIENTIFIC_INFRASTRUCTURE_INDEX)
         self.assertEqual(slices.category_start, CATEGORY_START_INDEX)
         self.assertEqual(slices.category_stop, 5)
         self.assertEqual(slices.corpus_start, 5)
-        self.assertEqual(slices.corpus_stop, 10)
-        self.assertEqual(slices.protocolled_start, 10)
+        self.assertEqual(slices.corpus_stop, 5)
+        self.assertEqual(slices.protocolled_start, 5)
 
-    def test_navigation_contract_uses_existing_translation_keys(self):
+    def test_navigation_contract_uses_only_top_level_translation_keys(self):
         calls = []
 
         def tr_key(key, **kwargs):
@@ -60,18 +61,18 @@ class NavigationContractTests(unittest.TestCase):
                 "navigation.overview",
                 SCIENTIFIC_INFRASTRUCTURE_LABEL,
                 "Categoria A",
-                "Corpus A",
-                "Caso A",
             ],
         )
         self.assertEqual(slices.category_start, 2)
+        self.assertEqual(slices.category_stop, 3)
+        self.assertEqual(slices.corpus_start, 3)
+        self.assertEqual(slices.corpus_stop, 3)
+        self.assertEqual(slices.protocolled_start, 3)
         self.assertEqual(
             calls,
             [
                 ("navigation.overview", {}),
                 ("navigation.category", {"label": "Categoria A"}),
-                ("navigation.unit", {"label": "Corpus A"}),
-                ("navigation.documented_case", {"label": "Caso A"}),
             ],
         )
 
