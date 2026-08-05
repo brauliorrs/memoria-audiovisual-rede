@@ -34,6 +34,7 @@ def build_top_level_labels(
     category_labels: Iterable[str],
     corpus_labels: Iterable[str] = (),
     protocolled_labels: Iterable[str] = (),
+    scientific_infrastructure_label: str = SCIENTIFIC_INFRASTRUCTURE_LABEL,
 ) -> list[str]:
     """Retorna apenas as quatro áreas públicas de primeiro nível.
 
@@ -43,7 +44,7 @@ def build_top_level_labels(
     del corpus_labels, protocolled_labels
     return [
         overview_label,
-        SCIENTIFIC_INFRASTRUCTURE_LABEL,
+        scientific_infrastructure_label,
         *list(category_labels),
     ]
 
@@ -76,10 +77,12 @@ def build_navigation_contract(
     category_definitions: Sequence[Mapping[str, object]],
     corpus_definitions: Sequence[Mapping[str, object]],
     protocolled_units: Sequence[Mapping[str, object]],
+    scientific_infrastructure_label: str = SCIENTIFIC_INFRASTRUCTURE_LABEL,
 ) -> tuple[list[str], NavigationSlices]:
     """Monta as quatro abas e mantém unidades disponíveis às categorias."""
     labels = build_top_level_labels(
         overview_label=tr_key("navigation.overview"),
+        scientific_infrastructure_label=scientific_infrastructure_label,
         category_labels=(
             tr_key("navigation.category", label=str(item["short_label"]))
             for item in category_definitions
