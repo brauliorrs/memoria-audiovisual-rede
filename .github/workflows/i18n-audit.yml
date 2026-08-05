@@ -7,9 +7,11 @@ on:
     paths:
       - "app/**/*.py"
       - "src/memoria_audiovisual/i18n.py"
+      - "src/memoria_audiovisual/locale_catalog.py"
       - "src/memoria_audiovisual/locales/**"
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
+      - "scripts/audit_locale_catalogue_language.py"
       - "scripts/audit_overview_catalog.py"
       - "scripts/audit_research_catalog.py"
       - "scripts/sync_portuguese_catalog.py"
@@ -17,13 +19,16 @@ on:
       - "docs/project/BACKLOG.md"
   pull_request:
     branches:
-      - feature/fase2-adaptador-auditoria-infraestrutura
+      - main
+      - presentation/rpv-1
     paths:
       - "app/**/*.py"
       - "src/memoria_audiovisual/i18n.py"
+      - "src/memoria_audiovisual/locale_catalog.py"
       - "src/memoria_audiovisual/locales/**"
       - "src/memoria_audiovisual/research_profile.py"
       - "scripts/audit_streamlit_i18n.py"
+      - "scripts/audit_locale_catalogue_language.py"
       - "scripts/audit_overview_catalog.py"
       - "scripts/audit_research_catalog.py"
       - "scripts/sync_portuguese_catalog.py"
@@ -36,18 +41,21 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: presentation/rpv-1
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Check complete Portuguese catalogue coverage
         run: python scripts/sync_portuguese_catalog.py --check
+
       - name: Audit Overview semantic catalogue
         run: python scripts/audit_overview_catalog.py
+
       - name: Audit scientific parameters semantic catalogue
         run: python scripts/audit_research_catalog.py
+
       - name: Run Streamlit language audit
         shell: bash
         run: |
@@ -55,41 +63,86 @@ jobs:
           python scripts/audit_streamlit_i18n.py > i18n-audit.json
           set -e
           test -s i18n-audit.json || echo '[]' > i18n-audit.json
+
+      - name: Audit residual Portuguese in English and Spanish catalogues
+        run: |
+          python scripts/audit_locale_catalogue_language.py > locale-catalogue-audit.json
+          test -s locale-catalogue-audit.json || echo '[]' > locale-catalogue-audit.json
+
       - name: Build readable audit report
         run: |
           python - <<'PY'
           import json
           from collections import Counter, defaultdict
           from pathlib import Path
-          findings = json.loads(Path("i18n-audit.json").read_text(encoding="utf-8"))
-          by_page = Counter(item["page"] for item in findings)
-          by_kind = Counter(item["kind"] for item in findings)
-          by_severity = Counter(item["severity"] for item in findings)
+
+          runtime_findings = json.loads(Path("i18n-audit.json").read_text(encoding="utf-8"))
+          catalogue_findings = json.loads(Path("locale-catalogue-audit.json").read_text(encoding="utf-8"))
+
+          by_page = Counter(item["page"] for item in runtime_findings)
+          by_kind = Counter(item["kind"] for item in runtime_findings)
+          by_severity = Counter(item["severity"] for item in runtime_findings)
           grouped = defaultdict(list)
-          for item in findings:
+          for item in runtime_findings:
               grouped[item["page"]].append(item)
-          lines = ["# Language audit", "", f"Total findings: **{len(findings)}**", "", "## By page or module", ""]
+
+          catalogue_by_language = Counter(item["language"] for item in catalogue_findings)
+          catalogue_by_severity = Counter(item["severity"] for item in catalogue_findings)
+
+          lines = [
+              "# Language audit",
+              "",
+              f"Blocking runtime findings: **{len(runtime_findings)}**",
+              f"Catalogue values requiring review: **{len(catalogue_findings)}**",
+              "",
+              "## Runtime findings by page or module",
+              "",
+          ]
           lines.extend(f"- **{page}**: {count}" for page, count in sorted(by_page.items()))
-          lines.extend(["", "## By finding type", ""])
+          lines.extend(["", "## Runtime findings by type", ""])
           lines.extend(f"- `{kind}`: {count}" for kind, count in sorted(by_kind.items()))
-          lines.extend(["", "## By severity", ""])
+          lines.extend(["", "## Runtime findings by severity", ""])
           lines.extend(f"- `{severity}`: {count}" for severity, count in sorted(by_severity.items()))
+
           for page in sorted(grouped):
               lines.extend(["", f"## {page}", ""])
               for item in grouped[page]:
                   languages = ", ".join(item.get("languages") or [])
                   language_note = f" — languages: `{languages}`" if languages else ""
-                  lines.append(f"- **{item['severity']}** — `{item['kind']}` — `{item['path']}:{item['line']}` — `{item['call']}`{language_note} — {item['text']}")
+                  lines.append(
+                      f"- **{item['severity']}** — `{item['kind']}` — "
+                      f"`{item['path']}:{item['line']}` — `{item['call']}`"
+                      f"{language_note} — {item['text']}"
+                  )
+
+          lines.extend(["", "## Catalogue review", ""])
+          lines.extend(
+              f"- `{language}`: {count} values"
+              for language, count in sorted(catalogue_by_language.items())
+          )
+          lines.extend(["", "### Catalogue severity", ""])
+          lines.extend(
+              f"- `{severity}`: {count}"
+              for severity, count in sorted(catalogue_by_severity.items())
+          )
+          for item in catalogue_findings:
+              lines.append(
+                  f"- **{item['severity']}** — `{item['language']}` — `{item['key']}` — {item['value']}"
+              )
+
           Path("i18n-audit.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
           PY
+
       - name: Upload audit report
         uses: actions/upload-artifact@v4
         with:
           name: i18n-audit-report
           path: |
             i18n-audit.json
+            locale-catalogue-audit.json
             i18n-audit.md
-      - name: Enforce audit result
+
+      - name: Enforce runtime audit result
         run: |
           python - <<'PY'
           import json
@@ -97,5 +150,6 @@ jobs:
           findings = json.loads(Path("i18n-audit.json").read_text(encoding="utf-8"))
           if findings:
               raise SystemExit(f"Language findings remain: {len(findings)}. See the i18n-audit-report artifact.")
-          print("Language audit passed with zero blocking findings.")
+          print("Runtime language audit passed with zero blocking findings.")
+          print("Catalogue-language findings are report-only during the editorial correction cycle.")
           PY
