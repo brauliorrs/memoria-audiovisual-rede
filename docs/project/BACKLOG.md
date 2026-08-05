@@ -1,181 +1,282 @@
 # Project Backlog
 
-Este backlog separa as ações necessárias para consolidar a apresentação científica das melhorias que podem ser realizadas em ciclos posteriores.
+Este backlog separa consolidação operacional, expansão científica e melhorias de apresentação. A auditoria que fundamenta as prioridades atuais está em:
 
-## Prioridade atual — consolidação da interface pública
+`docs/audit/platform_integration_expansion_audit_2026-08-05.md`
 
-### 1. Validação multilíngue do percurso principal
+## P0 — consistência do corpus, das filas e dos denominadores
 
-**Estado:** em andamento, com arquitetura funcional já implantada.
+**Estado:** prioridade imediata.
 
-Concluído:
+### Estado auditado
 
-- navegação principal disponível em português, inglês e espanhol;
-- rótulos principais localizados, incluindo Infraestrutura Científica;
-- Infraestrutura Científica com conteúdo próprio nos três idiomas;
-- idioma ativo passado diretamente aos módulos especializados;
-- carregamento progressivo das seções principais;
-- remoção do carregamento simultâneo de todas as abas ocultas.
+- corpus científico de referência: **58 entidades**;
+- corpus operacional ativo: **55 entidades**;
+- entidades inativas: **3**;
+- composição: **7 agregadores** e **51 arquivos ou instituições**;
+- resumo europeu ainda informa **54 corpora ativos**;
+- fila europeia vigente: `observatorio_fila_pesquisa_europa.csv`, com **118 registros e 24 campos**;
+- fila de fechamento v1: 6 registros, mantida apenas como histórico.
 
-Pendências:
+### Ações
 
-1. realizar validação manual completa do percurso principal nos três idiomas;
-2. verificar frases híbridas e traduções parciais nas categorias e páginas de unidade;
-3. revisar controles, mensagens, tabelas e expansores após a seleção de cada idioma;
-4. registrar problemas por página e prioridade;
-5. confirmar que nenhuma mudança de idioma mantém rótulos ou estado visual do idioma anterior;
-6. concluir o critério de prontidão para apresentação científica internacional.
+1. regenerar `observatorio_pesquisa_europa.csv`, `observatorio_fila_pesquisa_europa.csv` e `observatorio_resumo_pesquisa_europa.csv` a partir do `CORPORA` atual;
+2. corrigir a divergência entre 54 e 55 corpora ativos;
+3. declarar `observatorio_fila_fechamento_europa.csv` como artefato histórico, não operacional;
+4. validar códigos únicos, ranking contínuo, totais por camada e coerência com o inventário científico;
+5. criar teste que falhe quando o resumo europeu divergir do corpus canônico;
+6. registrar explicitamente a diferença entre corpus de referência, corpus ativo, radar e fila incorporável.
 
-### 2. Navegação principal e desempenho
+### Critério de conclusão
 
-**Estado:** primeira etapa concluída.
+Fila, registro, resumo, inventário e interface apresentam os mesmos denominadores e versões.
+
+## P1 — primeiro ciclo operacional completo
+
+**Estado:** pendente.
+
+O último ciclo registrado, concluído em **21 de julho de 2026**, foi parcial e processou apenas `home-movies-memoryscapes`. A linha do tempo não contém um ciclo completo dos 55 corpora ativos.
+
+A linha do tempo demonstra alguma execução para 36 códigos únicos; 19 corpora ativos não aparecem nesse histórico de ciclos.
+
+### Ações
+
+1. executar ciclo integral dos 55 corpora ativos;
+2. manter falhas, ausências e estados não avaliáveis explicitamente registrados;
+3. gerar manifesto do ciclo completo;
+4. atualizar linha do tempo e resultados por corpus;
+5. verificar se todos os corpora ativos possuem snapshot e observation key;
+6. produzir relatório formal de validação operacional;
+7. congelar o primeiro baseline operacional completo.
+
+### Critério de conclusão
+
+Todos os 55 corpora ativos aparecem em um ciclo completo, com resultado, falha ou estado não avaliável auditável.
+
+## P2 — materialização da infraestrutura já implementada
+
+**Estado:** código existente; produtos operacionais incompletos.
+
+### Produtos científicos
 
 Implementado:
 
-- apenas quatro áreas de primeiro nível:
-  1. Visão Geral;
-  2. Infraestrutura Científica;
-  3. Categoria: Agregadores;
-  4. Categoria: Arquivos;
-- corpora e unidades removidos do nível superior;
-- unidades acessadas por seletor dentro da categoria correspondente;
-- somente a seção principal selecionada é executada;
-- Infraestrutura Científica carrega apenas a subseção escolhida;
-- protótipo vertical separado da Visão Geral removido após avaliação negativa.
+- registros de indicadores e metodologia;
+- snapshot de referência de 58 corpora;
+- cobertura de referência;
+- nove resultados científicos materializados;
+- interface Infraestrutura Científica nos três idiomas.
+
+Ainda não materializado operacionalmente:
+
+- `data/output/controlled_validation_summary.json`;
+- snapshot vivo em `data/output/analytics/<snapshot>`;
+- `data/output/analytics/indicator_history.jsonl`;
+- `data/digital_infrastructure/ledger.jsonl`;
+- `data/digital_infrastructure/ingestion_batches.jsonl`.
+
+### Ações
+
+1. executar a validação controlada sobre `europeana`, `ina` e `bfi`;
+2. persistir cobertura, manifesto, run, sensibilidade e nove indicadores;
+3. iniciar histórico append-only de indicadores;
+4. materializar ledger e lotes de ingestão;
+5. fazer a Infraestrutura Científica distinguir claramente snapshot de referência e snapshot operacional;
+6. impedir que ausência de artefato operacional seja apresentada como resultado empírico.
+
+### Critério de conclusão
+
+A interface consegue carregar um snapshot operacional reproduzível, com proveniência, hashes, histórico, ledger e lote de ingestão.
+
+## P3 — operacionalização segura da fila europeia
+
+**Estado:** fila disponível; sondagem e gate ainda não operacionalizados.
+
+### Estrutura existente
+
+- 118 registros na fila europeia;
+- 5 fontes de descoberta nas primeiras posições;
+- 73 candidatos na fila definitiva um a um;
+- 30 agregadores nacionais ou regionais em radar;
+- 8 agregadores temáticos em radar contextual;
+- código de sondagem técnica;
+- gate de elegibilidade científica;
+- testes estruturais;
+- proibição de promoção automática para `CORPORA`.
+
+### Produtos ausentes
+
+- `observatorio_sondagem_tecnica_fila_europa.json`;
+- `observatorio_elegibilidade_fila_europa.json`;
+- `observatorio_elegibilidade_fila_europa.csv`;
+- workflow operacional e reiniciável da fila;
+- fila de revisão curatorial;
+- apresentação dos estados do gate na interface.
+
+### Ações
+
+1. criar workflow manual para sondagem com `limit`, `resume` e timeout;
+2. sondar candidatos individuais, sem executar fontes de diretório como corpora;
+3. materializar evidências técnicas e erros;
+4. executar o gate de elegibilidade;
+5. criar relatório por estado: aprovado, rejeitado e revisão humana;
+6. apresentar contagens e critérios na plataforma;
+7. criar lote de revisão curatorial;
+8. incorporar somente candidatos aprovados, em commit e decisão separados;
+9. nunca alterar `CORPORA` automaticamente.
+
+### Critério de conclusão
+
+Cada candidato possui evidência, estado do gate e decisão humana rastreável antes de qualquer incorporação.
+
+## P4 — política dos 20 corpora e prontidão regional
+
+**Estado:** regra proposta; simulação e automação pendentes.
+
+Uma rodada continental deve ser aberta quando houver **20 novos corpora elegíveis, aprovados e validados do mesmo continente** desde a última rodada concluída.
+
+Não contam:
+
+- fontes de descoberta;
+- registros em radar;
+- duplicados;
+- candidatos não avaliáveis;
+- negativos metodológicos;
+- candidatos sem evidência suficiente;
+- revisões curatoriais pendentes.
+
+### Ações
+
+1. simular a regra com a fila europeia real;
+2. criar contador por continente baseado em candidatos aprovados;
+3. definir prazo máximo sem atingir 20;
+4. definir regra proporcional para regiões com baixa disponibilidade;
+5. definir tratamento de agregadores mundiais e instituições transcontinentais;
+6. decidir se cada rodada reobserva todo o corpus continental;
+7. versionar denominadores continentais e globais;
+8. integrar o gatilho a snapshots, analytics e publicação;
+9. publicar relatório de prontidão por região.
+
+### Critério de conclusão
+
+A plataforma informa quantos corpora aprovados faltam para a próxima rodada e qual versão do denominador será alterada.
+
+## P5 — sequência continental
+
+**Estado:** sequência provisória definida para planejamento.
+
+A descoberta pode ocorrer em paralelo, mas a ativação de novas ondas segue:
+
+0. consolidação do baseline atual, sem novas incorporações;
+1. Europa;
+2. América do Norte;
+3. América Latina e Caribe;
+4. África;
+5. Ásia;
+6. Oceania.
+
+Fontes mundiais, supranacionais ou transcontinentais permanecem em fila transversal e não contam automaticamente para um continente.
+
+### Regras
+
+- agregadores continentais, supranacionais ou nacionais entram antes de instituições individuais;
+- arquivos individuais devem preencher lacunas ou oferecer contraste metodológico;
+- facilidade técnica não pode ser o único critério de prioridade;
+- a ordem só pode mudar após inventário comparável de fontes, justificativa científica e registro da decisão;
+- nenhum novo continente entra em ativação antes da conclusão de P0–P4.
+
+### Próxima onda
+
+Após o fechamento europeu:
+
+1. consolidar a América do Norte, iniciada pelo AAPB;
+2. criar inventário e fila da América Latina e Caribe, usando Iberarchivos apenas como fonte de descoberta e curadoria;
+3. manter pesquisa preparatória de África, Ásia e Oceania sem incorporação prematura.
+
+## P6 — publicação derivada e entrega pública
+
+**Estado:** código estrutural existente; implantação pendente.
+
+Implementado em código:
+
+- visão pública derivada;
+- revisão de publicação;
+- registro da publicação ativa;
+- histórico de ativações;
+- projeção de entrega pública.
 
 Pendências:
 
-1. medir tempo de abertura de cada uma das quatro áreas;
-2. identificar leituras de arquivos ainda repetidas após a seleção;
-3. avaliar cache e pré-computação nas categorias e unidades;
-4. verificar comportamento após suspensão e reinicialização no Streamlit Cloud;
-5. testar a navegação em celular, tablet e conexão mais lenta;
-6. documentar um orçamento mínimo de desempenho.
+1. definir raiz pública canônica;
+2. materializar `active_publications.json` e histórico;
+3. criar workflow de ativação com portão editorial;
+4. gerar `delivery/events.json` e `delivery/manifest.json`;
+5. conectar somente produtos aprovados ao observatório;
+6. implementar API pública somente leitura em ciclo posterior;
+7. criar catálogo estável de downloads e manifestos.
 
-## Alta prioridade — arquitetura visual e responsividade
+## P7 — consolidação da interface pública
 
-**Estado:** inventário concluído; estratégia revisada.
+**Estado:** arquitetura principal implantada; auditoria residual.
 
-O fluxo vertical integral proposto para a Visão Geral foi testado e rejeitado. A revisão visual continuará de forma incremental sobre a interface existente, preservando a navegação horizontal curta de quatro áreas.
+Concluído:
 
-Diretrizes atuais:
+- quatro áreas principais;
+- unidades acessadas dentro das categorias;
+- carregamento somente da área selecionada;
+- Infraestrutura Científica progressiva;
+- português, inglês e espanhol;
+- remoção do protótipo vertical rejeitado.
 
-- reduzir densidade e horizontalidade dentro das páginas, sem transformar toda a aplicação em uma sequência vertical única;
-- limitar fileiras excessivas de métricas;
-- priorizar filtros antes de tabelas extensas;
-- mover detalhes secundários para expansores ou para a unidade selecionada;
-- evitar carregar tabelas, gráficos e evidências que o usuário ainda não solicitou;
-- preservar as quatro áreas principais como estrutura estável de navegação;
-- validar responsividade sem sacrificar a leitura científica em desktop.
+Pendências:
 
-Próximas ações:
+1. validar manualmente as quatro áreas nos três idiomas;
+2. corrigir frases híbridas remanescentes;
+3. medir tempo de abertura de cada área e unidade;
+4. testar suspensão e reinicialização do Streamlit Cloud;
+5. validar celular, tablet e desktop;
+6. reduzir tabelas largas e métricas redundantes de forma incremental.
 
-1. revisar a Visão Geral atual e eliminar redundâncias sem reconstruí-la integralmente;
-2. revisar `render_category_tab`, agora responsável pela síntese e pelo acesso às unidades;
-3. reduzir métricas simultâneas e tabelas largas nas páginas de unidade;
-4. escolher entre `render_panel_tab` e `render_data_tab` para o próximo redesenho controlado;
-5. criar padrões reutilizáveis para tabela essencial, detalhe sob demanda e métricas compactas;
-6. executar teste manual em celular, tablet e desktop;
-7. comparar desempenho e legibilidade antes/depois.
-
-Detalhamento em:
+Detalhamento visual:
 
 `docs/project/VISUAL_ARCHITECTURE_BACKLOG.md`
 
-## Alta prioridade — política de alimentação dos corpora e atualização dos índices
-
-**Estado:** regra proposta; decisões metodológicas e automação pendentes.
-
-### Gatilho operacional proposto
-
-Uma nova rodada de atualização dos índices deve ser aberta quando forem incorporados **20 novos corpora elegíveis e validados do mesmo continente** desde a última rodada concluída para esse continente.
-
-A contagem é separada por continente e não pode combinar corpora de continentes diferentes apenas para atingir o limite.
-
-### Elegibilidade para a contagem
-
-Um corpus somente entra na contagem quando possuir:
-
-1. identidade institucional estável e continente definido;
-2. metadados mínimos completos;
-3. evidência e proveniência registradas;
-4. validação estrutural concluída;
-5. estado de avaliabilidade definido;
-6. decisão de inclusão aprovada;
-7. ausência de pendência crítica de integridade.
-
-Duplicados, pendentes, experimentais, excluídos, não avaliáveis ou sem evidência suficiente não contam.
-
-### Ações ao atingir o limite
-
-1. congelar a composição elegível da rodada;
-2. abrir novo ciclo continental de observação;
-3. executar coleta e validação;
-4. recalcular indicadores continentais;
-5. recalcular indicadores globais afetados pelo novo denominador;
-6. atualizar cobertura, elegibilidade e não avaliabilidade;
-7. comparar com o snapshot anterior;
-8. revisar mudanças materiais e distorções metodológicas;
-9. passar pelos portões editoriais e de governança;
-10. preservar os resultados anteriores como versão histórica imutável.
-
-### Rodadas antecipadas
-
-Uma rodada pode ocorrer antes de 20 corpora quando houver:
-
-- correção de erro material;
-- mudança metodológica relevante;
-- alteração importante de avaliabilidade;
-- incorporação de bloco nacional ou regional estratégico;
-- evento relevante de acesso, infraestrutura ou preservação;
-- publicação científica, relatório ou marco formal da pesquisa.
-
-Toda antecipação deve possuir justificativa registrada.
-
-### Decisões pendentes
-
-1. simular o limite de 20 com o tamanho atual dos continentes;
-2. definir o tratamento de instituições transcontinentais e agregadores internacionais;
-3. avaliar limite proporcional ou prazo máximo para continentes com menor expansão;
-4. definir exatamente quais indicadores são recalculados;
-5. decidir se a rodada reobserva todo o corpus continental ou apenas as novas unidades;
-6. definir prazo máximo de espera sem atingir o limite;
-7. criar contador automatizado e relatório de prontidão;
-8. integrar o gatilho aos workflows de snapshot, analytics e publicação.
-
-### Critérios de aceite
-
-- a plataforma informa quantos corpora faltam para a próxima rodada em cada continente;
-- apenas corpora elegíveis incrementam a contagem;
-- composição e metodologia são congeladas antes do cálculo;
-- denominadores continentais e globais são versionados;
-- índices anteriores permanecem recuperáveis;
-- rodadas antecipadas possuem justificativa pública ou auditável;
-- todo índice exibe data de referência, tamanho do corpus e versão metodológica.
-
-## Após a consolidação da apresentação científica
-
-### Scientific Internationalization Audit — SIA
-
-**Estado:** backlog posterior.
-
-Escopo potencial:
-
-- métricas de cobertura multilíngue por página, módulo e componente;
-- validação terminológica semântica;
-- inspeção de constantes e estruturas aninhadas;
-- proveniência e estado de revisão das traduções;
-- verificação automática de consistência terminológica;
-- indicador de qualidade da tradução;
-- portão completo de internacionalização;
-- migração integral de textos públicos para chaves semânticas.
-
-### Vitrine pública independente
+## P8 — vitrine pública independente
 
 **Estado:** decisão arquitetural pendente.
 
-O Streamlit permanece como observatório analítico. Após a consolidação da interface atual, deve ser avaliada uma vitrine pública leve, rápida e indexável, separada do ambiente analítico.
+O Streamlit permanece como observatório analítico. A vitrine futura deve ser leve, indexável, multilíngue e separada do ambiente de exploração científica.
+
+A vitrine só deve consumir produtos publicados ou claramente identificados como provisórios.
+
+## P9 — Scientific Internationalization Audit — SIA
+
+**Estado:** ciclo posterior.
+
+Escopo potencial:
+
+- métricas de cobertura multilíngue por página e componente;
+- validação terminológica semântica;
+- proveniência e revisão das traduções;
+- consistência automática entre catálogos;
+- indicador de qualidade da tradução;
+- migração integral de textos públicos para chaves semânticas.
+
+## Ordem executiva atual
+
+```text
+1. Sincronizar corpus, registro, fila e resumo europeus
+2. Executar o ciclo completo dos 55 corpora ativos
+3. Materializar validação controlada, analytics vivo, ledger e lotes
+4. Operacionalizar sondagem e elegibilidade da fila europeia
+5. Simular e automatizar a política dos 20 corpora
+6. Fechar a onda europeia
+7. Consolidar a América do Norte
+8. Preparar a fila da América Latina e Caribe
+9. Ativar publicação derivada e entrega pública
+10. Retomar expansão continental subsequente
+```
 
 ## Regra do backlog
 
-Uma ideia permanece no backlog quando melhora a plataforma, mas não impede uma apresentação clara, credível, funcional e linguisticamente consistente da infraestrutura científica atual.
+Novas funcionalidades não devem anteceder a execução dos módulos científicos e de governança que já existem. A prioridade é transformar código estrutural em um ciclo operacional completo, auditável e publicável.
