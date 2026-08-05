@@ -2,113 +2,46 @@
 
 ## Objetivo
 
-Reduzir a poluição visual do observatório e reorganizar a interface para favorecer leitura progressiva, navegação vertical e uso confortável em celulares, tablets e telas de diferentes larguras.
+Reduzir a poluição visual do observatório, melhorar desempenho e tornar a interface utilizável em celular, tablet e desktop sem comprometer a leitura científica.
 
-A revisão não deve ser tratada apenas como mudança estética. Ela envolve arquitetura da informação, hierarquia visual, responsividade, densidade de dados e escolha adequada do componente de apresentação.
+A revisão envolve arquitetura da informação, hierarquia visual, responsividade, densidade de dados e carregamento progressivo.
 
-## Diagnóstico atual
+## Estado atual
 
-- excesso de informações simultâneas na mesma tela;
-- muitos blocos, métricas e tabelas distribuídos horizontalmente;
-- percurso excessivamente lateral e pouco orientado à rolagem vertical;
-- tabelas extensas com grande número de colunas;
-- leitura prejudicada em celulares e tablets;
-- pouca diferenciação entre informação principal, informação contextual e detalhe técnico;
-- seções densas apresentadas integralmente antes de o usuário solicitar aprofundamento;
-- risco de o volume visual ocultar a narrativa científica da plataforma.
+### Concluído
 
-## Princípio central
+- inventário automatizado das funções de renderização;
+- auditoria integrada ao workflow `Quality Checks`;
+- redução da navegação principal para quatro áreas;
+- remoção das abas individuais de corpora e casos documentados;
+- acesso às unidades dentro da categoria correspondente;
+- substituição do carregamento simultâneo das abas principais por seleção de seção única;
+- carregamento progressivo da Infraestrutura Científica;
+- localização multilíngue do rótulo e do conteúdo da Infraestrutura Científica;
+- teste e remoção do protótipo vertical separado da Visão Geral.
 
-> Sempre que uma seção apresentar corpus extenso, grande volume de campos ou conteúdo analítico denso, a organização padrão deverá ser vertical.
+### Decisão de design revisada
 
-O usuário deve compreender a informação avançando de cima para baixo. A disposição horizontal deve ser reservada a comparações curtas, métricas sintéticas ou grupos pequenos de elementos que permaneçam legíveis em telas estreitas.
+O protótipo de Visão Geral totalmente vertical não apresentou bom resultado e foi removido. Portanto, a estratégia não será transformar toda a plataforma em uma sequência vertical única.
 
-## Regras de layout
+A navegação horizontal curta de quatro áreas será preservada:
 
-### 1. Fluxo vertical como padrão
+1. Visão Geral;
+2. Infraestrutura Científica;
+3. Categoria: Agregadores;
+4. Categoria: Arquivos.
 
-- organizar seções extensas em sequência vertical;
-- limitar o número de colunas simultâneas;
-- evitar painéis largos com múltiplas áreas competindo pela atenção;
-- priorizar uma questão, gráfico ou tabela principal por bloco;
-- usar títulos, subtítulos e resumos para construir progressão de leitura.
+A verticalização continuará sendo usada de forma seletiva dentro de páginas densas, tabelas extensas, listas de unidades e detalhes técnicos.
 
-### 2. Corpora e tabelas extensas
+## Diagnóstico mantido
 
-Para corpora grandes:
-
-- preferir registros, cartões, listas ou blocos empilhados verticalmente;
-- exibir primeiro os campos essenciais;
-- mover campos secundários para expansores, detalhes ou páginas específicas;
-- permitir filtros antes da renderização de tabelas muito extensas;
-- limitar a tabela inicial às colunas necessárias para a decisão do usuário;
-- evitar rolagem horizontal como mecanismo principal de navegação;
-- disponibilizar download do conjunto completo quando a interface não for adequada para exibir todos os campos;
-- considerar visão por unidade documental, com um registro abaixo do outro, em telas pequenas.
-
-### 3. Métricas
-
-- usar uma única coluna em celulares;
-- usar no máximo duas colunas em tablets quando os rótulos forem longos;
-- evitar fileiras extensas de métricas;
-- agrupar métricas por tema, não apenas por disponibilidade de espaço;
-- apresentar primeiro indicadores centrais e deixar métricas auxiliares em seção posterior.
-
-### 4. Gráficos
-
-- priorizar gráficos que funcionem em largura reduzida;
-- para muitas categorias, usar barras horizontais com categorias empilhadas verticalmente;
-- evitar legendas extensas ao lado do gráfico;
-- não colocar vários gráficos densos na mesma linha;
-- permitir leitura do gráfico sem depender de interação por hover, que é limitada em telas móveis.
-
-### 5. Navegação e detalhamento progressivo
-
-- usar expansores apenas para conteúdo secundário e não para esconder informação essencial;
-- dividir páginas muito longas por seções claramente identificadas;
-- adotar detalhamento progressivo: resumo, resultado, método, evidência e dados completos;
-- permitir que o usuário abra o detalhe de uma instituição ou corpus sem carregar toda a base na tela inicial;
-- avaliar filtros e navegação por etapas em vez de apresentar todas as opções simultaneamente.
-
-### 6. Hierarquia visual
-
-- reduzir caixas, bordas, cores, mensagens e títulos concorrentes;
-- estabelecer níveis claros de título e espaçamento;
-- reservar destaque visual para resultados realmente prioritários;
-- separar conteúdo científico, controles de navegação e mensagens operacionais;
-- evitar repetição da mesma informação em métrica, tabela, texto e gráfico sem função analítica distinta.
-
-## Responsividade mínima
-
-A interface deverá ser avaliada em pelo menos três faixas:
-
-1. celular: aproximadamente 320–480 px;
-2. tablet: aproximadamente 768–1024 px;
-3. desktop: acima de 1200 px.
-
-A validação deve verificar:
-
-- ausência de cortes de texto e componentes;
-- ausência de rolagem horizontal obrigatória nas páginas principais;
-- legibilidade de tabelas e rótulos;
-- tamanho adequado de controles de toque;
-- ordem lógica dos componentes após o empilhamento;
-- carregamento e navegação em orientação vertical e horizontal do dispositivo.
-
-## Inventário visual concluído
-
-O inventário automatizado foi executado sobre `app/streamlit_app.py` e registrado em:
-
-`docs/audit/streamlit_visual_inventory.md`
-
-Principais resultados:
+O inventário registrou:
 
 - 18 funções de renderização analisadas;
-- `render_observatory_overview_tab` classificada como prioridade máxima, com 1.295 linhas, 14 chamadas de colunas, até 7 colunas simultâneas, 38 métricas e 37 tabelas;
+- `render_observatory_overview_tab` com 1.295 linhas, 14 chamadas de colunas, até 7 colunas simultâneas, 38 métricas e 37 tabelas;
 - `render_panel_tab` com 19 tabelas e 9 gráficos;
 - `render_data_tab` com 15 tabelas e nenhum expansor;
-- sete páginas ou seções adicionais classificadas como críticas por excesso de colunas, métricas ou densidade analítica;
-- confirmação objetiva de que a principal interface está excessivamente horizontal e concentrada.
+- páginas adicionais com excesso de colunas, métricas ou densidade analítica.
 
 A auditoria permanece executável por:
 
@@ -116,68 +49,115 @@ A auditoria permanece executável por:
 python scripts/audit_streamlit_visual_layout.py
 ```
 
-Ela também passou a integrar o workflow `Quality Checks`.
+## Princípios vigentes
 
-## Ordem de redesign aprovada
+### 1. Navegação principal curta e estável
 
-### Ciclo 1 — protótipos prioritários
+- preservar apenas quatro áreas principais;
+- não recriar abas individuais para corpora;
+- abrir unidades por seleção dentro das categorias;
+- executar somente a seção selecionada;
+- não usar `st.tabs` quando o conteúdo oculto for pesado.
 
-1. `render_observatory_overview_tab` — Visão Geral;
-2. `render_corpus_tab` ou `render_data_tab` — modelo para corpus extenso.
+### 2. Redução de densidade dentro das páginas
 
-### Ciclo 2 — páginas de alta densidade
+- reduzir fileiras excessivas de métricas;
+- agrupar indicadores por finalidade científica;
+- eliminar repetições entre métrica, texto, tabela e gráfico;
+- apresentar primeiro síntese e resultado;
+- mover método, evidência e dados completos para detalhamento sob demanda.
 
-3. `render_panel_tab`;
-4. `render_institution_tab`;
-5. `render_videos_tab`;
-6. `render_category_tab`;
-7. `render_research_tab`.
+### 3. Corpora e tabelas extensas
 
-### Ciclo 3 — harmonização e validação
+- aplicar filtros antes da tabela;
+- exibir inicialmente apenas colunas essenciais;
+- usar detalhes ou expansores para campos secundários;
+- manter download do conjunto completo;
+- evitar que a tabela larga seja a única forma de consulta;
+- carregar o corpus detalhado apenas após a seleção da unidade.
 
-8. `render_base_tab`;
-9. `render_protocolled_excluded_unit_tab`;
-10. `render_scientific_parameters_section`;
-11. `render_geo_tab`;
-12. páginas de baixa pressão e componentes auxiliares.
+### 4. Gráficos
 
-## Entregáveis
+- evitar vários gráficos densos na mesma linha;
+- preferir uma questão analítica por bloco;
+- usar barras horizontais quando houver muitas categorias;
+- garantir leitura sem depender exclusivamente de hover;
+- adiar gráficos secundários até solicitação do usuário.
 
-1. inventário visual por página e aba — **concluído**;
-2. mapa da arquitetura de informação atual — **parcialmente concluído pelo inventário**;
-3. proposta de nova hierarquia visual — **pendente**;
-4. regras de responsividade para componentes Streamlit — **definidas em nível geral; implementação pendente**;
-5. protótipo da página Visão Geral — **próxima ação**;
-6. protótipo de uma página com corpus extenso — **próxima ação**;
-7. padrão para tabelas, cartões, listas, métricas e gráficos — **pendente**;
-8. teste manual em celular e tablet — **pendente**;
-9. comparação antes/depois com capturas de tela — **pendente**;
-10. checklist de aceite visual e responsivo — **pendente**.
+### 5. Responsividade
+
+A interface deve ser verificada em:
+
+1. celular: 320–480 px;
+2. tablet: 768–1024 px;
+3. desktop: acima de 1200 px.
+
+Verificar:
+
+- cortes de texto;
+- rolagem horizontal obrigatória;
+- empilhamento de métricas;
+- largura de tabelas;
+- controles de toque;
+- legibilidade de rótulos;
+- manutenção da ordem científica dos componentes.
+
+## Ordem de trabalho revisada
+
+### Ciclo 1 — consolidação da nova navegação
+
+1. validar manualmente as quatro áreas nos três idiomas;
+2. medir tempo de abertura de cada área;
+3. verificar o seletor de unidades em Agregadores e Arquivos;
+4. testar mudança de idioma mantendo a seção selecionada;
+5. revisar falhas de rótulo, estado e cache.
+
+### Ciclo 2 — redução de densidade prioritária
+
+6. revisar `render_observatory_overview_tab` sem reconstrução integral;
+7. revisar `render_category_tab`, que passou a concentrar síntese e acesso às unidades;
+8. escolher `render_panel_tab` ou `render_data_tab` como primeiro redesenho interno controlado;
+9. reduzir tabelas e métricas exibidas antes da solicitação do usuário;
+10. definir padrões reutilizáveis de resumo, filtro, tabela essencial e detalhe.
+
+### Ciclo 3 — páginas de alta densidade
+
+11. `render_institution_tab`;
+12. `render_videos_tab`;
+13. `render_research_tab`;
+14. páginas de unidade e componentes auxiliares.
+
+### Ciclo 4 — validação responsiva
+
+15. teste manual em celular, tablet e desktop;
+16. comparação antes/depois;
+17. checklist de aceite visual;
+18. registro das limitações remanescentes do Streamlit.
+
+## Próxima ação recomendada
+
+Realizar uma **auditoria manual do percurso principal** nas quatro áreas e nos três idiomas, registrando:
+
+- tempo de abertura;
+- falhas de tradução;
+- componentes que não respondem;
+- tabelas que exigem rolagem horizontal;
+- métricas excessivas;
+- conteúdo carregado antes da solicitação do usuário.
+
+Após essa auditoria, o primeiro redesenho interno deve ocorrer em `render_category_tab` ou `render_data_tab`, e não em uma nova versão separada da Visão Geral.
 
 ## Critérios de conclusão
 
-- a navegação principal ocorre prioritariamente de cima para baixo;
-- corpora extensos não dependem de tabelas excessivamente largas;
-- a quantidade de elementos simultâneos é reduzida;
-- a informação principal aparece antes dos detalhes técnicos;
-- páginas principais funcionam sem rolagem horizontal obrigatória em celular;
-- métricas e gráficos se reorganizam adequadamente em tablets e celulares;
-- o usuário consegue identificar rapidamente objetivo, resultado e próxima ação;
-- a estética reforça a credibilidade científica, sem competir com os dados.
-
-## Prioridade
-
-**Alta — experiência pública e apresentação científica.**
-
-Esta frente deve ser articulada com:
-
-- A7 — vitrine pública do projeto;
-- diagnóstico de desempenho do Streamlit;
-- revisão da terminologia pública;
-- arquitetura futura do observatório analítico.
+- as quatro áreas principais abrem de forma confiável;
+- apenas a área selecionada é executada;
+- unidades não voltam ao nível superior;
+- a informação essencial aparece antes do detalhe técnico;
+- tabelas extensas possuem visão inicial reduzida ou alternativa de consulta;
+- não há rolagem horizontal obrigatória nas rotas principais móveis;
+- mudança de idioma atualiza rótulos e conteúdo da seção ativa;
+- a interface mantém credibilidade científica e desempenho aceitável.
 
 ## Estado
 
-**Inventário concluído; redesign pendente.**
-
-A próxima ação é criar a nova hierarquia e o primeiro protótipo vertical da página Visão Geral. Em seguida, deve ser criado o padrão de apresentação vertical para `render_corpus_tab` ou `render_data_tab`.
+**Navegação e carregamento progressivo implementados; validação multilíngue, redução de densidade e responsividade pendentes.**
