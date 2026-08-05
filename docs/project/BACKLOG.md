@@ -1,158 +1,181 @@
 # Project Backlog
 
-This backlog separates future improvements from the frozen scope required for the first international scientific presentation of the platform.
+Este backlog separa as ações necessárias para consolidar a apresentação científica das melhorias que podem ser realizadas em ciclos posteriores.
 
-## Current Priority — Frozen Scope
+## Prioridade atual — consolidação da interface pública
 
-### Language MVP+
+### 1. Validação multilíngue do percurso principal
 
-1. Detect hybrid-language phrases in public interface text.
-2. Audit visible Streamlit components.
-3. Generate a concise report grouped by page or module.
-4. Review the Home page in Portuguese, English and Spanish.
-5. Review the Research module in Portuguese, English and Spanish.
-6. Review the Analytics module in Portuguese, English and Spanish.
-7. Perform manual validation of the main presentation path in all three languages.
-8. Confirm readiness for the first scientific presentation.
+**Estado:** em andamento, com arquitetura funcional já implantada.
 
-New features that do not block the presentation must not enter this scope.
+Concluído:
 
-## High Priority — Visual Architecture and Responsiveness
+- navegação principal disponível em português, inglês e espanhol;
+- rótulos principais localizados, incluindo Infraestrutura Científica;
+- Infraestrutura Científica com conteúdo próprio nos três idiomas;
+- idioma ativo passado diretamente aos módulos especializados;
+- carregamento progressivo das seções principais;
+- remoção do carregamento simultâneo de todas as abas ocultas.
 
-**Status:** Backlog
+Pendências:
 
-**Objective:** reduce visual pollution and reorganize the analytical interface around vertical reading, progressive disclosure and responsive use on mobile phones and tablets.
+1. realizar validação manual completa do percurso principal nos três idiomas;
+2. verificar frases híbridas e traduções parciais nas categorias e páginas de unidade;
+3. revisar controles, mensagens, tabelas e expansores após a seleção de cada idioma;
+4. registrar problemas por página e prioridade;
+5. confirmar que nenhuma mudança de idioma mantém rótulos ou estado visual do idioma anterior;
+6. concluir o critério de prontidão para apresentação científica internacional.
 
-Core rule:
+### 2. Navegação principal e desempenho
 
-> Large corpora, wide datasets and analytically dense sections must default to a vertical presentation. Horizontal layouts should be limited to short comparisons and small groups of summary metrics.
+**Estado:** primeira etapa concluída.
 
-Required work:
+Implementado:
 
-1. inventory the visual structure of every page and tab;
-2. identify excessive columns, wide tables and side-by-side charts;
-3. reduce the number of metrics displayed on the same row;
-4. prioritise top-to-bottom reading and progressive detail;
-5. replace unnecessarily wide corpus tables with vertical records, cards, lists or compact essential-column views;
-6. move secondary fields to details, expanders or unit-specific views;
-7. avoid mandatory horizontal scrolling on primary mobile routes;
-8. validate layouts on mobile, tablet and desktop widths;
-9. define reusable Streamlit patterns for metrics, tables, charts and large corpora;
-10. prototype the Overview page and one large-corpus page before applying changes globally.
+- apenas quatro áreas de primeiro nível:
+  1. Visão Geral;
+  2. Infraestrutura Científica;
+  3. Categoria: Agregadores;
+  4. Categoria: Arquivos;
+- corpora e unidades removidos do nível superior;
+- unidades acessadas por seletor dentro da categoria correspondente;
+- somente a seção principal selecionada é executada;
+- Infraestrutura Científica carrega apenas a subseção escolhida;
+- protótipo vertical separado da Visão Geral removido após avaliação negativa.
 
-The detailed backlog, acceptance criteria and responsive rules are documented in:
+Pendências:
+
+1. medir tempo de abertura de cada uma das quatro áreas;
+2. identificar leituras de arquivos ainda repetidas após a seleção;
+3. avaliar cache e pré-computação nas categorias e unidades;
+4. verificar comportamento após suspensão e reinicialização no Streamlit Cloud;
+5. testar a navegação em celular, tablet e conexão mais lenta;
+6. documentar um orçamento mínimo de desempenho.
+
+## Alta prioridade — arquitetura visual e responsividade
+
+**Estado:** inventário concluído; estratégia revisada.
+
+O fluxo vertical integral proposto para a Visão Geral foi testado e rejeitado. A revisão visual continuará de forma incremental sobre a interface existente, preservando a navegação horizontal curta de quatro áreas.
+
+Diretrizes atuais:
+
+- reduzir densidade e horizontalidade dentro das páginas, sem transformar toda a aplicação em uma sequência vertical única;
+- limitar fileiras excessivas de métricas;
+- priorizar filtros antes de tabelas extensas;
+- mover detalhes secundários para expansores ou para a unidade selecionada;
+- evitar carregar tabelas, gráficos e evidências que o usuário ainda não solicitou;
+- preservar as quatro áreas principais como estrutura estável de navegação;
+- validar responsividade sem sacrificar a leitura científica em desktop.
+
+Próximas ações:
+
+1. revisar a Visão Geral atual e eliminar redundâncias sem reconstruí-la integralmente;
+2. revisar `render_category_tab`, agora responsável pela síntese e pelo acesso às unidades;
+3. reduzir métricas simultâneas e tabelas largas nas páginas de unidade;
+4. escolher entre `render_panel_tab` e `render_data_tab` para o próximo redesenho controlado;
+5. criar padrões reutilizáveis para tabela essencial, detalhe sob demanda e métricas compactas;
+6. executar teste manual em celular, tablet e desktop;
+7. comparar desempenho e legibilidade antes/depois.
+
+Detalhamento em:
 
 `docs/project/VISUAL_ARCHITECTURE_BACKLOG.md`
 
-**Priority:** high, connected to the public showcase, Streamlit performance and scientific presentation quality.
+## Alta prioridade — política de alimentação dos corpora e atualização dos índices
 
-## High Priority — Corpus Intake and Index Refresh Policy
+**Estado:** regra proposta; decisões metodológicas e automação pendentes.
 
-**Status:** Backlog
+### Gatilho operacional proposto
 
-**Objective:** establish a predictable, auditable and scientifically controlled rule for incorporating new corpora and recalculating continental and global indicators.
+Uma nova rodada de atualização dos índices deve ser aberta quando forem incorporados **20 novos corpora elegíveis e validados do mesmo continente** desde a última rodada concluída para esse continente.
 
-### Proposed threshold rule
+A contagem é separada por continente e não pode combinar corpora de continentes diferentes apenas para atingir o limite.
 
-A new index refresh round should be opened whenever **20 new eligible and validated corpora from the same continent** have been incorporated since the last completed round for that continent.
+### Elegibilidade para a contagem
 
-The count must be cumulative by continent and must not mix corpora from different continental groups merely to reach the threshold.
+Um corpus somente entra na contagem quando possuir:
 
-### Eligibility conditions for counting toward the threshold
+1. identidade institucional estável e continente definido;
+2. metadados mínimos completos;
+3. evidência e proveniência registradas;
+4. validação estrutural concluída;
+5. estado de avaliabilidade definido;
+6. decisão de inclusão aprovada;
+7. ausência de pendência crítica de integridade.
 
-A corpus only counts toward the group of 20 when it has:
+Duplicados, pendentes, experimentais, excluídos, não avaliáveis ou sem evidência suficiente não contam.
 
-1. stable institutional identity and continent assignment;
-2. minimum required metadata completed;
-3. evidence and provenance recorded;
-4. structural validation completed;
-5. evaluability status defined;
-6. inclusion decision approved under the corpus governance rules;
-7. no unresolved blocking integrity issue.
+### Ações ao atingir o limite
 
-Entries that are duplicated, pending review, not assessable, excluded, experimental or still awaiting evidence do not count toward the threshold.
+1. congelar a composição elegível da rodada;
+2. abrir novo ciclo continental de observação;
+3. executar coleta e validação;
+4. recalcular indicadores continentais;
+5. recalcular indicadores globais afetados pelo novo denominador;
+6. atualizar cobertura, elegibilidade e não avaliabilidade;
+7. comparar com o snapshot anterior;
+8. revisar mudanças materiais e distorções metodológicas;
+9. passar pelos portões editoriais e de governança;
+10. preservar os resultados anteriores como versão histórica imutável.
 
-### Actions triggered by reaching 20 corpora
+### Rodadas antecipadas
 
-When a continent reaches the threshold, the platform should initiate a controlled refresh round containing at least:
+Uma rodada pode ocorrer antes de 20 corpora quando houver:
 
-1. opening of a new observation cycle for the affected continent;
-2. freezing of the eligible corpus list for that round;
-3. execution of collection and validation procedures;
-4. recalculation of continental indicators;
-5. recalculation of global indicators affected by the new continental denominator;
-6. generation of updated coverage, eligibility and non-assessability statistics;
-7. comparison with the previous continental snapshot;
-8. review of material changes and possible methodological distortions;
-9. publication decision through the existing editorial and governance gates;
-10. preservation of the previous results as an immutable historical version.
+- correção de erro material;
+- mudança metodológica relevante;
+- alteração importante de avaliabilidade;
+- incorporação de bloco nacional ou regional estratégico;
+- evento relevante de acesso, infraestrutura ou preservação;
+- publicação científica, relatório ou marco formal da pesquisa.
 
-### Exceptions that may anticipate a round
+Toda antecipação deve possuir justificativa registrada.
 
-The threshold of 20 is the ordinary operational trigger, not an absolute prohibition. A refresh may be opened earlier when there is:
+### Decisões pendentes
 
-- a methodological change that affects comparability;
-- correction of a material error in published results;
-- incorporation of a strategically relevant national or regional block;
-- substantial change in the evaluability of the existing corpus;
-- documented event that materially affects access, infrastructure or preservation conditions;
-- need to synchronise a scientific publication, report or formal research milestone.
+1. simular o limite de 20 com o tamanho atual dos continentes;
+2. definir o tratamento de instituições transcontinentais e agregadores internacionais;
+3. avaliar limite proporcional ou prazo máximo para continentes com menor expansão;
+4. definir exatamente quais indicadores são recalculados;
+5. decidir se a rodada reobserva todo o corpus continental ou apenas as novas unidades;
+6. definir prazo máximo de espera sem atingir o limite;
+7. criar contador automatizado e relatório de prontidão;
+8. integrar o gatilho aos workflows de snapshot, analytics e publicação.
 
-Every anticipated round must record its justification and must not be presented as equivalent to a regular 20-corpus round without explicit disclosure.
+### Critérios de aceite
 
-### Rules for incomplete accumulation
+- a plataforma informa quantos corpora faltam para a próxima rodada em cada continente;
+- apenas corpora elegíveis incrementam a contagem;
+- composição e metodologia são congeladas antes do cálculo;
+- denominadores continentais e globais são versionados;
+- índices anteriores permanecem recuperáveis;
+- rodadas antecipadas possuem justificativa pública ou auditável;
+- todo índice exibe data de referência, tamanho do corpus e versão metodológica.
 
-- fewer than 20 validated corpora remain in a continental intake queue;
-- queued corpora may appear in the inventory as pending incorporation but do not alter published indices;
-- the queue must record continent, eligibility state, validation state and date of entry;
-- counts restart from zero only after a round is formally closed for that continent;
-- corpora excluded during the round return neither to the denominator nor to the next count unless revalidated.
-
-### Decisions still required
-
-1. confirm whether 20 is the definitive threshold after simulation with current corpus sizes;
-2. define treatment for transcontinental institutions and international aggregators;
-3. define whether small continents or regions require a proportional alternative threshold;
-4. establish the exact indicator set recalculated at continental and global levels;
-5. define whether the round includes only new corpora or also reobserves the existing continental corpus;
-6. define maximum waiting time when a continent does not reach 20 additions;
-7. create an automated counter and round-readiness report;
-8. integrate the trigger with snapshot, analytics and publication workflows.
-
-### Acceptance criteria
-
-- the platform can report how many validated corpora remain before the next round for each continent;
-- only eligible corpora increment the counter;
-- a round freezes its corpus composition and methodology before calculation;
-- continental and affected global denominators are explicitly versioned;
-- previous indices remain recoverable;
-- early rounds require documented justification;
-- the public interface displays the reference date, corpus size and methodological version of every index.
-
-**Priority:** high, because the rule directly affects longitudinal comparability, index stability and the scientific governance of platform growth.
-
-## After the First Scientific Presentation
+## Após a consolidação da apresentação científica
 
 ### Scientific Internationalization Audit — SIA
 
-**Status:** Backlog
+**Estado:** backlog posterior.
 
-**Objective:** evolve the Language MVP+ into a complete scientific internationalization quality system.
+Escopo potencial:
 
-Potential future scope:
+- métricas de cobertura multilíngue por página, módulo e componente;
+- validação terminológica semântica;
+- inspeção de constantes e estruturas aninhadas;
+- proveniência e estado de revisão das traduções;
+- verificação automática de consistência terminológica;
+- indicador de qualidade da tradução;
+- portão completo de internacionalização;
+- migração integral de textos públicos para chaves semânticas.
 
-- multilingual coverage metrics by page, module and component;
-- semantic terminology validation;
-- inspection of constants and deeply nested structures;
-- structured-data and dataclass inspection;
-- translation provenance and review status;
-- automatic terminology consistency checks;
-- translation quality indicators;
-- a complete internationalization quality gate;
-- migration of all public interface text to semantic translation keys.
+### Vitrine pública independente
 
-**Reason for postponement:** these capabilities are useful for long-term maintenance but do not block the first scientific presentation. They will be reconsidered only after the initial contact and presentation cycle.
+**Estado:** decisão arquitetural pendente.
 
-## Backlog Rule
+O Streamlit permanece como observatório analítico. Após a consolidação da interface atual, deve ser avaliada uma vitrine pública leve, rápida e indexável, separada do ambiente analítico.
 
-An idea remains in the backlog when it improves the platform but does not prevent a clear, credible and linguistically consistent presentation of the current research infrastructure.
+## Regra do backlog
+
+Uma ideia permanece no backlog quando melhora a plataforma, mas não impede uma apresentação clara, credível, funcional e linguisticamente consistente da infraestrutura científica atual.
