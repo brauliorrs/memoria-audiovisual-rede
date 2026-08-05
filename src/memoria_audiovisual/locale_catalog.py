@@ -5,7 +5,7 @@ from functools import lru_cache
 from pathlib import Path
 
 DEFAULT_LANGUAGE = "pt"
-SUPPORTED_LANGUAGES = ("pt",)
+SUPPORTED_LANGUAGES = ("pt", "en", "es")
 LOCALE_DIR = Path(__file__).resolve().parent / "locales"
 
 
@@ -27,11 +27,7 @@ def translate_key(key: str, language: str = DEFAULT_LANGUAGE, **kwargs) -> str:
 
 
 def validate_catalogues() -> dict[str, set[str]]:
-    """Return missing keys for active translation catalogues.
-
-    During the Portuguese canonicalisation phase, only the source catalogue is active,
-    so the expected result is an empty mapping.
-    """
+    """Return missing keys for every active translation catalogue."""
     canonical = set(load_locale(DEFAULT_LANGUAGE))
     return {
         language: canonical - set(load_locale(language))

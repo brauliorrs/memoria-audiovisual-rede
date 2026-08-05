@@ -347,9 +347,8 @@ def render_language_selector():
     return language_code_from_label(selected_label)
 
 
-# The multilingual selector remains disabled during the semantic-catalogue migration.
-# Portuguese is the sole active interface language until the English catalogue is rebuilt.
-APP_LANGUAGE = DEFAULT_LANGUAGE
+APP_LANGUAGE = render_language_selector()
+install_streamlit_i18n(APP_LANGUAGE)
 
 
 @st.cache_data(show_spinner=False)
