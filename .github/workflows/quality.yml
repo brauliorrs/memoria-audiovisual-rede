@@ -9,7 +9,7 @@ on:
       - presentation/rpv-1
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   quality:
@@ -18,6 +18,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Apply definitive refresh-table refactor
+        if: github.ref == 'refs/heads/presentation/rpv-1' && github.actor != 'github-actions[bot]'
+        run: python scripts/apply_refresh_table_i18n_refactor.py
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -57,3 +63,12 @@ jobs:
 
       - name: Check deployment snapshot
         run: python scripts/check_deployment_ready.py
+
+      - name: Commit definitive refresh-table refactor
+        if: github.ref == 'refs/heads/presentation/rpv-1' && github.actor != 'github-actions[bot]'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/streamlit_app.py src/memoria_audiovisual/ui/refresh_table.py src/memoria_audiovisual/locale_catalog.py tests/test_refresh_table_locale_compatibility.py
+          git commit -m "fix: refatorar tabela de atualização com nomes internos" || exit 0
+          git push origin HEAD:presentation/rpv-1
