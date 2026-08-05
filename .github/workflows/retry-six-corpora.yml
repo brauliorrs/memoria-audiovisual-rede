@@ -6,6 +6,12 @@ on:
       - presentation/rpv-1
     paths:
       - ".github/workflows/retry-six-corpora.yml"
+  pull_request:
+    paths:
+      - ".github/workflows/retry-six-corpora.yml"
+      - "scripts/check_cinematheque_bretagne_outputs.py"
+      - "scripts/check_filmmuseum_dusseldorf_outputs.py"
+      - "scripts/check_filmoteca_valenciana_outputs.py"
   workflow_dispatch:
 
 permissions:
@@ -43,8 +49,7 @@ jobs:
           python -m playwright install --with-deps chromium
 
       - name: Validate corrected checkers
-        run: |
-          python -m compileall -q scripts src
+        run: python -m compileall -q scripts src
 
       - name: Retry pending corpora
         id: cycle
