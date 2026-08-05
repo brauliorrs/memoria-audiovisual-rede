@@ -40,6 +40,9 @@ jobs:
       - name: Run tests
         run: python -m pytest -q
 
+      - name: Validate European research products
+        run: python scripts/sync_europe_research_outputs.py --check
+
       - name: Validate reference corpus manifest
         run: python scripts/audit_reference_corpus_manifest.py
 
