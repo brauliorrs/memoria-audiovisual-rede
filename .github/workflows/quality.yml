@@ -9,7 +9,7 @@ on:
       - presentation/rpv-1
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   quality:
@@ -63,36 +63,3 @@ jobs:
 
       - name: Check deployment snapshot
         run: python scripts/check_deployment_ready.py
-
-  apply-ai-docs-once:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v5
-        with:
-          ref: presentation/rpv-1
-
-      - name: Check one-time commit
-        id: gate
-        run: |
-          if [ "$(git log -1 --pretty=%s)" = "chore: push AI docs only" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Apply AI documentation patch
-        if: steps.gate.outputs.run == 'true'
-        run: python scripts/clarify_ai_indicators_once.py
-
-      - name: Commit documentation only
-        if: steps.gate.outputs.run == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/project/BACKLOG.md
-          git add docs/digital-infrastructure-alignment/ai_systems_protocol.md
-          git commit -m "docs: separate institutional AI and synthetic video indicators"
-          git push origin HEAD:presentation/rpv-1
