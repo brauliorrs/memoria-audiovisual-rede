@@ -8,7 +8,7 @@ O projeto combina coleta automatizada, curadoria metodológica, indicadores comp
 
 A versão pública está disponível em:
 
-https://memoria-audiovisual-rede-vcxnq9xh7b7uifydhwjxcy.streamlit.app/
+https://memoria-audiovisual-rede-hv3dgxwqgaka2i6ahhmb5v.streamlit.app/
 
 ## Eixo científico
 
