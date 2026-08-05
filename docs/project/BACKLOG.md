@@ -546,6 +546,55 @@ Pendências:
 6. implementar API pública somente leitura em ciclo posterior;
 7. criar catálogo estável de downloads e manifestos.
 
+## P6A — licenciamento do código, da documentação e dos dados
+
+**Estado:** não implementado; colocado em fila como portão obrigatório antes da publicação pública definitiva.
+
+O repositório ainda não possui licença explícita reconhecida pelo GitHub. A visualização pública do código não concede, por si só, autorização clara para copiar, modificar ou redistribuir o software, a documentação ou os produtos derivados. A implantação deverá separar os diferentes objetos jurídicos do projeto, evitando aplicar uma licença única a materiais com regimes distintos.
+
+### Política proposta para validação e implantação
+
+- **código-fonte autoral:** Apache License 2.0, sujeita à confirmação institucional e de titularidade;
+- **documentação autoral e livro científico:** Creative Commons Attribution 4.0 International — CC BY 4.0;
+- **dados derivados produzidos pela plataforma:** CC BY 4.0, quando a proveniência e os direitos das fontes permitirem;
+- **metadados de terceiros:** permanecem sujeitos às licenças, termos de uso e limitações das instituições de origem;
+- **vídeos, imagens, áudios e demais conteúdos audiovisuais:** não são relicenciados pela plataforma;
+- **componentes e dependências de terceiros:** preservam suas próprias licenças e avisos.
+
+A política proposta deverá ser confirmada antes da implantação. A adoção da Apache 2.0 ou da CC BY 4.0 não poderá abranger material sobre o qual o projeto não possua titularidade ou autorização de relicenciamento.
+
+### Produtos a implementar
+
+1. confirmar titularidade institucional e autoria dos componentes do repositório;
+2. validar a compatibilidade da Apache License 2.0 com as regras institucionais aplicáveis;
+3. criar `LICENSE` na raiz para o código-fonte;
+4. criar `LICENSE-DATA.md` para dados derivados, tabelas, manifestos e downloads;
+5. criar `LICENSE-DOCS.md` ou aviso equivalente para documentação e livro científico;
+6. criar `THIRD_PARTY_NOTICE.md` com dependências, fontes e materiais não relicenciados;
+7. criar política de proveniência e atribuição obrigatória por produto publicado;
+8. registrar, em cada dataset ou manifesto, licença, titular, fonte, restrições e data de verificação;
+9. distinguir material autoral, dado derivado, metadado de terceiro e conteúdo audiovisual de terceiro;
+10. atualizar `README.md`, `README.pt-BR.md` e demais versões linguísticas com seção de licenciamento;
+11. revisar `pyproject.toml`, metadados do repositório e badges após a decisão final;
+12. adicionar validação no CI para impedir publicação de produtos sem campo de licença e proveniência;
+13. documentar exceções, incompatibilidades e fontes cujo uso seja apenas referencial ou por link;
+14. impedir que a API, os downloads públicos ou a vitrine sugiram licença sobre vídeos e mídias de terceiros;
+15. revisar a política com a instituição responsável antes da publicação pública definitiva.
+
+### Portões de governança
+
+Enquanto esta frente não estiver concluída:
+
+- a plataforma pode continuar em desenvolvimento e validação interna;
+- resultados experimentais podem permanecer como artefatos técnicos controlados;
+- datasets não devem ser anunciados como abertos ou reutilizáveis;
+- a API pública, a vitrine independente e o catálogo definitivo de downloads não devem ser ativados;
+- nenhuma licença autoral do projeto deve ser apresentada como licença dos acervos audiovisuais observados.
+
+### Critério de conclusão
+
+O GitHub reconhece a licença do código; documentação e dados derivados possuem termos próprios; cada produto público declara titularidade, proveniência, licença e restrições; materiais de terceiros não são relicenciados; e o CI bloqueia publicações sem metadados jurídicos mínimos.
+
 ## P7 — consolidação da interface pública
 
 **Estado:** arquitetura principal implantada; auditoria residual.
@@ -615,9 +664,10 @@ Concluído: sincronizar e validar corpus, registro, fila e resumo europeus
 15. Consolidar a América do Norte
 16. Preparar a fila da América Latina e Caribe
 17. Manter descoberta preparatória de África, Ásia e Oceania
-18. Ativar publicação derivada e entrega pública versionada
+18. Definir e implantar o licenciamento do código, da documentação, dos dados derivados e dos materiais de terceiros
+19. Ativar publicação derivada e entrega pública versionada somente após a conclusão do portão de licenciamento
 ```
 
 ## Regra do backlog
 
-Novas funcionalidades não devem anteceder a execução dos módulos científicos e de governança que já existem. A única antecipação autorizada é a infraestrutura mínima de IA necessária para coletar sinais experimentais durante o ciclo e evitar nova varredura integral. A ativação científica da IA permanece posterior ao baseline oficial.
+Novas funcionalidades não devem anteceder a execução dos módulos científicos e de governança que já existem. A única antecipação autorizada é a infraestrutura mínima de IA necessária para coletar sinais experimentais durante o ciclo e evitar nova varredura integral. A ativação científica da IA permanece posterior ao baseline oficial. A publicação pública definitiva, a API e o catálogo aberto de downloads permanecem bloqueados até a conclusão do portão de licenciamento definido em P6A.
