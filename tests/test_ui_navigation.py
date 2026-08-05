@@ -76,6 +76,42 @@ class NavigationContractTests(unittest.TestCase):
             ],
         )
 
+    def test_scientific_infrastructure_label_is_localized_in_english(self):
+        translations = {
+            "navigation.overview": "Overview",
+            "navigation.scientific_infrastructure": "Scientific infrastructure",
+            "navigation.category": "Category: {label}",
+        }
+
+        def tr_key(key, **kwargs):
+            return translations.get(key, key).format(**kwargs)
+
+        labels, _ = build_navigation_contract(
+            tr_key=tr_key,
+            category_definitions=[{"short_label": "Aggregators"}],
+            corpus_definitions=[],
+            protocolled_units=[],
+        )
+
+        self.assertEqual(labels[1], "Scientific infrastructure")
+
+    def test_scientific_infrastructure_label_falls_back_in_spanish(self):
+        def tr_key(key, **kwargs):
+            values = {
+                "navigation.overview": "Visión general",
+                "navigation.category": "Categoría: {label}",
+            }
+            return values.get(key, key).format(**kwargs)
+
+        labels, _ = build_navigation_contract(
+            tr_key=tr_key,
+            category_definitions=[{"short_label": "Archivos"}],
+            corpus_definitions=[],
+            protocolled_units=[],
+        )
+
+        self.assertEqual(labels[1], "Infraestructura científica")
+
     def test_navigation_totals_cannot_be_negative(self):
         with self.assertRaisesRegex(ValueError, "cannot be negative"):
             calculate_navigation_slices(category_total=-1, corpus_total=0)
