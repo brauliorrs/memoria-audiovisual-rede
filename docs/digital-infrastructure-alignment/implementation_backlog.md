@@ -2,247 +2,199 @@
 
 ## Foco atual — prioridade alta: apresentação científica
 
-A plataforma já foi apresentada externamente e precisa consolidar seu pacote científico, jurídico e editorial antes de ampliar a divulgação institucional ou iniciar nova expansão ampla do corpus.
+A plataforma já foi apresentada externamente. O ciclo atual consolida o pacote científico, jurídico e editorial antes de ampliar a divulgação institucional ou iniciar uma nova expansão ampla do corpus.
 
-### A1 — Licença do repositório
+### Estado consolidado da prioridade alta
 
-**Objetivo:** definir formalmente as condições de uso, reprodução, modificação e redistribuição do código, da documentação e dos dados publicados.
+| Frente | Estado | Implementação realizada | Pendência residual |
+|---|---|---|---|
+| A1 — Licença | implementada | `LICENSE` com MIT para código e CC BY 4.0 para documentação e dados originais publicados | revisão jurídica futura e confirmação de exceções específicas |
+| A2 — Citação | implementada | `CITATION.cff` com autoria, título, URLs, versão inicial e descrição | validar no workflow e atualizar versão/DOI após release arquivada |
+| A3 — Contribuição | implementada | `CONTRIBUTING.md` com regras técnicas, científicas e curatoriais | amadurecer fluxo de contestação institucional e templates de issues |
+| A4 — Revisão editorial | primeira etapa concluída | revisão dos READMEs, Research Handbook e distinção entre implementação e validação empírica | revisão integral dos documentos especializados e textos da aplicação |
+| A5 — Verificação de links | automatização implementada | `scripts/check_markdown_links.py` e workflow `Documentation Quality` | executar e corrigir falhas encontradas; validar links externos essenciais |
+| A6 — Harmonização documental | primeira etapa concluída | `docs/DOCUMENTATION_GOVERNANCE.md`, hierarquia canônica e glossário comum | auditoria cruzada completa de `docs/analytics/` e `docs/digital-infrastructure-alignment/` |
 
-**Entregáveis:**
+## A1 — Licença do repositório
 
-1. decisão documentada sobre a licença do código;
-2. avaliação separada da licença aplicável aos dados e à documentação, quando necessário;
-3. arquivo `LICENSE` na raiz do repositório;
-4. referência clara à licença no `README.md` principal e na documentação em português;
-5. verificação de compatibilidade com dependências, dados de terceiros e fontes institucionais.
+**Objetivo:** definir as condições de uso, reprodução, modificação e redistribuição do código, da documentação e dos dados publicados.
 
-**Critérios de conclusão:**
+**Implementado:**
 
-- licença aprovada e adicionada ao repositório;
-- escopo da licença explicitado;
-- eventuais exceções ou limitações de reutilização documentadas;
-- ausência de afirmações de abertura incompatíveis com as fontes utilizadas.
+- arquivo `LICENSE` na raiz;
+- licença MIT para código, scripts, testes e componentes de software;
+- licença CC BY 4.0 para documentação original e dados produzidos e publicados pelo projeto;
+- ressalva explícita sobre direitos, licenças e restrições de materiais e fontes de terceiros;
+- referência nos READMEs.
 
-**Status:** pendente.
+**Estado:** implementado, sujeito a revisão jurídica futura.
 
-### A2 — Arquivo `CITATION.cff`
+## A2 — Arquivo `CITATION.cff`
 
-**Objetivo:** permitir que pesquisadores citem corretamente a plataforma, seu software e futuras versões arquivadas.
+**Objetivo:** permitir a citação adequada da infraestrutura, do software e das futuras versões arquivadas.
 
-**Entregáveis:**
+**Implementado:**
 
-1. arquivo `CITATION.cff` validado;
-2. título oficial do projeto;
-3. autoria e afiliação institucional;
-4. URL do repositório;
-5. versão e data da primeira release científica estável;
-6. DOI, apenas quando houver arquivamento formal em serviço apropriado;
-7. instrução de citação no `README.md` e no Research Handbook.
+- `CITATION.cff` compatível com CFF 1.2.0;
+- autoria sem identificadores inventados;
+- título oficial, repositório, plataforma pública, resumo e palavras-chave;
+- versão inicial `0.1.0`;
+- workflow de validação do arquivo.
 
-**Critérios de conclusão:**
+**Pendências:**
 
-- arquivo compatível com o padrão CFF;
-- metadados consistentes com a apresentação institucional do projeto;
-- nenhuma informação pessoal, institucional ou identificador inventado;
-- citação legível pelo GitHub.
+- substituir a versão inicial pela primeira release científica estável;
+- adicionar DOI somente após arquivamento formal;
+- confirmar afiliação em metadados futuros quando o enquadramento institucional estiver formalmente definido.
 
-**Status:** pendente.
+**Estado:** implementado para a fase atual.
 
-### A3 — Guia de contribuição
+## A3 — Guia de contribuição
 
-**Objetivo:** estabelecer como pesquisadores, desenvolvedores e colaboradores externos podem contribuir sem comprometer a integridade metodológica da plataforma.
+**Objetivo:** permitir contribuições externas sem comprometer integridade metodológica, proveniência e revisão humana.
 
-**Entregáveis:**
+**Implementado:**
 
-1. arquivo `CONTRIBUTING.md`;
-2. fluxo para propostas de novos corpora;
-3. critérios mínimos para incorporação de instituições;
-4. regras para evidências, proveniência e revisão humana;
-5. padrões de código, testes e documentação;
-6. fluxo para correção de dados e contestação institucional;
-7. separação entre contribuição técnica, científica e curatorial.
+- `CONTRIBUTING.md`;
+- regras para propostas de novos corpora;
+- critérios para indicadores e métodos;
+- exigência de fontes, datas, métodos e limitações;
+- proibição de contornar autenticação, paywalls e `robots.txt`;
+- separação entre evidência detectada e fato institucional verificado;
+- comandos de compilação, testes, implantação e verificação de links.
 
-**Critérios de conclusão:**
+**Estado:** implementado; templates operacionais podem ser adicionados em ciclo posterior.
 
-- responsabilidades e etapas de revisão explicitadas;
-- contribuições não podem publicar diretamente dados sensíveis ou afirmações institucionais não revisadas;
-- novas incorporações devem seguir a fila e os critérios científicos existentes;
-- processo de contribuição compatível com a governança do repositório.
+## A4 — Revisão editorial da documentação
 
-**Status:** pendente.
+**Objetivo:** garantir clareza, consistência, precisão científica e adequação internacional.
 
-### A4 — Revisão editorial da documentação
+**Concluído nesta etapa:**
 
-**Objetivo:** garantir clareza, consistência, precisão científica e adequação internacional dos textos públicos.
+- revisão do `README.md` internacional;
+- revisão do `README.pt-BR.md`;
+- revisão do índice e terminologia do Research Handbook;
+- inclusão de licença, citação, contribuição e governança documental;
+- explicitação de que testes estruturais não equivalem à validação empírica;
+- distinção entre `não identificado`, `não avaliável` e ausência institucional.
 
-**Escopo mínimo:**
+**Próxima etapa:**
 
-1. `README.md`;
-2. `README.pt-BR.md`;
-3. `docs/research/`;
-4. `docs/analytics/`;
-5. `docs/digital-infrastructure-alignment/`;
-6. textos públicos da aplicação Streamlit.
+- revisar integralmente `docs/research/`;
+- revisar `docs/analytics/` contra as definições canônicas;
+- revisar `docs/digital-infrastructure-alignment/` e remover duplicações;
+- revisar textos públicos da aplicação Streamlit nos três idiomas.
 
-**Critérios de revisão:**
+**Estado:** primeira etapa concluída; auditoria editorial integral pendente.
 
-- distinguir implementação, validação estrutural e validação empírica;
-- evitar afirmar que detectores ou indicadores estão validados quando ainda dependem de teste real;
-- padronizar nomes do projeto, dimensões analíticas e estados metodológicos;
-- eliminar repetições desnecessárias;
-- melhorar legibilidade para públicos internacionais e interdisciplinares;
-- preservar a diferença entre ausência de evidência e ausência do fenômeno observado.
+## A5 — Verificação de links
 
-**Critérios de conclusão:**
+**Objetivo:** impedir referências internas quebradas e reduzir rotas públicas obsoletas.
 
-- revisão integral registrada;
-- afirmações científicas compatíveis com o estado real da plataforma;
-- versão em inglês revisada como porta de entrada internacional;
-- versão em português alinhada semanticamente à versão internacional.
+**Implementado:**
 
-**Status:** pendente.
+- `scripts/check_markdown_links.py` para validação de links relativos em arquivos Markdown;
+- workflow `.github/workflows/documentation-quality.yml` acionado em pushes e pull requests documentais;
+- validação automática do `CITATION.cff` no mesmo workflow;
+- atualização do endereço público do Streamlit nos READMEs.
 
-### A5 — Verificação de links
+**Próxima etapa:**
 
-**Objetivo:** impedir que a apresentação pública direcione para páginas inexistentes, rotas antigas ou documentação incompleta.
+- observar a primeira execução do workflow e corrigir links internos detectados;
+- testar manualmente links externos essenciais;
+- documentar exceções decorrentes de bloqueios, redirecionamentos ou mecanismos anti-bot.
 
-**Entregáveis:**
+**Estado:** automatização implementada; validação externa e correções resultantes pendentes.
 
-1. inventário de links internos e externos da documentação;
-2. verificação automatizada de links relativos do repositório;
-3. validação do endereço público do Streamlit;
-4. verificação dos links entre README, Executive Summary e Research Handbook;
-5. identificação de links externos instáveis, redirecionados ou quebrados;
-6. rotina repetível para novas verificações.
+## A6 — Harmonização documental
 
-**Critérios de conclusão:**
+**Objetivo:** fazer com que pesquisa, analytics e infraestrutura digital funcionem como camadas complementares.
 
-- nenhum link interno quebrado;
-- links públicos essenciais testados;
-- redirecionamentos e URLs antigas corrigidos;
-- falhas externas inevitáveis documentadas sem impedir a validação interna.
+**Implementado:**
 
-**Status:** pendente.
+- `docs/DOCUMENTATION_GOVERNANCE.md`;
+- `docs/research/` definido como narrativa científica canônica;
+- `docs/analytics/` definido como fonte das especificações computacionais;
+- `docs/digital-infrastructure-alignment/` definido como fonte da implementação e governança técnica;
+- glossário para projeto, infraestrutura, plataforma, observatório, corpus, evidência, estados avaliativos e validação operacional;
+- referências cruzadas no README e no Research Handbook.
 
-### A6 — Harmonização documental
+**Próxima etapa:**
 
-**Objetivo:** alinhar os documentos de pesquisa, analytics e infraestrutura digital para que funcionem como camadas complementares, e não como definições concorrentes.
+- localizar definições duplicadas ou divergentes;
+- substituir repetições por referências ao documento canônico;
+- alinhar nomes de indicadores, estados e populações com o código e a interface.
 
-**Entregáveis:**
-
-1. mapa de finalidade e público de cada conjunto documental;
-2. glossário canônico de termos científicos e técnicos;
-3. definição única para corpus, unidade elegível, unidade avaliável, evidência, observação, snapshot, indicador e publicação;
-4. referência cruzada entre `docs/research/`, `docs/analytics/` e `docs/digital-infrastructure-alignment/`;
-5. remoção ou consolidação de trechos contraditórios e duplicados;
-6. indicação clara de qual documento é normativo para cada tema.
-
-**Critérios de conclusão:**
-
-- ausência de definições conflitantes;
-- cada conceito central possui uma fonte documental canônica;
-- documentos especializados remetem à definição principal em vez de reproduzi-la com variações;
-- documentação pública e implementação usam a mesma terminologia.
-
-**Status:** pendente.
-
-### Ordem recomendada de execução
-
-1. licença do repositório;
-2. harmonização documental;
-3. revisão editorial;
-4. verificação de links;
-5. `CITATION.cff`;
-6. `CONTRIBUTING.md`.
-
-A licença deve ser decidida primeiro porque condiciona a apresentação pública e a reutilização. A harmonização deve anteceder a revisão editorial, evitando revisar textos que ainda serão reorganizados. O arquivo de citação deve refletir a nomenclatura e o estado consolidados após essa revisão.
+**Estado:** estrutura de governança implantada; auditoria cruzada integral pendente.
 
 ## Relação com a fila de incorporação europeia
 
-A gestão de novas unidades permanece separada neste arquivo:
+A gestão de novas unidades permanece separada em:
 
 `data/output/observatorio_fila_fechamento_europa.csv`
 
-Durante a execução da prioridade de apresentação científica, a fila europeia deve permanecer como registro de incorporação, negativas metodológicas e monitoramento. Novas incorporações amplas não devem substituir a consolidação documental e científica definida neste backlog.
+A fila europeia continua registrando incorporações potenciais, negativas metodológicas e monitoramento. Durante a consolidação científica, novas incorporações amplas não devem substituir a validação documental, analítica e operacional.
 
 ## P0 — fundação obrigatória
 
-> Estado atual: implementado em grande parte; requer consolidação e validação operacional.
+> Estado atual: implementado em grande parte; consolidação e validação operacional pendentes.
 
 1. pacote de domínio de infraestrutura digital;
-2. gerador e validador de identificadores;
-3. carregamento do registro central de schemas;
-4. validador JSON Schema;
-5. repositório de proveniência e evidências;
-6. verificador de integridade relacional;
-7. modelo de versionamento de entidades.
+2. identificadores e validação;
+3. registro central de schemas;
+4. validação JSON Schema;
+5. proveniência e evidências;
+6. integridade relacional;
+7. versionamento de entidades.
 
 ## P1 — operação interna
 
 > Estado atual: implementado estruturalmente; validação empírica e operacional pendente.
 
-1. adaptador da auditoria de infraestrutura existente;
-2. fila de revisão curatorial;
-3. registro de ações e atribuições;
-4. avaliação de qualidade e maturidade;
-5. decisão de aptidão para uso;
+1. adaptador da auditoria;
+2. revisão curatorial;
+3. registro de ações;
+4. qualidade e maturidade;
+5. aptidão para uso;
 6. avaliações ética e jurídica.
 
 ## P2 — memória institucional
 
-> Estado atual: implementado estruturalmente; execução longitudinal oficial ainda pendente.
+> Estado atual: implementado estruturalmente; primeiro ciclo longitudinal oficial pendente.
 
 1. controlador de ciclos;
-2. gerador de snapshots;
-3. manifesto e verificação de imutabilidade;
-4. comparação entre snapshots;
-5. registro de eventos temporais;
-6. migração versionada de schemas.
+2. snapshots;
+3. imutabilidade e manifestos;
+4. comparação longitudinal;
+5. eventos temporais;
+6. migração de schemas.
 
 ## P3 — produtos científicos
 
-> Estado atual: parcialmente concluído; indicadores existentes precisam de validação empírica e novos indicadores permanecem em desenvolvimento.
+> Estado atual: parcialmente concluído; validação empírica dos indicadores e novos indicadores permanecem em desenvolvimento.
 
 1. motor de indicadores;
 2. catálogo computável;
-3. regras de cobertura e supressão;
-4. datasets curados em CSV e JSON;
-5. relatório de metodologia e limitações;
+3. cobertura e supressão;
+4. datasets curados;
+5. metodologia e limitações;
 6. indicador de evidências públicas de IA aplicada a acervos audiovisuais.
 
 ### P3.6 — Indicador de evidências públicas de IA aplicada a acervos audiovisuais
 
-**Objetivo:** transformar os campos experimentais `ai_cataloguing_status` e `ai_cataloguing_evidence` em um indicador científico versionado, calculado apenas sobre unidades elegíveis e efetivamente avaliáveis.
+**Objetivo:** transformar `ai_cataloguing_status` e `ai_cataloguing_evidence` em indicador científico versionado, restrito a unidades elegíveis e avaliáveis.
 
-**Escopo técnico e metodológico:**
+**Etapas pendentes:**
 
-1. revisar o detector atual, que examina principalmente o texto da superfície ou rota inicialmente consultada;
-2. definir uma estratégia controlada de busca em páginas internas, relatórios, notícias institucionais, documentação técnica e páginas de projetos, sem contornar autenticação, paywalls, `robots.txt` ou outras restrições;
-3. ampliar e versionar o vocabulário de detecção para aplicações como catalogação automatizada, enriquecimento de metadados, transcrição, reconhecimento de fala, visão computacional, classificação, indexação, tradução e busca semântica;
-4. separar os estados `evidência detectada`, `não identificada`, `não avaliável`, `resultado ambíguo` e `pendente de revisão`;
-5. registrar URL, trecho, data, método de coleta, idioma, tipo de aplicação de IA e nível de confiança de cada evidência;
-6. submeter resultados positivos e amostras negativas à revisão humana;
-7. medir falsos positivos e falsos negativos em corpus de validação controlado;
-8. definir denominador, fórmula, cobertura mínima, regras de supressão, interpretação e limitações;
-9. registrar o indicador no catálogo científico e no registro metodológico;
-10. implementar o cálculo no motor analítico e testes automatizados;
-11. inserir o resultado na seção **Infraestrutura Científica**, com visualização da cobertura, unidades avaliáveis e evidências revisadas;
-12. preservar a distinção entre ausência de evidência pública e ausência institucional de uso de IA.
-
-**Critérios de aceite:**
-
-- definição científica e metodologia versionadas;
-- denominador restrito a unidades elegíveis e avaliáveis;
-- proveniência completa para cada evidência;
-- validação empírica documentada em amostra real;
-- métricas de falsos positivos e falsos negativos registradas;
-- revisão humana obrigatória para afirmações institucionais;
-- testes de cálculo, cobertura, estados não avaliáveis e preservação histórica;
-- indicador publicado sem converter automaticamente ausência de detecção em ausência de IA.
-
-**Dependências:** motor de indicadores, catálogo computável, regras de cobertura, proveniência, revisão curatorial e validação operacional dos detectores.
-
-**Risco principal:** páginas iniciais e superfícies públicas isoladas podem omitir projetos de IA descritos em páginas internas, relatórios ou notícias, produzindo subdetecção e comparações institucionais enviesadas.
+1. ampliar o detector para páginas internas, relatórios, notícias e projetos;
+2. versionar vocabulário e tipos de aplicação de IA;
+3. separar evidência detectada, não identificada, não avaliável, ambígua e pendente de revisão;
+4. registrar URL, trecho, data, método, idioma, aplicação e confiança;
+5. revisar positivos e amostras negativas;
+6. medir falsos positivos e falsos negativos;
+7. definir fórmula, cobertura e supressão;
+8. registrar no catálogo e motor analítico;
+9. publicar na seção Infraestrutura Científica sem interpretar ausência de detecção como ausência de IA.
 
 ## P4 — acesso público
 
@@ -251,7 +203,7 @@ Durante a execução da prioridade de apresentação científica, a fila europei
 1. API somente leitura;
 2. painel de infraestrutura digital;
 3. páginas de instituição, fornecedor e tecnologia;
-4. linha do tempo e comparador de períodos;
+4. linha do tempo e comparador;
 5. catálogo de downloads e manifestos.
 
 ## Fora do primeiro ciclo
