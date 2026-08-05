@@ -83,7 +83,44 @@ def parse_args():
         default=[],
         help="Código de corpus a executar. Pode ser repetido, por exemplo: --corpus ape --corpus ina",
     )
+    parser.add_argument(
+        "--skip-global-prelude",
+        action="store_true",
+        help=(
+            "Ignora sondagens e produtos globais anteriores aos corpora. "
+            "Uso restrito a validações controladas; o ciclo integral deve manter o prelude."
+        ),
+    )
     return parser.parse_args()
+
+
+def run_global_prelude(output_dir):
+    """Materializa produtos globais que antecedem o ciclo integral dos corpora."""
+
+    write_discovery_outputs(output_dir)
+    write_european_aggregator_evaluation(output_dir)
+    write_archiveshub_protocol_probe(output_dir)
+    write_francearchives_protocol_probe(output_dir)
+    write_european_film_gateway_protocol_probe(output_dir)
+    write_europeana_protocol_probe(output_dir)
+    write_adlibitum_protocol_probe(output_dir)
+    write_arsenal_protocol_probe(output_dir)
+    write_prise2_protocol_probe(output_dir)
+    write_atresmedia_protocol_probe(output_dir)
+    write_bnfa_protocol_probe(output_dir)
+    write_cnc_aff_protocol_probe(output_dir)
+    write_cineteca_italiana_protocol_probe(output_dir)
+    write_cinematheque_corse_protocol_probe(output_dir)
+    write_cinematheque_luxembourg_protocol_probe(output_dir)
+    write_filmmuseum_munchen_protocol_probe(output_dir)
+    write_filmoteca_vaticana_protocol_probe(output_dir)
+    write_archivegrid_protocol_probe(output_dir)
+    write_iberarchivos_protocol_probe(output_dir)
+    write_europe_closure_outputs(output_dir)
+    write_cineteca_bologna_protocol_probe(output_dir)
+    write_europe_research_outputs(output_dir)
+    write_restricted_access_audit(output_dir)
+    write_public_access_index(output_dir)
 
 
 def _prepare_ai_shadow_run(started_at):
@@ -170,30 +207,10 @@ def main():
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     write_active_corpora_registry(OUTPUT_DIR)
-    write_discovery_outputs(OUTPUT_DIR)
-    write_european_aggregator_evaluation(OUTPUT_DIR)
-    write_archiveshub_protocol_probe(OUTPUT_DIR)
-    write_francearchives_protocol_probe(OUTPUT_DIR)
-    write_european_film_gateway_protocol_probe(OUTPUT_DIR)
-    write_europeana_protocol_probe(OUTPUT_DIR)
-    write_adlibitum_protocol_probe(OUTPUT_DIR)
-    write_arsenal_protocol_probe(OUTPUT_DIR)
-    write_prise2_protocol_probe(OUTPUT_DIR)
-    write_atresmedia_protocol_probe(OUTPUT_DIR)
-    write_bnfa_protocol_probe(OUTPUT_DIR)
-    write_cnc_aff_protocol_probe(OUTPUT_DIR)
-    write_cineteca_italiana_protocol_probe(OUTPUT_DIR)
-    write_cinematheque_corse_protocol_probe(OUTPUT_DIR)
-    write_cinematheque_luxembourg_protocol_probe(OUTPUT_DIR)
-    write_filmmuseum_munchen_protocol_probe(OUTPUT_DIR)
-    write_filmoteca_vaticana_protocol_probe(OUTPUT_DIR)
-    write_archivegrid_protocol_probe(OUTPUT_DIR)
-    write_iberarchivos_protocol_probe(OUTPUT_DIR)
-    write_europe_closure_outputs(OUTPUT_DIR)
-    write_cineteca_bologna_protocol_probe(OUTPUT_DIR)
-    write_europe_research_outputs(OUTPUT_DIR)
-    write_restricted_access_audit(OUTPUT_DIR)
-    write_public_access_index(OUTPUT_DIR)
+    if not args.skip_global_prelude:
+        run_global_prelude(OUTPUT_DIR)
+    else:
+        print("Validação controlada: sondagem global anterior aos corpora foi ignorada.")
 
     active_corpora = list_active_corpora(monthly_only=True)
     if args.corpora:
