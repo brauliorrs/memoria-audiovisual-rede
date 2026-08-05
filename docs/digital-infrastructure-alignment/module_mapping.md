@@ -12,6 +12,7 @@ Este documento relaciona os domínios documentais aos módulos atualmente implem
 | Qualidade e aptidão | políticas de qualidade e fitness for use | `preflight.py`, `postflight.py`, `parameter_coverage.py`, `coverage_reports.py` | cobertura, qualidade operacional e bloqueios |
 | Memória temporal | eventos, snapshots e migrações | `persistence.py`, `historical_migration.py`, `event_triage.py` | versões, ciclos, comparação e migração |
 | Indicadores | Research Handbook e registros computáveis | `src/memoria_audiovisual/analytics/` | cálculo, cobertura, persistência e sensibilidade |
+| IA experimental | `ai_systems_protocol.md`, `ai_experimental_runtime.md` | `ai_contracts.py`, `ai_flags.py`, `ai_storage.py`, `ai_runtime.py`, `ai_baseline_handlers.py`, `ai_cycle.py` | contratos, flags, armazenamento separado, coleta sombra e isolamento do baseline |
 | Ética e risco | políticas e protocolos de risco | contratos, validação e revisão humana; indicadores de risco ainda não ativos | limites, revisão e contestabilidade |
 | Publicação | políticas, manifestos e projeções públicas | `public_view.py`, `public_delivery.py`, `active_publication.py`, `publication_revision.py` | produtos derivados e publicação versionada |
 | Ingestão | auditoria técnica e adaptadores | `adapters.py`, `digital_infrastructure_adapter.py`, `ingestion_batches.py` | adaptação, normalização e commits controlados |
@@ -24,12 +25,13 @@ ingestão
 → validação e integridade
 → revisão curatorial
 → snapshot e memória
-→ analytics
+→ coleta experimental de IA em modo sombra
+→ analytics oficial independente da IA
 → revisão de publicação
 → visão pública derivada
 ```
 
-As avaliações ética, jurídica e de risco atuam transversalmente e podem bloquear qualquer etapa posterior.
+As avaliações ética, jurídica e de risco atuam transversalmente e podem bloquear qualquer etapa posterior. A coleta experimental de IA permanece paralela e não modifica automaticamente os registros científicos oficiais.
 
 ## Regras permanentes
 
@@ -37,4 +39,6 @@ As avaliações ética, jurídica e de risco atuam transversalmente e podem bloq
 - produtos públicos são derivados de registros compatíveis com o uso declarado;
 - resultados sensíveis preservam vínculo com evidência, snapshot e decisão humana;
 - caminhos de código são referências de implementação, não garantias de validação empírica;
+- previsões experimentais de IA não entram em elegibilidade, denominadores ou indicadores oficiais;
+- falhas da camada experimental não alteram o estado do ciclo oficial;
 - propostas ainda não implementadas devem permanecer no backlog, não neste mapa de módulos existentes.
