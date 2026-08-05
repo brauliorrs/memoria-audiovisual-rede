@@ -10,6 +10,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, Iterable, Mapping, Sequence
 
+from .language_buttons import install_language_button_adapter
+
+
+# O aplicativo importa este módulo antes de solicitar o seletor lateral legado.
+# O adaptador é estritamente limitado a esse controle e o converte em três
+# botões compactos na página principal.
+install_language_button_adapter()
+
 
 SCIENTIFIC_INFRASTRUCTURE_LABEL = "Infraestrutura científica"
 SCIENTIFIC_INFRASTRUCTURE_LABELS_BY_OVERVIEW = {
