@@ -34,7 +34,42 @@
 2. catálogo computável;
 3. regras de cobertura e supressão;
 4. datasets curados em CSV e JSON;
-5. relatório de metodologia e limitações.
+5. relatório de metodologia e limitações;
+6. indicador de evidências públicas de IA aplicada a acervos audiovisuais.
+
+### P3.6 — Indicador de evidências públicas de IA aplicada a acervos audiovisuais
+
+**Objetivo:** transformar os campos experimentais `ai_cataloguing_status` e `ai_cataloguing_evidence` em um indicador científico versionado, calculado apenas sobre unidades elegíveis e efetivamente avaliáveis.
+
+**Escopo técnico e metodológico:**
+
+1. revisar o detector atual, que examina principalmente o texto da superfície ou rota inicialmente consultada;
+2. definir uma estratégia controlada de busca em páginas internas, relatórios, notícias institucionais, documentação técnica e páginas de projetos, sem contornar autenticação, paywalls, `robots.txt` ou outras restrições;
+3. ampliar e versionar o vocabulário de detecção para aplicações como catalogação automatizada, enriquecimento de metadados, transcrição, reconhecimento de fala, visão computacional, classificação, indexação, tradução e busca semântica;
+4. separar os estados `evidência detectada`, `não identificada`, `não avaliável`, `resultado ambíguo` e `pendente de revisão`;
+5. registrar URL, trecho, data, método de coleta, idioma, tipo de aplicação de IA e nível de confiança de cada evidência;
+6. submeter resultados positivos e amostras negativas à revisão humana;
+7. medir falsos positivos e falsos negativos em corpus de validação controlado;
+8. definir denominador, fórmula, cobertura mínima, regras de supressão, interpretação e limitações;
+9. registrar o indicador no catálogo científico e no registro metodológico;
+10. implementar o cálculo no motor analítico e testes automatizados;
+11. inserir o resultado na seção **Infraestrutura Científica**, com visualização da cobertura, unidades avaliáveis e evidências revisadas;
+12. preservar a distinção entre ausência de evidência pública e ausência institucional de uso de IA.
+
+**Critérios de aceite:**
+
+- definição científica e metodologia versionadas;
+- denominador restrito a unidades elegíveis e avaliáveis;
+- proveniência completa para cada evidência;
+- validação empírica documentada em amostra real;
+- métricas de falsos positivos e falsos negativos registradas;
+- revisão humana obrigatória para afirmações institucionais;
+- testes de cálculo, cobertura, estados não avaliáveis e preservação histórica;
+- indicador publicado sem converter automaticamente ausência de detecção em ausência de IA.
+
+**Dependências:** motor de indicadores, catálogo computável, regras de cobertura, proveniência, revisão curatorial e validação operacional dos detectores.
+
+**Risco principal:** páginas iniciais e superfícies públicas isoladas podem omitir projetos de IA descritos em páginas internas, relatórios ou notícias, produzindo subdetecção e comparações institucionais enviesadas.
 
 ## P4 — acesso público
 
