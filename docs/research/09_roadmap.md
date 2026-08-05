@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The roadmap separates completed infrastructure work from validation, scientific production, and future public delivery. It is not a promise of fixed dates. Progress depends on successful validation, data quality, institutional capacity, and the availability of reproducible longitudinal observations.
+The roadmap separates completed infrastructure work from validation, scientific production, public presentation and future expansion. It is not a promise of fixed dates. Progress depends on successful validation, data quality, institutional capacity and the availability of reproducible longitudinal observations.
 
 ## Phase 1 — Core Research Infrastructure
 
@@ -16,114 +16,180 @@ Main components:
 - append-only persistence;
 - snapshots and historical state;
 - longitudinal comparison;
-- event triage;
-- human review;
-- versioned public views;
-- durable historical branch;
-- workflow artifacts and operational reports;
+- event triage and human review;
+- versioned public outputs;
+- durable historical records;
+- analytical registries and indicator execution;
 - tests and technical documentation.
 
-Completion of this phase means that the architecture exists. It does not mean that every detector has already been externally validated.
+Completion of this phase means that the architecture exists and can be exercised. It does not mean that every detector or indicator has completed empirical validation.
 
-## Phase 2 — Operational Validation
+## Phase 2 — Scientific Presentation and Governance
+
+**Status: first implementation cycle completed; residual review in progress**
+
+Implemented components:
+
+- repository licensing boundaries;
+- machine-readable citation metadata;
+- contribution and review rules;
+- documentation-governance hierarchy;
+- international README and Research Handbook entry points;
+- automated documentation-link validation;
+- multilingual interface auditing;
+- explicit separation between implementation and empirical validation.
+
+Residual work:
+
+- complete editorial review of specialised documentation;
+- remove obsolete analytical references;
+- harmonise terminology across the public interface in Portuguese, English and Spanish;
+- update citation metadata with a stable release and DOI after formal archival publication;
+- review third-party-data and institutional-use constraints.
+
+Exit criterion:
+
+> External readers can understand, cite, reuse and critically evaluate the project without encountering conflicting definitions or exaggerated validation claims.
+
+## Phase 3 — Operational Validation
 
 **Status: in progress**
 
 Objectives:
 
-- stabilise the complete automated test suite;
+- maintain green automated quality controls;
 - run a controlled heterogeneous corpus sample;
 - inspect detector evidence manually;
-- identify false positives and false negatives;
+- identify false positives and false-negative patterns;
 - validate multilingual restriction detection;
-- verify corpus eligibility decisions;
+- verify corpus-eligibility decisions;
 - confirm the Audiovisual Archive Access Index;
+- reconstruct indicator results from registered methodologies;
 - test two-snapshot longitudinal behaviour;
-- validate review, publication, and persistence workflows;
-- produce a formal validation report.
+- validate review, publication, persistence and recovery workflows;
+- produce a formal validation report and acceptance decision.
 
 Exit criterion:
 
-> The infrastructure can complete a controlled end-to-end cycle with documented, reproducible, and manually audited results.
+> The infrastructure completes a controlled end-to-end cycle with documented, reproducible and manually audited results.
 
-## Phase 3 — Scientific Observatory
+## Phase 4 — First Official Scientific Cycle
 
 **Status: planned**
 
 Objectives:
 
+- freeze the validated methodological baseline;
 - execute the first official observation cycle;
-- expand validated coverage across the research corpus;
-- preserve regular snapshots;
+- publish the corpus, coverage and exclusion statement;
+- preserve the official snapshot and manifests;
 - publish indicator results with explicit denominators;
-- build comparable longitudinal series;
-- analyse access, interoperability, metadata, technology adoption, and infrastructural change;
-- prepare datasets and methodological reports for citation;
-- develop comparative studies across countries and institutional types.
+- release a versioned validation and methodology report;
+- archive the release and datasets in an appropriate repository;
+- update `CITATION.cff` with the stable version and DOI when available.
 
 Exit criterion:
 
-> The project has accumulated sufficient validated observations to support defensible scientific analyses rather than isolated technical demonstrations.
+> The project has a citable and archived scientific baseline whose results can be traced to evidence, methodology and review decisions.
 
-## Phase 4 — Public Research Delivery
+## Phase 5 — Longitudinal Scientific Observatory
 
 **Status: planned**
 
-Potential components:
+Objectives:
 
-- stable public data projection;
-- research dashboard;
-- documented query interface;
-- downloadable datasets;
+- repeat validated observation cycles;
+- preserve regular snapshots;
+- build comparable longitudinal series;
+- analyse access, interoperability, metadata, technology adoption and infrastructural change;
+- publish versioned datasets and methodological reports;
+- develop comparative studies across countries and institutional types;
+- introduce new indicators only through documented validation gates.
+
+Exit criterion:
+
+> The project has accumulated sufficient compatible observations to support defensible longitudinal analyses rather than isolated technical demonstrations.
+
+## Phase 6 — Public Showcase and Research Delivery
+
+**Status: definition in progress**
+
+The public showcase and the analytical observatory are separate products.
+
+### Project showcase
+
+The showcase should be a lightweight, fast and indexable public entry point containing:
+
+- project identity and research question;
+- concise explanation of the method and scientific contribution;
+- current phase and limitations;
+- selected outputs and publications;
+- links to the observatory, repository, documentation and datasets;
+- Portuguese, English and Spanish versions;
+- stable domain and visual identity.
+
+### Analytical observatory
+
+The observatory should provide:
+
+- research dashboards;
+- corpus, coverage and exclusion information;
 - indicator and methodology pages;
 - archive-level technological profiles;
-- versioned reports;
-- public API, subject to sustainability and governance requirements.
+- timelines and period comparison;
+- downloadable datasets and manifests;
+- a documented query interface or public API when sustainability permits.
 
-Public delivery must consume validated publication products. It must not read directly from provisional observations or bypass review rules.
+The current Streamlit deployment remains an analytical implementation under evaluation. Its performance, first-load latency, memory use, caching and mobile behaviour must be measured before it is adopted as the definitive public delivery environment.
 
-## Phase 5 — Comparative and Reusable Infrastructure
+Public delivery must consume validated or explicitly labelled provisional products. It must not read directly from unreviewed observations or bypass publication rules.
+
+## Phase 7 — Comparative and Reusable Infrastructure
 
 **Status: exploratory**
 
 Potential directions:
 
 - international comparative projects;
-- adaptation to museums, libraries, public repositories, and cultural heritage platforms;
+- adaptation to museums, libraries, public repositories and cultural-heritage platforms;
 - institutional technology-provider mapping;
-- digital preservation maturity research;
-- AI governance and transparency indicators;
-- technology diffusion and dependency analysis;
-- network analysis of platforms, standards, and providers;
+- digital-preservation maturity research;
+- AI-governance and transparency indicators;
+- technology-diffusion and dependency analysis;
+- network analysis of platforms, standards and providers;
 - reusable methodological packages for other research teams.
 
-## Immediate priorities
+Cross-domain reuse requires new corpus rules and empirical validation. It must not be treated as automatic transfer of already validated conclusions.
 
-The current priority order is:
+## Current priority order
 
 ```text
-1. Green quality checks
-2. Controlled real-world validation
-3. Detector correction and methodological audit
-4. Full validation report
-5. Merge and stable baseline
-6. First official observation cycle
-7. Longitudinal scientific production
+1. Complete specialised editorial harmonisation
+2. Audit and correct public terminology in three languages
+3. Execute controlled real-world validation
+4. Correct detectors and confirm denominator rules
+5. Produce the formal operational-validation report
+6. Establish a stable release baseline
+7. Execute and archive the first official observation cycle
+8. Define and implement the public showcase
+9. Begin longitudinal scientific production
 ```
 
-New functionality should be added only when it addresses a demonstrated validation gap or a clearly documented research need.
+The project showcase may be prototyped before the first official cycle, but it must not present provisional results as established scientific findings.
 
 ## Decision gates
 
-Each phase requires an explicit decision gate:
+Each transition requires an explicit gate:
 
-- **Technical gate:** software and integrity checks pass.
-- **Methodological gate:** results match documented definitions and exclusions.
+- **Technical gate:** software, schema, deployment and integrity checks pass.
+- **Editorial gate:** public and specialised documentation are consistent.
+- **Methodological gate:** populations, formulas, exclusions and interpretations match registered definitions.
 - **Empirical gate:** evidence has been inspected on real corpora.
-- **Publication gate:** sensitive claims satisfy review requirements.
-- **Scientific gate:** the available data support the proposed interpretation.
+- **Publication gate:** sensitive claims satisfy evidence and review requirements.
+- **Release gate:** outputs are versioned, archived and citable.
+- **Scientific gate:** available data support the proposed interpretation.
 
-This phased structure protects the project from presenting architectural readiness as empirical validation or public deployment maturity.
+This phased structure protects the project from presenting architectural readiness as empirical validation, a public interface as a scientific release, or technical expansion as methodological maturity.
 
 ---
 
