@@ -1,0 +1,252 @@
+name: Clarify AI Indicator Backlog Once
+
+on:
+  push:
+    paths:
+      - .github/workflows/clarify-ai-indicator-backlog-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: presentation/rpv-1
+
+      - name: Patch AI backlog and protocol
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          backlog_path = Path("docs/project/BACKLOG.md")
+          backlog = backlog_path.read_text(encoding="utf-8")
+          replacement = '''## P2A — indicadores experimentais relacionados à inteligência artificial
+
+**Estado:** não implantados; protocolo de evidências existente, modelagem, validação e integração analítica pendentes.
+
+A plataforma deverá tratar como objetos científicos diferentes três dimensões que não podem ser reunidas em uma classificação genérica de “IA”:
+
+1. **uso institucional de ferramentas de IA pelo arquivo ou agregador**;
+2. **uso de IA pela própria plataforma para apoiar a detecção de acervo e presença pública de vídeo**;
+3. **detecção de vídeos gerados, sintetizados ou materialmente modificados por IA**.
+
+O protocolo geral de cautela e evidência está documentado em:
+
+`docs/digital-infrastructure-alignment/ai_systems_protocol.md`
+
+Nenhum resultado de uma dessas dimensões poderá ser usado como substituto das outras.
+
+### P2A.1 — presença institucional de ferramentas de IA e identificação das ferramentas
+
+#### Questões de pesquisa
+
+- A instituição declara, documenta ou expõe evidência pública de uso de inteligência artificial ou aprendizado de máquina?
+- Quais sistemas, ferramentas, modelos, fornecedores ou componentes são utilizados?
+- Para quais funções arquivísticas, audiovisuais ou administrativas eles são empregados?
+- O uso está anunciado, em pesquisa, em piloto, operacional ou descontinuado?
+- Há supervisão humana, transparência, documentação e possibilidade de contestação?
+
+#### Funções institucionais a distinguir
+
+- transcrição e reconhecimento de fala;
+- OCR e leitura de documentos;
+- tradução automática;
+- reconhecimento ou descrição de imagem;
+- detecção e classificação de objetos;
+- enriquecimento de metadados;
+- extração de entidades;
+- indexação, busca e ranking;
+- recomendação;
+- identificação de direitos ou restrições;
+- restauração, redução de ruído, colorização ou aumento de resolução;
+- moderação e controle de conteúdo;
+- geração de texto, imagem, áudio ou vídeo;
+- automação baseada em regras, quando não houver evidência suficiente para classificá-la como IA.
+
+A presença de uma biblioteca, CDN, componente genérico ou linguagem promocional não constitui prova de uso institucional de IA. A identificação da ferramenta deverá preservar nome, fornecedor, versão, função, estágio de implantação, fonte pública e data da evidência. Quando a ferramenta não puder ser identificada, o campo deverá permanecer desconhecido.
+
+#### Estados avaliativos
+
+- `verified_institutional_ai_use`;
+- `detected_pending_review`;
+- `declared_without_technical_detail`;
+- `ambiguous`;
+- `not_identified_on_assessed_surfaces`;
+- `not_assessable`;
+- `error`;
+- `discontinued`;
+- `withdrawn_or_corrected`.
+
+`not_identified_on_assessed_surfaces` não significa que a instituição não utiliza IA. Significa apenas que o procedimento declarado não encontrou evidência pública suficiente.
+
+### P2A.2 — IA da plataforma para detectar acervo audiovisual e presença pública de vídeo
+
+Este eixo corresponde ao uso de IA pelo próprio observatório como apoio à triagem. Ele não mede adoção institucional de IA e não classifica a origem dos vídeos.
+
+As tarefas deverão permanecer separadas:
+
+1. **`audiovisual_collection_detection`** — identifica sinais de que a instituição preserva, descreve, disponibiliza ou administra coleção audiovisual, mesmo quando a terminologia não é padronizada;
+2. **`public_video_presence_detection`** — identifica sinais de vídeo reproduzível ou publicamente exposto, distinguindo página institucional, ficha de catálogo, player incorporado, arquivo de mídia, streaming e simples menção textual.
+
+A IA poderá analisar texto, metadados, resultados de busca, documentos públicos, códigos de incorporação, elementos de player, miniaturas metodologicamente aprovadas e evidências produzidas por detectores determinísticos.
+
+Ela poderá priorizar páginas, sugerir superfícies relevantes e encaminhar ambiguidades para revisão. Não poderá incluir ou excluir candidatos, definir elegibilidade, alterar `CORPORA`, transformar ausência de detecção em negativa metodológica ou substituir decisão curatorial.
+
+### P2A.3 — detecção de vídeos gerados ou modificados por IA
+
+Este eixo analisa a origem e o processo de produção do conteúdo audiovisual observado. Ele é independente da presença de ferramentas de IA na instituição: um arquivo pode não usar IA internamente e ainda custodiar vídeos produzidos com IA; também pode usar IA em transcrição ou restauração sem possuir vídeos gerados por IA.
+
+#### Classes que devem permanecer separadas
+
+- `declared_fully_ai_generated_video` — vídeo declarado como integralmente gerado ou sintetizado por IA;
+- `declared_partially_ai_generated_video` — partes visuais ou sonoras foram geradas por IA;
+- `declared_ai_assisted_production` — IA auxiliou roteiro, edição, composição ou outro estágio, sem caracterizar necessariamente geração do vídeo;
+- `ai_restored_or_enhanced_video` — restauração, interpolação, redução de ruído, colorização ou aumento de resolução;
+- `synthetic_voice_or_audio` — voz, fala, música ou efeitos sonoros sintéticos;
+- `synthetic_image_or_avatar` — imagens, personagens, avatares ou cenas sintéticas;
+- `suspected_ai_generated_pending_review` — sinal técnico ou visual ainda não confirmado;
+- `no_public_evidence_of_ai_generation` — nenhuma evidência pública foi identificada nas superfícies examinadas;
+- `not_assessable`;
+- `error`;
+- `withdrawn_or_corrected`.
+
+Restauração, colorização, transcrição, recomendação ou enriquecimento de metadados não deverão ser classificados automaticamente como “vídeo feito por IA”. O indicador deverá distinguir geração do conteúdo, modificação material do conteúdo e uso de IA apenas em processos auxiliares.
+
+#### Hierarquia de evidências
+
+A classificação deverá priorizar, nesta ordem:
+
+1. declaração explícita do produtor, arquivo, catálogo ou detentor responsável;
+2. metadados de proveniência, credenciais de conteúdo ou documentação técnica verificável;
+3. ficha catalográfica, créditos, notas de produção ou documentação de aquisição;
+4. marca d’água, identificador ou informação técnica associada ao conteúdo;
+5. análise forense ou detector automatizado validado;
+6. avaliação humana especializada.
+
+Nenhum detector probabilístico poderá, isoladamente, produzir a classificação pública de que um vídeo foi gerado por IA. A confiança do modelo será evidência de triagem, não prova de autoria ou processo de produção.
+
+#### Unidade de análise
+
+A classificação deverá poder ocorrer em diferentes níveis:
+
+- item audiovisual completo;
+- versão ou manifestação específica;
+- segmento temporal;
+- faixa de áudio;
+- quadro ou sequência de quadros;
+- elemento sintético incorporado a conteúdo não sintético.
+
+O resultado deverá declarar exatamente qual nível foi examinado. A presença de um elemento sintético não autoriza classificar automaticamente todo o item como integralmente gerado por IA.
+
+### Campos mínimos comuns
+
+Cada registro deverá preservar:
+
+- `entity_id`, `item_id` e `observation_id`, conforme aplicável;
+- dimensão avaliada: uso institucional, triagem da plataforma ou origem sintética do vídeo;
+- ferramenta, sistema, modelo ou fornecedor identificado;
+- função da IA;
+- URL, documento ou item observado;
+- idioma e tipo da evidência;
+- estágio de implantação ou classe de geração/modificação;
+- modelo de detecção, versão, configuração e prompt, quando usados;
+- classe prevista, confiança e justificativa;
+- decisão do revisor humano;
+- data, versão metodológica e referência de correção;
+- nível do item examinado: coleção, instituição, vídeo, versão, segmento, áudio ou quadro.
+
+### Validação obrigatória
+
+Antes de qualquer indicador público, será necessário:
+
+1. construir amostras-ouro diferentes para uso institucional de IA, detecção de acervo/vídeo e vídeos gerados por IA;
+2. garantir diversidade de idiomas, continentes, tipos de instituição, períodos, gêneros e qualidades técnicas;
+3. incluir positivos, negativos, ambíguos, restaurados, parcialmente sintéticos, bloqueados e não avaliáveis;
+4. comparar detectores com evidência documental e avaliação humana independente;
+5. medir precisão, revocação, F1, matriz de confusão e calibração por tarefa;
+6. medir desempenho por idioma, continente, tipo de instituição, codec, resolução e período, quando aplicável;
+7. estimar falsos positivos e falsos negativos separadamente para cada classe;
+8. testar estabilidade entre versões de modelo, prompt e detector;
+9. definir limiares apenas para encaminhamento à revisão, nunca para publicação automática;
+10. documentar vieses contra vídeos antigos, comprimidos, restaurados, animados, experimentais ou com efeitos visuais;
+11. revisar humanamente todos os positivos e uma amostra controlada dos negativos;
+12. registrar cada indicador separadamente no `indicator_registry.json` e no `methodology_registry.json` somente após aprovação científica.
+
+### Produtos a implementar
+
+1. criar três contratos independentes de observação e classificação;
+2. ampliar o protocolo de IA para separar uso institucional, IA do observatório e conteúdo sintético;
+3. criar vocabulário controlado de ferramentas, funções e estágios institucionais;
+4. criar vocabulário controlado de geração, assistência, restauração e modificação audiovisual;
+5. construir conjuntos de avaliação independentes e licenciados para cada tarefa;
+6. implementar baseline determinístico e documental antes de modelos probabilísticos;
+7. criar coleta de metadados e declarações de proveniência do item audiovisual;
+8. avaliar detectores de conteúdo sintético sem transformar sua saída em prova conclusiva;
+9. criar fila e interface de revisão humana;
+10. persistir evidência, confiança, versão do detector e decisão final;
+11. produzir relatórios separados de desempenho e cobertura;
+12. integrar resultados validados aos snapshots sem sobrescrever observações históricas;
+13. criar visualizações que não misturem adoção institucional, triagem automatizada e vídeos sintéticos;
+14. documentar as três metodologias no livro científico;
+15. manter os indicadores desativados até o cumprimento dos critérios específicos de validação.
+
+### Critério de conclusão
+
+A implantação somente será considerada concluída quando a plataforma conseguir responder separadamente:
+
+1. se há evidência pública de que o arquivo utiliza ferramentas de IA, quais são e para quais funções;
+2. se a IA do observatório identificou evidência de acervo audiovisual ou presença pública de vídeo, com revisão humana;
+3. se um item, versão ou segmento audiovisual possui evidência verificável de geração ou modificação por IA, distinguindo geração integral, geração parcial, assistência e restauração.
+
+Até esse ponto, os resultados permanecerão experimentais e não poderão fundamentar afirmações públicas conclusivas sobre uma instituição ou um vídeo.
+'''
+
+          pattern = re.compile(
+              r"## P2A — indicador experimental de IA para detecção de acervo e presença de vídeo\n.*?(?=\n## P3 —)",
+              re.S,
+          )
+          backlog, count = pattern.subn(replacement.rstrip(), backlog)
+          if count != 1:
+              raise SystemExit(f"Expected one P2A section, replaced {count}")
+          backlog = backlog.replace(
+              "5. Desenvolver e validar experimentalmente a detecção por IA de acervo e presença de vídeo",
+              "5. Desenvolver e validar separadamente: uso institucional de IA, IA de triagem do observatório e detecção de vídeos gerados ou modificados por IA",
+          )
+          backlog_path.write_text(backlog, encoding="utf-8")
+
+          protocol_path = Path("docs/digital-infrastructure-alignment/ai_systems_protocol.md")
+          protocol = protocol_path.read_text(encoding="utf-8")
+          marker = "## Unidade de observação\n"
+          addition = '''## Separação obrigatória dos objetos de IA
+
+O projeto distingue três objetos que não podem compartilhar automaticamente o mesmo indicador ou denominador:
+
+1. **IA utilizada pela instituição** — sistemas e ferramentas empregados pelo arquivo ou agregador e suas funções;
+2. **IA utilizada pelo observatório** — modelos empregados para apoiar triagem, detecção de acervo e localização de vídeo público;
+3. **conteúdo audiovisual gerado ou modificado por IA** — propriedade observada em um item, versão, segmento, faixa de áudio ou elemento visual.
+
+Uso institucional de IA não prova que a instituição custodie vídeos gerados por IA. Presença de vídeos sintéticos não prova que o arquivo utilize IA em seus processos. IA usada pelo observatório para detectar evidências não deve ser atribuída à instituição observada.
+
+Restauração, colorização, transcrição, recomendação e enriquecimento de metadados devem permanecer separados da geração sintética do conteúdo. Detectores probabilísticos de vídeo sintético servem para triagem e não podem, isoladamente, sustentar afirmação pública conclusiva.
+
+'''
+          if addition not in protocol:
+              if marker not in protocol:
+                  raise SystemExit("Protocol insertion marker not found")
+              protocol = protocol.replace(marker, addition + marker, 1)
+              protocol_path.write_text(protocol, encoding="utf-8")
+
+      - name: Commit patch and remove one-time workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/project/BACKLOG.md
+          git add docs/digital-infrastructure-alignment/ai_systems_protocol.md
+          git rm .github/workflows/clarify-ai-indicator-backlog-once.yml
+          git commit -m "docs: separate institutional AI and synthetic video indicators"
+          git push origin HEAD:presentation/rpv-1
