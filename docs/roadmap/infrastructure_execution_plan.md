@@ -17,7 +17,7 @@ O backlog executivo vigente está em:
 3. Coleta, sondagem técnica, elegibilidade científica, decisão curatorial e incorporação em `CORPORA` são etapas separadas.
 4. Nenhuma fila promove automaticamente candidatos para `CORPORA` ou altera `organism_active`.
 5. Ausência de artefato operacional deve ser apresentada como ausência ou não execução, nunca como resultado empírico.
-6. Corpus de referência, corpus operacional ativo, fontes de descoberta, radar e fila incorporável possuem denominadores distintos.
+6. Corpus de referência, corpus operacional global, recortes continentais, fontes de descoberta, radar e fila incorporável possuem denominadores distintos.
 7. Produtos públicos devem derivar de snapshots e publicações aprovadas, não de observações ainda não revisadas.
 
 ## Estado auditado em 5 de agosto de 2026
@@ -78,21 +78,33 @@ O produto `data/output/controlled_validation_summary.json` ainda não está mate
 
 ### Etapa 5 — Atualização integral dos corpora atuais
 
-**Estado: pendente.**
+**Estado: próxima prioridade executiva.**
 
-O corpus científico possui 58 entidades, das quais 55 estão ativas. O último ciclo, concluído em 21 de julho de 2026, foi parcial e processou somente `home-movies-memoryscapes`.
+O corpus científico possui 58 entidades, das quais 55 estão ativas globalmente. O último ciclo, concluído em 21 de julho de 2026, foi parcial e processou somente `home-movies-memoryscapes`.
 
 Não existe ciclo completo materializado para os 55 corpora ativos.
 
-### Etapa 6 — Fila europeia
+### Etapa 6 — Produtos e fila europeus
 
-**Estado: fila e código preparatório existentes; operação pendente.**
+**Estado dos produtos canônicos: sincronização concluída.**
 
-A fila vigente é:
+Os três produtos europeus foram regenerados e permaneceram inalterados:
 
-`data/output/observatorio_fila_pesquisa_europa.csv`
+- `observatorio_pesquisa_europa.csv`;
+- `observatorio_fila_pesquisa_europa.csv`;
+- `observatorio_resumo_pesquisa_europa.csv`.
 
-Ela contém 118 registros, separa fontes de descoberta de candidatos individuais e possui ranking explícito.
+O denominador foi validado como:
+
+```text
+55 ativos globais = 54 ativos europeus + AAPB
+```
+
+O sincronizador `scripts/sync_europe_research_outputs.py` e o passo obrigatório do CI protegem os três arquivos contra desatualização, duplicidade, ranking descontínuo, mistura de versões e entrada indevida de corpora extraeuropeus.
+
+**Estado da operação da fila: pendente.**
+
+A fila vigente contém 118 registros, separa fontes de descoberta de candidatos individuais e possui ranking explícito.
 
 Existem código e testes para:
 
@@ -129,16 +141,14 @@ A sequência só pode ser alterada mediante inventário comparável, justificati
 
 ## Ordem executiva autorizada
 
-1. sincronizar o corpus canônico, os 55 ativos e os produtos europeus;
-2. corrigir a divergência de 54/55 no resumo europeu;
-3. executar o ciclo completo dos 55 corpora ativos;
-4. materializar validação controlada, analytics operacional, histórico, ledger e lotes;
-5. operacionalizar a sondagem e o gate da fila europeia;
-6. criar revisão curatorial sem promoção automática;
-7. simular e automatizar a política dos 20 corpora;
-8. fechar a onda europeia;
-9. consolidar a América do Norte;
-10. preparar a fila da América Latina e Caribe.
+1. executar o ciclo completo dos 55 corpora ativos globais;
+2. materializar validação controlada, analytics operacional, histórico, ledger e lotes;
+3. operacionalizar a sondagem e o gate da fila europeia;
+4. criar revisão curatorial sem promoção automática;
+5. simular e automatizar a política dos 20 corpora;
+6. fechar a onda europeia;
+7. consolidar a América do Norte;
+8. preparar a fila da América Latina e Caribe.
 
 ## Bloqueios atuais
 
@@ -153,4 +163,4 @@ Até a conclusão das etapas anteriores, a plataforma não deve:
 
 ## Próxima ação autorizada
 
-Regenerar e validar os produtos europeus contra o corpus canônico atual, corrigindo a divergência entre 54 e 55 corpora ativos. Em seguida, preparar a execução integral dos 55 corpora antes de operacionalizar a fila europeia.
+Preparar e executar o primeiro ciclo integral dos 55 corpora ativos globais. A operação da fila europeia permanece posterior à materialização desse baseline operacional completo.
