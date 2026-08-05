@@ -8,18 +8,6 @@ DEFAULT_LANGUAGE = "pt"
 SUPPORTED_LANGUAGES = ("pt", "en", "es")
 LOCALE_DIR = Path(__file__).resolve().parent / "locales"
 
-# Compatibilidade temporária com a tabela de atualização do observatório.
-# O renderizador ainda aplica formatação a estas colunas por seus rótulos
-# históricos em português depois de renomeá-las. Manter os quatro rótulos
-# estáveis evita KeyError em inglês e espanhol até que o renderizador passe
-# a trabalhar exclusivamente com nomes internos antes da apresentação.
-LEGACY_REFRESH_TABLE_LABELS = {
-    "overview.table.column.incluida_na_ultima_rodada": "incluída na última rodada",
-    "overview.table.column.situacao_na_ultima_rodada": "situação na última rodada",
-    "overview.table.column.ultima_rodada_bem_sucedida": "última rodada bem-sucedida",
-    "overview.table.column.ultima_observacao_registrada": "última observação registrada",
-}
-
 
 @lru_cache(maxsize=None)
 def load_locale(language: str = DEFAULT_LANGUAGE) -> dict[str, str]:
@@ -33,11 +21,8 @@ def load_locale(language: str = DEFAULT_LANGUAGE) -> dict[str, str]:
 
 
 def translate_key(key: str, language: str = DEFAULT_LANGUAGE, **kwargs) -> str:
-    if key in LEGACY_REFRESH_TABLE_LABELS:
-        text = LEGACY_REFRESH_TABLE_LABELS[key]
-    else:
-        catalogue = load_locale(language)
-        text = catalogue.get(key, key)
+    catalogue = load_locale(language)
+    text = catalogue.get(key, key)
     return text.format(**kwargs) if kwargs else text
 
 

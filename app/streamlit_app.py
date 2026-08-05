@@ -102,6 +102,7 @@ from memoria_audiovisual.research_profile import (
     build_research_positioning_rows,
     summarize_research_parameter_status,
 )
+from memoria_audiovisual.ui.refresh_table import prepare_refresh_display_dataframe
 from memoria_audiovisual.ui.navigation import build_navigation_contract
 from memoria_audiovisual.ui.scientific_infrastructure import render_scientific_infrastructure
 from memoria_audiovisual.output_files import list_output_filenames
@@ -1761,39 +1762,32 @@ def render_observatory_overview_tab():
         refresh_metric_cols[2].metric(tr_key("overview.refresh.metrics.stale"), stale_count)
         refresh_metric_cols[3].metric(tr_key("overview.refresh.metrics.failed"), failure_count)
 
-        refresh_display_df = refresh_status_df.rename(
-            columns={
-                "corpus": tr_key('overview.table.column.unidade_documental'),
-                "category_label": tr_key('overview.table.column.categoria_analitica'),
-                "coverage_level": tr_key('overview.table.column.escala_de_cobertura'),
-                "scope": tr_key('overview.table.column.escopo'),
-                "collection_completeness": tr_key('overview.table.column.completude_da_coleta'),
-                "selection_limit": tr_key('overview.table.column.limite_tecnico'),
-                "completeness_note": tr_key('overview.table.column.nota_de_completude'),
-                "included_in_latest_cycle": tr_key('overview.table.column.incluida_na_ultima_rodada'),
-                "latest_cycle_scope": tr_key('overview.table.column.escopo_da_ultima_rodada'),
-                "latest_cycle_status": tr_key('overview.table.column.situacao_na_ultima_rodada'),
-                "last_successful_cycle_at": tr_key('overview.table.column.ultima_rodada_bem_sucedida'),
-                "last_snapshot_generated_at": tr_key('overview.table.column.ultima_observacao_registrada'),
-                "source_status_date": tr_key('overview.table.column.status_da_fonte'),
-                "observation_key": tr_key('overview.table.column.chave_de_observacao'),
-                "days_since_last_observation": tr_key('overview.table.column.dias_desde_a_ultima_observacao'),
-                "refresh_state": tr_key('overview.table.column.estado_de_atualizacao'),
-                "refresh_state_reason": tr_key('overview.table.column.justificativa_metodologica'),
-            }
-        ).copy()
-        refresh_display_df["incluída na última rodada"] = refresh_display_df["incluída na última rodada"].map(
-            format_yes_no
+        refresh_column_labels = {
+            "corpus": tr_key('overview.table.column.unidade_documental'),
+            "category_label": tr_key('overview.table.column.categoria_analitica'),
+            "coverage_level": tr_key('overview.table.column.escala_de_cobertura'),
+            "scope": tr_key('overview.table.column.escopo'),
+            "collection_completeness": tr_key('overview.table.column.completude_da_coleta'),
+            "selection_limit": tr_key('overview.table.column.limite_tecnico'),
+            "completeness_note": tr_key('overview.table.column.nota_de_completude'),
+            "included_in_latest_cycle": tr_key('overview.table.column.incluida_na_ultima_rodada'),
+            "latest_cycle_scope": tr_key('overview.table.column.escopo_da_ultima_rodada'),
+            "latest_cycle_status": tr_key('overview.table.column.situacao_na_ultima_rodada'),
+            "last_successful_cycle_at": tr_key('overview.table.column.ultima_rodada_bem_sucedida'),
+            "last_snapshot_generated_at": tr_key('overview.table.column.ultima_observacao_registrada'),
+            "source_status_date": tr_key('overview.table.column.status_da_fonte'),
+            "observation_key": tr_key('overview.table.column.chave_de_observacao'),
+            "days_since_last_observation": tr_key('overview.table.column.dias_desde_a_ultima_observacao'),
+            "refresh_state": tr_key('overview.table.column.estado_de_atualizacao'),
+            "refresh_state_reason": tr_key('overview.table.column.justificativa_metodologica'),
+        }
+        refresh_display_df = prepare_refresh_display_dataframe(
+            refresh_status_df,
+            column_labels=refresh_column_labels,
+            format_yes_no=format_yes_no,
+            format_cycle_status=format_cycle_status,
+            format_timestamp=format_snapshot_timestamp,
         )
-        refresh_display_df["situação na última rodada"] = refresh_display_df["situação na última rodada"].map(
-            format_cycle_status
-        )
-        refresh_display_df["última rodada bem-sucedida"] = refresh_display_df["última rodada bem-sucedida"].map(
-            format_snapshot_timestamp
-        )
-        refresh_display_df["última observação registrada"] = refresh_display_df[
-            "última observação registrada"
-        ].map(format_snapshot_timestamp)
         st.dataframe(refresh_display_df, use_container_width=True, hide_index=True)
         with st.expander(tr_key("overview.refresh.states_expander"), expanded=False):
             st.dataframe(refresh_counts, use_container_width=True, hide_index=True)
