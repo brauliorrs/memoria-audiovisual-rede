@@ -33,6 +33,9 @@ COPY = {
         "rationale": "Fundamentação científica",
         "interpretation": "Interpretação",
         "not_measure": "O que não mede",
+        "evidence_requirements": "Requisitos de evidência",
+        "methodology_reference": "Referência metodológica",
+        "expected_range": "Intervalo esperado",
         "formula": "Fórmula",
         "definition": "Definição",
         "source": "Fonte de dados",
@@ -71,6 +74,9 @@ COPY = {
         "rationale": "Scientific rationale",
         "interpretation": "Interpretation",
         "not_measure": "What it does not measure",
+        "evidence_requirements": "Evidence requirements",
+        "methodology_reference": "Methodology reference",
+        "expected_range": "Expected range",
         "formula": "Formula",
         "definition": "Definition",
         "source": "Data source",
@@ -109,6 +115,9 @@ COPY = {
         "rationale": "Fundamentación científica",
         "interpretation": "Interpretación",
         "not_measure": "Lo que no mide",
+        "evidence_requirements": "Requisitos de evidencia",
+        "methodology_reference": "Referencia metodológica",
+        "expected_range": "Intervalo esperado",
         "formula": "Fórmula",
         "definition": "Definición",
         "source": "Fuente de datos",
@@ -204,10 +213,19 @@ def _render_indicators(base_dir: str | Path, text: dict[str, str]) -> None:
         with st.expander(title, expanded=False):
             st.markdown(f"**{text['version']}:** {item.get('indicator_version', '—')}")
             st.markdown(f"**{text['state']}:** {item.get('status', '—')}")
+            st.markdown(f"**{text['expected_range']}:** {item.get('expected_range', '—')}")
             st.markdown(f"**{text['question']}:** {item.get('scientific_question', '—')}")
             st.markdown(f"**{text['rationale']}:** {item.get('scientific_rationale', '—')}")
             st.markdown(f"**{text['interpretation']}:** {item.get('interpretation', '—')}")
             st.markdown(f"**{text['not_measure']}:** {_format_list(item.get('does_not_measure'))}")
+            st.markdown(
+                f"**{text['evidence_requirements']}:** "
+                f"{_format_list(item.get('evidence_requirements'))}"
+            )
+            st.caption(
+                f"{text['methodology_reference']}: "
+                f"{item.get('methodology_reference', '—')}"
+            )
 
 
 def _render_methodology(base_dir: str | Path, text: dict[str, str]) -> None:
