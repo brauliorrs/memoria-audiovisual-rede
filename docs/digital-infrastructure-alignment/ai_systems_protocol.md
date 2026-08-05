@@ -6,6 +6,18 @@ Este protocolo orienta o registro de evidências públicas sobre aplicações de
 
 O objeto observado é a **evidência pública disponível na superfície examinada**, não a totalidade dos sistemas internos da instituição. Nenhum resultado negativo autoriza afirmar que a instituição não utiliza IA.
 
+## Separação obrigatória dos objetos de IA
+
+O projeto distingue três objetos que não podem compartilhar automaticamente o mesmo indicador ou denominador:
+
+1. **IA utilizada pela instituição** — sistemas e ferramentas empregados pelo arquivo ou agregador e suas funções;
+2. **IA utilizada pelo observatório** — modelos empregados para apoiar triagem, detecção de acervo e localização de vídeo público;
+3. **conteúdo audiovisual gerado ou modificado por IA** — propriedade observada em um item, versão, segmento, faixa de áudio ou elemento visual.
+
+Uso institucional de IA não prova que a instituição custodie vídeos gerados por IA. Presença de vídeos sintéticos não prova que o arquivo utilize IA em seus processos. IA usada pelo observatório para detectar evidências não deve ser atribuída à instituição observada.
+
+Restauração, colorização, transcrição, recomendação e enriquecimento de metadados devem permanecer separados da geração sintética do conteúdo. Detectores probabilísticos de vídeo sintético servem para triagem e não podem, isoladamente, sustentar afirmação pública conclusiva.
+
 ## Unidade de observação
 
 Cada registro deve vincular:
