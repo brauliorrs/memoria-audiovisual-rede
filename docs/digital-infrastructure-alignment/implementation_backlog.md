@@ -19,26 +19,36 @@ Este documento não cria uma segunda ordem de prioridades. Ele registra apenas o
 | Licença, citação e contribuição | implementada | `LICENSE`, `CITATION.cff`, `CONTRIBUTING.md` | release estável, DOI e revisão jurídica futura |
 | Interface pública | implementada | quatro áreas principais, três idiomas, carregamento progressivo | auditoria manual, desempenho e responsividade |
 | Corpus de referência | materializado | manifesto congelado com 58 entidades | nova versão apenas mediante mudança canônica |
-| Corpus operacional | ativo parcialmente | 55 entidades ativas | primeiro ciclo completo dos 55 corpora |
+| Corpus operacional | ativo parcialmente | 55 entidades ativas globais | primeiro ciclo completo dos 55 corpora |
+| Produtos europeus | sincronizados | 54 ativos europeus, 118 registros na fila, validação obrigatória no CI | operação da sondagem e do gate |
 | Indicadores de referência | materializados | nove indicadores, cobertura e proveniência | validação operacional viva e histórico longitudinal |
 | Núcleo de dados e proveniência | implementado estruturalmente | modelos, IDs, evidências, integridade, persistência e revisão | materializar ledger e lotes reais |
 | Memória longitudinal | implementada estruturalmente | snapshots, comparação e ciclos parciais | dois snapshots oficiais completos e comparáveis |
-| Fila europeia | estruturada | 118 registros, ranking, sondagem e gate em código | regeneração, execução, revisão humana e integração pública |
 | Publicação derivada | implementada estruturalmente | revisão, ativação e entrega pública em código | produtos ativos, workflow editorial e conexão ao observatório |
 | API e catálogo de downloads | planejados | contratos e produtos de base disponíveis | implementação pública somente leitura |
 
 ## T0 — consistência canônica
 
-**Prioridade:** imediata.
+**Estado:** concluído nesta rodada.
 
-1. regenerar registro, fila e resumo europeus contra os 55 corpora ativos;
-2. corrigir a divergência 54/55;
-3. tratar `observatorio_fila_fechamento_europa.csv` como histórico;
-4. usar `observatorio_fila_pesquisa_europa.csv` como fila operacional vigente;
-5. validar códigos, ranking, camadas, decisões e totais;
-6. criar teste de consistência entre `CORPORA`, inventário, registro e resumo.
+O corpus ativo global possui 55 entidades. Os produtos europeus contêm corretamente 54 corpora ativos, pois o AAPB pertence ao recorte norte-americano.
+
+Concluído:
+
+1. regeneração de registro, fila e resumo europeus;
+2. confirmação de que os CSVs já correspondiam ao gerador canônico;
+3. criação de `scripts/sync_europe_research_outputs.py`;
+4. modo `--check` para detectar produtos desatualizados;
+5. validação separada dos denominadores global e europeu;
+6. bloqueio de corpora extraeuropeus no recorte europeu;
+7. validação de códigos, ranking, camadas, versões e totais;
+8. testes contra alteração indevida do denominador;
+9. integração do check ao workflow `Quality Checks`;
+10. classificação de `observatorio_fila_fechamento_europa.csv` como histórico.
 
 ## T1 — execução integral do organismo
+
+**Estado:** próximo portão técnico.
 
 1. executar todos os 55 corpora ativos em um ciclo completo;
 2. registrar sucesso, falha e não avaliabilidade sem exclusão silenciosa;
@@ -170,7 +180,7 @@ A sequência canônica está no backlog principal:
 5. Ásia;
 6. Oceania.
 
-A pesquisa de fontes pode ocorrer em paralelo. A ativação de novas ondas permanece bloqueada até a conclusão de consistência, ciclo integral, materialização científica e operacionalização segura da fila europeia.
+A pesquisa de fontes pode ocorrer em paralelo. A ativação de novas ondas permanece bloqueada até a conclusão do ciclo integral, da materialização científica e da operacionalização segura da fila europeia.
 
 ## Fora do primeiro ciclo operacional
 
@@ -185,10 +195,9 @@ A pesquisa de fontes pode ocorrer em paralelo. A ativação de novas ondas perma
 ## Próximo portão técnico
 
 ```text
-1. Corrigir a divergência 54/55
-2. Regenerar os produtos europeus
-3. Executar o ciclo completo dos 55 corpora
-4. Materializar analytics, histórico, ledger e lotes
-5. Executar sondagem e elegibilidade europeias
-6. Abrir revisão curatorial controlada
+Concluído: regenerar e validar os produtos europeus
+1. Executar o ciclo completo dos 55 corpora ativos globais
+2. Materializar analytics, histórico, ledger e lotes
+3. Executar sondagem e elegibilidade europeias
+4. Abrir revisão curatorial controlada
 ```
