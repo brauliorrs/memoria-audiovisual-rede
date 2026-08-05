@@ -4,6 +4,10 @@ Este backlog separa consolidação operacional, expansão científica e melhoria
 
 `docs/audit/platform_integration_expansion_audit_2026-08-05.md`
 
+A interpretação científica da expansão, do limiar de prontidão e da sequência continental está documentada em:
+
+`docs/research/05a_scientific_expansion_policy.md`
+
 ## P0 — consistência do corpus, das filas e dos denominadores
 
 **Estado:** prioridade imediata.
@@ -131,7 +135,7 @@ Cada candidato possui evidência, estado do gate e decisão humana rastreável a
 
 ## P4 — política dos 20 corpora e prontidão regional
 
-**Estado:** regra proposta; simulação e automação pendentes.
+**Estado:** regra documentada no livro científico; simulação e automação pendentes.
 
 Uma rodada continental deve ser aberta quando houver **20 novos corpora elegíveis, aprovados e validados do mesmo continente** desde a última rodada concluída.
 
@@ -144,6 +148,8 @@ Não contam:
 - negativos metodológicos;
 - candidatos sem evidência suficiente;
 - revisões curatoriais pendentes.
+
+A regra é uma hipótese operacional de governança, não uma constante científica. Ela deve ser validada antes de se tornar estável e não pode excluir indefinidamente regiões com menor disponibilidade de instituições avaliáveis.
 
 ### Ações
 
@@ -159,11 +165,11 @@ Não contam:
 
 ### Critério de conclusão
 
-A plataforma informa quantos corpora aprovados faltam para a próxima rodada e qual versão do denominador será alterada.
+A plataforma informa quantos corpora aprovados faltam para a próxima rodada, qual versão do denominador será alterada e qual regra ou exceção metodológica foi aplicada.
 
 ## P5 — sequência continental
 
-**Estado:** sequência provisória definida para planejamento.
+**Estado:** sequência provisória documentada no livro científico; validação comparativa pendente.
 
 A descoberta pode ocorrer em paralelo, mas a ativação de novas ondas segue:
 
@@ -182,8 +188,9 @@ Fontes mundiais, supranacionais ou transcontinentais permanecem em fila transver
 - agregadores continentais, supranacionais ou nacionais entram antes de instituições individuais;
 - arquivos individuais devem preencher lacunas ou oferecer contraste metodológico;
 - facilidade técnica não pode ser o único critério de prioridade;
-- a ordem só pode mudar após inventário comparável de fontes, justificativa científica e registro da decisão;
-- nenhum novo continente entra em ativação antes da conclusão de P0–P4.
+- a ordem só pode mudar após inventário comparável de fontes, justificativa científica, avaliação de consequências de cobertura e registro da decisão;
+- nenhum novo continente entra em ativação antes da conclusão de P0–P4;
+- toda onda altera o corpus por lote versionado e deve preservar o baseline anterior.
 
 ### Próxima onda
 
@@ -226,7 +233,8 @@ Concluído:
 - carregamento somente da área selecionada;
 - Infraestrutura Científica progressiva;
 - português, inglês e espanhol;
-- remoção do protótipo vertical rejeitado.
+- remoção do protótipo vertical rejeitado;
+- seletor de idioma em botões compactos na própria página, sem barra lateral.
 
 Pendências:
 
@@ -269,12 +277,12 @@ Escopo potencial:
 2. Executar o ciclo completo dos 55 corpora ativos
 3. Materializar validação controlada, analytics vivo, ledger e lotes
 4. Operacionalizar sondagem e elegibilidade da fila europeia
-5. Simular e automatizar a política dos 20 corpora
+5. Simular e validar a política dos 20 corpora
 6. Fechar a onda europeia
 7. Consolidar a América do Norte
 8. Preparar a fila da América Latina e Caribe
-9. Ativar publicação derivada e entrega pública
-10. Retomar expansão continental subsequente
+9. Manter descoberta preparatória de África, Ásia e Oceania
+10. Ativar publicação derivada e entrega pública versionada
 ```
 
 ## Regra do backlog
