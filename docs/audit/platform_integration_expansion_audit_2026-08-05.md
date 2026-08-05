@@ -42,22 +42,26 @@ O manifesto científico de referência registra:
 O inventário derivado atual registra:
 
 - 58 entidades totais;
-- 55 entidades ativas;
+- 55 entidades ativas globais;
 - 3 entidades inativas;
 - 7 agregadores;
 - 51 arquivos ou instituições.
 
+O recorte europeu dos produtos `observatorio_*_pesquisa_europa.csv` contém 54 corpora ativos. O corpus ativo global adicional é o American Archive of Public Broadcasting — AAPB, incorporado como primeiro corpus norte-americano.
+
 Consequentemente, devem permanecer distintos:
 
 - **corpus de referência:** 58 entidades;
-- **corpus operacional ativo:** 55 entidades;
+- **corpus operacional ativo global:** 55 entidades;
+- **corpus operacional ativo europeu:** 54 entidades;
+- **corpus operacional ativo extraeuropeu:** 1 entidade, o AAPB;
 - **unidades incorporáveis em fila:** somente candidatas que concluírem o gate e a revisão humana.
 
 ## 4. Estado dos ciclos operacionais
 
 O último ciclo registrado foi concluído em **21 de julho de 2026** e teve escopo parcial:
 
-- 55 corpora ativos declarados;
+- 55 corpora ativos globais declarados;
 - 1 corpus selecionado;
 - `home-movies-memoryscapes` processado com sucesso.
 
@@ -95,6 +99,7 @@ Essas fontes não entram diretamente como corpus. Elas geram candidatos individu
 
 O resumo europeu registra:
 
+- 54 corpora ativos europeus;
 - 73 candidatos na fila definitiva um a um:
   - 38 arquivos audiovisuais individuais;
   - 10 instituições audiovisuais europeias;
@@ -114,11 +119,33 @@ possui apenas 6 registros e usa a regra `2026-05-fechamento-europa-v1`.
 
 Ele deve ser tratado como artefato histórico de fechamento, não como fila operacional vigente.
 
-### 5.3 Divergência detectada
+### 5.3 Validação dos denominadores e produtos
 
-`observatorio_resumo_pesquisa_europa.csv` ainda informa 54 corpora ativos, enquanto o inventário canônico e `observatorio_corpora_ativos.csv` registram 55.
+A comparação inicial entre 54 corpora no resumo europeu e 55 no inventário global foi reavaliada contra o código canônico.
 
-A fila europeia, seu registro e seu resumo precisam ser regenerados a partir do estado canônico atual antes de qualquer nova avaliação ou incorporação.
+O resultado correto é:
+
+```text
+55 corpora ativos globais
+= 54 corpora ativos europeus
++ 1 corpus ativo norte-americano — AAPB
+```
+
+Portanto, não havia divergência nos três produtos europeus.
+
+A ação de regeneração foi executada pelo gerador canônico e não produziu alterações nos CSVs, confirmando que os arquivos materializados já correspondiam ao estado atual do código.
+
+Foi criado `scripts/sync_europe_research_outputs.py`, que:
+
+- regenera os três produtos;
+- oferece modo `--check` sem escrita;
+- compara semanticamente arquivos materializados e DataFrames esperados;
+- valida códigos ativos europeus contra o recorte canônico;
+- impede entrada silenciosa de corpora extraeuropeus no denominador europeu;
+- verifica duplicidades, versão da regra e continuidade do ranking;
+- falha quando o resumo, a fila ou o registro ficam desatualizados.
+
+O workflow `Quality Checks` passou a executar essa validação obrigatoriamente.
 
 ## 6. Código implementado sem operacionalização completa
 
@@ -247,10 +274,14 @@ O limiar de 20 corpora deve considerar somente unidades aprovadas e validadas. R
 
 ### P0 — consistência do estado atual
 
-1. regenerar registro, fila e resumo europeus a partir dos 55 corpora ativos atuais;
-2. corrigir a divergência 54/55;
-3. marcar a fila de fechamento v1 como histórica;
-4. validar ranking contínuo, códigos únicos e coerência entre fila, resumo e corpus.
+**Concluído nesta rodada.**
+
+- três produtos europeus regenerados;
+- ausência de diferença confirmada;
+- recortes global e europeu explicitados;
+- sincronizador e validação `--check` implementados;
+- ranking, códigos, versões e denominadores protegidos no CI;
+- fila de fechamento v1 mantida como histórica.
 
 ### P1 — ciclo integral e baseline operacional
 
@@ -288,6 +319,6 @@ Somente após P0–P3:
 
 ## 10. Conclusão
 
-A plataforma possui mais código científico e de governança do que produtos operacionais materializados. A prioridade correta não é criar mais módulos, mas conectar e executar os módulos existentes.
+A sincronização dos produtos europeus foi concluída e o aparente conflito 54/55 foi resolvido como diferença legítima entre denominador europeu e denominador global.
 
-O próximo portão é produzir um baseline operacional completo, sincronizar a fila europeia e transformar a avaliação de candidatos em um fluxo auditável antes de abrir nova expansão continental.
+A plataforma possui mais código científico e de governança do que produtos operacionais materializados. A próxima prioridade correta é executar o primeiro ciclo completo dos 55 corpora ativos e produzir um baseline operacional auditável antes de operacionalizar a fila europeia ou abrir nova expansão continental.
