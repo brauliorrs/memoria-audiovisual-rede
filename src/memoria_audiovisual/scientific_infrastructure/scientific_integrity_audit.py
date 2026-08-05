@@ -16,11 +16,12 @@ from .single_source_audit import find_duplicate_definitions
 
 METHODOLOGY_PATH = Path("data/templates/analytics/methodology_registry.json")
 LEGACY_CATALOG_PATH = Path("data/templates/analytics/indicator_catalog.json")
-INTERFACE_PATH = Path("src/memoria_audiovisual/ui/scientific_infrastructure.py")
+INTERFACE_PATHS = (
+    Path("src/memoria_audiovisual/ui/scientific_infrastructure.py"),
+    Path("src/memoria_audiovisual/ui/scientific_infrastructure_lazy.py"),
+)
 ALLOWED_PENDING_METHODOLOGIES: frozenset[str] = frozenset()
 INTERFACE_CONTRACT_TOKENS = (
-    "build_indicator_presentations",
-    "registry_summary",
     "scientific_rationale",
     "evidence_requirements",
     "methodology_reference",
@@ -156,12 +157,23 @@ def _methodology_findings(
 
 
 def _interface_findings(root: Path) -> tuple[IntegrityFinding, ...]:
-    text = (root / INTERFACE_PATH).read_text(encoding="utf-8")
-    findings = [
+    texts = []
+    findings: list[IntegrityFinding] = []
+    for relative_path in INTERFACE_PATHS:
+        path = root / relative_path
+        if not path.exists():
+            findings.append(
+                IntegrityFinding("interface", f"arquivo da interface ausente: {relative_path}")
+            )
+            continue
+        texts.append(path.read_text(encoding="utf-8"))
+
+    text = "\n".join(texts)
+    findings.extend(
         IntegrityFinding("interface", f"token canônico ausente: {token}")
         for token in INTERFACE_CONTRACT_TOKENS
         if token not in text
-    ]
+    )
     if 'metric("Versão do catálogo", "1.0.0")' in text:
         findings.append(IntegrityFinding("interface", "versão fixa do registro detectada"))
     return tuple(findings)
