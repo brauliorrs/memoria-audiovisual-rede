@@ -1,0 +1,35 @@
+name: Apply lazy primary navigation
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - scripts/apply_lazy_primary_navigation.py
+      - .github/workflows/apply-lazy-primary-navigation.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/apply_lazy_primary_navigation.py
+      - name: Commit migration
+        run: |
+          if git diff --quiet; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/streamlit_app.py
+          git commit -m "Render only the selected primary section"
+          git push
