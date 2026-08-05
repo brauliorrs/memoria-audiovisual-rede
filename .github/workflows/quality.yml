@@ -34,6 +34,9 @@ jobs:
       - name: Compile Python sources
         run: python -m compileall -q app src scripts
 
+      - name: Audit Streamlit visual layout
+        run: python scripts/audit_streamlit_visual_layout.py
+
       - name: Run tests
         run: python -m pytest -q
 
