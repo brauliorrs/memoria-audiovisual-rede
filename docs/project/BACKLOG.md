@@ -17,6 +17,35 @@ This backlog separates future improvements from the frozen scope required for th
 
 New features that do not block the presentation must not enter this scope.
 
+## High Priority — Visual Architecture and Responsiveness
+
+**Status:** Backlog
+
+**Objective:** reduce visual pollution and reorganize the analytical interface around vertical reading, progressive disclosure and responsive use on mobile phones and tablets.
+
+Core rule:
+
+> Large corpora, wide datasets and analytically dense sections must default to a vertical presentation. Horizontal layouts should be limited to short comparisons and small groups of summary metrics.
+
+Required work:
+
+1. inventory the visual structure of every page and tab;
+2. identify excessive columns, wide tables and side-by-side charts;
+3. reduce the number of metrics displayed on the same row;
+4. prioritise top-to-bottom reading and progressive detail;
+5. replace unnecessarily wide corpus tables with vertical records, cards, lists or compact essential-column views;
+6. move secondary fields to details, expanders or unit-specific views;
+7. avoid mandatory horizontal scrolling on primary mobile routes;
+8. validate layouts on mobile, tablet and desktop widths;
+9. define reusable Streamlit patterns for metrics, tables, charts and large corpora;
+10. prototype the Overview page and one large-corpus page before applying changes globally.
+
+The detailed backlog, acceptance criteria and responsive rules are documented in:
+
+`docs/project/VISUAL_ARCHITECTURE_BACKLOG.md`
+
+**Priority:** high, connected to the public showcase, Streamlit performance and scientific presentation quality.
+
 ## After the First Scientific Presentation
 
 ### Scientific Internationalization Audit — SIA
