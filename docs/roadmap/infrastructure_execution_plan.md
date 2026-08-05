@@ -1,89 +1,156 @@
-# Eixo executivo — infraestrutura científica, execução e expansão
+# Eixo executivo — integração operacional e expansão
 
-## Regra central
+## Finalidade
 
-O desenvolvimento segue esta ordem e não abre novas frentes antes da conclusão verificável da etapa anterior.
+Este plano registra a ordem obrigatória entre interface, artefatos científicos, ciclos operacionais, filas de expansão e publicação. O estado detalhado da auditoria está em:
 
-1. Criar, em português, a seção pública **Infraestrutura científica**.
-2. Conectar catálogo de indicadores, metodologia e situação operacional.
-3. Criar carregadores de resultados, manifests, histórico e snapshots.
-4. Finalizar a validação controlada.
-5. Executar a atualização integral dos corpora atuais.
-6. Somente então construir e ativar o orquestrador da fila europeia.
+`docs/audit/platform_integration_expansion_audit_2026-08-05.md`
 
-## Bloqueio de internacionalização
+O backlog executivo vigente está em:
 
-Os catálogos `en.json` e `es.json` permanecem bloqueados até que:
+`docs/project/BACKLOG.md`
 
-- a infraestrutura portuguesa esteja integralmente exposta;
-- os resultados e estados operacionais estejam conectados à interface;
-- a validação controlada esteja concluída;
-- os corpora atuais tenham sido atualizados pela nova infraestrutura.
+## Regras permanentes de integração
 
-## Situação dos componentes antecipados
+1. A interface pública é integrada diretamente em `app/streamlit_app.py` e nos módulos importados por ele.
+2. GitHub Actions pode validar, executar, materializar e publicar artefatos, mas não deve ser o mecanismo permanente de edição do código-fonte da interface.
+3. Coleta, sondagem técnica, elegibilidade científica, decisão curatorial e incorporação em `CORPORA` são etapas separadas.
+4. Nenhuma fila promove automaticamente candidatos para `CORPORA` ou altera `organism_active`.
+5. Ausência de artefato operacional deve ser apresentada como ausência ou não execução, nunca como resultado empírico.
+6. Corpus de referência, corpus operacional ativo, fontes de descoberta, radar e fila incorporável possuem denominadores distintos.
+7. Produtos públicos devem derivar de snapshots e publicações aprovadas, não de observações ainda não revisadas.
 
-Os componentes já criados para elegibilidade, sondagem técnica e fila europeia permanecem no repositório como infraestrutura preparatória, mas ficam **congelados para evolução funcional** até a conclusão das etapas 1 a 5.
+## Estado auditado em 5 de agosto de 2026
 
-Eles não podem:
+### Etapa 1 — Infraestrutura científica na interface
 
-- promover candidatos para `CORPORA`;
-- alterar `organism_active`;
-- automatizar decisão curatorial;
-- iniciar expansão continental;
-- publicar candidatos como corpus científico.
+**Estado: concluída estruturalmente.**
 
-## Critérios de conclusão por etapa
+A seção está integrada à aplicação e disponível em português, inglês e espanhol, com carregamento progressivo e navegação principal leve.
 
-### 1. Infraestrutura científica na interface
+### Etapa 2 — Catálogo, metodologia e resultados de referência
 
-Concluída somente quando a interface portuguesa apresentar:
+**Estado: concluída para o corpus científico de referência.**
 
-- catálogo oficial dos indicadores;
-- fórmulas e regras metodológicas;
-- cobertura e qualidade dos dados;
-- proveniência, evidências e decisões curatoriais;
-- snapshots, versões, hashes e integridade;
-- estados operacionais sem confundir estrutura com resultado empírico.
+Existem:
 
-### 2. Catálogo, metodologia e situação operacional
+- registro canônico de nove indicadores;
+- registro metodológico;
+- manifesto congelado com 58 entidades;
+- snapshot de cobertura;
+- nove resultados materializados com proveniência;
+- auditorias de consistência e integridade.
 
-Concluída quando cada indicador informar:
+Esses produtos formam um baseline de referência. Eles não substituem um ciclo operacional completo dos corpora ativos.
 
-- definição e pergunta científica;
-- fórmula e componentes;
-- fontes e critérios de inclusão/exclusão;
-- política de dados ausentes;
-- versão metodológica;
-- estado: implementado, em validação, materializado, dados insuficientes ou não executado.
+### Etapa 3 — Carregadores, snapshots e proveniência
 
-### 3. Carregadores de resultados e snapshots
+**Estado: implementada estruturalmente.**
 
-Concluída quando a interface carregar, validar e tratar ausência de:
+A interface possui carregadores para:
 
-- `snapshot_indicators.json`;
-- `manifest.json`;
-- `indicator_history.jsonl`;
-- relatórios de sensibilidade;
-- matrizes de cobertura;
-- metadados e hashes de integridade.
+- resultados e manifestos analíticos;
+- cobertura;
+- sensibilidade;
+- histórico de indicadores;
+- ledger;
+- lotes de ingestão.
 
-### 4. Validação controlada
+Ainda não estão materializados nos caminhos operacionais canônicos:
 
-Concluída somente com execução real, arquivos persistidos, nove indicadores processados, manifesto válido, sensibilidade produzida e inspeção dos resultados.
+- `data/output/analytics/indicator_history.jsonl`;
+- `data/digital_infrastructure/ledger.jsonl`;
+- `data/digital_infrastructure/ingestion_batches.jsonl`.
 
-### 5. Atualização integral dos corpora atuais
+### Etapa 4 — Validação controlada
 
-Concluída quando todos os corpora ativos tiverem sido processados pela nova cadeia, com falhas, ausências e casos não avaliáveis registrados de modo explícito.
+**Estado: workflow implementado; execução operacional não consolidada.**
 
-### 6. Orquestrador da fila europeia
+O workflow de validação controlada prevê:
 
-Só pode ser iniciado após aprovação das etapas anteriores. Deve manter separadas:
+- `europeana`, `ina` e `bfi`;
+- cobertura verificável;
+- nove indicadores;
+- análise de sensibilidade;
+- manifesto e run.
 
-- ingestão técnica;
-- elegibilidade científica;
-- decisão curatorial;
-- incorporação em `CORPORA`.
+O produto `data/output/controlled_validation_summary.json` ainda não está materializado na branch auditada.
+
+### Etapa 5 — Atualização integral dos corpora atuais
+
+**Estado: pendente.**
+
+O corpus científico possui 58 entidades, das quais 55 estão ativas. O último ciclo, concluído em 21 de julho de 2026, foi parcial e processou somente `home-movies-memoryscapes`.
+
+Não existe ciclo completo materializado para os 55 corpora ativos.
+
+### Etapa 6 — Fila europeia
+
+**Estado: fila e código preparatório existentes; operação pendente.**
+
+A fila vigente é:
+
+`data/output/observatorio_fila_pesquisa_europa.csv`
+
+Ela contém 118 registros, separa fontes de descoberta de candidatos individuais e possui ranking explícito.
+
+Existem código e testes para:
+
+- sondagem técnica;
+- enriquecimento verificável;
+- gate de elegibilidade;
+- exportação de avaliações.
+
+Ainda não existem produtos materializados de sondagem e elegibilidade, workflow operacional da fila ou lote de revisão curatorial.
+
+A fila antiga `observatorio_fila_fechamento_europa.csv` deve ser tratada como histórico, não como fila vigente.
+
+## Política multilíngue
+
+O bloqueio anterior dos catálogos inglês e espanhol foi superado. A interface principal e a Infraestrutura Científica já operam nos três idiomas.
+
+A obrigação atual é manter auditoria de consistência e impedir regressões, não retornar ao bloqueio de internacionalização.
+
+## Sequência continental provisória
+
+A descoberta pode ocorrer em paralelo, mas a ativação de novas ondas segue:
+
+0. consolidação do baseline atual;
+1. Europa;
+2. América do Norte;
+3. América Latina e Caribe;
+4. África;
+5. Ásia;
+6. Oceania.
+
+Fontes mundiais, supranacionais e transcontinentais permanecem em fila transversal e não contam automaticamente para o limiar de um continente.
+
+A sequência só pode ser alterada mediante inventário comparável, justificativa científica e registro da decisão. Facilidade técnica isolada não constitui justificativa suficiente.
+
+## Ordem executiva autorizada
+
+1. sincronizar o corpus canônico, os 55 ativos e os produtos europeus;
+2. corrigir a divergência de 54/55 no resumo europeu;
+3. executar o ciclo completo dos 55 corpora ativos;
+4. materializar validação controlada, analytics operacional, histórico, ledger e lotes;
+5. operacionalizar a sondagem e o gate da fila europeia;
+6. criar revisão curatorial sem promoção automática;
+7. simular e automatizar a política dos 20 corpora;
+8. fechar a onda europeia;
+9. consolidar a América do Norte;
+10. preparar a fila da América Latina e Caribe.
+
+## Bloqueios atuais
+
+Até a conclusão das etapas anteriores, a plataforma não deve:
+
+- ativar uma nova onda continental;
+- promover candidatos automaticamente;
+- recalcular índices publicados com denominadores não congelados;
+- misturar fontes de descoberta com corpora elegíveis;
+- apresentar snapshots de referência como ciclo operacional vivo;
+- publicar observações sem revisão e ativação formal.
 
 ## Próxima ação autorizada
 
-Implementar a seção portuguesa **Infraestrutura científica** e seus carregadores, sem avançar na automação da fila europeia e sem iniciar os catálogos inglês e espanhol.
+Regenerar e validar os produtos europeus contra o corpus canônico atual, corrigindo a divergência entre 54 e 55 corpora ativos. Em seguida, preparar a execução integral dos 55 corpora antes de operacionalizar a fila europeia.
