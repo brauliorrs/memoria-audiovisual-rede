@@ -91,9 +91,16 @@ def _active_language() -> str:
     return DEFAULT_LANGUAGE
 
 
-def render_scientific_infrastructure(base_dir: str | Path) -> None:
-    """Render the selected section only, using the active interface language."""
-    render_scientific_infrastructure_lazy(base_dir, language=_active_language())
+def render_scientific_infrastructure(
+    base_dir: str | Path,
+    *,
+    language: str | None = None,
+) -> None:
+    """Render only the selected section in the explicitly active language."""
+    render_scientific_infrastructure_lazy(
+        base_dir,
+        language=language or _active_language(),
+    )
 
 
 __all__ = [
