@@ -2,7 +2,7 @@
 
 ## An Open Scientific Research Infrastructure for the Longitudinal Observation of Digital Infrastructures in Audiovisual Archives
 
-[Português](README.pt-BR.md) · [Executive Summary](docs/research/executive_summary.md) · [Research Handbook](docs/research/README.md) · [Public Observatory](https://memoria-audiovisual-rede-hv3dgxwqgaka2i6ahhmb5v.streamlit.app/)
+[Português](README.pt-BR.md) · [Executive Summary](docs/research/executive_summary.md) · [Research Handbook](docs/research/README.md) · [Documentation Governance](docs/DOCUMENTATION_GOVERNANCE.md) · [Public Observatory](https://memoria-audiovisual-rede-hv3dgxwqgaka2i6ahhmb5v.streamlit.app/)
 
 > **Memória Audiovisual em Rede** is an open scientific research infrastructure that introduces a reusable longitudinal methodology for observing institutional digital infrastructures, demonstrated through the domain of audiovisual archives.
 
@@ -108,7 +108,7 @@ The detectors are heuristic. Absence of a detected signal does not prove absence
 | Metadata | Dublin Core Coverage, Schema.org Coverage, JSON-LD Coverage |
 | Interoperability | Interoperability Coverage, IIIF Coverage, OAI-PMH Coverage, Interoperability Index |
 
-The **Audiovisual Archive Access Index** preserves the simple logic of the earlier platform: the percentage of eligible archives accessible without registration, authentication, payment or formal request, divided by the total number of eligible and assessable archives.
+The **Audiovisual Archive Access Index** is calculated only over eligible and assessable archives. It measures the percentage accessible without registration, authentication, payment or formal request.
 
 Every registered indicator must include a scientific question, selection rationale, formula, interpretation, limitations and a versioned methodological definition.
 
@@ -158,23 +158,13 @@ The project prioritises scientific reproducibility and methodological transparen
 
 For a concise presentation, read the [Executive Summary](docs/research/executive_summary.md).
 
-The complete [Research Handbook](docs/research/README.md) includes:
+The complete [Research Handbook](docs/research/README.md) is the canonical scientific narrative. Computational indicator specifications remain under `docs/analytics/`, while technical implementation and governance details remain under `docs/digital-infrastructure-alignment/`. The relationship among these layers is defined in [Documentation Governance](docs/DOCUMENTATION_GOVERNANCE.md).
 
-- [Introduction](docs/research/00_introduction.md)
-- [Research problem](docs/research/01_research_problem.md)
-- [Scientific framework](docs/research/02_scientific_framework.md)
-- [Methodological framework](docs/research/03_methodological_framework.md)
-- [System architecture](docs/research/04_system_architecture.md)
-- [Corpus policy](docs/research/05_corpus_policy.md)
-- [Analytics](docs/research/06_analytics.md)
-- [Scientific indicators](docs/research/07_scientific_indicators.md)
-- [Operational validation](docs/research/08_operational_validation.md)
-- [Roadmap](docs/research/09_roadmap.md)
-- [Future research](docs/research/10_future_research.md)
-- [Publications and research outputs](docs/research/11_publications_and_outputs.md)
-- [Reuse and research collaboration](docs/research/12_reuse_and_collaboration.md)
+Repository governance:
 
-Technical and operational documentation remains available under `docs/analytics/` and `docs/digital-infrastructure-alignment/`.
+- [Contributing guide](CONTRIBUTING.md)
+- [Citation metadata](CITATION.cff)
+- [Licence](LICENSE)
 
 ## Running locally
 
@@ -190,6 +180,7 @@ Validation:
 python -m compileall -q app src scripts tests
 python -m unittest discover -s tests -v
 python scripts/check_deployment_ready.py
+python scripts/check_markdown_links.py
 ```
 
 ## Future directions
@@ -204,7 +195,15 @@ python scripts/check_deployment_ready.py
 
 ## Citation
 
-Formal citation instructions will be added with the first stable research release and archived dataset.
+Use the machine-readable metadata in [`CITATION.cff`](CITATION.cff). A DOI will only be added after a formal archived release.
+
+## Licensing
+
+Software code is licensed under the MIT License. Original documentation and project-produced published datasets are licensed under CC BY 4.0. Third-party source material remains subject to its original rights and terms. See [`LICENSE`](LICENSE).
+
+## Contributing
+
+Scientific, technical and curatorial contributions are welcome under the rules described in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Author
 
