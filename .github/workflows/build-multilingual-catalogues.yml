@@ -39,6 +39,7 @@ jobs:
           from pathlib import Path
 
           from deep_translator import GoogleTranslator
+          from deep_translator.exceptions import TranslationNotFound
 
           locale_dir = Path("src/memoria_audiovisual/locales")
           source_path = locale_dir / "pt.json"
@@ -47,6 +48,8 @@ jobs:
           placeholder_re = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
           url_re = re.compile(r"https?://[^\s)]+")
           code_re = re.compile(r"`[^`]+`")
+          protected_token_re = re.compile(r"(ZXQ\d+QXZ)")
+          letter_re = re.compile(r"[^\W\d_]", flags=re.UNICODE)
 
           def protect(text: str):
               protected = {}
@@ -68,37 +71,73 @@ jobs:
                   text = text.replace(token, value)
               return text
 
+          def translate_plain_text(
+              translator: GoogleTranslator,
+              text: str,
+              *,
+              retries: int = 5,
+          ) -> str:
+              if not text or not text.strip():
+                  return text
+
+              leading = text[: len(text) - len(text.lstrip())]
+              trailing = text[len(text.rstrip()):]
+              core = text.strip()
+
+              # Pontuação isolada não deve ser enviada ao tradutor.
+              if not letter_re.search(core):
+                  return text
+
+              for attempt in range(retries):
+                  try:
+                      translated = translator.translate(core)
+                      return f"{leading}{translated or core}{trailing}"
+                  except TranslationNotFound:
+                      print(
+                          "::warning title=Tradução não encontrada::"
+                          f"Trecho preservado no idioma original: {core!r}"
+                      )
+                      return text
+                  except Exception:
+                      if attempt == retries - 1:
+                          raise
+                      time.sleep(3 * (attempt + 1))
+
+              return text
+
+          def translate_preserving_tokens(
+              translator: GoogleTranslator,
+              text: str,
+          ) -> str:
+              parts = protected_token_re.split(text)
+              translated_parts = []
+
+              for part in parts:
+                  if not part:
+                      continue
+                  if protected_token_re.fullmatch(part):
+                      translated_parts.append(part)
+                      continue
+                  translated_parts.append(translate_plain_text(translator, part))
+
+              return "".join(translated_parts)
+
           def translate_catalogue(target: str) -> dict[str, str]:
               translator = GoogleTranslator(source="pt", target=target)
               keys = list(source)
               output: dict[str, str] = {}
-              chunk_size = 35
 
-              for start in range(0, len(keys), chunk_size):
-                  chunk_keys = keys[start:start + chunk_size]
-                  prepared = []
-                  protections = []
-                  for key in chunk_keys:
-                      text, mapping = protect(source[key])
-                      prepared.append(text)
-                      protections.append(mapping)
+              for index, key in enumerate(keys, start=1):
+                  prepared, mapping = protect(source[key])
+                  translated = translate_preserving_tokens(translator, prepared)
+                  output[key] = restore(translated, mapping)
 
-                  translated = None
-                  for attempt in range(5):
-                      try:
-                          translated = translator.translate_batch(prepared)
-                          if translated and len(translated) == len(prepared):
-                              break
-                      except Exception:
-                          if attempt == 4:
-                              raise
-                          time.sleep(3 * (attempt + 1))
-                  if translated is None or len(translated) != len(prepared):
-                      raise RuntimeError(f"Falha ao traduzir lote iniciado em {start}")
+                  if index % 25 == 0 or index == len(keys):
+                      print(f"{target}: {index}/{len(keys)} entradas traduzidas")
 
-                  for key, value, mapping in zip(chunk_keys, translated, protections):
-                      output[key] = restore(value, mapping)
-                  time.sleep(0.4)
+                  # Mantém a taxa abaixo de cinco requisições por segundo.
+                  time.sleep(0.25)
+
               return output
 
           generated = {
