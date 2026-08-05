@@ -40,6 +40,9 @@ jobs:
       - name: Run tests
         run: python -m pytest -q
 
+      - name: Validate AI validation sample
+        run: python scripts/build_ai_validation_sample.py --check
+
       - name: Validate European research products
         run: python scripts/sync_europe_research_outputs.py --check
 
