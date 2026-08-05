@@ -10,36 +10,46 @@ A interpretação científica da expansão, do limiar de prontidão e da sequên
 
 ## P0 — consistência do corpus, das filas e dos denominadores
 
-**Estado:** prioridade imediata.
+**Estado:** concluído nesta rodada; monitoramento automático permanente.
 
-### Estado auditado
+### Estado validado
 
 - corpus científico de referência: **58 entidades**;
-- corpus operacional ativo: **55 entidades**;
+- corpus operacional ativo global: **55 entidades**;
+- corpus operacional ativo europeu: **54 entidades**;
+- corpus ativo extraeuropeu: **1 entidade**, o American Archive of Public Broadcasting — AAPB;
 - entidades inativas: **3**;
-- composição: **7 agregadores** e **51 arquivos ou instituições**;
-- resumo europeu ainda informa **54 corpora ativos**;
+- composição do corpus de referência: **7 agregadores** e **51 arquivos ou instituições**;
 - fila europeia vigente: `observatorio_fila_pesquisa_europa.csv`, com **118 registros e 24 campos**;
 - fila de fechamento v1: 6 registros, mantida apenas como histórico.
 
-### Ações
+O total de 54 no resumo europeu é correto. Ele representa o recorte geográfico europeu dos 55 corpora ativos globais e exclui o AAPB, incorporado como primeiro corpus norte-americano.
 
-1. regenerar `observatorio_pesquisa_europa.csv`, `observatorio_fila_pesquisa_europa.csv` e `observatorio_resumo_pesquisa_europa.csv` a partir do `CORPORA` atual;
-2. corrigir a divergência entre 54 e 55 corpora ativos;
-3. declarar `observatorio_fila_fechamento_europa.csv` como artefato histórico, não operacional;
-4. validar códigos únicos, ranking contínuo, totais por camada e coerência com o inventário científico;
-5. criar teste que falhe quando o resumo europeu divergir do corpus canônico;
-6. registrar explicitamente a diferença entre corpus de referência, corpus ativo, radar e fila incorporável.
+### Concluído
+
+1. os três produtos europeus foram regenerados pelo gerador canônico:
+   - `observatorio_pesquisa_europa.csv`;
+   - `observatorio_fila_pesquisa_europa.csv`;
+   - `observatorio_resumo_pesquisa_europa.csv`;
+2. a regeneração não produziu diferença nos CSVs, confirmando que o estado materializado já correspondia ao código canônico;
+3. foi criado `scripts/sync_europe_research_outputs.py`, com modo de escrita e modo `--check`;
+4. o sincronizador compara semanticamente os três CSVs com os DataFrames reconstruídos pelo código atual;
+5. a validação confere separadamente o total global e o total europeu;
+6. corpora extraeuropeus são impedidos de entrar silenciosamente no denominador europeu;
+7. códigos duplicados, versões de regra misturadas e ranking descontínuo passam a bloquear o CI;
+8. os testes simulam uma alteração indevida no denominador e confirmam que ela é rejeitada;
+9. o workflow `Quality Checks` executa a validação em cada mudança;
+10. `observatorio_fila_fechamento_europa.csv` permanece classificado como artefato histórico, não operacional.
 
 ### Critério de conclusão
 
-Fila, registro, resumo, inventário e interface apresentam os mesmos denominadores e versões.
+Registro, fila, resumo e corpus canônico apresentam denominadores coerentes com seus respectivos recortes geográficos, e o CI bloqueia alterações não regeneradas ou cientificamente inconsistentes.
 
 ## P1 — primeiro ciclo operacional completo
 
-**Estado:** pendente.
+**Estado:** próxima prioridade executiva.
 
-O último ciclo registrado, concluído em **21 de julho de 2026**, foi parcial e processou apenas `home-movies-memoryscapes`. A linha do tempo não contém um ciclo completo dos 55 corpora ativos.
+O último ciclo registrado, concluído em **21 de julho de 2026**, foi parcial e processou apenas `home-movies-memoryscapes`. A linha do tempo não contém um ciclo completo dos 55 corpora ativos globais.
 
 A linha do tempo demonstra alguma execução para 36 códigos únicos; 19 corpora ativos não aparecem nesse histórico de ciclos.
 
@@ -273,16 +283,16 @@ Escopo potencial:
 ## Ordem executiva atual
 
 ```text
-1. Sincronizar corpus, registro, fila e resumo europeus
-2. Executar o ciclo completo dos 55 corpora ativos
-3. Materializar validação controlada, analytics vivo, ledger e lotes
-4. Operacionalizar sondagem e elegibilidade da fila europeia
-5. Simular e validar a política dos 20 corpora
-6. Fechar a onda europeia
-7. Consolidar a América do Norte
-8. Preparar a fila da América Latina e Caribe
-9. Manter descoberta preparatória de África, Ásia e Oceania
-10. Ativar publicação derivada e entrega pública versionada
+Concluído: sincronizar e validar corpus, registro, fila e resumo europeus
+1. Executar o ciclo completo dos 55 corpora ativos globais
+2. Materializar validação controlada, analytics vivo, ledger e lotes
+3. Operacionalizar sondagem e elegibilidade da fila europeia
+4. Simular e validar a política dos 20 corpora
+5. Fechar a onda europeia
+6. Consolidar a América do Norte
+7. Preparar a fila da América Latina e Caribe
+8. Manter descoberta preparatória de África, Ásia e Oceania
+9. Ativar publicação derivada e entrega pública versionada
 ```
 
 ## Regra do backlog
