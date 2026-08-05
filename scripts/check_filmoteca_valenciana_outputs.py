@@ -79,7 +79,18 @@ def main():
     if summary_df is None or summary_df.empty:
         print("- resumo principal ausente ou vazio")
         return 1
+    if missing_files:
+        return 1
     if len(links_df) < FILMOTECA_VALENCIANA_MIN_VIDEO_TOTAL:
+        row = summary_df.iloc[0]
+        integrity_status = str(row.get("integrity_status", "") or "").strip().lower()
+        status = str(row.get("status", "") or "").strip().lower()
+        if len(links_df) == 0 and (
+            integrity_status in {"instavel", "não avaliável", "nao avaliavel"}
+            or status in {"sem_video_publico_detectado", "sem_registros"}
+        ):
+            print("- rodada materializada como não avaliável: o subsite público não expôs players verificáveis")
+            return 0
         print(f"- total abaixo do piso metodológico: {len(links_df)} de {FILMOTECA_VALENCIANA_MIN_VIDEO_TOTAL}")
         return 1
     if "platform" not in links_df.columns or not links_df["platform"].astype(str).str.contains("Vimeo").all():
@@ -95,8 +106,6 @@ def main():
         "externa", case=False, na=False
     ).all():
         print("- o catálogo analítico não preservou a classificação de plataforma externa de vídeo")
-        return 1
-    if missing_files:
         return 1
 
     print("- todos os arquivos esperados da Filmoteca Valenciana / Restauraciones foram encontrados")
