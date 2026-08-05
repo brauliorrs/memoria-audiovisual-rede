@@ -16,17 +16,18 @@ For the relationship among the scientific, analytical and technical documentatio
 4. [Methodological framework](03_methodological_framework.md)
 5. [System architecture](04_system_architecture.md)
 6. [Corpus policy](05_corpus_policy.md)
-7. [Analytics](06_analytics.md)
-8. [Scientific indicators](07_scientific_indicators.md)
-9. [Operational validation](08_operational_validation.md)
-10. [Roadmap](09_roadmap.md)
-11. [Future research](10_future_research.md)
-12. [Publications and research outputs](11_publications_and_outputs.md)
-13. [Reuse and research collaboration](12_reuse_and_collaboration.md)
+7. [Scientific expansion policy](05a_scientific_expansion_policy.md)
+8. [Analytics](06_analytics.md)
+9. [Scientific indicators](07_scientific_indicators.md)
+10. [Operational validation](08_operational_validation.md)
+11. [Roadmap](09_roadmap.md)
+12. [Future research](10_future_research.md)
+13. [Publications and research outputs](11_publications_and_outputs.md)
+14. [Reuse and research collaboration](12_reuse_and_collaboration.md)
 
 ## Canonical role of this handbook
 
-`docs/research/` is the canonical source for the scientific narrative, terminology, corpus policy, interpretation of indicators and description of the current validation phase.
+`docs/research/` is the canonical source for the scientific narrative, terminology, corpus policy, expansion policy, interpretation of indicators and description of the current validation phase.
 
 The specialised layers complement this handbook:
 
@@ -51,7 +52,10 @@ To avoid ambiguity among the research, analytics and operational documentation, 
 - **Platform** refers to the implemented software system that operationalises the research infrastructure.
 - **Public observatory** refers to the public-facing interface and derived outputs; it does not imply that every Phase 2 analytical component has already completed empirical validation.
 - **Discovery Registry** contains identified entities, including those later excluded.
+- **Regional or continental radar** preserves potential sources and institutions before individual eligibility assessment.
+- **Candidate queue** contains ranked units awaiting technical probing, eligibility assessment or curatorial review.
 - **Scientific Corpus** contains only entities that satisfy the documented eligibility rules.
+- **Expansion wave** is a versioned regional or continental incorporation batch activated only after the documented scientific and governance gates are satisfied.
 - **Eligible unit** satisfies the corpus inclusion rules.
 - **Assessable unit** has sufficient public evidence for the parameter or indicator being calculated.
 - **Detected evidence** is an automated or manually recorded observation; it is not automatically equivalent to a verified institutional fact.
@@ -71,15 +75,17 @@ To avoid ambiguity among the research, analytics and operational documentation, 
 - Distinguish technical readiness from empirical validation.
 - Require explicit denominators and exclusions for analytical claims.
 - Link publications and datasets to their snapshots, corpus versions and methodologies.
+- Treat corpus expansion and denominator change as versioned scientific decisions.
+- Allow discovery across regions in parallel while keeping incorporation waves controlled and auditable.
 - Treat cross-domain reuse as adaptation requiring new validation, not automatic transfer.
 
 ## Current phase
 
 The core infrastructure and the first complete version of the Research Handbook are implemented in the feature branch associated with Pull Request #5.
 
-The latest verified automated quality workflow passed dependency installation, Python compilation, unit tests and the deployment snapshot check. The project is now in **operational validation**, with emphasis on controlled real-world execution, manual evidence review, detector correction and verification of the scientific indicators.
+The latest verified automated quality workflow passed dependency installation, Python compilation, unit tests and the deployment snapshot check. The project is now in **operational validation**, with emphasis on controlled real-world execution, manual evidence review, detector correction, verification of the scientific indicators and simulation of the expansion-readiness gates.
 
-Automated test success should not be interpreted as completed empirical validation of detector accuracy.
+Automated test success should not be interpreted as completed empirical validation of detector accuracy, corpus expansion rules or analytical denominators.
 
 ## Citation, reuse and contribution
 
