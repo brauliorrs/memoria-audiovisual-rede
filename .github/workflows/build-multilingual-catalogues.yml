@@ -1,3 +1,4 @@
+# Execução controlada para gerar e ativar os catálogos multilíngues.
 name: Build Multilingual Catalogues
 
 on:
@@ -84,7 +85,6 @@ jobs:
               trailing = text[len(text.rstrip()):]
               core = text.strip()
 
-              # Pontuação isolada não deve ser enviada ao tradutor.
               if not letter_re.search(core):
                   return text
 
@@ -135,7 +135,6 @@ jobs:
                   if index % 25 == 0 or index == len(keys):
                       print(f"{target}: {index}/{len(keys)} entradas traduzidas")
 
-                  # Mantém a taxa abaixo de cinco requisições por segundo.
                   time.sleep(0.25)
 
               return output
