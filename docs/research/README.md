@@ -6,6 +6,8 @@ The repository contains a public-facing observatory interface and a reusable lon
 
 For a concise international presentation, see the [Executive Summary](executive_summary.md).
 
+For the relationship among the scientific, analytical and technical documentation layers, see [Documentation Governance](../DOCUMENTATION_GOVERNANCE.md).
+
 ## Contents
 
 1. [Introduction](00_introduction.md)
@@ -21,6 +23,18 @@ For a concise international presentation, see the [Executive Summary](executive_
 11. [Future research](10_future_research.md)
 12. [Publications and research outputs](11_publications_and_outputs.md)
 13. [Reuse and research collaboration](12_reuse_and_collaboration.md)
+
+## Canonical role of this handbook
+
+`docs/research/` is the canonical source for the scientific narrative, terminology, corpus policy, interpretation of indicators and description of the current validation phase.
+
+The specialised layers complement this handbook:
+
+- `docs/analytics/` specifies computational indicators, formulas, coverage and persistence;
+- `docs/digital-infrastructure-alignment/` specifies schemas, implementation, evidence governance, workflows and backlog;
+- `README.md` provides a concise international entry point and must remain consistent with this handbook.
+
+When a scientific definition or interpretation differs across documents, this handbook and the documented governance rules control the public interpretation until the inconsistency is formally resolved.
 
 ## Core proposition
 
@@ -38,7 +52,12 @@ To avoid ambiguity among the research, analytics and operational documentation, 
 - **Public observatory** refers to the public-facing interface and derived outputs; it does not imply that every Phase 2 analytical component has already completed empirical validation.
 - **Discovery Registry** contains identified entities, including those later excluded.
 - **Scientific Corpus** contains only entities that satisfy the documented eligibility rules.
+- **Eligible unit** satisfies the corpus inclusion rules.
+- **Assessable unit** has sufficient public evidence for the parameter or indicator being calculated.
 - **Detected evidence** is an automated or manually recorded observation; it is not automatically equivalent to a verified institutional fact.
+- **Verified evidence** has completed the documented review process.
+- **Not identified** means no evidence was found in the assessed surface; it does not prove institutional absence.
+- **Not assessable** means the available route or evidence is insufficient for a valid classification.
 - **Operational validation** is the current phase in which implementation behaviour and detector outputs are tested against controlled real-world observations.
 
 ## Documentation principles
@@ -61,3 +80,11 @@ The core infrastructure and the first complete version of the Research Handbook 
 The latest verified automated quality workflow passed dependency installation, Python compilation, unit tests and the deployment snapshot check. The project is now in **operational validation**, with emphasis on controlled real-world execution, manual evidence review, detector correction and verification of the scientific indicators.
 
 Automated test success should not be interpreted as completed empirical validation of detector accuracy.
+
+## Citation, reuse and contribution
+
+- Citation metadata: [`CITATION.cff`](../../CITATION.cff)
+- Licensing terms: [`LICENSE`](../../LICENSE)
+- Contribution rules: [`CONTRIBUTING.md`](../../CONTRIBUTING.md)
+
+Software code is licensed under MIT. Original documentation and project-produced published datasets are licensed under CC BY 4.0. Rights and restrictions attached to third-party source material remain unchanged.
