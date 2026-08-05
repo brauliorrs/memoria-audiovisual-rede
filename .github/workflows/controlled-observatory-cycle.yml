@@ -6,6 +6,12 @@ on:
       - presentation/rpv-1
     paths:
       - ".github/workflows/controlled-observatory-cycle.yml"
+  pull_request:
+    paths:
+      - ".github/workflows/controlled-observatory-cycle.yml"
+      - "scripts/run_observatory_cycle.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_*.py"
+      - "tests/test_ai_*.py"
   workflow_dispatch:
     inputs:
       corpora:
