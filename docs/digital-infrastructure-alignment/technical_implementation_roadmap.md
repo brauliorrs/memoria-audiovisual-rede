@@ -1,99 +1,87 @@
-# Plano de implementação técnica por fases
+# Plano técnico por fases — estado consolidado
 
-## Objetivo
+## Finalidade
 
-Converter a arquitetura documental da camada infraestrutura digital em módulos executáveis sem comprometer rastreabilidade, comparabilidade longitudinal ou governança curatorial.
+Este documento preserva a sequência de dependências usada para construir a infraestrutura digital e registra o estado atual de cada fase. O backlog vigente está em [`implementation_backlog.md`](implementation_backlog.md); o roadmap científico e público está em [`../research/09_roadmap.md`](../research/09_roadmap.md).
 
-## Princípios
+Os estados usados aqui são:
 
-- implementar de baixo para cima: contratos e persistência antes de painéis;
-- não publicar resultados antes de validação, qualidade e aptidão para uso;
-- preservar compatibilidade com o observatório audiovisual existente;
-- separar coleta, transformação, validação, snapshot, indicador e publicação;
-- manter cada fase reversível e testável.
+- **implementada estruturalmente:** código, contratos e testes controlados existem;
+- **em validação operacional:** depende de execução e inspeção sobre corpora reais;
+- **parcialmente implementada:** parte do contrato existe, mas faltam componentes declarados;
+- **planejada:** ainda não integra a linha operacional ativa.
+
+## Princípios permanentes
+
+- contratos e persistência precedem publicação;
+- coleta, transformação, validação, snapshot, indicador e publicação permanecem separados;
+- detecção automática não equivale a fato institucional verificado;
+- dados ausentes, erros e estados não avaliáveis não são convertidos silenciosamente em zero ou ausência;
+- versões históricas e decisões curatoriais devem permanecer rastreáveis.
 
 ## Fase 0 — consolidação estrutural
 
-Entregas:
-- revisão final de schemas e identificadores;
-- registro central de versões;
-- mapa de dependências;
-- critérios de aceite por módulo.
+**Estado: implementada estruturalmente.**
 
-Saída: arquitetura pronta para implementação.
+Inclui schemas, identificadores estáveis, registro de versões, mapa de dependências e critérios de aceite. Alterações incompatíveis continuam sujeitas a versionamento e migração documentada.
 
 ## Fase 1 — núcleo de dados e proveniência
 
-Entregas:
-- modelos de entidades;
-- persistência de versões;
-- registro de proveniência;
-- armazenamento de evidências e artefatos;
-- chaves estrangeiras e integridade relacional.
+**Estado: implementada estruturalmente.**
 
-Saída: registros estruturados e rastreáveis, ainda sem publicação.
+Inclui entidades, evidências, proveniência, ledger append-only, integridade relacional, decisões curatoriais e recuperação controlada. A implementação não equivale a validação de todas as fontes reais.
 
 ## Fase 2 — ingestão e adaptação da auditoria
 
-Entregas:
-- adaptadores dos coletores existentes;
-- geração de IDs estáveis;
-- preenchimento de datas e agentes;
-- classificação de evidência;
-- fila de revisão curatorial.
+**Estado: implementada estruturalmente; em validação operacional.**
 
-Saída: dados brutos e revisáveis no novo contrato.
+Inclui adaptador da auditoria, modos de pré-visualização e commit, artefatos brutos, cobertura por parâmetro, filas de revisão e integração com o núcleo persistente. Permanecem necessárias inspeção manual e medição de falsos positivos e falsos negativos.
 
 ## Fase 3 — validação, qualidade e aptidão
 
-Entregas:
-- motor de regras de integridade;
-- avaliação de qualidade;
-- níveis de maturidade;
-- decisões de aptidão para uso;
-- trilha de auditoria.
+**Estado: implementada estruturalmente; em validação operacional.**
 
-Saída: registros elegíveis para snapshots e pesquisa.
+Inclui regras de integridade, qualidade, maturidade, aptidão para uso, preflight, postflight e trilha de auditoria. As classificações ainda precisam ser confrontadas com amostras heterogêneas de instituições reais.
 
 ## Fase 4 — memória e comparação longitudinal
 
-Entregas:
-- abertura e fechamento de ciclos;
-- snapshots imutáveis;
-- detecção de mudanças;
-- classificação de diferenças;
-- migração entre schemas.
+**Estado: implementada estruturalmente; primeiro ciclo longitudinal oficial pendente.**
 
-Saída: séries históricas comparáveis.
+Inclui snapshots, manifestos, comparação temporal, triagem de eventos, revisão humana e migração de schemas. A comprovação operacional exige ao menos dois snapshots controlados e persistência histórica verificada.
 
 ## Fase 5 — indicadores
 
-Entregas:
-- catálogo computável;
-- cálculo com denominadores explícitos;
-- cobertura, confiança e supressão;
-- versionamento de definições e resultados.
+**Estado: parcialmente implementada; validação empírica pendente.**
 
-Saída: indicadores aptos para revisão e publicação.
+O registro computável, o motor analítico, os resultados versionados, a cobertura e a análise de sensibilidade estão implementados para os indicadores ativos. Novas famílias, especialmente evidências públicas de IA, fornecedores, contratos, fluxos e riscos, permanecem propostas até receberem metodologia executável, cobertura e validação.
+
+Fontes ativas:
+
+```text
+data/templates/analytics/indicator_registry.json
+data/templates/analytics/methodology_registry.json
+src/memoria_audiovisual/analytics/
+```
 
 ## Fase 6 — publicação e acesso
 
-Entregas:
-- produtos CSV e JSON;
-- API pública somente leitura;
-- painel longitudinal;
-- manifestos de publicação;
-- política de retirada e substituição.
+**Estado: parcialmente implementada.**
 
-Saída: camada pública versionada.
+Existem visão pública derivada, revisão editorial, registro da publicação ativa, projeções e produtos versionados. Permanecem pendentes a API pública somente leitura, páginas relacionais completas, catálogo público estável de downloads e a definição da vitrine independente do observatório analítico.
 
 ## Fase 7 — expansão analítica
 
-Entregas:
-- fornecedores e contratos;
-- fluxos de dados;
-- IA e automação;
-- riscos e dependências;
-- análises comparativas entre países e instituições.
+**Estado: exploratória.**
 
-Saída: módulo infraestrutura digital plenamente integrado ao observatório.
+Fornecedores, contratos, fluxos de dados, IA, automação, dependências e riscos possuem modelos e protocolos documentais, mas não devem ser apresentados como indicadores operacionais consolidados sem evidência, metodologia computável e validação.
+
+## Próximo portão técnico
+
+A próxima decisão não depende de criar uma nova fase estrutural. Depende de concluir:
+
+1. auditoria editorial e documental;
+2. validação controlada dos detectores;
+3. verificação dos denominadores e indicadores ativos;
+4. execução longitudinal de dois snapshots;
+5. consolidação das branches e baseline estável;
+6. decisão arquitetural da vitrine pública.
