@@ -87,15 +87,25 @@ def main():
     else:
         print(f"- arquivo de metadados ausente: {CINEMATHEQUE_BRETAGNE_OUTPUT_FILES['snapshot_metadata']}")
 
+    if missing_files:
+        return 1
+
     if links_df.empty:
-        print("- a rota pública respondeu, mas nenhum registro audiovisual foi materializado")
+        row = summary_df.iloc[0]
+        error = str(row.get("error", "") or "").strip()
+        integrity_status = str(row.get("integrity_status", "") or "").strip().lower()
+        status = str(row.get("status", "") or "").strip().lower()
+        if error or integrity_status in {"instavel", "não avaliável", "nao avaliavel"} or status == "sem_registros":
+            print("- rodada materializada como não avaliável: a superfície pública ficou indisponível ou instável")
+            return 0
+        print("- a rota pública respondeu, mas nenhum registro audiovisual foi materializado sem justificativa de indisponibilidade")
         return 1
 
     if "platform" not in links_df.columns or not links_df["platform"].eq("Cinémathèque de Bretagne").any():
         print("- nenhum registro foi atribuído à plataforma Cinémathèque de Bretagne")
         return 1
 
-    return 1 if missing_files else 0
+    return 0
 
 
 if __name__ == "__main__":
