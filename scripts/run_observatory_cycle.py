@@ -52,13 +52,14 @@ from memoria_audiovisual.restricted_access_audit import write_restricted_access_
 
 
 AI_EXPERIMENT_ROOT = ROOT_DIR / "data" / "digital_infrastructure" / "ai_experiments"
+DEFAULT_CORPUS_TIMEOUT_SECONDS = 900
 
 
 def utcnow_iso():
     return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
-def run_python_script(relative_path):
+def run_python_script(relative_path, *, timeout_seconds):
     script_path = ROOT_DIR / relative_path
     env = os.environ.copy()
     playwright_dir = ROOT_DIR / ".playwright"
@@ -69,6 +70,7 @@ def run_python_script(relative_path):
         cwd=ROOT_DIR,
         check=True,
         env=env,
+        timeout=timeout_seconds,
     )
 
 
@@ -91,7 +93,19 @@ def parse_args():
             "Uso restrito a validações controladas; o ciclo integral deve manter o prelude."
         ),
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--corpus-timeout",
+        type=int,
+        default=DEFAULT_CORPUS_TIMEOUT_SECONDS,
+        help=(
+            "Tempo máximo em segundos para cada script de coleta e verificação de um corpus. "
+            f"Padrão: {DEFAULT_CORPUS_TIMEOUT_SECONDS}."
+        ),
+    )
+    args = parser.parse_args()
+    if args.corpus_timeout < 1:
+        parser.error("--corpus-timeout deve ser maior ou igual a 1")
+    return args
 
 
 def run_global_prelude(output_dir):
@@ -199,6 +213,33 @@ def _finish_ai_shadow_run(
         errors.append(f"finalize: {type(exc).__name__}: {exc}")
 
 
+def _failed_cycle_result(corpus_def, refresh_started_at, exc):
+    if isinstance(exc, subprocess.TimeoutExpired):
+        error = (
+            f"Timeout após {exc.timeout} segundos: "
+            f"{' '.join(str(part) for part in exc.cmd)}"
+        )
+    else:
+        error = str(exc)
+    return {
+        "code": corpus_def["code"],
+        "label": corpus_def["label"],
+        "short_label": corpus_def["short_label"],
+        "category_code": corpus_def["category_code"],
+        "coverage_level": corpus_def["coverage_level"],
+        "status": "failed",
+        "refresh_started_at": refresh_started_at,
+        "refresh_finished_at": utcnow_iso(),
+        "snapshot_generated_at": "",
+        "observation_key": "",
+        "source_status_date": "",
+        "institutions": 0,
+        "video_links_total": 0,
+        "videos_in_curatorial_catalog": 0,
+        "error": error,
+    }
+
+
 def main():
     args = parse_args()
     started_at = utcnow_iso()
@@ -233,8 +274,14 @@ def main():
     for corpus_def in active_corpora:
         refresh_started_at = utcnow_iso()
         try:
-            run_python_script(corpus_def["run_script_path"])
-            run_python_script(corpus_def["check_script_path"])
+            run_python_script(
+                corpus_def["run_script_path"],
+                timeout_seconds=args.corpus_timeout,
+            )
+            run_python_script(
+                corpus_def["check_script_path"],
+                timeout_seconds=args.corpus_timeout,
+            )
             snapshot_metadata = load_snapshot_metadata(corpus_def, OUTPUT_DIR)
 
             if ai_store is not None and ai_run_id is not None:
@@ -272,27 +319,9 @@ def main():
                     "error": "",
                 }
             )
-        except subprocess.CalledProcessError as exc:
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
             failures += 1
-            cycle_results.append(
-                {
-                    "code": corpus_def["code"],
-                    "label": corpus_def["label"],
-                    "short_label": corpus_def["short_label"],
-                    "category_code": corpus_def["category_code"],
-                    "coverage_level": corpus_def["coverage_level"],
-                    "status": "failed",
-                    "refresh_started_at": refresh_started_at,
-                    "refresh_finished_at": utcnow_iso(),
-                    "snapshot_generated_at": "",
-                    "observation_key": "",
-                    "source_status_date": "",
-                    "institutions": 0,
-                    "video_links_total": 0,
-                    "videos_in_curatorial_catalog": 0,
-                    "error": str(exc),
-                }
-            )
+            cycle_results.append(_failed_cycle_result(corpus_def, refresh_started_at, exc))
 
     finished_at = utcnow_iso()
     manifest = write_monthly_cycle_manifest(
