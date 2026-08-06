@@ -20,6 +20,7 @@ from memoria_audiovisual.ui.operational_baseline import (
 from memoria_audiovisual.ui.scientific_infrastructure_lazy import (
     render_scientific_infrastructure_lazy,
 )
+from memoria_audiovisual.ui.t2a_methodology import render_t2a_methodology_panel
 
 
 def _indicator_results(payload: Any) -> list[dict[str, Any]]:
@@ -109,6 +110,7 @@ def render_scientific_infrastructure(
         base_dir,
         language=active_language,
     )
+    render_t2a_methodology_panel(language=active_language)
 
 
 __all__ = [
