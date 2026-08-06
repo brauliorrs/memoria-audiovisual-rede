@@ -1,7 +1,9 @@
 name: Full observatory cycle
 
 on:
-  pull_request:
+  push:
+    branches:
+      - presentation/rpv-1
     paths:
       - ".github/workflows/full-observatory-cycle.yml"
   workflow_dispatch:
@@ -22,7 +24,7 @@ permissions:
 
 concurrency:
   group: full-observatory-cycle-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   full-cycle:
