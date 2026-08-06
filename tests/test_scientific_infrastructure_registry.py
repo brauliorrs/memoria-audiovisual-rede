@@ -73,8 +73,10 @@ def test_default_registry_contains_canonical_artifacts(tmp_path: Path):
     assert "indicator_results_registry" in registry
     assert "snapshot_indicators" in registry
     assert "parameter_coverage" in registry
+    assert "operational_baseline_latest" in registry
+    assert "operational_baseline_manifest" in registry
     assert "ledger" in registry
-    assert len(registry.all()) == 13
+    assert len(registry.all()) == 15
 
     indicator_spec = registry.get("indicator_registry")
     assert indicator_spec.relative_path.endswith("indicator_registry.json")
@@ -167,3 +169,82 @@ def test_latest_snapshot_loaders_preserve_public_keys(tmp_path: Path):
     assert loaded["snapshot"].payload["snapshot_id"] == "2026-08-03"
     assert loaded["indicators"].state is ArtifactState.FOUND
     assert loaded["manifest"].state is ArtifactState.MISSING
+
+
+def test_operational_baseline_is_resolved_only_from_official_pointer(tmp_path: Path):
+    registry = build_default_registry(tmp_path)
+    loader = ScientificInfrastructureLoader(registry)
+    snapshot_id = "operational-baseline-v1-123"
+    pointer_path = tmp_path / "data/output/operational_baseline_latest.json"
+    pointer_path.parent.mkdir(parents=True)
+    pointer_path.write_text(
+        json.dumps(
+            {
+                "snapshot_id": snapshot_id,
+                "manifest_path": (
+                    f"data/output/analytics/{snapshot_id}/operational_baseline_manifest.json"
+                ),
+                "manifest_sha256": "abc",
+                "status": "completed",
+                "official_baseline": True,
+            }
+        ),
+        encoding="utf-8",
+    )
+    snapshot_dir = registry.analytics_root / snapshot_id
+    snapshot_dir.mkdir(parents=True)
+    for filename, payload in {
+        "snapshot_indicators.json": {"status": "completed", "results": []},
+        "manifest.json": {"status": "completed"},
+        "run.json": {"status": "completed"},
+        "interoperability_sensitivity.json": {"status": "completed"},
+        "operational_baseline_manifest.json": {
+            "status": "completed",
+            "official_baseline": True,
+        },
+    }.items():
+        (snapshot_dir / filename).write_text(json.dumps(payload), encoding="utf-8")
+
+    loaded = loader.load_operational_baseline()
+
+    assert set(loaded) == {
+        "pointer",
+        "snapshot",
+        "indicators",
+        "manifest",
+        "run",
+        "sensitivity",
+        "operational_manifest",
+    }
+    assert loaded["pointer"].state is ArtifactState.FOUND
+    assert loaded["snapshot"].payload["snapshot_id"] == snapshot_id
+    assert loaded["operational_manifest"].state is ArtifactState.FOUND
+
+
+def test_operational_baseline_does_not_fall_back_to_newest_directory(tmp_path: Path):
+    registry = build_default_registry(tmp_path)
+    loader = ScientificInfrastructureLoader(registry)
+    unpointed = registry.analytics_root / "newest-but-not-official"
+    unpointed.mkdir(parents=True)
+    (unpointed / "snapshot_indicators.json").write_text("{}", encoding="utf-8")
+
+    loaded = loader.load_operational_baseline()
+
+    assert set(loaded) == {"pointer"}
+    assert loaded["pointer"].state is ArtifactState.MISSING
+
+
+def test_operational_baseline_rejects_unsafe_snapshot_id(tmp_path: Path):
+    registry = build_default_registry(tmp_path)
+    loader = ScientificInfrastructureLoader(registry)
+    pointer_path = tmp_path / "data/output/operational_baseline_latest.json"
+    pointer_path.parent.mkdir(parents=True)
+    pointer_path.write_text(
+        json.dumps({"snapshot_id": "../outside", "official_baseline": True}),
+        encoding="utf-8",
+    )
+
+    loaded = loader.load_operational_baseline()
+
+    assert loaded["pointer"].state is ArtifactState.INVALID
+    assert "inseguro" in loaded["pointer"].error
