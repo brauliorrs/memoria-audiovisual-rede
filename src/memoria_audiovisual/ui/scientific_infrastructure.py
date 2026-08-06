@@ -14,6 +14,9 @@ import pandas as pd
 import streamlit as st
 
 from memoria_audiovisual.i18n import DEFAULT_LANGUAGE, language_code_from_label
+from memoria_audiovisual.ui.operational_baseline import (
+    render_operational_baseline_panel,
+)
 from memoria_audiovisual.ui.scientific_infrastructure_lazy import (
     render_scientific_infrastructure_lazy,
 )
@@ -97,9 +100,14 @@ def render_scientific_infrastructure(
     language: str | None = None,
 ) -> None:
     """Render only the selected section in the explicitly active language."""
+    active_language = language or _active_language()
     render_scientific_infrastructure_lazy(
         base_dir,
-        language=language or _active_language(),
+        language=active_language,
+    )
+    render_operational_baseline_panel(
+        base_dir,
+        language=active_language,
     )
 
 
