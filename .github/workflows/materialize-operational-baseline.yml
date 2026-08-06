@@ -1,0 +1,224 @@
+name: T2 operational baseline
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/materialize-operational-baseline.yml"
+      - "scripts/materialize_operational_baseline.py"
+      - "tests/test_operational_baseline.py"
+      - "data/output/t1_auditable_completion.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: t2-operational-baseline-v1
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      SNAPSHOT_ID: operational-baseline-v1-${{ github.run_id }}
+      T1_GATE: data/output/t1_auditable_completion.json
+      AUDIT_SUMMARY: data/output/operational_baseline_execution.json
+      COVERAGE_DIR: data/digital_infrastructure/coverage
+      ANALYTICS_ROOT: data/output/analytics
+      LEDGER_PATH: data/digital_infrastructure/ledger.jsonl
+      BATCH_MANIFEST: data/digital_infrastructure/ingestion_batches.jsonl
+      RAW_ARTIFACT_DIR: data/digital_infrastructure/raw_artifacts
+      BASELINE_LATEST: data/output/operational_baseline_latest.json
+      MAR_AI_EXPERIMENTS_ENABLED: "false"
+      MAR_AI_SHADOW_MODE: "true"
+      MAR_AI_INSTITUTIONAL_USE_ENABLED: "false"
+      MAR_AI_COLLECTION_DETECTION_ENABLED: "false"
+      MAR_AI_VIDEO_PRESENCE_ENABLED: "false"
+      MAR_AI_SYNTHETIC_VIDEO_ENABLED: "false"
+
+    steps:
+      - name: Checkout presentation branch
+        uses: actions/checkout@v5
+        with:
+          ref: presentation/rpv-1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e . pytest
+
+      - name: Validate T1 gate and T2 contracts
+        run: |
+          python -m pytest -q tests/test_operational_baseline.py
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          path = Path(os.environ["T1_GATE"])
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          if payload.get("gate") != "t1_auditable_completion":
+              raise SystemExit("artefato não corresponde ao portão T1")
+          if payload.get("auditable_completion") is not True:
+              raise SystemExit("T1 não está auditavelmente concluído")
+          if payload.get("active_corpora_total") != 55:
+              raise SystemExit("denominador ativo do T1 deve ser 55")
+          if payload.get("recorded_results_total") != 55:
+              raise SystemExit("o T1 deve registrar os 55 resultados")
+          print(json.dumps({
+              "source_run_id": payload.get("source_run_id"),
+              "active_corpora_total": payload.get("active_corpora_total"),
+              "recorded_results_total": payload.get("recorded_results_total"),
+              "auditable_completion": True,
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Audit all 55 active corpora in ledger mode
+        run: |
+          python scripts/audit_digital_infrastructure.py \
+            --mode ledger \
+            --snapshot-id "$SNAPSHOT_ID" \
+            --timeout 30 \
+            --ledger-path "$LEDGER_PATH" \
+            --artifact-dir "$RAW_ARTIFACT_DIR" \
+            --batch-manifest "$BATCH_MANIFEST" \
+            --coverage-dir "$COVERAGE_DIR" \
+            --result-output "$AUDIT_SUMMARY"
+
+      - name: Resolve operational coverage
+        id: coverage
+        shell: bash
+        run: |
+          COVERAGE_PATH=$(python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          payload = json.loads(Path(os.environ["AUDIT_SUMMARY"]).read_text(encoding="utf-8"))
+          coverage = payload.get("coverage") or {}
+          manifest = payload.get("coverage_manifest") or {}
+          if payload.get("mode") != "ledger":
+              raise SystemExit("a auditoria não executou em modo ledger")
+          if payload.get("source_count") != 55:
+              raise SystemExit(f"esperadas 55 fontes; obtidas {payload.get('source_count')}")
+          if coverage.get("corpus_count") != 55:
+              raise SystemExit(f"esperados 55 corpora na cobertura; obtidos {coverage.get('corpus_count')}")
+          if coverage.get("parameter_count") != 385:
+              raise SystemExit(f"esperados 385 estados; obtidos {coverage.get('parameter_count')}")
+          path = manifest.get("coverage_path")
+          if not path:
+              raise SystemExit("coverage_path ausente")
+          print(path)
+          PY
+          )
+          test -f "$COVERAGE_PATH"
+          echo "path=$COVERAGE_PATH" >> "$GITHUB_OUTPUT"
+
+      - name: Execute nine official indicators
+        run: |
+          python scripts/run_snapshot_analytics.py \
+            --snapshot-id "$SNAPSHOT_ID" \
+            --coverage "${{ steps.coverage.outputs.path }}" \
+            --output-root "$ANALYTICS_ROOT" \
+            --run-output "$ANALYTICS_ROOT/$SNAPSHOT_ID/run.json"
+
+      - name: Materialize official operational manifest
+        run: |
+          BASELINE_MANIFEST="$ANALYTICS_ROOT/$SNAPSHOT_ID/operational_baseline_manifest.json"
+          python scripts/materialize_operational_baseline.py \
+            --snapshot-id "$SNAPSHOT_ID" \
+            --t1-gate "$T1_GATE" \
+            --audit-summary "$AUDIT_SUMMARY" \
+            --analytics-root "$ANALYTICS_ROOT" \
+            --ledger-path "$LEDGER_PATH" \
+            --batch-manifest "$BATCH_MANIFEST" \
+            --output "$BASELINE_MANIFEST" \
+            --expected-corpora 55 \
+            --expected-parameters 385 \
+            --expected-indicators 9 \
+            --pipeline-commit "$GITHUB_SHA"
+          echo "BASELINE_MANIFEST=$BASELINE_MANIFEST" >> "$GITHUB_ENV"
+
+      - name: Publish latest operational pointer
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from datetime import UTC, datetime
+          from pathlib import Path
+
+          manifest_path = Path(os.environ["BASELINE_MANIFEST"])
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          if manifest.get("status") != "completed":
+              raise SystemExit("manifesto operacional não concluído")
+          if manifest.get("official_baseline") is not True:
+              raise SystemExit("manifesto não está marcado como baseline oficial")
+          if (manifest.get("ai") or {}).get("is_official_baseline_dependency") is not False:
+              raise SystemExit("baseline oficial não pode depender da IA experimental")
+          digest = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+          latest = {
+              "schema_version": "1.0.0",
+              "snapshot_id": os.environ["SNAPSHOT_ID"],
+              "manifest_path": str(manifest_path),
+              "manifest_sha256": digest,
+              "status": "completed",
+              "official_baseline": True,
+              "updated_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+          }
+          latest_path = Path(os.environ["BASELINE_LATEST"])
+          latest_path.parent.mkdir(parents=True, exist_ok=True)
+          latest_path.write_text(
+              json.dumps(latest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(latest, ensure_ascii=False, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload complete T2 products
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2-operational-baseline-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
+          path: |
+            data/output/t1_auditable_completion.json
+            data/output/operational_baseline_execution.json
+            data/output/operational_baseline_latest.json
+            data/output/analytics/${{ env.SNAPSHOT_ID }}/**
+            data/output/analytics/indicator_history.jsonl
+            data/digital_infrastructure/coverage/${{ env.SNAPSHOT_ID }}/**
+            data/digital_infrastructure/coverage/snapshot_coverage_index.jsonl
+            data/digital_infrastructure/ledger.jsonl
+            data/digital_infrastructure/ingestion_batches.jsonl
+            data/digital_infrastructure/raw_artifacts/**
+
+      - name: Commit operational baseline products
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/output/operational_baseline_execution.json \
+            data/output/operational_baseline_latest.json \
+            data/output/analytics \
+            data/digital_infrastructure/coverage \
+            data/digital_infrastructure/ledger.jsonl \
+            data/digital_infrastructure/ingestion_batches.jsonl \
+            data/digital_infrastructure/raw_artifacts
+          if git diff --cached --quiet; then
+            echo "Nenhum produto novo para registrar."
+            exit 0
+          fi
+          git commit -m "data(t2): materializar baseline operacional oficial [skip ci]"
+          git push origin HEAD:presentation/rpv-1
