@@ -124,6 +124,17 @@ class ScientificInfrastructureLoader:
             return len(payload) == 0
         return False
 
+    @staticmethod
+    def _valid_snapshot_id(value: object) -> str | None:
+        snapshot_id = str(value or "").strip()
+        if not snapshot_id:
+            return None
+        if Path(snapshot_id).name != snapshot_id:
+            return None
+        if snapshot_id in {".", ".."} or any(part in snapshot_id for part in ("/", "\\")):
+            return None
+        return snapshot_id
+
     def load_indicator_registry(self) -> LoadedArtifact:
         """Carrega e valida a fonte operacional única dos indicadores."""
         return self.load("indicator_registry")
@@ -149,6 +160,9 @@ class ScientificInfrastructureLoader:
         snapshot_dir = self.latest_analytics_snapshot_dir()
         if snapshot_dir is None:
             return {}
+        return self._load_analytics_snapshot(snapshot_dir)
+
+    def _load_analytics_snapshot(self, snapshot_dir: Path) -> dict[str, LoadedArtifact]:
         return {
             "snapshot": LoadedArtifact(
                 "snapshot",
@@ -162,6 +176,54 @@ class ScientificInfrastructureLoader:
             "run": self.load("analytics_run", snapshot_dir=snapshot_dir),
             "sensitivity": self.load("interoperability_sensitivity", snapshot_dir=snapshot_dir),
         }
+
+    def load_operational_baseline(self) -> dict[str, LoadedArtifact]:
+        """Carrega apenas o baseline apontado pelo artefato oficial `latest`.
+
+        A ausência do ponteiro ou do diretório não é interpretada como resultado
+        científico negativo. Nesses casos, o retorno preserva o estado do ponteiro
+        para que a interface informe que a materialização operacional está pendente.
+        """
+        pointer = self.load("operational_baseline_latest")
+        loaded: dict[str, LoadedArtifact] = {"pointer": pointer}
+        if pointer.state is not ArtifactState.FOUND or not isinstance(pointer.payload, dict):
+            return loaded
+
+        snapshot_id = self._valid_snapshot_id(pointer.payload.get("snapshot_id"))
+        if snapshot_id is None:
+            loaded["pointer"] = LoadedArtifact(
+                pointer.key,
+                pointer.name,
+                pointer.path,
+                ArtifactState.INVALID,
+                payload=pointer.payload,
+                error="snapshot_id ausente ou inseguro no ponteiro operacional",
+            )
+            return loaded
+
+        snapshot_dir = self.registry.analytics_root / snapshot_id
+        if not snapshot_dir.is_dir():
+            loaded["snapshot"] = LoadedArtifact(
+                "snapshot",
+                "Snapshot operacional",
+                snapshot_dir,
+                ArtifactState.MISSING,
+                error="diretório do snapshot apontado não foi encontrado",
+            )
+            return loaded
+
+        loaded.update(self._load_analytics_snapshot(snapshot_dir))
+        loaded["snapshot"] = LoadedArtifact(
+            "snapshot",
+            "Baseline operacional oficial",
+            snapshot_dir,
+            ArtifactState.FOUND,
+            payload={"snapshot_id": snapshot_id},
+        )
+        loaded["operational_manifest"] = self.load(
+            "operational_baseline_manifest", snapshot_dir=snapshot_dir
+        )
+        return loaded
 
     def load_latest_coverage_snapshot(self) -> dict[str, LoadedArtifact]:
         snapshot_dir = self.latest_coverage_snapshot_dir()
@@ -182,6 +244,7 @@ class ScientificInfrastructureLoader:
 
     def load_governance(self) -> dict[str, LoadedArtifact]:
         return {
+            "operational_baseline_latest": self.load("operational_baseline_latest"),
             "ledger": self.load("ledger"),
             "ingestion_batches": self.load("ingestion_batches"),
             "indicator_history": self.load("indicator_history"),
