@@ -1,0 +1,61 @@
+{
+  "active_corpora_total": 55,
+  "ai_is_official_baseline_dependency": false,
+  "ai_shadow_records": {
+    "institutional_use": 49,
+    "observatory_triage": 98,
+    "run_manifests": 2
+  },
+  "auditable_completion": true,
+  "cycle_scope": "completo",
+  "finished_at": "2026-08-05T20:26:54Z",
+  "gate": "t1_auditable_completion",
+  "non_successful_corpora_total": 6,
+  "non_successful_results": [
+    {
+      "code": "ape",
+      "error": "Timeout após 599.9999802810001 segundos: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python /home/runner/work/memoria-audiovisual-rede/memoria-audiovisual-rede/scripts/run_pipeline.py",
+      "status": "failed"
+    },
+    {
+      "code": "cinematheque-bretagne",
+      "error": "Command '['/opt/hostedtoolcache/Python/3.11.15/x64/bin/python', '/home/runner/work/memoria-audiovisual-rede/memoria-audiovisual-rede/scripts/check_cinematheque_bretagne_outputs.py']' returned non-zero exit status 1.",
+      "status": "failed"
+    },
+    {
+      "code": "ert",
+      "error": "Timeout após 599.9999889330002 segundos: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python /home/runner/work/memoria-audiovisual-rede/memoria-audiovisual-rede/scripts/run_ert_pipeline.py",
+      "status": "failed"
+    },
+    {
+      "code": "filmmuseum_dusseldorf",
+      "error": "Command '['/opt/hostedtoolcache/Python/3.11.15/x64/bin/python', '/home/runner/work/memoria-audiovisual-rede/memoria-audiovisual-rede/scripts/check_filmmuseum_dusseldorf_outputs.py']' returned non-zero exit status 1.",
+      "status": "failed"
+    },
+    {
+      "code": "filmoteca_valenciana",
+      "error": "Command '['/opt/hostedtoolcache/Python/3.11.15/x64/bin/python', '/home/runner/work/memoria-audiovisual-rede/memoria-audiovisual-rede/scripts/check_filmoteca_valenciana_outputs.py']' returned non-zero exit status 1.",
+      "status": "failed"
+    },
+    {
+      "code": "home-movies-memoryscapes",
+      "error": "Timeout após 599.9999885420002 segundos: /opt/hostedtoolcache/Python/3.11.15/x64/bin/python /home/runner/work/memoria-audiovisual-rede/memoria-audiovisual-rede/scripts/run_home_movies_pipeline.py",
+      "status": "failed"
+    }
+  ],
+  "notes": "O portão T1 exige registro auditável dos 55 corpora; falhas externas permanecem explícitas e não são convertidas em sucesso.",
+  "recorded_results_total": 55,
+  "schema_version": "1.0.0",
+  "selected_corpora_total": 55,
+  "source_artifact": "full-observatory-cycle-31038017955.zip",
+  "source_manifest_path": "output/observatorio_ciclo_mensal.json",
+  "source_manifest_sha256": "b498534da2fa5c0be4a308d1865bfabc2951286148410fdba87e72aba5ffe88d",
+  "source_run_id": "31038017955",
+  "started_at": "2026-08-05T19:09:24Z",
+  "status_counts": {
+    "failed": 6,
+    "success": 49
+  },
+  "successful_corpora_total": 49,
+  "synthetic_video_detection_enabled": false
+}
