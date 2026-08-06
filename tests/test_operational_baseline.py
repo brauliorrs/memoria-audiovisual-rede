@@ -174,3 +174,26 @@ def test_rejects_official_baseline_when_experimental_ai_is_enabled(tmp_path, mon
             expected_indicators=1,
             pipeline_commit="deadbeef",
         )
+
+
+def test_rejects_baseline_when_t1_does_not_record_full_denominator(tmp_path, monkeypatch):
+    paths = build_fixture(tmp_path)
+    gate = json.loads(paths["t1_gate"].read_text(encoding="utf-8"))
+    gate["recorded_results_total"] = 1
+    write_json(paths["t1_gate"], gate)
+    monkeypatch.setenv("MAR_AI_EXPERIMENTS_ENABLED", "false")
+
+    with pytest.raises(ValueError, match="T1 não registra resultado para todos"):
+        materialize(
+            snapshot_id="operational-test",
+            t1_gate_path=paths["t1_gate"],
+            audit_summary_path=paths["audit_summary"],
+            analytics_root=paths["analytics_root"],
+            ledger_path=paths["ledger"],
+            batch_manifest_path=paths["batches"],
+            output_path=paths["output"],
+            expected_corpora=2,
+            expected_parameters=14,
+            expected_indicators=1,
+            pipeline_commit="deadbeef",
+        )
