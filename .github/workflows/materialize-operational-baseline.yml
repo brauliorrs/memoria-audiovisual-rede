@@ -16,7 +16,7 @@ permissions:
 
 concurrency:
   group: t2-operational-baseline-v1
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   materialize:
@@ -211,11 +211,16 @@ jobs:
           git add \
             data/output/operational_baseline_execution.json \
             data/output/operational_baseline_latest.json \
-            data/output/analytics \
             data/digital_infrastructure/coverage \
             data/digital_infrastructure/ledger.jsonl \
             data/digital_infrastructure/ingestion_batches.jsonl \
             data/digital_infrastructure/raw_artifacts
+          # `data/output/*` é ignorado por padrão. Forçamos somente os dois
+          # produtos analíticos oficiais deste snapshot, sem liberar toda a pasta.
+          git add -f \
+            "$ANALYTICS_ROOT/$SNAPSHOT_ID" \
+            "$ANALYTICS_ROOT/indicator_history.jsonl"
+          git status --short
           if git diff --cached --quiet; then
             echo "Nenhum produto novo para registrar."
             exit 0
