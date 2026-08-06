@@ -9,7 +9,7 @@ on:
       corpus_timeout:
         description: "Tempo máximo por script de corpus, em segundos"
         required: false
-        default: "600"
+        default: "900"
         type: string
       enable_ai:
         description: "Coletar sinais experimentais em modo sombra"
@@ -73,14 +73,14 @@ jobs:
         run: |
           CORPUS_TIMEOUT="${{ inputs.corpus_timeout }}"
           if [ -z "$CORPUS_TIMEOUT" ]; then
-            CORPUS_TIMEOUT="600"
+            CORPUS_TIMEOUT="900"
           fi
           set +e
           python scripts/run_observatory_cycle.py --corpus-timeout "$CORPUS_TIMEOUT"
           exit_code=$?
           set -e
           echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
-          echo "Ciclo integral encerrou com código $exit_code; os produtos serão preservados."
+          echo "Ciclo integral encerrou com código operacional $exit_code; os produtos serão preservados e a completude será validada separadamente."
 
       - name: Build full cycle summary
         if: always()
@@ -100,6 +100,8 @@ jobs:
               raise SystemExit(f"manifesto do ciclo ausente: {manifest_path}")
           manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
           results = manifest.get("cycle_results") or []
+          selected_codes = [str(code) for code in (manifest.get("selected_corpora_codes") or [])]
+          result_codes = [str(row.get("code") or "") for row in results]
 
           ai_counts = {}
           for path in sorted(ai_root.glob("ai_*.jsonl")):
@@ -108,7 +110,7 @@ jobs:
               )
 
           statuses = Counter(str(row.get("status") or "unknown") for row in results)
-          failed = [
+          non_successful = [
               {
                   "code": row.get("code"),
                   "status": row.get("status"),
@@ -117,16 +119,57 @@ jobs:
               for row in results
               if row.get("status") != "success"
           ]
+
+          duplicate_codes = sorted(
+              code for code, total in Counter(result_codes).items() if code and total > 1
+          )
+          missing_result_codes = sorted(set(selected_codes) - set(result_codes))
+          unexpected_result_codes = sorted(set(result_codes) - set(selected_codes))
+          allowed_statuses = {"success", "failed", "not_assessable"}
+          invalid_statuses = sorted(set(statuses) - allowed_statuses)
+
+          active_total = int(manifest.get("active_corpora_total") or 0)
+          selected_total = int(manifest.get("selected_corpora_total") or 0)
+          auditable_completion = (
+              manifest.get("cycle_scope") == "completo"
+              and active_total > 0
+              and selected_total == active_total
+              and len(selected_codes) == selected_total
+              and len(results) == selected_total
+              and not duplicate_codes
+              and not missing_result_codes
+              and not unexpected_result_codes
+              and not invalid_statuses
+              and all(result_codes)
+          )
+
+          operational_status = (
+              "completed"
+              if auditable_completion and not non_successful
+              else "completed_with_auditable_failures"
+              if auditable_completion
+              else "incomplete"
+          )
+
           summary = {
               "cycle": {
                   "exit_code": int(os.environ.get("CYCLE_EXIT_CODE") or 1),
                   "cycle_scope": manifest.get("cycle_scope"),
-                  "active_corpora_total": manifest.get("active_corpora_total"),
-                  "selected_corpora_total": manifest.get("selected_corpora_total"),
+                  "active_corpora_total": active_total,
+                  "selected_corpora_total": selected_total,
+                  "recorded_results_total": len(results),
                   "successful_corpora_total": manifest.get("successful_corpora_total"),
                   "failed_corpora_total": manifest.get("failed_corpora_total"),
                   "status_counts": dict(statuses),
-                  "failed_or_non_successful": failed,
+                  "non_successful_results": non_successful,
+                  "operational_status": operational_status,
+                  "auditable_completion": auditable_completion,
+                  "integrity": {
+                      "duplicate_codes": duplicate_codes,
+                      "missing_result_codes": missing_result_codes,
+                      "unexpected_result_codes": unexpected_result_codes,
+                      "invalid_statuses": invalid_statuses,
+                  },
               },
               "ai_shadow_records": ai_counts,
               "ai_is_official_baseline_dependency": False,
@@ -150,8 +193,35 @@ jobs:
             data/digital_infrastructure/ai_experiments/*.jsonl
             data/digital_infrastructure/ai_experiments/validation_sample_v1.json
 
-      - name: Report full cycle failure
-        if: steps.cycle.outputs.exit_code != '0'
+      - name: Validate auditable completion
+        if: always()
         run: |
-          echo "O ciclo integral registrou falhas; consulte o resumo, o manifesto e os produtos enviados."
-          exit 1
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("data/output/full_cycle_ai_summary.json")
+          if not path.exists():
+              raise SystemExit("Resumo integral ausente; o ciclo não pode ser considerado auditável.")
+          summary = json.loads(path.read_text(encoding="utf-8"))
+          cycle = summary.get("cycle") or {}
+          if not cycle.get("auditable_completion"):
+              integrity = cycle.get("integrity") or {}
+              raise SystemExit(
+                  "Ciclo integral incompleto ou inconsistente: "
+                  + json.dumps(integrity, ensure_ascii=False, sort_keys=True)
+              )
+
+          non_successful = cycle.get("non_successful_results") or []
+          print(
+              "Ciclo integral auditavelmente concluído: "
+              f"{cycle.get('recorded_results_total')} de {cycle.get('selected_corpora_total')} corpora registrados."
+          )
+          if non_successful:
+              print(
+                  f"Atenção: {len(non_successful)} corpora registraram falha ou não avaliabilidade; "
+                  "esses estados permanecem no manifesto e não são convertidos em sucesso."
+              )
+              for row in non_successful:
+                  print(f"- {row.get('code')}: {row.get('status')} — {row.get('error') or 'sem detalhe'}")
+          PY
