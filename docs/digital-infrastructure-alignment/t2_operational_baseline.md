@@ -30,7 +30,8 @@ A execução materializa:
 7. `data/output/analytics/indicator_history.jsonl` — histórico append-only;
 8. `data/digital_infrastructure/ledger.jsonl` — ledger de entidades, evidências e proveniência;
 9. `data/digital_infrastructure/ingestion_batches.jsonl` — histórico retomável dos lotes;
-10. `data/output/operational_baseline_manifest.json` — manifesto oficial que referencia todos os produtos e seus hashes.
+10. `data/output/analytics/<snapshot>/operational_baseline_manifest.json` — manifesto imutável que referencia todos os produtos e seus hashes;
+11. `data/output/operational_baseline_latest.json` — ponteiro verificável para o baseline operacional vigente.
 
 ## Independência da inteligência artificial
 
@@ -58,7 +59,8 @@ O baseline somente recebe estado `completed` quando:
 - o hash do manifesto analítico corresponde ao arquivo de indicadores;
 - o histórico append-only existe;
 - todas as flags experimentais de IA estão desligadas;
-- todos os artefatos recebem hash SHA-256 no manifesto operacional.
+- todos os artefatos recebem hash SHA-256 no manifesto operacional;
+- o ponteiro `latest` identifica o snapshot e o hash do manifesto imutável vigente.
 
 ## Workflow
 
