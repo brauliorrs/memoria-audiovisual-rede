@@ -155,6 +155,17 @@ def build_default_registry(base_dir: str | Path) -> InfrastructureRegistry:
             description="Teste de sensibilidade do índice de interoperabilidade.",
         ),
         ArtifactSpec(
+            key="operational_baseline_manifest",
+            label="Manifesto do baseline operacional",
+            relative_path="operational_baseline_manifest.json",
+            format=ArtifactFormat.JSON,
+            scope=ArtifactScope.ANALYTICS_SNAPSHOT,
+            description=(
+                "Manifesto imutável do baseline operacional oficial, com hashes, "
+                "contagens, proveniência e independência da IA experimental."
+            ),
+        ),
+        ArtifactSpec(
             key="parameter_coverage",
             label="Cobertura por parâmetro",
             relative_path="parameter_coverage.json",
@@ -176,6 +187,17 @@ def build_default_registry(base_dir: str | Path) -> InfrastructureRegistry:
             relative_path="changes.json",
             format=ArtifactFormat.JSON,
             scope=ArtifactScope.COVERAGE_SNAPSHOT,
+        ),
+        ArtifactSpec(
+            key="operational_baseline_latest",
+            label="Baseline operacional vigente",
+            relative_path="data/output/operational_baseline_latest.json",
+            format=ArtifactFormat.JSON,
+            scope=ArtifactScope.GOVERNANCE,
+            description=(
+                "Ponteiro verificável para o snapshot operacional oficial vigente e "
+                "para o hash de seu manifesto imutável."
+            ),
         ),
         ArtifactSpec(
             key="indicator_history",
