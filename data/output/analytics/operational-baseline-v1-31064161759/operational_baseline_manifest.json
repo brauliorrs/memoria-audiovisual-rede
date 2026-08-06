@@ -1,0 +1,87 @@
+{
+  "ai": {
+    "all_experimental_flags_disabled": true,
+    "experimental_flags": {
+      "MAR_AI_COLLECTION_DETECTION_ENABLED": "false",
+      "MAR_AI_EXPERIMENTS_ENABLED": "false",
+      "MAR_AI_INSTITUTIONAL_USE_ENABLED": "false",
+      "MAR_AI_SYNTHETIC_VIDEO_ENABLED": "false",
+      "MAR_AI_VIDEO_PRESENCE_ENABLED": "false"
+    },
+    "is_official_baseline_dependency": false,
+    "synthetic_video_detection_enabled": false
+  },
+  "artifacts": {
+    "analytics_manifest": {
+      "path": "data/output/analytics/operational-baseline-v1-31064161759/manifest.json",
+      "sha256": "ae8874393611dcc67931925324b2456e79615f98ecc70d1429aa71cc5d1a487d"
+    },
+    "analytics_run": {
+      "path": "data/output/analytics/operational-baseline-v1-31064161759/run.json",
+      "sha256": "9f7bb22975dc007b7adf38f3364cfc6495d7ad27bcc40d8a2f1922107ac7a25c"
+    },
+    "audit_summary": {
+      "path": "data/output/operational_baseline_execution.json",
+      "sha256": "5ee24d9010b76bcf25e4cd13c5f26123f616371b0c398c9fd93e30e44ca41b22"
+    },
+    "coverage": {
+      "path": "data/digital_infrastructure/coverage/operational-baseline-v1-31064161759/parameter_coverage.json",
+      "sha256": "a859473f4e2cc6e5a8024ec66a212c3c0040955de34f26865cc3f48154dad1e6"
+    },
+    "indicator_history": {
+      "path": "data/output/analytics/indicator_history.jsonl",
+      "sha256": "25d4b56bdb5ca624e04e9fef1c16db4304cf5d1dd6150a342d628ff2ee6b5c28"
+    },
+    "ingestion_batches": {
+      "path": "data/digital_infrastructure/ingestion_batches.jsonl",
+      "sha256": "c12db45b795f23f296f36434b739dd4388f4075f58638977fc47e1b08f0e35f8"
+    },
+    "interoperability_sensitivity": {
+      "path": "data/output/analytics/operational-baseline-v1-31064161759/interoperability_sensitivity.json",
+      "sha256": "76e925b5a07d88a9a4a08b2002282a2c38172bc3985aeaf295967c665e9c9946"
+    },
+    "ledger": {
+      "path": "data/digital_infrastructure/ledger.jsonl",
+      "sha256": "19dcb12ee45dba17404f19c28baf3efbfbf01fce205d0aac36f9302cd1283218"
+    },
+    "snapshot_indicators": {
+      "path": "data/output/analytics/operational-baseline-v1-31064161759/snapshot_indicators.json",
+      "sha256": "eb89117d677956d2a35aeaddba8163797df502216c0a1073084ecc78cef53e37"
+    },
+    "t1_gate": {
+      "path": "data/output/t1_auditable_completion.json",
+      "sha256": "2dfdc54b829707e11c4b91be463868cbe5f2b4c252db83b99757e694d2d71fc4"
+    }
+  },
+  "baseline_id": "operational-baseline-v1-31064161759",
+  "baseline_type": "operational_official",
+  "counts": {
+    "active_corpora": 55,
+    "coverage_parameters": 385,
+    "indicators": 9,
+    "ingestion_batches": 55,
+    "ledger_records": 1230,
+    "ledger_transactions": 410,
+    "non_successful_t1_corpora": 6,
+    "successful_t1_corpora": 49
+  },
+  "generated_at": "2026-08-06T01:59:26Z",
+  "integrity": {
+    "all_active_corpora_covered": true,
+    "all_ingestion_batches_completed": true,
+    "analytics_manifest_verified": true,
+    "append_only_batch_history_present": true,
+    "append_only_indicator_history_present": true,
+    "append_only_ledger_present": true
+  },
+  "official_baseline": true,
+  "pipeline_commit": "2d8ebf276e80df788437a7ec480674a4560cf92d",
+  "schema_version": "1.0.0",
+  "status": "completed",
+  "t1_gate": {
+    "auditable_completion": true,
+    "recorded_results_total": 55,
+    "source_manifest_sha256": "b498534da2fa5c0be4a308d1865bfabc2951286148410fdba87e72aba5ffe88d",
+    "source_run_id": "31038017955"
+  }
+}
