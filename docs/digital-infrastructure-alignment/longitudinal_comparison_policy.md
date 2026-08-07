@@ -2,141 +2,82 @@
 
 ## Objetivo
 
-Definir como a plataforma calcula, classifica e publica diferenças entre dois snapshots sem confundir mudança empírica, correção curatorial, alteração de cobertura ou migração metodológica.
+Definir como a infraestrutura calcula, classifica, revisa e publica diferenças entre snapshots sem confundir mudança empírica, correção curatorial, alteração de cobertura, falha de coleta ou migração metodológica.
 
 ## Unidade de comparação
 
-A comparação opera por:
-
-- entidade estável (`entity_id`);
-- variável ou relação definida;
-- versão do schema;
-- período de validade;
-- evidência associada;
-- estado de revisão.
+A comparação opera por entidade estável, variável ou relação definida, snapshots de origem e destino, versões de schema e metodologia, cobertura, evidências e estado de revisão.
 
 ## Tipos de resultado
 
 - `added`: entidade, relação ou valor surge no período posterior;
-- `removed`: deixa de estar presente após validação suficiente;
+- `removed_candidate`: valor anteriormente observado deixa de ser detectado e requer confirmação;
+- `removed_confirmed`: desaparecimento sustentado por evidência e revisão aplicável;
 - `changed`: valor comparável foi alterado;
 - `unchanged`: valor permanece equivalente;
 - `became_assessable`: antes não avaliável, agora observável;
 - `became_unassessable`: perda de capacidade de observação;
-- `reclassified`: mudança curatorial ou taxonômica, sem evidência de mudança empírica;
+- `reclassified`: mudança curatorial ou taxonômica;
 - `schema_migrated`: diferença produzida por migração de modelo;
 - `coverage_changed`: diferença decorrente de alteração do universo observado;
+- `collection_failure`: comparação bloqueada por falha técnica;
 - `inconclusive`: evidência insuficiente para declarar mudança.
+
+O estado `removed` não deve ser produzido diretamente por mera ausência em uma coleta posterior.
 
 ## Regra de precedência
 
-Antes de classificar uma diferença como empírica, o comparador deve verificar, nesta ordem:
+Antes de classificar uma diferença como empírica, o comparador deve verificar:
 
 1. identidade da entidade;
-2. compatibilidade de schema;
+2. compatibilidade de schema e método;
 3. equivalência semântica da variável;
 4. mudança de cobertura;
-5. correção curatorial registrada;
-6. qualidade e validade temporal da evidência;
-7. diferença de valor.
+5. estado de coleta e avaliabilidade;
+6. correção curatorial registrada;
+7. qualidade e validade temporal da evidência;
+8. diferença de valor.
 
-## Mudanças por dimensão
+Qualquer bloqueio nos itens anteriores impede uma conclusão empírica automática.
 
-### Tecnologias e fornecedores
+## Tecnologias, fornecedores e contratos
 
-Mudanças possíveis:
+Detecção técnica isolada não basta para declarar troca de fornecedor, encerramento contratual ou retirada definitiva de tecnologia. Mudanças contratuais exigem fonte documental compatível. Valores devem preservar moeda, data de referência e natureza da alteração.
 
-- tecnologia adicionada ou retirada;
-- troca de fornecedor;
-- alteração de função do fornecedor;
-- mudança de camada do stack;
-- passagem de solução própria para terceirizada ou vice-versa.
+## APIs e interoperabilidade
 
-Detecção técnica isolada não basta para declarar troca de fornecedor.
+Estados possíveis incluem disponível, degradada, restrita, possivelmente descontinuada, descontinuação confirmada, substituída e não avaliável. Falha pontual, bloqueio automatizado ou indisponibilidade temporária não implica descontinuação.
 
-### Contratos
+## IA e automação
 
-Eventos possíveis:
-
-- contrato anunciado;
-- adjudicado;
-- iniciado;
-- prorrogado;
-- alterado;
-- encerrado;
-- cancelado;
-- substituído.
-
-Mudança de valor contratual deve preservar moeda, data de referência e natureza da alteração.
-
-### APIs e interoperabilidade
-
-Estados possíveis:
-
-- disponível;
-- degradada;
-- restrita;
-- descontinuada;
-- substituída;
-- não avaliável.
-
-Falha pontual de acesso não implica descontinuação.
-
-### IA e automação
-
-Transições possíveis:
-
-- announced → pilot;
-- pilot → operational;
-- operational → suspended;
-- operational → discontinued;
-- unknown → confirmed.
-
-Menções promocionais não sustentam adoção operacional.
-
-### Riscos
-
-Mudança de risco só pode ser calculada quando:
-
-- a regra de avaliação é a mesma ou compatível;
-- os fatores de risco estão documentados;
-- a evidência foi revisada;
-- a alteração não resulta apenas de nova taxonomia.
+Transições entre anúncio, pesquisa, piloto, operação, suspensão e descontinuação exigem evidência compatível. Menções promocionais não sustentam adoção operacional. Não detecção posterior não prova abandono da aplicação.
 
 ## Cálculo de deltas
 
-Para valores quantitativos:
+Para valores quantitativos, registrar diferença absoluta, diferença relativa quando válida, alteração de faixa, intervalo entre observações, cobertura e confiança.
 
-- diferença absoluta;
-- diferença relativa, quando o denominador for válido;
-- alteração de faixa ou classe;
-- intervalo entre observações;
-- nível de confiança.
-
-Para valores categóricos:
-
-- valor anterior;
-- valor posterior;
-- tipo de transição;
-- origem da mudança;
-- evidências anterior e posterior.
+Para valores categóricos, registrar valor anterior, valor posterior, tipo de transição, origem da mudança, evidências e decisão curatorial aplicável.
 
 ## Comparações proibidas
 
 Não publicar comparação direta quando:
 
 - os identificadores não foram resolvidos;
-- a variável mudou de definição sem tabela de correspondência;
+- a variável mudou de definição sem correspondência documentada;
 - um dos snapshots não documenta cobertura;
 - a diferença pode resultar de falha de coleta;
-- a evidência anterior foi retirada sem preservação;
-- estados pendentes são tratados como confirmados.
+- estados pendentes são tratados como confirmados;
+- o denominador mudou sem explicitação;
+- a única diferença é tradução, normalização ou correção editorial.
 
-## Produto futuro
+## Produtos implementados
 
-```text
-data/output/longitudinal_comparisons/{comparison_id}.json
-data/output/longitudinal_changes/{comparison_id}.csv
-```
+A infraestrutura possui componentes executáveis para comparação, triagem e revisão de eventos. Os produtos devem preservar identificadores, snapshots de origem e destino, versões de schema e método, cobertura, exclusões, resultados por classe, evidências, estados de revisão e limitações.
 
-Cada comparação deve indicar snapshots de origem, schemas, regras utilizadas, cobertura, exclusões e limitações.
+A existência desses componentes não significa que toda transição já foi validada em corpora reais.
+
+## Relação com triagem e publicação
+
+O comparador produz candidatos a mudança. A triagem define materialidade e necessidade de revisão. A revisão humana determina o suporte do evento. A publicação é uma decisão editorial posterior.
+
+Nenhuma dessas camadas deve ser reduzida a um único campo `confirmed`.

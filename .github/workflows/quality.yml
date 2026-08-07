@@ -1,10 +1,15 @@
 name: Quality Checks
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches:
       - main
+      - presentation/rpv-1
+
+permissions:
+  contents: read
 
 jobs:
   quality:
@@ -12,77 +17,52 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
+          cache: pip
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install -e .
+          pip install -e . pytest
 
-      - name: Compile Python modules
-        run: |
-          python -m py_compile app/streamlit_app.py
-          python -m py_compile src/memoria_audiovisual/aamod.py
-          python -m py_compile src/memoria_audiovisual/aamod_exports.py
-          python -m py_compile src/memoria_audiovisual/anf.py
-          python -m py_compile src/memoria_audiovisual/anf_exports.py
-          python -m py_compile src/memoria_audiovisual/adlibitum_protocol.py
-          python -m py_compile src/memoria_audiovisual/analysis.py
-          python -m py_compile src/memoria_audiovisual/ape_exports.py
-          python -m py_compile src/memoria_audiovisual/archipop.py
-          python -m py_compile src/memoria_audiovisual/archipop_exports.py
-          python -m py_compile src/memoria_audiovisual/dashboard_data.py
-          python -m py_compile src/memoria_audiovisual/discovery.py
-          python -m py_compile src/memoria_audiovisual/european_aggregators.py
-          python -m py_compile src/memoria_audiovisual/europe_closure.py
-          python -m py_compile src/memoria_audiovisual/european_protocols.py
-          python -m py_compile src/memoria_audiovisual/euscreen.py
-          python -m py_compile src/memoria_audiovisual/euscreen_exports.py
-          python -m py_compile src/memoria_audiovisual/output_files.py
-          python -m py_compile src/memoria_audiovisual/organism.py
-          python -m py_compile src/memoria_audiovisual/pares.py
-          python -m py_compile src/memoria_audiovisual/pares_exports.py
-          python -m py_compile src/memoria_audiovisual/pipeline.py
-          python -m py_compile src/memoria_audiovisual/snapshot_metadata.py
-          python -m py_compile src/memoria_audiovisual/sfa.py
-          python -m py_compile src/memoria_audiovisual/sfa_exports.py
-          python -m py_compile src/memoria_audiovisual/timeline.py
-          python -m py_compile scripts/build_ape_analytics.py
-          python -m py_compile scripts/build_euscreen_analytics.py
-          python -m py_compile scripts/build_ina_analytics.py
-          python -m py_compile scripts/build_pares_analytics.py
-          python -m py_compile scripts/build_europe_closure_report.py
-          python -m py_compile scripts/check_aamod_outputs.py
-          python -m py_compile scripts/check_archipop_outputs.py
-          python -m py_compile scripts/check_ape_outputs.py
-          python -m py_compile scripts/check_euscreen_outputs.py
-          python -m py_compile scripts/check_ina_outputs.py
-          python -m py_compile scripts/check_deployment_ready.py
-          python -m py_compile scripts/check_observatory_cycle.py
-          python -m py_compile scripts/check_pares_outputs.py
-          python -m py_compile scripts/evaluate_european_aggregators.py
-          python -m py_compile scripts/prototype_archiveshub_protocol.py
-          python -m py_compile scripts/prototype_francearchives_protocol.py
-          python -m py_compile scripts/run_euscreen_pipeline.py
-          python -m py_compile scripts/run_aamod_pipeline.py
-          python -m py_compile scripts/run_anf_pipeline.py
-          python -m py_compile scripts/run_adlibitum_protocol.py
-          python -m py_compile scripts/run_archipop_pipeline.py
-          python -m py_compile scripts/run_ina_pipeline.py
-          python -m py_compile scripts/run_observatory_cycle.py
-          python -m py_compile scripts/run_pares_pipeline.py
-          python -m py_compile scripts/run_sfa_pipeline.py
-          python -m py_compile scripts/check_anf_outputs.py
-          python -m py_compile scripts/check_sfa_outputs.py
+      - name: Compile Python sources
+        run: python -m compileall -q app src scripts
 
-      - name: Run unit tests
-        run: python -m unittest discover -s tests -v
+      - name: Audit Streamlit visual layout
+        run: python scripts/audit_streamlit_visual_layout.py
+
+      - name: Run tests
+        run: python -m pytest -q
+
+      - name: Validate AI validation sample
+        run: python scripts/build_ai_validation_sample.py --check
+
+      - name: Validate European research products
+        run: python scripts/sync_europe_research_outputs.py --check
+
+      - name: Validate reference corpus manifest
+        run: python scripts/audit_reference_corpus_manifest.py
+
+      - name: Validate derived reference corpus inventory
+        run: python scripts/build_reference_corpus_inventory.py --check
+
+      - name: Validate scientific snapshot
+        run: python scripts/audit_scientific_snapshot.py
+
+      - name: Validate scientific indicator results
+        run: python scripts/audit_indicator_results.py
+
+      - name: Audit methodology consistency
+        run: python scripts/audit_methodology_consistency.py
+
+      - name: Audit scientific integrity
+        run: python scripts/audit_scientific_integrity.py
 
       - name: Check deployment snapshot
         run: python scripts/check_deployment_ready.py
