@@ -83,3 +83,36 @@ def test_corpus_policy_text_is_not_used_as_observed_evidence(tmp_path):
         "not_identified_on_assessed_surfaces",
         "not_identified_on_assessed_surfaces",
     ]
+
+
+def test_nfsa_external_positive_control_detects_explicit_institutional_ai(tmp_path):
+    output_file = tmp_path / "nfsa_positive_control.json"
+    output_file.write_text(
+        '{"evidence":"NFSA declares Bowerbird a machine learning-enabled audio and video '
+        'transcription engine applied to audiovisual collection material."}',
+        encoding="utf-8",
+    )
+    handlers = build_entity_baseline_handlers(
+        corpus_definition={
+            "code": "nfsa_external_control",
+            "source_url": "https://www.nfsa.gov.au/stories/articles/bowerbird",
+            "output_files": {"evidence": output_file.name},
+        },
+        snapshot_metadata={"observation_key": "nfsa-control-v1", "counts": {}},
+        output_dir=tmp_path,
+    )
+
+    record = handlers["institutional_ai_use"](
+        AIExperimentContext(
+            run_id="t2a-external-control-v1",
+            entity_id="nfsa_external_control",
+            observation_id="nfsa-control-v1",
+            language="en",
+        )
+    )
+
+    assert record.status == "detected_pending_review"
+    assert record.prediction == "public_institutional_ai_signal"
+    assert record.human_review_status == "pending"
+    assert record.evidence
+    assert "machine learning" in (record.evidence[0].excerpt or "")
