@@ -22,17 +22,116 @@ _INSTITUTIONAL_AI_TERMS = (
     "machine learning",
     "aprendizado de máquina",
     "apprentissage automatique",
+    "aprendizaje automático",
     "deep learning",
     "computer vision",
     "reconhecimento automático",
+    "reconocimiento automático",
     "automatic transcription",
     "transcription automatique",
+    "transcripción automática",
+    "transcrição automática",
     "speech-to-text",
     "whisper",
     "transkribus",
     "google cloud vision",
     "azure ai",
     "aws rekognition",
+)
+
+# O uso institucional de IA exige relação observável com o acervo audiovisual.
+_AI_COLLECTION_CONTEXT_TERMS = (
+    "audiovisual",
+    "audio-visual",
+    "moving image",
+    "moving-image",
+    "film",
+    "filme",
+    "película",
+    "video",
+    "vídeo",
+    "archive",
+    "archives",
+    "arquivo",
+    "archivo",
+    "acervo",
+    "collection",
+    "collections",
+    "coleção",
+    "colección",
+    "fonds",
+    "patrimoine",
+)
+
+_AI_OPERATION_TERMS = (
+    "catalog",
+    "catalogue",
+    "cataloging",
+    "cataloguing",
+    "catalogação",
+    "catalogación",
+    "catalogage",
+    "metadata",
+    "metadados",
+    "metadatos",
+    "métadonnées",
+    "metadatado",
+    "indexing",
+    "indexação",
+    "indexación",
+    "indexation",
+    "transcription",
+    "transcrição",
+    "transcripción",
+    "translation",
+    "tradução",
+    "traducción",
+    "traduction",
+    "subtitle",
+    "subtitling",
+    "legendagem",
+    "sous-titrage",
+    "subtitulado",
+    "recognition",
+    "reconhecimento",
+    "reconocimiento",
+    "reconnaissance",
+    "identification",
+    "identificação",
+    "identificación",
+    "classification",
+    "classificação",
+    "clasificación",
+    "restoration",
+    "restauração",
+    "restauración",
+    "restauration",
+    "preservation",
+    "preservação",
+    "preservación",
+    "préservation",
+    "search",
+    "busca",
+    "búsqueda",
+    "recherche",
+    "recommendation",
+    "recomendação",
+    "recomendación",
+    "recommandation",
+    "segmentation",
+    "segmentação",
+    "segmentación",
+    "speech recognition",
+    "face recognition",
+    "facial recognition",
+    "reconhecimento facial",
+    "reconocimiento facial",
+    "named entity",
+    "entités nommées",
+    "entidades nombradas",
+    "resumo",
+    "resumen",
+    "summary",
 )
 
 _AUDIOVISUAL_COLLECTION_TERMS = (
@@ -48,7 +147,9 @@ _AUDIOVISUAL_COLLECTION_TERMS = (
     "patrimoine audiovisuel",
     "acervo audiovisual",
     "arquivo audiovisual",
+    "archivo audiovisual",
     "coleção audiovisual",
+    "colección audiovisual",
     "cinematheque",
     "cinémathèque",
     "film archive",
@@ -74,8 +175,8 @@ _PUBLIC_VIDEO_TERMS = (
 _MODEL = AIModelDescriptor(
     provider="local",
     model_name="deterministic-evidence-baseline",
-    model_version="1.0.0",
-    classifier_version="keyword-and-structure-v1",
+    model_version="1.1.0",
+    classifier_version="keyword-structure-context-v2",
 )
 
 
@@ -138,6 +239,37 @@ def _find_terms(text: str, terms: tuple[str, ...]) -> tuple[str, ...]:
     return tuple(term for term in terms if term in text)
 
 
+def _find_contextual_ai_evidence(text: str, *, window: int = 900) -> tuple[str, ...]:
+    """Exige IA + contexto de acervo + operação em proximidade textual.
+
+    A regra evita considerar como uso institucional uma menção genérica a IA,
+    automação ou tecnologia que não esteja ligada a uma atividade sobre o acervo.
+    """
+    evidence: list[str] = []
+    for ai_term in _INSTITUTIONAL_AI_TERMS:
+        start = 0
+        while True:
+            position = text.find(ai_term, start)
+            if position < 0:
+                break
+            left = max(0, position - window)
+            right = min(len(text), position + len(ai_term) + window)
+            context = text[left:right]
+            collection_matches = _find_terms(context, _AI_COLLECTION_CONTEXT_TERMS)
+            operation_matches = _find_terms(context, _AI_OPERATION_TERMS)
+            if collection_matches and operation_matches:
+                evidence.extend(
+                    (
+                        ai_term,
+                        f"collection-context:{collection_matches[0]}",
+                        f"operation-context:{operation_matches[0]}",
+                    )
+                )
+                break
+            start = position + len(ai_term)
+    return tuple(dict.fromkeys(evidence))
+
+
 def _evidence(
     *,
     context: AIExperimentContext,
@@ -186,7 +318,7 @@ def build_entity_baseline_handlers(
     catalogue_video_count = int(counts.get("videos_in_curatorial_catalog", 0) or 0)
 
     def institutional_ai_use(context: AIExperimentContext) -> AIExperimentRecord:
-        matches = _find_terms(text, _INSTITUTIONAL_AI_TERMS)
+        matches = _find_contextual_ai_evidence(text)
         detected = bool(matches)
         return AIExperimentRecord(
             run_id=context.run_id,
@@ -205,7 +337,10 @@ def build_entity_baseline_handlers(
             ),
             model=_MODEL,
             human_review_status="pending" if detected else "not_requested",
-            notes="Baseline determinístico; ausência de sinal não prova ausência institucional.",
+            notes=(
+                "Baseline determinístico contextual; exige termo de IA próximo a contexto de acervo "
+                "e atividade operacional. Ausência de sinal não prova ausência institucional."
+            ),
         )
 
     def audiovisual_collection_detection(context: AIExperimentContext) -> AIExperimentRecord:
