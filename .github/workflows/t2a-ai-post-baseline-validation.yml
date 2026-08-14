@@ -17,10 +17,12 @@ on:
       - "src/memoria_audiovisual/digital_infrastructure/ai_storage.py"
       - "scripts/evaluate_ai_post_baseline.py"
       - "scripts/build_ai_content_validation_sample.py"
+      - "scripts/assess_ai_content_blind_queue.py"
       - "tests/test_ai_post_baseline_validation.py"
       - "tests/test_ai_surface_discovery.py"
       - "tests/test_ai_content_production.py"
       - "tests/test_ai_content_validation.py"
+      - "tests/test_ai_content_blind_review.py"
       - "tests/test_ai_baseline_handlers.py"
       - "tests/test_ai_experiment_contracts.py"
       - "tests/test_ai_feature_flags.py"
@@ -29,6 +31,7 @@ on:
       - "data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl"
       - "data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json"
       - "data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json"
   pull_request:
     paths:
       - ".github/workflows/t2a-ai-post-baseline-validation.yml"
@@ -43,10 +46,12 @@ on:
       - "src/memoria_audiovisual/digital_infrastructure/ai_storage.py"
       - "scripts/evaluate_ai_post_baseline.py"
       - "scripts/build_ai_content_validation_sample.py"
+      - "scripts/assess_ai_content_blind_queue.py"
       - "tests/test_ai_post_baseline_validation.py"
       - "tests/test_ai_surface_discovery.py"
       - "tests/test_ai_content_production.py"
       - "tests/test_ai_content_validation.py"
+      - "tests/test_ai_content_blind_review.py"
       - "tests/test_ai_baseline_handlers.py"
       - "tests/test_ai_experiment_contracts.py"
       - "tests/test_ai_feature_flags.py"
@@ -55,6 +60,7 @@ on:
       - "data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl"
       - "data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json"
       - "data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json"
   workflow_dispatch:
     inputs:
       require_complete:
@@ -80,6 +86,8 @@ jobs:
       REPORT: data/digital_infrastructure/ai_experiments/t2a_validation_report_v1.json
       CONTENT_SAMPLE: data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json
       CONTENT_REPORT: data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json
+      CONTENT_BLIND_QUEUE: data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json
+      CONTENT_BLIND_PREDICTIONS: /tmp/ai_content_blind_predictions_v1.json
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -103,6 +111,7 @@ jobs:
             tests/test_ai_surface_discovery.py \
             tests/test_ai_content_production.py \
             tests/test_ai_content_validation.py \
+            tests/test_ai_content_blind_review.py \
             tests/test_ai_baseline_handlers.py \
             tests/test_ai_experiment_contracts.py \
             tests/test_ai_feature_flags.py \
@@ -114,6 +123,33 @@ jobs:
             --sample "$CONTENT_SAMPLE" \
             --report "$CONTENT_REPORT" \
             --check
+
+      - name: Validate blind content-AI metadata triage
+        run: |
+          python scripts/assess_ai_content_blind_queue.py \
+            --queue "$CONTENT_BLIND_QUEUE" \
+            --output "$CONTENT_BLIND_PREDICTIONS" \
+            --run-id "ci-metadata-triage"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          queue = json.loads(Path(os.environ["CONTENT_BLIND_QUEUE"]).read_text(encoding="utf-8"))
+          predictions = json.loads(Path(os.environ["CONTENT_BLIND_PREDICTIONS"]).read_text(encoding="utf-8"))
+          if len(queue.get("units") or []) != 12:
+              raise SystemExit("a amostra cega v1 deve conter 12 itens")
+          if predictions.get("predictions_total") != 12:
+              raise SystemExit("a triagem deve produzir 12 previsões separadas da fila humana")
+          forbidden = {"prediction", "predicted_usage_class", "predicted_positive", "model_prediction"}
+          if any(forbidden.intersection(unit) for unit in queue["units"]):
+              raise SystemExit("a fila humana cega não pode conter previsões automáticas")
+          print(json.dumps({
+              "blind_units": len(queue["units"]),
+              "prediction_blinding": queue.get("review_protocol", {}).get("prediction_blinding"),
+              "metadata_predictions": predictions.get("predictions_total"),
+          }, ensure_ascii=False, indent=2))
+          PY
 
       - name: Calculate current review metrics
         shell: bash
@@ -171,3 +207,4 @@ jobs:
             data/digital_infrastructure/ai_experiments/t2a_validation_report_v1.json
             data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json
             data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json
+            data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json
