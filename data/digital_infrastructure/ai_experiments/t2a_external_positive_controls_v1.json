@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "control_set_id": "t2a-external-positive-controls-v1",
+  "stage": "t2a_post_baseline_validation",
+  "purpose": "Controles positivos externos para testar sensibilidade do motor sem alterar o corpus oficial ou as métricas da amostra T1.",
+  "official_baseline_dependency": false,
+  "does_not_modify_official_baseline": true,
+  "included_in_t1_sample_metrics": false,
+  "controls": [
+    {
+      "control_id": "nfsa-institutional-ai-positive-v1",
+      "institution": "National Film and Sound Archive of Australia",
+      "entity_code": "nfsa_external_control",
+      "task": "institutional_ai_use",
+      "control_type": "external_positive_control",
+      "human_label": "positive",
+      "review_status": "completed",
+      "reviewer_id": "human-reviewer-primary",
+      "reviewed_at": "2026-08-14T15:12:00-03:00",
+      "source_url": "https://www.nfsa.gov.au/stories/articles/bowerbird",
+      "supporting_url": "https://www.nfsa.gov.au/stories/articles/nfsa-principles-ml-and-ai",
+      "observable_basis": "A instituição declara que o Bowerbird é um mecanismo de transcrição em massa de áudio e vídeo habilitado por machine learning, desenvolvido pelo NFSA e aplicado ao seu acervo audiovisual.",
+      "expected_engine_class": "positive",
+      "notes": "Controle externo inequívoco. Deve testar sensibilidade do detector de uso institucional de IA; não integra o denominador dos 55 corpora nem reescreve o T2."
+    }
+  ]
+}
