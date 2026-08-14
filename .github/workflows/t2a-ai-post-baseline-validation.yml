@@ -7,16 +7,44 @@ on:
     paths:
       - ".github/workflows/t2a-ai-post-baseline-validation.yml"
       - "src/memoria_audiovisual/digital_infrastructure/ai_post_baseline_validation.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_surface_discovery.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_content_production.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_baseline_handlers.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_contracts.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_flags.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_runtime.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_storage.py"
       - "scripts/evaluate_ai_post_baseline.py"
       - "tests/test_ai_post_baseline_validation.py"
+      - "tests/test_ai_surface_discovery.py"
+      - "tests/test_ai_content_production.py"
+      - "tests/test_ai_baseline_handlers.py"
+      - "tests/test_ai_experiment_contracts.py"
+      - "tests/test_ai_feature_flags.py"
+      - "tests/test_ai_storage_runtime.py"
       - "data/digital_infrastructure/ai_experiments/t2a_human_review_queue_v1.json"
+      - "data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl"
   pull_request:
     paths:
       - ".github/workflows/t2a-ai-post-baseline-validation.yml"
       - "src/memoria_audiovisual/digital_infrastructure/ai_post_baseline_validation.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_surface_discovery.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_content_production.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_baseline_handlers.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_contracts.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_flags.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_runtime.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_storage.py"
       - "scripts/evaluate_ai_post_baseline.py"
       - "tests/test_ai_post_baseline_validation.py"
+      - "tests/test_ai_surface_discovery.py"
+      - "tests/test_ai_content_production.py"
+      - "tests/test_ai_baseline_handlers.py"
+      - "tests/test_ai_experiment_contracts.py"
+      - "tests/test_ai_feature_flags.py"
+      - "tests/test_ai_storage_runtime.py"
       - "data/digital_infrastructure/ai_experiments/t2a_human_review_queue_v1.json"
+      - "data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl"
   workflow_dispatch:
     inputs:
       require_complete:
@@ -38,6 +66,7 @@ jobs:
     timeout-minutes: 15
     env:
       REVIEW_QUEUE: data/digital_infrastructure/ai_experiments/t2a_human_review_queue_v1.json
+      REVIEW_AMENDMENTS: data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl
       REPORT: data/digital_infrastructure/ai_experiments/t2a_validation_report_v1.json
     steps:
       - name: Checkout
@@ -54,15 +83,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e . pytest
 
-      - name: Validate T2A contracts
+      - name: Validate T2A contracts and new protocols
         run: |
           python -m compileall -q src scripts
-          python -m pytest -q tests/test_ai_post_baseline_validation.py
+          python -m pytest -q \
+            tests/test_ai_post_baseline_validation.py \
+            tests/test_ai_surface_discovery.py \
+            tests/test_ai_content_production.py \
+            tests/test_ai_baseline_handlers.py \
+            tests/test_ai_experiment_contracts.py \
+            tests/test_ai_feature_flags.py \
+            tests/test_ai_storage_runtime.py
 
       - name: Calculate current review metrics
         shell: bash
         run: |
-          args=(--queue "$REVIEW_QUEUE" --output "$REPORT")
+          args=(--queue "$REVIEW_QUEUE" --amendments "$REVIEW_AMENDMENTS" --output "$REPORT")
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.require_complete }}" = "true" ]; then
             args+=(--require-complete)
           fi
@@ -82,11 +118,14 @@ jobs:
               raise SystemExit("T2A deve declarar que não modifica o baseline oficial")
           if report.get("review_units_total") != 18:
               raise SystemExit("a fila inicial deve conter 18 unidades")
+          if report.get("amendments_applied", 0) < 1:
+              raise SystemExit("a emenda metodológica do INA deve ser aplicada")
           print(json.dumps({
               "status": report.get("status"),
               "review_units_total": report.get("review_units_total"),
               "reviewed_units": report.get("reviewed_units"),
               "pending_units": report.get("pending_units"),
+              "amendments_applied": report.get("amendments_applied"),
           }, ensure_ascii=False, indent=2))
           PY
 
@@ -98,4 +137,5 @@ jobs:
           retention-days: 30
           path: |
             data/digital_infrastructure/ai_experiments/t2a_human_review_queue_v1.json
+            data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl
             data/digital_infrastructure/ai_experiments/t2a_validation_report_v1.json
