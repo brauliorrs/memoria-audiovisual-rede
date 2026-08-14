@@ -15,6 +15,7 @@ TASK_ENV_FLAGS: dict[AIExperimentTask, str] = {
     "institutional_ai_use": "MAR_AI_INSTITUTIONAL_USE_ENABLED",
     "audiovisual_collection_detection": "MAR_AI_COLLECTION_DETECTION_ENABLED",
     "public_video_presence_detection": "MAR_AI_VIDEO_PRESENCE_ENABLED",
+    "ai_content_production_detection": "MAR_AI_CONTENT_PRODUCTION_ENABLED",
     "synthetic_video_detection": "MAR_AI_SYNTHETIC_VIDEO_ENABLED",
 }
 
@@ -44,6 +45,7 @@ class AIExperimentFlags:
     institutional_ai_use: bool = False
     audiovisual_collection_detection: bool = False
     public_video_presence_detection: bool = False
+    ai_content_production_detection: bool = False
     synthetic_video_detection: bool = False
 
     def __post_init__(self) -> None:
