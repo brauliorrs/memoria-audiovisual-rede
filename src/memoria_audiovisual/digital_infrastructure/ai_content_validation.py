@@ -101,8 +101,8 @@ CONTROLS: tuple[AIContentValidationControl, ...] = (
         item_url="https://www.rtve.es/play/videos/telediario-1/1-en-cuatro-minutos-12-12-25/16856409/",
         evidence_url="https://www.rtve.es/play/videos/telediario-1/1-en-cuatro-minutos-12-12-25/16856409/",
         evidence_text=(
-            "Telediario 1 en cuatro minutos, 12/12/2025. Resumen informativo de actualidad con ficha técnica, "
-            "sin declaración verificável de IA aplicada a la producción del ítem."
+            "Telediario 1 en cuatro minutos, 12/12/2025. Resumen informativo de actualidad. "
+            "Ficha técnica: género Información y actualidad; idioma Castellano; subtitulado."
         ),
         expected_usage_class="no_verified_ai_evidence",
         language="es",
@@ -118,8 +118,8 @@ CONTROLS: tuple[AIContentValidationControl, ...] = (
         item_url="https://player.bfi.org.uk/free/film/watch-japanese-dancers-1894-online",
         evidence_url="https://player.bfi.org.uk/free/film/watch-japanese-dancers-1894-online",
         evidence_text=(
-            "Japanese Dancers, produced in 1894 for Edison's Kinetoscope; BFI item metadata describes the "
-            "historical production and does not disclose AI involvement in the audiovisual content."
+            "Japanese Dancers. 1894, USA, no dialogue. Three dancers perform for Edison's Kinetoscope "
+            "in W. K. L. Dickson's studio in New Jersey."
         ),
         expected_usage_class="no_verified_ai_evidence",
         language="en",
@@ -135,8 +135,8 @@ CONTROLS: tuple[AIContentValidationControl, ...] = (
         item_url="https://player.bfi.org.uk/free/film/watch-japanese-procession-of-state-1904-online",
         evidence_url="https://player.bfi.org.uk/free/film/watch-japanese-procession-of-state-1904-online",
         evidence_text=(
-            "Japanese Procession of State, issued by the Hepworth Manufacturing Company in 1904; the BFI "
-            "item description contains no verified disclosure of AI involvement in content production."
+            "Japanese Procession of State. Non-Fiction, 1904, United Kingdom, no dialogue. "
+            "A Shinto procession filmed for the Hepworth Manufacturing Company."
         ),
         expected_usage_class="no_verified_ai_evidence",
         language="en",
