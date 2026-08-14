@@ -20,6 +20,7 @@ REVIEW_COLLECTION = "ai_human_reviews"
 DIMENSION_COLLECTIONS: dict[AIExperimentDimension, str] = {
     "institutional_ai_use": "ai_institutional_use",
     "observatory_ai_triage": "ai_observatory_triage",
+    "ai_audiovisual_content_production": "ai_content_production",
     "synthetic_audiovisual_content": "ai_synthetic_audiovisual_content",
 }
 
