@@ -15,6 +15,7 @@ from memoria_audiovisual.digital_infrastructure.ai_post_baseline_validation impo
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--queue", type=Path, required=True)
+    parser.add_argument("--amendments", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument(
         "--require-complete",
@@ -24,15 +25,31 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def _read_jsonl(path: Path | None) -> list[dict]:
+    if path is None or not path.exists():
+        return []
+    rows: list[dict] = []
+    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        value = json.loads(line)
+        if not isinstance(value, dict):
+            raise SystemExit(f"emenda inválida na linha {line_number}")
+        rows.append(value)
+    return rows
+
+
 def main() -> int:
     args = parse_args()
     payload = json.loads(args.queue.read_text(encoding="utf-8"))
     entries = payload.get("entries")
     if not isinstance(entries, list):
         raise SystemExit("fila de revisão sem entries válidas")
-    report = evaluate_human_reviews(entries)
+    amendments = _read_jsonl(args.amendments)
+    report = evaluate_human_reviews(entries, amendments=amendments)
     report["queue_id"] = payload.get("queue_id")
     report["source_run_id"] = payload.get("source_run_id")
+    report["amendments_source"] = str(args.amendments) if args.amendments else None
     report["status"] = (
         "completed_pending_activation_decision"
         if report["pending_units"] == 0
