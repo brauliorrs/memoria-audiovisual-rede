@@ -8,11 +8,12 @@ from typing import Any, Literal
 from .ids import stable_id, version_id
 from .models import utc_now_iso
 
-AI_SCHEMA_VERSION = "1.0.0"
+AI_SCHEMA_VERSION = "1.1.0"
 
 AIExperimentDimension = Literal[
     "institutional_ai_use",
     "observatory_ai_triage",
+    "ai_audiovisual_content_production",
     "synthetic_audiovisual_content",
 ]
 
@@ -20,6 +21,7 @@ AIExperimentTask = Literal[
     "institutional_ai_use",
     "audiovisual_collection_detection",
     "public_video_presence_detection",
+    "ai_content_production_detection",
     "synthetic_video_detection",
 ]
 
@@ -57,9 +59,14 @@ TASK_DIMENSIONS: dict[AIExperimentTask, AIExperimentDimension] = {
     "institutional_ai_use": "institutional_ai_use",
     "audiovisual_collection_detection": "observatory_ai_triage",
     "public_video_presence_detection": "observatory_ai_triage",
+    "ai_content_production_detection": "ai_audiovisual_content_production",
     "synthetic_video_detection": "synthetic_audiovisual_content",
 }
 AI_EXPERIMENT_TASKS: tuple[AIExperimentTask, ...] = tuple(TASK_DIMENSIONS)
+ITEM_LEVEL_AI_TASKS = {
+    "ai_content_production_detection",
+    "synthetic_video_detection",
+}
 
 VALID_STATUSES = {
     "not_executed",
@@ -171,11 +178,11 @@ class AIExperimentRecord:
             raise ValueError("duration_ms não pode ser negativo")
         if self.estimated_cost_usd is not None and self.estimated_cost_usd < 0:
             raise ValueError("estimated_cost_usd não pode ser negativo")
-        if self.task == "synthetic_video_detection" and not any(
+        if self.task in ITEM_LEVEL_AI_TASKS and not any(
             (self.item_id, self.item_version_id, self.segment_id)
         ):
             raise ValueError(
-                "synthetic_video_detection exige item_id, item_version_id ou segment_id"
+                f"{self.task} exige item_id, item_version_id ou segment_id"
             )
         if self.status == "error" and not (self.error_code or self.error_message):
             raise ValueError("registros com status error exigem error_code ou error_message")
