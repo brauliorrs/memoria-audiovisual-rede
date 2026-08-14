@@ -5,10 +5,20 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any, Mapping
 
-from .ai_contracts import AIExperimentTask, AI_EXPERIMENT_TASKS
+from .ai_contracts import AIExperimentTask
 
 AI_VALIDATION_SAMPLE_VERSION = "1.0.0"
 AI_VALIDATION_SAMPLE_ID = "ai-validation-sample-v1"
+
+# A amostra v1 é um artefato histórico versionado. Novas tarefas experimentais
+# não são inseridas retroativamente nela. A dimensão ai_content_production_detection
+# exige uma amostra item/versão/segmento própria.
+INITIAL_VALIDATION_TASKS: tuple[AIExperimentTask, ...] = (
+    "institutional_ai_use",
+    "audiovisual_collection_detection",
+    "public_video_presence_detection",
+    "synthetic_video_detection",
+)
 
 # O corpus atual é majoritariamente europeu. A amostra inicial cobre idiomas,
 # tipos de superfície e o primeiro corpus norte-americano sem alegar
@@ -65,7 +75,7 @@ class AIValidationSampleEntry:
     language_group: str
     geographic_group: str
     analytical_stratum: str
-    selected_tasks: tuple[AIExperimentTask, ...] = AI_EXPERIMENT_TASKS
+    selected_tasks: tuple[AIExperimentTask, ...] = INITIAL_VALIDATION_TASKS
     annotation_status: str = "pending_annotation"
     selection_rationale: str = ""
 
@@ -101,7 +111,8 @@ def build_initial_validation_sample(
             "does_not_activate_indicators": True,
             "selection_limitations": (
                 "Amostra inicial restrita ao corpus ativo atual; não representa ainda "
-                "África, Ásia, Oceania ou América Latina e Caribe."
+                "África, Ásia, Oceania ou América Latina e Caribe. A tarefa de IA na produção "
+                "de conteúdo foi introduzida posteriormente e requer amostra item a item própria."
             ),
         },
         "summary": {
@@ -109,7 +120,7 @@ def build_initial_validation_sample(
             "language_groups": sorted({entry.language_group for entry in entries}),
             "geographic_groups": sorted({entry.geographic_group for entry in entries}),
             "analytical_strata": sorted({entry.analytical_stratum for entry in entries}),
-            "tasks": list(AI_EXPERIMENT_TASKS),
+            "tasks": list(INITIAL_VALIDATION_TASKS),
         },
         "entries": [entry.to_dict() for entry in entries],
     }
