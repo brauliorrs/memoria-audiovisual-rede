@@ -88,6 +88,65 @@ def validate_review_rows(rows: Iterable[Mapping[str, Any]]) -> list[dict[str, An
     return normalized
 
 
+def apply_review_amendments(
+    rows: Iterable[Mapping[str, Any]],
+    amendments: Iterable[Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    """Aplica emendas sem apagar a revisão original.
+
+    A fila original permanece preservada. A projeção usada para métricas recebe a
+    decisão mais recente de cada emenda válida e registra no próprio row quais
+    campos foram substituídos.
+    """
+    data = validate_review_rows(rows)
+    by_id = {str(row["review_unit_id"]): row for row in data}
+    seen_amendments: set[str] = set()
+
+    for position, source in enumerate(amendments, start=1):
+        amendment = {str(key): value for key, value in source.items()}
+        amendment_id = str(amendment.get("amendment_id") or "").strip()
+        unit_id = str(amendment.get("review_unit_id") or "").strip()
+        if not amendment_id:
+            raise ValueError(f"amendment_id ausente na emenda {position}")
+        if amendment_id in seen_amendments:
+            raise ValueError(f"amendment_id duplicado: {amendment_id}")
+        seen_amendments.add(amendment_id)
+        if unit_id not in by_id:
+            raise ValueError(f"emenda referencia review_unit_id inexistente: {unit_id}")
+
+        label = str(amendment.get("human_label") or "").strip().lower()
+        if label not in VALID_HUMAN_LABELS:
+            raise ValueError(f"human_label inválido na emenda {amendment_id}: {label}")
+        reviewer_id = str(amendment.get("reviewer_id") or "").strip()
+        reviewed_at = str(amendment.get("reviewed_at") or "").strip()
+        if not reviewer_id or not reviewed_at:
+            raise ValueError(f"emenda {amendment_id} exige reviewer_id e reviewed_at")
+
+        row = by_id[unit_id]
+        prior_label = str(row.get("human_label") or "").strip().lower()
+        declared_prior = str(amendment.get("previous_human_label") or "").strip().lower()
+        if declared_prior and declared_prior != prior_label:
+            raise ValueError(
+                f"emenda {amendment_id} esperava label anterior {declared_prior}, encontrado {prior_label}"
+            )
+
+        row["human_label_original"] = row.get("human_label")
+        row["human_decision_original"] = row.get("human_decision")
+        row["reviewed_at_original"] = row.get("reviewed_at")
+        row["human_label"] = label
+        row["human_decision"] = amendment.get("human_decision")
+        row["reviewer_id"] = reviewer_id
+        row["reviewed_at"] = reviewed_at
+        if amendment.get("validation_url"):
+            row["validation_url"] = amendment.get("validation_url")
+        row["applied_amendment_id"] = amendment_id
+        row["amendment_reason"] = amendment.get("amendment_reason")
+        row["temporal_relation"] = amendment.get("temporal_relation")
+        row["review_status"] = "corrected"
+
+    return data
+
+
 def _binary_metrics(rows: Iterable[Mapping[str, Any]]) -> BinaryMetrics:
     tp = fp = tn = fn = 0
     for row in rows:
@@ -116,8 +175,17 @@ def _group_metrics(rows: list[dict[str, Any]], key: str) -> dict[str, dict[str, 
     return {name: _binary_metrics(group).to_dict() for name, group in sorted(groups.items())}
 
 
-def evaluate_human_reviews(rows: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
-    data = validate_review_rows(rows)
+def evaluate_human_reviews(
+    rows: Iterable[Mapping[str, Any]],
+    *,
+    amendments: Iterable[Mapping[str, Any]] = (),
+) -> dict[str, Any]:
+    amendment_list = list(amendments)
+    data = (
+        apply_review_amendments(rows, amendment_list)
+        if amendment_list
+        else validate_review_rows(rows)
+    )
     reviewed = [row for row in data if _is_reviewed(row)]
     pending = [row for row in data if not _is_reviewed(row)]
     tasks = sorted({str(row.get("task") or "unknown") for row in data})
@@ -126,13 +194,14 @@ def evaluate_human_reviews(rows: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
         for task in tasks
     }
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "stage": "t2a_post_baseline_validation",
         "official_baseline_dependency": False,
         "does_not_modify_official_baseline": True,
         "review_units_total": len(data),
         "reviewed_units": len(reviewed),
         "pending_units": len(pending),
+        "amendments_applied": len(amendment_list),
         "ambiguous_or_not_assessable": sum(
             str(row.get("human_label") or "").lower() in {"ambiguous", "not_assessable"}
             for row in reviewed
