@@ -85,6 +85,22 @@ _COPY = {
             "Condições de acesso são registradas separadamente, por exemplo: open_online, geo_restricted, "
             "paid, registration_required, restricted_online e onsite_only."
         ),
+        "content_ai": "4. IA na produção do conteúdo",
+        "content_ai_text": (
+            "Esta dimensão é independente do uso institucional de IA. A unidade é o item, versão ou segmento audiovisual. "
+            "A plataforma distingue: sem evidência verificável, produção assistida por IA, modificação material por IA, "
+            "conteúdo parcialmente sintético e conteúdo integralmente sintético."
+        ),
+        "content_ai_evidence": (
+            "Uma classificação positiva exige evidência verificável, como declaração institucional/do produtor, "
+            "proveniência estruturada ou metadados técnicos. Aparência visual ou score de detector, isoladamente, "
+            "não são suficientes para publicação científica."
+        ),
+        "content_ai_metrics": (
+            "A quantificação usa os itens avaliáveis como denominador e calcula a proporção com qualquer evidência de IA, "
+            "a proporção materialmente alterada por IA e a proporção de conteúdo sintético, com cortes por instituição, "
+            "língua e período."
+        ),
         "metrics": "Como o desempenho é calculado",
         "metrics_text": (
             "Somente pares binários comparáveis entram na matriz de confusão. A plataforma calcula verdadeiros "
@@ -119,6 +135,10 @@ _COPY = {
         "q3_yes": "Yes: a working player, direct playback link, or external embed starts the content. Geoblocking can remain Yes when public playback is verified in another region and the condition is recorded.",
         "q3_no": "No: only records or thumbnails exist, or playback requires a formal request, onsite access, registration/login, non-public authentication, or is broken.",
         "access": "Access conditions are stored separately, including open_online, geo_restricted, paid, registration_required, restricted_online, and onsite_only.",
+        "content_ai": "4. AI in content production",
+        "content_ai_text": "This dimension is independent from institutional AI use. The unit is an audiovisual item, version, or segment. Classes distinguish no verified evidence, AI-assisted production, material AI modification, partially synthetic content, and fully synthetic content.",
+        "content_ai_evidence": "A positive classification requires verifiable evidence such as a creator/institutional disclosure, structured provenance, or technical metadata. Visual appearance or a detector score alone is insufficient for scientific publication.",
+        "content_ai_metrics": "Quantification uses evaluable items as the denominator and reports the share with any AI evidence, the materially AI-changed share, and the synthetic-content share, with cuts by institution, language, and period.",
         "metrics": "How performance is calculated",
         "metrics_text": "Only comparable binary pairs enter the confusion matrix. Precision, recall, F1, false positives, and false negatives are reported by task, language, geography, and institutional type.",
         "separation": "These metrics and the expanded surface exploration assess experimental components and do not change the T2 operational baseline, its 55 corpora, or its nine official indicators.",
@@ -146,6 +166,10 @@ _COPY = {
         "q3_yes": "Sí: existe un reproductor funcional, enlace directo o inserción externa. El geobloqueo puede seguir siendo Sí cuando la reproducción pública se confirma en otra región y se registra la condición.",
         "q3_no": "No: solo existen fichas o miniaturas, o la reproducción exige solicitud formal, acceso presencial, registro/login, autenticación no pública o está rota.",
         "access": "Las condiciones de acceso se registran por separado: open_online, geo_restricted, paid, registration_required, restricted_online y onsite_only.",
+        "content_ai": "4. IA en la producción del contenido",
+        "content_ai_text": "Esta dimensión es independiente del uso institucional de IA. La unidad es el ítem, versión o segmento audiovisual. Se distinguen: sin evidencia verificada, producción asistida por IA, modificación material por IA, contenido parcialmente sintético y contenido totalmente sintético.",
+        "content_ai_evidence": "Una clasificación positiva requiere evidencia verificable, como declaración institucional/del productor, procedencia estructurada o metadatos técnicos. La apariencia visual o el score de un detector, por sí solos, no bastan para publicación científica.",
+        "content_ai_metrics": "La cuantificación usa los ítems evaluables como denominador y calcula la proporción con cualquier evidencia de IA, la proporción materialmente modificada por IA y la proporción de contenido sintético, con cortes por institución, idioma y período.",
         "metrics": "Cómo se calcula el desempeño",
         "metrics_text": "Solo los pares binarios comparables entran en la matriz de confusión. Se calculan precisión, exhaustividad, F1, falsos positivos y falsos negativos por tarea, idioma, geografía y tipo institucional.",
         "separation": "Estas métricas y la exploración ampliada evalúan componentes experimentales y no modifican la línea base T2, sus 55 corpus ni sus nueve indicadores oficiales.",
@@ -170,6 +194,10 @@ def render_t2a_methodology_panel(*, language: str = "pt") -> None:
             st.write(text[prefix + "_yes"])
             st.write(text[prefix + "_no"])
         st.caption(text["access"])
+        st.markdown(f"#### {text['content_ai']}")
+        st.write(text["content_ai_text"])
+        st.write(text["content_ai_evidence"])
+        st.caption(text["content_ai_metrics"])
         st.markdown(f"#### {text['metrics']}")
         st.write(text["metrics_text"])
         st.warning(text["separation"])
