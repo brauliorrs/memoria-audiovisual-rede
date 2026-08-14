@@ -6,7 +6,12 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from time import perf_counter
 
-from .ai_contracts import AIExperimentRecord, AIExperimentTask, AI_EXPERIMENT_TASKS
+from .ai_contracts import (
+    AIExperimentRecord,
+    AIExperimentTask,
+    AI_EXPERIMENT_TASKS,
+    ITEM_LEVEL_AI_TASKS,
+)
 from .ai_flags import AIExperimentFlags
 from .ai_storage import AIExperimentStore
 
@@ -48,7 +53,7 @@ class AIShadowRunner:
     def run(self, context: AIExperimentContext) -> tuple[AIExperimentRecord, ...]:
         records: list[AIExperimentRecord] = []
         for task in self.flags.enabled_tasks:
-            if task == "synthetic_video_detection" and not any(
+            if task in ITEM_LEVEL_AI_TASKS and not any(
                 (context.item_id, context.item_version_id, context.segment_id)
             ):
                 continue
