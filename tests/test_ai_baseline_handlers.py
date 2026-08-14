@@ -9,6 +9,35 @@ from memoria_audiovisual.digital_infrastructure.ai_runtime import (
 from memoria_audiovisual.digital_infrastructure.ai_storage import AIExperimentStore
 
 
+def _run_institutional_ai(tmp_path, text):
+    output_file = tmp_path / "sample.json"
+    output_file.write_text(text, encoding="utf-8")
+    handlers = build_entity_baseline_handlers(
+        corpus_definition={
+            "code": "example",
+            "source_url": "https://example.org",
+            "output_files": {"sample": output_file.name},
+        },
+        snapshot_metadata={"observation_key": "obs-1", "counts": {}},
+        output_dir=tmp_path,
+    )
+    flags = AIExperimentFlags(
+        experiments_enabled=True,
+        institutional_ai_use=True,
+    )
+    return AIShadowRunner(
+        flags=flags,
+        store=AIExperimentStore(tmp_path / "ai"),
+        handlers=handlers,
+    ).run(
+        AIExperimentContext(
+            run_id="run-1",
+            entity_id="example",
+            observation_id="obs-1",
+        )
+    )[0]
+
+
 def test_deterministic_baselines_collect_reviewable_signals(tmp_path):
     output_file = tmp_path / "sample.json"
     output_file.write_text(
@@ -56,6 +85,25 @@ def test_deterministic_baselines_collect_reviewable_signals(tmp_path):
     ]
     assert all(record.model.model_name == "deterministic-evidence-baseline" for record in records)
     assert all(record.human_review_status == "pending" for record in records)
+
+
+def test_institutional_ai_requires_collection_and_operational_context(tmp_path):
+    record = _run_institutional_ai(
+        tmp_path,
+        '{"news":"The institution organised a public debate about artificial intelligence and society."}',
+    )
+    assert record.status == "not_identified_on_assessed_surfaces"
+    assert record.prediction is None
+
+
+def test_institutional_ai_accepts_explicit_archive_operation_context(tmp_path):
+    record = _run_institutional_ai(
+        tmp_path,
+        '{"project":"Intelligence artificielle pour la transcription et la segmentation des archives audiovisuelles."}',
+    )
+    assert record.status == "detected_pending_review"
+    assert record.prediction == "public_institutional_ai_signal"
+    assert "operation-context:transcription" in (record.evidence[0].excerpt or "")
 
 
 def test_corpus_policy_text_is_not_used_as_observed_evidence(tmp_path):
