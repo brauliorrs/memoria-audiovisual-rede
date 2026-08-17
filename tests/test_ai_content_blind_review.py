@@ -3,9 +3,13 @@ from collections import Counter
 from pathlib import Path
 
 from scripts.assess_ai_content_blind_queue import assess_unit
+from scripts.evaluate_ai_content_blind_review import evaluate_blind_review
 
 QUEUE = Path(
     "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json"
+)
+HUMAN_REVIEWS = Path(
+    "data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1.jsonl"
 )
 
 
@@ -70,3 +74,49 @@ def test_metadata_triage_keeps_animation_distinct_from_ai():
     )
     assert prediction["predicted_usage_class"] == "no_verified_ai_evidence"
     assert prediction["predicted_positive"] is False
+
+
+def test_completed_blind_review_reports_negative_only_limitation():
+    queue = load_queue()
+    records = [
+        json.loads(line)
+        for line in HUMAN_REVIEWS.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    latest = {str(row["review_unit_id"]): row for row in records}
+    predictions = [
+        assess_unit(
+            unit,
+            fetch_surfaces=False,
+            surface_output_dir=Path("data/output"),
+            run_id="test",
+        )
+        for unit in queue["units"]
+    ]
+    report = evaluate_blind_review(
+        queue=queue,
+        human_records=records,
+        human_latest=latest,
+        predictions={
+            "prediction_set_id": "test",
+            "assessment_stage": "metadata_triage",
+            "predictions": predictions,
+        },
+    )
+    assert report["pending_units"] == 0
+    assert report["human_positive"] == 0
+    assert report["human_negative"] == 12
+    assert report["binary"]["confusion_matrix"] == {
+        "true_positive": 0,
+        "false_positive": 0,
+        "true_negative": 12,
+        "false_negative": 0,
+    }
+    assert report["binary"]["accuracy"] == 1.0
+    assert report["binary"]["precision"] is None
+    assert report["binary"]["recall"] is None
+    assert report["binary"]["f1"] is None
+    assert report["exact_class_accuracy"] == 1.0
+    assert report["scientific_interpretation"]["negative_only_real_corpus_sample"] is True
+    assert report["scientific_interpretation"]["positive_recall_estimable_from_this_sample"] is False
+    assert report["scientific_interpretation"]["next_requirement"] == "blind_positive_challenge_extension"
