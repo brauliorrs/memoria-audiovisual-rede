@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "ai-content-blind-comparison-v1",
+  "queue_id": "ai-content-blind-review-v1",
+  "prediction_set_id": "ai-content-blind-predictions-v1",
+  "assessment_stage": "metadata_triage",
+  "status": "completed_negative_only_challenge_sample",
+  "is_prevalence_sample": false,
+  "does_not_modify_official_baseline": true,
+  "queue_units_total": 12,
+  "compared_units": 12,
+  "pending_units": 0,
+  "human_positive": 0,
+  "human_negative": 12,
+  "not_assessable": 0,
+  "binary": {
+    "evaluated": 12,
+    "confusion_matrix": {
+      "true_positive": 0,
+      "false_positive": 0,
+      "true_negative": 12,
+      "false_negative": 0
+    },
+    "accuracy": 1.0,
+    "precision": null,
+    "recall": null,
+    "f1": null
+  },
+  "exact_class_accuracy": 1.0,
+  "scientific_interpretation": {
+    "zero_divergences": true,
+    "negative_only_real_corpus_sample": true,
+    "supports_specificity_on_observed_negatives": true,
+    "positive_recall_estimable_from_this_sample": false,
+    "prevalence_estimable_from_this_sample": false,
+    "next_requirement": "blind_positive_challenge_extension",
+    "note": "A concordância perfeita nesta amostra real demonstra ausência de falsos positivos nos 12 negativos observados, mas não permite estimar sensibilidade/recall para casos positivos. O benchmark controlado positivo-negativo permanece evidência complementar, não substituta de uma extensão cega real enriquecida com potenciais positivos."
+  }
+}
