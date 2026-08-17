@@ -18,6 +18,7 @@ on:
       - "scripts/evaluate_ai_post_baseline.py"
       - "scripts/build_ai_content_validation_sample.py"
       - "scripts/assess_ai_content_blind_queue.py"
+      - "scripts/evaluate_ai_content_blind_review.py"
       - "tests/test_ai_post_baseline_validation.py"
       - "tests/test_ai_surface_discovery.py"
       - "tests/test_ai_content_production.py"
@@ -32,6 +33,7 @@ on:
       - "data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json"
       - "data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json"
       - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1.jsonl"
   pull_request:
     paths:
       - ".github/workflows/t2a-ai-post-baseline-validation.yml"
@@ -47,6 +49,7 @@ on:
       - "scripts/evaluate_ai_post_baseline.py"
       - "scripts/build_ai_content_validation_sample.py"
       - "scripts/assess_ai_content_blind_queue.py"
+      - "scripts/evaluate_ai_content_blind_review.py"
       - "tests/test_ai_post_baseline_validation.py"
       - "tests/test_ai_surface_discovery.py"
       - "tests/test_ai_content_production.py"
@@ -61,6 +64,7 @@ on:
       - "data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json"
       - "data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json"
       - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1.jsonl"
   workflow_dispatch:
     inputs:
       require_complete:
@@ -87,7 +91,9 @@ jobs:
       CONTENT_SAMPLE: data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json
       CONTENT_REPORT: data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json
       CONTENT_BLIND_QUEUE: data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json
-      CONTENT_BLIND_PREDICTIONS: /tmp/ai_content_blind_predictions_v1.json
+      CONTENT_BLIND_HUMAN: data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1.jsonl
+      CONTENT_BLIND_PREDICTIONS: data/digital_infrastructure/ai_experiments/ai_content_blind_predictions_ci_v1.json
+      CONTENT_BLIND_REPORT: data/digital_infrastructure/ai_experiments/ai_content_blind_comparison_report_v1.json
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -151,6 +157,15 @@ jobs:
           }, ensure_ascii=False, indent=2))
           PY
 
+      - name: Compare blind content-AI predictions with human review
+        run: |
+          python scripts/evaluate_ai_content_blind_review.py \
+            --queue "$CONTENT_BLIND_QUEUE" \
+            --human-reviews "$CONTENT_BLIND_HUMAN" \
+            --predictions "$CONTENT_BLIND_PREDICTIONS" \
+            --output "$CONTENT_BLIND_REPORT" \
+            --require-complete
+
       - name: Calculate current review metrics
         shell: bash
         run: |
@@ -169,6 +184,7 @@ jobs:
 
           report = json.loads(Path(os.environ["REPORT"]).read_text(encoding="utf-8"))
           content_report = json.loads(Path(os.environ["CONTENT_REPORT"]).read_text(encoding="utf-8"))
+          blind_report = json.loads(Path(os.environ["CONTENT_BLIND_REPORT"]).read_text(encoding="utf-8"))
           if report.get("official_baseline_dependency") is not False:
               raise SystemExit("T2A não pode depender do baseline como entrada mutável")
           if report.get("does_not_modify_official_baseline") is not True:
@@ -184,6 +200,19 @@ jobs:
               raise SystemExit("o benchmark item a item de referência contém erro binário")
           if content_report.get("exact_class_accuracy") != 1.0:
               raise SystemExit("as classes do benchmark item a item não estão calibradas")
+          blind_binary = blind_report.get("binary") or {}
+          blind_confusion = blind_binary.get("confusion_matrix") or {}
+          if blind_report.get("compared_units") != 12 or blind_report.get("pending_units") != 0:
+              raise SystemExit("a revisão cega real v1 deve comparar 12 de 12 itens")
+          if blind_confusion.get("true_negative") != 12:
+              raise SystemExit("a amostra cega real v1 deve preservar os 12 negativos humanos observados")
+          if blind_confusion.get("false_positive") != 0 or blind_confusion.get("false_negative") != 0:
+              raise SystemExit("a amostra cega real v1 contém divergência binária")
+          interpretation = blind_report.get("scientific_interpretation") or {}
+          if interpretation.get("positive_recall_estimable_from_this_sample") is not False:
+              raise SystemExit("não se pode estimar recall positivo sem positivos humanos na amostra cega")
+          if interpretation.get("next_requirement") != "blind_positive_challenge_extension":
+              raise SystemExit("a próxima exigência deve ser extensão cega com positivos")
           print(json.dumps({
               "status": report.get("status"),
               "review_units_total": report.get("review_units_total"),
@@ -192,6 +221,10 @@ jobs:
               "amendments_applied": report.get("amendments_applied"),
               "content_ai_controls": content_report.get("controls"),
               "content_ai_exact_class_accuracy": content_report.get("exact_class_accuracy"),
+              "blind_content_units": blind_report.get("compared_units"),
+              "blind_content_true_negatives": blind_confusion.get("true_negative"),
+              "blind_content_accuracy": blind_binary.get("accuracy"),
+              "blind_positive_recall_estimable": interpretation.get("positive_recall_estimable_from_this_sample"),
           }, ensure_ascii=False, indent=2))
           PY
 
@@ -208,3 +241,6 @@ jobs:
             data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json
             data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json
             data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json
+            data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1.jsonl
+            data/digital_infrastructure/ai_experiments/ai_content_blind_predictions_ci_v1.json
+            data/digital_infrastructure/ai_experiments/ai_content_blind_comparison_report_v1.json
