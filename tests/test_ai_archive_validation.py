@@ -38,6 +38,22 @@ def test_general_archive_page_is_not_item_level_observation():
     assert result.is_archive_ai_positive is False
 
 
+def test_indexed_item_without_public_surface_is_not_archive_positive():
+    terminology = classify_ai_content_usage(
+        entity_id="nfsa",
+        item_id="indexed-but-unavailable",
+        texts=["The audiovisual work used generative AI in production."],
+    )
+    result = validate_ai_use_in_observed_archive(
+        terminology,
+        item_in_observed_corpus=True,
+        public_surface_accessible=False,
+        evidence_linked_to_item=True,
+    )
+    assert result.status == "public_surface_unavailable"
+    assert result.is_archive_ai_positive is False
+
+
 def test_institution_ai_article_without_item_link_is_not_archive_positive():
     terminology = classify_ai_content_usage(
         entity_id="example",
@@ -47,13 +63,14 @@ def test_institution_ai_article_without_item_link_is_not_archive_positive():
     result = validate_ai_use_in_observed_archive(
         terminology,
         item_in_observed_corpus=True,
+        public_surface_accessible=True,
         evidence_linked_to_item=False,
     )
     assert result.status == "evidence_not_linked_to_item"
     assert result.is_archive_ai_positive is False
 
 
-def test_only_two_positive_gates_confirm_ai_in_archive():
+def test_only_all_positive_conditions_confirm_ai_in_archive():
     terminology = classify_ai_content_usage(
         entity_id="example",
         item_id="item-2",
@@ -62,6 +79,7 @@ def test_only_two_positive_gates_confirm_ai_in_archive():
     result = validate_ai_use_in_observed_archive(
         terminology,
         item_in_observed_corpus=True,
+        public_surface_accessible=True,
         evidence_linked_to_item=True,
     )
     assert result.status == "confirmed_ai_use_in_observed_archive"
@@ -77,13 +95,14 @@ def test_gate2_is_not_run_as_positive_when_gate1_is_negative():
     result = validate_ai_use_in_observed_archive(
         terminology,
         item_in_observed_corpus=True,
+        public_surface_accessible=True,
         evidence_linked_to_item=True,
     )
     assert result.status == "gate1_terminology_not_positive"
     assert result.is_archive_ai_positive is False
 
 
-def test_unknown_membership_or_link_is_not_assessable():
+def test_unknown_membership_access_or_link_is_not_assessable():
     terminology = classify_ai_content_usage(
         entity_id="example",
         item_id="item-4",
@@ -92,7 +111,16 @@ def test_unknown_membership_or_link_is_not_assessable():
     result = validate_ai_use_in_observed_archive(
         terminology,
         item_in_observed_corpus=None,
+        public_surface_accessible=True,
         evidence_linked_to_item=True,
     )
     assert result.status == "not_assessable"
     assert result.is_archive_ai_positive is False
+
+    result = validate_ai_use_in_observed_archive(
+        terminology,
+        item_in_observed_corpus=True,
+        public_surface_accessible=None,
+        evidence_linked_to_item=True,
+    )
+    assert result.status == "not_assessable"
