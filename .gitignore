@@ -8,6 +8,7 @@ data/output/*
 !data/output/.gitkeep
 !data/output/*.csv
 !data/output/*.json
+!data/output/*.jsonl
 !data/output/*.md
 !data/output/*.txt
 !data/output/*.xlsx
