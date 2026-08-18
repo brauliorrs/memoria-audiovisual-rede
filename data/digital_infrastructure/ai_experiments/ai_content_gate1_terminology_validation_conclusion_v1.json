@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "conclusion_id": "ai-content-gate1-terminology-validation-conclusion-v1",
+  "protocol_scope": "terminological_contextual_identification_of_ai_in_audiovisual_production",
+  "decision_date": "2026-08-18",
+  "status": "validated_for_current_protocol_version",
+  "does_not_validate_ai_presence_in_archive": true,
+  "does_not_modify_official_baseline": true,
+  "evidence_basis": {
+    "controlled_reference_benchmark": {
+      "controls": 6,
+      "positive_controls": 3,
+      "negative_controls": 3,
+      "binary_false_positive": 0,
+      "binary_false_negative": 0,
+      "exact_class_accuracy": 1.0,
+      "interpretation": "calibration/reference behavior only; not prevalence"
+    },
+    "blind_real_corpus_negative_challenge": {
+      "units": 12,
+      "human_negative": 12,
+      "true_negative": 12,
+      "false_positive": 0,
+      "interpretation": "supports specificity on observed negative challenge cases; does not estimate positive recall"
+    },
+    "supplementary_positive_terminology_controls": {
+      "human_reviewed_before_scope_refinement": 3,
+      "items": ["bfi-about-a-hero-2024", "bfi-here-2024", "bfi-better-man-2024"],
+      "interpretation": "preserved as terminology/context controls only; not archive occurrences"
+    }
+  },
+  "scientific_decision": "Gate 1 is considered calibrated for the current deterministic protocol and may be used to generate candidate items for Gate 2. No Gate 1 positive may be published or counted as AI use in an archive without Gate 2 confirmation.",
+  "next_stage": "gate2_archive_membership_and_item_evidence_link_validation",
+  "final_positive_rule": "gate1_positive AND item_in_observed_corpus AND evidence_linked_to_item"
+}
