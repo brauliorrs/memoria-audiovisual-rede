@@ -40,6 +40,23 @@ Antes de classificar uma diferença como empírica, o comparador deve verificar:
 
 Qualquer bloqueio nos itens anteriores impede uma conclusão empírica automática.
 
+## Perda de acesso público e retração digital
+
+Para superfícies e itens públicos, a comparação deve preservar explicitamente o estado de acesso anterior e posterior.
+
+Uma `digital_retraction` exige simultaneamente:
+
+1. evidência de que a superfície/item era publicamente acessível no snapshot anterior;
+2. evidência de que deixou de estar publicamente acessível no snapshot posterior;
+3. ausência de uma superfície pública equivalente substituta identificada;
+4. exclusão de falha pontual de coleta, bloqueio apenas ao robô ou indisponibilidade transitória como explicação suficiente.
+
+Se o item nunca teve acesso público comprovado, a comparação deve produzir limitação de acesso, não retração.
+
+Se o item migrou para outra URL pública equivalente, deve produzir `relocated_or_migrated`, não retração.
+
+O mecanismo técnico observado e a causa institucional devem permanecer separados. HTTP 404/410, redirecionamento para homepage, login obrigatório, georrestrição, barreira de direitos ou erro de servidor descrevem estados observáveis; somente uma declaração verificável permite atribuir motivo institucional. A política detalhada está em `access_loss_diagnostics.md`.
+
 ## Tecnologias, fornecedores e contratos
 
 Detecção técnica isolada não basta para declarar troca de fornecedor, encerramento contratual ou retirada definitiva de tecnologia. Mudanças contratuais exigem fonte documental compatível. Valores devem preservar moeda, data de referência e natureza da alteração.
