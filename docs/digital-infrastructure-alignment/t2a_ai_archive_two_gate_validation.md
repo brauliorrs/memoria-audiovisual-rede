@@ -43,6 +43,20 @@ Estados operacionais da Porta 2:
 - `evidence_not_linked_to_item` — a instituição fala de IA, mas a evidência não está vinculada ao item do corpus;
 - `not_assessable` — natureza da unidade, pertencimento ou vínculo não puderam ser avaliados.
 
+## Indexação, acesso público e avaliabilidade são dimensões distintas
+
+A presença de um registro na busca de uma plataforma não implica que exista uma ficha pública acessível para esse registro. O MAR deve separar, no mínimo, três estados:
+
+1. `indexed_or_discoverable_in_archive` — o registro pode ser localizado na busca, índice, API ou produto materializado do arquivo;
+2. `public_item_surface_status` — a ficha/superfície pública específica do item está acessível, indisponível, removida, redirecionada ou restrita;
+3. `ai_evidence_assessable` — há documentação pública suficiente para avaliar a existência de evidência de IA ligada ao item.
+
+Assim, um item pode estar **indexado no arquivo e simultaneamente indisponível ao público**. Nesse caso, o MAR pode preservar evidência de pertencimento/indexação, mas a classificação de IA permanece `not_assessable` quando a superfície necessária para verificar a evidência não estiver disponível.
+
+Falha de acesso, página removida, redirecionamento para a homepage ou restrição pública **não equivalem a ausência de IA** e não podem ser convertidos em `no_verified_ai_evidence`.
+
+Essa separação também é importante para análises futuras de retração digital: o desaparecimento de uma superfície pública pode ser um evento longitudinal relevante, distinto do conteúdo semântico do registro.
+
 ## Consequência para artigos e páginas institucionais sobre IA
 
 Uma matéria institucional que discuta filmes produzidos com IA é válida para calibrar a **Porta 1**. Entretanto, ela não demonstra por si só presença de IA no acervo.
@@ -57,15 +71,18 @@ Assim, o MAR evita transformar "a instituição fala sobre IA" em "o acervo cont
 2. aplicar a Porta 1 automaticamente sobre registros materializados dos corpora ativos;
 3. gerar uma fila de candidatos exclusivamente a partir dos produtos reais do corpus;
 4. confirmar que cada candidato corresponde a item/versão/segmento audiovisual elegível;
-5. validar pertencimento e vínculo item-evidência na Porta 2;
-6. comparar decisão automática e revisão humana em amostra cega;
-7. somente então habilitar quantificação de IA no acervo.
+5. registrar separadamente indexação/descoberta, acesso público e avaliabilidade da evidência;
+6. validar pertencimento e vínculo item-evidência na Porta 2;
+7. comparar decisão automática e revisão humana em amostra cega;
+8. somente então habilitar quantificação de IA no acervo.
 
 ## Situação das amostras já executadas
 
 O benchmark controlado 3×3, a amostra cega de 12 negativos reais e os controles positivos externos/institucionais pertencem à calibração da **Porta 1**.
 
-A fila `ai_content_blind_positive_challenge_v1.json` foi interrompida como validação de acervo após refinamento metodológico. Os julgamentos já registrados permanecem preservados como controles terminológicos; não podem ser apresentados como ocorrências de IA no acervo.
+A fila `ai_content_blind_positive_challenge_v1.json` foi concluída como validação terminológica/contextual: quatro controles ficaram avaliáveis e positivos; dois controles do NFSA ficaram `not_assessable` por indisponibilidade das superfícies públicas específicas. Esses dois casos são limitações de acesso/avaliabilidade, não resultados terminológicos negativos.
+
+Os julgamentos já registrados permanecem preservados como controles terminológicos e não podem ser apresentados como ocorrências de IA no acervo.
 
 A Porta 2 deve começar com itens originados nos arquivos e registros efetivamente materializados pelos coletores do MAR.
 
@@ -74,6 +91,8 @@ A Porta 2 deve começar com itens originados nos arquivos e registros efetivamen
 Os indicadores `share_with_ai_evidence`, `share_materially_ai_changed` e `share_synthetic` só poderão usar observações com `confirmed_ai_use_in_observed_archive`.
 
 Controles terminológicos externos, notícias, artigos institucionais, páginas gerais e itens fora do corpus não entram no numerador nem no denominador de prevalência do acervo.
+
+Itens indexados mas sem superfície pública avaliável devem ser contabilizados separadamente como limitação de acesso/avaliabilidade e não como negativos.
 
 ## Relação com T2
 
