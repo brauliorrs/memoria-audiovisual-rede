@@ -34,7 +34,9 @@ def test_candidates_are_created_only_from_materialized_active_corpus_records(tmp
     assert candidate["entity_id"] == "bfi"
     assert candidate["source_output_file"] == "bfi_links_video.csv"
     assert candidate["gate1_terminology_context_positive"] is True
+    assert candidate["human_is_item_level_observation"] is None
     assert candidate["human_item_in_observed_corpus"] is None
+    assert candidate["human_public_surface_accessible"] is None
     assert candidate["human_evidence_linked_to_item"] is None
     assert candidate["human_archive_ai_label"] is None
 
