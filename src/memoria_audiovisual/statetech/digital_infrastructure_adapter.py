@@ -130,14 +130,9 @@ def _make_detection(
         "supporting_source": None,
     }
 
-    natural_key = "|".join(
-        (
-            observation_id,
-            detector_id,
-            detected_value,
-        )
-    )
+    natural_key = "|".join((observation_id, detector_id, detected_value))
     entity_id = stable_id(ENTITY_TYPE, natural_key)
+    evidence_id = stable_id("evidence", natural_key)
     evidence = EvidenceRecord(
         evidence_url=evidence_url,
         evidence_type=detector_group,
@@ -155,8 +150,8 @@ def _make_detection(
             "detector_version": DETECTOR_VERSION,
             "detection_status": detection_status,
         },
+        evidence_id=evidence_id,
     )
-    evidence_id = str(evidence.to_dict()["evidence_id"])
     provenance = ProvenanceRecord(
         provenance_id=stable_id("provenance", natural_key),
         entity_type=ENTITY_TYPE,
