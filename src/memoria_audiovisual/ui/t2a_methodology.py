@@ -1,7 +1,8 @@
 """Painel metodológico público do T2A.
 
-A interface resume o protocolo canônico documentado em
-``docs/digital-infrastructure-alignment/t2a_ai_post_baseline_validation.md``.
+A interface resume os protocolos canônicos documentados em
+``docs/digital-infrastructure-alignment/t2a_ai_post_baseline_validation.md`` e
+``docs/digital-infrastructure-alignment/t2a_ai_archive_two_gate_validation.md``.
 Não apresenta previsões experimentais como resultados oficiais.
 """
 
@@ -96,10 +97,36 @@ _COPY = {
             "proveniência estruturada ou metadados técnicos. Aparência visual ou score de detector, isoladamente, "
             "não são suficientes para publicação científica."
         ),
+        "two_gate": "Validação sequencial em duas portas",
+        "gate1": (
+            "Porta 1 — identificação terminológica/contextual: verifica se a documentação contém evidência "
+            "verificável de participação de IA na produção ou modificação de conteúdo audiovisual. Um positivo "
+            "nesta etapa não significa que IA foi encontrada no acervo observado."
+        ),
+        "gate2": (
+            "Porta 2 — validação no acervo: exige que a unidade seja um item, versão ou segmento audiovisual, "
+            "pertença ao corpus observado, possua superfície pública acessível e tenha a evidência de IA "
+            "inequivocamente vinculada ao próprio item."
+        ),
+        "gate_rule": (
+            "Uma ocorrência só é contabilizada como IA no acervo quando todas as condições são satisfeitas: "
+            "Porta 1 positiva + unidade audiovisual válida + pertencimento ao corpus + acesso público + vínculo da evidência."
+        ),
+        "public_access": "Acesso público como requisito de elegibilidade",
+        "public_access_text": (
+            "Estar indexado, listado em busca, API ou produto coletado não basta. Para os indicadores de IA no acervo, "
+            "o item precisa possuir uma superfície pública específica e acessível. Um item indexado mas inacessível "
+            "fica fora do universo avaliável e não é convertido em ausência de IA."
+        ),
+        "retraction": (
+            "Retração digital é tratada apenas como mudança longitudinal quando existe evidência de que uma superfície "
+            "antes pública deixou de estar acessível. Migração para nova URL não é retração. O MAR registra o mecanismo "
+            "observável da inacessibilidade e só atribui causa institucional quando houver evidência explícita."
+        ),
         "content_ai_metrics": (
-            "A quantificação usa os itens avaliáveis como denominador e calcula a proporção com qualquer evidência de IA, "
-            "a proporção materialmente alterada por IA e a proporção de conteúdo sintético, com cortes por instituição, "
-            "língua e período."
+            "A quantificação usa somente itens elegíveis e avaliáveis confirmados pela sequência de validação. "
+            "Controles terminológicos, notícias, páginas gerais e itens sem superfície pública não entram como ocorrências "
+            "de IA no acervo."
         ),
         "metrics": "Como o desempenho é calculado",
         "metrics_text": (
@@ -138,7 +165,14 @@ _COPY = {
         "content_ai": "4. AI in content production",
         "content_ai_text": "This dimension is independent from institutional AI use. The unit is an audiovisual item, version, or segment. Classes distinguish no verified evidence, AI-assisted production, material AI modification, partially synthetic content, and fully synthetic content.",
         "content_ai_evidence": "A positive classification requires verifiable evidence such as a creator/institutional disclosure, structured provenance, or technical metadata. Visual appearance or a detector score alone is insufficient for scientific publication.",
-        "content_ai_metrics": "Quantification uses evaluable items as the denominator and reports the share with any AI evidence, the materially AI-changed share, and the synthetic-content share, with cuts by institution, language, and period.",
+        "two_gate": "Sequential two-gate validation",
+        "gate1": "Gate 1 — terminology/context identification: verifies whether the documentation contains verifiable evidence that AI participated in producing or modifying audiovisual content. A positive at this stage does not mean AI was found in the observed archive.",
+        "gate2": "Gate 2 — archive validation: requires an audiovisual item/version/segment, membership in the observed corpus, a publicly accessible item surface, and AI evidence unequivocally linked to that item.",
+        "gate_rule": "An occurrence is counted as AI in the archive only when all conditions are met: positive Gate 1 + valid audiovisual unit + corpus membership + public access + linked evidence.",
+        "public_access": "Public access as an eligibility requirement",
+        "public_access_text": "Being indexed or discoverable through search, APIs, or collected products is not enough. For archive-AI indicators, the item must have a specific publicly accessible surface. Indexed but inaccessible items are outside the evaluable universe and are not converted into negative AI classifications.",
+        "retraction": "Digital retraction is treated only as a longitudinal change when evidence shows that a previously public surface became inaccessible. Migration to a new URL is not retraction. MAR records the observable access mechanism and assigns an institutional cause only when explicit evidence exists.",
+        "content_ai_metrics": "Quantification uses only eligible and evaluable items confirmed by the sequential protocol. Terminology controls, news, general pages, and items without a public surface are not counted as archive-AI occurrences.",
         "metrics": "How performance is calculated",
         "metrics_text": "Only comparable binary pairs enter the confusion matrix. Precision, recall, F1, false positives, and false negatives are reported by task, language, geography, and institutional type.",
         "separation": "These metrics and the expanded surface exploration assess experimental components and do not change the T2 operational baseline, its 55 corpora, or its nine official indicators.",
@@ -169,7 +203,14 @@ _COPY = {
         "content_ai": "4. IA en la producción del contenido",
         "content_ai_text": "Esta dimensión es independiente del uso institucional de IA. La unidad es el ítem, versión o segmento audiovisual. Se distinguen: sin evidencia verificada, producción asistida por IA, modificación material por IA, contenido parcialmente sintético y contenido totalmente sintético.",
         "content_ai_evidence": "Una clasificación positiva requiere evidencia verificable, como declaración institucional/del productor, procedencia estructurada o metadatos técnicos. La apariencia visual o el score de un detector, por sí solos, no bastan para publicación científica.",
-        "content_ai_metrics": "La cuantificación usa los ítems evaluables como denominador y calcula la proporción con cualquier evidencia de IA, la proporción materialmente modificada por IA y la proporción de contenido sintético, con cortes por institución, idioma y período.",
+        "two_gate": "Validación secuencial en dos puertas",
+        "gate1": "Puerta 1 — identificación terminológica/contextual: verifica si la documentación contiene evidencia verificable de que la IA participó en la producción o modificación de contenido audiovisual. Un positivo en esta etapa no significa que se haya encontrado IA en el archivo observado.",
+        "gate2": "Puerta 2 — validación en el archivo: exige que la unidad sea un ítem, versión o segmento audiovisual, pertenezca al corpus observado, tenga una superficie pública accesible y que la evidencia de IA esté inequívocamente vinculada al propio ítem.",
+        "gate_rule": "Una ocurrencia solo se contabiliza como IA en el archivo cuando se cumplen todas las condiciones: Puerta 1 positiva + unidad audiovisual válida + pertenencia al corpus + acceso público + evidencia vinculada.",
+        "public_access": "Acceso público como requisito de elegibilidad",
+        "public_access_text": "Estar indexado o ser localizable mediante búsqueda, API o productos recopilados no basta. Para los indicadores de IA en el archivo, el ítem debe disponer de una superficie pública específica y accesible. Los ítems indexados pero inaccesibles quedan fuera del universo evaluable y no se convierten en clasificaciones negativas de IA.",
+        "retraction": "La retracción digital solo se trata como cambio longitudinal cuando existe evidencia de que una superficie antes pública dejó de ser accesible. Una migración a una nueva URL no es retracción. MAR registra el mecanismo observable de inaccesibilidad y solo atribuye una causa institucional cuando existe evidencia explícita.",
+        "content_ai_metrics": "La cuantificación utiliza únicamente ítems elegibles y evaluables confirmados por el protocolo secuencial. Los controles terminológicos, noticias, páginas generales e ítems sin superficie pública no se contabilizan como ocurrencias de IA en el archivo.",
         "metrics": "Cómo se calcula el desempeño",
         "metrics_text": "Solo los pares binarios comparables entran en la matriz de confusión. Se calculan precisión, exhaustividad, F1, falsos positivos y falsos negativos por tarea, idioma, geografía y tipo institucional.",
         "separation": "Estas métricas y la exploración ampliada evalúan componentes experimentales y no modifican la línea base T2, sus 55 corpus ni sus nueve indicadores oficiales.",
@@ -197,6 +238,13 @@ def render_t2a_methodology_panel(*, language: str = "pt") -> None:
         st.markdown(f"#### {text['content_ai']}")
         st.write(text["content_ai_text"])
         st.write(text["content_ai_evidence"])
+        st.markdown(f"#### {text['two_gate']}")
+        st.write(text["gate1"])
+        st.write(text["gate2"])
+        st.info(text["gate_rule"])
+        st.markdown(f"#### {text['public_access']}")
+        st.write(text["public_access_text"])
+        st.caption(text["retraction"])
         st.caption(text["content_ai_metrics"])
         st.markdown(f"#### {text['metrics']}")
         st.write(text["metrics_text"])
