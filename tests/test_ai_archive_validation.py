@@ -22,6 +22,22 @@ def test_term_positive_outside_corpus_is_not_archive_positive():
     assert result.is_archive_ai_positive is False
 
 
+def test_general_archive_page_is_not_item_level_observation():
+    terminology = classify_ai_content_usage(
+        entity_id="ecpad",
+        item_id="archives-page",
+        texts=["Intelligence artificielle utilisée dans la production audiovisuelle."],
+    )
+    result = validate_ai_use_in_observed_archive(
+        terminology,
+        is_item_level_observation=False,
+        item_in_observed_corpus=True,
+        evidence_linked_to_item=False,
+    )
+    assert result.status == "not_item_level_observation"
+    assert result.is_archive_ai_positive is False
+
+
 def test_institution_ai_article_without_item_link_is_not_archive_positive():
     terminology = classify_ai_content_usage(
         entity_id="example",
