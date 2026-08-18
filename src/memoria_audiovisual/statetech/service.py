@@ -11,7 +11,7 @@ from .evidence import EvidenceRecord
 from .ids import stable_id
 from .integrity import IntegrityError, IntegrityValidator, LedgerIndex
 from .ledger import AtomicLedger
-from .models import EntityRecord, ProvenanceRecord
+from .models import EntityRecord, ProvenanceRecord, ValidationStatus
 from .validation import ContractValidator
 
 
@@ -32,6 +32,7 @@ class StatetechDataService:
         evidences: tuple[EvidenceRecord, ...] = (),
         previous_version_id: str | None = None,
         referenced_entity_ids: tuple[str, ...] = (),
+        validation_status: ValidationStatus = "pending_review",
     ) -> EntityRecord:
         entity_id = stable_id(entity_type, natural_key)
         schema_record = dict(payload)
@@ -42,6 +43,7 @@ class StatetechDataService:
             entity_type=entity_type,
             entity_id=entity_id,
             payload=schema_record,
+            validation_status=validation_status,
             previous_version_id=previous_version_id,
         )
         evidence_payloads = tuple(evidence.to_dict() for evidence in evidences)
@@ -65,6 +67,7 @@ class StatetechDataService:
             entity_type=entity_type,
             entity_id=entity_id,
             version_id=entity.version_id,
+            validation_status=validation_status,
             evidence_ids=linked_evidence_ids,
             output_record_ids=tuple(
                 dict.fromkeys((*provenance.output_record_ids, entity.version_id))
