@@ -27,6 +27,22 @@ A comparação entre snapshots não é publicada diretamente. Cada resultado é 
 - eventos duplicados na mesma rodada são bloqueados;
 - o estado de triagem não substitui a decisão curatorial nem a decisão editorial.
 
+## Retração digital e perda de acesso público
+
+`digital_retraction` não é sinônimo de qualquer indisponibilidade. Só pode ser atribuída quando existe evidência anterior de acesso público e uma observação posterior demonstra perda desse acesso sem superfície pública equivalente substituta.
+
+A triagem deve distinguir:
+
+- `public_access_limitation` — não há evidência de que a unidade tenha sido pública anteriormente;
+- `relocated_or_migrated` — a URL antiga deixou de funcionar, mas o mesmo item permanece publicamente acessível em nova superfície;
+- `digital_retraction_candidate` — acesso público anterior foi perdido e não foi encontrada substituição equivalente;
+- `temporary_or_technical_failure` — falha transitória ou técnica sem evidência de retração;
+- `crawler_restriction_only` — coleta automatizada bloqueada, mas sem evidência de perda de acesso para o público.
+
+Para candidatos de retração, a triagem deve registrar também o **mecanismo observável de inacessibilidade** e, separadamente, a **causa institucional declarada**, quando houver. A taxonomia completa está em `access_loss_diagnostics.md`.
+
+Nenhuma inferência sobre intenção institucional deve ser feita apenas a partir do status técnico da URL.
+
 ## Dados mínimos do evento
 
 - `event_id`;
@@ -42,6 +58,15 @@ A comparação entre snapshots não é publicada diretamente. Cada resultado é 
 - código de justificativa;
 - estado de revisão;
 - elegibilidade de publicação.
+
+Para eventos de acesso público, acrescentar quando disponível:
+
+- `previous_public_access_evidence`;
+- `current_public_access_status`;
+- `observed_access_failure_mode`;
+- `replacement_url`;
+- `declared_access_loss_reason`;
+- `causal_evidence_level` (`observed`, `declared`, `corroborated`, `unknown`).
 
 ## Produto operacional
 
