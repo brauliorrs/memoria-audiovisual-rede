@@ -3,7 +3,8 @@
 
 O script aplica a Porta 1 (detecção terminológica/contextual) a registros já
 materializados em ``data/output``. O resultado NÃO declara uso de IA no acervo:
-é apenas uma fila para validar pertencimento do item e vínculo da evidência.
+é apenas uma fila para validar unidade audiovisual, pertencimento, acesso público
+e vínculo da evidência.
 """
 
 from __future__ import annotations
@@ -14,7 +15,7 @@ import hashlib
 import json
 import re
 from pathlib import Path
-from typing import Iterable, Iterator
+from typing import Iterator
 
 from memoria_audiovisual.corpora import CORPORA
 from memoria_audiovisual.digital_infrastructure.ai_content_production import (
@@ -195,7 +196,9 @@ def build_candidates(output_root: Path, *, max_candidates: int) -> list[dict[str
                     "gate1_evidence_strength": observation.evidence_strength,
                     "gate1_matched_evidence": observation.excerpt,
                     "gate2_prediction_blinded": True,
+                    "human_is_item_level_observation": None,
                     "human_item_in_observed_corpus": None,
+                    "human_public_surface_accessible": None,
                     "human_evidence_linked_to_item": None,
                     "human_archive_ai_label": None,
                     "review_status": "pending",
@@ -210,14 +213,15 @@ def main() -> int:
     args = parse_args()
     candidates = build_candidates(args.output_root, max_candidates=args.max_candidates)
     payload = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "queue_id": "ai-archive-two-gate-candidates-v1",
         "stage": "t2a_ai_archive_gate2_validation",
         "status": "pending_human_review" if candidates else "no_candidates_found",
         "is_prevalence_sample": False,
         "does_not_modify_official_baseline": True,
         "source_rule": "candidates originate only from materialized records under data/output associated with active MAR corpora",
-        "decision_rule": "archive positive only if gate1 terminology/context is positive AND item belongs to observed corpus AND evidence is linked to that item",
+        "public_access_rule": "publicly observable item surface is required, consistent with the MAR incorporation eligibility gate",
+        "decision_rule": "archive positive only if gate1 terminology/context is positive AND observation is an audiovisual item/version/segment AND item belongs to observed corpus AND public item surface is accessible AND evidence is linked to that item",
         "gate2_prediction_blinding": True,
         "candidates_total": len(candidates),
         "units": candidates,
