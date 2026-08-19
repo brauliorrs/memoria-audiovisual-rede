@@ -12,6 +12,10 @@ A auditoria que fundamenta o estado atual está em:
 
 Este documento não cria uma segunda ordem de prioridades. Ele registra apenas o estado técnico das camadas de infraestrutura digital.
 
+A organização específica das validações de automação e IA é mantida em:
+
+`docs/digital-infrastructure-alignment/mar_intelligence_and_ai_validation_roadmap.md`
+
 ## Estado consolidado
 
 | Camada | Estado | Implantado | Pendência operacional |
@@ -20,7 +24,9 @@ Este documento não cria uma segunda ordem de prioridades. Ele registra apenas o
 | Interface pública | implementada | quatro áreas principais, três idiomas, carregamento progressivo | auditoria manual, desempenho e responsividade |
 | Corpus de referência | materializado | manifesto congelado com 58 entidades | nova versão apenas mediante mudança canônica |
 | Corpus operacional | validado em escala controlada | 55 entidades ativas globais; Europeana, INA e BFI executados com sucesso | primeiro ciclo completo dos 55 corpora |
-| IA experimental | implementada estruturalmente | contratos, armazenamento separado, feature flags, amostra, coleta sombra e integração fail-open | anotação humana, modelos avaliáveis e detecção sintética no nível de item |
+| Inteligência/automação do MAR | em andamento — prioridade atual | contratos, armazenamento separado, feature flags, baselines de triagem e integração fail-open | validar detecção de acervo, vídeo público, tipo de superfície, resolução de item, pertencimento e observabilidade |
+| IA institucional | em andamento | baseline contextual `institutional_ai_use` e protocolo de evidências públicas | validação humana consolidada e cobertura das superfícies examinadas |
+| IA no conteúdo audiovisual | em andamento | Porta 1 calibrada, classes operacionais e Porta 2 implementada | candidatos reais em nível de item, pertencimento, acesso, vínculo da evidência e validação ecológica |
 | Produtos europeus | sincronizados | 54 ativos europeus, 118 registros na fila, validação obrigatória no CI | operação da sondagem e do gate |
 | Indicadores de referência | materializados | nove indicadores, cobertura e proveniência | validação operacional viva e histórico longitudinal |
 | Núcleo de dados e proveniência | implementado estruturalmente | modelos, IDs, evidências, integridade, persistência e revisão | materializar ledger e lotes reais |
@@ -47,14 +53,14 @@ Concluído:
 9. integração do check ao workflow `Quality Checks`;
 10. classificação de `observatorio_fila_fechamento_europa.csv` como histórico.
 
-## T0A — preparação experimental de IA antes do ciclo
+## T0A — preparação experimental de automação/IA antes do ciclo
 
-**Estado:** concluído estruturalmente e validado em execução controlada.
+**Estado:** concluído estruturalmente; validação empírica permanece em andamento.
 
 ### Implementado
 
-1. contratos versionados para as três dimensões e quatro tarefas operacionais de IA;
-2. separação entre uso institucional de IA, triagem do observatório e vídeo gerado ou modificado por IA;
+1. contratos versionados para dimensões e tarefas operacionais de automação/IA;
+2. separação entre uso institucional de IA, inteligência/triagem do observatório e conteúdo audiovisual gerado ou modificado por IA;
 3. registros imutáveis com identificador estável e versão;
 4. proveniência para evidência, modelo, configuração, prompt ou classificador, duração, custo e erro;
 5. armazenamento JSONL append-only separado do baseline oficial;
@@ -85,17 +91,26 @@ O workflow `Controlled observatory cycle` executou Europeana, INA e BFI em 5 de 
 
 A execução identificou um sinal institucional de IA no INA pendente de revisão. A ausência de sinal em Europeana e BFI permanece classificada apenas como `not_identified_on_assessed_surfaces`.
 
-### Pendências que não bloqueiam T1
+### Validações em andamento
 
-- anotação humana da amostra;
-- integração de modelos probabilísticos ou LLMs;
-- medição de desempenho;
-- detecção de vídeo sintético no nível de item;
-- ativação científica de qualquer componente.
+A prioridade metodológica passa a ser a **inteligência/automação do MAR**, antes da ativação científica das dimensões de IA institucional ou IA no conteúdo.
+
+Devem ser validados em amostra humana:
+
+1. detecção de acervo audiovisual;
+2. detecção de vídeo público;
+3. classificação do tipo de superfície observada;
+4. distinção entre página geral, índice, notícia, ficha de item e item/versão/segmento audiovisual;
+5. resolução de URL específica de item quando a tarefa exigir unidade em nível de item;
+6. pertencimento do item ao corpus observado;
+7. observabilidade pública da superfície do item;
+8. preservação do vínculo entre item, corpus, snapshot, URL e evidência.
+
+IA institucional e IA no conteúdo audiovisual permanecem **em andamento**, preservando artefatos e decisões já produzidos, mas sem prioridade de ativação científica até a consolidação dessas capacidades do MAR.
 
 ## T1 — execução integral do organismo
 
-**Estado:** validação controlada concluída; rodada integral dos 55 corpora é o próximo portão.
+**Estado:** validação controlada concluída; rodada integral dos 55 corpora permanece em andamento como portão operacional.
 
 ### Proteções implantadas
 
@@ -112,8 +127,8 @@ A execução identificou um sinal institucional de IA no INA pendente de revisã
 ### Próxima execução
 
 1. executar todos os 55 corpora ativos com o prelude global habilitado;
-2. habilitar em modo sombra as tarefas institucionais e de triagem;
-3. manter a detecção de vídeo sintético desligada até existir contexto por item;
+2. habilitar em modo sombra as tarefas institucionais e de triagem quando necessário para validação;
+3. manter a detecção de vídeo sintético desligada até existir contexto por item validado;
 4. registrar sucesso, falha, timeout e não avaliabilidade sem exclusão silenciosa;
 5. registrar separadamente falhas e custos das tarefas experimentais;
 6. atualizar manifesto, linha do tempo e resultados do ciclo;
@@ -126,7 +141,7 @@ Todos os 55 corpora aparecem no manifesto da mesma rodada com estado auditável.
 
 ## T2 — materialização científica operacional
 
-**Estado:** posterior à rodada integral do T1.
+**Estado:** em andamento, sem dependência da ativação científica de IA.
 
 ### Já materializado
 
@@ -137,7 +152,7 @@ Todos os 55 corpora aparecem no manifesto da mesma rodada com estado auditável.
 - nove resultados de indicadores;
 - registros canônicos de indicador e metodologia.
 
-### Ainda não materializado nos caminhos operacionais
+### Produtos operacionais a consolidar
 
 - `data/output/controlled_validation_summary.json`;
 - `data/output/analytics/<snapshot>/snapshot_indicators.json`;
@@ -149,28 +164,70 @@ Todos os 55 corpora aparecem no manifesto da mesma rodada com estado auditável.
 
 ### Ações
 
-1. executar o workflow controlado com `europeana`, `ina` e `bfi` para os nove indicadores;
-2. persistir cobertura, nove indicadores, sensibilidade, run e manifesto;
-3. materializar o snapshot oficial derivado da rodada integral;
-4. iniciar histórico append-only de indicadores;
-5. materializar ledger e lotes de ingestão;
-6. diferenciar na interface baseline de referência e execução operacional;
-7. demonstrar que os produtos oficiais são idênticos com a IA desligada.
+1. persistir cobertura, nove indicadores, sensibilidade, run e manifesto nas execuções operacionais;
+2. materializar snapshot oficial derivado de rodada integral quando aplicável;
+3. iniciar histórico append-only de indicadores;
+4. materializar ledger e lotes de ingestão;
+5. diferenciar na interface baseline de referência e execução operacional;
+6. demonstrar que os produtos oficiais permanecem independentes das tarefas experimentais de automação/IA.
 
-## T2A — validação pós-baseline dos componentes de IA
+## T2A — validação pós-baseline dos componentes de automação/IA
 
-**Estado:** posterior ao ciclo e ao baseline oficial.
+**Estado:** em andamento.
 
-1. revisar humanamente a amostra inicial;
-2. calcular precisão, revocação, F1 e matriz de confusão por tarefa;
-3. medir falsos positivos e falsos negativos por idioma, continente e tipo de instituição;
-4. avaliar estabilidade entre versões, custo, tempo e dependência de fornecedor;
-5. decidir separadamente quais componentes podem ser ativados;
-6. registrar metodologia e indicador somente após aprovação científica;
-7. recalcular apenas os indicadores de IA usando as evidências armazenadas;
-8. não repetir a coleta integral salvo insuficiência documentada das evidências.
+A ordem de prioridade interna de T2A passa a ser:
+
+1. **inteligência/automação do MAR**;
+2. **IA institucional**;
+3. **IA na produção/modificação de conteúdo audiovisual**.
+
+### Inteligência/automação do MAR — prioridade atual
+
+1. revisar humanamente detecção de acervo e vídeo público;
+2. validar classificação de superfícies e resolução em nível de item;
+3. medir erros de seleção de URL e de tipagem de unidade;
+4. validar pertencimento ao corpus e observabilidade pública;
+5. registrar falsos positivos, falsos negativos, ambiguidades e não avaliabilidade por tarefa;
+6. usar os resultados para corrigir o gerador e os detectores antes de ampliar as trilhas científicas de IA.
+
+### Primeira revisão da Porta 2
+
+A primeira fila real de candidatos da Porta 2 continha ECPAD e INA. Nos dois casos, a URL selecionada não correspondia a item, versão ou segmento audiovisual:
+
+- ECPAD: página geral de arquivos;
+- INA: página institucional/principal com links para outras áreas do acervo.
+
+Resultado metodológico: **0/2 URLs candidatas eram unidades audiovisuais elegíveis em nível de item**.
+
+Esse resultado:
+
+- não prova ausência de IA;
+- não prova ausência de acervo audiovisual;
+- não avalia pertencimento, acesso público específico ou vínculo de evidência, porque o fluxo foi interrompido no primeiro teste;
+- revela uma limitação da seleção/resolução de URLs pelo gerador de candidatos;
+- justifica priorizar a inteligência/automação do MAR antes de repetir a Porta 2 em escala.
+
+### IA institucional — em andamento
+
+1. manter o baseline contextual e os registros já produzidos;
+2. definir cobertura das superfícies públicas examinadas;
+3. revisar positivos e amostra de negativos;
+4. distinguir pesquisa, piloto, anúncio e operação;
+5. não publicar ausência institucional a partir de não detecção;
+6. só ativar indicador após metodologia, cobertura, denominador e revisão humana suficientes.
+
+### IA no conteúdo audiovisual — em andamento
+
+1. preservar a Porta 1 como validada apenas para identificação terminológica/contextual na versão atual;
+2. melhorar a geração de candidatos em nível de item;
+3. validar sequencialmente item, pertencimento, acesso público e vínculo da evidência;
+4. validar classes de participação de IA em itens reais do corpus;
+5. calcular métricas apenas quando houver unidades humanas concluídas e avaliáveis;
+6. recalcular somente indicadores experimentais de IA, sem alterar o baseline oficial.
 
 ## T3 — fila europeia
+
+**Estado:** em andamento.
 
 ### Fila vigente
 
@@ -214,6 +271,8 @@ A fila pode sondar, avaliar e priorizar. Ela não pode:
 
 ## T4 — política dos 20 corpora
 
+**Estado:** em andamento.
+
 A implementação deve contar somente unidades:
 
 - elegíveis;
@@ -237,6 +296,8 @@ Componentes pendentes:
 
 ## T5 — publicação derivada
 
+**Estado:** em andamento.
+
 Código estrutural existente:
 
 - `public_view.py`;
@@ -255,6 +316,8 @@ Pendências:
 
 ## T6 — expansão continental
 
+**Estado:** em andamento sob os portões de ativação já definidos.
+
 A sequência canônica está no backlog principal:
 
 0. consolidação do baseline;
@@ -265,7 +328,7 @@ A sequência canônica está no backlog principal:
 5. Ásia;
 6. Oceania.
 
-A pesquisa de fontes pode ocorrer em paralelo. A ativação de novas ondas permanece bloqueada até a conclusão do ciclo integral, da materialização científica e da operacionalização segura da fila europeia.
+A pesquisa de fontes pode ocorrer em paralelo. A ativação de novas ondas permanece bloqueada até a conclusão dos portões operacionais e curatoriais correspondentes.
 
 ## Fora do primeiro ciclo operacional
 
@@ -284,14 +347,13 @@ A coleta experimental de sinais de IA poderá acompanhar o ciclo. Permanecem for
 ## Próximo portão técnico
 
 ```text
-Concluído: regenerar e validar os produtos europeus
-Concluído: T0A — contratos, armazenamento, flags, amostra e integração sombra
-Concluído: validação controlada do T1 com Europeana, INA e BFI
-1. Executar o ciclo integral dos 55 corpora ativos
-2. Materializar o baseline oficial, analytics, histórico, ledger e lotes sem dependência da IA
-3. Revisar a amostra e calcular métricas por idioma
-4. Decidir ativações por componente
-5. Recalcular somente os indicadores de IA com as evidências armazenadas
-6. Executar sondagem e elegibilidade europeias
-7. Abrir revisão curatorial controlada
+Prioridade atual: consolidar o núcleo observacional e validar a inteligência/automação do MAR
+1. Validar detecção de acervo audiovisual e vídeo público em amostra humana
+2. Validar tipo de superfície e resolução de URL em nível de item
+3. Corrigir o gerador quando páginas gerais forem selecionadas para tarefas item-level
+4. Validar pertencimento ao corpus e observabilidade pública
+5. Consolidar ciclo, snapshots, proveniência e exposição desses estados no MAR
+6. Manter IA institucional em andamento, sem ativação científica prematura
+7. Manter IA no conteúdo em andamento e retomar Porta 2 após candidatos item-level confiáveis
+8. Prosseguir com as demais etapas operacionais e continentais como em andamento
 ```
