@@ -18,6 +18,7 @@ from memoria_audiovisual.digital_infrastructure.ai_surface_discovery import (
     discover_and_materialize_public_surfaces,
 )
 
+SAMPLE_PROTOCOL_VERSION = "1.0.0"
 DEFAULT_ENTITIES = ("ina", "ecpad", "archipop", "bfi", "europeana")
 
 
@@ -98,6 +99,7 @@ def main() -> int:
 
     payload = {
         "schema_version": "1.0.0",
+        "sample_protocol_version": SAMPLE_PROTOCOL_VERSION,
         "run_id": args.run_id,
         "stage": "t2a_mar_surface_typing_real_sample",
         "does_not_modify_official_baseline": True,
