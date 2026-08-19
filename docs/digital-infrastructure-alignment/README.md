@@ -27,6 +27,7 @@ Esta camada registra **evidências observáveis**, decisões curatoriais e rela�
 - [`procurement_model.md`](procurement_model.md): compras e contratos tecnológicos.
 - [`data_flow_model.md`](data_flow_model.md): fluxos entre sistemas.
 - [`ai_systems_protocol.md`](ai_systems_protocol.md): evidências públicas de IA e automação.
+- [`mar_intelligence_and_ai_validation_roadmap.md`](mar_intelligence_and_ai_validation_roadmap.md): ordem de prioridade e estado das validações da inteligência/automação do MAR, IA institucional e IA no conteúdo audiovisual.
 - [`risk_assessment_protocol.md`](risk_assessment_protocol.md): dependências e riscos.
 
 ### Evidência, integridade e proveniência
@@ -78,4 +79,4 @@ Esta camada registra **evidências observáveis**, decisões curatoriais e rela�
 
 ## Estado atual
 
-O núcleo técnico está implementado estruturalmente. A prioridade vigente é consolidar documentação, validar empiricamente os detectores e indicadores, executar um ciclo longitudinal controlado e definir a vitrine pública. A existência de código, schemas e testes não deve ser apresentada como validação empírica concluída.
+O núcleo técnico está implementado estruturalmente. A prioridade vigente é consolidar e validar o **núcleo observacional e a inteligência/automação do MAR** — em especial detecção de acervo, vídeo público, tipo de superfície, resolução de item, pertencimento e observabilidade — antes de ampliar a ativação científica das dimensões de IA institucional e IA no conteúdo audiovisual. Essas duas dimensões permanecem **em andamento**, preservando os artefatos e protocolos já produzidos. A existência de código, schemas e testes não deve ser apresentada como validação empírica concluída.
