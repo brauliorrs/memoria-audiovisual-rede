@@ -64,17 +64,23 @@ Estado: **em andamento**.
 
 Pergunta: a URL candidata corresponde ao tipo de unidade que o MAR atribuiu a ela?
 
-Estados que devem permanecer distintos incluem, no mínimo:
+A primeira versão conservadora da tipagem foi implementada em `src/memoria_audiovisual/digital_infrastructure/surface_typing.py`. O vocabulário operacional mantém distintas as classes:
 
-- página institucional;
-- página geral de acervo;
-- índice ou busca;
-- notícia ou conteúdo editorial;
-- registro/ficha de item;
-- item, versão ou segmento audiovisual;
-- superfície redirecionada, indisponível ou restrita.
+- `homepage`;
+- `institutional_landing_page`;
+- `archive_landing_page`;
+- `search_or_index`;
+- `news_or_editorial`;
+- `item_record`;
+- `audiovisual_item`;
+- `restricted_or_unavailable`;
+- `unknown`.
 
-Estado: **em andamento**.
+Somente `item_record` e `audiovisual_item` são classes item-level. Um vídeo incorporado em página geral não é suficiente para transformar a superfície em item audiovisual. Bloqueios, erros de acesso e ambiguidades também permanecem separados de classificações negativas.
+
+O gerador `scripts/build_surface_type_review_queue.py` produz dois artefatos separados: previsões automáticas e fila cega de revisão humana. O revisor não recebe a previsão do mecanismo durante a anotação. Os testes controlados e o workflow `Quality Checks` passaram integralmente em 19 de agosto de 2026.
+
+Estado: **implementado estruturalmente; validação humana empírica em andamento**.
 
 ### M4 — resolução de candidato em nível de item
 
@@ -170,7 +176,7 @@ Estado: **em andamento para validação em itens reais do corpus**. A calibraç�
 | Núcleo MAR | execução, snapshots, proveniência, superfícies e exposição | **em andamento — prioridade atual** |
 | Inteligência/automação MAR | M1 detecção de acervo | **em andamento** |
 | Inteligência/automação MAR | M2 detecção de vídeo público | **em andamento** |
-| Inteligência/automação MAR | M3 tipo de superfície/unidade | **em andamento** |
+| Inteligência/automação MAR | M3 tipo de superfície/unidade | **implementado estruturalmente; validação humana em andamento** |
 | Inteligência/automação MAR | M4 candidato real em nível de item | **em andamento; primeira revisão 0/2** |
 | Inteligência/automação MAR | M5 pertencimento ao corpus | **em andamento** |
 | Inteligência/automação MAR | M6 observabilidade pública do item | **em andamento** |
@@ -188,6 +194,8 @@ A prioridade passa a ser melhorar e validar a **inteligência/automação do MAR
 As demais dimensões permanecem **em andamento**, preservando seus artefatos, decisões e protocolos já produzidos.
 
 ## Próximo portão
+
+A próxima etapa é materializar uma **amostra real e cega de superfícies públicas** a partir da exploração controlada do MAR e revisar humanamente a tipagem. A amostra deve conter páginas institucionais, entradas de acervo, índices/buscas, páginas editoriais, fichas de item, itens audiovisuais e casos não avaliáveis quando existirem.
 
 Antes de uma nova rodada de IA institucional ou de IA em conteúdo, o MAR deve demonstrar em amostra humana que consegue:
 
