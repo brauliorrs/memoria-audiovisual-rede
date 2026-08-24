@@ -49,10 +49,10 @@
       "content_type": "text/html",
       "media_urls": ["https://lesfilms.archipop.org/files/605/10_0522FS0009_plan_HD_1.mp4"],
       "model_prediction_blinded": true,
-      "human_surface_type": null,
-      "human_is_item_level": null,
-      "human_review_note": null,
-      "review_status": "pending"
+      "human_surface_type": "homepage",
+      "human_is_item_level": false,
+      "human_review_note": "Revisão humana: URL raiz da plataforma Les films classificada como homepage.",
+      "review_status": "completed"
     },
     {
       "review_unit_id": "archipop-surface-4b33f3df9114d32e",
