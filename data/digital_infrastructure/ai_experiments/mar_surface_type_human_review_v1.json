@@ -89,6 +89,15 @@
       "human_is_item_level": false,
       "human_review_note": "Classificação humana: página de consulta/listagem das coleções e arquivos disponíveis online.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ecpad-surface-0e9962e81b5340a4",
+      "entity_id": "ecpad",
+      "page_url": "https://archives.ecpad.fr/archives/aide-a-la-recherche/premiere-guerre-mondiale",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página de pesquisa/consulta temática sobre a Primeira Guerra Mundial.",
+      "review_status": "completed"
     }
   ]
 }
