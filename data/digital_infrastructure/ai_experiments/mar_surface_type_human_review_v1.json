@@ -125,6 +125,15 @@
       "human_is_item_level": false,
       "human_review_note": "Classificação humana: página inicial da Europeana; o bloqueio por robots afeta a coleta automatizada, não o tipo da superfície.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ina-surface-358ad55cd8aea854",
+      "entity_id": "ina",
+      "page_url": "https://www.ina.fr/institut-national-audiovisuel",
+      "human_surface_type": "homepage",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página inicial institucional do INA.",
+      "review_status": "completed"
     }
   ]
 }
