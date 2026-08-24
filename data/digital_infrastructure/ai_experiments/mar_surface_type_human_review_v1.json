@@ -87,7 +87,7 @@
       "page_url": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
       "human_surface_type": "search_or_index",
       "human_is_item_level": false,
-      "human_review_note": "Classificação humana: página de consulta/listagem das coleções e arquivos disponíveis online.",
+      "human_review_note": "Classificação humana refinada: página de pesquisa/resultado que apresenta múltiplos arquivos associados a um verbete ou consulta temática; não corresponde a um item individual.",
       "review_status": "completed"
     },
     {
@@ -96,7 +96,7 @@
       "page_url": "https://archives.ecpad.fr/archives/aide-a-la-recherche/premiere-guerre-mondiale",
       "human_surface_type": "search_or_index",
       "human_is_item_level": false,
-      "human_review_note": "Classificação humana: página de pesquisa/consulta temática sobre a Primeira Guerra Mundial.",
+      "human_review_note": "Classificação humana refinada: resultado/índice temático do verbete Primeira Guerra Mundial, reunindo múltiplos arquivos relacionados; não corresponde a um item individual.",
       "review_status": "completed"
     },
     {
@@ -105,7 +105,7 @@
       "page_url": "https://archives.ecpad.fr/archives/aide-a-la-recherche/seconde-guerre-mondiale",
       "human_surface_type": "search_or_index",
       "human_is_item_level": false,
-      "human_review_note": "Classificação humana: página de pesquisa/consulta temática sobre a Segunda Guerra Mundial.",
+      "human_review_note": "Classificação humana refinada: resultado/índice temático do verbete Segunda Guerra Mundial, reunindo múltiplos arquivos relacionados; não corresponde a um item individual.",
       "review_status": "completed"
     },
     {
