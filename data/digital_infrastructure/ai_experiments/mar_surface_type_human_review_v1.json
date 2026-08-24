@@ -134,6 +134,15 @@
       "human_is_item_level": false,
       "human_review_note": "Classificação humana: página inicial institucional do INA.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ina-surface-2687ee176b4b4e33",
+      "entity_id": "ina",
+      "page_url": "https://www.ina.fr/institut-national-audiovisuel/collections-audiovisuelles/archives-emblematiques",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página de consulta/listagem temática de arquivos emblemáticos; não corresponde a um item individual.",
+      "review_status": "completed"
     }
   ]
 }
