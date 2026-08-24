@@ -143,6 +143,15 @@
       "human_is_item_level": false,
       "human_review_note": "Classificação humana: página de consulta/listagem temática de arquivos emblemáticos; não corresponde a um item individual.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ina-surface-021c7d55b2064fae",
+      "entity_id": "ina",
+      "page_url": "https://www.ina.fr/institut-national-audiovisuel/collections-audiovisuelles/collections-partenaires",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página de consulta/listagem de coleções parceiras; não corresponde a um item individual.",
+      "review_status": "completed"
     }
   ]
 }
