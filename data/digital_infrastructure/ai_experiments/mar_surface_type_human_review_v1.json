@@ -80,6 +80,15 @@
       "human_access_evidence": "Playback Denied: Location; PLAYER_ERR_GEO_RESTRICTED; Video is unavailable from your current location.",
       "human_review_note": "A página identifica uma unidade audiovisual específica; a restrição geográfica afeta a reprodução, não o tipo da superfície.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ecpad-surface-34b37aeacd0a7007",
+      "entity_id": "ecpad",
+      "page_url": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página de consulta/listagem das coleções e arquivos disponíveis online.",
+      "review_status": "completed"
     }
   ]
 }
