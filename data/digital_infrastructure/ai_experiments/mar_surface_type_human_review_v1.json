@@ -2,10 +2,27 @@
   "schema_version": "1.1.0",
   "queue_id": "mar-surface-type-review-v1",
   "stage": "t2a_mar_surface_typing_validation",
-  "review_status": "in_progress",
+  "review_status": "completed",
+  "completed_on": "2026-08-24",
   "model_prediction_blinded": true,
   "does_not_modify_official_baseline": true,
   "methodological_note": "surface type and access state are independent dimensions; an audiovisual item may remain item-level even when playback is geographically restricted",
+  "human_review_summary": {
+    "reviewed_units": 17,
+    "item_level_true": 4,
+    "item_level_false": 13,
+    "surface_type_counts": {
+      "homepage": 3,
+      "institutional_landing_page": 1,
+      "archive_landing_page": 1,
+      "search_or_index": 7,
+      "news_or_editorial": 1,
+      "item_record": 0,
+      "audiovisual_item": 4,
+      "restricted_or_unavailable": 0,
+      "unknown": 0
+    }
+  },
   "reviewed_units": [
     {
       "review_unit_id": "archipop-surface-1af58c451b47c5ed",
@@ -151,6 +168,15 @@
       "human_surface_type": "search_or_index",
       "human_is_item_level": false,
       "human_review_note": "Classificação humana: página de consulta/listagem de coleções parceiras; não corresponde a um item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ina-surface-58c7e91d7ea0a177",
+      "entity_id": "ina",
+      "page_url": "https://www.ina.fr/institut-national-audiovisuel/collections-audiovisuelles/presse-filmee-et-cinema",
+      "human_surface_type": "institutional_landing_page",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página institucional temática; não corresponde a um item individual.",
       "review_status": "completed"
     }
   ]
