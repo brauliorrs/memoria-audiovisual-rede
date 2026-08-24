@@ -107,6 +107,15 @@
       "human_is_item_level": false,
       "human_review_note": "Classificação humana: página de pesquisa/consulta temática sobre a Segunda Guerra Mundial.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ecpad-surface-8bd141d5b908e2f3",
+      "entity_id": "ecpad",
+      "page_url": "https://archives.ecpad.fr/archives/aide-a-la-recherche/fonds-prives",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página de pesquisa/consulta temática sobre fundos privados.",
+      "review_status": "completed"
     }
   ]
 }
