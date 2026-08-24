@@ -41,6 +41,15 @@
       "human_is_item_level": true,
       "human_review_note": "Classificação humana: ficha específica de item audiovisual.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "bfi-surface-3b02a262fbfe5f0f",
+      "entity_id": "bfi",
+      "page_url": "https://replay.bfi.org.uk/search",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página de busca/listagem de múltiplos vídeos.",
+      "review_status": "completed"
     }
   ]
 }
