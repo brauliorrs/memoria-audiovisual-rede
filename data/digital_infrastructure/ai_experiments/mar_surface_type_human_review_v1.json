@@ -59,6 +59,15 @@
       "human_is_item_level": false,
       "human_review_note": "Classificação humana: conteúdo editorial/informativo sobre arquivos parceiros.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "bfi-surface-0152a65ab86e5226",
+      "entity_id": "bfi",
+      "page_url": "https://replay.bfi.org.uk/curated-collections",
+      "human_surface_type": "archive_landing_page",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página geral de entrada para coleções curadas do acervo.",
+      "review_status": "completed"
     }
   ]
 }
