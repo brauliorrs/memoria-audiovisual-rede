@@ -98,6 +98,15 @@
       "human_is_item_level": false,
       "human_review_note": "Classificação humana: página de pesquisa/consulta temática sobre a Primeira Guerra Mundial.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ecpad-surface-66d560f66fb6a81a",
+      "entity_id": "ecpad",
+      "page_url": "https://archives.ecpad.fr/archives/aide-a-la-recherche/seconde-guerre-mondiale",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: página de pesquisa/consulta temática sobre a Segunda Guerra Mundial.",
+      "review_status": "completed"
     }
   ]
 }
