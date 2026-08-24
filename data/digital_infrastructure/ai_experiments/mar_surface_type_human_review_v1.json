@@ -50,6 +50,15 @@
       "human_is_item_level": false,
       "human_review_note": "Classificação humana: página de busca/listagem de múltiplos vídeos.",
       "review_status": "completed"
+    },
+    {
+      "review_unit_id": "bfi-surface-73565b8cad7c7671",
+      "entity_id": "bfi",
+      "page_url": "https://replay.bfi.org.uk/about/partner-archives",
+      "human_surface_type": "news_or_editorial",
+      "human_is_item_level": false,
+      "human_review_note": "Classificação humana: conteúdo editorial/informativo sobre arquivos parceiros.",
+      "review_status": "completed"
     }
   ]
 }
