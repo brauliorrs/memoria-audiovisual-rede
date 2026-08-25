@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "review_id": "m3-surface-type-independent-human-review-v2",
+  "experiment_protocol_id": "MAR-T2A-M3-VAL-003-PROTOCOL",
+  "stage": "t2a_mar_surface_typing_independent_validation",
+  "protocol_version": "2.0.0",
+  "review_status": "in_progress",
+  "human_review_started_on": "2026-08-25",
+  "human_review_completed_on": null,
+  "model_prediction_blinded": true,
+  "does_not_modify_official_baseline": true,
+  "is_prevalence_sample": false,
+  "is_independent_validation_sample": true,
+  "sample_role": "independent_ecological_validation",
+  "source_workflow_run_id": 32857274723,
+  "source_artifact_id": 9566711703,
+  "source_prediction_sha256": "2188cad903e481c7e906e79ca33477d2f16d754c42d054a0cc1023f1e55828f4",
+  "source_review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f",
+  "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2.json",
+  "units_total": 33,
+  "reviewed_units_total": 0,
+  "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all human decisions are closed.",
+  "protocol_deviations": [
+    {
+      "deviation_id": "european_film_gateway_unknown_corpus_key",
+      "severity": "sample_coverage_reduction",
+      "description": "One of six preregistered entities produced no surfaces because its requested identifier was not present in CORPORA. The frozen 33-unit sample from the five executed entities is retained without replacement after prediction freeze."
+    }
+  ],
+  "reviewed_units": []
+}
