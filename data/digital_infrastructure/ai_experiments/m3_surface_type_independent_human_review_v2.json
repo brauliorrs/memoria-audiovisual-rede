@@ -18,7 +18,7 @@
   "source_review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2.json",
   "units_total": 33,
-  "reviewed_units_total": 17,
+  "reviewed_units_total": 18,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all human decisions are closed.",
   "protocol_deviations": [
     {
@@ -196,6 +196,16 @@
       "human_is_item_level": false,
       "human_access_state": "http_error",
       "human_review_note": "Classificação humana: homepage institucional do EAFA; o erro HTTP observado pelo coletor é registrado separadamente como estado de acesso e não altera o papel semântico da superfície.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "eye-surface-0e0bcccd014a3bc9",
+      "entity_id": "eye",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de resultados de busca/filtragem da base de filmes; não corresponde a um item individual.",
       "review_status": "completed"
     }
   ]
