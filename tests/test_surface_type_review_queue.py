@@ -85,6 +85,35 @@ def test_predictions_keep_item_level_separate_from_human_label(tmp_path):
     assert item_review["human_is_item_level"] is None
 
 
+def test_independent_sample_excludes_reference_urls_and_preserves_blinding(tmp_path):
+    report = tmp_path / "run-1" / "new-corpus" / "surface_discovery_report.json"
+    write_report(report)
+
+    predictions, review = build_surface_type_artifacts(
+        tmp_path,
+        max_units=10,
+        exclude_page_urls={"https://example.org/"},
+        artifact_id="independent-predictions-v2",
+        queue_id="independent-review-v2",
+        stage="t2a_mar_surface_typing_independent_validation",
+        sample_role="independent_ecological_validation",
+        is_independent_validation_sample=True,
+    )
+
+    assert predictions["artifact_id"] == "independent-predictions-v2"
+    assert review["queue_id"] == "independent-review-v2"
+    assert predictions["is_independent_validation_sample"] is True
+    assert review["is_independent_validation_sample"] is True
+    assert predictions["sample_role"] == "independent_ecological_validation"
+    assert review["stage"] == "t2a_mar_surface_typing_independent_validation"
+    assert review["excluded_reference_urls_total"] == 1
+    assert review["excluded_observed_matches"] == 1
+    assert review["units_total"] == 1
+    assert review["units"][0]["page_url"] == "https://example.org/video/item-123456"
+    assert "predicted_surface_type" not in review["units"][0]
+    assert predictions["units"][0]["review_unit_id"] == review["units"][0]["review_unit_id"]
+
+
 def test_missing_input_root_produces_explicit_no_inputs_state(tmp_path):
     predictions, review = build_surface_type_artifacts(
         tmp_path / "missing",
