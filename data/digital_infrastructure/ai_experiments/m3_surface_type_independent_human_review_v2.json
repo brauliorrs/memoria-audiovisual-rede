@@ -18,7 +18,7 @@
   "source_review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2.json",
   "units_total": 33,
-  "reviewed_units_total": 20,
+  "reviewed_units_total": 21,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all human decisions are closed.",
   "protocol_deviations": [
     {
@@ -226,6 +226,16 @@
       "human_is_item_level": false,
       "human_access_state": "accessible",
       "human_review_note": "Classificação humana: superfície de filtragem/listagem da base EYE restrita ao ano de 1896; não corresponde a um item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "eye-surface-cc48cf9e2b49dd32",
+      "entity_id": "eye",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1897?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície de filtragem/listagem da base EYE restrita ao ano de 1897; não corresponde a um item individual.",
       "review_status": "completed"
     }
   ]
