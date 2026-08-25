@@ -1,24 +1,13 @@
-name: T2A MAR surface typing independent validation v2
+name: T2A MAR surface typing independent validation v2 (historical 2.0 only)
 
 on:
-  pull_request:
-    branches:
-      - feature/fase2-adaptador-auditoria-infraestrutura
-    paths:
-      - "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_validation_protocol_v2.json"
-      - "scripts/run_mar_surface_type_sample.py"
-      - "scripts/build_surface_type_review_queue.py"
-      - "src/memoria_audiovisual/digital_infrastructure/ai_surface_discovery.py"
-      - "src/memoria_audiovisual/digital_infrastructure/surface_typing.py"
-      - "tests/fixtures/m3_surface_typing_calibration_v1.json"
-      - ".github/workflows/t2a-mar-surface-type-independent-v2.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: t2a-mar-surface-type-independent-v2-${{ github.ref }}
+  group: t2a-mar-surface-type-independent-v2-historical-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -46,6 +35,20 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e .
+
+      - name: Guard historical protocol
+        run: |
+          python - <<'PY'
+          from memoria_audiovisual.digital_infrastructure.surface_typing import (
+              SURFACE_TYPING_PROTOCOL_VERSION,
+          )
+
+          if SURFACE_TYPING_PROTOCOL_VERSION != "2.0.0":
+              raise SystemExit(
+                  "Historical M3 v2 workflow is retired for classifiers newer than 2.0.0; "
+                  "create and preregister a new independent-validation workflow instead."
+              )
+          PY
 
       - name: Validate preregistered protocol
         run: |
