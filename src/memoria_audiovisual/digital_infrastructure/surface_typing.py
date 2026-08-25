@@ -428,7 +428,10 @@ def classify_surface_type(
     if editorial_path:
         editorial_score += 4
         editorial_evidence.append(f"path:{editorial_path[0]}")
-    if "newsarticle" in structured_norm or '"@type":"article"' in structured_norm.replace(" ", ""):
+    if not strong_item_route and (
+        "newsarticle" in structured_norm
+        or '"@type":"article"' in structured_norm.replace(" ", "")
+    ):
         editorial_score += 4
         editorial_evidence.append("structured:article")
     editorial_title = _contains_any(title_norm, _EDITORIAL_PATH_TOKENS)
