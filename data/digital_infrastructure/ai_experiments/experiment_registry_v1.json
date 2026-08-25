@@ -137,7 +137,7 @@
       "prohibited_interpretations": ["17/17 calibration agreement must not be reported as independent accuracy", "does not estimate prevalence", "does not establish ecological validation of M3", "does not activate M3 for official baseline use"],
       "artifacts": [
         {"path": "tests/fixtures/m3_surface_typing_calibration_v1.json", "role": "human_derived_calibration_fixture", "content_sha": "c708f7b85b84f775c870ed00c76417e9ac3d7f44"},
-        {"path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py", "role": "calibrated_classifier_implementation_path", "initial_blob_sha": "22239e51c6b9be70287e93493f263c2301c7c212", "current_blob_sha": "6d4cc0484d0cb694c9e6c77897a78a8cce9d510d"},
+        {"path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py", "role": "calibrated_classifier_implementation_at_decision", "initial_blob_sha": "22239e51c6b9be70287e93493f263c2301c7c212"},
         {"path": "data/digital_infrastructure/ai_experiments/mar_surface_type_calibration_v2.json", "role": "calibration_conclusion", "content_sha": "48b67632e02cd3e06be4f26234d0c7ecc2efb8bd"},
         {"path": "docs/research/experiments/2026-08_m3_surface_typing_calibration_v2.md", "role": "human_readable_experiment_report"}
       ]
@@ -178,6 +178,48 @@
         {"path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json", "role": "authoritative_completed_human_review", "content_sha": "4b511dfe9157473a3d1dbcf41c1dcc966a716d2a"},
         {"path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_evaluation_v2.json", "role": "independent_evaluation_comparison", "content_sha": "5cd5f57efa507b23144de364bc4652ac42f1389f"},
         {"path": "docs/research/experiments/2026-08_m3_surface_typing_independent_validation_v2.md", "role": "human_readable_experiment_report", "content_sha": "47888108782ccc2ee747ae61fcb399b042870a86"}
+      ]
+    },
+    {
+      "experiment_id": "MAR-T2A-M3-CAL-004",
+      "version": "2.1.0",
+      "stage": "t2a_mar_surface_typing_post_validation_calibration",
+      "scientific_layer": "mar_intelligence_automation",
+      "experiment_types": ["calibration_experiment"],
+      "created_on": "2026-08-25",
+      "decision_date": "2026-08-25",
+      "status": "completed_calibration_only",
+      "claim_level": "calibration_only",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "source_experiment_id": "MAR-T2A-M3-VAL-003",
+      "question": "Can the independent 2.0.0 failure patterns be incorporated into a revised M3 2.1.0 development candidate without regressing the original 17-unit calibration decisions?",
+      "sample_summary": {
+        "known_development_units_total": 50,
+        "legacy_calibration_units": 17,
+        "post_validation_development_units": 33,
+        "regression_result": {"surface_type_matches": 50, "item_level_matches": 50, "access_state_matches": 50, "mismatches": 0},
+        "calibration_smoke_units": 25,
+        "calibration_smoke_human_reviewed_for_performance": false
+      },
+      "source_execution": {
+        "protocol_version": "2.1.0",
+        "quality_workflow_run_id": 32901520587,
+        "quality_job_id": 97976231651,
+        "quality_tests_passed": 746,
+        "calibration_smoke_workflow_run_id": 32901520435,
+        "calibration_smoke_job_id": 97976231334,
+        "calibration_smoke_artifact_id": 9583262732,
+        "calibration_smoke_prediction_sha256": "d50cc50c7239278a6fd6709d7c373fbe34053c0e9bbf2e83fc932eb9c73d5126"
+      },
+      "scientific_decision": "Accept protocol 2.1.0 only as a calibrated development candidate and require a new preregistered prediction-frozen independent ecological validation on unseen surfaces before scaling M4.",
+      "limitations": ["All 50 labelled regression units are known development data for protocol 2.1.0.", "The 33-unit set was independent only for evaluation of protocol 2.0.0 and cannot independently validate 2.1.0 after informing its rules.", "Several protocol classes remain sparse or absent in known development labels.", "The 25-unit calibration smoke was not human-reviewed to estimate performance.", "Platform-specific route rules may still overfit known archives."],
+      "prohibited_interpretations": ["50/50 development agreement must not be reported as independent accuracy or performance", "does not estimate prevalence", "does not establish ecological validation of protocol 2.1.0", "does not justify scaling M4 yet", "does not modify the official T2 baseline"],
+      "artifacts": [
+        {"path": "data/digital_infrastructure/ai_experiments/m3_surface_type_post_validation_development_v2_1.json", "role": "post_validation_calibration_conclusion", "content_sha": "4a99bac68e17bc62856918fe55d1abe9d61bc7ff"},
+        {"path": "docs/research/experiments/2026-08_m3_surface_typing_post_validation_calibration_v2_1.md", "role": "human_readable_experiment_report", "content_sha": "aa7ad0c1cb46bdc0522c8f30f355ac1e62bd7744"},
+        {"path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py", "role": "calibrated_classifier_implementation_at_decision", "initial_blob_sha": "6d4cc0484d0cb694c9e6c77897a78a8cce9d510d"},
+        {"path": "tests/test_surface_typing.py", "role": "development_regression_test_suite_at_decision", "initial_blob_sha": "b8324a2ad0b1676faf36cbc0ffdee2bf14a57c13"}
       ]
     }
   ]
