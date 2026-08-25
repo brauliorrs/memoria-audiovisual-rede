@@ -52,9 +52,9 @@ def test_review_queue_blinds_predictions(tmp_path):
     predictions, review = build_surface_type_artifacts(tmp_path, max_units=10)
 
     assert predictions["schema_version"] == "2.0.0"
-    assert predictions["protocol_version"] == "2.0.0"
+    assert predictions["protocol_version"] == "2.1.0"
     assert review["schema_version"] == "2.0.0"
-    assert review["protocol_version"] == "2.0.0"
+    assert review["protocol_version"] == "2.1.0"
     assert predictions["units_total"] == 2
     assert review["units_total"] == 2
     assert review["model_prediction_blinded"] is True
