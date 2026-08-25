@@ -51,12 +51,19 @@ def test_review_queue_blinds_predictions(tmp_path):
 
     predictions, review = build_surface_type_artifacts(tmp_path, max_units=10)
 
+    assert predictions["schema_version"] == "2.0.0"
+    assert predictions["protocol_version"] == "2.0.0"
+    assert review["schema_version"] == "2.0.0"
+    assert review["protocol_version"] == "2.0.0"
     assert predictions["units_total"] == 2
     assert review["units_total"] == 2
     assert review["model_prediction_blinded"] is True
     assert "predicted_surface_type" in predictions["units"][0]
+    assert "predicted_access_state" in predictions["units"][0]
     assert "predicted_surface_type" not in review["units"][0]
+    assert review["units"][0]["collector_access_state"] == "accessible"
     assert review["units"][0]["human_surface_type"] is None
+    assert review["units"][0]["human_access_state"] is None
     assert review["units"][0]["review_status"] == "pending"
 
 
@@ -74,6 +81,7 @@ def test_predictions_keep_item_level_separate_from_human_label(tmp_path):
     )
     assert item_prediction["predicted_surface_type"] == "audiovisual_item"
     assert item_prediction["predicted_item_level"] is True
+    assert item_prediction["predicted_access_state"] == "accessible"
     assert item_review["human_is_item_level"] is None
 
 
