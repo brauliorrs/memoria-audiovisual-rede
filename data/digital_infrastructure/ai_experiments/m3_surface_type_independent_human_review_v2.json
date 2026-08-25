@@ -18,7 +18,7 @@
   "source_review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2.json",
   "units_total": 33,
-  "reviewed_units_total": 11,
+  "reviewed_units_total": 12,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all human decisions are closed.",
   "protocol_deviations": [
     {
@@ -136,6 +136,16 @@
       "human_is_item_level": false,
       "human_access_state": "accessible",
       "human_review_note": "Classificação humana: página temática/listagem de múltiplos filmes de arquivo; não corresponde a um item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cinememoire-surface-c6a0f033b262c670",
+      "entity_id": "cinememoire",
+      "page_url": "https://cinememoire.net/acces-pro",
+      "human_surface_type": "restricted_or_unavailable",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície de acesso restrito/área pessoal; a própria página de acesso foi observada como acessível pelo coletor, portanto tipo semântico e estado de acesso permanecem separados.",
       "review_status": "completed"
     }
   ]
