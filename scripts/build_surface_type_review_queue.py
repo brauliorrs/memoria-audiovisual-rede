@@ -15,6 +15,10 @@ from memoria_audiovisual.digital_infrastructure.surface_typing import (
     classify_surface_mapping,
 )
 
+DEFAULT_ARTIFACT_ID = "mar-surface-type-predictions-v2"
+DEFAULT_QUEUE_ID = "mar-surface-type-review-v2"
+DEFAULT_STAGE = "t2a_mar_surface_typing_validation"
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -38,6 +42,12 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument("--max-units", type=int, default=60)
+    parser.add_argument("--exclude-urls-file", type=Path)
+    parser.add_argument("--artifact-id", default=DEFAULT_ARTIFACT_ID)
+    parser.add_argument("--queue-id", default=DEFAULT_QUEUE_ID)
+    parser.add_argument("--stage", default=DEFAULT_STAGE)
+    parser.add_argument("--sample-role", default="unspecified")
+    parser.add_argument("--independent-validation-sample", action="store_true")
     return parser.parse_args()
 
 
@@ -60,14 +70,49 @@ def _iter_reports(input_root: Path) -> Iterable[tuple[Path, dict[str, object]]]:
             yield path, payload
 
 
+def _load_excluded_urls(path: Path | None) -> set[str]:
+    if path is None:
+        return set()
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(payload, list):
+        return {str(value).strip() for value in payload if str(value).strip()}
+    if not isinstance(payload, dict):
+        raise ValueError("exclude URL file must contain a JSON object or list")
+
+    values = payload.get("urls")
+    if isinstance(values, list):
+        return {str(value).strip() for value in values if str(value).strip()}
+
+    units = payload.get("units")
+    if isinstance(units, list):
+        excluded: set[str] = set()
+        for unit in units:
+            if not isinstance(unit, dict):
+                continue
+            value = str(unit.get("url") or unit.get("page_url") or "").strip()
+            if value:
+                excluded.add(value)
+        return excluded
+
+    raise ValueError("exclude URL object must provide urls[] or units[]")
+
+
 def build_surface_type_artifacts(
     input_root: Path,
     *,
     max_units: int = 60,
+    exclude_page_urls: set[str] | None = None,
+    artifact_id: str = DEFAULT_ARTIFACT_ID,
+    queue_id: str = DEFAULT_QUEUE_ID,
+    stage: str = DEFAULT_STAGE,
+    sample_role: str = "unspecified",
+    is_independent_validation_sample: bool = False,
 ) -> tuple[dict[str, object], dict[str, object]]:
     predictions: list[dict[str, object]] = []
     review_units: list[dict[str, object]] = []
     seen: set[tuple[str, str]] = set()
+    excluded_urls = exclude_page_urls or set()
+    excluded_matches = 0
 
     for path, report in _iter_reports(input_root):
         root_url = str(report.get("root_url") or "")
@@ -87,6 +132,9 @@ def build_surface_type_artifacts(
                 continue
             page_url = str(page.get("url") or "")
             if not page_url:
+                continue
+            if page_url in excluded_urls:
+                excluded_matches += 1
                 continue
             dedupe = (entity_id, page_url)
             if dedupe in seen:
@@ -135,26 +183,31 @@ def build_surface_type_artifacts(
         if len(review_units) >= max_units:
             break
 
+    shared_metadata = {
+        "protocol_version": SURFACE_TYPING_PROTOCOL_VERSION,
+        "sample_role": sample_role,
+        "is_independent_validation_sample": is_independent_validation_sample,
+        "excluded_reference_urls_total": len(excluded_urls),
+        "excluded_observed_matches": excluded_matches,
+        "does_not_modify_official_baseline": True,
+    }
     predictions_payload: dict[str, object] = {
         "schema_version": "2.0.0",
-        "artifact_id": "mar-surface-type-predictions-v2",
+        "artifact_id": artifact_id,
         "task": "mar_surface_type_classification",
-        "protocol_version": SURFACE_TYPING_PROTOCOL_VERSION,
         "status": "ready" if predictions else "no_inputs_found",
-        "does_not_modify_official_baseline": True,
         "is_scientific_result": False,
         "classes": list(SURFACE_TYPES),
         "units_total": len(predictions),
         "units": predictions,
+        **shared_metadata,
     }
     review_payload: dict[str, object] = {
         "schema_version": "2.0.0",
-        "queue_id": "mar-surface-type-review-v2",
-        "stage": "t2a_mar_surface_typing_validation",
-        "protocol_version": SURFACE_TYPING_PROTOCOL_VERSION,
+        "queue_id": queue_id,
+        "stage": stage,
         "status": "pending_human_review" if review_units else "no_inputs_found",
         "model_prediction_blinded": True,
-        "does_not_modify_official_baseline": True,
         "is_prevalence_sample": False,
         "classes": list(SURFACE_TYPES),
         "decision_rule": (
@@ -164,15 +217,23 @@ def build_surface_type_artifacts(
         ),
         "units_total": len(review_units),
         "units": review_units,
+        **shared_metadata,
     }
     return predictions_payload, review_payload
 
 
 def main() -> int:
     args = parse_args()
+    excluded_urls = _load_excluded_urls(args.exclude_urls_file)
     predictions, review = build_surface_type_artifacts(
         args.input_root,
         max_units=args.max_units,
+        exclude_page_urls=excluded_urls,
+        artifact_id=args.artifact_id,
+        queue_id=args.queue_id,
+        stage=args.stage,
+        sample_role=args.sample_role,
+        is_independent_validation_sample=args.independent_validation_sample,
     )
     args.predictions_output.parent.mkdir(parents=True, exist_ok=True)
     args.review_output.parent.mkdir(parents=True, exist_ok=True)
@@ -188,9 +249,13 @@ def main() -> int:
         json.dumps(
             {
                 "protocol_version": SURFACE_TYPING_PROTOCOL_VERSION,
+                "sample_role": args.sample_role,
+                "is_independent_validation_sample": args.independent_validation_sample,
                 "predictions_status": predictions["status"],
                 "review_status": review["status"],
                 "units_total": review["units_total"],
+                "excluded_reference_urls_total": review["excluded_reference_urls_total"],
+                "excluded_observed_matches": review["excluded_observed_matches"],
                 "predictions_output": str(args.predictions_output),
                 "review_output": str(args.review_output),
             },
