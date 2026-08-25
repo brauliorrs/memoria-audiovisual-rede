@@ -140,6 +140,8 @@ For example, the C1 real-corpus negative challenge preserved a blind human revie
 
 The first M3 blind review has a different historical deviation: predictions were computed in runner memory but were not durably persisted. M3 therefore remains `calibration_only`, while the subsequent compact replay is `diagnostic_only`.
 
+The resulting 17 human-reviewed M3 units were then intentionally reused only as a development/regression calibration set in `MAR-T2A-M3-CAL-002`. Protocol 2.0.0 reproducing all 17 human decisions is therefore evidence that the known corrections were encoded, **not** an independent 100% performance estimate. Those 17 units are excluded from the next independent post-calibration validation sample.
+
 ## Artifact integrity
 
 The validator verifies that every registered artifact path exists. When the registry declares an integrity identifier for the current artifact, it also verifies the bytes:
@@ -192,6 +194,7 @@ In particular:
 | [`MAR-T2A-C2-M4-PILOT-001`](experiments/2026-08_c2_m4_gate2_candidate_pilot_v1.md) | Gate 2 / M4 | `calibration_only` | completed; calibration finding |
 | [`MAR-T2A-M3-BLIND-001`](experiments/2026-08_m3_surface_typing_blind_validation_v1.md) | M3 | `calibration_only` | completed blind human calibration |
 | `MAR-T2A-M3-REPLAY-001` | M3 | `diagnostic_only` | compact-field diagnostic replay |
+| [`MAR-T2A-M3-CAL-002`](experiments/2026-08_m3_surface_typing_calibration_v2.md) | M3 protocol 2.0.0 | `calibration_only` | calibrated candidate; 17-unit regression complete |
 
 ## CI acceptance rule
 
