@@ -37,6 +37,9 @@ jobs:
       - name: Audit Streamlit visual layout
         run: python scripts/audit_streamlit_visual_layout.py
 
+      - name: Validate scientific experiment registry
+        run: python scripts/validate_experiment_registry.py
+
       - name: Run tests
         run: python -m pytest -q
 
