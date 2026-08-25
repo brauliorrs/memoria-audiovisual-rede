@@ -158,6 +158,39 @@ detection
 
 Disappearance, restriction, institutional adoption of AI and other consequential claims must not be published as verified facts without the required evidence and review.
 
+## Experiment documentation standard
+
+Every empirical calibration, validation, diagnostic replay or operational pilot that can affect the scientific interpretation of MAR must be registered as a durable experiment.
+
+The canonical policy is [Experiment Registry and Validation Record](13_experiment_registry.md). Detailed reports are stored under `docs/research/experiments/`, and the machine-readable index is:
+
+```text
+data/digital_infrastructure/ai_experiments/experiment_registry_v1.json
+```
+
+A scientifically closed experiment must record, where applicable:
+
+- stable experiment ID and version;
+- validation question;
+- experiment type and scientific role;
+- sample-selection procedure and unit of analysis;
+- observation and review dates;
+- software branch, commit and workflow identifiers;
+- protocol and classifier version;
+- automated predictions;
+- prediction-artifact integrity hash;
+- blinding procedure;
+- human-review artifact;
+- evaluation artifact;
+- protocol deviations;
+- limitations and non-assessable cases;
+- permitted and prohibited interpretations;
+- final decision and next validation gate.
+
+For blind validation of automated mechanisms, predictions must be durably persisted and integrity-identified **before** the human-review queue is opened. If this does not occur, the run may remain scientifically useful as calibration, but it must not be retrospectively described as a valid estimate of the original mechanism's performance.
+
+Protocol deviations are scientific data. They must be preserved in the experiment history rather than silently repaired or overwritten.
+
 ## Persistence and recovery
 
 Validation must confirm that:
@@ -168,7 +201,8 @@ Validation must confirm that:
 - manifests match persisted products;
 - corrupted or inconsistent state blocks consolidation;
 - methodology changes do not silently rewrite historical results;
-- temporary workflow-artifact expiry does not remove durable scientific history.
+- temporary workflow-artifact expiry does not remove durable scientific history;
+- experimental predictions, human-review decisions and final comparison reports required for scientific reproducibility are not left only in transient runner state.
 
 ## Public-interface validation
 
@@ -197,6 +231,7 @@ The infrastructure should be considered ready only when:
 - two-snapshot comparison behaves as intended;
 - review and publication gates function correctly;
 - historical persistence and recovery are verified;
+- scientifically relevant experiments have durable registry entries and artifact inventories;
 - unresolved limitations are documented;
 - the acceptance decision is recorded explicitly.
 
@@ -212,7 +247,8 @@ Each validation cycle must produce a concise, versioned report containing:
 - known limitations;
 - corrections applied;
 - unresolved risks;
-- final acceptance status and responsible reviewer.
+- final acceptance status and responsible reviewer;
+- links to the corresponding registered experiments and durable artifacts when empirical experiments were performed.
 
 Operational validation is therefore both a software-quality process and a methodological audit. It is the principal gate preventing architectural readiness from being presented as scientific validation.
 
