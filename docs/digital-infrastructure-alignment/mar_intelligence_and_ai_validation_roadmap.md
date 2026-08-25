@@ -10,6 +10,8 @@ Este documento organiza a ordem científica e operacional das validações relac
 
 A ordem de desenvolvimento e validação é sequencial: primeiro o MAR precisa observar corretamente as superfícies e unidades do corpus; depois as dimensões institucionais e de conteúdo podem ser extraídas sobre esse universo observado.
 
+Os experimentos empíricos desta etapa devem ser registrados conforme `docs/research/13_experiment_registry.md` e indexados em `data/digital_infrastructure/ai_experiments/experiment_registry_v1.json`.
+
 ## Ordem de prioridade
 
 ### Camada 0 — núcleo observacional do MAR
@@ -76,11 +78,52 @@ A primeira versão conservadora da tipagem foi implementada em `src/memoria_audi
 - `restricted_or_unavailable`;
 - `unknown`.
 
-Somente `item_record` e `audiovisual_item` são classes item-level. Um vídeo incorporado em página geral não é suficiente para transformar a superfície em item audiovisual. Bloqueios, erros de acesso e ambiguidades também permanecem separados de classificações negativas.
+Somente `item_record` e `audiovisual_item` são classes item-level. Um vídeo incorporado em página geral não é suficiente para transformar a superfície em item audiovisual.
 
-O gerador `scripts/build_surface_type_review_queue.py` produz dois artefatos separados: previsões automáticas e fila cega de revisão humana. O revisor não recebe a previsão do mecanismo durante a anotação. Os testes controlados e o workflow `Quality Checks` passaram integralmente em 19 de agosto de 2026.
+A primeira revisão humana cega real foi concluída em 24 de agosto de 2026 sobre uma fila de **17 superfícies** observadas em INA, ECPAD, ARCHIPOP, BFI e Europeana. O revisor não recebeu as previsões determinísticas durante a anotação.
 
-Estado: **implementado estruturalmente; validação humana empírica em andamento**.
+Resultado humano da amostra de calibração:
+
+- 17/17 unidades classificadas;
+- 4 superfícies item-level;
+- 13 superfícies não item-level;
+- 0 casos finais `unknown`;
+- distribuição: 3 `homepage`, 1 `institutional_landing_page`, 1 `archive_landing_page`, 7 `search_or_index`, 1 `news_or_editorial` e 4 `audiovisual_item`.
+
+A amostra **não é amostra de prevalência** e essas proporções não devem ser generalizadas para o corpus MAR.
+
+A revisão produziu três refinamentos metodológicos centrais:
+
+1. **tipo de superfície e estado de acesso são dimensões independentes** — uma página pode continuar sendo `audiovisual_item` mesmo com reprodução geograficamente restrita;
+2. **`robots.txt` descreve a condição da coleta automatizada, não o papel da superfície observado por um humano**;
+3. **páginas temáticas que agregam vários registros sob um verbete pertencem a `search_or_index`**, não a classes item-level.
+
+#### Desvio de protocolo da primeira execução real
+
+A sonda temporária usada no workflow `Quality Checks` calculou internamente `_predictions` e a fila cega, mas serializou apenas a fila humana. As previsões originais não foram persistidas em arquivo durável nem em artifact do run.
+
+O workflow dedicado `.github/workflows/t2a-mar-surface-type-sample.yml` já previa persistir previsões e fila separadamente, porém não foi o produtor da amostra de 17 unidades porque o filtro de branch do workflow não correspondia à base do PR operacional temporário.
+
+Consequência científica: **não existe artefato congelado das previsões automáticas originais para as 17 unidades**. Portanto não é válido calcular retrospectivamente acurácia, precisão, recall ou F1 do run original.
+
+Foi criado posteriormente um replay com os campos compactos preservados na fila, exclusivamente para diagnóstico. Esse replay não é a previsão original e não constitui resultado científico de performance.
+
+A documentação completa do experimento está em:
+
+```text
+docs/research/experiments/2026-08_m3_surface_typing_blind_validation_v1.md
+```
+
+Artefatos centrais:
+
+```text
+data/digital_infrastructure/ai_experiments/mar_surface_type_review_queue_v1.json
+data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_v1.json
+data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_conclusion_v1.json
+data/digital_infrastructure/ai_experiments/mar_surface_type_compact_replay_diagnostic_v1.json
+```
+
+Estado: **implementado estruturalmente; primeira calibração humana cega concluída; validação independente de performance pendente**.
 
 ### M4 — resolução de candidato em nível de item
 
@@ -94,6 +137,8 @@ A primeira revisão manual da fila `ai-archive-two-gate-candidates-v1` mostrou d
 - INA: a URL candidata era uma página institucional/principal com links para outras áreas do acervo.
 
 Interpretação: **0/2 URLs candidatas eram unidades audiovisuais elegíveis em nível de item**. Esse resultado não permite inferir ausência de IA, ausência de acervo ou falha das instituições. Ele revela uma limitação de resolução/seleção de URL no gerador de candidatos e orienta o próximo aperfeiçoamento da inteligência do MAR.
+
+Esse piloto está registrado como `MAR-T2A-C2-M4-PILOT-001` no registro de experimentos.
 
 ### M5 — pertencimento ao corpus
 
@@ -143,6 +188,8 @@ Objetivo: reconhecer evidência textual, estruturada ou técnica de participaç�
 
 Estado: **validada para a versão atual do protocolo**, exclusivamente como mecanismo de identificação terminológica/contextual. Essa validação não demonstra presença de IA em nenhum acervo.
 
+O experimento está registrado como `MAR-T2A-C1-TERM-001`.
+
 ### C2 — Porta 2: confirmação no acervo observado
 
 A Porta 2 é sequencial e só produz ocorrência positiva quando todas as condições são satisfeitas:
@@ -176,8 +223,8 @@ Estado: **em andamento para validação em itens reais do corpus**. A calibraç�
 | Núcleo MAR | execução, snapshots, proveniência, superfícies e exposição | **em andamento — prioridade atual** |
 | Inteligência/automação MAR | M1 detecção de acervo | **em andamento** |
 | Inteligência/automação MAR | M2 detecção de vídeo público | **em andamento** |
-| Inteligência/automação MAR | M3 tipo de superfície/unidade | **implementado estruturalmente; validação humana em andamento** |
-| Inteligência/automação MAR | M4 candidato real em nível de item | **em andamento; primeira revisão 0/2** |
+| Inteligência/automação MAR | M3 tipo de superfície/unidade | **estrutura implementada; primeira calibração humana cega concluída; validação independente pendente** |
+| Inteligência/automação MAR | M4 candidato real em nível de item | **em andamento; primeiro piloto 0/2** |
 | Inteligência/automação MAR | M5 pertencimento ao corpus | **em andamento** |
 | Inteligência/automação MAR | M6 observabilidade pública do item | **em andamento** |
 | IA institucional | evidência pública de uso institucional ligado ao acervo | **em andamento** |
@@ -185,24 +232,42 @@ Estado: **em andamento para validação em itens reais do corpus**. A calibraç�
 | IA no conteúdo | C2 Porta 2 completa | **em andamento** |
 | IA no conteúdo | C3 classe de participação da IA | **em andamento** |
 
-## Decisão de prioridade após a primeira revisão da Porta 2
+## Decisão de prioridade após as primeiras revisões
 
 A primeira revisão da Porta 2 não será tratada como falha metodológica nem como resultado negativo de IA. Ela demonstrou que o gerador atual pode selecionar uma URL geral presente em um registro materializado mesmo quando a tarefa posterior exige uma unidade audiovisual em nível de item.
 
-A prioridade passa a ser melhorar e validar a **inteligência/automação do MAR na resolução de superfícies e unidades**, antes de ampliar a validação de IA institucional ou repetir a Porta 2 em escala.
+A primeira revisão M3, por sua vez, demonstrou que a taxonomia humana consegue resolver os casos observados, mas também expôs requisitos de representação e uma falha de persistência experimental que impede usar aquele run como estimativa válida de performance automática.
+
+A prioridade permanece melhorar e validar a **inteligência/automação do MAR na resolução de superfícies e unidades**, antes de ampliar a validação de IA institucional ou repetir a Porta 2 em escala.
 
 As demais dimensões permanecem **em andamento**, preservando seus artefatos, decisões e protocolos já produzidos.
 
 ## Próximo portão
 
-A próxima etapa é materializar uma **amostra real e cega de superfícies públicas** a partir da exploração controlada do MAR e revisar humanamente a tipagem. A amostra deve conter páginas institucionais, entradas de acervo, índices/buscas, páginas editoriais, fichas de item, itens audiovisuais e casos não avaliáveis quando existirem.
+Os 17 casos da primeira revisão M3 passam a funcionar como **conjunto de calibração e regressão**, não como conjunto final de teste após a correção das regras.
 
-Antes de uma nova rodada de IA institucional ou de IA em conteúdo, o MAR deve demonstrar em amostra humana que consegue:
+A próxima etapa é:
+
+1. revisar as regras determinísticas de M3 à luz dos erros e refinamentos observados;
+2. separar explicitamente `surface_type`, estado de coleta e estado de acesso;
+3. congelar a nova versão do classificador e do protocolo;
+4. construir uma **nova amostra independente de superfícies públicas**;
+5. materializar as entradas completas usadas pelo classificador;
+6. gerar e persistir as previsões automáticas antes de qualquer revisão humana;
+7. registrar hash SHA-256 do artefato de previsões congeladas;
+8. gerar uma fila humana separada e cega;
+9. fechar a revisão humana antes do unblinding;
+10. calcular matriz de confusão e métricas por classe;
+11. calcular separadamente precisão, recall, F1 e especificidade para a decisão item-level;
+12. registrar erros residuais, limitações e decisão de passagem para M4–M6.
+
+Antes de uma nova rodada de IA institucional ou de IA em conteúdo em escala, o MAR deve demonstrar em amostra humana independente que consegue:
 
 1. distinguir páginas gerais de fichas de item;
 2. localizar URLs específicas de itens quando elas existem;
 3. registrar corretamente casos em que não existe superfície específica acessível;
 4. manter a ligação entre item, corpus, URL, evidência e snapshot;
-5. expor esses estados sem transformar não detecção em ausência.
+5. expor esses estados sem transformar não detecção em ausência;
+6. reproduzir a avaliação a partir de artefatos experimentais duráveis.
 
 Somente depois dessa validação a expansão das Camadas 2 e 3 deve voltar a ser prioridade científica.
