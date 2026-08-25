@@ -24,6 +24,7 @@ For the relationship among the scientific, analytical and technical documentatio
 12. [Future research](10_future_research.md)
 13. [Publications and research outputs](11_publications_and_outputs.md)
 14. [Reuse and research collaboration](12_reuse_and_collaboration.md)
+15. [Experiment registry and validation record](13_experiment_registry.md)
 
 ## Canonical role of this handbook
 
@@ -33,6 +34,7 @@ The specialised layers complement this handbook:
 
 - `docs/analytics/` specifies computational indicators, formulas, coverage and persistence;
 - `docs/digital-infrastructure-alignment/` specifies schemas, implementation, evidence governance, workflows and backlog;
+- `data/digital_infrastructure/ai_experiments/experiment_registry_v1.json` indexes empirical calibration, validation and diagnostic experiments in machine-readable form;
 - `README.md` provides a concise international entry point and must remain consistent with this handbook.
 
 When a scientific definition or interpretation differs across documents, this handbook and the documented governance rules control the public interpretation until the inconsistency is formally resolved.
@@ -63,6 +65,7 @@ To avoid ambiguity among the research, analytics and operational documentation, 
 - **Not identified** means no evidence was found in the assessed surface; it does not prove institutional absence.
 - **Not assessable** means the available route or evidence is insufficient for a valid classification.
 - **Operational validation** is the current phase in which implementation behaviour and detector outputs are tested against controlled real-world observations.
+- **Registered experiment** is a versioned calibration, validation, pilot or diagnostic execution with durable provenance, artifacts, limitations and scientific-use boundaries recorded in the experiment registry.
 
 ## Documentation principles
 
@@ -78,6 +81,7 @@ To avoid ambiguity among the research, analytics and operational documentation, 
 - Treat corpus expansion and denominator change as versioned scientific decisions.
 - Allow discovery across regions in parallel while keeping incorporation waves controlled and auditable.
 - Treat cross-domain reuse as adaptation requiring new validation, not automatic transfer.
+- Preserve experiment protocols, deviations, prediction artifacts, human-review artifacts and diagnostic replays as distinct scientific records.
 
 ## Current phase
 
@@ -85,7 +89,7 @@ The core infrastructure and the first complete version of the Research Handbook 
 
 The latest verified automated quality workflow passed dependency installation, Python compilation, unit tests and the deployment snapshot check. The project is now in **operational validation**, with emphasis on controlled real-world execution, manual evidence review, detector correction, verification of the scientific indicators and simulation of the expansion-readiness gates.
 
-Automated test success should not be interpreted as completed empirical validation of detector accuracy, corpus expansion rules or analytical denominators.
+Automated test success should not be interpreted as completed empirical validation of detector accuracy, corpus expansion rules or analytical denominators. T2A experiments are now indexed through the experiment registry so that calibration findings, protocol deviations and valid performance results remain distinguishable.
 
 ## Citation, reuse and contribution
 
