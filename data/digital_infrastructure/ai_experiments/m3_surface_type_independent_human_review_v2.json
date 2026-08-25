@@ -18,7 +18,7 @@
   "source_review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2.json",
   "units_total": 33,
-  "reviewed_units_total": 4,
+  "reviewed_units_total": 5,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all human decisions are closed.",
   "protocol_deviations": [
     {
@@ -66,6 +66,16 @@
       "human_is_item_level": true,
       "human_access_state": "accessible",
       "human_review_note": "Classificação humana: página específica de item audiovisual com mídia pública associada.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cinearchives-surface-96aefb58331a3d52",
+      "entity_id": "cinearchives",
+      "page_url": "https://www.cinearchives.org/js/ajax/diaPlugins/1104/ajax/add/kwtheme/1438",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "collector_blocked",
+      "human_review_note": "Classificação humana: superfície de consulta/índice; o bloqueio do coletor por robots afeta o acesso automatizado, não o tipo semântico.",
       "review_status": "completed"
     }
   ]
