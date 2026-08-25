@@ -29,9 +29,15 @@ A report should contain, where applicable:
 
 Blind automated validation must persist the prediction artifact and an integrity hash **before** the human-review queue is opened. A run without that frozen prediction record may inform calibration but must not be retrospectively presented as a valid estimate of the original model or rule performance.
 
+Historical gaps must remain visible. Retrospective conclusion artifacts may make an already documented result durable, but they must identify themselves as retrospective and must not silently rewrite the original queue or workflow state.
+
 ## Current reports
 
-- [M3 blind surface-typing validation v1 — August 2026](2026-08_m3_surface_typing_blind_validation_v1.md)
+- [`MAR-T2A-C1-TERM-001`](2026-08_c1_gate1_terminology_validation_v1.md) — C1 Gate 1 terminology/context validation.
+- [`MAR-T2A-C2-M4-PILOT-001`](2026-08_c2_m4_gate2_candidate_pilot_v1.md) — Gate 2 / M4 item-level candidate eligibility pilot.
+- [`MAR-T2A-M3-BLIND-001`](2026-08_m3_surface_typing_blind_validation_v1.md) — M3 blind human surface-typing calibration.
+
+The M3 compact replay (`MAR-T2A-M3-REPLAY-001`) is documented inside the M3 experiment report because it is a diagnostic derivative of that experiment rather than an independent validation sample.
 
 The machine-readable index is maintained in:
 
