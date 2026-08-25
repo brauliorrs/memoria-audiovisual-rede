@@ -52,14 +52,14 @@
         {
           "deviation_id": "blind_predictions_materialized_after_human_review",
           "severity": "historical_protocol_limitation",
-          "description": "The negative-challenge prediction artifact explicitly records materialized_after_human_blind_review=true. This historical challenge therefore supports the bounded Gate 1 protocol-scope calibration and observed specificity finding, but it is not treated as a preregistered empirical blind-performance estimate under the experiment-governance rule adopted on 2026-08-24."
+          "description": "The negative-challenge prediction artifact was materialized after the human blind review and is not treated as a preregistered empirical blind-performance estimate."
         }
       ],
       "scientific_use": "calibrated terminology/context candidate generation for Gate 2 only",
       "limitations": [
         "The real-corpus blind challenge contained only human-negative cases and cannot estimate positive recall.",
         "The blind prediction set for the negative challenge was materialized after human review rather than frozen before review.",
-        "Controlled positive and negative benchmarks are calibration evidence and do not estimate corpus-wide prevalence or generalisation."
+        "Controlled benchmarks do not estimate corpus-wide prevalence or generalisation."
       ],
       "prohibited_interpretations": [
         "does not validate AI presence in an observed archive",
@@ -115,31 +115,28 @@
       "question": "Do candidate URLs entering Gate 2 represent eligible audiovisual item, version or segment observations before later corpus-membership, public-access and evidence-link checks?",
       "sample_summary": {
         "candidates_total": 2,
-        "entities": [
-          "ecpad",
-          "ina"
-        ],
+        "entities": ["ecpad", "ina"],
         "human_item_level_eligible": 0,
         "human_item_level_ineligible": 2
       },
-      "result_scope": "Only the first sequential Gate 2 eligibility condition was reached. Later membership, access and evidence-link conditions were not evaluated for these two candidates because both failed item-level eligibility.",
+      "result_scope": "Only Gate 2 condition 1 / M4 item-level eligibility was reached because both candidates failed at that first condition.",
       "protocol_deviations": [
         {
           "deviation_id": "original_review_queue_not_closed",
           "severity": "documentation_and_provenance_gap",
-          "description": "The human finding was completed and incorporated into the validation roadmap, but the original machine-readable queue remained pending and did not receive the final human decisions. A retrospective conclusion was created on 2026-08-24 without overwriting the historical queue."
+          "description": "The human finding was completed but the original machine-readable queue remained pending; a retrospective conclusion preserves the result without overwriting the historical queue."
         },
         {
           "deviation_id": "original_human_review_date_not_preserved",
           "severity": "metadata_gap",
-          "description": "The exact original human-review completion date is not present in a dedicated source artifact and is therefore left null in the retrospective conclusion."
+          "description": "The exact original human-review completion date was not preserved in a dedicated source artifact."
         }
       ],
       "scientific_decision": "Treat the 0/2 result as a candidate-resolution limitation and prioritise M3/M4 surface and item resolution before repeating Gate 2 at scale.",
       "limitations": [
         "The sample contained only two candidates and was not designed to estimate prevalence or generalisation.",
         "Only Gate 2 condition 1 / M4 item-level eligibility was reached.",
-        "The original machine-readable review queue was not closed with the final human decisions and the exact original review date was not preserved."
+        "The original review queue was not closed with the final human decisions."
       ],
       "prohibited_interpretations": [
         "does not indicate absence of AI",
@@ -162,10 +159,6 @@
         {
           "path": "docs/research/experiments/2026-08_c2_m4_gate2_candidate_pilot_v1.md",
           "role": "human_readable_experiment_report"
-        },
-        {
-          "path": "docs/digital-infrastructure-alignment/mar_intelligence_and_ai_validation_roadmap.md",
-          "role": "contemporaneous_scientific_interpretation"
         }
       ]
     },
@@ -187,13 +180,7 @@
       "question": "Can M3 distinguish public-surface roles and item-level audiovisual units from general, institutional, archive, search/index and editorial surfaces?",
       "sample_summary": {
         "units_total": 17,
-        "entities": [
-          "archipop",
-          "bfi",
-          "ecpad",
-          "europeana",
-          "ina"
-        ],
+        "entities": ["archipop", "bfi", "ecpad", "europeana", "ina"],
         "human_item_level_true": 4,
         "human_item_level_false": 13,
         "human_unknown": 0,
@@ -218,36 +205,30 @@
         "workflow_run_id": 32291088792,
         "job_id": 96191802582,
         "probe_id": "M3_LIVE_BLIND_QUEUE_V1",
-        "run_id": "m3-live-probe-v1",
-        "policy": {
-          "max_depth": 1,
-          "max_pages_per_entity": 4,
-          "timeout_seconds": 8.0,
-          "respect_robots_txt": true
-        }
+        "run_id": "m3-live-probe-v1"
       },
       "protocol_deviations": [
         {
           "deviation_id": "missing_frozen_prediction_artifact",
           "severity": "invalidates_original_performance_estimation",
-          "description": "The live probe computed _predictions in runner memory but serialized only the blinded review payload. No durable original prediction artifact or workflow artifact is available for the exact 17-unit run."
+          "description": "The live probe computed automatic predictions in runner memory but did not persist a frozen prediction artifact for the exact 17-unit run."
         },
         {
           "deviation_id": "legacy_queue_partially_annotated_after_initial_persistence",
           "severity": "record_separation_issue_without_prediction_unblinding",
-          "description": "The initial blind queue was persisted with blob SHA a5e1f0f690e0e0957fd19805a90a50d13c71f18c. The current queue file later received the first human decision and now has blob SHA 0a9d3b0a6959009631c4fc45efaf9f28b38512dc. Subsequent human decisions were recorded in the separate human-review artifact, which is authoritative for the completed review. No automatic predictions were exposed by this queue mutation."
+          "description": "The initial blind queue was later partially annotated; the separate completed human-review artifact is authoritative and no automatic prediction was exposed by that mutation."
         },
         {
           "deviation_id": "surface_and_access_schema_refinement",
           "severity": "taxonomy_refinement",
-          "description": "Human review demonstrated that surface role and access state must be represented independently; a geographically restricted BFI item remained audiovisual_item while access_state was geo_restricted."
+          "description": "Human review demonstrated that surface role and access state must be represented independently."
         }
       ],
-      "scientific_decision": "Use the 17 units as a calibration and regression set. Revise M3 rules, then evaluate a frozen revised mechanism on a new independent blind sample with predictions durably persisted and hashed before review.",
+      "scientific_decision": "Use the 17 units as a calibration and regression set, revise M3 rules and evaluate the revised mechanism on a new independent blind sample.",
       "limitations": [
-        "The 17-unit sample is a calibration sample and is not representative of surface-type prevalence in the MAR corpus.",
-        "The original deterministic predictions were not durably persisted and original-run performance cannot be estimated validly.",
-        "The compact replay omits original text, metadata_text and structured_text inputs and is diagnostic only."
+        "The 17-unit sample is a calibration sample and is not representative of surface-type prevalence.",
+        "The original deterministic predictions were not durably persisted, so original-run performance cannot be estimated validly.",
+        "The compact replay is diagnostic only."
       ],
       "prohibited_interpretations": [
         "does not estimate prevalence",
@@ -283,9 +264,7 @@
       "version": "1",
       "stage": "t2a_mar_surface_typing_validation",
       "scientific_layer": "mar_intelligence_automation",
-      "experiment_types": [
-        "diagnostic_replay"
-      ],
+      "experiment_types": ["diagnostic_replay"],
       "created_on": "2026-08-24",
       "status": "diagnostic_only",
       "claim_level": "diagnostic_only",
@@ -295,18 +274,8 @@
       "is_original_run_prediction": false,
       "is_scientific_performance_result": false,
       "source_experiment_id": "MAR-T2A-M3-BLIND-001",
-      "replay_input_scope": [
-        "root_url",
-        "page_url",
-        "title",
-        "fetch_status",
-        "media_urls"
-      ],
-      "missing_original_input_dimensions": [
-        "text",
-        "metadata_text",
-        "structured_text"
-      ],
+      "replay_input_scope": ["root_url", "page_url", "title", "fetch_status", "media_urls"],
+      "missing_original_input_dimensions": ["text", "metadata_text", "structured_text"],
       "diagnostic_metrics": {
         "exact_surface_match": {
           "correct": 2,
@@ -327,9 +296,9 @@
       },
       "scientific_use": "diagnosis of deterministic-rule weaknesses only",
       "limitations": [
-        "The replay is not the original run and lacks text, metadata_text and structured_text inputs used by the original discovery materialisation.",
-        "The 17 units were already used for calibration and cannot serve as an independent post-calibration validation set.",
-        "All reported metrics from this replay are diagnostic rather than scientific performance estimates."
+        "The replay is not the original run and lacks richer discovery inputs.",
+        "The 17 units cannot serve as an independent post-calibration validation set.",
+        "Replay metrics are diagnostic rather than scientific performance estimates."
       ],
       "prohibited_interpretations": [
         "must not be reported as performance of the original M3 run",
@@ -341,6 +310,69 @@
           "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_compact_replay_diagnostic_v1.json",
           "role": "diagnostic_replay",
           "content_sha": "57dcbb19e95f41479d7a0c37686df53b99412010"
+        }
+      ]
+    },
+    {
+      "experiment_id": "MAR-T2A-M3-CAL-002",
+      "version": "2.0.0",
+      "stage": "t2a_mar_surface_typing_calibration",
+      "scientific_layer": "mar_intelligence_automation",
+      "experiment_types": ["calibration_experiment"],
+      "decision_date": "2026-08-24",
+      "status": "completed_calibration_only",
+      "claim_level": "calibration_only",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "question": "Can the M3 deterministic rules be revised to encode the 17 completed human surface-role decisions while separating semantic surface role from access state and preserving conservative item-level behaviour?",
+      "sample_summary": {
+        "source_experiment_id": "MAR-T2A-M3-BLIND-001",
+        "calibration_units_total": 17,
+        "is_independent_validation_sample": false,
+        "regression_result": {
+          "surface_type_matches": 17,
+          "item_level_matches": 17,
+          "access_state_matches": 17,
+          "mismatches": 0
+        }
+      },
+      "source_execution": {
+        "protocol_version": "2.0.0",
+        "quality_workflow_run_id": 32801387050,
+        "quality_job_id": 97662753288,
+        "quality_conclusion": "success"
+      },
+      "scientific_decision": "Accept protocol 2.0.0 as the calibrated M3 candidate for a new independent blind validation sample with predictions frozen and SHA-256 hashed before human review.",
+      "limitations": [
+        "The same 17 units were used to develop and regression-test the rules and therefore cannot estimate post-calibration generalisation.",
+        "Complete agreement on the calibration fixture is not an accuracy, precision, recall or F1 estimate.",
+        "Classes absent from the human calibration set still require independent challenge coverage."
+      ],
+      "prohibited_interpretations": [
+        "17/17 calibration agreement must not be reported as independent accuracy",
+        "does not estimate prevalence",
+        "does not establish ecological validation of M3",
+        "does not activate M3 for official baseline use"
+      ],
+      "artifacts": [
+        {
+          "path": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+          "role": "human_derived_calibration_fixture",
+          "content_sha": "c708f7b85b84f775c870ed00c76417e9ac3d7f44"
+        },
+        {
+          "path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py",
+          "role": "calibrated_classifier_implementation",
+          "content_sha": "22239e51c6b9be70287e93493f263c2301c7c212"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_calibration_v2.json",
+          "role": "calibration_conclusion",
+          "content_sha": "48b67632e02cd3e06be4f26234d0c7ecc2efb8bd"
+        },
+        {
+          "path": "docs/research/experiments/2026-08_m3_surface_typing_calibration_v2.md",
+          "role": "human_readable_experiment_report"
         }
       ]
     }
