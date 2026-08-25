@@ -18,7 +18,7 @@
   "source_review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2.json",
   "units_total": 33,
-  "reviewed_units_total": 13,
+  "reviewed_units_total": 14,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all human decisions are closed.",
   "protocol_deviations": [
     {
@@ -156,6 +156,16 @@
       "human_is_item_level": false,
       "human_access_state": "accessible",
       "human_review_note": "Classificação humana: superfície temática/de fundo que organiza múltiplos conteúdos do acervo; não corresponde a um item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cinememoire-surface-4696977fe7757d34",
+      "entity_id": "cinememoire",
+      "page_url": "https://cinememoire.net/archives-cinememoire-ligne/archives-cinememoire-ligne/120-fiche-film/276-film-entomologiste-araignee",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página específica de item audiovisual com mídia pública associada.",
       "review_status": "completed"
     }
   ]
