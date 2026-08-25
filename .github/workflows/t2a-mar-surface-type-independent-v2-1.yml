@@ -1,0 +1,282 @@
+name: T2A MAR surface typing independent validation v2.1
+
+on:
+  pull_request:
+    branches:
+      - feature/fase2-adaptador-auditoria-infraestrutura
+    paths:
+      - "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_validation_protocol_v2_1.json"
+      - "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json"
+      - "tests/fixtures/m3_surface_typing_calibration_v1.json"
+      - "scripts/run_mar_surface_type_sample.py"
+      - "scripts/build_surface_type_review_queue.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_surface_discovery.py"
+      - "src/memoria_audiovisual/digital_infrastructure/surface_typing.py"
+      - ".github/workflows/t2a-mar-surface-type-independent-v2-1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: t2a-mar-surface-type-independent-v2-1-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  independent-sample:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      RUN_ID: m3-surface-independent-v2-1-${{ github.run_id }}
+      PREDICTIONS: data/output/m3_surface_type_independent_predictions_v2_1.json
+      REVIEW_QUEUE: data/output/m3_surface_type_independent_review_queue_v2_1.json
+      FREEZE_MANIFEST: data/output/m3_surface_type_independent_prediction_freeze_v2_1.json
+      KNOWN_URLS: data/output/m3_surface_type_known_urls_exclusion_v2_1.json
+      PROTOCOL: data/digital_infrastructure/ai_experiments/m3_surface_type_independent_validation_protocol_v2_1.json
+      CALIBRATION_FIXTURE: tests/fixtures/m3_surface_typing_calibration_v1.json
+      PRIOR_HUMAN_REVIEW: data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json
+      CLASSIFIER: src/memoria_audiovisual/digital_infrastructure/surface_typing.py
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Validate preregistered protocol and canonical corpora
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from memoria_audiovisual.corpora import CORPORA
+          from memoria_audiovisual.digital_infrastructure.surface_typing import SURFACE_TYPING_PROTOCOL_VERSION
+
+          protocol = json.loads(Path(os.environ["PROTOCOL"]).read_text(encoding="utf-8"))
+          expected = ["dff", "filmarchiv_austria", "euscreen", "czech-television", "ciclic", "cineam"]
+          if protocol.get("status") != "preregistered_before_execution":
+              raise SystemExit("independent M3 2.1 protocol must be preregistered before execution")
+          if protocol.get("surface_typing_protocol_version") != "2.1.0":
+              raise SystemExit("preregistered validation must use protocol 2.1.0")
+          if SURFACE_TYPING_PROTOCOL_VERSION != "2.1.0":
+              raise SystemExit(f"classifier version drift: {SURFACE_TYPING_PROTOCOL_VERSION}")
+          if protocol.get("entities") != expected:
+              raise SystemExit("workflow entities differ from preregistered protocol")
+          if protocol.get("sample_role") != "independent_ecological_validation":
+              raise SystemExit("invalid sample role")
+          for entity_id in expected:
+              corpus = CORPORA.get(entity_id)
+              if not isinstance(corpus, dict):
+                  raise SystemExit(f"unknown preregistered corpus: {entity_id}")
+              if corpus.get("organism_active") is not True:
+                  raise SystemExit(f"inactive preregistered corpus: {entity_id}")
+              if not str(corpus.get("source_url") or "").strip():
+                  raise SystemExit(f"missing source_url for preregistered corpus: {entity_id}")
+          print(json.dumps({
+              "protocol_id": protocol.get("protocol_id"),
+              "protocol_version": SURFACE_TYPING_PROTOCOL_VERSION,
+              "entities": expected,
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Build frozen exclusion set from all 50 known human-reviewed URLs
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          def collect_urls(path: Path):
+              payload = json.loads(path.read_text(encoding="utf-8"))
+              units = payload.get("units") if isinstance(payload, dict) else None
+              if not isinstance(units, list):
+                  units = payload.get("reviewed_units") if isinstance(payload, dict) else None
+              if not isinstance(units, list):
+                  raise SystemExit(f"no units found in exclusion source: {path}")
+              urls = []
+              for unit in units:
+                  if not isinstance(unit, dict):
+                      continue
+                  value = str(unit.get("url") or unit.get("page_url") or "").strip()
+                  if value:
+                      urls.append(value)
+              return urls
+
+          calibration = collect_urls(Path(os.environ["CALIBRATION_FIXTURE"]))
+          prior = collect_urls(Path(os.environ["PRIOR_HUMAN_REVIEW"]))
+          if len(set(calibration)) != 17:
+              raise SystemExit(f"expected 17 calibration URLs, got {len(set(calibration))}")
+          if len(set(prior)) != 33:
+              raise SystemExit(f"expected 33 prior independent URLs, got {len(set(prior))}")
+          combined = sorted(set(calibration) | set(prior))
+          if len(combined) != 50:
+              raise SystemExit(f"expected 50 unique known URLs, got {len(combined)}")
+          out = Path(os.environ["KNOWN_URLS"])
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps({
+              "schema_version": "1.0.0",
+              "artifact_id": "m3-surface-type-known-url-exclusion-v2-1",
+              "sources": [os.environ["CALIBRATION_FIXTURE"], os.environ["PRIOR_HUMAN_REVIEW"]],
+              "urls_total": 50,
+              "urls": combined,
+          }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps({"calibration": 17, "prior_independent": 33, "unique_total": 50}, indent=2))
+          PY
+
+      - name: Explore independent public surfaces
+        run: |
+          python scripts/run_mar_surface_type_sample.py \
+            --run-id "$RUN_ID" \
+            --entities dff filmarchiv_austria euscreen czech-television ciclic cineam \
+            --max-depth 2 \
+            --max-pages 8 \
+            --timeout-seconds 12
+
+      - name: Build independent blinded review queue
+        run: |
+          python scripts/build_surface_type_review_queue.py \
+            --input-root "data/output/_ai_surface_discovery/$RUN_ID" \
+            --predictions-output "$PREDICTIONS" \
+            --review-output "$REVIEW_QUEUE" \
+            --max-units 36 \
+            --exclude-urls-file "$KNOWN_URLS" \
+            --artifact-id "m3-surface-type-independent-predictions-v2-1" \
+            --queue-id "m3-surface-type-independent-review-v2-1" \
+            --stage "t2a_mar_surface_typing_independent_validation" \
+            --sample-role "independent_ecological_validation" \
+            --independent-validation-sample
+
+      - name: Freeze automatic predictions before human review
+        env:
+          GIT_SHA: ${{ github.sha }}
+          WORKFLOW_RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          prediction_path = Path(os.environ["PREDICTIONS"])
+          review_path = Path(os.environ["REVIEW_QUEUE"])
+          freeze_path = Path(os.environ["FREEZE_MANIFEST"])
+          protocol_path = Path(os.environ["PROTOCOL"])
+          known_path = Path(os.environ["KNOWN_URLS"])
+          calibration_path = Path(os.environ["CALIBRATION_FIXTURE"])
+          prior_review_path = Path(os.environ["PRIOR_HUMAN_REVIEW"])
+          classifier_path = Path(os.environ["CLASSIFIER"])
+          builder_path = Path("scripts/build_surface_type_review_queue.py")
+          discovery_path = Path("src/memoria_audiovisual/digital_infrastructure/ai_surface_discovery.py")
+
+          prediction_bytes = prediction_path.read_bytes()
+          review_bytes = review_path.read_bytes()
+          predictions = json.loads(prediction_bytes)
+          review = json.loads(review_bytes)
+          if predictions.get("protocol_version") != "2.1.0" or review.get("protocol_version") != "2.1.0":
+              raise SystemExit("prediction/review protocol version drift")
+
+          freeze = {
+              "schema_version": "1.0.0",
+              "artifact_id": "m3-surface-type-independent-prediction-freeze-v2-1",
+              "protocol_id": "MAR-T2A-M3-VAL-005-PROTOCOL",
+              "protocol_version": "2.1.0",
+              "source_run_id": os.environ["RUN_ID"],
+              "source_workflow_run_id": int(os.environ["WORKFLOW_RUN_ID"]),
+              "source_git_sha": os.environ["GIT_SHA"],
+              "sample_role": "independent_ecological_validation",
+              "is_independent_validation_sample": True,
+              "does_not_modify_official_baseline": True,
+              "frozen_before_human_review": True,
+              "prediction_path": str(prediction_path),
+              "prediction_sha256": hashlib.sha256(prediction_bytes).hexdigest(),
+              "review_queue_path": str(review_path),
+              "review_queue_sha256": hashlib.sha256(review_bytes).hexdigest(),
+              "protocol_path": str(protocol_path),
+              "protocol_sha256": hashlib.sha256(protocol_path.read_bytes()).hexdigest(),
+              "known_url_exclusion_path": str(known_path),
+              "known_url_exclusion_sha256": hashlib.sha256(known_path.read_bytes()).hexdigest(),
+              "calibration_exclusion_sha256": hashlib.sha256(calibration_path.read_bytes()).hexdigest(),
+              "prior_human_review_exclusion_sha256": hashlib.sha256(prior_review_path.read_bytes()).hexdigest(),
+              "classifier_sha256": hashlib.sha256(classifier_path.read_bytes()).hexdigest(),
+              "review_builder_sha256": hashlib.sha256(builder_path.read_bytes()).hexdigest(),
+              "surface_discovery_sha256": hashlib.sha256(discovery_path.read_bytes()).hexdigest(),
+              "prediction_units_total": predictions.get("units_total", 0),
+              "review_units_total": review.get("units_total", 0),
+              "excluded_known_urls_total": review.get("excluded_reference_urls_total"),
+              "excluded_observed_matches": review.get("excluded_observed_matches"),
+              "model_prediction_blinded_in_review_queue": review.get("model_prediction_blinded"),
+          }
+          freeze_path.write_text(json.dumps(freeze, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps(freeze, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Validate independence and freeze integrity
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          predictions_path = Path(os.environ["PREDICTIONS"])
+          review_path = Path(os.environ["REVIEW_QUEUE"])
+          freeze_path = Path(os.environ["FREEZE_MANIFEST"])
+          known_path = Path(os.environ["KNOWN_URLS"])
+
+          predictions = json.loads(predictions_path.read_text(encoding="utf-8"))
+          review = json.loads(review_path.read_text(encoding="utf-8"))
+          freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+          known = json.loads(known_path.read_text(encoding="utf-8"))
+          known_urls = set(known["urls"])
+          review_urls = {unit["page_url"] for unit in review.get("units", [])}
+          overlap = sorted(known_urls & review_urls)
+          if overlap:
+              raise SystemExit(f"independent sample overlaps known development URLs: {overlap}")
+          if len(known_urls) != 50:
+              raise SystemExit("known exclusion set is not exactly 50 URLs")
+          if review.get("excluded_reference_urls_total") != 50:
+              raise SystemExit("builder did not receive all 50 exclusion URLs")
+          if review.get("is_independent_validation_sample") is not True or predictions.get("is_independent_validation_sample") is not True:
+              raise SystemExit("artifacts are not marked independent validation")
+          if review.get("model_prediction_blinded") is not True:
+              raise SystemExit("human queue exposes model predictions")
+          minimum = 18
+          if review.get("units_total", 0) < minimum:
+              raise SystemExit(f"independent M3 sample too small: {review.get('units_total')} < {minimum}")
+          if freeze.get("frozen_before_human_review") is not True:
+              raise SystemExit("predictions were not frozen before review")
+          if hashlib.sha256(predictions_path.read_bytes()).hexdigest() != freeze.get("prediction_sha256"):
+              raise SystemExit("prediction SHA-256 mismatch")
+          if hashlib.sha256(review_path.read_bytes()).hexdigest() != freeze.get("review_queue_sha256"):
+              raise SystemExit("review queue SHA-256 mismatch")
+          print(json.dumps({
+              "run_id": os.environ["RUN_ID"],
+              "protocol_version": predictions.get("protocol_version"),
+              "units_total": review.get("units_total"),
+              "known_urls_excluded": len(known_urls),
+              "overlap_with_known_urls": len(overlap),
+              "prediction_sha256": freeze.get("prediction_sha256"),
+              "review_queue_sha256": freeze.get("review_queue_sha256"),
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload frozen independent validation products
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2a-mar-surface-type-independent-v2-1-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            data/output/_ai_surface_discovery/${{ env.RUN_ID }}/
+            data/output/m3_surface_type_independent_predictions_v2_1.json
+            data/output/m3_surface_type_independent_review_queue_v2_1.json
+            data/output/m3_surface_type_independent_prediction_freeze_v2_1.json
+            data/output/m3_surface_type_known_urls_exclusion_v2_1.json
