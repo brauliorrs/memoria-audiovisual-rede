@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "m3-surface-type-independent-preservation-v2-1",
+  "preserved_on": "2026-08-25",
+  "source_workflow_run_id": 32911622199,
+  "source_artifact_id": 9586738789,
+  "source_artifact_digest": "sha256:fa5d470f7b57904b2eed6def08ec50ec9db485d42c314609ca7b5962f63c07a7",
+  "source_head_sha": "13805bd9782d348af5b4addb77e1efaf6728e321",
+  "source_execution_sha": "9e6fbbc6d89e8d1c221dc52a059f9e1fa7fad147",
+  "protocol_id": "MAR-T2A-M3-VAL-005-PROTOCOL",
+  "protocol_version": "2.1.0",
+  "sample_role": "independent_ecological_validation",
+  "is_independent_validation_sample": true,
+  "does_not_modify_official_baseline": true,
+  "human_review_started": false,
+  "units_total": 36,
+  "known_development_urls_excluded": 50,
+  "overlap_with_known_urls": 0,
+  "entities_preregistered": [
+    "dff",
+    "filmarchiv_austria",
+    "euscreen",
+    "czech-television",
+    "ciclic",
+    "cineam"
+  ],
+  "entities_executed": [
+    "dff",
+    "filmarchiv_austria",
+    "euscreen",
+    "czech-television",
+    "ciclic",
+    "cineam"
+  ],
+  "protocol_deviations": [],
+  "files": [
+    {
+      "role": "predictions",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2_1.json",
+      "sha256": "1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb"
+    },
+    {
+      "role": "review_queue",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_review_queue_v2_1.json",
+      "sha256": "696d6366a8c5b2e20a26137cf91fb6775c3ea9485d81caf9dd9583e20db0b242"
+    },
+    {
+      "role": "prediction_freeze",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_prediction_freeze_v2_1.json",
+      "sha256": "d6cab0451543c4201fa150e31cb1bf7b5027ae50a65b90450d317c831c9ac017"
+    },
+    {
+      "role": "known_url_exclusion",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_known_urls_exclusion_v2_1.json",
+      "sha256": "1cc5e12d4bb710ac2043edbfd2f71aedd847e1704d729dd86bc29b6ecae3aa87"
+    },
+    {
+      "role": "source_summary",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_source_summary_v2_1.json",
+      "sha256": "388907869a58dd113b5b2ec0423ac5ed431c3073727a419f4f6c7257453ea687"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/ciclic_surface_discovery_report.json",
+      "sha256": "9a695cbad18642bacc4cafa4f4352eb7ab2400bc148a86f60f379fa24dd296bc"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/cineam_surface_discovery_report.json",
+      "sha256": "d08ef563763608534aaf6e9e0e6e4b40d24bd06b3628561dbe5876a5e034df40"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/czech-television_surface_discovery_report.json",
+      "sha256": "f6b1ca840b29de7c61b81f04e233ccfc9dfd07cba7286eb59b26a05dcfd3a6ba"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/dff_surface_discovery_report.json",
+      "sha256": "3d5f61ad2a9c290e242e4c774f4677770a9f456ec65a27f59835645a54b78a0f"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/euscreen_surface_discovery_report.json",
+      "sha256": "3f791783329dea8781f72a3a663121882b62b673cfaf403bf02bc51c60cc9722"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e"
+    }
+  ]
+}
