@@ -18,7 +18,7 @@
   "source_review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2.json",
   "units_total": 33,
-  "reviewed_units_total": 16,
+  "reviewed_units_total": 17,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all human decisions are closed.",
   "protocol_deviations": [
     {
@@ -186,6 +186,16 @@
       "human_is_item_level": false,
       "human_access_state": "accessible",
       "human_review_note": "Classificação humana: superfície de fundo/coleção que organiza múltiplos conteúdos do acervo; não corresponde a um item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "eafa-surface-c2ad501be0082d8e",
+      "entity_id": "eafa",
+      "page_url": "https://eafa.org.uk/",
+      "human_surface_type": "homepage",
+      "human_is_item_level": false,
+      "human_access_state": "http_error",
+      "human_review_note": "Classificação humana: homepage institucional do EAFA; o erro HTTP observado pelo coletor é registrado separadamente como estado de acesso e não altera o papel semântico da superfície.",
       "review_status": "completed"
     }
   ]
