@@ -1,4 +1,4 @@
-name: T2A MAR surface typing calibration smoke
+name: T2A MAR surface typing calibration smoke 2.1
 
 on:
   pull_request:
@@ -9,20 +9,21 @@ on:
       - "scripts/build_surface_type_review_queue.py"
       - "src/memoria_audiovisual/digital_infrastructure/ai_surface_discovery.py"
       - "src/memoria_audiovisual/digital_infrastructure/surface_typing.py"
+      - "tests/test_surface_typing.py"
       - ".github/workflows/t2a-mar-surface-type-sample.yml"
   workflow_dispatch:
     inputs:
       run_id:
-        description: "Identificador auditável da execução de calibração M3"
+        description: "Identificador auditável da execução de calibração M3 2.1"
         required: false
-        default: "m3-surface-calibration-smoke-v2"
+        default: "m3-surface-calibration-smoke-v2-1"
         type: string
 
 permissions:
   contents: read
 
 concurrency:
-  group: t2a-mar-surface-type-sample-${{ github.ref }}
+  group: t2a-mar-surface-type-sample-2-1-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -30,10 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      RUN_ID: ${{ inputs.run_id || 'm3-surface-calibration-smoke-v2' }}
-      PREDICTIONS: data/output/m3_surface_type_predictions_v2.json
-      REVIEW_QUEUE: data/output/m3_surface_type_review_queue_v2.json
-      FREEZE_MANIFEST: data/output/m3_surface_type_prediction_freeze_v2.json
+      RUN_ID: ${{ inputs.run_id || 'm3-surface-calibration-smoke-v2-1' }}
+      PREDICTIONS: data/output/m3_surface_type_predictions_v2_1.json
+      REVIEW_QUEUE: data/output/m3_surface_type_review_queue_v2_1.json
+      FREEZE_MANIFEST: data/output/m3_surface_type_prediction_freeze_v2_1.json
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -47,7 +48,11 @@ jobs:
       - name: Install project
         run: |
           python -m pip install --upgrade pip
-          pip install -e .
+          pip install -e . pytest
+
+      - name: Run M3 regression tests
+        run: |
+          pytest -q tests/test_surface_typing.py
 
       - name: Explore real public surfaces for calibration smoke
         run: |
@@ -57,15 +62,19 @@ jobs:
             --max-depth 1 \
             --max-pages 6
 
-      - name: Build blinded M3 v2 review queue
+      - name: Build blinded M3 2.1 review queue
         run: |
           python scripts/build_surface_type_review_queue.py \
             --input-root "data/output/_ai_surface_discovery/$RUN_ID" \
             --predictions-output "$PREDICTIONS" \
             --review-output "$REVIEW_QUEUE" \
-            --max-units 30
+            --max-units 30 \
+            --artifact-id "m3-surface-type-predictions-v2-1" \
+            --queue-id "m3-surface-type-review-v2-1" \
+            --stage "t2a_mar_surface_typing_calibration" \
+            --sample-role "calibration_smoke_only"
 
-      - name: Freeze automatic predictions before human review
+      - name: Freeze automatic predictions
         env:
           GIT_SHA: ${{ github.sha }}
           WORKFLOW_RUN_ID: ${{ github.run_id }}
@@ -83,14 +92,14 @@ jobs:
           predictions = json.loads(predictions_bytes)
           review = json.loads(review_path.read_text(encoding="utf-8"))
 
-          if predictions.get("protocol_version") != "2.0.0":
-              raise SystemExit("M3 calibration smoke must use surface typing protocol 2.0.0")
-          if review.get("protocol_version") != "2.0.0":
-              raise SystemExit("M3 review queue must use surface typing protocol 2.0.0")
+          if predictions.get("protocol_version") != "2.1.0":
+              raise SystemExit("M3 calibration smoke must use surface typing protocol 2.1.0")
+          if review.get("protocol_version") != "2.1.0":
+              raise SystemExit("M3 review queue must use surface typing protocol 2.1.0")
 
           freeze = {
               "schema_version": "1.0.0",
-              "artifact_id": "m3-surface-type-prediction-freeze-v2",
+              "artifact_id": "m3-surface-type-prediction-freeze-v2-1",
               "protocol_version": predictions["protocol_version"],
               "source_run_id": os.environ["RUN_ID"],
               "source_workflow_run_id": int(os.environ["WORKFLOW_RUN_ID"]),
@@ -98,7 +107,6 @@ jobs:
               "sample_role": "calibration_smoke_only",
               "is_independent_validation_sample": False,
               "does_not_modify_official_baseline": True,
-              "frozen_before_human_review": True,
               "prediction_path": str(predictions_path),
               "prediction_sha256": hashlib.sha256(predictions_bytes).hexdigest(),
               "prediction_units_total": predictions.get("units_total", 0),
@@ -112,7 +120,7 @@ jobs:
           print(json.dumps(freeze, ensure_ascii=False, indent=2))
           PY
 
-      - name: Validate experimental separation
+      - name: Validate calibration-only separation
         run: |
           python - <<'PY'
           import hashlib
@@ -130,16 +138,14 @@ jobs:
           if review.get("does_not_modify_official_baseline") is not True:
               raise SystemExit("M3 review queue must remain outside T2")
           if review.get("model_prediction_blinded") is not True:
-              raise SystemExit("M3 human review must remain blinded")
+              raise SystemExit("M3 review queue must remain prediction-blinded")
           if review.get("units_total", 0) < 1:
               raise SystemExit("real M3 calibration smoke produced no reviewable surfaces")
-          if freeze.get("frozen_before_human_review") is not True:
-              raise SystemExit("M3 automatic predictions were not frozen before review")
           if freeze.get("is_independent_validation_sample") is not False:
               raise SystemExit("calibration smoke must not be labelled independent validation")
           actual_sha256 = hashlib.sha256(predictions_path.read_bytes()).hexdigest()
           if actual_sha256 != freeze.get("prediction_sha256"):
-              raise SystemExit("M3 prediction freeze SHA-256 mismatch")
+              raise SystemExit("M3 prediction SHA-256 mismatch")
 
           print(json.dumps({
               "run_id": os.environ["RUN_ID"],
@@ -151,14 +157,14 @@ jobs:
           }, ensure_ascii=False, indent=2))
           PY
 
-      - name: Upload M3 calibration products
+      - name: Upload M3 2.1 calibration products
         uses: actions/upload-artifact@v4
         with:
-          name: t2a-mar-surface-type-calibration-${{ github.run_id }}
+          name: t2a-mar-surface-type-calibration-v2-1-${{ github.run_id }}
           if-no-files-found: error
           retention-days: 30
           path: |
             data/output/_ai_surface_discovery/${{ env.RUN_ID }}/
-            data/output/m3_surface_type_predictions_v2.json
-            data/output/m3_surface_type_review_queue_v2.json
-            data/output/m3_surface_type_prediction_freeze_v2.json
+            data/output/m3_surface_type_predictions_v2_1.json
+            data/output/m3_surface_type_review_queue_v2_1.json
+            data/output/m3_surface_type_prediction_freeze_v2_1.json
