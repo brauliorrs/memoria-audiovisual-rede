@@ -137,7 +137,7 @@
       "prohibited_interpretations": ["17/17 calibration agreement must not be reported as independent accuracy", "does not estimate prevalence", "does not establish ecological validation of M3", "does not activate M3 for official baseline use"],
       "artifacts": [
         {"path": "tests/fixtures/m3_surface_typing_calibration_v1.json", "role": "human_derived_calibration_fixture", "content_sha": "c708f7b85b84f775c870ed00c76417e9ac3d7f44"},
-        {"path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py", "role": "calibrated_classifier_implementation", "content_sha": "22239e51c6b9be70287e93493f263c2301c7c212"},
+        {"path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py", "role": "calibrated_classifier_implementation_path", "initial_blob_sha": "22239e51c6b9be70287e93493f263c2301c7c212", "current_blob_sha": "00b37ba3433697924d7a761e2cb257b2549f0944"},
         {"path": "data/digital_infrastructure/ai_experiments/mar_surface_type_calibration_v2.json", "role": "calibration_conclusion", "content_sha": "48b67632e02cd3e06be4f26234d0c7ecc2efb8bd"},
         {"path": "docs/research/experiments/2026-08_m3_surface_typing_calibration_v2.md", "role": "human_readable_experiment_report"}
       ]
