@@ -35,9 +35,10 @@ Historical gaps must remain visible. Retrospective conclusion artifacts may make
 
 - [`MAR-T2A-C1-TERM-001`](2026-08_c1_gate1_terminology_validation_v1.md) — C1 Gate 1 terminology/context validation.
 - [`MAR-T2A-C2-M4-PILOT-001`](2026-08_c2_m4_gate2_candidate_pilot_v1.md) — Gate 2 / M4 item-level candidate eligibility pilot.
-- [`MAR-T2A-M3-BLIND-001`](2026-08_m3_surface_typing_blind_validation_v1.md) — M3 blind human surface-typing calibration.
+- [`MAR-T2A-M3-BLIND-001`](2026-08_m3_surface_typing_blind_validation_v1.md) — first M3 blind human surface-typing calibration.
+- [`MAR-T2A-M3-CAL-002`](2026-08_m3_surface_typing_calibration_v2.md) — M3 protocol 2.0.0 calibration and 17-unit regression encoding of the completed human review.
 
-The M3 compact replay (`MAR-T2A-M3-REPLAY-001`) is documented inside the M3 experiment report because it is a diagnostic derivative of that experiment rather than an independent validation sample.
+The M3 compact replay (`MAR-T2A-M3-REPLAY-001`) is documented inside the first M3 experiment report because it is a diagnostic derivative of that experiment rather than an independent validation sample.
 
 The machine-readable index is maintained in:
 
