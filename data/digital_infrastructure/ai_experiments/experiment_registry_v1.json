@@ -1,0 +1,259 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "mar-experiment-registry-v1",
+  "project": "Memória Audiovisual em Rede",
+  "scope": "scientific experiments, calibration, blind validation and diagnostics performed during T2A operational validation",
+  "does_not_modify_official_baseline": true,
+  "governance_document": "docs/research/13_experiment_registry.md",
+  "experiments": [
+    {
+      "experiment_id": "MAR-T2A-C1-TERM-001",
+      "version": "1",
+      "stage": "ai_content_gate1_terminology_validation",
+      "scientific_layer": "ai_in_audiovisual_content",
+      "experiment_types": [
+        "controlled_benchmark",
+        "blind_human_validation",
+        "calibration_experiment"
+      ],
+      "decision_date": "2026-08-18",
+      "status": "validated_for_current_protocol_scope",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "question": "Can the current deterministic Gate 1 protocol identify terminology and context indicating AI participation in audiovisual production or modification without converting that signal into archive-level AI evidence?",
+      "sample_summary": {
+        "controlled_reference_benchmark": {
+          "controls": 6,
+          "positive_controls": 3,
+          "negative_controls": 3,
+          "binary_false_positive": 0,
+          "binary_false_negative": 0,
+          "exact_class_accuracy": 1.0
+        },
+        "blind_real_corpus_negative_challenge": {
+          "units": 12,
+          "human_negative": 12,
+          "true_negative": 12,
+          "false_positive": 0
+        },
+        "supplementary_positive_terminology_controls": {
+          "human_reviewed_total": 6,
+          "human_evaluable": 4,
+          "human_positive": 4,
+          "human_not_assessable": 2
+        }
+      },
+      "scientific_use": "calibrated terminology/context candidate generation for Gate 2 only",
+      "prohibited_interpretations": [
+        "does not validate AI presence in an observed archive",
+        "does not estimate prevalence",
+        "does not bypass Gate 2 item-level, corpus-membership, public-access and item-linked-evidence requirements"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_content_gate1_terminology_validation_conclusion_v1.json",
+          "role": "scientific_conclusion",
+          "content_sha": "c7f1a8857ab1ab27599ef9f196c2cbc908a0ba64"
+        }
+      ]
+    },
+    {
+      "experiment_id": "MAR-T2A-C2-M4-PILOT-001",
+      "version": "1",
+      "stage": "t2a_ai_archive_gate2_validation",
+      "scientific_layer": "ai_in_audiovisual_content",
+      "experiment_types": [
+        "operational_pilot",
+        "calibration_experiment"
+      ],
+      "status": "completed_calibration_finding",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "question": "Do candidate URLs entering Gate 2 represent eligible audiovisual item, version or segment observations before later corpus-membership, public-access and evidence-link checks?",
+      "sample_summary": {
+        "candidates_total": 2,
+        "entities": [
+          "ecpad",
+          "ina"
+        ],
+        "human_item_level_eligible": 0,
+        "human_item_level_ineligible": 2
+      },
+      "result_scope": "Only the first sequential Gate 2 eligibility condition was reached. Later membership, access and evidence-link conditions were not evaluated for these two candidates because both failed item-level eligibility.",
+      "scientific_decision": "Treat the 0/2 result as a candidate-resolution limitation and prioritise M3/M4 surface and item resolution before repeating Gate 2 at scale.",
+      "prohibited_interpretations": [
+        "does not indicate absence of AI",
+        "does not indicate absence of audiovisual archives",
+        "does not estimate prevalence",
+        "does not evaluate all Gate 2 conditions"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_archive_two_gate_review_queue_v1.json",
+          "role": "blind_review_queue",
+          "content_sha": "0df9b507e3173a7428b2906395c6617c36ff5be3"
+        },
+        {
+          "path": "docs/digital-infrastructure-alignment/mar_intelligence_and_ai_validation_roadmap.md",
+          "role": "scientific_interpretation"
+        }
+      ]
+    },
+    {
+      "experiment_id": "MAR-T2A-M3-BLIND-001",
+      "version": "1",
+      "stage": "t2a_mar_surface_typing_validation",
+      "scientific_layer": "mar_intelligence_automation",
+      "experiment_types": [
+        "blind_human_validation",
+        "calibration_experiment"
+      ],
+      "sample_observed_on": "2026-08-19",
+      "human_review_completed_on": "2026-08-24",
+      "status": "completed_calibration_only",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "question": "Can M3 distinguish public-surface roles and item-level audiovisual units from general, institutional, archive, search/index and editorial surfaces?",
+      "sample_summary": {
+        "units_total": 17,
+        "entities": [
+          "archipop",
+          "bfi",
+          "ecpad",
+          "europeana",
+          "ina"
+        ],
+        "human_item_level_true": 4,
+        "human_item_level_false": 13,
+        "human_unknown": 0,
+        "human_surface_type_counts": {
+          "homepage": 3,
+          "institutional_landing_page": 1,
+          "archive_landing_page": 1,
+          "search_or_index": 7,
+          "news_or_editorial": 1,
+          "item_record": 0,
+          "audiovisual_item": 4,
+          "restricted_or_unavailable": 0,
+          "unknown": 0
+        }
+      },
+      "blinding": {
+        "human_reviewer_saw_model_predictions": false,
+        "human_review_closed_before_diagnostic_replay": true
+      },
+      "source_execution": {
+        "workflow_name": "Quality Checks",
+        "workflow_run_id": 32291088792,
+        "job_id": 96191802582,
+        "probe_id": "M3_LIVE_BLIND_QUEUE_V1",
+        "run_id": "m3-live-probe-v1",
+        "policy": {
+          "max_depth": 1,
+          "max_pages_per_entity": 4,
+          "timeout_seconds": 8.0,
+          "respect_robots_txt": true
+        }
+      },
+      "protocol_deviations": [
+        {
+          "deviation_id": "missing_frozen_prediction_artifact",
+          "severity": "invalidates_original_performance_estimation",
+          "description": "The live probe computed _predictions in runner memory but serialized only the blinded review payload. No durable original prediction artifact or workflow artifact is available for the exact 17-unit run."
+        },
+        {
+          "deviation_id": "surface_and_access_schema_refinement",
+          "severity": "taxonomy_refinement",
+          "description": "Human review demonstrated that surface role and access state must be represented independently; a geographically restricted BFI item remained audiovisual_item while access_state was geo_restricted."
+        }
+      ],
+      "scientific_decision": "Use the 17 units as a calibration and regression set. Revise M3 rules, then evaluate a frozen revised mechanism on a new independent blind sample with predictions durably persisted and hashed before review.",
+      "prohibited_interpretations": [
+        "does not estimate prevalence",
+        "does not provide valid original-model performance metrics",
+        "does not establish AI use by institutions",
+        "does not establish AI participation in audiovisual content"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_review_queue_v1.json",
+          "role": "blind_review_queue",
+          "content_sha": "a5e1f0f690e0e0957fd19805a90a50d13c71f18c"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_v1.json",
+          "role": "completed_human_review",
+          "content_sha": "d1b53082184445a6b9247079b85fac2293d4f958"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_conclusion_v1.json",
+          "role": "human_only_conclusion",
+          "content_sha": "03acde4ddb922231e6fff20177fb80b544d2a0f7"
+        },
+        {
+          "path": "docs/research/experiments/2026-08_m3_surface_typing_blind_validation_v1.md",
+          "role": "human_readable_experiment_report"
+        }
+      ]
+    },
+    {
+      "experiment_id": "MAR-T2A-M3-REPLAY-001",
+      "version": "1",
+      "stage": "t2a_mar_surface_typing_validation",
+      "scientific_layer": "mar_intelligence_automation",
+      "experiment_types": [
+        "diagnostic_replay"
+      ],
+      "created_on": "2026-08-24",
+      "status": "diagnostic_only",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "is_original_run_prediction": false,
+      "is_scientific_performance_result": false,
+      "source_experiment_id": "MAR-T2A-M3-BLIND-001",
+      "replay_input_scope": [
+        "root_url",
+        "page_url",
+        "title",
+        "fetch_status",
+        "media_urls"
+      ],
+      "missing_original_input_dimensions": [
+        "text",
+        "metadata_text",
+        "structured_text"
+      ],
+      "diagnostic_metrics": {
+        "exact_surface_match": {
+          "correct": 2,
+          "total": 17,
+          "accuracy": 0.1176470588
+        },
+        "item_level_binary": {
+          "true_positive": 1,
+          "true_negative": 13,
+          "false_positive": 0,
+          "false_negative": 3,
+          "accuracy": 0.8235294118,
+          "precision": 1.0,
+          "recall": 0.25,
+          "f1": 0.4,
+          "specificity": 1.0
+        }
+      },
+      "scientific_use": "diagnosis of deterministic-rule weaknesses only",
+      "prohibited_interpretations": [
+        "must not be reported as performance of the original M3 run",
+        "must not be used as an independent validation set",
+        "must not modify the official baseline"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_compact_replay_diagnostic_v1.json",
+          "role": "diagnostic_replay",
+          "content_sha": "57dcbb19e95f41479d7a0c37686df53b99412010"
+        }
+      ]
+    }
+  ]
+}
