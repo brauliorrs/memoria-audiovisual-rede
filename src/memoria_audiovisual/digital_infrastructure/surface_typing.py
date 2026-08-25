@@ -7,6 +7,12 @@ ambiguidade, a decisão deve permanecer ``unknown``.
 Desde o protocolo 2.0.0, o papel semântico da superfície e o estado de acesso/coleta
 são dimensões independentes. Um bloqueio do coletor, redirecionamento ou restrição
 geográfica não deve, por si só, redefinir o tipo da superfície observada.
+
+O protocolo 2.1.0 reorganiza a precedência de evidências após a validação ecológica
+independente do 2.0.0: filtros/índices são resolvidos antes de heurísticas de ID,
+rotas fortes de item não são anuladas por contexto de arquivo repetido e metadados
+inequivocamente audiovisuais podem confirmar um item mesmo quando o coletor não
+extrai uma URL de mídia reproduzível.
 """
 
 from __future__ import annotations
@@ -14,9 +20,9 @@ from __future__ import annotations
 import re
 from dataclasses import asdict, dataclass
 from typing import Literal, Mapping, Sequence
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import parse_qs, unquote, urlsplit
 
-SURFACE_TYPING_PROTOCOL_VERSION = "2.0.0"
+SURFACE_TYPING_PROTOCOL_VERSION = "2.1.0"
 
 SurfaceType = Literal[
     "homepage",
@@ -69,6 +75,9 @@ _SEARCH_TOKENS = {
     "consulta",
     "consultar",
     "consulter",
+    "zoek",
+    "zoeken",
+    "zoekresultaten",
 }
 _EDITORIAL_PATH_TOKENS = {
     "about",
@@ -98,6 +107,7 @@ _ARCHIVE_TOKENS = {
     "catalogo",
     "fonds",
 }
+_CATALOGUE_TOKENS = {"catalog", "catalogue", "catalogo"}
 _ITEM_TOKENS = {
     "item",
     "record",
@@ -126,6 +136,7 @@ _AUDIOVISUAL_PATH_TOKENS = {
     "movie",
     "movies",
 }
+_AUDIOVISUAL_PLURAL_PATH_TOKENS = {"films", "videos", "audios", "movies"}
 _RECORDISH_PATH_TOKENS = {
     "item",
     "record",
@@ -136,6 +147,18 @@ _RECORDISH_PATH_TOKENS = {
     "asset",
     "media",
 }
+_AJAX_INDEX_TOKENS = {"kwtheme", "kwname", "keyword", "keywords", "filter", "facet"}
+_RESTRICTED_ROUTE_FRAGMENTS = (
+    "/acces-pro",
+    "/espace-perso",
+    "/login",
+    "/signin",
+    "/sign-in",
+    "/account",
+    "/mon-compte",
+    "/restricted",
+    "/private",
+)
 
 _UUID_RE = re.compile(
     r"[0-9a-f]{8}-[0-9a-f]{4}-[1-5]?[0-9a-f]{3}-[89ab]?[0-9a-f]{3}-[0-9a-f]{12}",
@@ -168,11 +191,8 @@ def _normalize(value: str | None) -> str:
 
 
 def _path_tokens(url: str) -> tuple[str, ...]:
-    return tuple(
-        token
-        for token in re.split(r"[^a-z0-9]+", urlsplit(url).path.casefold())
-        if token
-    )
+    path = unquote(urlsplit(url).path).casefold()
+    return tuple(token for token in re.split(r"[^a-z0-9]+", path) if token)
 
 
 def _canonical_identity(url: str) -> tuple[str, str, str]:
@@ -247,7 +267,7 @@ def _access_state(
 def _item_specificity(url: str, tokens: tuple[str, ...], query_keys: set[str]) -> tuple[int, list[str]]:
     score = 0
     evidence: list[str] = []
-    path = urlsplit(url).path.casefold()
+    path = unquote(urlsplit(url).path).casefold()
     basename = path.rsplit("/", 1)[-1]
     stem = basename.rsplit(".", 1)[0]
 
@@ -275,6 +295,23 @@ def _item_specificity(url: str, tokens: tuple[str, ...], query_keys: set[str]) -
     return score, evidence
 
 
+def _has_facet_query(query_keys: set[str]) -> bool:
+    return any(
+        key in {"filter", "filters", "facet", "facets"}
+        or key.startswith("f[")
+        or key.startswith("filter[")
+        or key.startswith("facet[")
+        for key in query_keys
+    )
+
+
+def _looks_restricted_route(path: str, token_set: set[str]) -> bool:
+    path_norm = unquote(path).casefold()
+    if any(fragment in path_norm for fragment in _RESTRICTED_ROUTE_FRAGMENTS):
+        return True
+    return {"acces", "pro"}.issubset(token_set) or {"espace", "perso"}.issubset(token_set)
+
+
 def classify_surface_type(
     *,
     url: str,
@@ -288,10 +325,11 @@ def classify_surface_type(
 ) -> SurfaceTypeDecision:
     """Classifica o papel semântico da superfície e registra acesso separadamente.
 
-    O protocolo evita falsos positivos em nível de item, mas admite que uma URL
-    estruturalmente específica de vídeo/áudio/filme continue sendo item-level mesmo
-    quando a reprodução não está disponível. Estados do coletor são preservados em
-    ``access_state`` e não dominam a classe semântica.
+    A precedência é deliberada: superfícies de restrição e consulta/filtro são
+    resolvidas antes de heurísticas de item; em seguida vêm editorial, item,
+    entrada de arquivo e páginas institucionais. O objetivo é reduzir falsos itens
+    sem ocultar rotas de item fortes em caminhos que também contêm vocabulário de
+    arquivo ou catálogo.
     """
 
     parts = urlsplit(url)
@@ -314,6 +352,25 @@ def classify_surface_type(
         metadata_text=metadata_norm,
     )
 
+    specificity_score, specificity_evidence = _item_specificity(url, tokens, query_keys)
+    catalogue_detail_route = (
+        not is_root_surface
+        and bool(token_set & _CATALOGUE_TOKENS)
+        and specificity_score >= 2
+    )
+    audiovisual_fiche_route = "fiche" in token_set and bool(token_set & _AUDIOVISUAL_PATH_TOKENS)
+    record_detail_route = bool(token_set & {"detail", "details", "record", "notice", "item"}) and specificity_score >= 2
+    strong_item_route = catalogue_detail_route or audiovisual_fiche_route or record_detail_route
+
+    if _looks_restricted_route(parts.path, token_set):
+        return SurfaceTypeDecision(
+            "restricted_or_unavailable",
+            "medium",
+            ("path:restricted-or-personal-area",),
+            access_state,
+            access_evidence,
+        )
+
     search_evidence: list[str] = []
     search_score = 0
     search_path = sorted(token_set & _SEARCH_TOKENS)
@@ -321,17 +378,40 @@ def classify_surface_type(
         search_score += 4
         search_evidence.append(f"path:{search_path[0]}")
     if query_keys & {"q", "query", "search", "keyword", "keywords", "term"}:
-        search_score += 3
+        search_score += 4
         search_evidence.append("query:search-parameter")
+    if _has_facet_query(query_keys):
+        search_score += 4
+        search_evidence.append("query:facet-or-filter")
     search_title = _contains_any(title_norm, _SEARCH_TOKENS)
     if search_title:
         search_score += 2
         search_evidence.append(f"title:{search_title[0]}")
 
-    archive_occurrences = sum(token in _ARCHIVE_TOKENS for token in tokens)
-    if not is_root_surface and archive_occurrences >= 2:
+    if is_root_surface and token_set & _CATALOGUE_TOKENS:
         search_score += 4
-        search_evidence.append("path:nested-or-repeated-archive-index-context")
+        search_evidence.append("root:catalogue-index")
+
+    if "ajax" in token_set and token_set & _AJAX_INDEX_TOKENS:
+        search_score += 4
+        search_evidence.append("path:ajax-filter-index")
+
+    archive_occurrences = sum(token in _ARCHIVE_TOKENS for token in tokens)
+    if not strong_item_route:
+        if not is_root_surface and archive_occurrences >= 2:
+            search_score += 4
+            search_evidence.append("path:nested-or-repeated-archive-index-context")
+        if (
+            not is_root_surface
+            and bool(token_set & _ARCHIVE_TOKENS)
+            and bool(token_set & _AUDIOVISUAL_PLURAL_PATH_TOKENS)
+            and specificity_score < 2
+        ):
+            search_score += 4
+            search_evidence.append("path:archive-audiovisual-browse-context")
+        if not is_root_surface and "fonds" in title_norm:
+            search_score += 4
+            search_evidence.append("title:fund-or-fonds-index")
 
     if search_score >= 4:
         return SurfaceTypeDecision(
@@ -378,9 +458,18 @@ def classify_surface_type(
         item_score += 2
         item_evidence.append(f"path:{item_path[0]}")
 
-    specificity_score, specificity_evidence = _item_specificity(url, tokens, query_keys)
     item_score += specificity_score
     item_evidence.extend(specificity_evidence)
+
+    if catalogue_detail_route:
+        item_score += 2
+        item_evidence.append("path:catalogue-detail")
+    if audiovisual_fiche_route:
+        item_score += 2
+        item_evidence.append("path:audiovisual-fiche")
+    if record_detail_route:
+        item_score += 1
+        item_evidence.append("path:record-detail")
 
     if title_norm and len(title_norm) >= 3:
         item_score += 1
@@ -403,6 +492,9 @@ def classify_surface_type(
     if any(marker in metadata_norm for marker in ("og:video", "og:audio", "twitter:player")):
         media_score += 2
         media_evidence.append("metadata:media")
+    if any(marker in metadata_norm for marker in ("video_frames", "video-frame", "video frame")):
+        media_score += 2
+        media_evidence.append("metadata:audiovisual-frame")
 
     explicit_audiovisual_route = bool(token_set & _AUDIOVISUAL_PATH_TOKENS) and not bool(
         token_set & _RECORDISH_PATH_TOKENS
