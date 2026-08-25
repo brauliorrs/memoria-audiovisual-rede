@@ -126,6 +126,26 @@ The human-only conclusion was persisted separately before any diagnostic compari
 data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_conclusion_v1.json
 ```
 
+### Queue lineage and separation of human review
+
+The first blind queue was initially persisted with blob SHA:
+
+```text
+a5e1f0f690e0e0957fd19805a90a50d13c71f18c
+```
+
+During the earliest human-review step, the first ARCHIPOP decision was written into that queue before the workflow was reorganised around a dedicated human-review file. The queue therefore no longer has the same blob identity as its initial blind state. Its current blob SHA is:
+
+```text
+0a9d3b0a6959009631c4fc45efaf9f28b38512dc
+```
+
+The current queue contains the first human decision while later units remain pending. Subsequent review decisions were not added to that legacy queue; they were preserved in the separate `mar_surface_type_human_review_v1.json` artifact.
+
+This is a **record-separation deviation**, but it did not expose automatic predictions to the reviewer. The authoritative completed human record is the dedicated human-review file, not the partially annotated legacy queue.
+
+The experiment registry preserves both the initial and current queue blob identifiers rather than treating the queue as a single immutable artifact.
+
 ## Human-review result
 
 All **17/17 units** were resolved by the human review. No unit remained `unknown`.
@@ -310,6 +330,13 @@ The 17 units from this experiment may be used for development and regression tes
 data/digital_infrastructure/ai_experiments/mar_surface_type_review_queue_v1.json
 data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_v1.json
 data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_conclusion_v1.json
+```
+
+Queue lineage:
+
+```text
+initial blind queue blob: a5e1f0f690e0e0957fd19805a90a50d13c71f18c
+current partially annotated queue blob: 0a9d3b0a6959009631c4fc45efaf9f28b38512dc
 ```
 
 ### Diagnostic replay
