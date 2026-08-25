@@ -7,6 +7,7 @@
 - **Scientific layer:** AI in audiovisual production/modification
 - **Decision date:** 2026-08-18
 - **Status:** `validated_for_current_protocol_scope`
+- **Scientific claim level:** `protocol_scope`
 - **Prevalence sample:** no
 - **Official baseline modification:** no
 
@@ -78,6 +79,18 @@ data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1
 data/digital_infrastructure/ai_experiments/ai_content_blind_comparison_report_v1.json
 ```
 
+### Historical protocol limitation of the negative challenge
+
+The prediction artifact for this challenge explicitly records:
+
+```text
+materialized_after_human_blind_review = true
+```
+
+The human reviewer therefore remained blind to model predictions, but the prediction artifact was **not frozen before the human review** under the stricter experiment-governance rule later adopted by MAR on 2026-08-24.
+
+This historical fact does not invalidate the bounded Gate 1 calibration conclusion. It does mean that the 12-unit negative challenge must not be retrospectively described as a preregistered empirical blind-performance experiment. Its supported role is narrower: evidence of the behaviour of the current Gate 1 protocol on the observed negative challenge, combined with the controlled benchmark and supplementary terminology controls.
+
 ### Supplementary positive-enriched challenge
 
 A supplementary challenge was constructed to test positive terminology/context recognition without reusing the original 3×3 controls.
@@ -108,6 +121,7 @@ It does **not** support:
 - a claim that any MAR archive contains AI-produced material;
 - prevalence estimates;
 - corpus-wide sensitivity estimates;
+- a claim that the 12-unit negative challenge was a preregistered empirical blind-performance evaluation;
 - bypassing item-level resolution;
 - converting inaccessible evidence surfaces into negative AI classifications.
 
@@ -126,6 +140,13 @@ The experiment established an important separation among:
 - AI-evidence assessability.
 
 An item may be discoverable while its specific public evidence surface is unavailable. Such a case is not eligible for archive-level confirmation while access is unavailable and must not be interpreted as absence of AI evidence.
+
+## Limitations
+
+- the real-corpus blind challenge contained only human-negative cases and cannot estimate positive recall;
+- the negative-challenge prediction set was materialized after human review rather than frozen beforehand;
+- the controlled benchmark is calibration evidence and does not estimate corpus-wide prevalence or generalisation;
+- Gate 1 remains a candidate-generation mechanism and is not archive-level confirmation.
 
 ## Decision
 
