@@ -19,6 +19,7 @@
       ],
       "decision_date": "2026-08-18",
       "status": "validated_for_current_protocol_scope",
+      "claim_level": "protocol_scope",
       "is_prevalence_sample": false,
       "does_not_modify_official_baseline": true,
       "question": "Can the current deterministic Gate 1 protocol identify terminology and context indicating AI participation in audiovisual production or modification without converting that signal into archive-level AI evidence?",
@@ -44,7 +45,22 @@
           "human_not_assessable": 2
         }
       },
+      "blinding": {
+        "human_reviewer_saw_model_predictions": false
+      },
+      "protocol_deviations": [
+        {
+          "deviation_id": "blind_predictions_materialized_after_human_review",
+          "severity": "historical_protocol_limitation",
+          "description": "The negative-challenge prediction artifact explicitly records materialized_after_human_blind_review=true. This historical challenge therefore supports the bounded Gate 1 protocol-scope calibration and observed specificity finding, but it is not treated as a preregistered empirical blind-performance estimate under the experiment-governance rule adopted on 2026-08-24."
+        }
+      ],
       "scientific_use": "calibrated terminology/context candidate generation for Gate 2 only",
+      "limitations": [
+        "The real-corpus blind challenge contained only human-negative cases and cannot estimate positive recall.",
+        "The blind prediction set for the negative challenge was materialized after human review rather than frozen before review.",
+        "Controlled positive and negative benchmarks are calibration evidence and do not estimate corpus-wide prevalence or generalisation."
+      ],
       "prohibited_interpretations": [
         "does not validate AI presence in an observed archive",
         "does not estimate prevalence",
@@ -55,6 +71,17 @@
           "path": "data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json",
           "role": "controlled_benchmark_report",
           "content_sha": "7af6b43f5b800119dc1c54bf044199caa9b52b44"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json",
+          "role": "human_review_queue",
+          "content_sha": "7017094378ab0fc0570545f8c6c474e2813837cc"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_content_blind_predictions_v1.json",
+          "role": "blind_prediction_set_materialized_after_human_review",
+          "content_sha": "3bc98ecdd4b96d53d97b3930932ea71e7b761922",
+          "frozen_before_human_review": false
         },
         {
           "path": "data/digital_infrastructure/ai_experiments/ai_content_blind_comparison_report_v1.json",
@@ -82,6 +109,7 @@
         "calibration_experiment"
       ],
       "status": "completed_calibration_finding",
+      "claim_level": "calibration_only",
       "is_prevalence_sample": false,
       "does_not_modify_official_baseline": true,
       "question": "Do candidate URLs entering Gate 2 represent eligible audiovisual item, version or segment observations before later corpus-membership, public-access and evidence-link checks?",
@@ -108,6 +136,11 @@
         }
       ],
       "scientific_decision": "Treat the 0/2 result as a candidate-resolution limitation and prioritise M3/M4 surface and item resolution before repeating Gate 2 at scale.",
+      "limitations": [
+        "The sample contained only two candidates and was not designed to estimate prevalence or generalisation.",
+        "Only Gate 2 condition 1 / M4 item-level eligibility was reached.",
+        "The original machine-readable review queue was not closed with the final human decisions and the exact original review date was not preserved."
+      ],
       "prohibited_interpretations": [
         "does not indicate absence of AI",
         "does not indicate absence of audiovisual archives",
@@ -123,6 +156,7 @@
         {
           "path": "data/digital_infrastructure/ai_experiments/ai_archive_two_gate_pilot_conclusion_v1.json",
           "role": "retrospective_durable_conclusion",
+          "content_sha": "16ff14eb96de4aad095911b23efb04165e39e6ed",
           "retrospective_documentation": true
         },
         {
@@ -147,6 +181,7 @@
       "sample_observed_on": "2026-08-19",
       "human_review_completed_on": "2026-08-24",
       "status": "completed_calibration_only",
+      "claim_level": "calibration_only",
       "is_prevalence_sample": false,
       "does_not_modify_official_baseline": true,
       "question": "Can M3 distinguish public-surface roles and item-level audiovisual units from general, institutional, archive, search/index and editorial surfaces?",
@@ -209,6 +244,11 @@
         }
       ],
       "scientific_decision": "Use the 17 units as a calibration and regression set. Revise M3 rules, then evaluate a frozen revised mechanism on a new independent blind sample with predictions durably persisted and hashed before review.",
+      "limitations": [
+        "The 17-unit sample is a calibration sample and is not representative of surface-type prevalence in the MAR corpus.",
+        "The original deterministic predictions were not durably persisted and original-run performance cannot be estimated validly.",
+        "The compact replay omits original text, metadata_text and structured_text inputs and is diagnostic only."
+      ],
       "prohibited_interpretations": [
         "does not estimate prevalence",
         "does not provide valid original-model performance metrics",
@@ -248,8 +288,10 @@
       ],
       "created_on": "2026-08-24",
       "status": "diagnostic_only",
+      "claim_level": "diagnostic_only",
       "is_prevalence_sample": false,
       "does_not_modify_official_baseline": true,
+      "question": "What deterministic M3 weaknesses can be diagnosed by replaying the current rules against only the compact fields preserved in the completed 17-unit blind review queue?",
       "is_original_run_prediction": false,
       "is_scientific_performance_result": false,
       "source_experiment_id": "MAR-T2A-M3-BLIND-001",
@@ -284,6 +326,11 @@
         }
       },
       "scientific_use": "diagnosis of deterministic-rule weaknesses only",
+      "limitations": [
+        "The replay is not the original run and lacks text, metadata_text and structured_text inputs used by the original discovery materialisation.",
+        "The 17 units were already used for calibration and cannot serve as an independent post-calibration validation set.",
+        "All reported metrics from this replay are diagnostic rather than scientific performance estimates."
+      ],
       "prohibited_interpretations": [
         "must not be reported as performance of the original M3 run",
         "must not be used as an independent validation set",
