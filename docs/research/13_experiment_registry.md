@@ -122,9 +122,12 @@ Examples include:
 - redirect outside collection scope;
 - access state observed by the human reviewer but not represented by the original schema;
 - human taxonomy refinement during review;
-- software modification after sample exposure.
+- software modification after sample exposure;
+- a human review completed in practice but not closed in its original machine-readable queue.
 
 When a deviation affects inferential validity, the experiment status must be downgraded appropriately, for example from `validation` to `calibration_only` or `diagnostic_only`.
+
+A retrospective conclusion may be created to preserve a finding that was already documented elsewhere, but it must identify itself as retrospective, state what original information is missing and leave the historical source artifact unchanged.
 
 ## Separation from official scientific results
 
@@ -145,12 +148,10 @@ The machine-readable registry currently includes the following T2A experiments:
 
 | Experiment | Stage | Scientific role | Status |
 |---|---|---|---|
-| `MAR-T2A-C1-TERM-001` | Content-AI Gate 1 | terminology/context calibration | validated for current protocol scope |
-| `MAR-T2A-C2-M4-PILOT-001` | Gate 2 / M4 | item-level candidate eligibility pilot | completed; calibration finding |
-| `MAR-T2A-M3-BLIND-001` | M3 | blind human surface-typing calibration | completed; calibration only |
-| `MAR-T2A-M3-REPLAY-001` | M3 | compact-field diagnostic replay | diagnostic only |
-
-The detailed M3 record is available at [M3 blind surface-typing validation v1](experiments/2026-08_m3_surface_typing_blind_validation_v1.md).
+| [`MAR-T2A-C1-TERM-001`](experiments/2026-08_c1_gate1_terminology_validation_v1.md) | Content-AI Gate 1 | terminology/context calibration | validated for current protocol scope |
+| [`MAR-T2A-C2-M4-PILOT-001`](experiments/2026-08_c2_m4_gate2_candidate_pilot_v1.md) | Gate 2 / M4 | item-level candidate eligibility pilot | completed; calibration finding |
+| [`MAR-T2A-M3-BLIND-001`](experiments/2026-08_m3_surface_typing_blind_validation_v1.md) | M3 | blind human surface-typing calibration | completed; calibration only |
+| `MAR-T2A-M3-REPLAY-001` | M3 | compact-field diagnostic replay | diagnostic only; documented within M3 report |
 
 ## Rule for future experiments
 
