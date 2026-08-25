@@ -11,6 +11,7 @@ from typing import Iterable
 
 from memoria_audiovisual.digital_infrastructure.surface_typing import (
     SURFACE_TYPES,
+    SURFACE_TYPING_PROTOCOL_VERSION,
     classify_surface_mapping,
 )
 
@@ -26,14 +27,14 @@ def parse_args() -> argparse.Namespace:
         "--predictions-output",
         type=Path,
         default=Path(
-            "data/digital_infrastructure/ai_experiments/mar_surface_type_predictions_v1.json"
+            "data/digital_infrastructure/ai_experiments/mar_surface_type_predictions_v2.json"
         ),
     )
     parser.add_argument(
         "--review-output",
         type=Path,
         default=Path(
-            "data/digital_infrastructure/ai_experiments/mar_surface_type_review_queue_v1.json"
+            "data/digital_infrastructure/ai_experiments/mar_surface_type_review_queue_v2.json"
         ),
     )
     parser.add_argument("--max-units", type=int, default=60)
@@ -104,6 +105,8 @@ def build_surface_type_artifacts(
                     "prediction_confidence": decision.confidence,
                     "prediction_evidence": list(decision.evidence),
                     "predicted_item_level": decision.is_item_level,
+                    "predicted_access_state": decision.access_state,
+                    "predicted_access_evidence": list(decision.access_evidence),
                 }
             )
             review_units.append(
@@ -118,9 +121,11 @@ def build_surface_type_artifacts(
                     "fetch_status": page.get("fetch_status"),
                     "content_type": page.get("content_type"),
                     "media_urls": page.get("media_urls") or [],
+                    "collector_access_state": decision.access_state,
                     "model_prediction_blinded": True,
                     "human_surface_type": None,
                     "human_is_item_level": None,
+                    "human_access_state": None,
                     "human_review_note": None,
                     "review_status": "pending",
                 }
@@ -131,9 +136,10 @@ def build_surface_type_artifacts(
             break
 
     predictions_payload: dict[str, object] = {
-        "schema_version": "1.0.0",
-        "artifact_id": "mar-surface-type-predictions-v1",
+        "schema_version": "2.0.0",
+        "artifact_id": "mar-surface-type-predictions-v2",
         "task": "mar_surface_type_classification",
+        "protocol_version": SURFACE_TYPING_PROTOCOL_VERSION,
         "status": "ready" if predictions else "no_inputs_found",
         "does_not_modify_official_baseline": True,
         "is_scientific_result": False,
@@ -142,9 +148,10 @@ def build_surface_type_artifacts(
         "units": predictions,
     }
     review_payload: dict[str, object] = {
-        "schema_version": "1.0.0",
-        "queue_id": "mar-surface-type-review-v1",
+        "schema_version": "2.0.0",
+        "queue_id": "mar-surface-type-review-v2",
         "stage": "t2a_mar_surface_typing_validation",
+        "protocol_version": SURFACE_TYPING_PROTOCOL_VERSION,
         "status": "pending_human_review" if review_units else "no_inputs_found",
         "model_prediction_blinded": True,
         "does_not_modify_official_baseline": True,
@@ -152,7 +159,8 @@ def build_surface_type_artifacts(
         "classes": list(SURFACE_TYPES),
         "decision_rule": (
             "human reviewer classifies the observable page type without seeing the "
-            "automatic prediction; item-level means only item_record or audiovisual_item"
+            "automatic prediction; item-level means only item_record or audiovisual_item; "
+            "surface role and access state are independent dimensions"
         ),
         "units_total": len(review_units),
         "units": review_units,
@@ -179,9 +187,11 @@ def main() -> int:
     print(
         json.dumps(
             {
+                "protocol_version": SURFACE_TYPING_PROTOCOL_VERSION,
                 "predictions_status": predictions["status"],
                 "review_status": review["status"],
                 "units_total": review["units_total"],
+                "predictions_output": str(args.predictions_output),
                 "review_output": str(args.review_output),
             },
             ensure_ascii=False,
