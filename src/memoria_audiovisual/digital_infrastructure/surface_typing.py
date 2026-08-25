@@ -126,6 +126,16 @@ _AUDIOVISUAL_PATH_TOKENS = {
     "movie",
     "movies",
 }
+_RECORDISH_PATH_TOKENS = {
+    "item",
+    "record",
+    "notice",
+    "detail",
+    "details",
+    "work",
+    "asset",
+    "media",
+}
 
 _UUID_RE = re.compile(
     r"[0-9a-f]{8}-[0-9a-f]{4}-[1-5]?[0-9a-f]{3}-[89ab]?[0-9a-f]{3}-[0-9a-f]{12}",
@@ -304,7 +314,6 @@ def classify_surface_type(
         metadata_text=metadata_norm,
     )
 
-    # Search/index includes explicit search routes and thematic result/index pages.
     search_evidence: list[str] = []
     search_score = 0
     search_path = sorted(token_set & _SEARCH_TOKENS)
@@ -333,7 +342,6 @@ def classify_surface_type(
             access_evidence,
         )
 
-    # Editorial/informational role requires stronger context than isolated "press/presse".
     editorial_evidence: list[str] = []
     editorial_score = 0
     editorial_path = sorted(token_set & _EDITORIAL_PATH_TOKENS)
@@ -347,7 +355,7 @@ def classify_surface_type(
     if editorial_title:
         editorial_score += 2
         editorial_evidence.append(f"title:{editorial_title[0]}")
-    weak_editorial = sorted((token_set & _EDITORIAL_WEAK_TOKENS))
+    weak_editorial = sorted(token_set & _EDITORIAL_WEAK_TOKENS)
     if weak_editorial:
         editorial_score += 1
         editorial_evidence.append(f"path:weak-{weak_editorial[0]}")
@@ -363,7 +371,6 @@ def classify_surface_type(
             access_evidence,
         )
 
-    # Item role requires specificity, not merely a generic word such as "film".
     item_evidence: list[str] = []
     item_score = 0
     item_path = sorted(token_set & _ITEM_TOKENS)
@@ -397,9 +404,11 @@ def classify_surface_type(
         media_score += 2
         media_evidence.append("metadata:media")
 
-    explicit_audiovisual_path = bool(token_set & _AUDIOVISUAL_PATH_TOKENS)
+    explicit_audiovisual_route = bool(token_set & _AUDIOVISUAL_PATH_TOKENS) and not bool(
+        token_set & _RECORDISH_PATH_TOKENS
+    )
     sufficiently_specific = specificity_score >= 2 or item_score >= 6
-    if item_score >= 4 and (media_score >= 2 or (explicit_audiovisual_path and sufficiently_specific)):
+    if item_score >= 4 and (media_score >= 2 or (explicit_audiovisual_route and sufficiently_specific)):
         return SurfaceTypeDecision(
             "audiovisual_item",
             _confidence(item_score + media_score, high_at=7),
@@ -446,8 +455,6 @@ def classify_surface_type(
             access_evidence,
         )
 
-    # The configured observation root is treated as the platform homepage unless a
-    # stronger semantic role (search/archive/editorial/item) was already identified.
     if is_root_surface:
         return SurfaceTypeDecision(
             "homepage",
@@ -457,8 +464,6 @@ def classify_surface_type(
             access_evidence,
         )
 
-    # A descendant of a non-root institutional observation entry remains an
-    # institutional landing page when no stronger surface role was established.
     if _same_host_and_under_root(url, root_url) and (urlsplit(root_url).path or "/") not in {"", "/"}:
         return SurfaceTypeDecision(
             "institutional_landing_page",
@@ -489,7 +494,6 @@ def classify_surface_type(
             access_evidence,
         )
 
-    # Only an explicit unavailable surface with no recoverable semantic role uses H.
     if access_state in {"request_error", "http_error"}:
         return SurfaceTypeDecision(
             "restricted_or_unavailable",
