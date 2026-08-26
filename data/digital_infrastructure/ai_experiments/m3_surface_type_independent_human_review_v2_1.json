@@ -19,9 +19,9 @@
   "source_review_queue_sha256": "696d6366a8c5b2e20a26137cf91fb6775c3ea9485d81caf9dd9583e20db0b242",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_1.json",
   "units_total": 36,
-  "reviewed_units_total": 2,
+  "reviewed_units_total": 3,
   "human_item_level_true_total": 0,
-  "human_non_item_level_total": 2,
+  "human_non_item_level_total": 3,
   "human_ambiguous_total": 0,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all 36 human decisions are closed and the completed human-review artifact is frozen.",
   "known_development_urls_excluded": 50,
@@ -46,6 +46,16 @@
       "human_is_item_level": false,
       "human_access_state": "accessible",
       "human_review_note": "Classificação humana: endpoint AJAX que alimenta a mesma listagem/pesquisa da superfície anterior do CICLIC; semanticamente permanece search_or_index e não corresponde a item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ciclic-surface-bcce95900d786f7f",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/ssks/ajax/modspe/ciclic_memoire_liste_films?ajax=1&arguments_specifiques=%7B%22filtres_avances%22%3A%7B%22type%22%3A%22container%22%2C%22id%22%3A%22filtres_avances%22%2C%22class%22%3A%5B%22collapse%22%2C%22criteres-container%22%5D%2C%22children%22%3A%7B%22all_selectors%22%3A%7B%22type%22%3A%22container%22%2C%22attributes%22%3A%7B%22data-selecteur_index%22%3A0%7D%2C%22children%22%3A%7B%22filtre_av-0%22%3A%7B%22type%22%3A%22container%22%2C%22id%22%3A%22filtre_av-0%22%2C%22class%22%3A%5B%22group_selecteurs_av%22%5D%2C%22children%22%3A%7B%22filtres_av-selectors%22%3A%7B%22type%22%3A%22container%22%2C%22class%22%3A%5B%22filtres_av-selectors%22%5D%2C%22children%22%3A%7B%22selecteur_av-0-0%22%3A%7B%22type%22%3A%22values%22%2C%22format%22%3A%22select%22%2C%22valeurs_defaut%22%3A%5B%22_none_%22%5D%2C%22weight%22%3A0%2C%22class%22%3A%5B%22ssks-slim-select%22%2C%22selecteur_av_base%22%5D%2C%22multiple%22%3Afalse%2C%22theme%22%3A%22tmemoire_slim_select%22%2C%22ajax%22%3A%7B%22callback%22%3A%22ListeFilmsMemoire%3A%3AfiltresAvancesAjaxCallback%22%2C%22wrapper%22%3A%22filtres_liste_films_archives%22%7D%2C%22callable%22%3A%22ignore_filtre%22%2C%22get_donnees%22%3A%22get_donnees_filtre_avance_base%22%7D%7D%7D%2C%22filtre_av-actions%22%3A%7B%22type%22%3A%22container%22%2C%22class%22%3A%5B%22filtres_av-actions%22%5D%2C%22children%22%3A%7B%22filtre_av-remove-0%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22btn-sm%22%2C%22btn-white%22%2C%22btn-outline-danger%22%2C%22btn-circle%22%5D%2C%22label%22%3A%22%3Ci+class%3D%27far+fa-minus%27%3E%3C%5C%2Fi%3E%22%2C%22weight%22%3A%2299%22%2C%22ajax%22%3A%7B%22callback%22%3A%22ListeFilmsMemoire%3A%3AfiltresAvancesAjaxCallback%22%2C%22wrapper%22%3A%22filtres_liste_films_archives%22%7D%7D%7D%7D%7D%7D%7D%7D%2C%22add_selectors_group%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22btn-sm%22%2C%22rounded-pill%22%2C%22btn-white%22%2C%22btn-outline-dark%22%5D%2C%22label%22%3A%22%3Ci+class%3D%27far+fa-plus%27%3E%3C%5C%2Fi%3E+Ajouter+un+crit%5Cu00e8re%22%2C%22ajax%22%3A%7B%22callback%22%3A%22ListeFilmsMemoire%3A%3AfiltresAvancesAjaxCallback%22%2C%22wrapper%22%3A%22filtres_liste_films_archives%22%7D%7D%2C%22form_actions%22%3A%7B%22type%22%3A%22container%22%2C%22class%22%3A%5B%22form-actions%22%5D%2C%22children%22%3A%7B%22rechercher_avancee%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22btn-success%22%2C%22text-white%22%5D%2C%22label%22%3A%22%3Ci+class%3D%27far+fa-check%27%3E%3C%5C%2Fi%3E%3Cspan+class%3D%27ms-1%27%3EAppliquer+la+recherche%3C%5C%2Fspan%3E%22%7D%2C%22reset_avance%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22no-ssks-reset%22%2C%22btn-white%22%2C%22text-muted%22%2C%22btn-circle%22%2C%22p-0%22%2C%22text-decoration-none%22%2C%22tooltip-item%22%5D%2C%22attributes%22%3A%7B%22bs-toggle%22%3A%5B%22tooltip%22%5D%2C%22title%22%3A%5B%22R%5Cu00e9initialiser%22%5D%7D%2C%22label%22%3A%22%3Ci+class%3D%5C%22fa+fa-undo%5C%22%3E%3C%5C%2Fi%3E%22%2C%22ajax_callback%22%3A%22le_site%5C%5CFiltres%5C%5CFiltres_Group_Form_Reset_Ajax%22%7D%7D%7D%7D%7D%7D&order=created%2Fdesc&page=0&renderMode=replace&uniqID=ciclic_memoire_liste_films&useAjax=1&vue=mosaique",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: segunda variação técnica do endpoint AJAX da listagem do CICLIC, com ordenação decrescente; semanticamente search_or_index e não item individual.",
       "review_status": "completed"
     }
   ]
