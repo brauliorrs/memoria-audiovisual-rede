@@ -19,9 +19,9 @@
   "source_review_queue_sha256": "696d6366a8c5b2e20a26137cf91fb6775c3ea9485d81caf9dd9583e20db0b242",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_1.json",
   "units_total": 36,
-  "reviewed_units_total": 5,
+  "reviewed_units_total": 6,
   "human_item_level_true_total": 0,
-  "human_non_item_level_total": 5,
+  "human_non_item_level_total": 6,
   "human_ambiguous_total": 0,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all 36 human decisions are closed and the completed human-review artifact is frozen.",
   "known_development_urls_excluded": 50,
@@ -76,6 +76,16 @@
       "human_is_item_level": false,
       "human_access_state": "accessible",
       "human_review_note": "Classificação humana: superfície classificada como busca/índice ou agrupamento de navegação; não corresponde a item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ciclic-surface-0265baf7e0455267",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/magazine/autour-des-archives/boom-scolaire-au-blanc",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície tratada como busca/índice ou agrupamento de navegação, apesar da presença de mídia associada; não corresponde, para a revisão humana, a item individual.",
       "review_status": "completed"
     }
   ]
