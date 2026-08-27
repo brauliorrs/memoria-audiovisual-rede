@@ -19,9 +19,9 @@
   "source_review_queue_sha256": "696d6366a8c5b2e20a26137cf91fb6775c3ea9485d81caf9dd9583e20db0b242",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_1.json",
   "units_total": 36,
-  "reviewed_units_total": 8,
+  "reviewed_units_total": 9,
   "human_item_level_true_total": 1,
-  "human_non_item_level_total": 7,
+  "human_non_item_level_total": 8,
   "human_ambiguous_total": 0,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all 36 human decisions are closed and the completed human-review artifact is frozen.",
   "known_development_urls_excluded": 50,
@@ -106,6 +106,16 @@
       "human_is_item_level": false,
       "human_access_state": "accessible",
       "human_review_note": "Classificação humana: conteúdo editorial/informativo sobre patrimônio audiovisual, ainda que contenha mídia incorporada; não corresponde a item individual do acervo.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cineam-surface-b6eed3d3705fa065",
+      "entity_id": "cineam",
+      "page_url": "https://www.cineam.asso.fr/exploration-905-0-0-0.html",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície Exploration tratada como página de navegação/índice do acervo, conduzindo a múltiplos registros e não a um item individual.",
       "review_status": "completed"
     }
   ]
