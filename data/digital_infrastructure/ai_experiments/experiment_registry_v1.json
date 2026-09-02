@@ -705,6 +705,84 @@
           "content_sha": "387ebe3efbb47df59d91ee2f8af3115239e1bab8"
         }
       ]
+    },
+    {
+      "experiment_id": "MAR-T2A-M3-CAL-006",
+      "version": "2.2.0",
+      "stage": "t2a_mar_surface_typing_post_validation_calibration",
+      "scientific_layer": "mar_intelligence_automation",
+      "experiment_types": [
+        "calibration_experiment"
+      ],
+      "created_on": "2026-09-02",
+      "decision_date": "2026-09-02",
+      "status": "completed_calibration_only",
+      "claim_level": "calibration_only",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "source_experiment_id": "MAR-T2A-M3-VAL-005",
+      "question": "Can the independent 2.1.0 failure patterns be incorporated into a generic M3 2.2.0 development candidate while preserving prior regression behaviour and avoiding archive-specific ID memorisation?",
+      "sample_summary": {
+        "known_development_units_total": 86,
+        "known_development_unique_urls": 86,
+        "prior_50_regression_preserved": true,
+        "val_005_post_validation_binary_diagnostic": {
+          "true_positive": 10,
+          "true_negative": 22,
+          "false_positive": 0,
+          "false_negative": 4,
+          "precision": 1,
+          "recall": 0.7142857143,
+          "f1": 0.8333333333,
+          "specificity": 1,
+          "accuracy": 0.8888888889
+        },
+        "independent_performance_claim": false
+      },
+      "source_execution": {
+        "protocol_version": "2.2.0",
+        "quality_workflow_run_id": 33673383542,
+        "quality_job_id": 100392132459,
+        "quality_conclusion": "success",
+        "quality_tests_passed": 754,
+        "quality_subtests_passed": 2
+      },
+      "scientific_decision": "Accept protocol 2.2.0 only as a calibrated development candidate. Require a new preregistered balanced prediction-frozen independent ecological validation on unseen corpora before scaling M4.",
+      "limitations": [
+        "All 86 human-labelled URLs are development data for protocol 2.2.0 and cannot estimate generalisation.",
+        "The 36-unit VAL-005 diagnostic is post-validation reuse and is not independent performance evidence.",
+        "Cineam contains technically near-identical detail pages with conflicting human D/G labels; IDs or slugs were not encoded to force agreement.",
+        "CICLIC contains an item-versus-editorial boundary that cannot be resolved from embedded media alone."
+      ],
+      "prohibited_interpretations": [
+        "does not establish independent performance for protocol 2.2.0",
+        "does not estimate prevalence",
+        "does not validate protocol 2.2.0",
+        "does not justify scaling M4",
+        "does not modify the official T2 baseline"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_post_validation_development_v2_2.json",
+          "role": "post_validation_calibration_conclusion",
+          "content_sha": "766639735690c83e3cfa8630fc01830f1da346b0"
+        },
+        {
+          "path": "docs/research/experiments/2026-09_m3_surface_typing_post_validation_calibration_v2_2.md",
+          "role": "human_readable_experiment_report",
+          "content_sha": "fca107890cba9891fae494828ad126a2eb1f22a4"
+        },
+        {
+          "path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py",
+          "role": "calibrated_classifier_implementation_at_decision",
+          "initial_blob_sha": "8e70b568cf3e6234303a6dd92d81cd65e546303e"
+        },
+        {
+          "path": "scripts/build_surface_type_review_queue.py",
+          "role": "balanced_review_builder_at_decision",
+          "initial_blob_sha": "02acd1af0e649db4f0857de0b7416e71daabe207"
+        }
+      ]
     }
   ]
 }
