@@ -22,9 +22,9 @@
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_2.json",
   "source_review_queue_blob_sha": "aed13cc50b5bc62e12d2f05191bc6bb2eb357e24",
   "units_total": 31,
-  "reviewed_units_total": 0,
+  "reviewed_units_total": 1,
   "human_item_level_true_total": 0,
-  "human_non_item_level_total": 0,
+  "human_non_item_level_total": 1,
   "human_ambiguous_total": 0,
   "known_development_urls_excluded": 86,
   "overlap_with_known_urls": 0,
@@ -39,5 +39,16 @@
   },
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all 31 human decisions are closed and the completed human-review artifact is frozen.",
   "protocol_deviations": [],
-  "reviewed_units": []
+  "reviewed_units": [
+    {
+      "review_unit_id": "bbc-surface-6e475332ad471e54",
+      "entity_id": "bbc",
+      "page_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": null,
+      "reviewed_on": "2026-09-02"
+    }
+  ]
 }
