@@ -1,0 +1,258 @@
+name: T2A MAR preserve frozen independent validation v2.2
+
+on:
+  pull_request:
+    branches:
+      - feature/fase2-adaptador-auditoria-infraestrutura
+    paths:
+      - ".github/workflows/t2a-mar-surface-type-independent-preserve-v2-2.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  preserve:
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_RUN_ID: "33673923717"
+      SOURCE_ARTIFACT_ID: "9863619119"
+      SOURCE_ARTIFACT_DIGEST: "sha256:e09235bd9c2f22fd73233c497b52b52e020c195282563ed100de4ca15a4e8498"
+      SOURCE_HEAD_SHA: "1a6ae6de091b1aee29dc8b830bb59a6d528eff42"
+      SOURCE_EXECUTION_SHA: "7784405920c8e8a444fe1e7fb57227b8e01b7233"
+      RUN_DIR: "m3-surface-independent-v2-2-33673923717"
+      DEST_ROOT: "data/digital_infrastructure/ai_experiments"
+    steps:
+      - name: Checkout head branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Verify source artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+
+          raw = subprocess.check_output([
+              "gh", "api",
+              f"/repos/{os.environ['GITHUB_REPOSITORY']}/actions/artifacts/{os.environ['SOURCE_ARTIFACT_ID']}"
+          ], text=True)
+          artifact = json.loads(raw)
+          if str(artifact.get("workflow_run", {}).get("id")) != os.environ["SOURCE_RUN_ID"]:
+              raise SystemExit("artifact belongs to a different workflow run")
+          if artifact.get("digest") != os.environ["SOURCE_ARTIFACT_DIGEST"]:
+              raise SystemExit("artifact digest differs from authoritative frozen digest")
+          if artifact.get("workflow_run", {}).get("head_sha") != os.environ["SOURCE_HEAD_SHA"]:
+              raise SystemExit("artifact head SHA differs from authoritative source head")
+          if artifact.get("expired") is True:
+              raise SystemExit("authoritative artifact has expired")
+          print(json.dumps({
+              "artifact_id": artifact.get("id"),
+              "workflow_run_id": artifact.get("workflow_run", {}).get("id"),
+              "head_sha": artifact.get("workflow_run", {}).get("head_sha"),
+              "digest": artifact.get("digest"),
+          }, indent=2))
+          PY
+
+      - name: Download exact frozen artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/m3-frozen-v2-2
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}/zip" > /tmp/m3-frozen-v2-2/artifact.zip
+          unzip -q /tmp/m3-frozen-v2-2/artifact.zip -d /tmp/m3-frozen-v2-2/unpacked
+
+      - name: Verify frozen payload
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path("/tmp/m3-frozen-v2-2/unpacked")
+          prediction = root / "m3_surface_type_independent_predictions_v2_2.json"
+          review = root / "m3_surface_type_independent_review_queue_v2_2.json"
+          freeze_path = root / "m3_surface_type_independent_prediction_freeze_v2_2.json"
+          known = root / "m3_surface_type_known_urls_exclusion_v2_2.json"
+          summary = root / "_ai_surface_discovery" / os.environ["RUN_DIR"] / "sample_summary.json"
+
+          freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+          queue = json.loads(review.read_text(encoding="utf-8"))
+          exclusion = json.loads(known.read_text(encoding="utf-8"))
+          source_summary = json.loads(summary.read_text(encoding="utf-8"))
+
+          if str(freeze.get("source_workflow_run_id")) != os.environ["SOURCE_RUN_ID"]:
+              raise SystemExit("freeze manifest belongs to a different workflow run")
+          if freeze.get("source_git_sha") != os.environ["SOURCE_EXECUTION_SHA"]:
+              raise SystemExit("freeze execution SHA differs from authoritative execution SHA")
+          if freeze.get("protocol_id") != "MAR-T2A-M3-VAL-007-PROTOCOL":
+              raise SystemExit("unexpected protocol id")
+          if freeze.get("protocol_version") != "2.2.0":
+              raise SystemExit("unexpected protocol version")
+          if freeze.get("frozen_before_human_review") is not True:
+              raise SystemExit("predictions were not frozen before human review")
+          if freeze.get("is_independent_validation_sample") is not True:
+              raise SystemExit("artifact is not an independent validation sample")
+
+          prediction_hash = hashlib.sha256(prediction.read_bytes()).hexdigest()
+          review_hash = hashlib.sha256(review.read_bytes()).hexdigest()
+          known_hash = hashlib.sha256(known.read_bytes()).hexdigest()
+          if prediction_hash != "4bb277ba99324622d66bee279c7ab2d6bdbbd4755c7ef5f4cc12ef991f67aec1":
+              raise SystemExit("prediction SHA-256 mismatch")
+          if review_hash != "2c764eab221dbe595ada50eda1cd2b843e976fca25d8a57f39380724727d8fa8":
+              raise SystemExit("review queue SHA-256 mismatch")
+          if known_hash != freeze.get("known_url_exclusion_sha256"):
+              raise SystemExit("known URL exclusion SHA-256 mismatch")
+          if queue.get("model_prediction_blinded") is not True:
+              raise SystemExit("review queue is not blinded")
+          if queue.get("units_total") != 31 or freeze.get("review_units_total") != 31:
+              raise SystemExit("unexpected independent review unit count")
+          if queue.get("excluded_reference_urls_total") != 86 or len(set(exclusion.get("urls", []))) != 86:
+              raise SystemExit("known URL exclusion set is not exactly 86")
+
+          expected_counts = {
+              "bbc": 6,
+              "bnt": 6,
+              "cinemateca-portuguesa": 6,
+              "cinematheque-francaise": 6,
+              "fina": 1,
+              "home-movies-memoryscapes": 6,
+          }
+          if queue.get("selected_units_by_entity") != expected_counts:
+              raise SystemExit(f"unexpected balanced review counts: {queue.get('selected_units_by_entity')}")
+
+          executed = [
+              row.get("entity_id")
+              for row in source_summary.get("entities", [])
+              if row.get("status") == "completed"
+          ]
+          expected_entities = [
+              "bbc",
+              "bnt",
+              "fina",
+              "cinemateca-portuguesa",
+              "cinematheque-francaise",
+              "home-movies-memoryscapes",
+          ]
+          if executed != expected_entities:
+              raise SystemExit(f"unexpected executed corpora: {executed}")
+
+          print(json.dumps({
+              "prediction_sha256": prediction_hash,
+              "review_queue_sha256": review_hash,
+              "known_url_exclusion_sha256": known_hash,
+              "units_total": queue.get("units_total"),
+              "selected_units_by_entity": queue.get("selected_units_by_entity"),
+              "known_urls_excluded": len(set(exclusion.get("urls", []))),
+              "entities_executed": executed,
+          }, indent=2))
+          PY
+
+      - name: Materialize durable scientific record
+        run: |
+          mkdir -p "${DEST_ROOT}/m3_surface_type_independent_sources_v2_2"
+          cp /tmp/m3-frozen-v2-2/unpacked/m3_surface_type_independent_predictions_v2_2.json              "${DEST_ROOT}/m3_surface_type_independent_predictions_v2_2.json"
+          cp /tmp/m3-frozen-v2-2/unpacked/m3_surface_type_independent_review_queue_v2_2.json              "${DEST_ROOT}/m3_surface_type_independent_review_queue_v2_2.json"
+          cp /tmp/m3-frozen-v2-2/unpacked/m3_surface_type_independent_prediction_freeze_v2_2.json              "${DEST_ROOT}/m3_surface_type_independent_prediction_freeze_v2_2.json"
+          cp /tmp/m3-frozen-v2-2/unpacked/m3_surface_type_known_urls_exclusion_v2_2.json              "${DEST_ROOT}/m3_surface_type_known_urls_exclusion_v2_2.json"
+          cp "/tmp/m3-frozen-v2-2/unpacked/_ai_surface_discovery/${RUN_DIR}/sample_summary.json"              "${DEST_ROOT}/m3_surface_type_independent_source_summary_v2_2.json"
+          for entity in bbc bnt fina cinemateca-portuguesa cinematheque-francaise home-movies-memoryscapes; do
+            cp "/tmp/m3-frozen-v2-2/unpacked/_ai_surface_discovery/${RUN_DIR}/${entity}/surface_discovery_report.json"                "${DEST_ROOT}/m3_surface_type_independent_sources_v2_2/${entity}_surface_discovery_report.json"
+          done
+
+      - name: Write preservation manifest
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path(os.environ["DEST_ROOT"])
+          paths = {
+              "predictions": root / "m3_surface_type_independent_predictions_v2_2.json",
+              "review_queue": root / "m3_surface_type_independent_review_queue_v2_2.json",
+              "prediction_freeze": root / "m3_surface_type_independent_prediction_freeze_v2_2.json",
+              "known_url_exclusion": root / "m3_surface_type_known_urls_exclusion_v2_2.json",
+              "source_summary": root / "m3_surface_type_independent_source_summary_v2_2.json",
+          }
+          sources = sorted(
+              (root / "m3_surface_type_independent_sources_v2_2").glob("*_surface_discovery_report.json")
+          )
+          summary = json.loads(paths["source_summary"].read_text(encoding="utf-8"))
+          queue = json.loads(paths["review_queue"].read_text(encoding="utf-8"))
+          executed = [
+              row["entity_id"] for row in summary["entities"] if row.get("status") == "completed"
+          ]
+          manifest = {
+              "schema_version": "1.0.0",
+              "artifact_id": "m3-surface-type-independent-preservation-v2-2",
+              "preserved_on": "2026-09-02",
+              "source_workflow_run_id": int(os.environ["SOURCE_RUN_ID"]),
+              "source_artifact_id": int(os.environ["SOURCE_ARTIFACT_ID"]),
+              "source_artifact_digest": os.environ["SOURCE_ARTIFACT_DIGEST"],
+              "source_head_sha": os.environ["SOURCE_HEAD_SHA"],
+              "source_execution_sha": os.environ["SOURCE_EXECUTION_SHA"],
+              "protocol_id": "MAR-T2A-M3-VAL-007-PROTOCOL",
+              "protocol_version": "2.2.0",
+              "sample_role": "independent_ecological_validation",
+              "is_independent_validation_sample": True,
+              "does_not_modify_official_baseline": True,
+              "human_review_started": False,
+              "units_total": 31,
+              "known_development_urls_excluded": 86,
+              "overlap_with_known_urls": 0,
+              "max_units_per_entity": 6,
+              "selected_units_by_entity": queue.get("selected_units_by_entity"),
+              "entities_preregistered": [
+                  "bbc",
+                  "bnt",
+                  "fina",
+                  "cinemateca-portuguesa",
+                  "cinematheque-francaise",
+                  "home-movies-memoryscapes",
+              ],
+              "entities_executed": executed,
+              "protocol_deviations": [],
+              "sample_composition_notes": [
+                  "FINA yielded one eligible observed surface; no post-execution replacement was introduced."
+              ],
+              "files": [
+                  {
+                      "role": role,
+                      "path": str(file_path),
+                      "sha256": hashlib.sha256(file_path.read_bytes()).hexdigest(),
+                  }
+                  for role, file_path in paths.items()
+              ] + [
+                  {
+                      "role": "source_surface_discovery_report",
+                      "path": str(file_path),
+                      "sha256": hashlib.sha256(file_path.read_bytes()).hexdigest(),
+                  }
+                  for file_path in sources
+              ],
+          }
+          out = root / "m3_surface_type_independent_preservation_v2_2.json"
+          out.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps(manifest, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit frozen artifacts to scientific branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add             data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2_2.json             data/digital_infrastructure/ai_experiments/m3_surface_type_independent_review_queue_v2_2.json             data/digital_infrastructure/ai_experiments/m3_surface_type_independent_prediction_freeze_v2_2.json             data/digital_infrastructure/ai_experiments/m3_surface_type_known_urls_exclusion_v2_2.json             data/digital_infrastructure/ai_experiments/m3_surface_type_independent_source_summary_v2_2.json             data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_2.json             data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/
+          if git diff --cached --quiet; then
+            echo "Frozen M3 2.2 artifacts already preserved."
+          else
+            git commit -m "T2A M3: preserve frozen independent validation v2.2"
+            git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
+          fi
