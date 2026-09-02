@@ -420,11 +420,32 @@ def classify_surface_type(
     title_has_audiovisual_marker = any(
         marker in title_norm for marker in _AUDIOVISUAL_TITLE_MARKERS
     )
+    structured_has_direct_audiovisual_object = any(
+        marker in structured_norm
+        for marker in (
+            "videoobject",
+            "audioobject",
+            '"@type":"movie"',
+            '"@type": "movie"',
+        )
+    )
+    metadata_has_direct_audiovisual_media = any(
+        marker in metadata_norm
+        for marker in ("og:video", "og:audio", "twitter:player")
+    )
+    strong_structured_item = (
+        specificity_score >= 2
+        and (
+            structured_has_direct_audiovisual_object
+            or metadata_has_direct_audiovisual_media
+        )
+    )
     strong_item_route = (
         catalogue_detail_route
         or audiovisual_fiche_route
         or record_detail_route
         or (explicit_audiovisual_detail_route and title_has_audiovisual_marker)
+        or strong_structured_item
     )
 
     if _looks_restricted_route(parts.path, token_set):
