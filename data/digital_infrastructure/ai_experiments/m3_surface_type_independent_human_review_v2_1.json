@@ -19,8 +19,8 @@
   "source_review_queue_sha256": "696d6366a8c5b2e20a26137cf91fb6775c3ea9485d81caf9dd9583e20db0b242",
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_1.json",
   "units_total": 36,
-  "reviewed_units_total": 25,
-  "human_item_level_true_total": 7,
+  "reviewed_units_total": 26,
+  "human_item_level_true_total": 8,
   "human_non_item_level_total": 18,
   "human_ambiguous_total": 0,
   "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all 36 human decisions are closed and the completed human-review artifact is frozen.",
@@ -276,6 +276,16 @@
       "human_is_item_level": false,
       "human_access_state": "accessible",
       "human_review_note": "Classificação humana: página de vídeos tratada como listagem/índice que conduz a múltiplos conteúdos; search_or_index e não item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "dff-surface-dc57dac513e36a95",
+      "entity_id": "dff",
+      "page_url": "https://www.filmportal.de/video/arnie-barney-retten-das-wasser-2026",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de trailer/vídeo específico, tratada como audiovisual_item.",
       "review_status": "completed"
     }
   ]
