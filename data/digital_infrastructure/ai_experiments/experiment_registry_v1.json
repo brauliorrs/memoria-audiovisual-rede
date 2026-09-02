@@ -675,7 +675,7 @@
           "role": "prediction_freeze_manifest",
           "content_sha": "5855ae3600375a604a523e7de4add5b54157bea3",
           "frozen_before_human_review": true,
-          "sha256": "1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb"
+          "sha256": "d6cab0451543c4201fa150e31cb1bf7b5027ae50a65b90450d317c831c9ac017"
         },
         {
           "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2_1.json",
