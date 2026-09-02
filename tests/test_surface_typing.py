@@ -20,12 +20,24 @@ POST_VALIDATION_SOURCES = Path(
     "data/digital_infrastructure/ai_experiments/"
     "m3_surface_type_independent_sources_v2"
 )
+POST_VALIDATION_V21_REVIEW = Path(
+    "data/digital_infrastructure/ai_experiments/"
+    "m3_surface_type_independent_human_review_v2_1.json"
+)
+POST_VALIDATION_V21_QUEUE = Path(
+    "data/digital_infrastructure/ai_experiments/"
+    "m3_surface_type_independent_review_queue_v2_1.json"
+)
+POST_VALIDATION_V21_SOURCES = Path(
+    "data/digital_infrastructure/ai_experiments/"
+    "m3_surface_type_independent_sources_v2_1"
+)
 
 
 def test_vocabulary_keeps_institutional_and_archive_landing_pages_separate():
     assert "institutional_landing_page" in SURFACE_TYPES
     assert "archive_landing_page" in SURFACE_TYPES
-    assert SURFACE_TYPING_PROTOCOL_VERSION == "2.1.0"
+    assert SURFACE_TYPING_PROTOCOL_VERSION == "2.2.0"
 
 
 def test_configured_non_root_entry_can_be_platform_homepage():
@@ -330,6 +342,81 @@ def test_video_frame_metadata_can_confirm_audiovisual_detail_without_media_url()
     assert decision.is_item_level is True
 
 
+
+def test_explicit_av_detail_route_with_trailer_title_can_be_item_without_media_url():
+    decision = classify_surface_type(
+        url="https://example.org/video/becoming-kim-2026",
+        root_url="https://example.org/videos",
+        title="Becoming Kim (2026) - Trailer",
+        text="Becoming Kim (2026) - Trailer. Duration: 02:04 min.",
+        media_urls=(),
+    )
+    assert decision.surface_type == "audiovisual_item"
+    assert decision.is_item_level is True
+    assert "path:explicit-audiovisual-detail" in decision.evidence
+
+
+def test_explicit_av_route_without_item_marker_remains_conservative():
+    decision = classify_surface_type(
+        url="https://example.org/video/about",
+        root_url="https://example.org/videos",
+        title="About our video programme",
+        media_urls=(),
+    )
+    assert decision.is_item_level is False
+
+
+def test_strong_listing_signals_can_identify_search_index_without_search_path():
+    text = (
+        "Advanced search. Filter results. 6814 videos. "
+        "Page 1 Page 2 Page 3 More results."
+    )
+    decision = classify_surface_type(
+        url="https://example.org/videos",
+        root_url="https://example.org/videos",
+        title="Videos",
+        text=text,
+    )
+    assert decision.surface_type == "search_or_index"
+    assert decision.is_item_level is False
+
+
+def test_schema_itemlist_can_identify_browse_surface():
+    decision = classify_surface_type(
+        url="https://example.org/watch",
+        root_url="https://example.org/watch",
+        title="Watch online",
+        structured_text='{"@type":"ItemList","itemListElement":[]}',
+    )
+    assert decision.surface_type == "search_or_index"
+    assert decision.is_item_level is False
+
+
+def test_research_word_alone_does_not_mean_search_index():
+    decision = classify_surface_type(
+        url="https://example.org/research/",
+        root_url="https://example.org/collections/",
+        title="Research",
+        text="Our researchers work with audiovisual heritage collections.",
+    )
+    assert decision.surface_type != "search_or_index"
+
+
+def test_ajax_theme_or_format_endpoint_preserves_index_semantics():
+    for url in (
+        "https://example.org/js/ajax/plugins/905/ajax/add/mots_cles_theme/4518",
+        "https://example.org/js/ajax/plugins/905/ajax/add/format_origine_id/4",
+    ):
+        decision = classify_surface_type(
+            url=url,
+            root_url="https://example.org/exploration",
+            fetch_status="blocked_by_robots",
+        )
+        assert decision.surface_type == "search_or_index"
+        assert decision.is_item_level is False
+        assert decision.access_state == "collector_blocked"
+
+
 def test_m3_human_calibration_set_is_a_regression_fixture_not_validation_metric():
     fixture = json.loads(CALIBRATION_FIXTURE.read_text(encoding="utf-8"))
     assert fixture["is_independent_validation_sample"] is False
@@ -420,3 +507,76 @@ def test_completed_independent_v2_sample_is_only_post_validation_development_reg
             )
 
     assert mismatches == []
+
+
+
+def test_completed_independent_v21_sample_is_development_only_and_improves_safe_item_recall():
+    """VAL-005 becomes development evidence only after its frozen evaluation is closed."""
+    review = json.loads(POST_VALIDATION_V21_REVIEW.read_text(encoding="utf-8"))
+    queue = json.loads(POST_VALIDATION_V21_QUEUE.read_text(encoding="utf-8"))
+
+    assert review["review_status"] == "completed"
+    assert review["reviewed_units_total"] == 36
+    assert review["model_prediction_blinded"] is True
+    assert queue["model_prediction_blinded"] is True
+
+    queue_by_id = {unit["review_unit_id"]: unit for unit in queue["units"]}
+    source_pages: dict[str, dict[str, dict[str, object]]] = {}
+    entities = {unit["entity_id"] for unit in review["reviewed_units"]}
+    for entity_id in entities:
+        report_path = POST_VALIDATION_V21_SOURCES / f"{entity_id}_surface_discovery_report.json"
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        source_pages[entity_id] = {
+            str(page.get("url") or ""): page for page in report.get("pages", [])
+        }
+
+    tp = tn = fp = fn = 0
+    dff_item_mismatches = []
+    for human in review["reviewed_units"]:
+        queue_unit = queue_by_id[human["review_unit_id"]]
+        page = source_pages.get(human["entity_id"], {}).get(human["page_url"], {})
+        media_urls = page.get("media_urls", queue_unit.get("media_urls", []))
+        if not isinstance(media_urls, (list, tuple)):
+            media_urls = []
+
+        decision = classify_surface_type(
+            url=human["page_url"],
+            root_url=queue_unit["root_url"],
+            title=page.get("title", queue_unit.get("title")),
+            text=str(page.get("text") or ""),
+            metadata_text=str(page.get("metadata_text") or ""),
+            structured_text=str(page.get("structured_text") or ""),
+            media_urls=tuple(str(value) for value in media_urls),
+            fetch_status=str(
+                page.get("fetch_status")
+                or queue_unit.get("fetch_status")
+                or "fetched"
+            ),
+        )
+
+        expected_item = human["human_is_item_level"] is True
+        predicted_item = decision.is_item_level
+        if expected_item and predicted_item:
+            tp += 1
+        elif not expected_item and not predicted_item:
+            tn += 1
+        elif not expected_item and predicted_item:
+            fp += 1
+        else:
+            fn += 1
+
+        if (
+            human["entity_id"] == "dff"
+            and human["human_surface_type"] == "audiovisual_item"
+            and decision.surface_type != "audiovisual_item"
+        ):
+            dff_item_mismatches.append(
+                (human["review_unit_id"], decision.surface_type, decision.evidence)
+            )
+
+    # These are development/regression constraints, not independent performance claims.
+    assert dff_item_mismatches == []
+    assert fp == 0
+    assert tn == 22
+    assert tp >= 10
+    assert fn <= 4
