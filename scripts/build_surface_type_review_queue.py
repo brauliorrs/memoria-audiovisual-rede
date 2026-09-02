@@ -42,6 +42,15 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument("--max-units", type=int, default=60)
+    parser.add_argument(
+        "--max-units-per-entity",
+        type=int,
+        default=None,
+        help=(
+            "optional cap per entity; useful for balanced independent samples so "
+            "a global cap cannot be exhausted by early entities"
+        ),
+    )
     parser.add_argument("--exclude-urls-file", type=Path)
     parser.add_argument("--artifact-id", default=DEFAULT_ARTIFACT_ID)
     parser.add_argument("--queue-id", default=DEFAULT_QUEUE_ID)
@@ -101,6 +110,7 @@ def build_surface_type_artifacts(
     input_root: Path,
     *,
     max_units: int = 60,
+    max_units_per_entity: int | None = None,
     exclude_page_urls: set[str] | None = None,
     artifact_id: str = DEFAULT_ARTIFACT_ID,
     queue_id: str = DEFAULT_QUEUE_ID,
@@ -113,6 +123,7 @@ def build_surface_type_artifacts(
     seen: set[tuple[str, str]] = set()
     excluded_urls = exclude_page_urls or set()
     excluded_matches = 0
+    selected_by_entity: dict[str, int] = {}
 
     for path, report in _iter_reports(input_root):
         root_url = str(report.get("root_url") or "")
@@ -128,6 +139,11 @@ def build_surface_type_artifacts(
             continue
 
         for page in pages:
+            if (
+                max_units_per_entity is not None
+                and selected_by_entity.get(entity_id, 0) >= max_units_per_entity
+            ):
+                break
             if not isinstance(page, dict):
                 continue
             page_url = str(page.get("url") or "")
@@ -178,6 +194,7 @@ def build_surface_type_artifacts(
                     "review_status": "pending",
                 }
             )
+            selected_by_entity[entity_id] = selected_by_entity.get(entity_id, 0) + 1
             if len(review_units) >= max_units:
                 break
         if len(review_units) >= max_units:
@@ -189,6 +206,8 @@ def build_surface_type_artifacts(
         "is_independent_validation_sample": is_independent_validation_sample,
         "excluded_reference_urls_total": len(excluded_urls),
         "excluded_observed_matches": excluded_matches,
+        "max_units_per_entity": max_units_per_entity,
+        "selected_units_by_entity": dict(sorted(selected_by_entity.items())),
         "does_not_modify_official_baseline": True,
     }
     predictions_payload: dict[str, object] = {
@@ -228,6 +247,7 @@ def main() -> int:
     predictions, review = build_surface_type_artifacts(
         args.input_root,
         max_units=args.max_units,
+        max_units_per_entity=args.max_units_per_entity,
         exclude_page_urls=excluded_urls,
         artifact_id=args.artifact_id,
         queue_id=args.queue_id,
@@ -256,6 +276,8 @@ def main() -> int:
                 "units_total": review["units_total"],
                 "excluded_reference_urls_total": review["excluded_reference_urls_total"],
                 "excluded_observed_matches": review["excluded_observed_matches"],
+                "max_units_per_entity": review["max_units_per_entity"],
+                "selected_units_by_entity": review["selected_units_by_entity"],
                 "predictions_output": str(args.predictions_output),
                 "review_output": str(args.review_output),
             },
