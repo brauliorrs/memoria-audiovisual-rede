@@ -674,8 +674,8 @@
           "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_prediction_freeze_v2_1.json",
           "role": "prediction_freeze_manifest",
           "content_sha": "5855ae3600375a604a523e7de4add5b54157bea3",
-          "prediction_sha256": "1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb",
-          "frozen_before_human_review": true
+          "frozen_before_human_review": true,
+          "sha256": "1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb"
         },
         {
           "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2_1.json",
