@@ -52,9 +52,9 @@ def test_review_queue_blinds_predictions(tmp_path):
     predictions, review = build_surface_type_artifacts(tmp_path, max_units=10)
 
     assert predictions["schema_version"] == "2.0.0"
-    assert predictions["protocol_version"] == "2.1.0"
+    assert predictions["protocol_version"] == "2.2.0"
     assert review["schema_version"] == "2.0.0"
-    assert review["protocol_version"] == "2.1.0"
+    assert review["protocol_version"] == "2.2.0"
     assert predictions["units_total"] == 2
     assert review["units_total"] == 2
     assert review["model_prediction_blinded"] is True
@@ -122,3 +122,44 @@ def test_missing_input_root_produces_explicit_no_inputs_state(tmp_path):
     assert predictions["status"] == "no_inputs_found"
     assert review["status"] == "no_inputs_found"
     assert review["units_total"] == 0
+
+
+
+def test_optional_per_entity_cap_balances_global_review_queue(tmp_path):
+    for entity in ("a", "b", "c"):
+        report = tmp_path / "run-1" / entity / "surface_discovery_report.json"
+        report.parent.mkdir(parents=True, exist_ok=True)
+        report.write_text(
+            json.dumps(
+                {
+                    "root_url": f"https://{entity}.example.org/",
+                    "pages": [
+                        {
+                            "url": f"https://{entity}.example.org/item/{index}",
+                            "parent_url": f"https://{entity}.example.org/",
+                            "depth": 1,
+                            "title": f"Item {index}",
+                            "fetch_status": "fetched",
+                            "content_type": "text/html",
+                            "media_urls": [],
+                            "text": "",
+                            "metadata_text": "",
+                            "structured_text": "",
+                        }
+                        for index in range(5)
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+    predictions, review = build_surface_type_artifacts(
+        tmp_path,
+        max_units=6,
+        max_units_per_entity=2,
+    )
+
+    assert review["units_total"] == 6
+    assert review["max_units_per_entity"] == 2
+    assert review["selected_units_by_entity"] == {"a": 2, "b": 2, "c": 2}
+    assert predictions["selected_units_by_entity"] == {"a": 2, "b": 2, "c": 2}
