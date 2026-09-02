@@ -3,7 +3,7 @@
   "registry_id": "mar-experiment-registry-v1",
   "project": "Memória Audiovisual em Rede",
   "scope": "scientific experiments, calibration, blind validation and diagnostics performed during T2A operational validation",
-  "updated_on": "2026-08-25",
+  "updated_on": "2026-09-02",
   "does_not_modify_official_baseline": true,
   "governance_document": "docs/research/13_experiment_registry.md",
   "experiments": [
@@ -12,7 +12,11 @@
       "version": "1",
       "stage": "ai_content_gate1_terminology_validation",
       "scientific_layer": "ai_in_audiovisual_content",
-      "experiment_types": ["controlled_benchmark", "blind_human_validation", "calibration_experiment"],
+      "experiment_types": [
+        "controlled_benchmark",
+        "blind_human_validation",
+        "calibration_experiment"
+      ],
       "decision_date": "2026-08-18",
       "status": "validated_for_current_protocol_scope",
       "claim_level": "protocol_scope",
@@ -20,22 +24,79 @@
       "does_not_modify_official_baseline": true,
       "question": "Can the current deterministic Gate 1 protocol identify terminology and context indicating AI participation in audiovisual production or modification without converting that signal into archive-level AI evidence?",
       "sample_summary": {
-        "controlled_reference_benchmark": {"controls": 6, "positive_controls": 3, "negative_controls": 3, "binary_false_positive": 0, "binary_false_negative": 0, "exact_class_accuracy": 1.0},
-        "blind_real_corpus_negative_challenge": {"units": 12, "human_negative": 12, "true_negative": 12, "false_positive": 0},
-        "supplementary_positive_terminology_controls": {"human_reviewed_total": 6, "human_evaluable": 4, "human_positive": 4, "human_not_assessable": 2}
+        "controlled_reference_benchmark": {
+          "controls": 6,
+          "positive_controls": 3,
+          "negative_controls": 3,
+          "binary_false_positive": 0,
+          "binary_false_negative": 0,
+          "exact_class_accuracy": 1
+        },
+        "blind_real_corpus_negative_challenge": {
+          "units": 12,
+          "human_negative": 12,
+          "true_negative": 12,
+          "false_positive": 0
+        },
+        "supplementary_positive_terminology_controls": {
+          "human_reviewed_total": 6,
+          "human_evaluable": 4,
+          "human_positive": 4,
+          "human_not_assessable": 2
+        }
       },
-      "blinding": {"human_reviewer_saw_model_predictions": false},
-      "protocol_deviations": [{"deviation_id": "blind_predictions_materialized_after_human_review", "severity": "historical_protocol_limitation", "description": "The negative-challenge prediction artifact was materialized after the human blind review and is not treated as a preregistered empirical blind-performance estimate."}],
+      "blinding": {
+        "human_reviewer_saw_model_predictions": false
+      },
+      "protocol_deviations": [
+        {
+          "deviation_id": "blind_predictions_materialized_after_human_review",
+          "severity": "historical_protocol_limitation",
+          "description": "The negative-challenge prediction artifact was materialized after the human blind review and is not treated as a preregistered empirical blind-performance estimate."
+        }
+      ],
       "scientific_use": "calibrated terminology/context candidate generation for Gate 2 only",
-      "limitations": ["The real-corpus blind challenge contained only human-negative cases and cannot estimate positive recall.", "The blind prediction set for the negative challenge was materialized after human review rather than frozen before review.", "Controlled benchmarks do not estimate corpus-wide prevalence or generalisation."],
-      "prohibited_interpretations": ["does not validate AI presence in an observed archive", "does not estimate prevalence", "does not bypass Gate 2 item-level, corpus-membership, public-access and item-linked-evidence requirements"],
+      "limitations": [
+        "The real-corpus blind challenge contained only human-negative cases and cannot estimate positive recall.",
+        "The blind prediction set for the negative challenge was materialized after human review rather than frozen before review.",
+        "Controlled benchmarks do not estimate corpus-wide prevalence or generalisation."
+      ],
+      "prohibited_interpretations": [
+        "does not validate AI presence in an observed archive",
+        "does not estimate prevalence",
+        "does not bypass Gate 2 item-level, corpus-membership, public-access and item-linked-evidence requirements"
+      ],
       "artifacts": [
-        {"path": "data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json", "role": "controlled_benchmark_report", "content_sha": "7af6b43f5b800119dc1c54bf044199caa9b52b44"},
-        {"path": "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json", "role": "human_review_queue", "content_sha": "7017094378ab0fc0570545f8c6c474e2813837cc"},
-        {"path": "data/digital_infrastructure/ai_experiments/ai_content_blind_predictions_v1.json", "role": "blind_prediction_set_materialized_after_human_review", "content_sha": "3bc98ecdd4b96d53d97b3930932ea71e7b761922", "frozen_before_human_review": false},
-        {"path": "data/digital_infrastructure/ai_experiments/ai_content_blind_comparison_report_v1.json", "role": "blind_negative_challenge_comparison", "content_sha": "a84dc1fc65229c3dd7b534e353a801ca3995397b"},
-        {"path": "data/digital_infrastructure/ai_experiments/ai_content_gate1_terminology_validation_conclusion_v1.json", "role": "scientific_conclusion", "content_sha": "c7f1a8857ab1ab27599ef9f196c2cbc908a0ba64"},
-        {"path": "docs/research/experiments/2026-08_c1_gate1_terminology_validation_v1.md", "role": "human_readable_experiment_report"}
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json",
+          "role": "controlled_benchmark_report",
+          "content_sha": "7af6b43f5b800119dc1c54bf044199caa9b52b44"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json",
+          "role": "human_review_queue",
+          "content_sha": "7017094378ab0fc0570545f8c6c474e2813837cc"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_content_blind_predictions_v1.json",
+          "role": "blind_prediction_set_materialized_after_human_review",
+          "content_sha": "3bc98ecdd4b96d53d97b3930932ea71e7b761922",
+          "frozen_before_human_review": false
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_content_blind_comparison_report_v1.json",
+          "role": "blind_negative_challenge_comparison",
+          "content_sha": "a84dc1fc65229c3dd7b534e353a801ca3995397b"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_content_gate1_terminology_validation_conclusion_v1.json",
+          "role": "scientific_conclusion",
+          "content_sha": "c7f1a8857ab1ab27599ef9f196c2cbc908a0ba64"
+        },
+        {
+          "path": "docs/research/experiments/2026-08_c1_gate1_terminology_validation_v1.md",
+          "role": "human_readable_experiment_report"
+        }
       ]
     },
     {
@@ -43,25 +104,65 @@
       "version": "1",
       "stage": "t2a_ai_archive_gate2_validation",
       "scientific_layer": "ai_in_audiovisual_content",
-      "experiment_types": ["operational_pilot", "calibration_experiment"],
+      "experiment_types": [
+        "operational_pilot",
+        "calibration_experiment"
+      ],
       "status": "completed_calibration_finding",
       "claim_level": "calibration_only",
       "is_prevalence_sample": false,
       "does_not_modify_official_baseline": true,
       "question": "Do candidate URLs entering Gate 2 represent eligible audiovisual item, version or segment observations before later corpus-membership, public-access and evidence-link checks?",
-      "sample_summary": {"candidates_total": 2, "entities": ["ecpad", "ina"], "human_item_level_eligible": 0, "human_item_level_ineligible": 2},
+      "sample_summary": {
+        "candidates_total": 2,
+        "entities": [
+          "ecpad",
+          "ina"
+        ],
+        "human_item_level_eligible": 0,
+        "human_item_level_ineligible": 2
+      },
       "result_scope": "Only Gate 2 condition 1 / M4 item-level eligibility was reached because both candidates failed at that first condition.",
       "protocol_deviations": [
-        {"deviation_id": "original_review_queue_not_closed", "severity": "documentation_and_provenance_gap", "description": "The human finding was completed but the original machine-readable queue remained pending; a retrospective conclusion preserves the result without overwriting the historical queue."},
-        {"deviation_id": "original_human_review_date_not_preserved", "severity": "metadata_gap", "description": "The exact original human-review completion date was not preserved in a dedicated source artifact."}
+        {
+          "deviation_id": "original_review_queue_not_closed",
+          "severity": "documentation_and_provenance_gap",
+          "description": "The human finding was completed but the original machine-readable queue remained pending; a retrospective conclusion preserves the result without overwriting the historical queue."
+        },
+        {
+          "deviation_id": "original_human_review_date_not_preserved",
+          "severity": "metadata_gap",
+          "description": "The exact original human-review completion date was not preserved in a dedicated source artifact."
+        }
       ],
       "scientific_decision": "Treat the 0/2 result as a candidate-resolution limitation and prioritise M3/M4 surface and item resolution before repeating Gate 2 at scale.",
-      "limitations": ["The sample contained only two candidates and was not designed to estimate prevalence or generalisation.", "Only Gate 2 condition 1 / M4 item-level eligibility was reached.", "The original review queue was not closed with the final human decisions."],
-      "prohibited_interpretations": ["does not indicate absence of AI", "does not indicate absence of audiovisual archives", "does not estimate prevalence", "does not evaluate all Gate 2 conditions"],
+      "limitations": [
+        "The sample contained only two candidates and was not designed to estimate prevalence or generalisation.",
+        "Only Gate 2 condition 1 / M4 item-level eligibility was reached.",
+        "The original review queue was not closed with the final human decisions."
+      ],
+      "prohibited_interpretations": [
+        "does not indicate absence of AI",
+        "does not indicate absence of audiovisual archives",
+        "does not estimate prevalence",
+        "does not evaluate all Gate 2 conditions"
+      ],
       "artifacts": [
-        {"path": "data/digital_infrastructure/ai_experiments/ai_archive_two_gate_review_queue_v1.json", "role": "original_blind_review_queue_left_pending", "content_sha": "0df9b507e3173a7428b2906395c6617c36ff5be3"},
-        {"path": "data/digital_infrastructure/ai_experiments/ai_archive_two_gate_pilot_conclusion_v1.json", "role": "retrospective_durable_conclusion", "content_sha": "16ff14eb96de4aad095911b23efb04165e39e6ed", "retrospective_documentation": true},
-        {"path": "docs/research/experiments/2026-08_c2_m4_gate2_candidate_pilot_v1.md", "role": "human_readable_experiment_report"}
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_archive_two_gate_review_queue_v1.json",
+          "role": "original_blind_review_queue_left_pending",
+          "content_sha": "0df9b507e3173a7428b2906395c6617c36ff5be3"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/ai_archive_two_gate_pilot_conclusion_v1.json",
+          "role": "retrospective_durable_conclusion",
+          "content_sha": "16ff14eb96de4aad095911b23efb04165e39e6ed",
+          "retrospective_documentation": true
+        },
+        {
+          "path": "docs/research/experiments/2026-08_c2_m4_gate2_candidate_pilot_v1.md",
+          "role": "human_readable_experiment_report"
+        }
       ]
     },
     {
@@ -69,7 +170,10 @@
       "version": "1",
       "stage": "t2a_mar_surface_typing_validation",
       "scientific_layer": "mar_intelligence_automation",
-      "experiment_types": ["blind_human_validation", "calibration_experiment"],
+      "experiment_types": [
+        "blind_human_validation",
+        "calibration_experiment"
+      ],
       "sample_observed_on": "2026-08-19",
       "human_review_completed_on": "2026-08-24",
       "status": "completed_calibration_only",
@@ -77,22 +181,91 @@
       "is_prevalence_sample": false,
       "does_not_modify_official_baseline": true,
       "question": "Can M3 distinguish public-surface roles and item-level audiovisual units from general, institutional, archive, search/index and editorial surfaces?",
-      "sample_summary": {"units_total": 17, "entities": ["archipop", "bfi", "ecpad", "europeana", "ina"], "human_item_level_true": 4, "human_item_level_false": 13, "human_unknown": 0, "human_surface_type_counts": {"homepage": 3, "institutional_landing_page": 1, "archive_landing_page": 1, "search_or_index": 7, "news_or_editorial": 1, "item_record": 0, "audiovisual_item": 4, "restricted_or_unavailable": 0, "unknown": 0}},
-      "blinding": {"human_reviewer_saw_model_predictions": false, "human_review_closed_before_diagnostic_replay": true},
-      "source_execution": {"workflow_name": "Quality Checks", "workflow_run_id": 32291088792, "job_id": 96191802582, "probe_id": "M3_LIVE_BLIND_QUEUE_V1", "run_id": "m3-live-probe-v1"},
+      "sample_summary": {
+        "units_total": 17,
+        "entities": [
+          "archipop",
+          "bfi",
+          "ecpad",
+          "europeana",
+          "ina"
+        ],
+        "human_item_level_true": 4,
+        "human_item_level_false": 13,
+        "human_unknown": 0,
+        "human_surface_type_counts": {
+          "homepage": 3,
+          "institutional_landing_page": 1,
+          "archive_landing_page": 1,
+          "search_or_index": 7,
+          "news_or_editorial": 1,
+          "item_record": 0,
+          "audiovisual_item": 4,
+          "restricted_or_unavailable": 0,
+          "unknown": 0
+        }
+      },
+      "blinding": {
+        "human_reviewer_saw_model_predictions": false,
+        "human_review_closed_before_diagnostic_replay": true
+      },
+      "source_execution": {
+        "workflow_name": "Quality Checks",
+        "workflow_run_id": 32291088792,
+        "job_id": 96191802582,
+        "probe_id": "M3_LIVE_BLIND_QUEUE_V1",
+        "run_id": "m3-live-probe-v1"
+      },
       "protocol_deviations": [
-        {"deviation_id": "missing_frozen_prediction_artifact", "severity": "invalidates_original_performance_estimation", "description": "The live probe computed automatic predictions in runner memory but did not persist a frozen prediction artifact for the exact 17-unit run."},
-        {"deviation_id": "legacy_queue_partially_annotated_after_initial_persistence", "severity": "record_separation_issue_without_prediction_unblinding", "description": "The initial blind queue was later partially annotated; the separate completed human-review artifact is authoritative and no automatic prediction was exposed by that mutation."},
-        {"deviation_id": "surface_and_access_schema_refinement", "severity": "taxonomy_refinement", "description": "Human review demonstrated that surface role and access state must be represented independently."}
+        {
+          "deviation_id": "missing_frozen_prediction_artifact",
+          "severity": "invalidates_original_performance_estimation",
+          "description": "The live probe computed automatic predictions in runner memory but did not persist a frozen prediction artifact for the exact 17-unit run."
+        },
+        {
+          "deviation_id": "legacy_queue_partially_annotated_after_initial_persistence",
+          "severity": "record_separation_issue_without_prediction_unblinding",
+          "description": "The initial blind queue was later partially annotated; the separate completed human-review artifact is authoritative and no automatic prediction was exposed by that mutation."
+        },
+        {
+          "deviation_id": "surface_and_access_schema_refinement",
+          "severity": "taxonomy_refinement",
+          "description": "Human review demonstrated that surface role and access state must be represented independently."
+        }
       ],
       "scientific_decision": "Use the 17 units as a calibration and regression set, revise M3 rules and evaluate the revised mechanism on a new independent blind sample.",
-      "limitations": ["The 17-unit sample is a calibration sample and is not representative of surface-type prevalence.", "The original deterministic predictions were not durably persisted, so original-run performance cannot be estimated validly.", "The compact replay is diagnostic only."],
-      "prohibited_interpretations": ["does not estimate prevalence", "does not provide valid original-model performance metrics", "does not establish AI use by institutions", "does not establish AI participation in audiovisual content"],
+      "limitations": [
+        "The 17-unit sample is a calibration sample and is not representative of surface-type prevalence.",
+        "The original deterministic predictions were not durably persisted, so original-run performance cannot be estimated validly.",
+        "The compact replay is diagnostic only."
+      ],
+      "prohibited_interpretations": [
+        "does not estimate prevalence",
+        "does not provide valid original-model performance metrics",
+        "does not establish AI use by institutions",
+        "does not establish AI participation in audiovisual content"
+      ],
       "artifacts": [
-        {"path": "data/digital_infrastructure/ai_experiments/mar_surface_type_review_queue_v1.json", "role": "legacy_blind_queue_partially_annotated_after_initial_persistence", "initial_blob_sha": "a5e1f0f690e0e0957fd19805a90a50d13c71f18c", "current_blob_sha": "0a9d3b0a6959009631c4fc45efaf9f28b38512dc"},
-        {"path": "data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_v1.json", "role": "authoritative_completed_human_review", "content_sha": "d1b53082184445a6b9247079b85fac2293d4f958"},
-        {"path": "data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_conclusion_v1.json", "role": "human_only_conclusion", "content_sha": "03acde4ddb922231e6fff20177fb80b544d2a0f7"},
-        {"path": "docs/research/experiments/2026-08_m3_surface_typing_blind_validation_v1.md", "role": "human_readable_experiment_report"}
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_review_queue_v1.json",
+          "role": "legacy_blind_queue_partially_annotated_after_initial_persistence",
+          "initial_blob_sha": "a5e1f0f690e0e0957fd19805a90a50d13c71f18c",
+          "current_blob_sha": "0a9d3b0a6959009631c4fc45efaf9f28b38512dc"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_v1.json",
+          "role": "authoritative_completed_human_review",
+          "content_sha": "d1b53082184445a6b9247079b85fac2293d4f958"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_human_review_conclusion_v1.json",
+          "role": "human_only_conclusion",
+          "content_sha": "03acde4ddb922231e6fff20177fb80b544d2a0f7"
+        },
+        {
+          "path": "docs/research/experiments/2026-08_m3_surface_typing_blind_validation_v1.md",
+          "role": "human_readable_experiment_report"
+        }
       ]
     },
     {
@@ -100,7 +273,9 @@
       "version": "1",
       "stage": "t2a_mar_surface_typing_validation",
       "scientific_layer": "mar_intelligence_automation",
-      "experiment_types": ["diagnostic_replay"],
+      "experiment_types": [
+        "diagnostic_replay"
+      ],
       "created_on": "2026-08-24",
       "status": "diagnostic_only",
       "claim_level": "diagnostic_only",
@@ -110,36 +285,118 @@
       "is_original_run_prediction": false,
       "is_scientific_performance_result": false,
       "source_experiment_id": "MAR-T2A-M3-BLIND-001",
-      "replay_input_scope": ["root_url", "page_url", "title", "fetch_status", "media_urls"],
-      "missing_original_input_dimensions": ["text", "metadata_text", "structured_text"],
-      "diagnostic_metrics": {"exact_surface_match": {"correct": 2, "total": 17, "accuracy": 0.1176470588}, "item_level_binary": {"true_positive": 1, "true_negative": 13, "false_positive": 0, "false_negative": 3, "accuracy": 0.8235294118, "precision": 1.0, "recall": 0.25, "f1": 0.4, "specificity": 1.0}},
+      "replay_input_scope": [
+        "root_url",
+        "page_url",
+        "title",
+        "fetch_status",
+        "media_urls"
+      ],
+      "missing_original_input_dimensions": [
+        "text",
+        "metadata_text",
+        "structured_text"
+      ],
+      "diagnostic_metrics": {
+        "exact_surface_match": {
+          "correct": 2,
+          "total": 17,
+          "accuracy": 0.1176470588
+        },
+        "item_level_binary": {
+          "true_positive": 1,
+          "true_negative": 13,
+          "false_positive": 0,
+          "false_negative": 3,
+          "accuracy": 0.8235294118,
+          "precision": 1,
+          "recall": 0.25,
+          "f1": 0.4,
+          "specificity": 1
+        }
+      },
       "scientific_use": "diagnosis of deterministic-rule weaknesses only",
-      "limitations": ["The replay is not the original run and lacks richer discovery inputs.", "The 17 units cannot serve as an independent post-calibration validation set.", "Replay metrics are diagnostic rather than scientific performance estimates."],
-      "prohibited_interpretations": ["must not be reported as performance of the original M3 run", "must not be used as an independent validation set", "must not modify the official baseline"],
-      "artifacts": [{"path": "data/digital_infrastructure/ai_experiments/mar_surface_type_compact_replay_diagnostic_v1.json", "role": "diagnostic_replay", "content_sha": "57dcbb19e95f41479d7a0c37686df53b99412010"}]
+      "limitations": [
+        "The replay is not the original run and lacks richer discovery inputs.",
+        "The 17 units cannot serve as an independent post-calibration validation set.",
+        "Replay metrics are diagnostic rather than scientific performance estimates."
+      ],
+      "prohibited_interpretations": [
+        "must not be reported as performance of the original M3 run",
+        "must not be used as an independent validation set",
+        "must not modify the official baseline"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_compact_replay_diagnostic_v1.json",
+          "role": "diagnostic_replay",
+          "content_sha": "57dcbb19e95f41479d7a0c37686df53b99412010"
+        }
+      ]
     },
     {
       "experiment_id": "MAR-T2A-M3-CAL-002",
       "version": "2.0.0",
       "stage": "t2a_mar_surface_typing_calibration",
       "scientific_layer": "mar_intelligence_automation",
-      "experiment_types": ["calibration_experiment"],
+      "experiment_types": [
+        "calibration_experiment"
+      ],
       "decision_date": "2026-08-24",
       "status": "completed_calibration_only",
       "claim_level": "calibration_only",
       "is_prevalence_sample": false,
       "does_not_modify_official_baseline": true,
       "question": "Can the M3 deterministic rules be revised to encode the 17 completed human surface-role decisions while separating semantic surface role from access state and preserving conservative item-level behaviour?",
-      "sample_summary": {"source_experiment_id": "MAR-T2A-M3-BLIND-001", "calibration_units_total": 17, "is_independent_validation_sample": false, "regression_result": {"surface_type_matches": 17, "item_level_matches": 17, "access_state_matches": 17, "mismatches": 0}},
-      "source_execution": {"protocol_version": "2.0.0", "quality_workflow_run_id": 32801387050, "quality_job_id": 97662753288, "quality_conclusion": "success"},
+      "sample_summary": {
+        "source_experiment_id": "MAR-T2A-M3-BLIND-001",
+        "calibration_units_total": 17,
+        "is_independent_validation_sample": false,
+        "regression_result": {
+          "surface_type_matches": 17,
+          "item_level_matches": 17,
+          "access_state_matches": 17,
+          "mismatches": 0
+        }
+      },
+      "source_execution": {
+        "protocol_version": "2.0.0",
+        "quality_workflow_run_id": 32801387050,
+        "quality_job_id": 97662753288,
+        "quality_conclusion": "success"
+      },
       "scientific_decision": "Accept protocol 2.0.0 as the calibrated M3 candidate for a new independent blind validation sample with predictions frozen and SHA-256 hashed before human review.",
-      "limitations": ["The same 17 units were used to develop and regression-test the rules and therefore cannot estimate post-calibration generalisation.", "Complete agreement on the calibration fixture is not an accuracy, precision, recall or F1 estimate.", "Classes absent from the human calibration set still require independent challenge coverage."],
-      "prohibited_interpretations": ["17/17 calibration agreement must not be reported as independent accuracy", "does not estimate prevalence", "does not establish ecological validation of M3", "does not activate M3 for official baseline use"],
+      "limitations": [
+        "The same 17 units were used to develop and regression-test the rules and therefore cannot estimate post-calibration generalisation.",
+        "Complete agreement on the calibration fixture is not an accuracy, precision, recall or F1 estimate.",
+        "Classes absent from the human calibration set still require independent challenge coverage."
+      ],
+      "prohibited_interpretations": [
+        "17/17 calibration agreement must not be reported as independent accuracy",
+        "does not estimate prevalence",
+        "does not establish ecological validation of M3",
+        "does not activate M3 for official baseline use"
+      ],
       "artifacts": [
-        {"path": "tests/fixtures/m3_surface_typing_calibration_v1.json", "role": "human_derived_calibration_fixture", "content_sha": "c708f7b85b84f775c870ed00c76417e9ac3d7f44"},
-        {"path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py", "role": "calibrated_classifier_implementation_at_decision", "initial_blob_sha": "22239e51c6b9be70287e93493f263c2301c7c212"},
-        {"path": "data/digital_infrastructure/ai_experiments/mar_surface_type_calibration_v2.json", "role": "calibration_conclusion", "content_sha": "48b67632e02cd3e06be4f26234d0c7ecc2efb8bd"},
-        {"path": "docs/research/experiments/2026-08_m3_surface_typing_calibration_v2.md", "role": "human_readable_experiment_report"}
+        {
+          "path": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+          "role": "human_derived_calibration_fixture",
+          "content_sha": "c708f7b85b84f775c870ed00c76417e9ac3d7f44"
+        },
+        {
+          "path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py",
+          "role": "calibrated_classifier_implementation_at_decision",
+          "initial_blob_sha": "22239e51c6b9be70287e93493f263c2301c7c212"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/mar_surface_type_calibration_v2.json",
+          "role": "calibration_conclusion",
+          "content_sha": "48b67632e02cd3e06be4f26234d0c7ecc2efb8bd"
+        },
+        {
+          "path": "docs/research/experiments/2026-08_m3_surface_typing_calibration_v2.md",
+          "role": "human_readable_experiment_report"
+        }
       ]
     },
     {
@@ -147,7 +404,10 @@
       "version": "2.0.0",
       "stage": "t2a_mar_surface_typing_independent_validation",
       "scientific_layer": "mar_intelligence_automation",
-      "experiment_types": ["blind_human_validation", "ecological_validation"],
+      "experiment_types": [
+        "blind_human_validation",
+        "ecological_validation"
+      ],
       "created_on": "2026-08-25",
       "sample_observed_on": "2026-08-25",
       "human_review_completed_on": "2026-08-25",
@@ -159,25 +419,90 @@
       "question": "Does calibrated M3 protocol 2.0.0 generalise to a new prediction-frozen independent ecological sample for fine-grained surface typing, item-level discrimination and separately represented access state?",
       "sample_summary": {
         "units_total": 33,
-        "effective_entities": ["cinearchives", "cinememoire", "eafa", "eye", "luce"],
+        "effective_entities": [
+          "cinearchives",
+          "cinememoire",
+          "eafa",
+          "eye",
+          "luce"
+        ],
         "human_item_level_true": 12,
         "human_item_level_false": 21,
         "exact_surface_accuracy": 0.0909090909,
-        "binary_item_level": {"true_positive": 7, "true_negative": 19, "false_positive": 2, "false_negative": 5, "precision": 0.7777777778, "recall": 0.5833333333, "f1": 0.6666666667, "specificity": 0.9047619048, "accuracy": 0.7878787879},
-        "access_state_agreement": 1.0
+        "binary_item_level": {
+          "true_positive": 7,
+          "true_negative": 19,
+          "false_positive": 2,
+          "false_negative": 5,
+          "precision": 0.7777777778,
+          "recall": 0.5833333333,
+          "f1": 0.6666666667,
+          "specificity": 0.9047619048,
+          "accuracy": 0.7878787879
+        },
+        "access_state_agreement": 1
       },
-      "blinding": {"human_reviewer_saw_model_predictions": false, "human_review_closed_before_diagnostic_replay": true},
-      "source_execution": {"workflow_name": "T2A MAR surface typing independent validation v2", "workflow_run_id": 32857274723, "job_id": 97832217003, "artifact_id": 9566711703, "prediction_sha256": "2188cad903e481c7e906e79ca33477d2f16d754c42d054a0cc1023f1e55828f4", "review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f"},
-      "protocol_deviations": [{"deviation_id": "european_film_gateway_unknown_corpus_key", "severity": "sample_coverage_reduction", "description": "One of six preregistered entities produced no surfaces because its requested identifier was not present in CORPORA; the frozen 33-unit sample from five effective entities was retained without replacement."}],
+      "blinding": {
+        "human_reviewer_saw_model_predictions": false,
+        "human_review_closed_before_diagnostic_replay": true
+      },
+      "source_execution": {
+        "workflow_name": "T2A MAR surface typing independent validation v2",
+        "workflow_run_id": 32857274723,
+        "job_id": 97832217003,
+        "artifact_id": 9566711703,
+        "prediction_sha256": "2188cad903e481c7e906e79ca33477d2f16d754c42d054a0cc1023f1e55828f4",
+        "review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f"
+      },
+      "protocol_deviations": [
+        {
+          "deviation_id": "european_film_gateway_unknown_corpus_key",
+          "severity": "sample_coverage_reduction",
+          "description": "One of six preregistered entities produced no surfaces because its requested identifier was not present in CORPORA; the frozen 33-unit sample from five effective entities was retained without replacement."
+        }
+      ],
       "scientific_decision": "Do not validate protocol 2.0.0 for fine-grained M3 surface typing. Preserve its independent empirical result, retain access-state separation, revise the surface classifier under a new protocol version, and obtain a new prediction-frozen independent validation before scaling M4.",
-      "limitations": ["The independent ecological sample contains 33 units from five effective entities and is too small for broad generalisation.", "The preregistered sixth identifier did not execute because it was absent from CORPORA, reducing entity coverage.", "The sample was not designed to estimate prevalence of surface classes.", "Several protocol classes have zero human support, so their per-class performance cannot be estimated from this sample.", "Entity-specific clusters, especially the seven Luce detail pages, make aggregate binary metrics sensitive to within-entity repetition."],
-      "prohibited_interpretations": ["does not estimate corpus-wide prevalence of surface classes", "does not validate protocol 2.0.0 for fine-grained surface typing", "does not justify scaling M4 without revising M3 item-level recall", "does not modify the official T2 baseline", "does not establish any institutional or audiovisual-content AI claim"],
+      "limitations": [
+        "The independent ecological sample contains 33 units from five effective entities and is too small for broad generalisation.",
+        "The preregistered sixth identifier did not execute because it was absent from CORPORA, reducing entity coverage.",
+        "The sample was not designed to estimate prevalence of surface classes.",
+        "Several protocol classes have zero human support, so their per-class performance cannot be estimated from this sample.",
+        "Entity-specific clusters, especially the seven Luce detail pages, make aggregate binary metrics sensitive to within-entity repetition."
+      ],
+      "prohibited_interpretations": [
+        "does not estimate corpus-wide prevalence of surface classes",
+        "does not validate protocol 2.0.0 for fine-grained surface typing",
+        "does not justify scaling M4 without revising M3 item-level recall",
+        "does not modify the official T2 baseline",
+        "does not establish any institutional or audiovisual-content AI claim"
+      ],
       "artifacts": [
-        {"path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2.json", "role": "frozen_prediction_set", "sha256": "2188cad903e481c7e906e79ca33477d2f16d754c42d054a0cc1023f1e55828f4", "frozen_before_human_review": true},
-        {"path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_review_queue_v2.json", "role": "blind_review_queue", "content_sha": "2340fce3b9a9c0e43ba6ad1af8ca4980aef7c5f5"},
-        {"path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json", "role": "authoritative_completed_human_review", "content_sha": "4b511dfe9157473a3d1dbcf41c1dcc966a716d2a"},
-        {"path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_evaluation_v2.json", "role": "independent_evaluation_comparison", "content_sha": "5cd5f57efa507b23144de364bc4652ac42f1389f"},
-        {"path": "docs/research/experiments/2026-08_m3_surface_typing_independent_validation_v2.md", "role": "human_readable_experiment_report", "content_sha": "47888108782ccc2ee747ae61fcb399b042870a86"}
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2.json",
+          "role": "frozen_prediction_set",
+          "sha256": "2188cad903e481c7e906e79ca33477d2f16d754c42d054a0cc1023f1e55828f4",
+          "frozen_before_human_review": true
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_review_queue_v2.json",
+          "role": "blind_review_queue",
+          "content_sha": "2340fce3b9a9c0e43ba6ad1af8ca4980aef7c5f5"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json",
+          "role": "authoritative_completed_human_review",
+          "content_sha": "4b511dfe9157473a3d1dbcf41c1dcc966a716d2a"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_evaluation_v2.json",
+          "role": "independent_evaluation_comparison",
+          "content_sha": "5cd5f57efa507b23144de364bc4652ac42f1389f"
+        },
+        {
+          "path": "docs/research/experiments/2026-08_m3_surface_typing_independent_validation_v2.md",
+          "role": "human_readable_experiment_report",
+          "content_sha": "47888108782ccc2ee747ae61fcb399b042870a86"
+        }
       ]
     },
     {
@@ -185,7 +510,9 @@
       "version": "2.1.0",
       "stage": "t2a_mar_surface_typing_post_validation_calibration",
       "scientific_layer": "mar_intelligence_automation",
-      "experiment_types": ["calibration_experiment"],
+      "experiment_types": [
+        "calibration_experiment"
+      ],
       "created_on": "2026-08-25",
       "decision_date": "2026-08-25",
       "status": "completed_calibration_only",
@@ -198,7 +525,12 @@
         "known_development_units_total": 50,
         "legacy_calibration_units": 17,
         "post_validation_development_units": 33,
-        "regression_result": {"surface_type_matches": 50, "item_level_matches": 50, "access_state_matches": 50, "mismatches": 0},
+        "regression_result": {
+          "surface_type_matches": 50,
+          "item_level_matches": 50,
+          "access_state_matches": 50,
+          "mismatches": 0
+        },
         "calibration_smoke_units": 25,
         "calibration_smoke_human_reviewed_for_performance": false
       },
@@ -213,13 +545,165 @@
         "calibration_smoke_prediction_sha256": "d50cc50c7239278a6fd6709d7c373fbe34053c0e9bbf2e83fc932eb9c73d5126"
       },
       "scientific_decision": "Accept protocol 2.1.0 only as a calibrated development candidate and require a new preregistered prediction-frozen independent ecological validation on unseen surfaces before scaling M4.",
-      "limitations": ["All 50 labelled regression units are known development data for protocol 2.1.0.", "The 33-unit set was independent only for evaluation of protocol 2.0.0 and cannot independently validate 2.1.0 after informing its rules.", "Several protocol classes remain sparse or absent in known development labels.", "The 25-unit calibration smoke was not human-reviewed to estimate performance.", "Platform-specific route rules may still overfit known archives."],
-      "prohibited_interpretations": ["50/50 development agreement must not be reported as independent accuracy or performance", "does not estimate prevalence", "does not establish ecological validation of protocol 2.1.0", "does not justify scaling M4 yet", "does not modify the official T2 baseline"],
+      "limitations": [
+        "All 50 labelled regression units are known development data for protocol 2.1.0.",
+        "The 33-unit set was independent only for evaluation of protocol 2.0.0 and cannot independently validate 2.1.0 after informing its rules.",
+        "Several protocol classes remain sparse or absent in known development labels.",
+        "The 25-unit calibration smoke was not human-reviewed to estimate performance.",
+        "Platform-specific route rules may still overfit known archives."
+      ],
+      "prohibited_interpretations": [
+        "50/50 development agreement must not be reported as independent accuracy or performance",
+        "does not estimate prevalence",
+        "does not establish ecological validation of protocol 2.1.0",
+        "does not justify scaling M4 yet",
+        "does not modify the official T2 baseline"
+      ],
       "artifacts": [
-        {"path": "data/digital_infrastructure/ai_experiments/m3_surface_type_post_validation_development_v2_1.json", "role": "post_validation_calibration_conclusion", "content_sha": "4a99bac68e17bc62856918fe55d1abe9d61bc7ff"},
-        {"path": "docs/research/experiments/2026-08_m3_surface_typing_post_validation_calibration_v2_1.md", "role": "human_readable_experiment_report", "content_sha": "aa7ad0c1cb46bdc0522c8f30f355ac1e62bd7744"},
-        {"path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py", "role": "calibrated_classifier_implementation_at_decision", "initial_blob_sha": "6d4cc0484d0cb694c9e6c77897a78a8cce9d510d"},
-        {"path": "tests/test_surface_typing.py", "role": "development_regression_test_suite_at_decision", "initial_blob_sha": "b8324a2ad0b1676faf36cbc0ffdee2bf14a57c13"}
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_post_validation_development_v2_1.json",
+          "role": "post_validation_calibration_conclusion",
+          "content_sha": "4a99bac68e17bc62856918fe55d1abe9d61bc7ff"
+        },
+        {
+          "path": "docs/research/experiments/2026-08_m3_surface_typing_post_validation_calibration_v2_1.md",
+          "role": "human_readable_experiment_report",
+          "content_sha": "aa7ad0c1cb46bdc0522c8f30f355ac1e62bd7744"
+        },
+        {
+          "path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py",
+          "role": "calibrated_classifier_implementation_at_decision",
+          "initial_blob_sha": "6d4cc0484d0cb694c9e6c77897a78a8cce9d510d"
+        },
+        {
+          "path": "tests/test_surface_typing.py",
+          "role": "development_regression_test_suite_at_decision",
+          "initial_blob_sha": "b8324a2ad0b1676faf36cbc0ffdee2bf14a57c13"
+        }
+      ]
+    },
+    {
+      "experiment_id": "MAR-T2A-M3-VAL-005",
+      "version": "2.1.0",
+      "stage": "t2a_mar_surface_typing_independent_validation",
+      "scientific_layer": "mar_intelligence_automation",
+      "experiment_types": [
+        "blind_human_validation",
+        "ecological_validation"
+      ],
+      "created_on": "2026-08-25",
+      "sample_observed_on": "2026-08-25",
+      "human_review_completed_on": "2026-09-02",
+      "decision_date": "2026-09-02",
+      "status": "completed_independent_validation_not_accepted",
+      "claim_level": "empirical_validation",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "question": "Does calibrated M3 protocol 2.1.0 generalise to a new preregistered prediction-frozen independent ecological sample for fine-grained surface typing, item-level discrimination and separately represented access state, with materially improved item-level recall before M4 scaling?",
+      "sample_summary": {
+        "units_total": 36,
+        "preregistered_entities": [
+          "dff",
+          "filmarchiv_austria",
+          "euscreen",
+          "czech-television",
+          "ciclic",
+          "cineam"
+        ],
+        "effective_review_entities": [
+          "ciclic",
+          "cineam",
+          "czech-television",
+          "dff",
+          "euscreen"
+        ],
+        "human_item_level_true": 14,
+        "human_item_level_false": 22,
+        "exact_surface_accuracy": 0.1666666667,
+        "binary_item_level": {
+          "true_positive": 4,
+          "true_negative": 22,
+          "false_positive": 0,
+          "false_negative": 10,
+          "precision": 1,
+          "recall": 0.2857142857,
+          "f1": 0.4444444444,
+          "specificity": 1,
+          "accuracy": 0.7222222222
+        },
+        "access_state_agreement": 1
+      },
+      "blinding": {
+        "human_reviewer_saw_model_predictions": false,
+        "predictions_frozen_before_human_review": true,
+        "human_review_frozen_before_prediction_comparison": true
+      },
+      "source_execution": {
+        "workflow_name": "T2A MAR surface typing independent validation v2.1",
+        "workflow_run_id": 32911622199,
+        "job_id": 98006787309,
+        "artifact_id": 9586738789,
+        "artifact_digest": "sha256:fa5d470f7b57904b2eed6def08ec50ec9db485d42c314609ca7b5962f63c07a7",
+        "prediction_sha256": "1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb",
+        "review_queue_sha256": "696d6366a8c5b2e20a26137cf91fb6775c3ea9485d81caf9dd9583e20db0b242"
+      },
+      "protocol_deviations": [],
+      "scientific_decision": "Do not accept protocol 2.1.0 as independently validated for fine-grained M3 surface typing and do not scale M4. Although binary false positives fell to zero, item-level recall dropped to 28.57%, materially worse than protocol 2.0.0. Preserve the result, revise M3 in a new protocol version, and require another preregistered prediction-frozen independent ecological validation before M4 scaling.",
+      "limitations": [
+        "The independent ecological sample contains 36 units from five effective review entities and is too small for broad generalisation.",
+        "All six preregistered entities completed collection, but the deterministic global 36-unit review cap yielded no filmarchiv_austria unit in the final review queue.",
+        "The sample was not designed to estimate prevalence of surface classes.",
+        "Several protocol classes are absent or supported by a single human unit.",
+        "Within-entity route repetition, especially seven DFF trailer pages, makes aggregate metrics sensitive to clustered failure modes."
+      ],
+      "prohibited_interpretations": [
+        "does not estimate corpus-wide prevalence of surface classes",
+        "does not validate protocol 2.1.0 for fine-grained surface typing",
+        "does not justify scaling M4",
+        "zero false positives does not compensate for low item-level recall",
+        "does not modify the official T2 baseline",
+        "does not establish any institutional or audiovisual-content AI claim"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_validation_protocol_v2_1.json",
+          "role": "preregistered_validation_protocol",
+          "content_sha": "3c1dc6525116659e0c40d940549a544843743ae1"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_prediction_freeze_v2_1.json",
+          "role": "prediction_freeze_manifest",
+          "content_sha": "5855ae3600375a604a523e7de4add5b54157bea3",
+          "prediction_sha256": "1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb",
+          "frozen_before_human_review": true
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2_1.json",
+          "role": "frozen_prediction_set",
+          "content_sha": "bb4ba3510ebdaed2fefa7eff88fd7cc36bb3e92a",
+          "sha256": "1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb",
+          "frozen_before_human_review": true
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_1.json",
+          "role": "authoritative_completed_human_review",
+          "content_sha": "56a5ceedfaa8609784fa7fcac008d3dc13fd23b1"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_freeze_v2_1.json",
+          "role": "human_review_freeze_before_prediction_comparison",
+          "content_sha": "42ce1744944210f2e65b0b101551f481bbbb92a5"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_evaluation_v2_1.json",
+          "role": "independent_evaluation_comparison",
+          "content_sha": "acb4b770b56075c153284e23b52e69d744b55469"
+        },
+        {
+          "path": "docs/research/experiments/2026-09_m3_surface_typing_independent_validation_v2_1.md",
+          "role": "human_readable_experiment_report",
+          "content_sha": "387ebe3efbb47df59d91ee2f8af3115239e1bab8"
+        }
       ]
     }
   ]
