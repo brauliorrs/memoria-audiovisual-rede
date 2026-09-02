@@ -1,0 +1,38 @@
+{
+  "errors": [],
+  "fetched_pages": 1,
+  "finished_at": "2026-09-02T19:33:16Z",
+  "institutional_base_host": "ninateka.pl",
+  "pages": [
+    {
+      "content_sha256": "99bab65ff98a1be0fc82c0e8ec3a129ba8fd5d492df1d67a13b6514ecb7d8582",
+      "content_type": "text/html",
+      "depth": 0,
+      "discovered_links": 0,
+      "fetch_status": "fetched",
+      "fetched_at": "2026-09-02T19:33:16Z",
+      "media_urls": [],
+      "metadata_text": "IE=edge\nviewport: width=device-width, initial-scale=1, maximum-scale=5, shrink-to-fit=no\ngoogle-site-verification: vCDRIdTJNWcbFD4KyHVJ6H-8VeKxiEt3xVQYN0ORdAc\ndescription: Ninateka to filmy fabularne, reportaże, animacje, filmy eksperymentalne, zapisy spektakli teatralnych i operowych, rejestracje koncertów, relacje dokumentujące życie kulturalne i społeczne oraz audycje radiowe.\napplication-name: Ninateka\nog:title: Oglądaj, oglądaj na Ninatece\nog:type: website\nog:description: Ninateka to filmy fabularne, reportaże, animacje, filmy eksperymentalne, zapisy spektakli teatralnych i operowych, rejestracje koncertów, relacje dokumentujące życie kulturalne i społeczne oraz audycje radiowe.\nog:url: https://ninateka.pl/ogladaj\nog:site_name: Ninateka\nog:locale: pl_PL\nog:image: https://ninateka.pl/static/images/logo.png\ntwitter:card: summary_large_image\ntwitter:title: Oglądaj, oglądaj na Ninatece\ntwitter:description: Ninateka to filmy fabularne, reportaże, animacje, filmy eksperymentalne, zapisy spektakli teatralnych i operowych, rejestracje koncertów, relacje dokumentujące życie kulturalne i społeczne oraz audycje radiowe.\ntwitter:site: https://ninateka.pl/ogladaj\ntwitter:creator: ninateka.pl\ntwitter:image: https://ninateka.pl/static/images/logo.png",
+      "parent_url": null,
+      "status_code": 200,
+      "structured_text": "",
+      "text": "Ninateka",
+      "title": "Ninateka",
+      "truncated": false,
+      "url": "https://ninateka.pl/ogladaj"
+    }
+  ],
+  "pages_total": 1,
+  "policy": {
+    "max_depth": 2,
+    "max_pages": 8,
+    "max_response_bytes": 1500000,
+    "max_text_chars": 120000,
+    "respect_robots_txt": true,
+    "timeout_seconds": 12.0,
+    "user_agent": "MemoriaAudiovisualRede-T2A/1.0 (+public-research-crawler)"
+  },
+  "protocol_version": "1.0.0",
+  "root_url": "https://ninateka.pl/ogladaj",
+  "started_at": "2026-09-02T19:33:15Z"
+}
