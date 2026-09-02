@@ -8,11 +8,13 @@ Desde o protocolo 2.0.0, o papel semântico da superfície e o estado de acesso/
 são dimensões independentes. Um bloqueio do coletor, redirecionamento ou restrição
 geográfica não deve, por si só, redefinir o tipo da superfície observada.
 
-O protocolo 2.1.0 reorganiza a precedência de evidências após a validação ecológica
-independente do 2.0.0: filtros/índices são resolvidos antes de heurísticas de ID,
-rotas fortes de item não são anuladas por contexto de arquivo repetido e metadados
-inequivocamente audiovisuais podem confirmar um item mesmo quando o coletor não
-extrai uma URL de mídia reproduzível.
+O protocolo 2.2.0 responde à validação ecológica independente do 2.1.0 sem
+introduzir regras específicas por instituição: páginas de listagem podem ser
+reconhecidas por sinais estruturais e textuais fortes, e rotas singulares de
+audiovisual com marcador explícito de conteúdo (por exemplo, trailer/episódio)
+podem confirmar item audiovisual mesmo quando o coletor não extrai uma URL de
+mídia reproduzível. Conflitos humanos estruturalmente indistinguíveis permanecem
+como limitação de desenvolvimento e não são codificados por ID ou slug.
 """
 
 from __future__ import annotations
@@ -22,7 +24,7 @@ from dataclasses import asdict, dataclass
 from typing import Literal, Mapping, Sequence
 from urllib.parse import parse_qs, unquote, urlsplit
 
-SURFACE_TYPING_PROTOCOL_VERSION = "2.1.0"
+SURFACE_TYPING_PROTOCOL_VERSION = "2.2.0"
 
 SurfaceType = Literal[
     "homepage",
@@ -64,7 +66,6 @@ ITEM_LEVEL_SURFACE_TYPES = {"item_record", "audiovisual_item"}
 _SEARCH_TOKENS = {
     "search",
     "recherche",
-    "research",
     "buscar",
     "busca",
     "browse",
@@ -147,7 +148,44 @@ _RECORDISH_PATH_TOKENS = {
     "asset",
     "media",
 }
-_AJAX_INDEX_TOKENS = {"kwtheme", "kwname", "keyword", "keywords", "filter", "facet"}
+_AJAX_INDEX_TOKENS = {
+    "kwtheme",
+    "kwname",
+    "keyword",
+    "keywords",
+    "filter",
+    "facet",
+    "theme",
+    "format",
+    "mots",
+    "cles",
+}
+_SEARCH_TEXT_MARKERS = (
+    "advanced search",
+    "recherche avanc",
+    "pesquisa avanç",
+    "busqueda avanzada",
+    "búsqueda avanzada",
+    "appliquer la recherche",
+    "filter results",
+    "filter by",
+    "filtrer",
+    "filtern",
+    "plus de résultats",
+    "more results",
+    "show more results",
+    "seitennummerierung",
+)
+_AUDIOVISUAL_TITLE_MARKERS = (
+    "trailer",
+    "teaser",
+    "episode",
+    "épisode",
+    "episodio",
+    "episódio",
+    "video clip",
+    "vidéo clip",
+)
 _RESTRICTED_ROUTE_FRAGMENTS = (
     "/acces-pro",
     "/espace-perso",
@@ -312,6 +350,24 @@ def _looks_restricted_route(path: str, token_set: set[str]) -> bool:
     return {"acces", "pro"}.issubset(token_set) or {"espace", "perso"}.issubset(token_set)
 
 
+def _has_explicit_audiovisual_detail_route(path: str) -> bool:
+    """Detecta uma rota singular de AV seguida por um segmento de detalhe.
+
+    A regra é estrutural e independente de domínio. `/video` ou `/videos`
+    sozinhos não bastam; é necessário um segmento posterior não vazio.
+    """
+    segments = [
+        segment
+        for segment in unquote(path).casefold().split("/")
+        if segment
+    ]
+    singular = {"video", "audio", "film", "movie"}
+    for index, segment in enumerate(segments[:-1]):
+        if segment in singular and segments[index + 1]:
+            return True
+    return False
+
+
 def classify_surface_type(
     *,
     url: str,
@@ -360,7 +416,16 @@ def classify_surface_type(
     )
     audiovisual_fiche_route = "fiche" in token_set and bool(token_set & _AUDIOVISUAL_PATH_TOKENS)
     record_detail_route = bool(token_set & {"detail", "details", "record", "notice", "item"}) and specificity_score >= 2
-    strong_item_route = catalogue_detail_route or audiovisual_fiche_route or record_detail_route
+    explicit_audiovisual_detail_route = _has_explicit_audiovisual_detail_route(parts.path)
+    title_has_audiovisual_marker = any(
+        marker in title_norm for marker in _AUDIOVISUAL_TITLE_MARKERS
+    )
+    strong_item_route = (
+        catalogue_detail_route
+        or audiovisual_fiche_route
+        or record_detail_route
+        or (explicit_audiovisual_detail_route and title_has_audiovisual_marker)
+    )
 
     if _looks_restricted_route(parts.path, token_set):
         return SurfaceTypeDecision(
@@ -387,6 +452,19 @@ def classify_surface_type(
     if search_title:
         search_score += 2
         search_evidence.append(f"title:{search_title[0]}")
+
+    if not strong_item_route:
+        strong_text_marker = next(
+            (marker for marker in _SEARCH_TEXT_MARKERS if marker in text_norm),
+            None,
+        )
+        if strong_text_marker:
+            search_score += 4
+            search_evidence.append(f"text:{strong_text_marker}")
+        structured_compact = structured_norm.replace(" ", "")
+        if '"@type":"itemlist"' in structured_compact:
+            search_score += 4
+            search_evidence.append("structured:item-list")
 
     if is_root_surface and token_set & _CATALOGUE_TOKENS:
         search_score += 4
@@ -473,6 +551,10 @@ def classify_surface_type(
     if record_detail_route:
         item_score += 1
         item_evidence.append("path:record-detail")
+    if explicit_audiovisual_detail_route and title_has_audiovisual_marker:
+        item_score += 3
+        item_evidence.append("path:explicit-audiovisual-detail")
+        item_evidence.append("title:audiovisual-marker")
 
     if title_norm and len(title_norm) >= 3:
         item_score += 1
