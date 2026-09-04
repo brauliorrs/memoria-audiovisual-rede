@@ -22,9 +22,9 @@
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_2.json",
   "source_review_queue_blob_sha": "aed13cc50b5bc62e12d2f05191bc6bb2eb357e24",
   "units_total": 31,
-  "reviewed_units_total": 15,
+  "reviewed_units_total": 16,
   "human_item_level_true_total": 4,
-  "human_non_item_level_total": 11,
+  "human_non_item_level_total": 12,
   "human_ambiguous_total": 0,
   "known_development_urls_excluded": 86,
   "overlap_with_known_urls": 0,
@@ -54,6 +54,7 @@
     {"review_unit_id":"bnt-surface-d011139b999fa527","entity_id":"bnt","page_url":"https://bnt.bg/news/mariana-popova-v-muzika-bezkrai-311430news.html","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-03"},
     {"review_unit_id":"cinemateca-portuguesa-surface-1e36588b2b256b2b","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/cinemateca-digital/video.aspx","human_surface_type":"search_or_index","human_is_item_level":false,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-03"},
     {"review_unit_id":"cinemateca-portuguesa-surface-d8906293c8d2937c","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/cinemateca-digital/Ficha.aspx?obraid=13618&type=Video","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
-    {"review_unit_id":"cinemateca-portuguesa-surface-16dfc1576647e6ef","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/Colecoes/Filme-e-Video.aspx","human_surface_type":"archive_landing_page","human_is_item_level":false,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"}
+    {"review_unit_id":"cinemateca-portuguesa-surface-16dfc1576647e6ef","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/Colecoes/Filme-e-Video.aspx","human_surface_type":"archive_landing_page","human_is_item_level":false,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
+    {"review_unit_id":"cinemateca-portuguesa-surface-b266519715b5d3fd","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/Servicos/Acesso-Arquivo-Filmico.aspx","human_surface_type":"archive_landing_page","human_is_item_level":false,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"}
   ]
 }
