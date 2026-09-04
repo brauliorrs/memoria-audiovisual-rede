@@ -22,8 +22,8 @@
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_2.json",
   "source_review_queue_blob_sha": "aed13cc50b5bc62e12d2f05191bc6bb2eb357e24",
   "units_total": 31,
-  "reviewed_units_total": 17,
-  "human_item_level_true_total": 4,
+  "reviewed_units_total": 18,
+  "human_item_level_true_total": 5,
   "human_non_item_level_total": 12,
   "human_ambiguous_total": 1,
   "known_development_urls_excluded": 86,
@@ -56,6 +56,7 @@
     {"review_unit_id":"cinemateca-portuguesa-surface-d8906293c8d2937c","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/cinemateca-digital/Ficha.aspx?obraid=13618&type=Video","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
     {"review_unit_id":"cinemateca-portuguesa-surface-16dfc1576647e6ef","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/Colecoes/Filme-e-Video.aspx","human_surface_type":"archive_landing_page","human_is_item_level":false,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
     {"review_unit_id":"cinemateca-portuguesa-surface-b266519715b5d3fd","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/Servicos/Acesso-Arquivo-Filmico.aspx","human_surface_type":"archive_landing_page","human_is_item_level":false,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
-    {"review_unit_id":"cinemateca-portuguesa-surface-db400f4e61b3d466","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/getattachment/Servicos/Acesso-Arquivo-Filmico/Contactos/ACORDO-DE-CEDENCIA.pdf.aspx","human_surface_type":"unknown","human_is_item_level":null,"human_access_state":"unknown","human_review_note":null,"reviewed_on":"2026-09-04"}
+    {"review_unit_id":"cinemateca-portuguesa-surface-db400f4e61b3d466","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/getattachment/Servicos/Acesso-Arquivo-Filmico/Contactos/ACORDO-DE-CEDENCIA.pdf.aspx","human_surface_type":"unknown","human_is_item_level":null,"human_access_state":"unknown","human_review_note":null,"reviewed_on":"2026-09-04"},
+    {"review_unit_id":"cinemateca-portuguesa-surface-ce6640a90f22926d","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/cinemateca-digital/Ficha.aspx?obraid=13015&type=Video","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"}
   ]
 }
