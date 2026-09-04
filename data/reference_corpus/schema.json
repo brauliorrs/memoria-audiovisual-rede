@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoria-audiovisual-rede/schema/reference-corpus-manifest-1.0.0.json",
+  "title": "Scientific Reference Corpus Manifest",
+  "type": "object",
+  "required": ["reference_corpus", "dataset", "scientific_context", "governance"],
+  "properties": {
+    "reference_corpus": {
+      "type": "object",
+      "required": ["manifest_id", "version", "status", "created_at", "language", "description"],
+      "properties": {
+        "manifest_id": {"const": "scientific_reference_corpus_manifest"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "status": {"const": "frozen"},
+        "created_at": {"type": "string", "format": "date"},
+        "language": {"type": "string", "minLength": 2},
+        "description": {"type": "string", "minLength": 20}
+      },
+      "additionalProperties": false
+    },
+    "dataset": {
+      "type": "object",
+      "required": ["path", "selector", "source_revision", "hash_algorithm", "content_hash", "entities"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "selector": {"const": "CORPORA"},
+        "source_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "hash_algorithm": {"const": "git-blob-sha1"},
+        "content_hash": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "entities": {"const": 49}
+      },
+      "additionalProperties": false
+    },
+    "scientific_context": {
+      "type": "object",
+      "required": ["indicator_registry_version", "methodology_registry_version", "pipeline_stage", "software_branch"],
+      "properties": {
+        "indicator_registry_version": {"type": "string"},
+        "methodology_registry_version": {"type": "string"},
+        "pipeline_stage": {"const": "2B.3A"},
+        "software_branch": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "governance": {
+      "type": "object",
+      "required": ["single_source_of_truth", "dataset_is_not_duplicated", "changes_require_new_manifest_version", "derived_snapshots_are_external_to_manifest"],
+      "properties": {
+        "single_source_of_truth": {"const": true},
+        "dataset_is_not_duplicated": {"const": true},
+        "changes_require_new_manifest_version": {"const": true},
+        "derived_snapshots_are_external_to_manifest": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,72 @@
+{
+  "binary": {
+    "f1": 1.0,
+    "false_negative": 0,
+    "false_positive": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "true_negative": 3,
+    "true_positive": 3
+  },
+  "controls": 6,
+  "exact_class_accuracy": 1.0,
+  "exact_class_matches": 6,
+  "rows": [
+    {
+      "class_match": true,
+      "control_id": "rtve-telediario-futuro-2026",
+      "evidence_strength": "verified_disclosure",
+      "expected_positive": true,
+      "expected_usage_class": "partially_synthetic",
+      "predicted_positive": true,
+      "predicted_usage_class": "partially_synthetic"
+    },
+    {
+      "class_match": true,
+      "control_id": "bfi-tokinokawa-2021",
+      "evidence_strength": "verified_disclosure",
+      "expected_positive": true,
+      "expected_usage_class": "ai_assisted_production",
+      "predicted_positive": true,
+      "predicted_usage_class": "ai_assisted_production"
+    },
+    {
+      "class_match": true,
+      "control_id": "dreadclub-vampires-verdict-2024",
+      "evidence_strength": "verified_disclosure",
+      "expected_positive": true,
+      "expected_usage_class": "fully_synthetic",
+      "predicted_positive": true,
+      "predicted_usage_class": "fully_synthetic"
+    },
+    {
+      "class_match": true,
+      "control_id": "rtve-telediario-2025-negative",
+      "evidence_strength": "none",
+      "expected_positive": false,
+      "expected_usage_class": "no_verified_ai_evidence",
+      "predicted_positive": false,
+      "predicted_usage_class": "no_verified_ai_evidence"
+    },
+    {
+      "class_match": true,
+      "control_id": "bfi-japanese-dancers-1894-negative",
+      "evidence_strength": "none",
+      "expected_positive": false,
+      "expected_usage_class": "no_verified_ai_evidence",
+      "predicted_positive": false,
+      "predicted_usage_class": "no_verified_ai_evidence"
+    },
+    {
+      "class_match": true,
+      "control_id": "bfi-japanese-procession-1904-negative",
+      "evidence_strength": "none",
+      "expected_positive": false,
+      "expected_usage_class": "no_verified_ai_evidence",
+      "predicted_positive": false,
+      "predicted_usage_class": "no_verified_ai_evidence"
+    }
+  ],
+  "sample_id": "ai-content-validation-sample-v1",
+  "sample_version": "1.0.0"
+}

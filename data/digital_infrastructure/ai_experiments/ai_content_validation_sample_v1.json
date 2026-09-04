@@ -1,0 +1,118 @@
+{
+  "controls": [
+    {
+      "control_id": "rtve-telediario-futuro-2026",
+      "control_type": "positive_external",
+      "date_bucket": "2026",
+      "entity_id": "rtve_external_control",
+      "evidence_source_role": "producer_disclosure",
+      "evidence_text": "El especial contiene escenas generadas por IA y una versión de Pepa Bueno hecha con IA; RTVE documenta que partes del programa fueron realizadas con inteligencia artificial.",
+      "evidence_url": "https://www.rtve.es/noticias/20260623/telediario-futuro-ia-rtve-pepa-bueno-making-of/17127637.shtml",
+      "expected_positive": true,
+      "expected_usage_class": "partially_synthetic",
+      "item_id": "rtve-play-17127011",
+      "item_url": "https://www.rtve.es/play/videos/telediario-2/td-explora-riesgos-oportunidades-ia-telediario-del-futuro/17127011/",
+      "language": "es",
+      "rationale": "Programa real que mezcla producción convencional con elementos audiovisuales generados por IA."
+    },
+    {
+      "control_id": "bfi-tokinokawa-2021",
+      "control_type": "positive_corpus_related",
+      "date_bucket": "2021",
+      "entity_id": "bfi",
+      "evidence_source_role": "commissioner_creator_interview",
+      "evidence_text": "The audiovisual installation used images analysed by bespoke artificial intelligence software and presented the analysis through an animated infographic layer.",
+      "evidence_url": "https://www.bfi.org.uk/interviews/light-surgeons-tokinokawa",
+      "expected_positive": true,
+      "expected_usage_class": "ai_assisted_production",
+      "item_id": "tokinokawa-2021",
+      "item_url": "https://www.bfi.org.uk/interviews/light-surgeons-tokinokawa",
+      "language": "en",
+      "rationale": "Uso de IA no processo criativo sem evidência de que o conteúdo inteiro seja sintético."
+    },
+    {
+      "control_id": "dreadclub-vampires-verdict-2024",
+      "control_type": "positive_external",
+      "date_bucket": "2024",
+      "entity_id": "external_film_control",
+      "evidence_source_role": "authoritative_independent_description",
+      "evidence_text": "BFI describes DreadClub: Vampire's Verdict as a fully AI-generated animated feature.",
+      "evidence_url": "https://www.bfi.org.uk/sight-and-sound/features/2024-year-ai",
+      "expected_positive": true,
+      "expected_usage_class": "fully_synthetic",
+      "item_id": "dreadclub-vampires-verdict",
+      "item_url": "https://www.bfi.org.uk/sight-and-sound/features/2024-year-ai",
+      "language": "en",
+      "rationale": "Controle positivo forte para a classe integralmente sintética."
+    },
+    {
+      "control_id": "rtve-telediario-2025-negative",
+      "control_type": "negative_external",
+      "date_bucket": "2025",
+      "entity_id": "rtve_external_control",
+      "evidence_source_role": "official_item_page",
+      "evidence_text": "Telediario 1 en cuatro minutos, 12/12/2025. Resumen informativo de actualidad. Ficha técnica: género Información y actualidad; idioma Castellano; subtitulado.",
+      "evidence_url": "https://www.rtve.es/play/videos/telediario-1/1-en-cuatro-minutos-12-12-25/16856409/",
+      "expected_positive": false,
+      "expected_usage_class": "no_verified_ai_evidence",
+      "item_id": "rtve-play-16856409",
+      "item_url": "https://www.rtve.es/play/videos/telediario-1/1-en-cuatro-minutos-12-12-25/16856409/",
+      "language": "es",
+      "rationale": "Controle negativo contemporâneo da mesma organização do positivo espanhol."
+    },
+    {
+      "control_id": "bfi-japanese-dancers-1894-negative",
+      "control_type": "negative_corpus_related",
+      "date_bucket": "1894",
+      "entity_id": "bfi",
+      "evidence_source_role": "official_item_page",
+      "evidence_text": "Japanese Dancers. 1894, USA, no dialogue. Three dancers perform for Edison's Kinetoscope in W. K. L. Dickson's studio in New Jersey.",
+      "evidence_url": "https://player.bfi.org.uk/free/film/watch-japanese-dancers-1894-online",
+      "expected_positive": false,
+      "expected_usage_class": "no_verified_ai_evidence",
+      "item_id": "japanese-dancers-1894",
+      "item_url": "https://player.bfi.org.uk/free/film/watch-japanese-dancers-1894-online",
+      "language": "en",
+      "rationale": "Controle histórico forte para ausência de evidência verificável de IA na produção original."
+    },
+    {
+      "control_id": "bfi-japanese-procession-1904-negative",
+      "control_type": "negative_corpus_related",
+      "date_bucket": "1904",
+      "entity_id": "bfi",
+      "evidence_source_role": "official_item_page",
+      "evidence_text": "Japanese Procession of State. Non-Fiction, 1904, United Kingdom, no dialogue. A Shinto procession filmed for the Hepworth Manufacturing Company.",
+      "evidence_url": "https://player.bfi.org.uk/free/film/watch-japanese-procession-of-state-1904-online",
+      "expected_positive": false,
+      "expected_usage_class": "no_verified_ai_evidence",
+      "item_id": "japanese-procession-of-state-1904",
+      "item_url": "https://player.bfi.org.uk/free/film/watch-japanese-procession-of-state-1904-online",
+      "language": "en",
+      "rationale": "Segundo negativo histórico para evitar dependência de um único item de controle."
+    }
+  ],
+  "sample": {
+    "does_not_modify_official_baseline": true,
+    "is_prevalence_sample": false,
+    "purpose": "Calibrar a classificação item a item de IA na produção audiovisual antes de executar a dimensão automaticamente sobre o corpus.",
+    "sample_id": "ai-content-validation-sample-v1",
+    "stage": "t2a_content_ai_calibration",
+    "status": "reference_controls_defined",
+    "version": "1.0.0"
+  },
+  "summary": {
+    "controls": 6,
+    "expected_classes": [
+      "ai_assisted_production",
+      "fully_synthetic",
+      "no_verified_ai_evidence",
+      "partially_synthetic"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "negative_controls": 3,
+    "positive_controls": 3
+  }
+}

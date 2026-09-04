@@ -141,6 +141,21 @@ Automatic rules may support preliminary classification, but ambiguous cases requ
 - reviewer or responsible process;
 - methodological version.
 
+## From eligibility to expansion
+
+Eligibility answers whether an entity may belong to the scientific corpus. It does not, by itself, determine when that entity should be incorporated or when regional and global denominators should change.
+
+The [Scientific Expansion Policy](05a_scientific_expansion_policy.md) defines the additional governance layer for:
+
+- regional and continental queues;
+- technical probing and curatorial review;
+- controlled incorporation batches;
+- the provisional 20-corpus readiness threshold;
+- the continental activation sequence;
+- denominator versioning and geographic safeguards.
+
+An eligible candidate may therefore remain outside the active corpus until the applicable expansion wave and all incorporation gates are completed.
+
 ## Reproducibility principle
 
 A published result must make it possible to determine not only which archives were counted, but also which discovered entities were not counted and why.
@@ -149,4 +164,4 @@ This policy therefore treats corpus construction as part of the scientific metho
 
 ---
 
-[← Previous: System Architecture](04_system_architecture.md) · [Research Handbook](README.md) · [Next: Analytics →](06_analytics.md)
+[← Previous: System Architecture](04_system_architecture.md) · [Research Handbook](README.md) · [Next: Scientific Expansion Policy →](05a_scientific_expansion_policy.md)

@@ -1,0 +1,18 @@
+name: T2A MAR preserve frozen independent validation v2.2 (historical locked)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preservation-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Frozen preservation lock
+        run: |
+          echo "Authoritative validation run: 33673923717"
+          echo "Authoritative artifact: 9863619119"
+          echo "Preservation run: 33674268293"
+          echo "Frozen M3 2.2 artifacts are already durable and must not be overwritten."

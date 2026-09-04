@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_set_id": "ai-content-blind-predictions-v1",
+  "queue_id": "ai-content-blind-review-v1",
+  "run_id": "ci-metadata-triage",
+  "source_workflow_run_id": "31849019864",
+  "source_head_sha": "70d6b19d371acb2f85cbdb13874cfbd38d9a67ca",
+  "assessment_stage": "metadata_triage",
+  "does_not_modify_official_baseline": true,
+  "materialized_after_human_blind_review": true,
+  "predictions_total": 12,
+  "positive_predictions": 0,
+  "class_counts": {
+    "no_verified_ai_evidence": 12
+  },
+  "predictions": [
+    {"review_unit_id":"bfi-year-of-the-ox-1997","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"bfi-dead-london-1996","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"bfi-muybridge-revisited-1986","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"ina-raymond-devos-1969","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"ina-machine-hommes-ia-1972","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"ina-vietnam-images-inconnues-1997","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"archipop-petite-reine-1994","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"archipop-fouilles-lille-1989","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"archipop-animation-metamorphoses-1979-1981","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"aapb-illustrated-daily-video-on-video-1983","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"aapb-file-video-apollo14","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null},
+    {"review_unit_id":"aapb-video-poker-vlt","predicted_usage_class":"no_verified_ai_evidence","predicted_positive":false,"evidence_strength":"none","matched_evidence":null}
+  ]
+}

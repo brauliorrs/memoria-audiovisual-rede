@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "mar-surface-type-calibration-v2",
+  "experiment_id": "MAR-T2A-M3-CAL-002",
+  "source_experiment_id": "MAR-T2A-M3-BLIND-001",
+  "stage": "t2a_mar_surface_typing_calibration",
+  "protocol_version": "2.0.0",
+  "completed_on": "2026-08-24",
+  "status": "completed_calibration_only",
+  "claim_level": "calibration_only",
+  "does_not_modify_official_baseline": true,
+  "is_prevalence_sample": false,
+  "is_independent_validation_sample": false,
+  "calibration_fixture": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+  "calibration_units_total": 17,
+  "regression_result": {
+    "surface_type_matches": 17,
+    "item_level_matches": 17,
+    "access_state_matches": 17,
+    "mismatches": 0
+  },
+  "interpretation": "The 17 human-reviewed units are a development and regression calibration set. Complete agreement after rule revision demonstrates that protocol 2.0.0 encodes the observed human corrections; it is not an independent estimate of accuracy, precision, recall, F1, prevalence or generalisation.",
+  "calibration_changes": [
+    "separate semantic surface role from access and collection state",
+    "treat collector blocks and redirects as access states rather than semantic surface classes when role is recoverable",
+    "expand search_or_index to explicit search routes and thematic or nested archive indexes",
+    "treat configured observation root as homepage unless a stronger semantic role is identified",
+    "reduce isolated press or presse lexical dominance over editorial classification",
+    "require item specificity before item-level classification",
+    "allow structurally specific audiovisual routes to remain audiovisual_item when playback is unavailable",
+    "preserve item_record when a record route lacks audiovisual media or structured audiovisual evidence"
+  ],
+  "quality_check": {
+    "workflow_name": "Quality Checks",
+    "workflow_run_id": 32801387050,
+    "job_id": 97662753288,
+    "conclusion": "success"
+  },
+  "next_gate": "Freeze protocol 2.0.0 and evaluate it on a new independent blind sample whose automatic predictions are durably persisted and SHA-256 hashed before human review."
+}

@@ -2,46 +2,42 @@
 
 ## Objetivo
 
-Cada registro da camada infraestrutura digital deve preservar uma cadeia auditável desde a fonte original até a versão publicada. A proveniência não é um campo acessório: ela é parte do próprio dado científico.
+Cada registro da infraestrutura digital deve preservar uma cadeia auditável desde a fonte observada até qualquer produto derivado ou publicado. A proveniência não é um campo acessório: ela integra o dado científico e condiciona sua aptidão para uso.
 
-## Cadeia mínima de proveniência
+## Cadeia mínima
 
 ```text
-fonte original
-    ↓
-ato de obtenção
-    ↓
-artefato bruto
-    ↓
-transformação
-    ↓
-registro estruturado
-    ↓
-validação humana
-    ↓
-versão temporal
-    ↓
-produto publicado
+fonte observada
+→ ato de obtenção
+→ artefato bruto ou trecho de evidência
+→ transformação documentada
+→ registro estruturado
+→ revisão, quando exigida
+→ versão temporal e snapshot
+→ resultado analítico ou produto publicado
 ```
+
+Nem toda observação percorre automaticamente toda a cadeia. Registros podem permanecer pendentes, inconclusivos, não avaliáveis ou excluídos.
 
 ## Unidade de proveniência
 
-Cada etapa recebe um `provenance_id` único e referencia:
+Cada registro de proveniência referencia, conforme aplicável:
 
-- entidade ou relação afetada;
-- fonte utilizada;
+- entidade, relação, observação ou resultado afetado;
+- fonte e superfície examinada;
 - método de obtenção;
-- artefato bruto ou trecho de evidência;
+- artefato bruto, hash ou trecho de evidência;
 - transformação aplicada;
 - agente humano ou automatizado responsável;
 - data e hora;
-- versão do código, schema e contrato de dados;
+- versão do código, schema, vocabulário e metodologia;
 - status de validação;
-- vínculo com versões anteriores e posteriores.
+- snapshot, execução ou lote;
+- vínculo com versões anteriores, correções e registros substitutos.
 
 ## Fontes
 
-Campos mínimos:
+Campos mínimos possíveis:
 
 - `source_id`;
 - `source_type`;
@@ -57,26 +53,11 @@ Campos mínimos:
 - `archive_url`, quando houver;
 - `availability_status`.
 
-Tipos de fonte:
-
-- portal institucional;
-- página técnica;
-- API;
-- documento de contratação;
-- portal de compras públicas;
-- relatório institucional;
-- política de privacidade;
-- termos de uso;
-- documentação de software;
-- comunicado de imprensa;
-- artigo científico;
-- registro comercial público;
-- observação direta da interface;
-- cabeçalhos HTTP e metadados da página.
+A indisponibilidade posterior de uma URL não apaga a observação histórica, mas pode alterar sua verificabilidade e aptidão para publicação.
 
 ## Métodos de obtenção
 
-Valores controlados:
+Valores controlados podem incluir:
 
 - `manual_review`;
 - `web_scraping`;
@@ -89,42 +70,11 @@ Valores controlados:
 - `repository_import`;
 - `curatorial_entry`.
 
-Cada ato de obtenção deve registrar:
-
-- `acquisition_id`;
-- `method`;
-- `tool_or_script`;
-- `tool_version`;
-- `parameters`;
-- `started_at`;
-- `completed_at`;
-- `operator_type`;
-- `operator_id`;
-- `result_status`;
-- `raw_artifact_path`;
-- `raw_artifact_hash`.
+Cada ato de obtenção deve registrar ferramenta, versão, parâmetros, período de execução, operador, resultado e referência ao artefato bruto quando ele puder ser preservado legitimamente.
 
 ## Transformações
 
-Toda transformação deve ser explícita e reprodutível.
-
-Campos:
-
-- `transformation_id`;
-- `input_artifact_ids`;
-- `output_record_ids`;
-- `transformation_type`;
-- `script_or_rule`;
-- `code_commit_sha`;
-- `parameters`;
-- `schema_version_before`;
-- `schema_version_after`;
-- `executed_at`;
-- `agent_type`;
-- `agent_id`;
-- `notes`.
-
-Tipos:
+Toda transformação relevante deve ser explícita e reprodutível. Entre os tipos possíveis estão:
 
 - normalização;
 - deduplicação;
@@ -137,95 +87,66 @@ Tipos:
 - migração de schema;
 - correção curatorial.
 
+Uma transformação registra entradas, saídas, regra ou script, versão do código, parâmetros, schemas envolvidos, agente e data. Alteração de metodologia científica deve ser versionada separadamente de simples mudança de implementação.
+
 ## Revisão humana
 
-A revisão deve preservar:
+A revisão preserva:
 
-- `review_id`;
-- `reviewer_id`;
-- `reviewed_at`;
-- `decision`;
-- `confidence`;
-- `evidence_ids`;
-- `review_note`;
-- `previous_status`;
-- `new_status`;
-- `conflict_of_interest_note`, quando aplicável.
+- identificador e responsável;
+- data;
+- decisão;
+- confiança;
+- evidências utilizadas;
+- nota de revisão;
+- estado anterior e novo estado;
+- conflito de interesse, quando aplicável;
+- quorum ou segunda revisão, quando exigidos.
 
-Decisões possíveis:
-
-- `confirmed`;
-- `probable`;
-- `inconclusive`;
-- `false_positive`;
-- `not_assessable`;
-- `needs_more_evidence`.
+Nenhum modelo de IA pode atuar como revisor final de uma alegação publicável. Ferramentas automatizadas podem auxiliar triagem, extração e comparação, mas a responsabilidade humana permanece identificável.
 
 ## Proveniência temporal
 
-A proveniência deve se conectar ao modelo de memória por meio de:
+A proveniência deve conectar-se à memória longitudinal por identificadores estáveis de entidade, versão, evento, snapshot e execução. Essa ligação permite distinguir:
 
-- `entity_id` estável;
-- `version_id`;
-- `event_id`;
-- `snapshot_id`;
-- `previous_provenance_id`;
-- `supersedes_provenance_id`;
-- `change_origin`.
-
-Assim, a plataforma distingue:
-
-- mudança real no mundo observado;
-- mudança na fonte;
+- mudança no mundo observado;
+- mudança ou indisponibilidade da fonte;
 - correção de erro;
 - reclassificação metodológica;
-- migração técnica do modelo de dados.
-
-## Agentes
-
-Agentes podem ser:
-
-- pesquisador;
-- revisor;
-- script;
-- workflow;
-- API externa;
-- modelo de IA auxiliar;
-- processo de migração.
-
-Nenhum modelo de IA pode ser registrado como revisor final. Decisões publicáveis exigem responsabilidade humana identificada.
+- migração técnica;
+- alteração de cobertura;
+- falha temporária da coleta.
 
 ## Imutabilidade e correções
 
-Registros de proveniência são imutáveis. Uma correção cria novo evento e novo registro, preservando o anterior como supersedido.
+Registros históricos não são sobrescritos silenciosamente. Uma correção cria novo registro, evento ou revisão e aponta para o item substituído. A visão pública vigente pode mudar, mas o histórico auditável permanece preservado.
 
-## Produtos previstos
+## Implementação atual
+
+O núcleo de proveniência, evidências, artefatos brutos, ledger, persistência, decisões curatoriais e snapshots está implementado em:
 
 ```text
-data/provenance/
-├── sources.csv
-├── acquisitions.csv
-├── transformations.csv
-├── reviews.csv
-├── agents.csv
-└── provenance_links.csv
-
-data/history/
-├── snapshots/
-├── events/
-└── entity_versions/
+src/memoria_audiovisual/digital_infrastructure/
+schemas/digital_infrastructure/
+data/digital_infrastructure/
 ```
+
+Os caminhos físicos de produtos podem variar conforme execução, snapshot e política de retenção. Este documento define o contrato conceitual; schemas e código controlam os campos executáveis.
 
 ## Regra de publicação
 
-Um registro só poderá alimentar produto público quando possuir:
+Um registro somente pode alimentar produto público quando possuir, conforme a finalidade:
 
-1. fonte identificada;
+1. fonte identificável;
 2. método de obtenção documentado;
 3. evidência ou artefato rastreável;
-4. transformação conhecida, quando houver;
-5. status de validação compatível;
-6. vínculo com versão temporal e snapshot;
-7. schema e contrato de dados versionados.
+4. transformação conhecida;
+5. status de revisão compatível;
+6. vínculo com snapshot, versão ou execução;
+7. schema e metodologia identificados;
+8. cobertura e limitações publicáveis;
+9. avaliação ética, jurídica ou de sensibilidade quando necessária.
 
-Este documento define somente a arquitetura. Nenhuma coleta, transformação ou validação foi executada.
+## Estado de validação
+
+A arquitetura e os mecanismos de proveniência estão implementados e cobertos por testes estruturais. A validação operacional sobre corpora reais e a verificação da completude da cadeia em ciclos integrais permanecem em andamento.

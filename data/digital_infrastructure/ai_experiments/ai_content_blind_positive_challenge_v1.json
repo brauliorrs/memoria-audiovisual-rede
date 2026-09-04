@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0.0",
+  "queue_id": "ai-content-blind-positive-challenge-v1",
+  "stage": "t2a_content_ai_blind_positive_challenge",
+  "status": "pending_human_review",
+  "purpose": "Testar a sensibilidade do classificador de IA na produção audiovisual em uma amostra de desafio enriquecida em candidatos com documentação pública potencialmente informativa, sem expor previsões automáticas ao revisor.",
+  "is_prevalence_sample": false,
+  "selection_design": "positive_enriched_challenge",
+  "does_not_modify_official_baseline": true,
+  "review_protocol": {
+    "prediction_blinding": true,
+    "retrieval_and_classification_separated": true,
+    "same_evidence_surface_for_human_and_model": true,
+    "binary_question": "A documentação oficial ligada ao item apresenta evidência verificável de participação de IA na produção ou modificação do conteúdo audiovisual?",
+    "binary_labels": ["yes", "no", "not_assessable"],
+    "positive_class_labels": [
+      "ai_assisted_production",
+      "materially_ai_modified",
+      "partially_synthetic",
+      "fully_synthetic"
+    ],
+    "evidence_rule": "Aparência visual, tema sobre IA ou score probabilístico isolado não bastam. Um positivo exige declaração verificável, proveniência estruturada ou metadados técnicos ligados ao processo de produção/modificação do item."
+  },
+  "selection_note": "A seleção é deliberadamente enriquecida para potenciais positivos e serve a calibração de sensibilidade. Não estima prevalência nem desempenho corpus-wide. Os itens de referência 3x3 já usados no benchmark controlado foram excluídos.",
+  "units": [
+    {
+      "review_unit_id": "bfi-about-a-hero-2024",
+      "entity_id": "bfi",
+      "entity_scope": "active_corpus_institution",
+      "language_group": "en",
+      "title": "About a Hero",
+      "published_at": "2024",
+      "item_url": "https://www.bfi.org.uk/features/thessaloniki-international-documentary-festival-2025",
+      "evidence_urls": [
+        "https://www.bfi.org.uk/features/thessaloniki-international-documentary-festival-2025",
+        "https://www.bfi.org.uk/sight-and-sound/news/sight-sound-winter-2024-25-issue"
+      ],
+      "neutral_description": "Documentary feature discussed by BFI in festival and year-review coverage.",
+      "review_status": "pending",
+      "human_binary_label": null,
+      "human_usage_class": null,
+      "human_notes": null
+    },
+    {
+      "review_unit_id": "bfi-here-2024",
+      "entity_id": "bfi",
+      "entity_scope": "active_corpus_institution",
+      "language_group": "en",
+      "title": "Here",
+      "published_at": "2024",
+      "item_url": "https://www.bfi.org.uk/sight-and-sound/reviews/here-one-room-journey-through-american-history-lapses-into-gimmickry",
+      "evidence_urls": [
+        "https://www.bfi.org.uk/sight-and-sound/reviews/here-one-room-journey-through-american-history-lapses-into-gimmickry",
+        "https://www.bfi.org.uk/sight-and-sound/features/2024-year-ai",
+        "https://www.bfi.org.uk/news/generative-ai-screen-industries"
+      ],
+      "neutral_description": "Robert Zemeckis feature film documented by BFI review and screen-sector coverage.",
+      "review_status": "pending",
+      "human_binary_label": null,
+      "human_usage_class": null,
+      "human_notes": null
+    },
+    {
+      "review_unit_id": "bfi-better-man-2024",
+      "entity_id": "bfi",
+      "entity_scope": "active_corpus_institution",
+      "language_group": "en",
+      "title": "Better Man",
+      "published_at": "2024",
+      "item_url": "https://www.bfi.org.uk/sight-and-sound/reviews/better-man-chimpanzee-robbie-williams-brings-excitement-otherwise-conventional-biopic",
+      "evidence_urls": [
+        "https://www.bfi.org.uk/sight-and-sound/reviews/better-man-chimpanzee-robbie-williams-brings-excitement-otherwise-conventional-biopic",
+        "https://www.bfi.org.uk/sight-and-sound/features/2024-year-ai"
+      ],
+      "neutral_description": "Biographical feature film documented by BFI review and annual technology coverage.",
+      "review_status": "pending",
+      "human_binary_label": null,
+      "human_usage_class": null,
+      "human_notes": null
+    },
+    {
+      "review_unit_id": "bfi-endurance-2024",
+      "entity_id": "bfi",
+      "entity_scope": "active_corpus_institution",
+      "language_group": "en",
+      "title": "Endurance",
+      "published_at": "2024",
+      "item_url": "https://www.bfi.org.uk/sight-and-sound/features/2024-year-ai",
+      "evidence_urls": [
+        "https://www.bfi.org.uk/sight-and-sound/features/2024-year-ai"
+      ],
+      "neutral_description": "Documentary discussed in BFI annual coverage of film production technology.",
+      "review_status": "pending",
+      "human_binary_label": null,
+      "human_usage_class": null,
+      "human_notes": null
+    },
+    {
+      "review_unit_id": "nfsa-bunyi-bunyi-tumbal-2024",
+      "entity_id": "nfsa",
+      "entity_scope": "external_archive_generalisation_control",
+      "language_group": "en",
+      "title": "BUNYI BUNYI TUMBAL",
+      "published_at": "2024",
+      "item_url": "https://www.nfsa.gov.au/events/live-nfsa-hulubalang-x-brandon-tay-jessika-jamal-khazrik",
+      "evidence_urls": [
+        "https://www.nfsa.gov.au/events/live-nfsa-hulubalang-x-brandon-tay-jessika-jamal-khazrik"
+      ],
+      "neutral_description": "Audiovisual performance presented at the National Film and Sound Archive of Australia.",
+      "review_status": "pending",
+      "human_binary_label": null,
+      "human_usage_class": null,
+      "human_notes": null
+    },
+    {
+      "review_unit_id": "nfsa-imaginative-restoration-2024",
+      "entity_id": "nfsa",
+      "entity_scope": "external_archive_generalisation_control",
+      "language_group": "en",
+      "title": "Imaginative Restoration",
+      "published_at": "2024",
+      "item_url": "https://www.nfsa.gov.au/collection/curated/asset/102457-fantastic-futures-2024-day-1-session-13",
+      "evidence_urls": [
+        "https://www.nfsa.gov.au/collection/curated/asset/102457-fantastic-futures-2024-day-1-session-13"
+      ],
+      "neutral_description": "Creative archival-media project documented in an NFSA conference collection record.",
+      "review_status": "pending",
+      "human_binary_label": null,
+      "human_usage_class": null,
+      "human_notes": null
+    }
+  ]
+}

@@ -114,14 +114,27 @@ def detect_apis(html: str, soup: BeautifulSoup, base_url: str) -> tuple[list[str
             types.append(api_type)
             evidence.append(next(marker for marker in markers if marker in lower))
 
+    url_patterns = {
+        "IIIF": ("iiif", "/manifest", "manifest.json"),
+        "OAI-PMH": ("oai-pmh", "verb=identify", "verb=listrecords"),
+        "OpenAPI/Swagger": ("openapi", "swagger"),
+        "GraphQL": ("/graphql",),
+        "REST/JSON": ("/api/", "wp-json"),
+        "SPARQL": ("sparql",),
+    }
+
     for tag in soup.find_all(["a", "link", "script"]):
         candidate = tag.get("href") or tag.get("src")
         if not candidate:
             continue
         absolute = urljoin(base_url, candidate)
         candidate_lower = absolute.lower()
-        if any(token in candidate_lower for token in ("/api/", "openapi", "swagger", "graphql", "oai", "iiif", "manifest")):
+        if any(token in candidate_lower for token in ("/api/", "openapi", "swagger", "graphql", "oai", "iiif", "manifest", "sparql")):
             urls.append(absolute)
+            for api_type, markers in url_patterns.items():
+                if any(marker in candidate_lower for marker in markers):
+                    types.append(api_type)
+                    evidence.append(absolute)
 
     return _unique(types), _unique(evidence), _unique(urls)[:20]
 

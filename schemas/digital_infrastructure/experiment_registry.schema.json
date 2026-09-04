@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoria-audiovisual-rede/schemas/digital_infrastructure/experiment_registry.schema.json",
+  "title": "MAR scientific experiment registry",
+  "description": "Contract for versioned experimental records produced during MAR operational validation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "registry_id",
+    "project",
+    "scope",
+    "does_not_modify_official_baseline",
+    "governance_document",
+    "experiments"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "registry_id": {
+      "type": "string",
+      "pattern": "^mar-experiment-registry-v[0-9]+$"
+    },
+    "project": {
+      "const": "Memória Audiovisual em Rede"
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 20
+    },
+    "updated_on": {
+      "$ref": "#/$defs/date"
+    },
+    "does_not_modify_official_baseline": {
+      "const": true
+    },
+    "governance_document": {
+      "type": "string",
+      "minLength": 1
+    },
+    "experiments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/experiment"
+      }
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+    },
+    "nonEmptyStringArray": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "role"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*\\.\\./).+$"
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_sha": {
+          "$ref": "#/$defs/hash"
+        },
+        "initial_blob_sha": {
+          "$ref": "#/$defs/hash"
+        },
+        "current_blob_sha": {
+          "$ref": "#/$defs/hash"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "retrospective_documentation": {
+          "type": "boolean"
+        },
+        "frozen_before_human_review": {
+          "type": "boolean"
+        }
+      }
+    },
+    "protocolDeviation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deviation_id", "severity", "description"],
+      "properties": {
+        "deviation_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "severity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    },
+    "blinding": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["human_reviewer_saw_model_predictions"],
+      "properties": {
+        "human_reviewer_saw_model_predictions": {
+          "type": "boolean"
+        },
+        "human_review_closed_before_diagnostic_replay": {
+          "type": "boolean"
+        }
+      }
+    },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "experiment_id",
+        "version",
+        "stage",
+        "scientific_layer",
+        "experiment_types",
+        "status",
+        "claim_level",
+        "is_prevalence_sample",
+        "does_not_modify_official_baseline",
+        "question",
+        "limitations",
+        "prohibited_interpretations",
+        "artifacts"
+      ],
+      "properties": {
+        "experiment_id": {
+          "type": "string",
+          "pattern": "^MAR-[A-Z0-9-]+$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$"
+        },
+        "stage": {
+          "type": "string",
+          "minLength": 3
+        },
+        "scientific_layer": {
+          "type": "string",
+          "minLength": 3
+        },
+        "experiment_types": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "controlled_benchmark",
+              "blind_human_validation",
+              "calibration_experiment",
+              "ecological_validation",
+              "diagnostic_replay",
+              "operational_pilot",
+              "longitudinal_validation"
+            ]
+          }
+        },
+        "decision_date": {
+          "$ref": "#/$defs/date"
+        },
+        "created_on": {
+          "$ref": "#/$defs/date"
+        },
+        "sample_observed_on": {
+          "$ref": "#/$defs/date"
+        },
+        "human_review_completed_on": {
+          "$ref": "#/$defs/date"
+        },
+        "status": {
+          "type": "string",
+          "minLength": 3
+        },
+        "claim_level": {
+          "enum": [
+            "calibration_only",
+            "protocol_scope",
+            "diagnostic_only",
+            "empirical_validation",
+            "official_baseline"
+          ]
+        },
+        "is_prevalence_sample": {
+          "type": "boolean"
+        },
+        "does_not_modify_official_baseline": {
+          "type": "boolean"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 20
+        },
+        "sample_summary": {
+          "type": "object"
+        },
+        "result_scope": {
+          "type": "string",
+          "minLength": 10
+        },
+        "scientific_use": {
+          "type": "string",
+          "minLength": 5
+        },
+        "scientific_decision": {
+          "type": "string",
+          "minLength": 10
+        },
+        "limitations": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "prohibited_interpretations": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "blinding": {
+          "$ref": "#/$defs/blinding"
+        },
+        "source_execution": {
+          "type": "object"
+        },
+        "protocol_deviations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/protocolDeviation"
+          }
+        },
+        "source_experiment_id": {
+          "type": "string",
+          "pattern": "^MAR-[A-Z0-9-]+$"
+        },
+        "replay_input_scope": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "missing_original_input_dimensions": {
+          "$ref": "#/$defs/nonEmptyStringArray"
+        },
+        "diagnostic_metrics": {
+          "type": "object"
+        },
+        "is_original_run_prediction": {
+          "type": "boolean"
+        },
+        "is_scientific_performance_result": {
+          "type": "boolean"
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "required": ["scientific_decision"]
+        },
+        {
+          "required": ["scientific_use"]
+        }
+      ]
+    }
+  }
+}

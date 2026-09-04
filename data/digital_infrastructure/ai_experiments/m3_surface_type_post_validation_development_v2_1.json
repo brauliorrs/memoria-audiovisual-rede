@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "m3-surface-type-post-validation-development-v2-1",
+  "experiment_id": "MAR-T2A-M3-CAL-004",
+  "source_experiment_id": "MAR-T2A-M3-VAL-003",
+  "protocol_version": "2.1.0",
+  "created_on": "2026-08-25",
+  "stage": "t2a_mar_surface_typing_post_validation_calibration",
+  "claim_level": "calibration_only",
+  "status": "completed_calibration_only",
+  "is_scientific_performance_result": false,
+  "is_independent_validation_sample": false,
+  "is_prevalence_sample": false,
+  "does_not_modify_official_baseline": true,
+  "development_sets": {
+    "legacy_calibration": {
+      "units": 17,
+      "source": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+      "scientific_role": "development_and_regression_calibration_only"
+    },
+    "post_validation_development": {
+      "units": 33,
+      "source": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json",
+      "source_validation_experiment": "MAR-T2A-M3-VAL-003",
+      "scientific_role": "former_independent_validation_reused_only_after_evaluation_as_development_regression"
+    },
+    "known_units_total": 50
+  },
+  "regression_agreement": {
+    "surface_type": {"matches": 50, "total": 50, "mismatches": 0},
+    "item_level": {"matches": 50, "total": 50, "mismatches": 0},
+    "access_state": {"matches": 50, "total": 50, "mismatches": 0},
+    "interpretation": "Development/regression agreement only; these values are not independent accuracy, precision, recall, F1 or generalisation estimates."
+  },
+  "corrected_failure_families": [
+    "Cinearchives catalogue roots are treated as index surfaces while sufficiently specific catalogue detail routes can resolve as items.",
+    "Blocked Cinearchives AJAX keyword/filter endpoints preserve search_or_index semantics independently from collector_blocked access state.",
+    "Cinememoire fonds and thematic archive browsing surfaces are treated as indexes rather than archive landing pages or generic editorial pages.",
+    "Strong Cinememoire fiche-film routes are not suppressed by repeated archive path context or generic JSON-LD Article metadata.",
+    "Accessible restricted/personal routes such as /acces-pro retain restricted_or_unavailable semantic role while access state remains accessible.",
+    "EYE facet/filter query parameters dominate year-like path identifiers so filtered year surfaces remain search_or_index.",
+    "Luce detail pages can be confirmed as audiovisual_item when audiovisual frame metadata is present even if the collector extracts no direct media URL."
+  ],
+  "classifier": {
+    "path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py",
+    "blob_sha": "6d4cc0484d0cb694c9e6c77897a78a8cce9d510d"
+  },
+  "regression_tests": {
+    "path": "tests/test_surface_typing.py",
+    "blob_sha": "b8324a2ad0b1676faf36cbc0ffdee2bf14a57c13",
+    "m3_tests_passed": 26
+  },
+  "source_execution": {
+    "quality_checks": {
+      "workflow_run_id": 32901520587,
+      "job_id": 97976231651,
+      "conclusion": "success",
+      "tests_passed": 746,
+      "subtests_passed": 2
+    },
+    "calibration_smoke": {
+      "workflow_name": "T2A MAR surface typing calibration smoke 2.1",
+      "workflow_run_id": 32901520435,
+      "job_id": 97976231334,
+      "conclusion": "success",
+      "artifact_id": 9583262732,
+      "artifact_zip_sha256": "b9f72227c1341a3260eae7f52ca518784472e821ab9f91eedc8a616899dc5f86",
+      "prediction_sha256": "d50cc50c7239278a6fd6709d7c373fbe34053c0e9bbf2e83fc932eb9c73d5126",
+      "smoke_units_total": 25,
+      "sample_role": "calibration_smoke_only",
+      "is_independent_validation_sample": false
+    }
+  },
+  "scientific_decision": "Accept M3 protocol 2.1.0 only as a calibrated development candidate. Preregister and run a new prediction-frozen independent ecological validation on unseen surfaces before any claim of generalisation or before scaling M4.",
+  "limitations": [
+    "All 50 human-labelled units used for the 50/50 regression agreement are now known development data.",
+    "The 33-unit set was independent only for evaluation of protocol 2.0.0; after its labels informed protocol 2.1.0 it cannot validate 2.1.0 independently.",
+    "Several protocol classes remain sparsely represented or absent in the known development labels.",
+    "The 25-unit calibration smoke was not human-reviewed for a new performance estimate and is not an independent validation sample.",
+    "Entity- and platform-specific rules may still overfit known route patterns."
+  ],
+  "prohibited_interpretations": [
+    "50/50 development agreement must not be reported as independent accuracy or performance",
+    "does not estimate prevalence",
+    "does not validate protocol 2.1.0 ecologically",
+    "does not justify scaling M4 yet",
+    "does not modify the official T2 baseline",
+    "does not establish institutional AI use or AI participation in audiovisual content"
+  ]
+}

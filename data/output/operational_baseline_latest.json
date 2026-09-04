@@ -1,0 +1,9 @@
+{
+  "manifest_path": "data/output/analytics/operational-baseline-v1-31064161759/operational_baseline_manifest.json",
+  "manifest_sha256": "91993e5bfa56da5bef155dc55b382b2cc88e89a27597e1b232a515b5d7b2a5ce",
+  "official_baseline": true,
+  "schema_version": "1.0.0",
+  "snapshot_id": "operational-baseline-v1-31064161759",
+  "status": "completed",
+  "updated_at": "2026-08-06T01:59:27Z"
+}

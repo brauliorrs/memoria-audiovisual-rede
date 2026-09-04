@@ -1,0 +1,237 @@
+# Execução controlada para gerar e ativar os catálogos multilíngues.
+name: Build Multilingual Catalogues
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - .github/workflows/build-multilingual-catalogues.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build-catalogues:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: presentation/rpv-1
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install translation helper
+        run: pip install deep-translator==1.11.4
+
+      - name: Generate English and Spanish semantic catalogues
+        run: |
+          python - <<'PY'
+          from __future__ import annotations
+
+          import json
+          import re
+          import time
+          from pathlib import Path
+
+          from deep_translator import GoogleTranslator
+          from deep_translator.exceptions import TranslationNotFound
+
+          locale_dir = Path("src/memoria_audiovisual/locales")
+          source_path = locale_dir / "pt.json"
+          source = json.loads(source_path.read_text(encoding="utf-8"))
+
+          placeholder_re = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
+          url_re = re.compile(r"https?://[^\s)]+")
+          code_re = re.compile(r"`[^`]+`")
+          protected_token_re = re.compile(r"(ZXQ\d+QXZ)")
+          letter_re = re.compile(r"[^\W\d_]", flags=re.UNICODE)
+
+          def protect(text: str):
+              protected = {}
+              counter = 0
+
+              def replace(match):
+                  nonlocal counter
+                  token = f"ZXQ{counter}QXZ"
+                  protected[token] = match.group(0)
+                  counter += 1
+                  return token
+
+              for pattern in (placeholder_re, url_re, code_re):
+                  text = pattern.sub(replace, text)
+              return text, protected
+
+          def restore(text: str, protected: dict[str, str]):
+              for token, value in protected.items():
+                  text = text.replace(token, value)
+              return text
+
+          def translate_plain_text(
+              translator: GoogleTranslator,
+              text: str,
+              *,
+              retries: int = 5,
+          ) -> str:
+              if not text or not text.strip():
+                  return text
+
+              leading = text[: len(text) - len(text.lstrip())]
+              trailing = text[len(text.rstrip()):]
+              core = text.strip()
+
+              if not letter_re.search(core):
+                  return text
+
+              for attempt in range(retries):
+                  try:
+                      translated = translator.translate(core)
+                      return f"{leading}{translated or core}{trailing}"
+                  except TranslationNotFound:
+                      print(
+                          "::warning title=Tradução não encontrada::"
+                          f"Trecho preservado no idioma original: {core!r}"
+                      )
+                      return text
+                  except Exception:
+                      if attempt == retries - 1:
+                          raise
+                      time.sleep(3 * (attempt + 1))
+
+              return text
+
+          def translate_preserving_tokens(
+              translator: GoogleTranslator,
+              text: str,
+          ) -> str:
+              parts = protected_token_re.split(text)
+              translated_parts = []
+
+              for part in parts:
+                  if not part:
+                      continue
+                  if protected_token_re.fullmatch(part):
+                      translated_parts.append(part)
+                      continue
+                  translated_parts.append(translate_plain_text(translator, part))
+
+              return "".join(translated_parts)
+
+          def translate_catalogue(target: str) -> dict[str, str]:
+              translator = GoogleTranslator(source="pt", target=target)
+              keys = list(source)
+              output: dict[str, str] = {}
+
+              for index, key in enumerate(keys, start=1):
+                  prepared, mapping = protect(source[key])
+                  translated = translate_preserving_tokens(translator, prepared)
+                  output[key] = restore(translated, mapping)
+
+                  if index % 25 == 0 or index == len(keys):
+                      print(f"{target}: {index}/{len(keys)} entradas traduzidas")
+
+                  time.sleep(0.25)
+
+              return output
+
+          generated = {
+              "en": translate_catalogue("en"),
+              "es": translate_catalogue("es"),
+          }
+
+          canonical_keys = set(source)
+          for language, catalogue in generated.items():
+              if set(catalogue) != canonical_keys:
+                  missing = sorted(canonical_keys - set(catalogue))
+                  extra = sorted(set(catalogue) - canonical_keys)
+                  raise SystemExit(f"Paridade inválida em {language}: missing={missing}, extra={extra}")
+
+              for key, source_text in source.items():
+                  expected = set(placeholder_re.findall(source_text))
+                  observed = set(placeholder_re.findall(catalogue[key]))
+                  if expected != observed:
+                      raise SystemExit(
+                          f"Placeholders divergentes em {language}:{key}: "
+                          f"esperado={sorted(expected)}, obtido={sorted(observed)}"
+                      )
+
+              (locale_dir / f"{language}.json").write_text(
+                  json.dumps(catalogue, ensure_ascii=False, indent=2) + "\n",
+                  encoding="utf-8",
+              )
+          PY
+
+      - name: Activate multilingual semantic catalogues
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          locale_path = Path("src/memoria_audiovisual/locale_catalog.py")
+          text = locale_path.read_text(encoding="utf-8")
+          text = text.replace(
+              'SUPPORTED_LANGUAGES = ("pt",)',
+              'SUPPORTED_LANGUAGES = ("pt", "en", "es")',
+          )
+          text = text.replace(
+              '    """Return missing keys for active translation catalogues.\n\n    During the Portuguese canonicalisation phase, only the source catalogue is active,\n    so the expected result is an empty mapping.\n    """',
+              '    """Return missing keys for every active translation catalogue."""',
+          )
+          locale_path.write_text(text, encoding="utf-8")
+
+          app_path = Path("app/streamlit_app.py")
+          app = app_path.read_text(encoding="utf-8")
+          old = '''# The multilingual selector remains disabled during the semantic-catalogue migration.\n# Portuguese is the sole active interface language until the English catalogue is rebuilt.\nAPP_LANGUAGE = DEFAULT_LANGUAGE'''
+          new = '''APP_LANGUAGE = render_language_selector()\ninstall_streamlit_i18n(APP_LANGUAGE)'''
+          if old not in app:
+              raise SystemExit("Bloco de desativação do seletor não localizado")
+          app_path.write_text(app.replace(old, new, 1), encoding="utf-8")
+          PY
+
+      - name: Validate catalogues and application
+        run: |
+          python -m compileall -q app src scripts
+          python - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          root = Path("src/memoria_audiovisual/locales")
+          catalogues = {
+              code: json.loads((root / f"{code}.json").read_text(encoding="utf-8"))
+              for code in ("pt", "en", "es")
+          }
+          canonical = set(catalogues["pt"])
+          assert all(set(value) == canonical for value in catalogues.values())
+          assert all(len(value) == len(catalogues["pt"]) for value in catalogues.values())
+
+          placeholders = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
+          for key, source in catalogues["pt"].items():
+              expected = set(placeholders.findall(source))
+              for code in ("en", "es"):
+                  assert set(placeholders.findall(catalogues[code][key])) == expected
+          print(f"Catálogos validados: {len(canonical)} chaves por idioma")
+          PY
+          pip install -r requirements.txt
+          pip install -e . pytest
+          python -m pytest -q
+
+      - name: Commit multilingual catalogues
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            src/memoria_audiovisual/locales/en.json \
+            src/memoria_audiovisual/locales/es.json \
+            src/memoria_audiovisual/locale_catalog.py \
+            app/streamlit_app.py
+          if git diff --cached --quiet; then
+            echo "No multilingual changes to commit."
+            exit 0
+          fi
+          git commit -m "feat(i18n): ativar catálogos semânticos em inglês e espanhol"
+          git push origin HEAD:presentation/rpv-1

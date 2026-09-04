@@ -1,0 +1,360 @@
+{
+  "schema_version": "1.0.0",
+  "evaluation_id": "m3-surface-type-independent-evaluation-v2-1",
+  "experiment_id": "MAR-T2A-M3-VAL-005",
+  "experiment_protocol_id": "MAR-T2A-M3-VAL-005-PROTOCOL",
+  "protocol_version": "2.1.0",
+  "evaluated_on": "2026-09-02",
+  "claim_level": "empirical_validation",
+  "is_independent_validation_sample": true,
+  "sample_role": "independent_ecological_validation",
+  "is_prevalence_sample": false,
+  "does_not_modify_official_baseline": true,
+  "source_workflow_run_id": 32911622199,
+  "source_artifact_id": 9586738789,
+  "prediction_frozen_before_human_review": true,
+  "prediction_sha256": "1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb",
+  "prediction_blob_sha": "bb4ba3510ebdaed2fefa7eff88fd7cc36bb3e92a",
+  "human_review_blob_sha": "56a5ceedfaa8609784fa7fcac008d3dc13fd23b1",
+  "human_review_completion_commit": "f15066782cf42648d1d266d77be66fd4c80f1686",
+  "human_review_freeze_commit": "0bdb1133b3da111906b6c33ea33ce12b2c4a4315",
+  "human_review_freeze_blob_sha": "42ce1744944210f2e65b0b101551f481bbbb92a5",
+  "units_total": 36,
+  "preregistered_entities": [
+    "dff",
+    "filmarchiv_austria",
+    "euscreen",
+    "czech-television",
+    "ciclic",
+    "cineam"
+  ],
+  "effective_review_entities": [
+    "ciclic",
+    "cineam",
+    "czech-television",
+    "dff",
+    "euscreen"
+  ],
+  "collection_entities_completed": 6,
+  "human_reference_counts": {
+    "homepage": 0,
+    "institutional_landing_page": 1,
+    "archive_landing_page": 1,
+    "search_or_index": 19,
+    "news_or_editorial": 1,
+    "item_record": 1,
+    "audiovisual_item": 13,
+    "restricted_or_unavailable": 0,
+    "unknown": 0,
+    "item_level_true": 14,
+    "item_level_false": 22
+  },
+  "multiclass_surface_type": {
+    "correct": 6,
+    "total": 36,
+    "accuracy": 0.16666666666666666,
+    "macro_f1_all_protocol_classes": 0.09990662931839403,
+    "macro_f1_human_supported_classes": 0.14985994397759103,
+    "weighted_f1": 0.2294584500466853,
+    "class_order": [
+      "homepage",
+      "institutional_landing_page",
+      "archive_landing_page",
+      "search_or_index",
+      "news_or_editorial",
+      "item_record",
+      "audiovisual_item",
+      "restricted_or_unavailable",
+      "unknown"
+    ],
+    "confusion_matrix_rows_human_columns_prediction": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        3,
+        2,
+        1,
+        3,
+        0,
+        0,
+        0,
+        7
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        9
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "per_class": {
+      "homepage": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 0,
+        "predicted_total": 3
+      },
+      "institutional_landing_page": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 1,
+        "predicted_total": 3
+      },
+      "archive_landing_page": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 1,
+        "predicted_total": 2
+      },
+      "search_or_index": {
+        "precision": 0.5,
+        "recall": 0.05263157894736842,
+        "f1": 0.09523809523809525,
+        "support": 19,
+        "predicted_total": 2
+      },
+      "news_or_editorial": {
+        "precision": 0.2,
+        "recall": 1,
+        "f1": 0.33333333333333337,
+        "support": 1,
+        "predicted_total": 5
+      },
+      "item_record": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 1,
+        "predicted_total": 0
+      },
+      "audiovisual_item": {
+        "precision": 1,
+        "recall": 0.3076923076923077,
+        "f1": 0.47058823529411764,
+        "support": 13,
+        "predicted_total": 4
+      },
+      "restricted_or_unavailable": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 0,
+        "predicted_total": 0
+      },
+      "unknown": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 0,
+        "predicted_total": 17
+      }
+    }
+  },
+  "binary_item_level": {
+    "true_positive": 4,
+    "true_negative": 22,
+    "false_positive": 0,
+    "false_negative": 10,
+    "precision": 1,
+    "recall": 0.2857142857142857,
+    "f1": 0.4444444444444445,
+    "specificity": 1,
+    "accuracy": 0.7222222222222222
+  },
+  "access_state": {
+    "matches": 36,
+    "total": 36,
+    "agreement": 1
+  },
+  "entity_diagnostics": {
+    "ciclic": {
+      "units": 8,
+      "exact_surface_correct": 1,
+      "item_level_correct": 7,
+      "exact_surface_accuracy": 0.125,
+      "item_level_accuracy": 0.875
+    },
+    "cineam": {
+      "units": 8,
+      "exact_surface_correct": 0,
+      "item_level_correct": 5,
+      "exact_surface_accuracy": 0,
+      "item_level_accuracy": 0.625
+    },
+    "czech-television": {
+      "units": 8,
+      "exact_surface_correct": 3,
+      "item_level_correct": 8,
+      "exact_surface_accuracy": 0.375,
+      "item_level_accuracy": 1
+    },
+    "dff": {
+      "units": 8,
+      "exact_surface_correct": 1,
+      "item_level_correct": 2,
+      "exact_surface_accuracy": 0.125,
+      "item_level_accuracy": 0.25
+    },
+    "euscreen": {
+      "units": 4,
+      "exact_surface_correct": 1,
+      "item_level_correct": 4,
+      "exact_surface_accuracy": 0.25,
+      "item_level_accuracy": 1
+    }
+  },
+  "comparison_with_protocol_2_0": {
+    "prior_experiment_id": "MAR-T2A-M3-VAL-003",
+    "prior_units_total": 33,
+    "exact_surface_accuracy": {
+      "protocol_2_0": 0.0909090909,
+      "protocol_2_1": 0.16666666666666666
+    },
+    "weighted_f1": {
+      "protocol_2_0": 0.1203337725,
+      "protocol_2_1": 0.2294584500466853
+    },
+    "binary_item_level": {
+      "precision": {
+        "protocol_2_0": 0.7777777778,
+        "protocol_2_1": 1
+      },
+      "recall": {
+        "protocol_2_0": 0.5833333333,
+        "protocol_2_1": 0.2857142857142857
+      },
+      "f1": {
+        "protocol_2_0": 0.6666666667,
+        "protocol_2_1": 0.4444444444444445
+      },
+      "specificity": {
+        "protocol_2_0": 0.9047619048,
+        "protocol_2_1": 1
+      },
+      "accuracy": {
+        "protocol_2_0": 0.7878787879,
+        "protocol_2_1": 0.7222222222222222
+      }
+    },
+    "interpretation": "Fine-grained exact agreement increased, and binary false positives fell to zero, but item-level recall materially worsened because 10 of 14 human item-level surfaces were missed. The preregistered M4 item-level acceptance guidance is therefore not met."
+  },
+  "diagnostic_findings": [
+    "Protocol 2.1.0 remains highly conservative for item-level detection: it produced no binary false positives but missed 10 of 14 human item-level surfaces.",
+    "DFF is the dominant item-level failure cluster: six of seven human audiovisual-item trailer pages were predicted unknown; only one was correctly recognized as audiovisual_item.",
+    "Cineam also shows item-level under-detection: three human audiovisual_item pages were predicted unknown, while several non-item navigation surfaces were also unknown.",
+    "Czech Television achieved perfect binary item-level discrimination on its eight reviewed units, but fine-grained non-item roles remained confused among homepage, institutional landing and unknown.",
+    "Search/index recognition remains weak overall: only 1 of 19 human search_or_index surfaces was classified exactly as search_or_index.",
+    "Access-state inference agreed with the human reference on all 36 units, supporting continued separation of access state from semantic surface role."
+  ],
+  "protocol_deviations": [],
+  "sample_composition_notes": [
+    "All six preregistered entities completed collection, but the deterministic global cap of 36 review units yielded no filmarchiv_austria unit in the final review queue. This is treated as a sample-composition limitation under the preregistered cap rather than a protocol deviation."
+  ],
+  "acceptance_assessment": {
+    "fine_grained_surface_typing": "not_validated",
+    "item_level_gate_for_m4": "not_met",
+    "access_state_dimension": "supported_on_this_sample",
+    "rationale": "Exact multiclass agreement remains low, search/index recall is poor, and binary item-level recall is 28.57%, materially worse than protocol 2.0.0 despite zero false positives."
+  },
+  "scientific_decision": "Do not accept protocol 2.1.0 as independently validated for fine-grained M3 surface typing and do not scale M4. Preserve the independent result, retain access-state separation, revise item-level detection and search/index resolution in a new protocol version, and require a new preregistered prediction-frozen independent ecological validation before M4 scaling.",
+  "limitations": [
+    "The independent ecological sample contains 36 units from five effective review entities and is too small for broad generalisation.",
+    "Although all six preregistered entities completed collection, the deterministic global review cap left filmarchiv_austria without a reviewed unit.",
+    "The sample was not designed to estimate prevalence of surface classes.",
+    "Homepage and restricted_or_unavailable had zero human support, while several other classes had support of one; performance claims for sparse classes are not generalizable.",
+    "Within-entity repetition is substantial, especially the seven DFF trailer pages, so aggregate binary metrics are sensitive to clustered route patterns.",
+    "Human labels are authoritative for this blind validation and include deliberately fine semantic judgments that should not be retroactively revised using model output."
+  ],
+  "prohibited_interpretations": [
+    "does not estimate corpus-wide prevalence of surface classes",
+    "does not validate protocol 2.1.0 for fine-grained surface typing",
+    "does not justify scaling M4",
+    "zero binary false positives does not compensate for the 10 item-level false negatives",
+    "does not modify the official T2 baseline",
+    "does not establish any institutional or audiovisual-content AI claim"
+  ]
+}
