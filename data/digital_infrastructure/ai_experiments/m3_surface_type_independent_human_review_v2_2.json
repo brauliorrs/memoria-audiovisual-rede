@@ -22,8 +22,8 @@
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_2.json",
   "source_review_queue_blob_sha": "aed13cc50b5bc62e12d2f05191bc6bb2eb357e24",
   "units_total": 31,
-  "reviewed_units_total": 20,
-  "human_item_level_true_total": 6,
+  "reviewed_units_total": 21,
+  "human_item_level_true_total": 7,
   "human_non_item_level_total": 13,
   "human_ambiguous_total": 1,
   "known_development_urls_excluded": 86,
@@ -59,6 +59,7 @@
     {"review_unit_id":"cinemateca-portuguesa-surface-db400f4e61b3d466","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/getattachment/Servicos/Acesso-Arquivo-Filmico/Contactos/ACORDO-DE-CEDENCIA.pdf.aspx","human_surface_type":"unknown","human_is_item_level":null,"human_access_state":"unknown","human_review_note":null,"reviewed_on":"2026-09-04"},
     {"review_unit_id":"cinemateca-portuguesa-surface-ce6640a90f22926d","entity_id":"cinemateca-portuguesa","page_url":"https://www.cinemateca.pt/cinemateca-digital/Ficha.aspx?obraid=13015&type=Video","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
     {"review_unit_id":"cinematheque-francaise-surface-7528344810902c14","entity_id":"cinematheque-francaise","page_url":"https://www.cinematheque.fr/henri/","human_surface_type":"search_or_index","human_is_item_level":false,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
-    {"review_unit_id":"cinematheque-francaise-surface-4996749dafe01540","entity_id":"cinematheque-francaise","page_url":"https://www.cinematheque.fr/henri/film/122076-madam-butterfly-tsai-ming-liang-2008/","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"}
+    {"review_unit_id":"cinematheque-francaise-surface-4996749dafe01540","entity_id":"cinematheque-francaise","page_url":"https://www.cinematheque.fr/henri/film/122076-madam-butterfly-tsai-ming-liang-2008/","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
+    {"review_unit_id":"cinematheque-francaise-surface-5283b2e678502102","entity_id":"cinematheque-francaise","page_url":"https://www.cinematheque.fr/henri/film/122080-the-skywalk-is-gone-tsai-ming-liang-2002/","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"}
   ]
 }
