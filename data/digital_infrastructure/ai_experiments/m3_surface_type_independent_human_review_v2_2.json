@@ -22,8 +22,8 @@
   "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_2.json",
   "source_review_queue_blob_sha": "aed13cc50b5bc62e12d2f05191bc6bb2eb357e24",
   "units_total": 31,
-  "reviewed_units_total": 29,
-  "human_item_level_true_total": 13,
+  "reviewed_units_total": 30,
+  "human_item_level_true_total": 14,
   "human_non_item_level_total": 15,
   "human_ambiguous_total": 1,
   "known_development_urls_excluded": 86,
@@ -68,6 +68,7 @@
     {"review_unit_id":"home-movies-memoryscapes-surface-da59339f30aeebf5","entity_id":"home-movies-memoryscapes","page_url":"https://www.memoryscapes.it/en/archive","human_surface_type":"search_or_index","human_is_item_level":false,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
     {"review_unit_id":"home-movies-memoryscapes-surface-52523177e84a383c","entity_id":"home-movies-memoryscapes","page_url":"https://www.memoryscapes.it/en/clips/6782_trailing-each-other-in-the-ghiaias-market","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
     {"review_unit_id":"home-movies-memoryscapes-surface-2dcd64250cf0e490","entity_id":"home-movies-memoryscapes","page_url":"https://www.memoryscapes.it/it/clips/6782_trailing-each-other-in-the-ghiaias-market","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
-    {"review_unit_id":"home-movies-memoryscapes-surface-fb5d1b6b396ef903","entity_id":"home-movies-memoryscapes","page_url":"https://www.memoryscapes.it/en/clips/6771_posing-in-piazzale-della-pace","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"}
+    {"review_unit_id":"home-movies-memoryscapes-surface-fb5d1b6b396ef903","entity_id":"home-movies-memoryscapes","page_url":"https://www.memoryscapes.it/en/clips/6771_posing-in-piazzale-della-pace","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"},
+    {"review_unit_id":"home-movies-memoryscapes-surface-d58cdab9a6384767","entity_id":"home-movies-memoryscapes","page_url":"https://www.memoryscapes.it/en/clips/1565_family-portrait","human_surface_type":"audiovisual_item","human_is_item_level":true,"human_access_state":"accessible","human_review_note":null,"reviewed_on":"2026-09-04"}
   ]
 }
