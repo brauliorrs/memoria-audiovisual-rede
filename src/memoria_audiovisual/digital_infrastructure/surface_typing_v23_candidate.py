@@ -332,9 +332,9 @@ def classify_surface_type_candidate(
             )
 
     # Multilingual collection routes without item evidence are archive landing pages.
-    if base.surface_type in {"unknown", "institutional_landing_page"} and (
-        tokens & _COLLECTION_ROUTE_TOKENS
-    ):
+    # Only upgrade unresolved 2.2.0 surfaces; do not overwrite an existing semantic
+    # institutional landing decision from an earlier frozen development fixture.
+    if base.surface_type == "unknown" and (tokens & _COLLECTION_ROUTE_TOKENS):
         return SurfaceTypeDecision(
             "archive_landing_page",
             "medium",
