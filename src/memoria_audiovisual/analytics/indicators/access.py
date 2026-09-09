@@ -45,7 +45,9 @@ class AudiovisualArchiveAccessIndex(Indicator):
     indicator_id = "audiovisual_archive_access_index"
     version = "1.0.0"
     methodology_version = "1.0.0"
-    title = "Índice de acesso aos arquivos audiovisuais"
+    # Rótulo técnico do motor. O título científico pertence exclusivamente ao
+    # indicator_registry.json e é associado na camada de apresentação.
+    title = indicator_id
     category = "access"
     unit = "percent"
 

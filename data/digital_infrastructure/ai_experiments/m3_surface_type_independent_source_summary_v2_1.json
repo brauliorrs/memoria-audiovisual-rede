@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "sample_protocol_version": "1.0.0",
+  "run_id": "m3-surface-independent-v2-1-32911622199",
+  "stage": "t2a_mar_surface_typing_real_sample",
+  "does_not_modify_official_baseline": true,
+  "is_scientific_result": false,
+  "entities_requested": [
+    "dff",
+    "filmarchiv_austria",
+    "euscreen",
+    "czech-television",
+    "ciclic",
+    "cineam"
+  ],
+  "policy": {
+    "max_depth": 2,
+    "max_pages": 8,
+    "timeout_seconds": 12.0,
+    "respect_robots_txt": true
+  },
+  "entities": [
+    {
+      "entity_id": "dff",
+      "status": "completed",
+      "root_url": "https://www.filmportal.de/videos",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/dff/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/dff/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "filmarchiv_austria",
+      "status": "completed",
+      "root_url": "https://www.filmarchiv.at/de/filmarchiv-on",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/filmarchiv_austria/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/filmarchiv_austria/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "euscreen",
+      "status": "completed",
+      "root_url": "https://euscreen.eu/collections/",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/euscreen/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/euscreen/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "czech-television",
+      "status": "completed",
+      "root_url": "https://www.ceskatelevize.cz/ivysilani/",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/czech-television/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/czech-television/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "ciclic",
+      "status": "completed",
+      "root_url": "https://memoire.ciclic.fr/films-d-archives",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/ciclic/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/ciclic/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "cineam",
+      "status": "completed",
+      "root_url": "https://www.cineam.asso.fr/exploration-905-0-0-0.html",
+      "pages_total": 8,
+      "fetched_pages": 6,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/cineam/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-1-32911622199/cineam/surface_classifier_text.jsonl"
+    }
+  ]
+}

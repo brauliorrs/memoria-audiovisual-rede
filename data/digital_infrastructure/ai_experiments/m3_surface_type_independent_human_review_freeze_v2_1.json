@@ -1,0 +1,30 @@
+{
+  "freeze_id": "MAR-T2A-M3-VAL-005-HUMAN-REVIEW-FREEZE",
+  "experiment_id": "MAR-T2A-M3-VAL-005",
+  "protocol_id": "MAR-T2A-M3-VAL-005-PROTOCOL",
+  "surface_typing_protocol_version": "2.1.0",
+  "frozen_on": "2026-09-02",
+  "human_review_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_1.json",
+  "human_review_final_commit_sha": "f15066782cf42648d1d266d77be66fd4c80f1686",
+  "human_review_final_blob_sha": "56a5ceedfaa8609784fa7fcac008d3dc13fd23b1",
+  "reviewed_units_total": 36,
+  "human_item_level_true_total": 14,
+  "human_non_item_level_total": 22,
+  "human_ambiguous_total": 0,
+  "queue_coverage_check": {
+    "duplicate_ids": 0,
+    "missing_queue_ids": 0,
+    "extra_ids": 0
+  },
+  "blinding": {
+    "model_prediction_blinded_during_human_review": true,
+    "frozen_predictions_opened_before_human_review_completion": false,
+    "prediction_comparison_permitted_after_this_freeze": true
+  },
+  "source_run": {
+    "workflow_run_id": 32911622199,
+    "artifact_id": 9586738789,
+    "artifact_digest": "sha256:fa5d470f7b57904b2eed6def08ec50ec9db485d42c314609ca7b5962f63c07a7"
+  },
+  "note": "This manifest freezes the completed blind human review before any formal comparison against the already-frozen model predictions. Git commit and blob SHAs provide durable repository provenance."
+}

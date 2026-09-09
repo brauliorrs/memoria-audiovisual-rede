@@ -1,0 +1,20 @@
+name: T2A MAR preserve frozen independent validation v2.1 [LOCKED]
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authoritative-preservation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authoritative artifact already preserved
+        run: |
+          echo "The exact M3 2.1 independent artifact is already preserved in the scientific branch."
+          echo "Source workflow run: 32911622199"
+          echo "Source artifact: 9586738789"
+          echo "Artifact digest: sha256:fa5d470f7b57904b2eed6def08ec50ec9db485d42c314609ca7b5962f63c07a7"
+          echo "Preservation manifest: data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_1.json"
+          echo "Do not regenerate or overwrite VAL-005 artifacts."

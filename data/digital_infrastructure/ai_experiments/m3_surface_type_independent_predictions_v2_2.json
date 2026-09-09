@@ -1,0 +1,466 @@
+{
+  "schema_version": "2.0.0",
+  "artifact_id": "m3-surface-type-independent-predictions-v2-2",
+  "task": "mar_surface_type_classification",
+  "status": "ready",
+  "is_scientific_result": false,
+  "classes": [
+    "homepage",
+    "institutional_landing_page",
+    "archive_landing_page",
+    "search_or_index",
+    "news_or_editorial",
+    "item_record",
+    "audiovisual_item",
+    "restricted_or_unavailable",
+    "unknown"
+  ],
+  "units_total": 31,
+  "units": [
+    {
+      "review_unit_id": "bbc-surface-6e475332ad471e54",
+      "entity_id": "bbc",
+      "root_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "page_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "predicted_surface_type": "search_or_index",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "structured:item-list"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bbc-surface-0bb87308d25ca688",
+      "entity_id": "bbc",
+      "root_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "page_url": "https://www.bbc.co.uk/archiveservices/",
+      "predicted_surface_type": "institutional_landing_page",
+      "prediction_confidence": "low",
+      "prediction_evidence": [
+        "metadata:institutional-context"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bbc-surface-c75b7af0a280f3a4",
+      "entity_id": "bbc",
+      "root_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "page_url": "https://www.bbc.co.uk/archiveservices/archive-access-for-non-commercial-use/",
+      "predicted_surface_type": "archive_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:archive",
+        "title:archive"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bbc-surface-a66cf4309883e862",
+      "entity_id": "bbc",
+      "root_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "page_url": "https://www.bbc.co.uk/contact/complaints/",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bbc-surface-17315cca6f5ccf75",
+      "entity_id": "bbc",
+      "root_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "page_url": "https://www.bbc.co.uk/videos/c05274j46vpo",
+      "predicted_surface_type": "audiovisual_item",
+      "prediction_confidence": "high",
+      "prediction_evidence": [
+        "path:videos",
+        "path:multiple-numeric-id-groups",
+        "path:id-like-tail",
+        "title:present",
+        "structured:audiovisual-object",
+        "structured:media"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bbc-surface-293488660580cd7d",
+      "entity_id": "bbc",
+      "root_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "page_url": "https://www.bbc.co.uk/videos/c14126ye6yxo",
+      "predicted_surface_type": "audiovisual_item",
+      "prediction_confidence": "high",
+      "prediction_evidence": [
+        "path:videos",
+        "path:long-numeric-id",
+        "path:id-like-tail",
+        "title:present",
+        "structured:audiovisual-object",
+        "structured:media"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bnt-surface-ab7a679d38898b19",
+      "entity_id": "bnt",
+      "root_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "page_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "predicted_surface_type": "homepage",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "observation_root_surface"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bnt-surface-b1074f1348360cb9",
+      "entity_id": "bnt",
+      "root_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "page_url": "https://bnt.bg/fiat-ifta-120pages.html",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bnt-surface-aaa4076b60bb5500",
+      "entity_id": "bnt",
+      "root_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "page_url": "https://bnt.bg/journalism-science-alliance-311pages.html",
+      "predicted_surface_type": "restricted_or_unavailable",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "semantic-role:not-recoverable"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "request_error",
+      "predicted_access_evidence": [
+        "fetch_status:request_error"
+      ]
+    },
+    {
+      "review_unit_id": "bnt-surface-04df69f1018b45cc",
+      "entity_id": "bnt",
+      "root_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "page_url": "https://bnt.bg/news/300-godini-ot-rozhdenieto-na-sv-paisiy-hilendarski-deca-chetat-istoriya-slavyanobalgarska-311972news.html",
+      "predicted_surface_type": "news_or_editorial",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:news"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bnt-surface-b2666f4e94809d54",
+      "entity_id": "bnt",
+      "root_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "page_url": "https://bnt.bg/news/muzika-bezkrai-297914news.html",
+      "predicted_surface_type": "news_or_editorial",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:news"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "bnt-surface-d011139b999fa527",
+      "entity_id": "bnt",
+      "root_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "page_url": "https://bnt.bg/news/mariana-popova-v-muzika-bezkrai-311430news.html",
+      "predicted_surface_type": "news_or_editorial",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:news"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinemateca-portuguesa-surface-1e36588b2b256b2b",
+      "entity_id": "cinemateca-portuguesa",
+      "root_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "page_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "predicted_surface_type": "homepage",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "observation_root_surface"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinemateca-portuguesa-surface-d8906293c8d2937c",
+      "entity_id": "cinemateca-portuguesa",
+      "root_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "page_url": "https://www.cinemateca.pt/cinemateca-digital/Ficha.aspx?obraid=13618&type=Video",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinemateca-portuguesa-surface-16dfc1576647e6ef",
+      "entity_id": "cinemateca-portuguesa",
+      "root_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "page_url": "https://www.cinemateca.pt/Colecoes/Filme-e-Video.aspx",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinemateca-portuguesa-surface-b266519715b5d3fd",
+      "entity_id": "cinemateca-portuguesa",
+      "root_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "page_url": "https://www.cinemateca.pt/Servicos/Acesso-Arquivo-Filmico.aspx",
+      "predicted_surface_type": "archive_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:arquivo",
+        "title:arquivo"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinemateca-portuguesa-surface-db400f4e61b3d466",
+      "entity_id": "cinemateca-portuguesa",
+      "root_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "page_url": "https://www.cinemateca.pt/getattachment/Servicos/Acesso-Arquivo-Filmico/Contactos/ACORDO-DE-CEDENCIA.pdf.aspx",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "unknown",
+      "predicted_access_evidence": [
+        "fetch_status:unsupported_content_type"
+      ]
+    },
+    {
+      "review_unit_id": "cinemateca-portuguesa-surface-ce6640a90f22926d",
+      "entity_id": "cinemateca-portuguesa",
+      "root_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "page_url": "https://www.cinemateca.pt/cinemateca-digital/Ficha.aspx?obraid=13015&type=Video",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinematheque-francaise-surface-7528344810902c14",
+      "entity_id": "cinematheque-francaise",
+      "root_url": "https://www.cinematheque.fr/henri/",
+      "page_url": "https://www.cinematheque.fr/henri/",
+      "predicted_surface_type": "homepage",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "observation_root_surface"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinematheque-francaise-surface-4996749dafe01540",
+      "entity_id": "cinematheque-francaise",
+      "root_url": "https://www.cinematheque.fr/henri/",
+      "page_url": "https://www.cinematheque.fr/henri/film/122076-madam-butterfly-tsai-ming-liang-2008/",
+      "predicted_surface_type": "institutional_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "descendant:institutional-observation-root"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinematheque-francaise-surface-5283b2e678502102",
+      "entity_id": "cinematheque-francaise",
+      "root_url": "https://www.cinematheque.fr/henri/",
+      "page_url": "https://www.cinematheque.fr/henri/film/122080-the-skywalk-is-gone-tsai-ming-liang-2002/",
+      "predicted_surface_type": "institutional_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "descendant:institutional-observation-root"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinematheque-francaise-surface-b910aa89993e31bd",
+      "entity_id": "cinematheque-francaise",
+      "root_url": "https://www.cinematheque.fr/henri/",
+      "page_url": "https://www.cinematheque.fr/henri/film/144961-fuori-sala-3-antonio-bigini-mariann-lewinsky-2005/",
+      "predicted_surface_type": "institutional_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "descendant:institutional-observation-root"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinematheque-francaise-surface-fdc93556b19fafd2",
+      "entity_id": "cinematheque-francaise",
+      "root_url": "https://www.cinematheque.fr/henri/",
+      "page_url": "https://www.cinematheque.fr/henri/film/148527-prai-takian-anonyme-1940/",
+      "predicted_surface_type": "institutional_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "descendant:institutional-observation-root"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinematheque-francaise-surface-febdfe981a6f3ec6",
+      "entity_id": "cinematheque-francaise",
+      "root_url": "https://www.cinematheque.fr/henri/",
+      "page_url": "https://www.cinematheque.fr/henri/film/153628-who-is-putin-babylon-13-2022/",
+      "predicted_surface_type": "institutional_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "descendant:institutional-observation-root"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "fina-surface-5f75e5bfccf355fb",
+      "entity_id": "fina",
+      "root_url": "https://ninateka.pl/ogladaj",
+      "page_url": "https://ninateka.pl/ogladaj",
+      "predicted_surface_type": "homepage",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "observation_root_surface"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "home-movies-memoryscapes-surface-da59339f30aeebf5",
+      "entity_id": "home-movies-memoryscapes",
+      "root_url": "https://www.memoryscapes.it/en/archive",
+      "page_url": "https://www.memoryscapes.it/en/archive",
+      "predicted_surface_type": "homepage",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "observation_root_surface"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "home-movies-memoryscapes-surface-52523177e84a383c",
+      "entity_id": "home-movies-memoryscapes",
+      "root_url": "https://www.memoryscapes.it/en/archive",
+      "page_url": "https://www.memoryscapes.it/en/clips/6782_trailing-each-other-in-the-ghiaias-market",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "home-movies-memoryscapes-surface-2dcd64250cf0e490",
+      "entity_id": "home-movies-memoryscapes",
+      "root_url": "https://www.memoryscapes.it/en/archive",
+      "page_url": "https://www.memoryscapes.it/it/clips/6782_trailing-each-other-in-the-ghiaias-market",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "home-movies-memoryscapes-surface-fb5d1b6b396ef903",
+      "entity_id": "home-movies-memoryscapes",
+      "root_url": "https://www.memoryscapes.it/en/archive",
+      "page_url": "https://www.memoryscapes.it/en/clips/6771_posing-in-piazzale-della-pace",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "home-movies-memoryscapes-surface-d58cdab9a6384767",
+      "entity_id": "home-movies-memoryscapes",
+      "root_url": "https://www.memoryscapes.it/en/archive",
+      "page_url": "https://www.memoryscapes.it/en/clips/1565_family-portrait",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "home-movies-memoryscapes-surface-feca09e838ffc160",
+      "entity_id": "home-movies-memoryscapes",
+      "root_url": "https://www.memoryscapes.it/en/archive",
+      "page_url": "https://www.memoryscapes.it/en/archive/?authors=Carretta%2C+Giacomo",
+      "predicted_surface_type": "homepage",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "observation_root_surface"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    }
+  ],
+  "protocol_version": "2.2.0",
+  "sample_role": "independent_ecological_validation",
+  "is_independent_validation_sample": true,
+  "excluded_reference_urls_total": 86,
+  "excluded_observed_matches": 0,
+  "max_units_per_entity": 6,
+  "selected_units_by_entity": {
+    "bbc": 6,
+    "bnt": 6,
+    "cinemateca-portuguesa": 6,
+    "cinematheque-francaise": 6,
+    "fina": 1,
+    "home-movies-memoryscapes": 6
+  },
+  "does_not_modify_official_baseline": true
+}

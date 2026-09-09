@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "m3-surface-type-independent-preservation-v2-2",
+  "preserved_on": "2026-09-02",
+  "source_workflow_run_id": 33673923717,
+  "source_artifact_id": 9863619119,
+  "source_artifact_digest": "sha256:e09235bd9c2f22fd73233c497b52b52e020c195282563ed100de4ca15a4e8498",
+  "source_head_sha": "1a6ae6de091b1aee29dc8b830bb59a6d528eff42",
+  "source_execution_sha": "7784405920c8e8a444fe1e7fb57227b8e01b7233",
+  "protocol_id": "MAR-T2A-M3-VAL-007-PROTOCOL",
+  "protocol_version": "2.2.0",
+  "sample_role": "independent_ecological_validation",
+  "is_independent_validation_sample": true,
+  "does_not_modify_official_baseline": true,
+  "human_review_started": false,
+  "units_total": 31,
+  "known_development_urls_excluded": 86,
+  "overlap_with_known_urls": 0,
+  "max_units_per_entity": 6,
+  "selected_units_by_entity": {
+    "bbc": 6,
+    "bnt": 6,
+    "cinemateca-portuguesa": 6,
+    "cinematheque-francaise": 6,
+    "fina": 1,
+    "home-movies-memoryscapes": 6
+  },
+  "entities_preregistered": [
+    "bbc",
+    "bnt",
+    "fina",
+    "cinemateca-portuguesa",
+    "cinematheque-francaise",
+    "home-movies-memoryscapes"
+  ],
+  "entities_executed": [
+    "bbc",
+    "bnt",
+    "fina",
+    "cinemateca-portuguesa",
+    "cinematheque-francaise",
+    "home-movies-memoryscapes"
+  ],
+  "protocol_deviations": [],
+  "sample_composition_notes": [
+    "FINA yielded one eligible observed surface; no post-execution replacement was introduced."
+  ],
+  "files": [
+    {
+      "role": "predictions",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2_2.json",
+      "sha256": "4bb277ba99324622d66bee279c7ab2d6bdbbd4755c7ef5f4cc12ef991f67aec1"
+    },
+    {
+      "role": "review_queue",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_review_queue_v2_2.json",
+      "sha256": "2c764eab221dbe595ada50eda1cd2b843e976fca25d8a57f39380724727d8fa8"
+    },
+    {
+      "role": "prediction_freeze",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_prediction_freeze_v2_2.json",
+      "sha256": "7bc42ab4840561977ec442aeb40d16d0d8d4bbd480a590f2d87d1cf361c8a6e0"
+    },
+    {
+      "role": "known_url_exclusion",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_known_urls_exclusion_v2_2.json",
+      "sha256": "4e1f701af58fa6c236ece367205025dfe9b567c36afdcc6cf6517786acf41e58"
+    },
+    {
+      "role": "source_summary",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_source_summary_v2_2.json",
+      "sha256": "c5610e6d7aff07b864fd38087d28627b3ae02a40d2a10fa285d33f24e70dc31e"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/bbc_surface_discovery_report.json",
+      "sha256": "d309d8ea29529ae0ce9e83e137417a8d6d853b85ef664ca733e0fc21acaf3c98"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/bnt_surface_discovery_report.json",
+      "sha256": "63b9b12f14c61d76a1ef396ae719b2ae6dd5c515cccc00448561b28800b43363"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/cinemateca-portuguesa_surface_discovery_report.json",
+      "sha256": "0c95f060293b3adbc313e7e87fc91e3417eb9e569c988d516694fc024177dfa8"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/cinematheque-francaise_surface_discovery_report.json",
+      "sha256": "43c83014624a2f2636ba1fc298352dafaba7f74dc3a4eb1bb482dcec58b49b24"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/fina_surface_discovery_report.json",
+      "sha256": "f86d2eb4a32825f283062cbbe2a7aec2bf31d772042e42619c9cc16f03bdd989"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/home-movies-memoryscapes_surface_discovery_report.json",
+      "sha256": "b6e046424e744ad35639cd3de9742c4afb7819fdbe880f5b3e6d746aef26f9b6"
+    }
+  ]
+}

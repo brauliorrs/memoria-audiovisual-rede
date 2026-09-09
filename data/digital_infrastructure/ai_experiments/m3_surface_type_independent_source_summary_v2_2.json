@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "sample_protocol_version": "1.0.0",
+  "run_id": "m3-surface-independent-v2-2-33673923717",
+  "stage": "t2a_mar_surface_typing_real_sample",
+  "does_not_modify_official_baseline": true,
+  "is_scientific_result": false,
+  "entities_requested": [
+    "bbc",
+    "bnt",
+    "fina",
+    "cinemateca-portuguesa",
+    "cinematheque-francaise",
+    "home-movies-memoryscapes"
+  ],
+  "policy": {
+    "max_depth": 2,
+    "max_pages": 8,
+    "timeout_seconds": 12.0,
+    "respect_robots_txt": true
+  },
+  "entities": [
+    {
+      "entity_id": "bbc",
+      "status": "completed",
+      "root_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/bbc/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/bbc/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "bnt",
+      "status": "completed",
+      "root_url": "https://bnt.bg/arhiv-a-ya-25cat.html",
+      "pages_total": 8,
+      "fetched_pages": 7,
+      "errors_total": 1,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/bnt/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/bnt/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "fina",
+      "status": "completed",
+      "root_url": "https://ninateka.pl/ogladaj",
+      "pages_total": 1,
+      "fetched_pages": 1,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/fina/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/fina/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "cinemateca-portuguesa",
+      "status": "completed",
+      "root_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "pages_total": 8,
+      "fetched_pages": 7,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/cinemateca-portuguesa/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/cinemateca-portuguesa/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "cinematheque-francaise",
+      "status": "completed",
+      "root_url": "https://www.cinematheque.fr/henri/",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/cinematheque-francaise/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/cinematheque-francaise/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "home-movies-memoryscapes",
+      "status": "completed",
+      "root_url": "https://www.memoryscapes.it/en/archive",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/home-movies-memoryscapes/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-2-33673923717/home-movies-memoryscapes/surface_classifier_text.jsonl"
+    }
+  ]
+}

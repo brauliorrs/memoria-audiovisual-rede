@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "correction_id": "ai-content-positive-challenge-scope-correction-v1",
+  "applies_to_queue_id": "ai-content-blind-positive-challenge-v1",
+  "decision_date": "2026-08-18",
+  "reason": "Refinamento metodológico: documentação institucional sobre filmes com IA valida identificação terminológica/contextual, mas não demonstra presença de IA no acervo observado sem comprovação de pertencimento do item ao corpus MAR.",
+  "original_records_preserved": true,
+  "new_interpretation_scope": "gate1_terminological_contextual_validation",
+  "archive_occurrence_claim_allowed": false,
+  "prevalence_claim_allowed": false,
+  "completed_human_reviews_reinterpreted_as_gate1_controls": [
+    "bfi-about-a-hero-2024",
+    "bfi-here-2024",
+    "bfi-better-man-2024"
+  ],
+  "remaining_reviews_required_for_gate2": false,
+  "gate2_entry_rule": "Somente itens originados de registros efetivamente materializados pelos coletores de corpora ativos do MAR podem entrar na validação de IA no acervo.",
+  "final_archive_positive_rule": "gate1_positive AND item_in_observed_corpus AND evidence_linked_to_item"
+}

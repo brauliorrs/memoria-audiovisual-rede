@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "conclusion_id": "ai-archive-two-gate-pilot-conclusion-v1",
+  "experiment_id": "MAR-T2A-C2-M4-PILOT-001",
+  "source_queue_id": "ai-archive-two-gate-candidates-v1",
+  "stage": "t2a_ai_archive_gate2_validation",
+  "documentation_created_on": "2026-08-24",
+  "documentation_status": "retrospective_preservation_of_completed_human_finding",
+  "original_human_review_date": null,
+  "original_human_review_date_note": "The exact human-review date was not preserved in a dedicated completion artifact. This conclusion is a retrospective durable record of the result already documented in the MAR validation roadmap before M3 was initiated.",
+  "is_prevalence_sample": false,
+  "does_not_modify_official_baseline": true,
+  "candidates_total": 2,
+  "review_scope": "Only Gate 2 condition 1 / M4 item-level eligibility was reached. Conditions for corpus membership, public item-surface accessibility and item-linked AI evidence were not evaluated because both candidates failed item-level eligibility.",
+  "outcomes": [
+    {
+      "review_unit_id": "ecpad-archive-ai-b4779e41f0cc8213",
+      "entity_id": "ecpad",
+      "candidate_url": "https://archives.ecpad.fr/archives/archives",
+      "human_is_item_level_observation": false,
+      "human_review_note": "The candidate URL was a general archive page rather than an audiovisual item, version or segment.",
+      "human_item_in_observed_corpus": null,
+      "human_public_surface_accessible": null,
+      "human_evidence_linked_to_item": null,
+      "human_archive_ai_label": null
+    },
+    {
+      "review_unit_id": "ina-archive-ai-5f9339c88c64aceb",
+      "entity_id": "ina",
+      "candidate_url": "https://www.ina.fr/institut-national-audiovisuel",
+      "human_is_item_level_observation": false,
+      "human_review_note": "The candidate URL was an institutional/main page with links to other archive areas rather than an audiovisual item, version or segment.",
+      "human_item_in_observed_corpus": null,
+      "human_public_surface_accessible": null,
+      "human_evidence_linked_to_item": null,
+      "human_archive_ai_label": null
+    }
+  ],
+  "summary": {
+    "item_level_eligible": 0,
+    "item_level_ineligible": 2,
+    "eligibility_rate": 0.0
+  },
+  "scientific_interpretation": "The 0/2 result identifies a candidate URL resolution problem upstream of later Gate 2 conditions. It does not support claims of absence of AI, absence of archives, inaccessibility of actual item surfaces, or failure of the observed institutions.",
+  "methodological_decision": "Prioritise M3 surface typing and M4 item-level candidate resolution before repeating Gate 2 at scale.",
+  "documentation_gap_preserved": "The original blind review queue remains pending and did not itself receive the completed human decisions. This retrospective conclusion does not overwrite that historical artifact; it makes the previously documented human finding durable and explicit."
+}

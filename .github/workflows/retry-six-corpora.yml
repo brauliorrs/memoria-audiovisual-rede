@@ -1,0 +1,122 @@
+name: Retry six pending corpora
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/retry-six-corpora.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: retry-six-corpora-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  retry-six:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      MAR_AI_EXPERIMENTS_ENABLED: "true"
+      MAR_AI_SHADOW_MODE: "true"
+      MAR_AI_INSTITUTIONAL_USE_ENABLED: "true"
+      MAR_AI_COLLECTION_DETECTION_ENABLED: "true"
+      MAR_AI_VIDEO_PRESENCE_ENABLED: "true"
+      MAR_AI_SYNTHETIC_VIDEO_ENABLED: "false"
+
+    steps:
+      - name: Checkout presentation branch
+        uses: actions/checkout@v5
+        with:
+          ref: presentation/rpv-1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project and browser
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e . pytest
+          python -m playwright install --with-deps chromium
+
+      - name: Validate corrected checkers
+        run: python -m compileall -q scripts src
+
+      - name: Retry pending corpora
+        id: cycle
+        continue-on-error: true
+        run: |
+          python scripts/run_observatory_cycle.py \
+            --skip-global-prelude \
+            --corpus-timeout 1800 \
+            --corpus ape \
+            --corpus cinematheque-bretagne \
+            --corpus ert \
+            --corpus filmmuseum_dusseldorf \
+            --corpus filmoteca_valenciana \
+            --corpus home-movies-memoryscapes
+
+      - name: Build retry summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          manifest_path = Path("data/output/observatorio_ciclo_mensal.json")
+          if not manifest_path.exists():
+              raise SystemExit("manifesto da reexecução ausente")
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          summary = {
+              "selected": manifest.get("selected_corpora_total"),
+              "successful": manifest.get("successful_corpora_total"),
+              "failed": manifest.get("failed_corpora_total"),
+              "results": [
+                  {
+                      "code": row.get("code"),
+                      "status": row.get("status"),
+                      "observation_key": row.get("observation_key"),
+                      "video_links_total": row.get("video_links_total"),
+                      "error": row.get("error"),
+                  }
+                  for row in manifest.get("cycle_results", [])
+              ],
+              "ai_is_official_baseline_dependency": False,
+          }
+          output = Path("data/output/retry_six_corpora_summary.json")
+          output.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps(summary, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload retry products
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: retry-six-corpora-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            data/output/observatorio_ciclo_mensal.json
+            data/output/observatorio_linha_do_tempo_ciclos.csv
+            data/output/observatorio_resultados_ciclos.csv
+            data/output/retry_six_corpora_summary.json
+            data/output/ape_*
+            data/output/cinematheque_bretagne_*
+            data/output/ert_*
+            data/output/filmmuseum_dusseldorf_*
+            data/output/filmoteca_valenciana_*
+            data/output/home_movies_*
+            data/digital_infrastructure/ai_experiments/*.jsonl
+
+      - name: Report retry failure
+        if: steps.cycle.outcome == 'failure'
+        run: |
+          echo "A reexecução ainda possui corpora pendentes; consulte o resumo e os artefatos."
+          exit 1

@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "MAR-T2A-M3-VAL-007-PROTOCOL",
+  "stage": "t2a_mar_surface_typing_independent_validation",
+  "surface_typing_protocol_version": "2.2.0",
+  "preregistered_on": "2026-09-02",
+  "status": "preregistered_before_execution",
+  "does_not_modify_official_baseline": true,
+  "intended_claim_level": "empirical_validation",
+  "is_prevalence_sample": false,
+  "sample_role": "independent_ecological_validation",
+  "unit_of_analysis": "public web surface observed by the MAR controlled discovery protocol",
+  "development_history": {
+    "source_calibration_experiment_id": "MAR-T2A-M3-CAL-006",
+    "known_human_labelled_urls_total": 86,
+    "known_urls_are_development_only": true
+  },
+  "entities": [
+    "bbc",
+    "bnt",
+    "fina",
+    "cinemateca-portuguesa",
+    "cinematheque-francaise",
+    "home-movies-memoryscapes"
+  ],
+  "entity_selection_rationale": "Six active corpora not previously used in M3 human-labelled development or independent validation, selected before execution to diversify country, language, institution type and public-platform architecture while keeping human-facing public surfaces.",
+  "previously_used_m3_entities_excluded": [
+    "archipop",
+    "bfi",
+    "ecpad",
+    "europeana",
+    "ina",
+    "cinearchives",
+    "cinememoire",
+    "eafa",
+    "eye",
+    "luce",
+    "dff",
+    "filmarchiv_austria",
+    "euscreen",
+    "czech-television",
+    "ciclic",
+    "cineam"
+  ],
+  "selection_rule": "Run deterministic bounded discovery independently for the six preregistered corpora. Preserve within-entity discovery order. Select at most six eligible review units per entity before applying the 36-unit global cap. Do not use predictions to balance classes or choose units. Exclude all 86 previously human-labelled M3 URLs before predictions are generated.",
+  "collection_policy": {
+    "max_depth": 2,
+    "max_pages_per_entity": 8,
+    "timeout_seconds": 12,
+    "respect_robots_txt": true,
+    "max_review_units": 36,
+    "max_review_units_per_entity": 6,
+    "minimum_review_units_total": 24,
+    "minimum_entities_represented": 5
+  },
+  "insufficient_sample_rule": "If fewer than 24 review units or fewer than five preregistered entities are represented after deterministic discovery and exclusions, do not begin human review and do not substitute new entities post hoc. Preserve the run as an auditable insufficient-sample execution and revise only under a later preregistered protocol.",
+  "exclusion_sources": [
+    "tests/fixtures/m3_surface_typing_calibration_v1.json",
+    "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json",
+    "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_1.json"
+  ],
+  "excluded_known_units_expected": 86,
+  "prediction_freeze_rule": "Automatic predictions, the blinded review queue, the exact 86-URL exclusion set, the classifier, discovery implementation and review builder must be SHA-256 frozen before any human review unit is opened.",
+  "blinding_rule": "The human reviewer must classify only the main page URL/surface. Parent/root URLs and detected media are provenance/context only. The reviewer must not see predicted_surface_type, predicted_item_level, prediction_confidence, prediction_evidence, predicted_access_state or predicted_access_evidence until the completed human review is frozen.",
+  "no_tuning_after_freeze": true,
+  "evaluation_plan": {
+    "primary": "multiclass surface-role confusion matrix, exact agreement, weighted F1 and per-class precision/recall/F1 on the new ecological sample",
+    "secondary": "binary item-level versus non-item-level TP/TN/FP/FN, precision, recall, F1, specificity and accuracy",
+    "access_dimension": "access-state agreement evaluated separately from semantic surface role",
+    "entity_diagnostics": "report exact-surface and binary item-level results per represented entity without using entity clusters as independent observations",
+    "rare_class_policy": "Do not generalize per-class performance for classes with support below five; report their observed outcomes descriptively."
+  },
+  "acceptance_guidance": {
+    "fine_grained_surface_typing": {
+      "weighted_f1_minimum": 0.5,
+      "supported_major_class_rule": "For every human class with support >=5, recall must be >=0.50. Failure of either condition means fine-grained M3 2.2.0 is not accepted on this validation."
+    },
+    "item_level_gate_for_m4": {
+      "precision_minimum": 0.8,
+      "recall_minimum": 0.7,
+      "specificity_minimum": 0.85,
+      "entity_failure_rule": "For any entity with at least two human item-level units, the classifier must not miss all of them.",
+      "decision_rule": "All item-level criteria must pass before M4 scaling can be considered."
+    },
+    "access_state": {
+      "agreement_minimum": 0.9,
+      "separation_rule": "Access-state success cannot compensate for semantic surface-role or item-level failure."
+    }
+  },
+  "threshold_note": "Acceptance thresholds are operational project gates preregistered before execution; they are not population-level confidence bounds or prevalence estimates.",
+  "stop_rule": "Do not modify protocol 2.2.0, classifier rules, sampling logic or selected entities after automatic predictions are frozen. Any defect discovered after freeze is a validation finding and may only be addressed in a later protocol version.",
+  "prohibited_interpretations": [
+    "the sample is not a prevalence sample",
+    "the 86 known development URLs cannot be reported as independent evidence for protocol 2.2.0",
+    "balanced per-entity selection is not class balancing and does not estimate population proportions",
+    "collector access failures are not scientific negatives",
+    "validation of M3 surface typing does not establish corpus membership, institutional AI use or AI participation in audiovisual content",
+    "successful regression on development data does not substitute for this independent validation"
+  ]
+}

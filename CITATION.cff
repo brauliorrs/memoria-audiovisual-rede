@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this research infrastructure, software, documentation or published datasets, please cite it using the metadata below."
+title: "Memória Audiovisual em Rede"
+type: software
+authors:
+  - family-names: "Rangel da Silva"
+    given-names: "Bráulio Roberto"
+repository-code: "https://github.com/brauliorrs/memoria-audiovisual-rede"
+url: "https://memoria-audiovisual-rede-hv3dgxwqgaka2i6ahhmb5v.streamlit.app/"
+version: "0.1.0"
+date-released: "2026-08-04"
+license: "MIT"
+abstract: >-
+  Open scientific research infrastructure for the longitudinal observation of
+  institutional digital infrastructures, demonstrated through audiovisual
+  archives. The project combines computational observation, provenance,
+  snapshots, human review, methodological versioning and reproducible analytics.
+keywords:
+  - audiovisual archives
+  - digital infrastructures
+  - research infrastructure
+  - digital preservation
+  - interoperability
+  - metadata
+  - longitudinal observation

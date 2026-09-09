@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "queue_id": "mar-surface-type-review-v1",
+  "stage": "t2a_mar_surface_typing_validation",
+  "conclusion_type": "blind_human_review_only",
+  "review_status": "completed",
+  "completed_on": "2026-08-24",
+  "model_predictions_consulted": false,
+  "does_not_modify_official_baseline": true,
+  "is_prevalence_sample": false,
+  "reviewed_units": 17,
+  "item_level": {
+    "true": 4,
+    "false": 13
+  },
+  "surface_type_counts": {
+    "homepage": 3,
+    "institutional_landing_page": 1,
+    "archive_landing_page": 1,
+    "search_or_index": 7,
+    "news_or_editorial": 1,
+    "item_record": 0,
+    "audiovisual_item": 4,
+    "restricted_or_unavailable": 0,
+    "unknown": 0
+  },
+  "methodological_findings": [
+    "Surface type and access state must be represented as independent dimensions.",
+    "A geographically restricted player does not cease to be an audiovisual-item surface when the page identifies a specific audiovisual unit.",
+    "The search_or_index class includes thematic result or index pages that aggregate multiple records under a specific term or subject.",
+    "Robots exclusion affects automated collection and must not be interpreted as a human-observed access failure or as a negative scientific finding.",
+    "This validation sample was assembled for surface-typing validation and must not be used to estimate prevalence of surface classes in the MAR corpus."
+  ],
+  "human_only_conclusion": "The blind human review resolved all 17 units without unknown cases. Four units were identified as item-level audiovisual surfaces and thirteen as non-item-level surfaces. The review also exposed two representation requirements for M3: access restrictions must be tracked separately from surface role, and thematic result pages containing multiple records belong to search_or_index rather than item-level classes."
+}

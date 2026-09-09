@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "m3-surface-type-independent-prediction-freeze-v2",
+  "protocol_version": "2.0.0",
+  "source_run_id": "m3-surface-independent-v2-32857274723",
+  "source_workflow_run_id": 32857274723,
+  "source_git_sha": "44dc596304c5599eadda66a835a80ccee30a2a47",
+  "sample_role": "independent_ecological_validation",
+  "is_independent_validation_sample": true,
+  "does_not_modify_official_baseline": true,
+  "frozen_before_human_review": true,
+  "prediction_path": "data/output/m3_surface_type_independent_predictions_v2.json",
+  "prediction_sha256": "2188cad903e481c7e906e79ca33477d2f16d754c42d054a0cc1023f1e55828f4",
+  "review_queue_path": "data/output/m3_surface_type_independent_review_queue_v2.json",
+  "review_queue_sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f",
+  "protocol_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_validation_protocol_v2.json",
+  "protocol_sha256": "f0208d95a3f6a41bd5d5c65b005977380688e717e0a6dbc646afe885fe367bb3",
+  "calibration_exclusion_path": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+  "calibration_exclusion_sha256": "ca3497f013664c4e7aba2690c0d3479cd48cfa7fdaf5b6e00642bc7bbc65d48b",
+  "prediction_units_total": 33,
+  "review_units_total": 33,
+  "model_prediction_blinded_in_review_queue": true
+}

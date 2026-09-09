@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "m3-surface-type-independent-preservation-v2",
+  "preserved_on": "2026-08-25",
+  "source_workflow_run_id": 32857274723,
+  "source_artifact_id": 9566711703,
+  "source_artifact_digest": "sha256:26348572af75702b6054193532ae89206625b0c3622bc05e7a2af3cafc819632",
+  "sample_role": "independent_ecological_validation",
+  "protocol_version": "2.0.0",
+  "human_review_started": false,
+  "units_total": 33,
+  "entities_preregistered": [
+    "eafa",
+    "eye",
+    "luce",
+    "cinearchives",
+    "cinememoire",
+    "european_film_gateway"
+  ],
+  "entities_executed": [
+    "eafa",
+    "eye",
+    "luce",
+    "cinearchives",
+    "cinememoire"
+  ],
+  "protocol_deviations": [
+    {
+      "deviation_id": "european_film_gateway_unknown_corpus_key",
+      "severity": "sample_coverage_reduction",
+      "description": "The preregistered european_film_gateway identifier was not present in CORPORA at execution time, so it produced no surfaces. The frozen 33-unit sample from the five successfully executed entities is preserved without replacement or post-freeze substitution.",
+      "execution_record": [
+        {
+          "entity_id": "european_film_gateway",
+          "status": "unknown_corpus",
+          "root_url": null,
+          "pages_total": 0,
+          "fetched_pages": 0
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "role": "predictions",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2.json",
+      "sha256": "2188cad903e481c7e906e79ca33477d2f16d754c42d054a0cc1023f1e55828f4"
+    },
+    {
+      "role": "review_queue",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_review_queue_v2.json",
+      "sha256": "09a543702cafd6feee4dc0e7f763d57c50d37cbc5f9eb5f507ec0f2fdd9c990f"
+    },
+    {
+      "role": "prediction_freeze",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_prediction_freeze_v2.json",
+      "sha256": "1ed3f94d1b954c90469fdfa6fa154042beecd52153b034efb685f02d47a4288f"
+    },
+    {
+      "role": "source_summary",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_source_summary_v2.json",
+      "sha256": "ea218c8f88a09f18e4436b298e50c7dcb27632d271108ef429b0604010f6d7ab"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/cinearchives_surface_discovery_report.json",
+      "sha256": "de599be0293f017333b3a6043f508966f66821e3064ecc9d2421b5e2cf3a2ba1"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/cinememoire_surface_discovery_report.json",
+      "sha256": "3b243ed6533f98ff7adfb3e926b0c19d379140b262b4b908ce7cd3805892309d"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/eafa_surface_discovery_report.json",
+      "sha256": "94a777a9f90250d59cb9b4347ed405419ea79c6a973302a6e2e6e86548a2accf"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/eye_surface_discovery_report.json",
+      "sha256": "ee0527a2b4613e7c6bafb38b43394d5861c106c264442465c1e1bac5e117ad62"
+    },
+    {
+      "role": "source_surface_discovery_report",
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/luce_surface_discovery_report.json",
+      "sha256": "2be02f7aa3474b56aef2287689b7223993df25de6c834d6edcdca571ad8ce381"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+name: Documentation Quality
+
+on:
+  push:
+    paths:
+      - "**/*.md"
+      - "CITATION.cff"
+      - "LICENSE"
+      - "scripts/check_markdown_links.py"
+      - "scripts/audit_digital_infrastructure_docs.py"
+      - ".github/workflows/documentation-quality.yml"
+  pull_request:
+    paths:
+      - "**/*.md"
+      - "CITATION.cff"
+      - "LICENSE"
+      - "scripts/check_markdown_links.py"
+      - "scripts/audit_digital_infrastructure_docs.py"
+      - ".github/workflows/documentation-quality.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  internal-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate internal Markdown links
+        run: python scripts/check_markdown_links.py
+
+      - name: Audit digital-infrastructure documentation
+        run: python scripts/audit_digital_infrastructure_docs.py
+
+  citation-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate CITATION.cff
+        uses: citation-file-format/cffconvert-github-action@2.0.0
+        with:
+          args: --validate

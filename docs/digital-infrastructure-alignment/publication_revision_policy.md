@@ -2,74 +2,66 @@
 
 ## Objetivo
 
-Permitir que revisões humanas concluídas depois do fechamento de uma rodada sejam incorporadas à visão pública sem modificar a coleta, a triagem ou a primeira versão pública do snapshot.
+Permitir que decisões humanas concluídas após o fechamento de uma rodada sejam incorporadas à projeção pública sem modificar a coleta, a triagem, o snapshot ou a primeira versão derivada.
 
 ## Regra de imutabilidade
 
-Os arquivos iniciais permanecem em:
+Os produtos iniciais permanecem preservados. Cada regeneração cria uma revisão derivada, sequencial e identificável. Nenhuma revisão pode sobrescrever silenciosamente a anterior.
 
-```text
-data/digital_infrastructure/public/<snapshot_id>/events.json
-data/digital_infrastructure/public/<snapshot_id>/manifest.json
-```
-
-Eles não podem ser sobrescritos. Cada regeneração cria uma revisão derivada:
-
-```text
-data/digital_infrastructure/public/<snapshot_id>/revisions/
-├── revision_0001/
-│   ├── events.json
-│   └── manifest.json
-├── revision_0002/
-│   ├── events.json
-│   └── manifest.json
-└── ...
-```
-
-## Fonte da regeneração
+## Fontes da regeneração
 
 A revisão é reconstruída a partir de:
 
-1. eventos longitudinais originais do snapshot;
-2. ledger append-only atualizado com as decisões humanas;
-3. mesmas regras de quórum e elegibilidade usadas na visão pública inicial.
+1. eventos longitudinais originais;
+2. ledger append-only atualizado;
+3. decisões curatoriais válidas;
+4. regras de quórum e elegibilidade vigentes;
+5. bloqueios editoriais, jurídicos ou de contestação aplicáveis.
 
-Não é permitido editar diretamente o arquivo público anterior para acrescentar ou retirar eventos.
+Não é permitido editar diretamente um produto anterior para acrescentar, alterar ou retirar eventos.
+
+## Tipos de revisão
+
+- `curatorial`: incorpora nova decisão humana sobre evento;
+- `corrective`: corrige erro técnico ou editorial;
+- `methodological`: aplica mudança de regra sem apresentá-la como mudança empírica;
+- `contest_response`: responde a contestação documentada;
+- `rights_restriction`: altera exposição por licença, privacidade ou redistribuição;
+- `withdrawal`: retira produto ou item de circulação preservando o histórico.
 
 ## Manifesto
 
 Cada revisão registra:
 
-- `snapshot_id`;
-- `publication_revision` sequencial;
-- `revision_id`;
-- revisão anterior substituída;
-- justificativa;
-- responsável pela solicitação;
-- eventos adicionados, removidos e alterados;
-- decisões humanas utilizadas;
-- data de geração.
+- `snapshot_id` e `product_id`;
+- número e identificador da revisão;
+- versão anterior substituída;
+- tipo e justificativa;
+- solicitante e responsável pela decisão;
+- eventos adicionados, removidos, alterados ou suprimidos;
+- revisões e evidências utilizadas;
+- impacto em indicadores e textos públicos;
+- estado de contestação;
+- data de geração e, quando aplicável, publicação.
 
-A substituição ocorre apenas no sentido editorial: versões anteriores continuam preservadas e recuperáveis.
-
-## Uso operacional
-
-```powershell
-python scripts/regenerate_digital_infrastructure_public_view.py `
-  --snapshot-id snapshot_2026_09 `
-  --events data/digital_infrastructure/triage/snapshot_2026_09.json `
-  --ledger data/digital_infrastructure/ledger.jsonl `
-  --output-root data/digital_infrastructure/public `
-  --reason "Incorporação de decisões curatoriais concluídas após o fechamento" `
-  --requested-by "curator_id"
-```
+A substituição ocorre apenas no sentido editorial. Versões anteriores continuam preservadas e recuperáveis.
 
 ## Restrições
 
-- a visão pública inicial precisa existir;
-- `snapshot_id`, justificativa e solicitante são obrigatórios;
-- eventos de outro snapshot são rejeitados;
-- a numeração de revisão é sequencial;
+- a versão anterior precisa existir;
+- justificativa e responsável são obrigatórios;
+- eventos de outro snapshot não podem ser incorporados sem vínculo explícito;
+- a numeração é sequencial;
 - uma revisão existente não pode ser sobrescrita;
-- a regeneração não executa nova coleta;
-- a regeneração não altera o ledger, os snapshots ou os relatórios de cobertura.
+- regeneração não executa nova coleta;
+- regeneração não altera o ledger, snapshots ou relatórios de cobertura;
+- mudança metodológica deve ser identificada como tal;
+- retirada cautelar não equivale automaticamente a admissão de erro.
+
+## Relação com publicação externa
+
+Uma nova projeção derivada não precisa ser automaticamente promovida à versão externa vigente. A ativação pública é uma decisão separada, registrada no catálogo ou registro de publicação ativa.
+
+## Estado atual
+
+A regeneração versionada e a preservação das revisões estão implementadas estruturalmente. Permanecem pendentes a validação operacional com correções e contestações reais e a definição dos responsáveis editoriais do primeiro ciclo oficial.

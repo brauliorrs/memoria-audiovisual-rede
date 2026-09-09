@@ -1,0 +1,120 @@
+name: Controlled analytics validation
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/controlled-analytics-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SNAPSHOT_ID: controlled-rpv-${{ github.run_id }}
+      COVERAGE_DIR: data/digital_infrastructure/coverage
+      ANALYTICS_ROOT: data/output/analytics
+      RESULT_OUTPUT: data/output/controlled_validation_summary.json
+    steps:
+      - name: Checkout presentation branch
+        uses: actions/checkout@v4
+        with:
+          ref: presentation/rpv-1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install project
+        run: pip install -e .
+
+      - name: Audit three real corpora and materialize coverage
+        run: |
+          python scripts/audit_digital_infrastructure.py \
+            --mode preview \
+            --snapshot-id "$SNAPSHOT_ID" \
+            --corpus europeana ina bfi \
+            --timeout 30 \
+            --write-coverage \
+            --coverage-dir "$COVERAGE_DIR" \
+            --result-output "$RESULT_OUTPUT"
+
+      - name: Resolve coverage product
+        id: coverage
+        shell: bash
+        run: |
+          COVERAGE_PATH=$(python - <<'PY'
+          import json
+          from pathlib import Path
+          payload = json.loads(Path("data/output/controlled_validation_summary.json").read_text(encoding="utf-8"))
+          manifest = payload.get("coverage_manifest") or {}
+          path = manifest.get("coverage_path")
+          if not path:
+              raise SystemExit("coverage_path ausente no manifesto da validação")
+          print(path)
+          PY
+          )
+          test -f "$COVERAGE_PATH"
+          echo "path=$COVERAGE_PATH" >> "$GITHUB_OUTPUT"
+
+      - name: Execute registered indicators and sensitivity analysis
+        run: |
+          python scripts/run_snapshot_analytics.py \
+            --snapshot-id "$SNAPSHOT_ID" \
+            --coverage "${{ steps.coverage.outputs.path }}" \
+            --output-root "$ANALYTICS_ROOT" \
+            --run-output "$ANALYTICS_ROOT/$SNAPSHOT_ID/run.json"
+
+      - name: Validate materialized products
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          snapshot = os.environ["SNAPSHOT_ID"]
+          root = Path(os.environ["ANALYTICS_ROOT"]) / snapshot
+          required = [
+              root / "snapshot_indicators.json",
+              root / "manifest.json",
+              root / "run.json",
+              root / "interoperability_sensitivity.json",
+              Path(os.environ["RESULT_OUTPUT"]),
+          ]
+          missing = [str(path) for path in required if not path.exists()]
+          if missing:
+              raise SystemExit("produtos ausentes: " + ", ".join(missing))
+
+          indicators = json.loads((root / "snapshot_indicators.json").read_text(encoding="utf-8"))
+          if indicators.get("indicator_count") != 9:
+              raise SystemExit(f"esperados 9 indicadores; obtidos {indicators.get('indicator_count')}")
+          if indicators.get("status") != "completed":
+              raise SystemExit(f"execução analítica não concluída: {indicators.get('status')}")
+          print(json.dumps({
+              "snapshot_id": snapshot,
+              "indicator_count": indicators["indicator_count"],
+              "status": indicators["status"],
+              "products": [str(path) for path in required],
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit controlled validation products
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/digital_infrastructure/coverage \
+            data/output/analytics \
+            data/output/controlled_validation_summary.json
+          if git diff --cached --quiet; then
+            echo "Nenhum produto novo para registrar."
+            exit 0
+          fi
+          git commit -m "data(analytics): materializar validação controlada [skip ci]"
+          git push origin HEAD:presentation/rpv-1

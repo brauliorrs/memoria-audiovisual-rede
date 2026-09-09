@@ -1,0 +1,17 @@
+name: T2A MAR surface typing independent validation v2.2 (frozen locked)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Frozen validation lock
+        run: |
+          echo "Authoritative M3 2.2 validation run: 33673923717"
+          echo "Artifact: 9863619119"
+          echo "The frozen sample must not be regenerated after human review preparation."

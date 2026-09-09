@@ -1,0 +1,32 @@
+name: Visual Layout Audit
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - "app/streamlit_app.py"
+      - "scripts/audit_streamlit_visual_layout.py"
+      - ".github/workflows/visual-layout-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Build visual inventory
+        run: python scripts/audit_streamlit_visual_layout.py
+      - name: Upload generated inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: streamlit-visual-inventory
+          path: docs/audit/streamlit_visual_inventory_generated.md

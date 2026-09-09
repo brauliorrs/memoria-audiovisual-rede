@@ -1,0 +1,246 @@
+name: T2A AI post-baseline validation
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/t2a-ai-post-baseline-validation.yml"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_post_baseline_validation.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_surface_discovery.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_content_production.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_content_validation.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_baseline_handlers.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_contracts.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_flags.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_runtime.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_storage.py"
+      - "scripts/evaluate_ai_post_baseline.py"
+      - "scripts/build_ai_content_validation_sample.py"
+      - "scripts/assess_ai_content_blind_queue.py"
+      - "scripts/evaluate_ai_content_blind_review.py"
+      - "tests/test_ai_post_baseline_validation.py"
+      - "tests/test_ai_surface_discovery.py"
+      - "tests/test_ai_content_production.py"
+      - "tests/test_ai_content_validation.py"
+      - "tests/test_ai_content_blind_review.py"
+      - "tests/test_ai_baseline_handlers.py"
+      - "tests/test_ai_experiment_contracts.py"
+      - "tests/test_ai_feature_flags.py"
+      - "tests/test_ai_storage_runtime.py"
+      - "data/digital_infrastructure/ai_experiments/t2a_human_review_queue_v1.json"
+      - "data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl"
+      - "data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1.jsonl"
+  pull_request:
+    paths:
+      - ".github/workflows/t2a-ai-post-baseline-validation.yml"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_post_baseline_validation.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_surface_discovery.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_content_production.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_content_validation.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_baseline_handlers.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_contracts.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_flags.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_runtime.py"
+      - "src/memoria_audiovisual/digital_infrastructure/ai_storage.py"
+      - "scripts/evaluate_ai_post_baseline.py"
+      - "scripts/build_ai_content_validation_sample.py"
+      - "scripts/assess_ai_content_blind_queue.py"
+      - "scripts/evaluate_ai_content_blind_review.py"
+      - "tests/test_ai_post_baseline_validation.py"
+      - "tests/test_ai_surface_discovery.py"
+      - "tests/test_ai_content_production.py"
+      - "tests/test_ai_content_validation.py"
+      - "tests/test_ai_content_blind_review.py"
+      - "tests/test_ai_baseline_handlers.py"
+      - "tests/test_ai_experiment_contracts.py"
+      - "tests/test_ai_feature_flags.py"
+      - "tests/test_ai_storage_runtime.py"
+      - "data/digital_infrastructure/ai_experiments/t2a_human_review_queue_v1.json"
+      - "data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl"
+      - "data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json"
+      - "data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1.jsonl"
+  workflow_dispatch:
+    inputs:
+      require_complete:
+        description: "Exigir que todas as unidades estejam revisadas"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: t2a-ai-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      REVIEW_QUEUE: data/digital_infrastructure/ai_experiments/t2a_human_review_queue_v1.json
+      REVIEW_AMENDMENTS: data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl
+      REPORT: data/digital_infrastructure/ai_experiments/t2a_validation_report_v1.json
+      CONTENT_SAMPLE: data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json
+      CONTENT_REPORT: data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json
+      CONTENT_BLIND_QUEUE: data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json
+      CONTENT_BLIND_HUMAN: data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1.jsonl
+      CONTENT_BLIND_PREDICTIONS: data/digital_infrastructure/ai_experiments/ai_content_blind_predictions_ci_v1.json
+      CONTENT_BLIND_REPORT: data/digital_infrastructure/ai_experiments/ai_content_blind_comparison_report_v1.json
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e . pytest
+
+      - name: Validate T2A contracts and new protocols
+        run: |
+          python -m compileall -q src scripts
+          python -m pytest -q \
+            tests/test_ai_post_baseline_validation.py \
+            tests/test_ai_surface_discovery.py \
+            tests/test_ai_content_production.py \
+            tests/test_ai_content_validation.py \
+            tests/test_ai_content_blind_review.py \
+            tests/test_ai_baseline_handlers.py \
+            tests/test_ai_experiment_contracts.py \
+            tests/test_ai_feature_flags.py \
+            tests/test_ai_storage_runtime.py
+
+      - name: Validate content-AI reference benchmark
+        run: |
+          python scripts/build_ai_content_validation_sample.py \
+            --sample "$CONTENT_SAMPLE" \
+            --report "$CONTENT_REPORT" \
+            --check
+
+      - name: Validate blind content-AI metadata triage
+        run: |
+          python scripts/assess_ai_content_blind_queue.py \
+            --queue "$CONTENT_BLIND_QUEUE" \
+            --output "$CONTENT_BLIND_PREDICTIONS" \
+            --run-id "ci-metadata-triage"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          queue = json.loads(Path(os.environ["CONTENT_BLIND_QUEUE"]).read_text(encoding="utf-8"))
+          predictions = json.loads(Path(os.environ["CONTENT_BLIND_PREDICTIONS"]).read_text(encoding="utf-8"))
+          if len(queue.get("units") or []) != 12:
+              raise SystemExit("a amostra cega v1 deve conter 12 itens")
+          if predictions.get("predictions_total") != 12:
+              raise SystemExit("a triagem deve produzir 12 previsões separadas da fila humana")
+          forbidden = {"prediction", "predicted_usage_class", "predicted_positive", "model_prediction"}
+          if any(forbidden.intersection(unit) for unit in queue["units"]):
+              raise SystemExit("a fila humana cega não pode conter previsões automáticas")
+          print(json.dumps({
+              "blind_units": len(queue["units"]),
+              "prediction_blinding": queue.get("review_protocol", {}).get("prediction_blinding"),
+              "metadata_predictions": predictions.get("predictions_total"),
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Compare blind content-AI predictions with human review
+        run: |
+          python scripts/evaluate_ai_content_blind_review.py \
+            --queue "$CONTENT_BLIND_QUEUE" \
+            --human-reviews "$CONTENT_BLIND_HUMAN" \
+            --predictions "$CONTENT_BLIND_PREDICTIONS" \
+            --output "$CONTENT_BLIND_REPORT" \
+            --require-complete
+
+      - name: Calculate current review metrics
+        shell: bash
+        run: |
+          args=(--queue "$REVIEW_QUEUE" --amendments "$REVIEW_AMENDMENTS" --output "$REPORT")
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.require_complete }}" = "true" ]; then
+            args+=(--require-complete)
+          fi
+          python scripts/evaluate_ai_post_baseline.py "${args[@]}"
+
+      - name: Validate separation from T2
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report = json.loads(Path(os.environ["REPORT"]).read_text(encoding="utf-8"))
+          content_report = json.loads(Path(os.environ["CONTENT_REPORT"]).read_text(encoding="utf-8"))
+          blind_report = json.loads(Path(os.environ["CONTENT_BLIND_REPORT"]).read_text(encoding="utf-8"))
+          if report.get("official_baseline_dependency") is not False:
+              raise SystemExit("T2A não pode depender do baseline como entrada mutável")
+          if report.get("does_not_modify_official_baseline") is not True:
+              raise SystemExit("T2A deve declarar que não modifica o baseline oficial")
+          if report.get("review_units_total") != 18:
+              raise SystemExit("a fila inicial deve conter 18 unidades")
+          if report.get("amendments_applied", 0) < 1:
+              raise SystemExit("a emenda metodológica do INA deve ser aplicada")
+          if content_report.get("controls") != 6:
+              raise SystemExit("o benchmark item a item v1 deve conter seis controles")
+          binary = content_report.get("binary") or {}
+          if binary.get("false_positive") != 0 or binary.get("false_negative") != 0:
+              raise SystemExit("o benchmark item a item de referência contém erro binário")
+          if content_report.get("exact_class_accuracy") != 1.0:
+              raise SystemExit("as classes do benchmark item a item não estão calibradas")
+          blind_binary = blind_report.get("binary") or {}
+          blind_confusion = blind_binary.get("confusion_matrix") or {}
+          if blind_report.get("compared_units") != 12 or blind_report.get("pending_units") != 0:
+              raise SystemExit("a revisão cega real v1 deve comparar 12 de 12 itens")
+          if blind_confusion.get("true_negative") != 12:
+              raise SystemExit("a amostra cega real v1 deve preservar os 12 negativos humanos observados")
+          if blind_confusion.get("false_positive") != 0 or blind_confusion.get("false_negative") != 0:
+              raise SystemExit("a amostra cega real v1 contém divergência binária")
+          interpretation = blind_report.get("scientific_interpretation") or {}
+          if interpretation.get("positive_recall_estimable_from_this_sample") is not False:
+              raise SystemExit("não se pode estimar recall positivo sem positivos humanos na amostra cega")
+          if interpretation.get("next_requirement") != "blind_positive_challenge_extension":
+              raise SystemExit("a próxima exigência deve ser extensão cega com positivos")
+          print(json.dumps({
+              "status": report.get("status"),
+              "review_units_total": report.get("review_units_total"),
+              "reviewed_units": report.get("reviewed_units"),
+              "pending_units": report.get("pending_units"),
+              "amendments_applied": report.get("amendments_applied"),
+              "content_ai_controls": content_report.get("controls"),
+              "content_ai_exact_class_accuracy": content_report.get("exact_class_accuracy"),
+              "blind_content_units": blind_report.get("compared_units"),
+              "blind_content_true_negatives": blind_confusion.get("true_negative"),
+              "blind_content_accuracy": blind_binary.get("accuracy"),
+              "blind_positive_recall_estimable": interpretation.get("positive_recall_estimable_from_this_sample"),
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload T2A validation products
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2a-ai-validation-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            data/digital_infrastructure/ai_experiments/t2a_human_review_queue_v1.json
+            data/digital_infrastructure/ai_experiments/t2a_human_review_amendments_v1.jsonl
+            data/digital_infrastructure/ai_experiments/t2a_validation_report_v1.json
+            data/digital_infrastructure/ai_experiments/ai_content_validation_sample_v1.json
+            data/digital_infrastructure/ai_experiments/ai_content_validation_report_v1.json
+            data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json
+            data/digital_infrastructure/ai_experiments/ai_content_blind_review_amendments_v1.jsonl
+            data/digital_infrastructure/ai_experiments/ai_content_blind_predictions_ci_v1.json
+            data/digital_infrastructure/ai_experiments/ai_content_blind_comparison_report_v1.json

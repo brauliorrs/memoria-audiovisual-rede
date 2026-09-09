@@ -1,0 +1,3968 @@
+[
+  {
+    "corpus_code": "ape",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "euscreen",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "WordPress 7.0.2"
+    ],
+    "current_values": [
+      "WordPress 7.0.2"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ],
+    "current_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "RSS/Atom",
+      "Schema.org"
+    ],
+    "current_values": [
+      "RSS/Atom",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "appeared",
+    "previous_values": [],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "euscreen",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ina",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Drupal 11 (https://www.drupal.org)"
+    ],
+    "current_values": [
+      "Drupal 11 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "ina",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ina",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ],
+    "current_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "ina",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Linked Open Data",
+      "Schema.org"
+    ],
+    "current_values": [
+      "Linked Open Data",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "ina",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ina",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ina",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aamod",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "WordPress 7.0.2"
+    ],
+    "current_values": [
+      "WordPress 7.0.2"
+    ]
+  },
+  {
+    "corpus_code": "aamod",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "aamod",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aamod",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "RSS/Atom"
+    ],
+    "current_values": [
+      "RSS/Atom"
+    ]
+  },
+  {
+    "corpus_code": "aamod",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aamod",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aamod",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "sfa",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "sfa",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "IIIF"
+    ],
+    "current_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "sfa",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ],
+    "current_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "sfa",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Schema.org"
+    ],
+    "current_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "sfa",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "sfa",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "sfa",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "anf",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "anf",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "IIIF"
+    ],
+    "current_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "anf",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "anf",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "anf",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "anf",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Autenticação/login",
+      "Direitos autorais condicionam o acesso"
+    ],
+    "current_values": [
+      "Autenticação/login",
+      "Direitos autorais condicionam o acesso"
+    ]
+  },
+  {
+    "corpus_code": "anf",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aqshf",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "WordPress 7.0.2"
+    ],
+    "current_values": [
+      "WordPress 7.0.2"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aqshf",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "RSS/Atom"
+    ],
+    "current_values": [
+      "RSS/Atom"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Autenticação/login",
+      "Direitos autorais condicionam o acesso"
+    ],
+    "current_values": [
+      "Autenticação/login",
+      "Direitos autorais condicionam o acesso"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "asim",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Drupal 8 (https://www.drupal.org)"
+    ],
+    "current_values": [
+      "Drupal 8 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "asim",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "asim",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "asim",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Linked Open Data",
+      "Schema.org"
+    ],
+    "current_values": [
+      "Linked Open Data",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "asim",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Apache Solr",
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Apache Solr",
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "asim",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "asim",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bbc",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bbc",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "IIIF"
+    ],
+    "current_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "bbc",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ],
+    "current_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "bbc",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Schema.org"
+    ],
+    "current_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "bbc",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bbc",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bbc",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Drupal"
+    ],
+    "current_values": [
+      "Drupal"
+    ]
+  },
+  {
+    "corpus_code": "bfi",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Direitos autorais condicionam o acesso"
+    ],
+    "current_values": [
+      "Direitos autorais condicionam o acesso"
+    ]
+  },
+  {
+    "corpus_code": "bfi",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Drupal 8 (https://www.drupal.org)"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Linked Open Data",
+      "Schema.org"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Apache Solr",
+      "Formulário de busca HTML"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "bnt",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "bnt",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Drupal 8 (https://www.drupal.org)"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Linked Open Data",
+      "Schema.org"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Apache Solr",
+      "Formulário de busca HTML"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Drupal"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "luce",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "luce",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cdna",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Onemo 17.3.24"
+    ],
+    "current_values": [
+      "Onemo 17.3.24"
+    ]
+  },
+  {
+    "corpus_code": "cdna",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "cdna",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "cdna",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cdna",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cdna",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cdna",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Dublin Core",
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ],
+    "current_values": [
+      "Dublin Core",
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Schema.org"
+    ],
+    "current_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "IIIF"
+    ],
+    "current_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinememoire",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Cinémémoire.net PHP engine by Jumi.J4"
+    ],
+    "current_values": [
+      "Cinémémoire.net PHP engine by Jumi.J4"
+    ]
+  },
+  {
+    "corpus_code": "cinememoire",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinememoire",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "cinememoire",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinememoire",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "cinememoire",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "cinememoire",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Drupal 8 (https://www.drupal.org)"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Linked Open Data",
+      "Schema.org"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "disappeared",
+    "previous_values": [
+      "Apache Solr",
+      "Formulário de busca HTML"
+    ],
+    "current_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "czech-television",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "czech-television",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "GraphQL",
+      "IIIF"
+    ],
+    "current_values": [
+      "GraphQL",
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "czech-television",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "changed",
+    "previous_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ],
+    "current_values": [
+      "EAD",
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "czech-television",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Schema.org"
+    ],
+    "current_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "czech-television",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "czech-television",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "czech-television",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Drupal 10 (https://www.drupal.org)"
+    ],
+    "current_values": [
+      "Drupal 10 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "dff",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "dff",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "IIIF",
+      "REST/JSON"
+    ],
+    "current_values": [
+      "IIIF",
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "dr",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "dr",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Drupal 10 (https://www.drupal.org)"
+    ],
+    "current_values": [
+      "Drupal 10 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dhm",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "appeared",
+    "previous_values": [],
+    "current_values": [
+      "TYPO3 CMS"
+    ]
+  },
+  {
+    "corpus_code": "dhm",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dhm",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "appeared",
+    "previous_values": [],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "dhm",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "appeared",
+    "previous_values": [],
+    "current_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "dhm",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dhm",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "dhm",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "ecpad",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Busca facetada"
+    ],
+    "current_values": [
+      "Busca facetada"
+    ]
+  },
+  {
+    "corpus_code": "ecpad",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ert",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "WordPress 6.8.3"
+    ],
+    "current_values": [
+      "WordPress 6.8.3"
+    ]
+  },
+  {
+    "corpus_code": "ert",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "ert",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ert",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "RSS/Atom",
+      "Schema.org"
+    ],
+    "current_values": [
+      "RSS/Atom",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "ert",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ert",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "ert",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Drupal 8 (https://www.drupal.org)"
+    ],
+    "current_values": [
+      "Drupal 8 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Linked Open Data",
+      "RSS/Atom",
+      "Schema.org"
+    ],
+    "current_values": [
+      "Linked Open Data",
+      "RSS/Atom",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Apache Solr",
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Apache Solr",
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "eye",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Drupal 7 (https://www.drupal.org)"
+    ],
+    "current_values": [
+      "Drupal 7 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "eye",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph",
+      "RDFa"
+    ],
+    "current_values": [
+      "Open Graph",
+      "RDFa"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Linked Open Data"
+    ],
+    "current_values": [
+      "Linked Open Data"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Direitos autorais condicionam o acesso",
+      "Restrição de indexação (robots meta)"
+    ],
+    "current_values": [
+      "Direitos autorais condicionam o acesso",
+      "Restrição de indexação (robots meta)"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "IIIF"
+    ],
+    "current_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "EAD",
+      "Open Graph"
+    ],
+    "current_values": [
+      "EAD",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "IIIF"
+    ],
+    "current_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Restrição de indexação (robots meta)"
+    ],
+    "current_values": [
+      "Restrição de indexação (robots meta)"
+    ]
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "WordPress 7.0.2"
+    ],
+    "current_values": [
+      "WordPress 7.0.2"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "JSON-LD / Schema.org"
+    ],
+    "current_values": [
+      "JSON-LD / Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "RSS/Atom",
+      "Schema.org"
+    ],
+    "current_values": [
+      "RSS/Atom",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "DSpace"
+    ],
+    "current_values": [
+      "DSpace"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "fina",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "autrefois",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "WordPress"
+    ],
+    "current_values": [
+      "WordPress"
+    ]
+  },
+  {
+    "corpus_code": "autrefois",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "autrefois",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "autrefois",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Schema.org"
+    ],
+    "current_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "autrefois",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "autrefois",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "autrefois",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "far",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Onemo 17.3.24"
+    ],
+    "current_values": [
+      "Onemo 17.3.24"
+    ]
+  },
+  {
+    "corpus_code": "far",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "REST/JSON"
+    ],
+    "current_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "far",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "far",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "far",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "far",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "far",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "europeana",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "europeana",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "SPARQL"
+    ],
+    "current_values": [
+      "SPARQL"
+    ]
+  },
+  {
+    "corpus_code": "europeana",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Open Graph"
+    ],
+    "current_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "europeana",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "europeana",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML"
+    ],
+    "current_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "europeana",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Autenticação/login"
+    ],
+    "current_values": [
+      "Autenticação/login"
+    ]
+  },
+  {
+    "corpus_code": "europeana",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aapb",
+    "detector_group": "technology",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "WordPress"
+    ],
+    "current_values": [
+      "WordPress"
+    ]
+  },
+  {
+    "corpus_code": "aapb",
+    "detector_group": "api_service",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aapb",
+    "detector_group": "metadata_format",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aapb",
+    "detector_group": "interoperability",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "OpenSearch"
+    ],
+    "current_values": [
+      "OpenSearch"
+    ]
+  },
+  {
+    "corpus_code": "aapb",
+    "detector_group": "search",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [
+      "Formulário de busca HTML",
+      "OpenSearch"
+    ],
+    "current_values": [
+      "Formulário de busca HTML",
+      "OpenSearch"
+    ]
+  },
+  {
+    "corpus_code": "aapb",
+    "detector_group": "restriction",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  },
+  {
+    "corpus_code": "aapb",
+    "detector_group": "ai_evidence",
+    "previous_snapshot_id": "scientific-coverage-v1-30942134205",
+    "current_snapshot_id": "operational-baseline-v1-31064161759",
+    "change_type": "unchanged",
+    "previous_values": [],
+    "current_values": []
+  }
+]

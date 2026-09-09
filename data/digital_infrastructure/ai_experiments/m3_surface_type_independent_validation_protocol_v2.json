@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "MAR-T2A-M3-VAL-003-PROTOCOL",
+  "stage": "t2a_mar_surface_typing_independent_validation",
+  "surface_typing_protocol_version": "2.0.0",
+  "preregistered_on": "2026-08-25",
+  "status": "preregistered_before_execution",
+  "does_not_modify_official_baseline": true,
+  "intended_claim_level": "empirical_validation",
+  "is_prevalence_sample": false,
+  "sample_role": "independent_ecological_validation",
+  "unit_of_analysis": "public web surface observed by the MAR controlled discovery protocol",
+  "selection_rule": "Collect a deterministic bounded crawl from six corpora not used in the 17-unit M3 calibration set. Preserve discovery order and include eligible observed surfaces without selecting or balancing units using M3 predictions.",
+  "entities": [
+    "eafa",
+    "eye",
+    "luce",
+    "cinearchives",
+    "cinememoire",
+    "european_film_gateway"
+  ],
+  "collection_policy": {
+    "max_depth": 2,
+    "max_pages_per_entity": 8,
+    "timeout_seconds": 12.0,
+    "respect_robots_txt": true,
+    "max_review_units": 36
+  },
+  "exclusion_source": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+  "excluded_calibration_units": 17,
+  "prediction_freeze_rule": "Automatic predictions must be materialized and SHA-256 hashed before any human review unit is opened.",
+  "blinding_rule": "The human reviewer must not see predicted_surface_type, predicted_item_level, prediction_confidence or prediction_evidence until the human review artifact is closed.",
+  "evaluation_plan": {
+    "primary": "multiclass surface-role confusion matrix and per-class precision, recall and F1 on the ecological sample",
+    "secondary": "binary item-level versus non-item-level precision, recall, F1, specificity and accuracy",
+    "access_dimension": "compare access-state agreement separately from semantic surface role",
+    "rare_class_policy": "Classes absent or too sparse in the ecological sample will not receive generalized performance claims; a separate targeted challenge set may be created and reported separately."
+  },
+  "stop_rule": "Do not modify protocol 2.0.0 after automatic predictions are frozen. Any discovered defect after freeze is recorded as a validation finding and may only be corrected in a later protocol version.",
+  "prohibited_interpretations": [
+    "the sample is not a prevalence sample",
+    "targeted challenge results, if later added, must not be pooled with ecological metrics without explicit stratified reporting",
+    "collector access failures are not scientific negatives",
+    "validation of M3 surface typing does not establish corpus membership, institutional AI use or AI participation in audiovisual content"
+  ]
+}

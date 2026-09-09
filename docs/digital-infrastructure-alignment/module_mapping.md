@@ -1,27 +1,44 @@
-# Mapeamento entre documentação, schemas e módulos de código
+# Mapeamento entre documentação, contratos e módulos existentes
 
-| Domínio | Documentação e contratos | Módulo futuro sugerido | Responsabilidade |
+Este documento relaciona os domínios documentais aos módulos atualmente implementados. Ele não substitui a documentação interna do código nem implica que todos os componentes tenham sido validados empiricamente.
+
+| Domínio | Documentação e contratos | Implementação principal | Responsabilidade |
 |---|---|---|---|
-| Entidades | schemas de instituição, tecnologia, fornecedor e relações | `src/digital_infrastructure/domain/` | modelos, IDs e invariantes |
-| Proveniência | política e schema de proveniência | `src/digital_infrastructure/provenance/` | fonte, aquisição, transformação e agentes |
-| Evidências | protocolo e schema de evidência | `src/digital_infrastructure/evidence/` | registro, classificação e acesso |
-| Integridade | regras e relatório de integridade | `src/digital_infrastructure/integrity/` | chaves, coerência e bloqueios |
-| Curadoria | governança, workflow e ações | `src/digital_infrastructure/curation/` | filas, decisões e trilha humana |
-| Qualidade | política, scoring e aptidão | `src/digital_infrastructure/quality/` | qualidade, maturidade e fitness for use |
-| Tempo | eventos, snapshots e migrações | `src/digital_infrastructure/timeline/` | versões, ciclos e comparações |
-| Indicadores | política, catálogo e resultados | `src/digital_infrastructure/indicators/` | cálculo, cobertura e supressão |
-| Ética e risco | políticas e avaliações | `src/digital_infrastructure/compliance/` | riscos, revisão e restrições |
-| Publicação | manifestos, API e catálogo | `src/digital_infrastructure/publication/` | datasets, API e painel |
-| Ingestão | auditoria técnica e conectores | `src/digital_infrastructure/ingestion/` | coletores, adaptadores e normalização |
+| Entidades e IDs | schemas de instituição, tecnologia, fornecedor e relações | `src/memoria_audiovisual/digital_infrastructure/models.py`, `ids.py`, `contracts.py` | modelos, identificadores e invariantes |
+| Proveniência | `data_provenance_model.md` e schema de proveniência | `evidence.py`, `raw_artifacts.py`, `ingestion.py` | fonte, aquisição, transformação e agentes |
+| Evidências | `evidence_and_validation_protocol.md` e schema de evidência | `evidence.py`, `validation.py`, `review_files.py` | registro, classificação, validação e acesso |
+| Integridade | `relational_integrity.md` e regras de integridade | `integrity.py`, `ledger.py`, `index.py`, `index_store.py` | coerência, referências, histórico e bloqueios |
+| Curadoria | `curatorial_governance.md` e workflows de revisão | `curatorial_review.py`, `entity_decisions.py`, `event_review.py` | filas, decisões e trilha humana |
+| Qualidade e aptidão | políticas de qualidade e fitness for use | `preflight.py`, `postflight.py`, `parameter_coverage.py`, `coverage_reports.py` | cobertura, qualidade operacional e bloqueios |
+| Memória temporal | eventos, snapshots e migrações | `persistence.py`, `historical_migration.py`, `event_triage.py` | versões, ciclos, comparação e migração |
+| Indicadores | Research Handbook e registros computáveis | `src/memoria_audiovisual/analytics/` | cálculo, cobertura, persistência e sensibilidade |
+| IA experimental | `ai_systems_protocol.md`, `ai_experimental_runtime.md` | `ai_contracts.py`, `ai_flags.py`, `ai_storage.py`, `ai_runtime.py`, `ai_baseline_handlers.py`, `ai_cycle.py` | contratos, flags, armazenamento separado, coleta sombra e isolamento do baseline |
+| Ética e risco | políticas e protocolos de risco | contratos, validação e revisão humana; indicadores de risco ainda não ativos | limites, revisão e contestabilidade |
+| Publicação | políticas, manifestos e projeções públicas | `public_view.py`, `public_delivery.py`, `active_publication.py`, `publication_revision.py` | produtos derivados e publicação versionada |
+| Ingestão | auditoria técnica e adaptadores | `adapters.py`, `digital_infrastructure_adapter.py`, `ingestion_batches.py` | adaptação, normalização e commits controlados |
 
-## Regra de dependência
+## Fluxo arquitetural
 
-Fluxo permitido:
+```text
+ingestão
+→ evidência e proveniência
+→ validação e integridade
+→ revisão curatorial
+→ snapshot e memória
+→ coleta experimental de IA em modo sombra
+→ analytics oficial independente da IA
+→ revisão de publicação
+→ visão pública derivada
+```
 
-`ingestion → provenance/evidence → domain → integrity → curation → quality → timeline → indicators → publication`
+As avaliações ética, jurídica e de risco atuam transversalmente e podem bloquear qualquer etapa posterior. A coleta experimental de IA permanece paralela e não modifica automaticamente os registros científicos oficiais.
 
-`compliance` atua transversalmente e pode bloquear qualquer etapa posterior.
+## Regras permanentes
 
-## Regra arquitetural
-
-Módulos de publicação não devem importar diretamente coletores. Todo produto público deve ser produzido apenas a partir de snapshots fechados e registros aptos para o uso declarado.
+- módulos de publicação não acessam diretamente coletores;
+- produtos públicos são derivados de registros compatíveis com o uso declarado;
+- resultados sensíveis preservam vínculo com evidência, snapshot e decisão humana;
+- caminhos de código são referências de implementação, não garantias de validação empírica;
+- previsões experimentais de IA não entram em elegibilidade, denominadores ou indicadores oficiais;
+- falhas da camada experimental não alteram o estado do ciclo oficial;
+- propostas ainda não implementadas devem permanecer no backlog, não neste mapa de módulos existentes.
