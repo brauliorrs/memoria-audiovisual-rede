@@ -97,7 +97,7 @@ def test_non_root_observation_archive_is_not_automatically_homepage():
     decision = classify_surface_type_candidate(
         url="https://example.org/en/archive",
         root_url="https://example.org/en/archive",
-        title="Archive",
+        title="Archivio",
     )
     assert decision.surface_type == "search_or_index"
     assert decision.is_item_level is False
