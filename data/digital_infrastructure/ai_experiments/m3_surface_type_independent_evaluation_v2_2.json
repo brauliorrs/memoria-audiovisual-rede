@@ -1,0 +1,373 @@
+{
+  "schema_version": "1.0.0",
+  "evaluation_id": "m3-surface-type-independent-evaluation-v2-2",
+  "experiment_id": "MAR-T2A-M3-VAL-007",
+  "experiment_protocol_id": "MAR-T2A-M3-VAL-007-PROTOCOL",
+  "protocol_version": "2.2.0",
+  "evaluated_on": "2026-09-08",
+  "claim_level": "empirical_validation",
+  "is_independent_validation_sample": true,
+  "sample_role": "independent_ecological_validation",
+  "is_prevalence_sample": false,
+  "does_not_modify_official_baseline": true,
+  "source_workflow_run_id": 33673923717,
+  "source_job_id": 100393939906,
+  "source_artifact_id": 9863619119,
+  "source_artifact_digest": "sha256:e09235bd9c2f22fd73233c497b52b52e020c195282563ed100de4ca15a4e8498",
+  "prediction_frozen_before_human_review": true,
+  "prediction_sha256": "4bb277ba99324622d66bee279c7ab2d6bdbbd4755c7ef5f4cc12ef991f67aec1",
+  "prediction_blob_sha": "00966f1e5f44e041eade11edff7c37ff2dd7cd2f",
+  "human_review_sha256": "673b5d11e731bc45d0d9415696bc355ce6772ffd4de24ba8a2d9b0c73dae49eb",
+  "human_review_blob_sha": "a9f8fc78107424ffd33add5830ed743185d1fbaf",
+  "human_review_completion_commit": "5004d01422c1645ab07df5cd1c149569a81ce07c",
+  "human_review_freeze_commit": "2a13cbed58df1901e0e024f2b748b64ff0301597",
+  "human_review_freeze_blob_sha": "4000544c32fec0b2f4d6756a7cacc8c4642354c0",
+  "review_queue_sha256": "2c764eab221dbe595ada50eda1cd2b843e976fca25d8a57f39380724727d8fa8",
+  "review_queue_blob_sha": "aed13cc50b5bc62e12d2f05191bc6bb2eb357e24",
+  "units_total": 31,
+  "preregistered_entities": [
+    "bbc",
+    "bnt",
+    "fina",
+    "cinemateca-portuguesa",
+    "cinematheque-francaise",
+    "home-movies-memoryscapes"
+  ],
+  "effective_review_entities": [
+    "bbc",
+    "bnt",
+    "fina",
+    "cinemateca-portuguesa",
+    "cinematheque-francaise",
+    "home-movies-memoryscapes"
+  ],
+  "collection_entities_completed": 6,
+  "human_reference_counts": {
+    "homepage": 0,
+    "institutional_landing_page": 1,
+    "archive_landing_page": 6,
+    "search_or_index": 9,
+    "news_or_editorial": 0,
+    "item_record": 0,
+    "audiovisual_item": 14,
+    "restricted_or_unavailable": 0,
+    "unknown": 1,
+    "item_level_true": 14,
+    "item_level_false": 16,
+    "item_level_ambiguous": 1
+  },
+  "multiclass_surface_type": {
+    "correct": 7,
+    "total": 31,
+    "accuracy": 0.22580645161290322,
+    "macro_f1_all_protocol_classes": 0.1575036075036075,
+    "macro_f1_human_supported_classes": 0.28350649350649354,
+    "weighted_f1": 0.2828236279849183,
+    "class_order": [
+      "homepage",
+      "institutional_landing_page",
+      "archive_landing_page",
+      "search_or_index",
+      "news_or_editorial",
+      "item_record",
+      "audiovisual_item",
+      "restricted_or_unavailable",
+      "unknown"
+    ],
+    "confusion_matrix_rows_human_columns_prediction": [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 2, 0, 1, 0, 0, 0, 3],
+      [6, 0, 0, 1, 1, 0, 0, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 5, 0, 0, 1, 0, 2, 0, 6],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 1]
+    ],
+    "per_class": {
+      "homepage": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 0,
+        "predicted_total": 6
+      },
+      "institutional_landing_page": {
+        "precision": 0.16666666666666666,
+        "recall": 1,
+        "f1": 0.2857142857142857,
+        "support": 1,
+        "predicted_total": 6
+      },
+      "archive_landing_page": {
+        "precision": 1,
+        "recall": 0.3333333333333333,
+        "f1": 0.5,
+        "support": 6,
+        "predicted_total": 2
+      },
+      "search_or_index": {
+        "precision": 1,
+        "recall": 0.1111111111111111,
+        "f1": 0.2,
+        "support": 9,
+        "predicted_total": 1
+      },
+      "news_or_editorial": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 0,
+        "predicted_total": 3
+      },
+      "item_record": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 0,
+        "predicted_total": 0
+      },
+      "audiovisual_item": {
+        "precision": 1,
+        "recall": 0.14285714285714285,
+        "f1": 0.25,
+        "support": 14,
+        "predicted_total": 2
+      },
+      "restricted_or_unavailable": {
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "support": 0,
+        "predicted_total": 1
+      },
+      "unknown": {
+        "precision": 0.1,
+        "recall": 1,
+        "f1": 0.18181818181818182,
+        "support": 1,
+        "predicted_total": 10
+      }
+    },
+    "major_supported_class_recall_gate": {
+      "minimum_support": 5,
+      "minimum_recall": 0.5,
+      "classes": {
+        "archive_landing_page": {
+          "support": 6,
+          "recall": 0.3333333333333333,
+          "passes": false
+        },
+        "search_or_index": {
+          "support": 9,
+          "recall": 0.1111111111111111,
+          "passes": false
+        },
+        "audiovisual_item": {
+          "support": 14,
+          "recall": 0.14285714285714285,
+          "passes": false
+        }
+      }
+    }
+  },
+  "binary_item_level": {
+    "assessable_total": 30,
+    "human_ambiguous_excluded": 1,
+    "true_positive": 2,
+    "true_negative": 16,
+    "false_positive": 0,
+    "false_negative": 12,
+    "precision": 1,
+    "recall": 0.14285714285714285,
+    "f1": 0.25,
+    "specificity": 1,
+    "accuracy": 0.6,
+    "acceptance_thresholds": {
+      "precision_minimum": 0.8,
+      "recall_minimum": 0.7,
+      "specificity_minimum": 0.85
+    },
+    "threshold_results": {
+      "precision_passes": true,
+      "recall_passes": false,
+      "specificity_passes": true
+    },
+    "entity_failure_rule": {
+      "rule": "For any entity with at least two human item-level units, the classifier must not miss all of them.",
+      "passes": false,
+      "violating_entities": [
+        "cinemateca-portuguesa",
+        "cinematheque-francaise",
+        "home-movies-memoryscapes"
+      ]
+    }
+  },
+  "access_state": {
+    "matches": 31,
+    "total": 31,
+    "agreement": 1,
+    "minimum_required": 0.9,
+    "passes": true
+  },
+  "entity_diagnostics": {
+    "bbc": {
+      "units": 6,
+      "exact_surface_correct": 5,
+      "exact_surface_accuracy": 0.8333333333333334,
+      "item_level_assessable": 6,
+      "item_level_correct": 6,
+      "item_level_accuracy": 1,
+      "human_item_level_units": 2,
+      "detected_item_level_units": 2,
+      "missed_all_human_items": false
+    },
+    "bnt": {
+      "units": 6,
+      "exact_surface_correct": 0,
+      "exact_surface_accuracy": 0,
+      "item_level_assessable": 6,
+      "item_level_correct": 5,
+      "item_level_accuracy": 0.8333333333333334,
+      "human_item_level_units": 1,
+      "detected_item_level_units": 0,
+      "missed_all_human_items": true
+    },
+    "cinemateca-portuguesa": {
+      "units": 6,
+      "exact_surface_correct": 2,
+      "exact_surface_accuracy": 0.3333333333333333,
+      "item_level_assessable": 5,
+      "item_level_correct": 3,
+      "item_level_accuracy": 0.6,
+      "human_item_level_units": 2,
+      "detected_item_level_units": 0,
+      "missed_all_human_items": true
+    },
+    "cinematheque-francaise": {
+      "units": 6,
+      "exact_surface_correct": 0,
+      "exact_surface_accuracy": 0,
+      "item_level_assessable": 6,
+      "item_level_correct": 1,
+      "item_level_accuracy": 0.16666666666666666,
+      "human_item_level_units": 5,
+      "detected_item_level_units": 0,
+      "missed_all_human_items": true
+    },
+    "fina": {
+      "units": 1,
+      "exact_surface_correct": 0,
+      "exact_surface_accuracy": 0,
+      "item_level_assessable": 1,
+      "item_level_correct": 1,
+      "item_level_accuracy": 1,
+      "human_item_level_units": 0,
+      "detected_item_level_units": 0,
+      "missed_all_human_items": false
+    },
+    "home-movies-memoryscapes": {
+      "units": 6,
+      "exact_surface_correct": 0,
+      "exact_surface_accuracy": 0,
+      "item_level_assessable": 6,
+      "item_level_correct": 2,
+      "item_level_accuracy": 0.3333333333333333,
+      "human_item_level_units": 4,
+      "detected_item_level_units": 0,
+      "missed_all_human_items": true
+    }
+  },
+  "comparison_with_protocol_2_1": {
+    "prior_experiment_id": "MAR-T2A-M3-VAL-005",
+    "exact_surface_accuracy": {
+      "protocol_2_1": 0.16666666666666666,
+      "protocol_2_2": 0.22580645161290322
+    },
+    "weighted_f1": {
+      "protocol_2_1": 0.2294584500466853,
+      "protocol_2_2": 0.2828236279849183
+    },
+    "binary_item_level": {
+      "precision": {
+        "protocol_2_1": 1,
+        "protocol_2_2": 1
+      },
+      "recall": {
+        "protocol_2_1": 0.2857142857142857,
+        "protocol_2_2": 0.14285714285714285
+      },
+      "f1": {
+        "protocol_2_1": 0.4444444444444445,
+        "protocol_2_2": 0.25
+      },
+      "specificity": {
+        "protocol_2_1": 1,
+        "protocol_2_2": 1
+      },
+      "accuracy": {
+        "protocol_2_1": 0.7222222222222222,
+        "protocol_2_2": 0.6
+      }
+    },
+    "interpretation": "Fine-grained agreement improved modestly relative to protocol 2.1.0, but independent item-level recall fell from 28.57% to 14.29%. Protocol 2.2.0 therefore does not resolve the M4-gating under-detection problem."
+  },
+  "development_to_validation_contrast": {
+    "development_experiment_id": "MAR-T2A-M3-CAL-006",
+    "development_set_role": "development_only_not_independent_evidence",
+    "development_binary_item_recall": 0.7142857142857143,
+    "development_binary_item_f1": 0.8333333333333334,
+    "independent_validation_binary_item_recall": 0.14285714285714285,
+    "independent_validation_binary_item_f1": 0.25,
+    "interpretation": "The large improvement observed on previously human-labelled development data did not generalize to the preregistered unseen ecological sample. The independent VAL-007 result is authoritative for validation status."
+  },
+  "diagnostic_findings": [
+    "BBC is the only strong entity-level cluster in this validation: 5 of 6 fine-grained roles were exact and both human audiovisual items were detected.",
+    "Observation-root fallback over-predicts homepage for semantically richer roots and filtered archive surfaces, including BNT archive, Cinemateca Digital, HENRI, Ninateka and Memoryscapes archive surfaces.",
+    "All five human audiovisual_item pages under Cinémathèque française HENRI were predicted institutional_landing_page, indicating that descendant institutional-root logic dominates item specificity on this architecture.",
+    "Both human audiovisual_item Cinemateca Portuguesa Ficha pages were predicted unknown, despite item-specific ficha URLs and public Vimeo media in the collected context.",
+    "All four human audiovisual_item Memoryscapes clip pages were predicted unknown despite clip-specific routes and detected public MP4/Vimeo media.",
+    "Search/index recognition remains weak: only 1 of 9 human search_or_index surfaces was classified exactly, while six were predicted homepage.",
+    "Access-state inference agreed with the human reference on all 31 units, supporting continued separation of access state from semantic surface role.",
+    "The development-only gains of protocol 2.2.0 on previously labelled units did not generalize to this independent sample, so no tuning conclusion may be drawn from CAL-006 as independent evidence."
+  ],
+  "protocol_deviations": [],
+  "sample_composition_notes": [
+    "All six preregistered entities are represented in the final 31-unit review queue.",
+    "FINA/Ninateka contributed only one eligible observed surface under the preregistered deterministic discovery and exclusion rules. No replacement entity or post-hoc substitution was used."
+  ],
+  "acceptance_assessment": {
+    "fine_grained_surface_typing": "not_validated",
+    "fine_grained_weighted_f1_gate": "failed",
+    "fine_grained_supported_major_class_recall_gate": "failed",
+    "item_level_gate_for_m4": "not_met",
+    "item_level_precision_gate": "passed",
+    "item_level_recall_gate": "failed",
+    "item_level_specificity_gate": "passed",
+    "item_level_entity_failure_rule": "failed",
+    "access_state_dimension": "supported_on_this_sample",
+    "overall_validation_status": "failed",
+    "rationale": "Weighted F1 was 0.2828 against the preregistered 0.50 minimum; every human class with support >=5 had recall below 0.50; binary item-level recall was 14.29% against the 70% minimum; and three entities with at least two human item-level units had all such units missed. Access agreement was 100% but cannot compensate for semantic or item-level failure."
+  },
+  "scientific_decision": "Do not accept protocol 2.2.0 as independently validated for fine-grained M3 surface typing and do not scale M4. Preserve VAL-007 unchanged as the authoritative independent result. Retain access-state separation. Any classifier or sampling improvement must be implemented under a later protocol version and evaluated with a new preregistered, prediction-frozen independent ecological validation before M4 scaling can be reconsidered.",
+  "limitations": [
+    "The independent ecological sample contains 31 units from six entities and is too small for broad generalisation.",
+    "FINA/Ninateka contributed only one review unit, limiting entity-level interpretation for that corpus.",
+    "Homepage, news_or_editorial, item_record and restricted_or_unavailable had zero human support; institutional_landing_page and unknown had support of one. Performance claims for sparse classes are descriptive only.",
+    "Within-entity route repetition is substantial, especially the five HENRI film pages and four Memoryscapes clip pages, so aggregate metrics are sensitive to clustered architecture patterns.",
+    "The sample was not designed to estimate prevalence of surface classes.",
+    "Human labels are authoritative for this blind validation and were frozen before model predictions were opened; they must not be retroactively revised using model output.",
+    "The preregistered thresholds are operational project gates, not population-level confidence intervals or prevalence estimates."
+  ],
+  "prohibited_interpretations": [
+    "does not estimate corpus-wide prevalence of surface classes",
+    "does not validate protocol 2.2.0 for fine-grained surface typing",
+    "does not justify scaling M4",
+    "100% item-level precision does not compensate for 14.29% recall and the entity all-miss failures",
+    "100% access-state agreement does not compensate for semantic surface-role or item-level failure",
+    "does not modify the official T2 baseline",
+    "does not establish corpus membership, institutional AI use or AI participation in audiovisual content",
+    "development-set performance from CAL-006 must not be reported as independent validation evidence"
+  ]
+}
