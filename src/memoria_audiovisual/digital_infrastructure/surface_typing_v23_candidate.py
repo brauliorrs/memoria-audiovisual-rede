@@ -55,6 +55,8 @@ _AV_QUERY_VALUES = {
     "clip",
     "clips",
 }
+_AV_TYPE_QUERY_KEYS = {"type", "media_type", "mediatype", "content_type", "contenttype"}
+_SEARCH_QUERY_KEYS = {"q", "query", "search", "keyword", "keywords", "term"}
 _DETAIL_MARKERS = {
     "fiche",
     "ficha",
@@ -147,7 +149,9 @@ def _query_parts(url: str) -> tuple[set[str], set[str]]:
     parsed = parse_qs(urlsplit(url).query, keep_blank_values=True)
     keys = {key.casefold() for key in parsed}
     values: set[str] = set()
-    for items in parsed.values():
+    for key, items in parsed.items():
+        if key.casefold() not in _AV_TYPE_QUERY_KEYS:
+            continue
         for value in items:
             values.update(
                 token
@@ -252,12 +256,27 @@ def classify_surface_type_candidate(
         key in {"filter", "filters", "facet", "facets"}
         or key.startswith("f[")
         or key.startswith("filter[")
+        or key.startswith("filters[")
         or key.startswith("facet[")
+        or key.startswith("facets[")
         for key in query_keys
     )
 
-    # Preserve explicit filter/facet semantics before attempting an item upgrade.
-    if not has_facet_query:
+    # Search/facet parameters describe an index even when it embeds a trailer.
+    # Preserve prior item decisions for author metadata; never use that metadata
+    # alone to upgrade a non-item surface.
+    explicit_search = has_facet_query or bool(query_keys & _SEARCH_QUERY_KEYS)
+    index_filter = bool(query_keys & _INDEX_QUERY_KEYS)
+    if explicit_search or (index_filter and not base.is_item_level):
+        return SurfaceTypeDecision(
+            "search_or_index",
+            "medium",
+            tuple(base.evidence) + ("candidate:query-index-filter",),
+            base.access_state,
+            base.access_evidence,
+        )
+
+    if not index_filter:
         if fiche_or_detail and (query_declares_av or direct_media):
             return SurfaceTypeDecision(
                 "audiovisual_item",

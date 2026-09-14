@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from memoria_audiovisual.digital_infrastructure.surface_typing_v23_candidate import (
     SURFACE_TYPING_CANDIDATE_VERSION,
     classify_surface_type_candidate,
@@ -59,6 +61,28 @@ def _load_review_cases(version: str):
 
 def test_candidate_version_is_explicitly_development_only():
     assert SURFACE_TYPING_CANDIDATE_VERSION == "2.3.0-dev"
+
+
+@pytest.mark.parametrize("query", ["q=family", "search=family", "filters[genre]=family", "authors=family"])
+def test_explicit_query_index_is_not_promoted_by_embedded_media(query):
+    decision = classify_surface_type_candidate(
+        url=f"https://example.org/films/family-history/?{query}",
+        root_url="https://example.org/",
+        title="Films",
+        media_urls=("https://cdn.example.org/trailer.mp4",),
+    )
+    assert decision.surface_type == "search_or_index"
+    assert decision.is_item_level is False
+
+
+@pytest.mark.parametrize("query", ["q=Video", "note=Video", "utm_campaign=Video"])
+def test_arbitrary_query_value_does_not_declare_audiovisual_type(query):
+    decision = classify_surface_type_candidate(
+        url=f"https://example.org/Ficha.aspx?{query}",
+        root_url="https://example.org/",
+        title="Ficha",
+    )
+    assert decision.surface_type != "audiovisual_item"
 
 
 def test_trailing_slash_film_detail_can_be_audiovisual_without_direct_media():
