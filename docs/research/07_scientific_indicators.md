@@ -2,19 +2,23 @@
 
 ## Role of indicators
 
-Indicators translate documented observations into comparable research measures. They do not replace the underlying evidence and must always be interpreted together with their denominator, exclusions, limitations, and methodology version.
+Indicators translate documented observations into comparable research measures. They do not replace the underlying evidence and must always be interpreted together with their denominator, exclusions, limitations, assessability rules, and methodology version.
 
-Every indicator included in the native analytical registry must also have a scientific catalogue entry explaining:
+Every indicator admitted to the active analytical registry must have a scientific definition explaining:
 
 - the research question it addresses;
 - why it was selected;
 - the observed dimension;
 - the variables used;
 - the calculation rule;
+- the eligible and assessable population;
+- suppression and exclusion rules;
 - how the result should be interpreted;
 - what the result does not measure;
 - its relationship with other indicators;
 - the indicator and methodology versions.
+
+An indicator marked as `implemented` has executable code and controlled tests. This status does not by itself mean that detector accuracy or the empirical result has been validated on a representative sample of real institutions.
 
 ## Audiovisual Archive Access Index
 
@@ -36,7 +40,7 @@ An archive enters the numerator when the observed access route does not require 
 
 ### Corpus rule
 
-Commercial paid image or video banks may be identified and catalogued in the Discovery Registry, but they do not enter the scientific corpus and therefore do not enter either the numerator or denominator.
+Commercial paid image or video banks may be identified and catalogued in the Discovery Registry, but they do not enter the Scientific Corpus and therefore do not enter either the numerator or denominator.
 
 ### Interpretation
 
@@ -54,9 +58,9 @@ The indicator is relevant because APIs can support reuse, integration, computati
 
 ### Research question
 
-What proportion of assessable corpora shows evidence of at least one interoperability mechanism?
+What proportion of assessable corpora shows evidence of at least one recognised interoperability mechanism?
 
-This is a broad coverage measure. It should not be interpreted as proof of full technical conformity or interoperability across the entire archive.
+This is a broad coverage measure. It must not be interpreted as proof of full technical conformity or interoperability across the entire archive.
 
 ## Specific pattern coverage
 
@@ -72,7 +76,7 @@ A positive result requires an explicit recognised value in the relevant observat
 
 ### IIIF Coverage
 
-IIIF is observed because it can support interoperable delivery, description, comparison, and reuse of digital objects. Detection does not prove complete implementation or unrestricted access to the audiovisual content.
+IIIF is observed because it can support interoperable delivery, description, comparison, and reuse of digital objects. Detection does not prove complete implementation or unrestricted access to audiovisual content.
 
 ### OAI-PMH Coverage
 
@@ -98,40 +102,55 @@ How mature is the observable adoption of selected interoperability and structure
 
 The current official version combines IIIF, OAI-PMH, Dublin Core, Schema.org, and JSON-LD with equal weights. The score ranges from 0 to 100.
 
-A corpus is scored only when the minimum number of components is assessable. Available component weights may be renormalised, but missing evidence is not automatically converted into zero.
+A corpus is scored only when the minimum number of components is assessable. Available component weights may be renormalised, but missing or non-assessable evidence is not automatically converted into zero.
 
-The aggregate value is the mean of eligible corpus scores.
+The aggregate value is the mean of eligible corpus scores that satisfy the minimum coverage rule.
 
 ### Limitations
 
 The index is a synthetic measure. It does not prove implementation quality, protocol conformity, coverage of the complete collection, organisational capacity, public access, or preservation maturity.
 
-## Denominators and exclusions
+## Denominators and evaluative states
 
 Unless a specific methodology states otherwise, the analytical framework distinguishes:
 
 - detected;
-- not detected;
+- not detected on the assessed surface;
 - unknown;
 - error;
 - not assessable;
-- missing observation.
+- missing observation;
+- pending human review, when applicable.
 
-Error, not-assessable, and missing-observation states are not interpreted as confirmed absence. Excluded corpora and exclusion reasons remain visible in the analytical result.
+`Not detected` describes the result of the declared observation procedure. It is not equivalent to verified institutional absence. Error, not-assessable, missing-observation, and pending-review states do not enter denominators as confirmed negatives unless a versioned methodology explicitly defines another treatment.
+
+Excluded corpora and exclusion reasons remain visible in analytical outputs.
 
 ## Versioning and comparability
 
-A longitudinal comparison is valid only when the indicator identifier, indicator version, methodology version, corpus rules, and denominator rules are compatible. Methodological breaks must be reported rather than hidden inside a continuous series.
+A longitudinal comparison is valid only when the indicator identifier, indicator version, methodology version, corpus rules, denominator rules, and assessability criteria are compatible. Methodological breaks must be reported rather than hidden inside a continuous series.
 
-## Source of truth
+## Sources of truth
 
-The machine-readable scientific catalogue is stored in:
+The active machine-readable scientific indicator registry is stored in:
 
 ```text
-data/templates/analytics/indicator_catalog.json
+data/templates/analytics/indicator_registry.json
 ```
 
-The technical methodology registry is stored separately so that explanatory documentation and executable analytical contracts can evolve without being conflated.
+The machine-readable methodology registry is stored in:
+
+```text
+data/templates/analytics/methodology_registry.json
+```
+
+Executable indicator implementations are maintained under:
+
+```text
+src/memoria_audiovisual/analytics/
+```
+
+The Research Handbook controls scientific interpretation. The registries control identifiers, versions, dependencies, formulas, and executable methodological contracts. Historical or transitional catalogue files must not be treated as the active source of truth unless explicitly referenced by the current registry.
 
 ---
 

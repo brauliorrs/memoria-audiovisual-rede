@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-08-06T01:59:26.037954+00:00",
+  "indicator_count": 9,
+  "indicators_path": "data/output/analytics/operational-baseline-v1-31064161759/snapshot_indicators.json",
+  "indicators_sha256": "9adaef927a88e285936a1a0e37e2942661e7737580ce707aa848d4a82ae0b743",
+  "methodology_version": "1.0.0",
+  "result_keys": [
+    "operational-baseline-v1-31064161759|api_coverage|1.0.0|1.0.0",
+    "operational-baseline-v1-31064161759|audiovisual_archive_access_index|1.0.0|1.0.0",
+    "operational-baseline-v1-31064161759|dublin_core_coverage|1.0.0|1.0.0",
+    "operational-baseline-v1-31064161759|iiif_coverage|1.0.0|1.0.0",
+    "operational-baseline-v1-31064161759|interoperability_coverage|1.0.0|1.0.0",
+    "operational-baseline-v1-31064161759|interoperability_index|1.0.0|1.0.0",
+    "operational-baseline-v1-31064161759|json_ld_coverage|1.0.0|1.0.0",
+    "operational-baseline-v1-31064161759|oai_pmh_coverage|1.0.0|1.0.0",
+    "operational-baseline-v1-31064161759|schema_org_coverage|1.0.0|1.0.0"
+  ],
+  "snapshot_id": "operational-baseline-v1-31064161759"
+}

@@ -1,0 +1,2714 @@
+{
+  "errors": [],
+  "indicator_count": 9,
+  "methodology_version": "1.0.0",
+  "results": [
+    {
+      "category": "digital_infrastructure",
+      "corpus_count": 55,
+      "denominator": 55,
+      "dimensions": {
+        "detected_corpora": [
+          "aamod",
+          "anf",
+          "aqshf",
+          "autrefois",
+          "bbc",
+          "cdna",
+          "cinematheque-francaise",
+          "czech-television",
+          "dr",
+          "ert",
+          "estonian_film_archive",
+          "europeana",
+          "euscreen",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca_valenciana",
+          "home-movies-memoryscapes",
+          "sfa"
+        ],
+        "detector_group": "api_service",
+        "evaluable_corpora": [
+          "aamod",
+          "aapb",
+          "anf",
+          "ape",
+          "aqshf",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "europeana",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "excluded_corpora": []
+      },
+      "indicator_id": "api_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "notes": [
+        "O denominador inclui apenas corpora com estado avaliável.",
+        "Estados error, not_assessable e missing_observation são excluídos."
+      ],
+      "numerator": 19,
+      "snapshot_id": "operational-baseline-v1-31064161759",
+      "status": "calculated",
+      "title": "Cobertura de APIs",
+      "unit": "percent",
+      "value": 34.5455
+    },
+    {
+      "category": "access",
+      "corpus_count": 55,
+      "denominator": 55,
+      "dimensions": {
+        "barriers": [
+          "cadastro",
+          "cadastro obrigatorio",
+          "registro",
+          "login",
+          "autenticacao",
+          "solicitacao formal",
+          "solicitacao por email",
+          "formulario de acesso",
+          "autorizacao institucional",
+          "paid access",
+          "pagamento",
+          "assinatura"
+        ],
+        "eligible_corpus_codes": [
+          "aamod",
+          "aapb",
+          "anf",
+          "ape",
+          "aqshf",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "europeana",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "excluded_non_corpus": [],
+        "excluded_not_assessable": [],
+        "open_corpora": [
+          "aamod",
+          "aapb",
+          "ape",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "restricted_corpora": [
+          "anf",
+          "aqshf",
+          "europeana"
+        ]
+      },
+      "indicator_id": "audiovisual_archive_access_index",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "notes": [
+        "Mede somente arquivos integrantes do corpus científico.",
+        "Bancos comerciais pagos são catalogados, mas excluídos do corpus e do denominador.",
+        "Acesso aberto significa ausência observada de cadastro, login, pagamento ou solicitação formal."
+      ],
+      "numerator": 52,
+      "snapshot_id": "operational-baseline-v1-31064161759",
+      "status": "calculated",
+      "title": "audiovisual_archive_access_index",
+      "unit": "percent",
+      "value": 94.5455
+    },
+    {
+      "category": "metadata",
+      "corpus_count": 55,
+      "denominator": 55,
+      "dimensions": {
+        "aliases": [
+          "Dublin Core",
+          "DCMI"
+        ],
+        "detected_corpora": [
+          "saint-etienne"
+        ],
+        "detector_group": "metadata_format",
+        "evaluable_corpora": [
+          "aamod",
+          "aapb",
+          "anf",
+          "ape",
+          "aqshf",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "europeana",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "excluded_corpora": [],
+        "pattern": "Dublin Core"
+      },
+      "indicator_id": "dublin_core_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "notes": [
+        "O denominador inclui corpora com o grupo detector em estado avaliável.",
+        "A presença é inferida somente a partir de detected_values normalizados.",
+        "Estados error, not_assessable e missing_observation são excluídos."
+      ],
+      "numerator": 1,
+      "snapshot_id": "operational-baseline-v1-31064161759",
+      "status": "calculated",
+      "title": "Cobertura de Dublin Core",
+      "unit": "percent",
+      "value": 1.8182
+    },
+    {
+      "category": "interoperability",
+      "corpus_count": 55,
+      "denominator": 55,
+      "dimensions": {
+        "aliases": [
+          "IIIF",
+          "International Image Interoperability Framework"
+        ],
+        "detected_corpora": [],
+        "detector_group": "interoperability",
+        "evaluable_corpora": [
+          "aamod",
+          "aapb",
+          "anf",
+          "ape",
+          "aqshf",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "europeana",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "excluded_corpora": [],
+        "pattern": "IIIF"
+      },
+      "indicator_id": "iiif_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "notes": [
+        "O denominador inclui corpora com o grupo detector em estado avaliável.",
+        "A presença é inferida somente a partir de detected_values normalizados.",
+        "Estados error, not_assessable e missing_observation são excluídos."
+      ],
+      "numerator": 0,
+      "snapshot_id": "operational-baseline-v1-31064161759",
+      "status": "calculated",
+      "title": "Cobertura de IIIF",
+      "unit": "percent",
+      "value": 0.0
+    },
+    {
+      "category": "interoperability",
+      "corpus_count": 55,
+      "denominator": 55,
+      "dimensions": {
+        "detected_corpora": [
+          "aamod",
+          "aapb",
+          "aqshf",
+          "asim",
+          "autrefois",
+          "bbc",
+          "czech-television",
+          "dhm",
+          "ert",
+          "european-film-gateway",
+          "euscreen",
+          "eye",
+          "filmoteca_valenciana",
+          "ina",
+          "saint-etienne",
+          "sfa"
+        ],
+        "detector_group": "interoperability",
+        "evaluable_corpora": [
+          "aamod",
+          "aapb",
+          "anf",
+          "ape",
+          "aqshf",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "europeana",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "excluded_corpora": []
+      },
+      "indicator_id": "interoperability_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "notes": [
+        "O denominador inclui apenas corpora com estado avaliável.",
+        "Estados error, not_assessable e missing_observation são excluídos."
+      ],
+      "numerator": 16,
+      "snapshot_id": "operational-baseline-v1-31064161759",
+      "status": "calculated",
+      "title": "Cobertura de interoperabilidade",
+      "unit": "percent",
+      "value": 29.0909
+    },
+    {
+      "category": "composite_index",
+      "corpus_count": 55,
+      "denominator": 55,
+      "dimensions": {
+        "component_states": {
+          "aamod": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "aapb": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "anf": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "ape": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "aqshf": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "archipop": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "asim": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "autrefois": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "barch": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "bbc": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "bfi": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "bnfa": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "bnt": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "ccma": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "cdna": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "ciclic": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "cineam": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "cinearchives": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "cinemateca-portuguesa": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "cinematek": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "cinematheque-bretagne": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "cinematheque-francaise": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "cinememoire": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "cna": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "cpsa": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "crnogorska-kinoteka": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "csc-cineteca-nazionale": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "czech-television": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "deutsche-kinemathek": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "dff": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "dhm": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "dr": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "ecpad": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "ert": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "estonian_film_archive": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "european-film-gateway": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "europeana": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "euscreen": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "eye": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "far": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "filmarchiv_austria": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "filmmuseum_dusseldorf": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            }
+          },
+          "filmoteca-vasca": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "filmoteca_catalunya": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "filmoteca_espanola": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "filmoteca_valenciana": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "fina": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "home-movies-memoryscapes": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "iam": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "ina": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "luce": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "not_detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "pares": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "portal-portugues-arquivos": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": false,
+              "status": "unknown",
+              "weight": 0.2
+            }
+          },
+          "saint-etienne": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            }
+          },
+          "sfa": {
+            "Dublin Core": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "IIIF": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "JSON-LD": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "OAI-PMH": {
+              "evaluable": true,
+              "present": false,
+              "status": "detected",
+              "weight": 0.2
+            },
+            "Schema.org": {
+              "evaluable": true,
+              "present": true,
+              "status": "detected",
+              "weight": 0.2
+            }
+          }
+        },
+        "corpus_scores": {
+          "aamod": 0.0,
+          "aapb": 0.0,
+          "anf": 0.0,
+          "ape": 0.0,
+          "aqshf": 0.0,
+          "archipop": 0.0,
+          "asim": 0.0,
+          "autrefois": 0.0,
+          "barch": 0.0,
+          "bbc": 40.0,
+          "bfi": 0.0,
+          "bnfa": 0.0,
+          "bnt": 0.0,
+          "ccma": 0.0,
+          "cdna": 0.0,
+          "ciclic": 0.0,
+          "cineam": 0.0,
+          "cinearchives": 0.0,
+          "cinemateca-portuguesa": 0.0,
+          "cinematek": 0.0,
+          "cinematheque-bretagne": 0.0,
+          "cinematheque-francaise": 0.0,
+          "cinememoire": 0.0,
+          "cna": 0.0,
+          "cpsa": 0.0,
+          "crnogorska-kinoteka": 0.0,
+          "csc-cineteca-nazionale": 0.0,
+          "czech-television": 40.0,
+          "deutsche-kinemathek": 0.0,
+          "dff": 0.0,
+          "dhm": 0.0,
+          "dr": 0.0,
+          "ecpad": 0.0,
+          "ert": 0.0,
+          "estonian_film_archive": 0.0,
+          "european-film-gateway": 0.0,
+          "europeana": 0.0,
+          "euscreen": 40.0,
+          "eye": 0.0,
+          "far": 0.0,
+          "filmarchiv_austria": 0.0,
+          "filmmuseum_dusseldorf": 0.0,
+          "filmoteca-vasca": 0.0,
+          "filmoteca_catalunya": 0.0,
+          "filmoteca_espanola": 0.0,
+          "filmoteca_valenciana": 40.0,
+          "fina": 0.0,
+          "home-movies-memoryscapes": 0.0,
+          "iam": 0.0,
+          "ina": 40.0,
+          "luce": 0.0,
+          "pares": 0.0,
+          "portal-portugues-arquivos": 0.0,
+          "saint-etienne": 60.0,
+          "sfa": 40.0
+        },
+        "eligible_corpora": [
+          "aamod",
+          "aapb",
+          "anf",
+          "ape",
+          "aqshf",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "europeana",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "excluded_corpora": {},
+        "minimum_evaluable_components": 3,
+        "weights": {
+          "Dublin Core": 0.2,
+          "IIIF": 0.2,
+          "JSON-LD": 0.2,
+          "OAI-PMH": 0.2,
+          "Schema.org": 0.2
+        }
+      },
+      "indicator_id": "interoperability_index",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "notes": [
+        "Os cinco componentes possuem peso igual de 0,20.",
+        "Pesos ausentes são renormalizados somente quando ao menos três componentes são avaliáveis.",
+        "O valor agregado é a média aritmética dos escores dos corpora elegíveis.",
+        "O índice mede sinais observados, não conformidade técnica integral."
+      ],
+      "numerator": 300.0,
+      "snapshot_id": "operational-baseline-v1-31064161759",
+      "status": "calculated",
+      "title": "Índice de interoperabilidade",
+      "unit": "score_0_100",
+      "value": 5.4545
+    },
+    {
+      "category": "metadata",
+      "corpus_count": 55,
+      "denominator": 55,
+      "dimensions": {
+        "aliases": [
+          "JSON-LD",
+          "JavaScript Object Notation for Linked Data"
+        ],
+        "detected_corpora": [
+          "bbc",
+          "czech-television",
+          "euscreen",
+          "filmoteca_valenciana",
+          "ina",
+          "saint-etienne",
+          "sfa"
+        ],
+        "detector_group": "metadata_format",
+        "evaluable_corpora": [
+          "aamod",
+          "aapb",
+          "anf",
+          "ape",
+          "aqshf",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "europeana",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "excluded_corpora": [],
+        "pattern": "JSON-LD"
+      },
+      "indicator_id": "json_ld_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "notes": [
+        "O denominador inclui corpora com o grupo detector em estado avaliável.",
+        "A presença é inferida somente a partir de detected_values normalizados.",
+        "Estados error, not_assessable e missing_observation são excluídos."
+      ],
+      "numerator": 7,
+      "snapshot_id": "operational-baseline-v1-31064161759",
+      "status": "calculated",
+      "title": "Cobertura de JSON-LD",
+      "unit": "percent",
+      "value": 12.7273
+    },
+    {
+      "category": "interoperability",
+      "corpus_count": 55,
+      "denominator": 55,
+      "dimensions": {
+        "aliases": [
+          "OAI-PMH",
+          "Open Archives Initiative Protocol for Metadata Harvesting"
+        ],
+        "detected_corpora": [],
+        "detector_group": "interoperability",
+        "evaluable_corpora": [
+          "aamod",
+          "aapb",
+          "anf",
+          "ape",
+          "aqshf",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "europeana",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "excluded_corpora": [],
+        "pattern": "OAI-PMH"
+      },
+      "indicator_id": "oai_pmh_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "notes": [
+        "O denominador inclui corpora com o grupo detector em estado avaliável.",
+        "A presença é inferida somente a partir de detected_values normalizados.",
+        "Estados error, not_assessable e missing_observation são excluídos."
+      ],
+      "numerator": 0,
+      "snapshot_id": "operational-baseline-v1-31064161759",
+      "status": "calculated",
+      "title": "Cobertura de OAI-PMH",
+      "unit": "percent",
+      "value": 0.0
+    },
+    {
+      "category": "metadata",
+      "corpus_count": 55,
+      "denominator": 55,
+      "dimensions": {
+        "aliases": [
+          "Schema.org",
+          "schema org"
+        ],
+        "detected_corpora": [
+          "bbc",
+          "czech-television",
+          "euscreen",
+          "filmoteca_valenciana",
+          "ina",
+          "saint-etienne",
+          "sfa"
+        ],
+        "detector_group": "metadata_format",
+        "evaluable_corpora": [
+          "aamod",
+          "aapb",
+          "anf",
+          "ape",
+          "aqshf",
+          "archipop",
+          "asim",
+          "autrefois",
+          "barch",
+          "bbc",
+          "bfi",
+          "bnfa",
+          "bnt",
+          "ccma",
+          "cdna",
+          "ciclic",
+          "cineam",
+          "cinearchives",
+          "cinemateca-portuguesa",
+          "cinematek",
+          "cinematheque-bretagne",
+          "cinematheque-francaise",
+          "cinememoire",
+          "cna",
+          "cpsa",
+          "crnogorska-kinoteka",
+          "csc-cineteca-nazionale",
+          "czech-television",
+          "deutsche-kinemathek",
+          "dff",
+          "dhm",
+          "dr",
+          "ecpad",
+          "ert",
+          "estonian_film_archive",
+          "european-film-gateway",
+          "europeana",
+          "euscreen",
+          "eye",
+          "far",
+          "filmarchiv_austria",
+          "filmmuseum_dusseldorf",
+          "filmoteca-vasca",
+          "filmoteca_catalunya",
+          "filmoteca_espanola",
+          "filmoteca_valenciana",
+          "fina",
+          "home-movies-memoryscapes",
+          "iam",
+          "ina",
+          "luce",
+          "pares",
+          "portal-portugues-arquivos",
+          "saint-etienne",
+          "sfa"
+        ],
+        "excluded_corpora": [],
+        "pattern": "Schema.org"
+      },
+      "indicator_id": "schema_org_coverage",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "notes": [
+        "O denominador inclui corpora com o grupo detector em estado avaliável.",
+        "A presença é inferida somente a partir de detected_values normalizados.",
+        "Estados error, not_assessable e missing_observation são excluídos."
+      ],
+      "numerator": 7,
+      "snapshot_id": "operational-baseline-v1-31064161759",
+      "status": "calculated",
+      "title": "Cobertura de Schema.org",
+      "unit": "percent",
+      "value": 12.7273
+    }
+  ],
+  "snapshot_id": "operational-baseline-v1-31064161759",
+  "status": "completed"
+}

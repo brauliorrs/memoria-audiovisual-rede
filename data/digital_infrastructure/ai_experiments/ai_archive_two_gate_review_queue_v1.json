@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "queue_id": "ai-archive-two-gate-candidates-v1",
+  "source_workflow_run_id": "32169213217",
+  "source_artifact_id": "9336613400",
+  "stage": "t2a_ai_archive_gate2_validation",
+  "status": "pending_human_review",
+  "is_prevalence_sample": false,
+  "does_not_modify_official_baseline": true,
+  "source_rule": "candidates originate only from materialized records under data/output associated with active MAR corpora",
+  "public_access_rule": "publicly observable item surface is required, consistent with the MAR incorporation eligibility gate",
+  "decision_rule": "archive positive only if gate1 terminology/context is positive AND observation is an audiovisual item/version/segment AND item belongs to observed corpus AND public item surface is accessible AND evidence is linked to that item",
+  "gate2_prediction_blinding": true,
+  "candidates_total": 2,
+  "units": [
+    {
+      "review_unit_id": "ecpad-archive-ai-b4779e41f0cc8213",
+      "entity_id": "ecpad",
+      "source_output_file": "ecpad_catalogo_videos_analitico.csv",
+      "source_record_index": 84,
+      "item_url": "https://archives.ecpad.fr/archives/archives",
+      "title": null,
+      "gate1_terminology_context_positive": true,
+      "gate1_evidence_strength": "verified_disclosure",
+      "gate1_matched_evidence": "intelligence artificielle + production",
+      "gate2_prediction_blinded": true,
+      "human_is_item_level_observation": null,
+      "human_item_in_observed_corpus": null,
+      "human_public_surface_accessible": null,
+      "human_evidence_linked_to_item": null,
+      "human_archive_ai_label": null,
+      "review_status": "pending"
+    },
+    {
+      "review_unit_id": "ina-archive-ai-5f9339c88c64aceb",
+      "entity_id": "ina",
+      "source_output_file": "ina_catalogo_videos_analitico.csv",
+      "source_record_index": 21,
+      "item_url": "https://www.ina.fr/institut-national-audiovisuel",
+      "title": null,
+      "gate1_terminology_context_positive": true,
+      "gate1_evidence_strength": "verified_disclosure",
+      "gate1_matched_evidence": "intelligence artificielle + audio",
+      "gate2_prediction_blinded": true,
+      "human_is_item_level_observation": null,
+      "human_item_in_observed_corpus": null,
+      "human_public_surface_accessible": null,
+      "human_evidence_linked_to_item": null,
+      "human_archive_ai_label": null,
+      "review_status": "pending"
+    }
+  ]
+}

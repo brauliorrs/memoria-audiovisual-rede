@@ -1,0 +1,504 @@
+{
+  "schema_version": "2.0.0",
+  "artifact_id": "m3-surface-type-independent-predictions-v2",
+  "task": "mar_surface_type_classification",
+  "status": "ready",
+  "is_scientific_result": false,
+  "classes": [
+    "homepage",
+    "institutional_landing_page",
+    "archive_landing_page",
+    "search_or_index",
+    "news_or_editorial",
+    "item_record",
+    "audiovisual_item",
+    "restricted_or_unavailable",
+    "unknown"
+  ],
+  "units_total": 33,
+  "units": [
+    {
+      "review_unit_id": "cinearchives-surface-51ab24d88ae08c54",
+      "entity_id": "cinearchives",
+      "root_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "page_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "predicted_surface_type": "archive_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:catalogue",
+        "title:archive"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinearchives-surface-5bc72ad179c15111",
+      "entity_id": "cinearchives",
+      "root_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "page_url": "https://www.cinearchives.org/catalogue-22-extraits-sur-lenine-1104-97-1-1.html",
+      "predicted_surface_type": "archive_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:catalogue",
+        "title:archive"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinearchives-surface-ead09dcf869711dc",
+      "entity_id": "cinearchives",
+      "root_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "page_url": "https://www.cinearchives.org/catalogue-histoire-du-parti-communiste-francais-1920-1935-1104-98-1-1.html",
+      "predicted_surface_type": "archive_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:catalogue",
+        "title:archive"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinearchives-surface-a63133cf086cd4fe",
+      "entity_id": "cinearchives",
+      "root_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "page_url": "https://www.cinearchives.org/catalogue-inauguration-du-monument-aux-morts-de-lyon-par-le-marechal-petain-et-edouard-herriot-1104-2518-1-1.html",
+      "predicted_surface_type": "archive_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:catalogue",
+        "title:archive"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinearchives-surface-96aefb58331a3d52",
+      "entity_id": "cinearchives",
+      "root_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "page_url": "https://www.cinearchives.org/js/ajax/diaPlugins/1104/ajax/add/kwtheme/1438",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "collector_blocked",
+      "predicted_access_evidence": [
+        "fetch_status:blocked_by_robots"
+      ]
+    },
+    {
+      "review_unit_id": "cinearchives-surface-38f8c1d8660ef9b0",
+      "entity_id": "cinearchives",
+      "root_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "page_url": "https://www.cinearchives.org/js/ajax/diaPlugins/1104/ajax/add/kwtheme/2457",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "collector_blocked",
+      "predicted_access_evidence": [
+        "fetch_status:blocked_by_robots"
+      ]
+    },
+    {
+      "review_unit_id": "cinearchives-surface-8a19e39ff5a779fa",
+      "entity_id": "cinearchives",
+      "root_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "page_url": "https://www.cinearchives.org/js/ajax/diaPlugins/1104/ajax/add/kwname/25447",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "collector_blocked",
+      "predicted_access_evidence": [
+        "fetch_status:blocked_by_robots"
+      ]
+    },
+    {
+      "review_unit_id": "cinearchives-surface-66a795b109e7d83e",
+      "entity_id": "cinearchives",
+      "root_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "page_url": "https://www.cinearchives.org/js/ajax/diaPlugins/1104/ajax/add/kwname/26884",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "collector_blocked",
+      "predicted_access_evidence": [
+        "fetch_status:blocked_by_robots"
+      ]
+    },
+    {
+      "review_unit_id": "cinememoire-surface-8d74b02826fc5e8b",
+      "entity_id": "cinememoire",
+      "root_url": "https://cinememoire.net/recherche-simple",
+      "page_url": "https://cinememoire.net/recherche-simple",
+      "predicted_surface_type": "search_or_index",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:recherche"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinememoire-surface-18eddec11fec2edc",
+      "entity_id": "cinememoire",
+      "root_url": "https://cinememoire.net/recherche-simple",
+      "page_url": "https://cinememoire.net/archives-cinememoire-ligne/films-darchives-des-anciennes-colonies",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinememoire-surface-7f7885025bb76003",
+      "entity_id": "cinememoire",
+      "root_url": "https://cinememoire.net/recherche-simple",
+      "page_url": "https://cinememoire.net/archives-cinememoire-ligne/films-darchives-des-anciennes-colonies/433-films-darchives-de-la-rca",
+      "predicted_surface_type": "news_or_editorial",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "structured:article"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinememoire-surface-c6a0f033b262c670",
+      "entity_id": "cinememoire",
+      "root_url": "https://cinememoire.net/recherche-simple",
+      "page_url": "https://cinememoire.net/acces-pro",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinememoire-surface-01deb7c462d65807",
+      "entity_id": "cinememoire",
+      "root_url": "https://cinememoire.net/recherche-simple",
+      "page_url": "https://cinememoire.net/archives-cinememoire-ligne/comite-du-vieux-marseille",
+      "predicted_surface_type": "archive_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:archives",
+        "title:fonds"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinememoire-surface-4696977fe7757d34",
+      "entity_id": "cinememoire",
+      "root_url": "https://cinememoire.net/recherche-simple",
+      "page_url": "https://cinememoire.net/archives-cinememoire-ligne/archives-cinememoire-ligne/120-fiche-film/276-film-entomologiste-araignee",
+      "predicted_surface_type": "search_or_index",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:nested-or-repeated-archive-index-context"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinememoire-surface-f0806e54c9accebb",
+      "entity_id": "cinememoire",
+      "root_url": "https://cinememoire.net/recherche-simple",
+      "page_url": "https://cinememoire.net/archives-cinememoire-ligne/archives-cinememoire-ligne/120-fiche-film/281-film-viviers-en-ardeche",
+      "predicted_surface_type": "search_or_index",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:nested-or-repeated-archive-index-context"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "cinememoire-surface-35778d8db7d1550b",
+      "entity_id": "cinememoire",
+      "root_url": "https://cinememoire.net/recherche-simple",
+      "page_url": "https://cinememoire.net/archives-cinememoire-ligne/coumes",
+      "predicted_surface_type": "archive_landing_page",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:archives",
+        "title:fonds"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "eafa-surface-c2ad501be0082d8e",
+      "entity_id": "eafa",
+      "root_url": "https://eafa.org.uk/",
+      "page_url": "https://eafa.org.uk/",
+      "predicted_surface_type": "homepage",
+      "prediction_confidence": "high",
+      "prediction_evidence": [
+        "observation_root_surface"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "http_error",
+      "predicted_access_evidence": [
+        "fetch_status:http_error"
+      ]
+    },
+    {
+      "review_unit_id": "eye-surface-0e0bcccd014a3bc9",
+      "entity_id": "eye",
+      "root_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "predicted_surface_type": "homepage",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "observation_root_surface"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "eye-surface-19f44517291c40c4",
+      "entity_id": "eye",
+      "root_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1896%2B1897%2B1898%2B1899?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "predicted_surface_type": "audiovisual_item",
+      "prediction_confidence": "high",
+      "prediction_evidence": [
+        "path:film",
+        "path:multiple-numeric-id-groups",
+        "path:id-like-tail",
+        "title:present"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "eye-surface-76c210ff0253fb5f",
+      "entity_id": "eye",
+      "root_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1896?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "eye-surface-cc48cf9e2b49dd32",
+      "entity_id": "eye",
+      "root_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1897?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "eye-surface-b2d1fb3b74f87e69",
+      "entity_id": "eye",
+      "root_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1898?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "eye-surface-f248c89fa4bffad1",
+      "entity_id": "eye",
+      "root_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1899?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "eye-surface-1623a90e82de5ef0",
+      "entity_id": "eye",
+      "root_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1900%2B1901%2B1902%2B1903%2B1904%2B1905%2B1906%2B1907%2B1908%2B1909?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "predicted_surface_type": "audiovisual_item",
+      "prediction_confidence": "high",
+      "prediction_evidence": [
+        "path:film",
+        "path:multiple-numeric-id-groups",
+        "path:id-like-tail",
+        "title:present"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "eye-surface-b3fc4afd64fb050c",
+      "entity_id": "eye",
+      "root_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "page_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1900?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment",
+      "predicted_surface_type": "unknown",
+      "prediction_confidence": "low",
+      "prediction_evidence": [],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "luce-surface-90222bd0ad6f3d27",
+      "entity_id": "luce",
+      "root_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?activeFilter=archiveType_string&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&query=",
+      "page_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?activeFilter=archiveType_string&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&query=",
+      "predicted_surface_type": "search_or_index",
+      "prediction_confidence": "high",
+      "prediction_evidence": [
+        "path:search",
+        "query:search-parameter"
+      ],
+      "predicted_item_level": false,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "luce-surface-b660cbd5fbc97cce",
+      "entity_id": "luce",
+      "root_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?activeFilter=archiveType_string&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&query=",
+      "page_url": "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052570/2/l-esercito-americano-italia-durante-prima-guerra-mondiale-111-h-1228.html?startPage=0",
+      "predicted_surface_type": "item_record",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:detail",
+        "path:multiple-numeric-id-groups",
+        "title:present"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "luce-surface-4a37904e333d6734",
+      "entity_id": "luce",
+      "root_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?activeFilter=archiveType_string&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&query=",
+      "page_url": "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052599/2/il-presidente-americano-wilson-italia-111-h-1235.html?startPage=0",
+      "predicted_surface_type": "item_record",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:detail",
+        "path:multiple-numeric-id-groups",
+        "title:present"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "luce-surface-e3a9603548540b32",
+      "entity_id": "luce",
+      "root_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?activeFilter=archiveType_string&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&query=",
+      "page_url": "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052603/2/gli-americani-francia-111-adc-139.html?startPage=0",
+      "predicted_surface_type": "item_record",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:detail",
+        "path:multiple-numeric-id-groups",
+        "title:present"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "luce-surface-31ab175bb6228d1c",
+      "entity_id": "luce",
+      "root_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?activeFilter=archiveType_string&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&query=",
+      "page_url": "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052622/2/il-presidente-americano-wilson-parte-francia-111-h-1229.html?startPage=0",
+      "predicted_surface_type": "item_record",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:detail",
+        "path:multiple-numeric-id-groups",
+        "title:present"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "luce-surface-f8917341bd04a1f2",
+      "entity_id": "luce",
+      "root_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?activeFilter=archiveType_string&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&query=",
+      "page_url": "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052628/2/il-kaiser-tedesco-e-prima-guerra-mondiale-111-h-1102.html?startPage=0",
+      "predicted_surface_type": "item_record",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:detail",
+        "path:multiple-numeric-id-groups",
+        "title:present"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "luce-surface-6a69c463cf12ba1a",
+      "entity_id": "luce",
+      "root_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?activeFilter=archiveType_string&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&query=",
+      "page_url": "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052632/2/battaglia-sulle-colline-italiane-200-cbs-361.html?startPage=0",
+      "predicted_surface_type": "item_record",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:detail",
+        "path:multiple-numeric-id-groups",
+        "title:present"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    },
+    {
+      "review_unit_id": "luce-surface-553e999377f11399",
+      "entity_id": "luce",
+      "root_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?activeFilter=archiveType_string&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&query=",
+      "page_url": "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052652/2/il-fronte-italiano-200-cbs-35.html?startPage=0",
+      "predicted_surface_type": "item_record",
+      "prediction_confidence": "medium",
+      "prediction_evidence": [
+        "path:detail",
+        "path:multiple-numeric-id-groups",
+        "title:present"
+      ],
+      "predicted_item_level": true,
+      "predicted_access_state": "accessible",
+      "predicted_access_evidence": []
+    }
+  ],
+  "protocol_version": "2.0.0",
+  "sample_role": "independent_ecological_validation",
+  "is_independent_validation_sample": true,
+  "excluded_reference_urls_total": 17,
+  "excluded_observed_matches": 0,
+  "does_not_modify_official_baseline": true
+}

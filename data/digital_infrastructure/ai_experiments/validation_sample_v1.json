@@ -1,0 +1,122 @@
+{
+  "entries": [
+    {
+      "analytical_stratum": "continental_aggregator",
+      "annotation_status": "pending_annotation",
+      "entity_code": "ape",
+      "geographic_group": "Europe",
+      "language_group": "multilingual",
+      "selected_tasks": [
+        "institutional_ai_use",
+        "audiovisual_collection_detection",
+        "public_video_presence_detection",
+        "synthetic_video_detection"
+      ],
+      "selection_rationale": "Agregador continental e superfície geral de arquivos."
+    },
+    {
+      "analytical_stratum": "continental_aggregator",
+      "annotation_status": "pending_annotation",
+      "entity_code": "europeana",
+      "geographic_group": "Europe",
+      "language_group": "multilingual",
+      "selected_tasks": [
+        "institutional_ai_use",
+        "audiovisual_collection_detection",
+        "public_video_presence_detection",
+        "synthetic_video_detection"
+      ],
+      "selection_rationale": "Agregador europeu com metadados heterogêneos."
+    },
+    {
+      "analytical_stratum": "specialised_audiovisual_institution",
+      "annotation_status": "pending_annotation",
+      "entity_code": "ina",
+      "geographic_group": "Europe",
+      "language_group": "fr",
+      "selected_tasks": [
+        "institutional_ai_use",
+        "audiovisual_collection_detection",
+        "public_video_presence_detection",
+        "synthetic_video_detection"
+      ],
+      "selection_rationale": "Instituição audiovisual especializada com superfícies públicas próprias."
+    },
+    {
+      "analytical_stratum": "national_audiovisual_institution",
+      "annotation_status": "pending_annotation",
+      "entity_code": "bfi",
+      "geographic_group": "Europe",
+      "language_group": "en",
+      "selected_tasks": [
+        "institutional_ai_use",
+        "audiovisual_collection_detection",
+        "public_video_presence_detection",
+        "synthetic_video_detection"
+      ],
+      "selection_rationale": "Instituição audiovisual de língua inglesa e catálogo público."
+    },
+    {
+      "analytical_stratum": "regional_archive_with_public_player",
+      "annotation_status": "pending_annotation",
+      "entity_code": "archipop",
+      "geographic_group": "Europe",
+      "language_group": "fr",
+      "selected_tasks": [
+        "institutional_ai_use",
+        "audiovisual_collection_detection",
+        "public_video_presence_detection",
+        "synthetic_video_detection"
+      ],
+      "selection_rationale": "Arquivo regional com fichas de filmes e player incorporado."
+    },
+    {
+      "analytical_stratum": "extraeuropean_contrast",
+      "annotation_status": "pending_annotation",
+      "entity_code": "aapb",
+      "geographic_group": "North America",
+      "language_group": "en",
+      "selected_tasks": [
+        "institutional_ai_use",
+        "audiovisual_collection_detection",
+        "public_video_presence_detection",
+        "synthetic_video_detection"
+      ],
+      "selection_rationale": "Primeiro corpus extraeuropeu e contraste continental inicial."
+    }
+  ],
+  "sample": {
+    "does_not_activate_indicators": true,
+    "is_gold_standard": false,
+    "purpose": "Validar separadamente uso institucional de IA, triagem do observatório e detecção de conteúdo audiovisual sintético.",
+    "sample_id": "ai-validation-sample-v1",
+    "selection_limitations": "Amostra inicial restrita ao corpus ativo atual; não representa ainda África, Ásia, Oceania ou América Latina e Caribe.",
+    "status": "initial_pending_human_annotation",
+    "version": "1.0.0"
+  },
+  "summary": {
+    "analytical_strata": [
+      "continental_aggregator",
+      "extraeuropean_contrast",
+      "national_audiovisual_institution",
+      "regional_archive_with_public_player",
+      "specialised_audiovisual_institution"
+    ],
+    "entities": 6,
+    "geographic_groups": [
+      "Europe",
+      "North America"
+    ],
+    "language_groups": [
+      "en",
+      "fr",
+      "multilingual"
+    ],
+    "tasks": [
+      "institutional_ai_use",
+      "audiovisual_collection_detection",
+      "public_video_presence_detection",
+      "synthetic_video_detection"
+    ]
+  }
+}

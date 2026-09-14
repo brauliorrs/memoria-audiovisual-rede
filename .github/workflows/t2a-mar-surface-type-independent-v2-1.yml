@@ -1,0 +1,20 @@
+name: T2A MAR surface typing independent validation v2.1 [LOCKED]
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authoritative-freeze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authoritative validation already frozen
+        run: |
+          echo "M3 protocol 2.1.0 independent validation is locked after prediction freeze."
+          echo "Authoritative workflow run: 32911622199"
+          echo "Authoritative artifact: 9586738789"
+          echo "Prediction SHA-256: 1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb"
+          echo "Review queue SHA-256: 696d6366a8c5b2e20a26137cf91fb6775c3ea9485d81caf9dd9583e20db0b242"
+          echo "Do not recrawl or regenerate predictions for VAL-005. Any later classifier change requires a new protocol/version."

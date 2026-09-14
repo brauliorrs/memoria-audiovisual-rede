@@ -1,0 +1,16 @@
+name: T2A MAR surface typing calibration smoke 2.1 (historical locked)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  historical-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Historical protocol lock
+        run: |
+          echo "M3 protocol 2.1 calibration smoke is historical and locked."
+          echo "Protocol 2.2 development and validation must use versioned workflows."

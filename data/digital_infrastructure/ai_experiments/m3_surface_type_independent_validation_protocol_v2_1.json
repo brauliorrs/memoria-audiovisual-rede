@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "MAR-T2A-M3-VAL-005-PROTOCOL",
+  "stage": "t2a_mar_surface_typing_independent_validation",
+  "surface_typing_protocol_version": "2.1.0",
+  "preregistered_on": "2026-08-25",
+  "status": "preregistered_before_execution",
+  "does_not_modify_official_baseline": true,
+  "intended_claim_level": "empirical_validation",
+  "is_prevalence_sample": false,
+  "sample_role": "independent_ecological_validation",
+  "unit_of_analysis": "public web surface observed by the MAR controlled discovery protocol",
+  "selection_rule": "Collect a deterministic bounded crawl from six active corpora that were not used in either prior M3 human-review set. Preserve discovery order and include eligible observed surfaces without selecting or balancing units using M3 predictions. Exclude every URL from the 17-unit calibration set and the 33-unit independent validation of protocol 2.0.0 before predictions are generated.",
+  "entities": [
+    "dff",
+    "filmarchiv_austria",
+    "euscreen",
+    "czech-television",
+    "ciclic",
+    "cineam"
+  ],
+  "collection_policy": {
+    "max_depth": 2,
+    "max_pages_per_entity": 8,
+    "timeout_seconds": 12.0,
+    "respect_robots_txt": true,
+    "max_review_units": 36,
+    "minimum_review_units": 18
+  },
+  "exclusion_sources": [
+    "tests/fixtures/m3_surface_typing_calibration_v1.json",
+    "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json"
+  ],
+  "excluded_known_units_expected": 50,
+  "development_evidence": {
+    "prior_calibration_units": 17,
+    "prior_protocol_2_0_independent_units_reused_only_for_post_validation_development": 33,
+    "known_units_total": 50,
+    "development_only_not_performance_evidence": true
+  },
+  "prediction_freeze_rule": "Automatic predictions and the blinded review queue must be materialized and SHA-256 hashed before any human review unit is opened.",
+  "blinding_rule": "The human reviewer must not see predicted_surface_type, predicted_item_level, prediction_confidence, prediction_evidence, predicted_access_state or predicted_access_evidence until the human review artifact is closed.",
+  "evaluation_plan": {
+    "primary": "multiclass surface-role confusion matrix and per-class precision, recall and F1 on the new ecological sample",
+    "secondary": "binary item-level versus non-item-level precision, recall, F1, specificity and accuracy",
+    "access_dimension": "compare access-state agreement separately from semantic surface role",
+    "rare_class_policy": "Classes absent or too sparse in the ecological sample will not receive generalized performance claims; targeted challenge sets, if later created, must be reported separately."
+  },
+  "acceptance_guidance": {
+    "fine_grained_surface_typing": "No single aggregate threshold is sufficient; inspect multiclass confusion, per-class support and systematic entity-specific errors.",
+    "item_level_gate": "Binary item-level recall and false-positive behaviour must be materially improved over protocol 2.0.0 before M4 is scaled.",
+    "access_state": "Access-state agreement remains a separate diagnostic dimension and cannot compensate for semantic-role errors."
+  },
+  "stop_rule": "Do not modify protocol 2.1.0 after automatic predictions are frozen. Any defect discovered after freeze is a validation finding and may only be corrected in a later protocol version.",
+  "prohibited_interpretations": [
+    "the sample is not a prevalence sample",
+    "the 50 known development units cannot be reported as independent performance evidence for protocol 2.1.0",
+    "collector access failures are not scientific negatives",
+    "validation of M3 surface typing does not establish corpus membership, institutional AI use or AI participation in audiovisual content",
+    "successful regression on known cases does not substitute for this independent validation"
+  ]
+}

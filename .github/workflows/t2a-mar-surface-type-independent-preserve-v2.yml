@@ -1,0 +1,164 @@
+name: T2A MAR preserve frozen independent validation v2
+
+on:
+  pull_request:
+    branches:
+      - feature/fase2-adaptador-auditoria-infraestrutura
+    paths:
+      - ".github/workflows/t2a-mar-surface-type-independent-preserve-v2.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  preserve:
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_RUN_ID: "32857274723"
+      SOURCE_ARTIFACT_ID: "9566711703"
+      SOURCE_ARTIFACT_DIGEST: "sha256:26348572af75702b6054193532ae89206625b0c3622bc05e7a2af3cafc819632"
+      RUN_DIR: "m3-surface-independent-v2-32857274723"
+      DEST_ROOT: "data/digital_infrastructure/ai_experiments"
+    steps:
+      - name: Checkout head branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Download exact frozen artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/m3-frozen
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}/zip" > /tmp/m3-frozen/artifact.zip
+          unzip -q /tmp/m3-frozen/artifact.zip -d /tmp/m3-frozen/unpacked
+
+      - name: Verify frozen hashes and source run
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path('/tmp/m3-frozen/unpacked')
+          prediction = root / 'm3_surface_type_independent_predictions_v2.json'
+          review = root / 'm3_surface_type_independent_review_queue_v2.json'
+          freeze_path = root / 'm3_surface_type_independent_prediction_freeze_v2.json'
+          freeze = json.loads(freeze_path.read_text(encoding='utf-8'))
+
+          if str(freeze.get('source_workflow_run_id')) != os.environ['SOURCE_RUN_ID']:
+              raise SystemExit('freeze manifest belongs to a different workflow run')
+          if freeze.get('frozen_before_human_review') is not True:
+              raise SystemExit('prediction artifact was not frozen before human review')
+          if freeze.get('is_independent_validation_sample') is not True:
+              raise SystemExit('artifact is not marked as independent validation')
+
+          pred_sha = hashlib.sha256(prediction.read_bytes()).hexdigest()
+          review_sha = hashlib.sha256(review.read_bytes()).hexdigest()
+          if pred_sha != freeze.get('prediction_sha256'):
+              raise SystemExit('prediction SHA-256 mismatch')
+          if review_sha != freeze.get('review_queue_sha256'):
+              raise SystemExit('review queue SHA-256 mismatch')
+
+          queue = json.loads(review.read_text(encoding='utf-8'))
+          if queue.get('model_prediction_blinded') is not True:
+              raise SystemExit('review queue is not blinded')
+          if queue.get('units_total') != 33:
+              raise SystemExit('unexpected independent review unit count')
+          print(json.dumps({
+              'prediction_sha256': pred_sha,
+              'review_queue_sha256': review_sha,
+              'units_total': queue.get('units_total'),
+          }, indent=2))
+          PY
+
+      - name: Materialize durable scientific record
+        run: |
+          mkdir -p "${DEST_ROOT}/m3_surface_type_independent_sources_v2"
+          cp /tmp/m3-frozen/unpacked/m3_surface_type_independent_predictions_v2.json \
+             "${DEST_ROOT}/m3_surface_type_independent_predictions_v2.json"
+          cp /tmp/m3-frozen/unpacked/m3_surface_type_independent_review_queue_v2.json \
+             "${DEST_ROOT}/m3_surface_type_independent_review_queue_v2.json"
+          cp /tmp/m3-frozen/unpacked/m3_surface_type_independent_prediction_freeze_v2.json \
+             "${DEST_ROOT}/m3_surface_type_independent_prediction_freeze_v2.json"
+          cp "/tmp/m3-frozen/unpacked/_ai_surface_discovery/${RUN_DIR}/sample_summary.json" \
+             "${DEST_ROOT}/m3_surface_type_independent_source_summary_v2.json"
+          for entity in eafa eye luce cinearchives cinememoire; do
+            cp "/tmp/m3-frozen/unpacked/_ai_surface_discovery/${RUN_DIR}/${entity}/surface_discovery_report.json" \
+               "${DEST_ROOT}/m3_surface_type_independent_sources_v2/${entity}_surface_discovery_report.json"
+          done
+
+      - name: Write preservation manifest
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path(os.environ['DEST_ROOT'])
+          paths = {
+              'predictions': root / 'm3_surface_type_independent_predictions_v2.json',
+              'review_queue': root / 'm3_surface_type_independent_review_queue_v2.json',
+              'prediction_freeze': root / 'm3_surface_type_independent_prediction_freeze_v2.json',
+              'source_summary': root / 'm3_surface_type_independent_source_summary_v2.json',
+          }
+          sources = sorted((root / 'm3_surface_type_independent_sources_v2').glob('*_surface_discovery_report.json'))
+          summary = json.loads(paths['source_summary'].read_text(encoding='utf-8'))
+          executed = [row['entity_id'] for row in summary['entities'] if row.get('status') == 'completed']
+          unresolved = [row for row in summary['entities'] if row.get('status') != 'completed']
+          manifest = {
+              'schema_version': '1.0.0',
+              'artifact_id': 'm3-surface-type-independent-preservation-v2',
+              'preserved_on': '2026-08-25',
+              'source_workflow_run_id': int(os.environ['SOURCE_RUN_ID']),
+              'source_artifact_id': int(os.environ['SOURCE_ARTIFACT_ID']),
+              'source_artifact_digest': os.environ['SOURCE_ARTIFACT_DIGEST'],
+              'sample_role': 'independent_ecological_validation',
+              'protocol_version': '2.0.0',
+              'human_review_started': False,
+              'units_total': 33,
+              'entities_preregistered': ['eafa', 'eye', 'luce', 'cinearchives', 'cinememoire', 'european_film_gateway'],
+              'entities_executed': executed,
+              'protocol_deviations': [
+                  {
+                      'deviation_id': 'european_film_gateway_unknown_corpus_key',
+                      'severity': 'sample_coverage_reduction',
+                      'description': 'The preregistered european_film_gateway identifier was not present in CORPORA at execution time, so it produced no surfaces. The frozen 33-unit sample from the five successfully executed entities is preserved without replacement or post-freeze substitution.',
+                      'execution_record': unresolved,
+                  }
+              ],
+              'files': [
+                  {'role': role, 'path': str(path), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
+                  for role, path in paths.items()
+              ] + [
+                  {'role': 'source_surface_discovery_report', 'path': str(path), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
+                  for path in sources
+              ],
+          }
+          out = root / 'm3_surface_type_independent_preservation_v2.json'
+          out.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(manifest, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit frozen artifacts to scientific branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/digital_infrastructure/ai_experiments/m3_surface_type_independent_predictions_v2.json \
+            data/digital_infrastructure/ai_experiments/m3_surface_type_independent_review_queue_v2.json \
+            data/digital_infrastructure/ai_experiments/m3_surface_type_independent_prediction_freeze_v2.json \
+            data/digital_infrastructure/ai_experiments/m3_surface_type_independent_source_summary_v2.json \
+            data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2.json \
+            data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/
+          if git diff --cached --quiet; then
+            echo "Frozen artifacts already preserved."
+          else
+            git commit -m "T2A M3: preserve frozen independent validation v2"
+            git push origin "HEAD:${{ github.head_ref || github.ref_name }}"
+          fi

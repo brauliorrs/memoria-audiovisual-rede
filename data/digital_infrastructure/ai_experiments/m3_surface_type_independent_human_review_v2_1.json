@@ -1,0 +1,392 @@
+{
+  "schema_version": "1.0.0",
+  "review_id": "m3-surface-type-independent-human-review-v2-1",
+  "experiment_protocol_id": "MAR-T2A-M3-VAL-005-PROTOCOL",
+  "stage": "t2a_mar_surface_typing_independent_validation",
+  "protocol_version": "2.1.0",
+  "review_status": "completed",
+  "human_review_started_on": "2026-08-25",
+  "human_review_completed_on": "2026-09-02",
+  "model_prediction_blinded": true,
+  "does_not_modify_official_baseline": true,
+  "is_prevalence_sample": false,
+  "is_independent_validation_sample": true,
+  "sample_role": "independent_ecological_validation",
+  "source_workflow_run_id": 32911622199,
+  "source_artifact_id": 9586738789,
+  "source_artifact_digest": "sha256:fa5d470f7b57904b2eed6def08ec50ec9db485d42c314609ca7b5962f63c07a7",
+  "source_prediction_sha256": "1dc6b2aee8c7b42190de4d160a33e8fe4da90ddaf1d7392b7e7ed1059ecc86cb",
+  "source_review_queue_sha256": "696d6366a8c5b2e20a26137cf91fb6775c3ea9485d81caf9dd9583e20db0b242",
+  "source_preservation_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_preservation_v2_1.json",
+  "units_total": 36,
+  "reviewed_units_total": 36,
+  "human_item_level_true_total": 14,
+  "human_non_item_level_total": 22,
+  "human_ambiguous_total": 0,
+  "methodological_note": "Surface role and access state are independent dimensions. Automatic predictions remain blinded until all 36 human decisions are closed and the completed human-review artifact is frozen.",
+  "known_development_urls_excluded": 50,
+  "overlap_with_known_urls": 0,
+  "protocol_deviations": [],
+  "reviewed_units": [
+    {
+      "review_unit_id": "ciclic-surface-01291388e0147644",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/films-d-archives",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície de filmes de arquivo tratada como página de busca/listagem do acervo; não corresponde a um item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ciclic-surface-7538ca9c6ed88450",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/ssks/ajax/modspe/ciclic_memoire_liste_films?ajax=1&arguments_specifiques=%7B%22filtres_avances%22%3A%7B%22type%22%3A%22container%22%2C%22id%22%3A%22filtres_avances%22%2C%22class%22%3A%5B%22collapse%22%2C%22criteres-container%22%5D%2C%22children%22%3A%7B%22all_selectors%22%3A%7B%22type%22%3A%22container%22%2C%22attributes%22%3A%7B%22data-selecteur_index%22%3A0%7D%2C%22children%22%3A%7B%22filtre_av-0%22%3A%7B%22type%22%3A%22container%22%2C%22id%22%3A%22filtre_av-0%22%2C%22class%22%3A%5B%22group_selecteurs_av%22%5D%2C%22children%22%3A%7B%22filtres_av-selectors%22%3A%7B%22type%22%3A%22container%22%2C%22class%22%3A%5B%22filtres_av-selectors%22%5D%2C%22children%22%3A%7B%22selecteur_av-0-0%22%3A%7B%22type%22%3A%22values%22%2C%22format%22%3A%22select%22%2C%22valeurs_defaut%22%3A%5B%22_none_%22%5D%2C%22weight%22%3A0%2C%22class%22%3A%5B%22ssks-slim-select%22%2C%22selecteur_av_base%22%5D%2C%22multiple%22%3Afalse%2C%22theme%22%3A%22tmemoire_slim_select%22%2C%22ajax%22%3A%7B%22callback%22%3A%22ListeFilmsMemoire%3A%3AfiltresAvancesAjaxCallback%22%2C%22wrapper%22%3A%22filtres_liste_films_archives%22%7D%2C%22callable%22%3A%22ignore_filtre%22%2C%22get_donnees%22%3A%22get_donnees_filtre_avance_base%22%7D%7D%7D%2C%22filtre_av-actions%22%3A%7B%22type%22%3A%22container%22%2C%22class%22%3A%5B%22filtres_av-actions%22%5D%2C%22children%22%3A%7B%22filtre_av-remove-0%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22btn-sm%22%2C%22btn-white%22%2C%22btn-outline-danger%22%2C%22btn-circle%22%5D%2C%22label%22%3A%22%3Ci+class%3D%27far+fa-minus%27%3E%3C%5C%2Fi%3E%22%2C%22weight%22%3A%2299%22%2C%22ajax%22%3A%7B%22callback%22%3A%22ListeFilmsMemoire%3A%3AfiltresAvancesAjaxCallback%22%2C%22wrapper%22%3A%22filtres_liste_films_archives%22%7D%7D%7D%7D%7D%7D%7D%7D%2C%22add_selectors_group%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22btn-sm%22%2C%22rounded-pill%22%2C%22btn-white%22%2C%22btn-outline-dark%22%5D%2C%22label%22%3A%22%3Ci+class%3D%27far+fa-plus%27%3E%3C%5C%2Fi%3E+Ajouter+un+crit%5Cu00e8re%22%2C%22ajax%22%3A%7B%22callback%22%3A%22ListeFilmsMemoire%3A%3AfiltresAvancesAjaxCallback%22%2C%22wrapper%22%3A%22filtres_liste_films_archives%22%7D%7D%2C%22form_actions%22%3A%7B%22type%22%3A%22container%22%2C%22class%22%3A%5B%22form-actions%22%5D%2C%22children%22%3A%7B%22rechercher_avancee%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22btn-success%22%2C%22text-white%22%5D%2C%22label%22%3A%22%3Ci+class%3D%27far+fa-check%27%3E%3C%5C%2Fi%3E%3Cspan+class%3D%27ms-1%27%3EAppliquer+la+recherche%3C%5C%2Fspan%3E%22%7D%2C%22reset_avance%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22no-ssks-reset%22%2C%22btn-white%22%2C%22text-muted%22%2C%22btn-circle%22%2C%22p-0%22%2C%22text-decoration-none%22%2C%22tooltip-item%22%5D%2C%22attributes%22%3A%7B%22bs-toggle%22%3A%5B%22tooltip%22%5D%2C%22title%22%3A%5B%22R%5Cu00e9initialiser%22%5D%7D%2C%22label%22%3A%22%3Ci+class%3D%5C%22fa+fa-undo%5C%22%3E%3C%5C%2Fi%3E%22%2C%22ajax_callback%22%3A%22le_site%5C%5CFiltres%5C%5CFiltres_Group_Form_Reset_Ajax%22%7D%7D%7D%7D%7D%7D&order=created%2Fasc&page=0&renderMode=replace&uniqID=ciclic_memoire_liste_films&useAjax=1&vue=mosaique",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: endpoint AJAX que alimenta a mesma listagem/pesquisa da superfície anterior do CICLIC; semanticamente permanece search_or_index e não corresponde a item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ciclic-surface-bcce95900d786f7f",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/ssks/ajax/modspe/ciclic_memoire_liste_films?ajax=1&arguments_specifiques=%7B%22filtres_avances%22%3A%7B%22type%22%3A%22container%22%2C%22id%22%3A%22filtres_avances%22%2C%22class%22%3A%5B%22collapse%22%2C%22criteres-container%22%5D%2C%22children%22%3A%7B%22all_selectors%22%3A%7B%22type%22%3A%22container%22%2C%22attributes%22%3A%7B%22data-selecteur_index%22%3A0%7D%2C%22children%22%3A%7B%22filtre_av-0%22%3A%7B%22type%22%3A%22container%22%2C%22id%22%3A%22filtre_av-0%22%2C%22class%22%3A%5B%22group_selecteurs_av%22%5D%2C%22children%22%3A%7B%22filtres_av-selectors%22%3A%7B%22type%22%3A%22container%22%2C%22class%22%3A%5B%22filtres_av-selectors%22%5D%2C%22children%22%3A%7B%22selecteur_av-0-0%22%3A%7B%22type%22%3A%22values%22%2C%22format%22%3A%22select%22%2C%22valeurs_defaut%22%3A%5B%22_none_%22%5D%2C%22weight%22%3A0%2C%22class%22%3A%5B%22ssks-slim-select%22%2C%22selecteur_av_base%22%5D%2C%22multiple%22%3Afalse%2C%22theme%22%3A%22tmemoire_slim_select%22%2C%22ajax%22%3A%7B%22callback%22%3A%22ListeFilmsMemoire%3A%3AfiltresAvancesAjaxCallback%22%2C%22wrapper%22%3A%22filtres_liste_films_archives%22%7D%2C%22callable%22%3A%22ignore_filtre%22%2C%22get_donnees%22%3A%22get_donnees_filtre_avance_base%22%7D%7D%7D%2C%22filtre_av-actions%22%3A%7B%22type%22%3A%22container%22%2C%22class%22%3A%5B%22filtres_av-actions%22%5D%2C%22children%22%3A%7B%22filtre_av-remove-0%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22btn-sm%22%2C%22btn-white%22%2C%22btn-outline-danger%22%2C%22btn-circle%22%5D%2C%22label%22%3A%22%3Ci+class%3D%27far+fa-minus%27%3E%3C%5C%2Fi%3E%22%2C%22weight%22%3A%2299%22%2C%22ajax%22%3A%7B%22callback%22%3A%22ListeFilmsMemoire%3A%3AfiltresAvancesAjaxCallback%22%2C%22wrapper%22%3A%22filtres_liste_films_archives%22%7D%7D%7D%7D%7D%7D%7D%7D%2C%22add_selectors_group%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22btn-sm%22%2C%22rounded-pill%22%2C%22btn-white%22%2C%22btn-outline-dark%22%5D%2C%22label%22%3A%22%3Ci+class%3D%27far+fa-plus%27%3E%3C%5C%2Fi%3E+Ajouter+un+crit%5Cu00e8re%22%2C%22ajax%22%3A%7B%22callback%22%3A%22ListeFilmsMemoire%3A%3AfiltresAvancesAjaxCallback%22%2C%22wrapper%22%3A%22filtres_liste_films_archives%22%7D%7D%2C%22form_actions%22%3A%7B%22type%22%3A%22container%22%2C%22class%22%3A%5B%22form-actions%22%5D%2C%22children%22%3A%7B%22rechercher_avancee%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22btn-success%22%2C%22text-white%22%5D%2C%22label%22%3A%22%3Ci+class%3D%27far+fa-check%27%3E%3C%5C%2Fi%3E%3Cspan+class%3D%27ms-1%27%3EAppliquer+la+recherche%3C%5C%2Fspan%3E%22%7D%2C%22reset_avance%22%3A%7B%22type%22%3A%22button%22%2C%22class%22%3A%5B%22btn%22%2C%22no-ssks-reset%22%2C%22btn-white%22%2C%22text-muted%22%2C%22btn-circle%22%2C%22p-0%22%2C%22text-decoration-none%22%2C%22tooltip-item%22%5D%2C%22attributes%22%3A%7B%22bs-toggle%22%3A%5B%22tooltip%22%5D%2C%22title%22%3A%5B%22R%5Cu00e9initialiser%22%5D%7D%2C%22label%22%3A%22%3Ci+class%3D%5C%22fa+fa-undo%5C%22%3E%3C%5C%2Fi%3E%22%2C%22ajax_callback%22%3A%22le_site%5C%5CFiltres%5C%5CFiltres_Group_Form_Reset_Ajax%22%7D%7D%7D%7D%7D%7D&order=created%2Fdesc&page=0&renderMode=replace&uniqID=ciclic_memoire_liste_films&useAjax=1&vue=mosaique",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: segunda variação técnica do endpoint AJAX da listagem do CICLIC, com ordenação decrescente; semanticamente search_or_index e não item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ciclic-surface-3dac6c855bb6beec",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/magazine/autour-des-archives",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página Autour des archives tratada como superfície de navegação/agrupamento que conduz a múltiplos conteúdos, e não como item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ciclic-surface-fedbf7ba3f7f5a75",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/magazine/autour-des-archives/les-lignes-courbes-de-le-corbusier-filmees-par-les-amateurs",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície classificada como busca/índice ou agrupamento de navegação; não corresponde a item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ciclic-surface-0265baf7e0455267",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/magazine/autour-des-archives/boom-scolaire-au-blanc",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície tratada como busca/índice ou agrupamento de navegação, apesar da presença de mídia associada; não corresponde, para a revisão humana, a item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ciclic-surface-66c8c9e8f7dd206b",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/magazine/autour-des-archives/famadihana-le-retournement-des-morts-madagascar-une-affaire-joyeuse",
+      "human_surface_type": "item_record",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: ficha individual de um item específico do acervo; classificada como item_record apesar da presença de mídia associada detectada pelo coletor.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "ciclic-surface-7ac4c746c12a57a3",
+      "entity_id": "ciclic",
+      "page_url": "https://memoire.ciclic.fr/magazine/autour-des-archives/journee-mondiale-du-patrimoine-audiovisuel",
+      "human_surface_type": "news_or_editorial",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: conteúdo editorial/informativo sobre patrimônio audiovisual, ainda que contenha mídia incorporada; não corresponde a item individual do acervo.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cineam-surface-b6eed3d3705fa065",
+      "entity_id": "cineam",
+      "page_url": "https://www.cineam.asso.fr/exploration-905-0-0-0.html",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície Exploration tratada como página de navegação/índice do acervo, conduzindo a múltiplos registros e não a um item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cineam-surface-ac88ffad03575a55",
+      "entity_id": "cineam",
+      "page_url": "https://www.cineam.asso.fr/exploration-accordeon-guitare-et-anniversaire-905-0-0-0.html?_doc=9%3A4%3A3819&page=1",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de item audiovisual específico com mídia pública associada e observável.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cineam-surface-e243991331073ab4",
+      "entity_id": "cineam",
+      "page_url": "https://www.cineam.asso.fr/js/ajax/diaPlugins/905/ajax/add/mots_cles_theme/4518",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "collector_blocked",
+      "human_review_note": "Classificação humana: endpoint AJAX associado a navegação/filtro por palavras-chave/tema; papel semântico search_or_index. O bloqueio pelo coletor é registrado separadamente no estado de acesso.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cineam-surface-b6b65b570bfda645",
+      "entity_id": "cineam",
+      "page_url": "https://www.cineam.asso.fr/js/ajax/diaPlugins/905/ajax/add/format_origine_id/4",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "collector_blocked",
+      "human_review_note": "Classificação humana: endpoint AJAX associado a navegação/filtro por formato de origem; papel semântico search_or_index. O bloqueio pelo coletor é registrado separadamente no estado de acesso.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cineam-surface-d416b5325d48113a",
+      "entity_id": "cineam",
+      "page_url": "https://www.cineam.asso.fr/exploration-anniversaire-13-ans-jeu-a-la-guitare-905-0-0-0.html?_doc=9%3A4%3A3839&page=1",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície tratada como busca/índice ou navegação, apesar da presença de mídia associada; não corresponde a item individual segundo a revisão humana.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cineam-surface-ec2973dd143d3c1b",
+      "entity_id": "cineam",
+      "page_url": "https://www.cineam.asso.fr/exploration-anniversaire-7ans-marche-dans-la-neige-905-0-0-0.html?_doc=9%3A4%3A3827&page=1",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície tratada como busca/índice ou navegação, apesar da presença de mídia associada; não corresponde a item individual segundo a revisão humana.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cineam-surface-4c1a6d32cd04d0d2",
+      "entity_id": "cineam",
+      "page_url": "https://www.cineam.asso.fr/exploration-anniversaire-8ans-la-cour-de-la-ferme-au-pays-905-0-0-0.html?_doc=9%3A4%3A3829&page=1",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de item audiovisual específico com mídia pública associada e observável.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "cineam-surface-e921b1bb7db0ba62",
+      "entity_id": "cineam",
+      "page_url": "https://www.cineam.asso.fr/exploration-anniversaire-9-ans-905-0-0-0.html?_doc=9%3A4%3A3831&page=1",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de item audiovisual específico com mídia pública associada e observável.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "czech-television-surface-3a3eebb988877efe",
+      "entity_id": "czech-television",
+      "page_url": "https://www.ceskatelevize.cz/ivysilani/",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície de navegação/listagem de programas e vídeos online; search_or_index e não item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "czech-television-surface-1c6d656279d8d186",
+      "entity_id": "czech-television",
+      "page_url": "https://www.ceskatelevize.cz/porady/16734-pripad-komisare-maigreta/",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de item audiovisual específico no iVysílání, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "czech-television-surface-5dc82de85b219322",
+      "entity_id": "czech-television",
+      "page_url": "https://www.ceskatelevize.cz/porady/10809637019-maigret-klade-past/",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de item audiovisual específico no iVysílání, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "czech-television-surface-9f67323eb6b11d87",
+      "entity_id": "czech-television",
+      "page_url": "https://www.ceskatelevize.cz/ivysilani/kategorie/3976-serialy/",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de categoria/listagem de séries, conduzindo a múltiplos conteúdos; search_or_index e não item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "czech-television-surface-67f5c6f16585b552",
+      "entity_id": "czech-television",
+      "page_url": "https://www.ceskatelevize.cz/ivysilani/vypis/serialove-navraty/",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página temática/listagem de séries, conduzindo a múltiplos conteúdos; search_or_index e não item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "czech-television-surface-467882f2bf8df4a0",
+      "entity_id": "czech-television",
+      "page_url": "https://www.ceskatelevize.cz/ivysilani/vypis/ty-nejlepsi-zahranicni-serialy/",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página temática/listagem de séries estrangeiras, conduzindo a múltiplos conteúdos; search_or_index e não item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "czech-television-surface-08ddbac3514de217",
+      "entity_id": "czech-television",
+      "page_url": "https://www.ceskatelevize.cz/porady/10000000448-kavky/",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: superfície tratada como busca/índice ou navegação, não como item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "czech-television-surface-f13b2aed5fd76ea0",
+      "entity_id": "czech-television",
+      "page_url": "https://www.ceskatelevize.cz/porady/10000000448-kavky/226265808110001/",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de item audiovisual específico, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "dff-surface-919c880d42b0ca42",
+      "entity_id": "dff",
+      "page_url": "https://www.filmportal.de/videos",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de vídeos tratada como listagem/índice que conduz a múltiplos conteúdos; search_or_index e não item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "dff-surface-dc57dac513e36a95",
+      "entity_id": "dff",
+      "page_url": "https://www.filmportal.de/video/arnie-barney-retten-das-wasser-2026",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de trailer/vídeo específico, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "dff-surface-690db55e173ecf4b",
+      "entity_id": "dff",
+      "page_url": "https://www.filmportal.de/video/becoming-kim-2026",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de trailer/vídeo específico, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "dff-surface-8ae3f0c0cb726675",
+      "entity_id": "dff",
+      "page_url": "https://www.filmportal.de/video/bonnie-2026",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de trailer/vídeo específico, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "dff-surface-c15a51afcdbccd7f",
+      "entity_id": "dff",
+      "page_url": "https://www.filmportal.de/video/das-gewisse-etwas-2026",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de trailer/vídeo específico, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "dff-surface-201d529d98d5acae",
+      "entity_id": "dff",
+      "page_url": "https://www.filmportal.de/video/der-heimatlose-2026",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de trailer/vídeo específico, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "dff-surface-77c056d745500e82",
+      "entity_id": "dff",
+      "page_url": "https://www.filmportal.de/video/fuer-immer-16-2026",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de trailer/vídeo específico, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "dff-surface-218f70d3914cf543",
+      "entity_id": "dff",
+      "page_url": "https://www.filmportal.de/video/ghost-school-2026",
+      "human_surface_type": "audiovisual_item",
+      "human_is_item_level": true,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de trailer/vídeo específico, tratada como audiovisual_item.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "euscreen-surface-f75416604df32577",
+      "entity_id": "euscreen",
+      "page_url": "https://euscreen.eu/collections/",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de coleções tratada como índice/agrupamento que conduz a múltiplos conteúdos; search_or_index e não item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "euscreen-surface-d54af4d68843bba4",
+      "entity_id": "euscreen",
+      "page_url": "https://euscreen.eu/research/",
+      "human_surface_type": "archive_landing_page",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana corrigida pelo revisor: página Research do EUscreen tratada como archive_landing_page, isto é, superfície de entrada/apresentação vinculada ao acervo/coleções; não é item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "euscreen-surface-b299d9f90e7b6f04",
+      "entity_id": "euscreen",
+      "page_url": "https://euscreen.eu/collection-search-results/?decade=1950&genre=Sport&provider=LUCE",
+      "human_surface_type": "search_or_index",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página de resultados de busca/coleção tratada como search_or_index; não é item individual.",
+      "review_status": "completed"
+    },
+    {
+      "review_unit_id": "euscreen-surface-ef1d7830a5329351",
+      "entity_id": "euscreen",
+      "page_url": "https://euscreen.eu/my-euscreen/",
+      "human_surface_type": "institutional_landing_page",
+      "human_is_item_level": false,
+      "human_access_state": "accessible",
+      "human_review_note": "Classificação humana: página My EUscreen tratada como institutional_landing_page; a existência de rota de login associada não altera, por si só, o papel semântico da superfície revisada.",
+      "review_status": "completed"
+    }
+  ]
+}

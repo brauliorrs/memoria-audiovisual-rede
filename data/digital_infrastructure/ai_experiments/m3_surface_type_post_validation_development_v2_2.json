@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "experiment_id": "MAR-T2A-M3-CAL-006",
+  "protocol_version": "2.2.0",
+  "stage": "t2a_mar_surface_typing_post_validation_calibration",
+  "created_on": "2026-09-02",
+  "claim_level": "calibration_only",
+  "is_independent_validation_sample": false,
+  "is_prevalence_sample": false,
+  "does_not_modify_official_baseline": true,
+  "source_failed_validation": "MAR-T2A-M3-VAL-005",
+  "known_development_units": {
+    "total": 86,
+    "unique_urls": 86,
+    "sources": [
+      {
+        "path": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+        "units": 17,
+        "content_sha": "c708f7b85b84f775c870ed00c76417e9ac3d7f44"
+      },
+      {
+        "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json",
+        "units": 33,
+        "content_sha": "4b511dfe9157473a3d1dbcf41c1dcc966a716d2a"
+      },
+      {
+        "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_1.json",
+        "units": 36,
+        "content_sha": "56a5ceedfaa8609784fa7fcac008d3dc13fd23b1"
+      }
+    ]
+  },
+  "revisions": [
+    "Recognize singular audiovisual detail routes with explicit audiovisual title markers without requiring an extracted media URL.",
+    "Recognize strong browse/search evidence from ItemList structure and multilingual filter, advanced-search and pagination text.",
+    "Remove research as a generic search-token heuristic because research pages may be informational rather than search interfaces.",
+    "Preserve direct audiovisual-object evidence with sufficient item specificity before ItemList/list inference.",
+    "Expand blocked AJAX filter semantics with generic theme/format keyword tokens while keeping access state separate.",
+    "Add optional per-entity review caps to support balanced future independent samples."
+  ],
+  "development_regression": {
+    "prior_50_human_units": {
+      "role": "development_and_regression_only",
+      "surface_item_access_regression_preserved": true
+    },
+    "val_005_36_units_reused_after_validation": {
+      "role": "post_validation_development_diagnostic_only",
+      "binary_item_level": {
+        "true_positive": 10,
+        "true_negative": 22,
+        "false_positive": 0,
+        "false_negative": 4,
+        "precision": 1,
+        "recall": 0.7142857143,
+        "f1": 0.8333333333,
+        "specificity": 1,
+        "accuracy": 0.8888888889
+      },
+      "dff_human_audiovisual_items": {
+        "recovered_as_audiovisual_item": 7,
+        "total": 7
+      },
+      "interpretation": "These values are development diagnostics on data that informed protocol 2.2.0. They are not independent performance estimates."
+    }
+  },
+  "unresolved_development_conflicts": [
+    {
+      "entity_id": "cineam",
+      "description": "Several technically near-identical detail pages share _doc/page parameters, oEmbed media, descriptions and comparable route structure but received different human D/G labels. Protocol 2.2.0 does not encode IDs or slugs to force agreement."
+    },
+    {
+      "entity_id": "ciclic",
+      "description": "Magazine pages with embedded media include both human item_record and news_or_editorial labels; media presence alone is therefore not allowed to override editorial context."
+    }
+  ],
+  "source_execution": {
+    "quality_workflow_run_id": 33673383542,
+    "quality_job_id": 100392132459,
+    "conclusion": "success",
+    "tests_passed": 754,
+    "subtests_passed": 2,
+    "classifier_blob_sha": "8e70b568cf3e6234303a6dd92d81cd65e546303e",
+    "test_surface_typing_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+    "review_builder_blob_sha": "02acd1af0e649db4f0857de0b7416e71daabe207",
+    "review_builder_test_blob_sha": "d46f0f8e3b1878d6dde4527fdd511a5bbc9b8e9a"
+  },
+  "scientific_decision": "Accept protocol 2.2.0 only as a calibrated development candidate. Require a new preregistered, balanced, prediction-frozen independent ecological validation on entirely unseen corpora before any M4 scaling.",
+  "limitations": [
+    "All 86 human-labelled URLs are now known development data for protocol 2.2.0.",
+    "The improved VAL-005 binary diagnostic is post-validation reuse and cannot be reported as generalisation performance.",
+    "Cineam contains structurally similar surfaces with conflicting human labels that cannot be resolved honestly by deterministic URL rules alone.",
+    "CICLIC exposes a semantic item-versus-editorial boundary that requires stronger content-role evidence than media presence.",
+    "The next independent validation must exclude all 86 known URLs and use corpora not previously observed for M3 development."
+  ],
+  "prohibited_interpretations": [
+    "does not establish independent accuracy, precision, recall or F1 for protocol 2.2.0",
+    "does not estimate prevalence",
+    "does not validate protocol 2.2.0",
+    "does not justify scaling M4",
+    "does not modify the official T2 baseline"
+  ]
+}

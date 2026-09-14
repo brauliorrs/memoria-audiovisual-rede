@@ -1,0 +1,231 @@
+{
+  "schema_version": "1.0.0",
+  "experiment_id": "MAR-T2A-M3-CAL-008",
+  "stage": "t2a_mar_surface_typing_post_validation_development",
+  "candidate_protocol_version": "2.3.0-dev",
+  "recorded_on": "2026-09-08",
+  "scientific_role": "post_validation_development_and_regression_only",
+  "is_independent_validation_sample": false,
+  "is_scientific_validation_result": false,
+  "does_not_modify_official_baseline": true,
+  "source_failed_validation": {
+    "experiment_id": "MAR-T2A-M3-VAL-007",
+    "protocol_version": "2.2.0",
+    "evaluation_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_evaluation_v2_2.json",
+    "human_review_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_2.json",
+    "human_review_freeze_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_freeze_v2_2.json",
+    "development_reuse_rule": "VAL-007 labels may be used only after the failed independent evaluation was frozen and reported. They are development evidence for 2.3.0-dev and can never serve as independent validation for 2.3.0."
+  },
+  "candidate_implementation": {
+    "path": "src/memoria_audiovisual/digital_infrastructure/surface_typing_v23_candidate.py",
+    "blob_sha": "b7772b24ad5e2403388c79071e9719c07a92441d",
+    "base_frozen_classifier_path": "src/memoria_audiovisual/digital_infrastructure/surface_typing.py",
+    "base_frozen_protocol_version": "2.2.0",
+    "base_classifier_modified": false,
+    "design": "wrapper_layer_over_frozen_2_2_0"
+  },
+  "candidate_rules": [
+    "recognize singular and plural audiovisual route families: film/video/movie/audio/clip",
+    "strip trailing route structure through segment parsing so specific audiovisual descendants remain observable",
+    "use audiovisual type values in query parameters for fiche/detail pages",
+    "allow direct public media to confirm a generic audiovisual detail route",
+    "treat author/creator/category/genre/tag query filters as search_or_index when no item decision already exists",
+    "distinguish configured observation roots from semantic homepages when generic browse/index evidence exists",
+    "recognize unresolved multilingual collection routes as archive_landing_page without overriding an existing institutional landing decision"
+  ],
+  "prohibited_rule_design": [
+    "no institution-specific names",
+    "no exact item identifiers",
+    "no exact observed slugs",
+    "no retroactive edits to VAL-007 human labels",
+    "no modification of frozen 2.2.0 predictions or evaluation"
+  ],
+  "development_sets": {
+    "original_blind_calibration_v1": {
+      "units": 17,
+      "role": "development_regression",
+      "regression_constraint": "exact surface, item-level and access-state replay preserved",
+      "status": "passed"
+    },
+    "val003_v2": {
+      "units": 33,
+      "role": "former_independent_now_development_regression",
+      "regression_constraint": "exact surface, item-level and access-state replay preserved",
+      "status": "passed"
+    },
+    "val005_v2_1": {
+      "units": 36,
+      "role": "former_independent_now_development_regression",
+      "binary_regression_constraints": {
+        "false_positive": 0,
+        "true_negative": 22,
+        "true_positive_minimum": 10,
+        "false_negative_maximum": 4
+      },
+      "status": "passed"
+    },
+    "val007_v2_2": {
+      "units": 31,
+      "role": "failed_independent_now_post_validation_development",
+      "status": "passed_development_gates",
+      "note": "Metrics below are in-sample post-validation development replay and must not be cited as independent protocol performance."
+    }
+  },
+  "known_development_units_total": 117,
+  "val007_development_replay": {
+    "exact_surface_correct": 25,
+    "units_total": 31,
+    "exact_surface_accuracy": 0.8064516129032258,
+    "macro_f1_all_protocol_classes": 0.44495884773662553,
+    "macro_f1_human_supported_classes": 0.8009259259259259,
+    "weighted_f1": 0.8663381123058542,
+    "human_reference_counts": {
+      "homepage": 0,
+      "institutional_landing_page": 1,
+      "archive_landing_page": 6,
+      "search_or_index": 9,
+      "news_or_editorial": 0,
+      "item_record": 0,
+      "audiovisual_item": 14,
+      "restricted_or_unavailable": 0,
+      "unknown": 1
+    },
+    "predicted_counts": {
+      "homepage": 0,
+      "institutional_landing_page": 1,
+      "archive_landing_page": 3,
+      "search_or_index": 7,
+      "news_or_editorial": 3,
+      "item_record": 0,
+      "audiovisual_item": 13,
+      "restricted_or_unavailable": 1,
+      "unknown": 3
+    },
+    "per_supported_class": {
+      "institutional_landing_page": {
+        "support": 1,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "archive_landing_page": {
+        "support": 6,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666
+      },
+      "search_or_index": {
+        "support": 9,
+        "precision": 1.0,
+        "recall": 0.7777777777777778,
+        "f1": 0.875
+      },
+      "audiovisual_item": {
+        "support": 14,
+        "precision": 1.0,
+        "recall": 0.9285714285714286,
+        "f1": 0.9629629629629629
+      },
+      "unknown": {
+        "support": 1,
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "f1": 0.5
+      }
+    },
+    "confusion_matrix_class_order": [
+      "homepage",
+      "institutional_landing_page",
+      "archive_landing_page",
+      "search_or_index",
+      "news_or_editorial",
+      "item_record",
+      "audiovisual_item",
+      "restricted_or_unavailable",
+      "unknown"
+    ],
+    "confusion_matrix_rows_human_columns_candidate": [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 3, 0, 1, 0, 0, 0, 2],
+      [0, 0, 0, 7, 1, 0, 0, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1, 0, 13, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 1]
+    ],
+    "binary_item_level": {
+      "resolved_human_units": 30,
+      "excluded_human_ambiguous": 1,
+      "true_positive": 13,
+      "true_negative": 16,
+      "false_positive": 0,
+      "false_negative": 1,
+      "precision": 1.0,
+      "recall": 0.9285714285714286,
+      "f1": 0.9629629629629629,
+      "specificity": 1.0,
+      "accuracy": 0.9666666666666667
+    },
+    "major_class_recall": {
+      "archive_landing_page": 0.5,
+      "search_or_index": 0.7777777777777778,
+      "audiovisual_item": 0.9285714285714286
+    },
+    "item_recovery_by_entity": {
+      "bbc": "2/2",
+      "bnt": "0/1",
+      "cinemateca-portuguesa": "2/2",
+      "cinematheque-francaise": "5/5",
+      "fina": "0/0",
+      "home-movies-memoryscapes": "4/4"
+    },
+    "access_state_agreement": 1.0,
+    "remaining_surface_errors": 6,
+    "remaining_error_families": [
+      "BBC complaints surface remains unknown vs human archive_landing_page",
+      "BNT FIAT/IFTA surface remains unknown vs human archive_landing_page",
+      "one BNT request_error surface remains restricted_or_unavailable vs human search_or_index",
+      "one BNT news-path surface remains news_or_editorial vs human search_or_index",
+      "one BNT news-path surface remains news_or_editorial vs human archive_landing_page",
+      "one BNT news-path audiovisual surface remains news_or_editorial vs human audiovisual_item"
+    ]
+  },
+  "development_gate_interpretation": {
+    "would_meet_val007_numeric_fine_gate_on_replay": true,
+    "would_meet_val007_numeric_item_gate_on_replay": true,
+    "would_meet_val007_numeric_access_gate_on_replay": true,
+    "is_validation": false,
+    "reason": "The candidate was designed after observing VAL-007 human labels and failure patterns. Passing those same numeric gates in replay is an in-sample development result and provides no independent evidence of generalisation."
+  },
+  "quality_checks": {
+    "workflow_run_id": 34298716962,
+    "job_id": 102300853568,
+    "conclusion": "success",
+    "pytest": "767 passed, 2 subtests passed",
+    "registry_validator": "passed_existing_registry_schema",
+    "methodology_consistency": "passed",
+    "scientific_integrity": "passed",
+    "deployment_snapshot": "passed"
+  },
+  "next_gate": {
+    "action": "prepare_protocol_2_3_0_for_new_independent_validation",
+    "requirements": [
+      "freeze the final candidate implementation before sampling",
+      "preregister unseen entities and deterministic sampling before execution",
+      "exclude all 117 known development URLs from the new independent sample",
+      "freeze model predictions before any human labels are entered",
+      "complete and freeze blind human review before opening predictions",
+      "apply acceptance thresholds without post-hoc substitution or tuning",
+      "do not scale M4 unless all preregistered M3 item-level gates pass"
+    ]
+  },
+  "prohibited_interpretations": [
+    "do not report 80.65% exact accuracy as independent 2.3.0 performance",
+    "do not report 92.86% item recall as independent 2.3.0 performance",
+    "do not use VAL-007 again as validation evidence for 2.3.0",
+    "do not scale M4 from this development replay",
+    "do not modify the official T2 baseline"
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0.0",
+  "evaluation_id": "m3-surface-type-independent-evaluation-v2",
+  "experiment_id": "MAR-T2A-M3-VAL-003",
+  "experiment_protocol_id": "MAR-T2A-M3-VAL-003-PROTOCOL",
+  "protocol_version": "2.0.0",
+  "evaluated_on": "2026-08-25",
+  "claim_level": "empirical_validation",
+  "is_independent_validation_sample": true,
+  "sample_role": "independent_ecological_validation",
+  "is_prevalence_sample": false,
+  "does_not_modify_official_baseline": true,
+  "source_workflow_run_id": 32857274723,
+  "source_artifact_id": 9566711703,
+  "prediction_frozen_before_human_review": true,
+  "prediction_sha256": "2188cad903e481c7e906e79ca33477d2f16d754c42d054a0cc1023f1e55828f4",
+  "prediction_blob_sha": "6857764b8ac6e9de19b67fc91aa5e01d018f3a56",
+  "human_review_blob_sha": "4b511dfe9157473a3d1dbcf41c1dcc966a716d2a",
+  "human_review_completion_commit": "d8200693fff3732eb808a03555d0da16bcc041c3",
+  "units_total": 33,
+  "effective_entities": [
+    "cinearchives",
+    "cinememoire",
+    "eafa",
+    "eye",
+    "luce"
+  ],
+  "human_reference_counts": {
+    "homepage": 1,
+    "institutional_landing_page": 0,
+    "archive_landing_page": 0,
+    "search_or_index": 19,
+    "news_or_editorial": 0,
+    "item_record": 0,
+    "audiovisual_item": 12,
+    "restricted_or_unavailable": 1,
+    "unknown": 0,
+    "item_level_true": 12,
+    "item_level_false": 21
+  },
+  "multiclass_surface_type": {
+    "correct": 3,
+    "total": 33,
+    "accuracy": 0.0909090909,
+    "macro_f1_all_protocol_classes": 0.0933977456,
+    "macro_f1_human_supported_classes": 0.2101449275,
+    "weighted_f1": 0.1203337725,
+    "class_order": [
+      "homepage",
+      "institutional_landing_page",
+      "archive_landing_page",
+      "search_or_index",
+      "news_or_editorial",
+      "item_record",
+      "audiovisual_item",
+      "restricted_or_unavailable",
+      "unknown"
+    ],
+    "confusion_matrix_rows_human_columns_prediction": [
+      [1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [1, 0, 3, 2, 1, 0, 2, 0, 10],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 3, 2, 0, 7, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    "per_class": {
+      "homepage": {"precision": 0.5, "recall": 1.0, "f1": 0.6666666667, "support": 1},
+      "institutional_landing_page": {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 0},
+      "archive_landing_page": {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 0},
+      "search_or_index": {"precision": 0.5, "recall": 0.1052631579, "f1": 0.1739130435, "support": 19},
+      "news_or_editorial": {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 0},
+      "item_record": {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 0},
+      "audiovisual_item": {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 12},
+      "restricted_or_unavailable": {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 1},
+      "unknown": {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 0}
+    }
+  },
+  "binary_item_level": {
+    "true_positive": 7,
+    "true_negative": 19,
+    "false_positive": 2,
+    "false_negative": 5,
+    "precision": 0.7777777778,
+    "recall": 0.5833333333,
+    "f1": 0.6666666667,
+    "specificity": 0.9047619048,
+    "accuracy": 0.7878787879
+  },
+  "access_state": {
+    "matches": 33,
+    "total": 33,
+    "agreement": 1.0
+  },
+  "entity_diagnostics": {
+    "cinearchives": {"units": 8, "exact_surface_correct": 0, "exact_surface_accuracy": 0.0, "item_level_correct": 5, "item_level_accuracy": 0.625},
+    "cinememoire": {"units": 8, "exact_surface_correct": 1, "exact_surface_accuracy": 0.125, "item_level_correct": 6, "item_level_accuracy": 0.75},
+    "eafa": {"units": 1, "exact_surface_correct": 1, "exact_surface_accuracy": 1.0, "item_level_correct": 1, "item_level_accuracy": 1.0},
+    "eye": {"units": 8, "exact_surface_correct": 0, "exact_surface_accuracy": 0.0, "item_level_correct": 6, "item_level_accuracy": 0.75},
+    "luce": {"units": 8, "exact_surface_correct": 1, "exact_surface_accuracy": 0.125, "item_level_correct": 8, "item_level_accuracy": 1.0}
+  },
+  "diagnostic_findings": [
+    "Cinearchives catalogue-path and archive-title heuristics over-predict archive_landing_page, including three human audiovisual_item pages; blocked AJAX filter endpoints are semantically search_or_index but were predicted unknown.",
+    "Cinememoire archive/fonds and structured-article heuristics confuse thematic/index surfaces, while repeated archive path context suppresses two genuine audiovisual_item pages and produces item-level false negatives.",
+    "EYE year-filter surfaces are not robustly recognized as search/index: most become unknown, the observation root becomes homepage, and two combined-year filters become false-positive audiovisual_item predictions.",
+    "Luce detail URLs are consistently recognized as item-level, but the fine class is item_record rather than the human audiovisual_item label for all seven detail pages.",
+    "Access-state inference agrees with the human reference on all 33 units, showing that access-state separation is functioning independently from semantic surface typing."
+  ],
+  "protocol_deviations": [
+    {
+      "deviation_id": "european_film_gateway_unknown_corpus_key",
+      "severity": "sample_coverage_reduction",
+      "description": "One of six preregistered entities produced no surfaces because its requested identifier was not present in CORPORA; the frozen 33-unit sample from five effective entities was retained without replacement."
+    }
+  ],
+  "scientific_decision": "Protocol 2.0.0 is not validated for fine-grained M3 surface-type classification on this independent ecological sample. The binary item-level discriminator shows partial utility but recall is insufficient for scaling M4 without revision. Access-state separation is supported on this sample. Revise M3 in a new protocol version and validate again on a new frozen independent sample before operational scaling.",
+  "limitations": [
+    "The independent ecological sample contains 33 units from five effective entities and is too small for broad generalisation.",
+    "The preregistered sixth identifier did not execute because it was absent from CORPORA, reducing entity coverage.",
+    "The sample was not designed to estimate prevalence of surface classes.",
+    "Several protocol classes have zero human support, so their per-class performance cannot be estimated from this sample.",
+    "Entity-specific clusters, especially the seven Luce detail pages, make aggregate binary metrics sensitive to within-entity repetition."
+  ],
+  "prohibited_interpretations": [
+    "does not estimate corpus-wide prevalence of surface classes",
+    "does not validate protocol 2.0.0 for fine-grained surface typing",
+    "does not justify scaling M4 without revising M3 item-level recall",
+    "does not modify the official T2 baseline",
+    "does not establish any institutional or audiovisual-content AI claim"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "errors": [],
+  "fetched_pages": 0,
+  "finished_at": "2026-08-25T14:05:31Z",
+  "institutional_base_host": "eafa.org.uk",
+  "pages": [
+    {
+      "content_sha256": "94f3efd9511d293548e81c75917c883666b4daf7e23f70e1e8cbb18339b45bf2",
+      "content_type": "text/html",
+      "depth": 0,
+      "discovered_links": 0,
+      "fetch_status": "http_error",
+      "fetched_at": "2026-08-25T14:05:31Z",
+      "media_urls": [],
+      "metadata_text": "",
+      "parent_url": null,
+      "status_code": 405,
+      "structured_text": "",
+      "text": "",
+      "title": null,
+      "truncated": false,
+      "url": "https://eafa.org.uk/"
+    }
+  ],
+  "pages_total": 1,
+  "policy": {
+    "max_depth": 2,
+    "max_pages": 8,
+    "max_response_bytes": 1500000,
+    "max_text_chars": 120000,
+    "respect_robots_txt": true,
+    "timeout_seconds": 12.0,
+    "user_agent": "MemoriaAudiovisualRede-T2A/1.0 (+public-research-crawler)"
+  },
+  "protocol_version": "1.0.0",
+  "root_url": "https://eafa.org.uk/",
+  "started_at": "2026-08-25T14:05:30Z"
+}

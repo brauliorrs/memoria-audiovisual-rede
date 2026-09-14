@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "diagnostic_id": "MAR-T2A-M3-DIAG-008",
+  "source_experiment_id": "MAR-T2A-M3-VAL-007",
+  "source_protocol_version": "2.2.0",
+  "created_on": "2026-09-08",
+  "stage": "t2a_mar_surface_typing_post_validation_diagnostic",
+  "status": "diagnostic_only",
+  "claim_level": "development_diagnostic_only",
+  "does_not_modify_official_baseline": true,
+  "is_scientific_performance_result": false,
+  "m4_scaling_permitted": false,
+  "authoritative_validation_result": {
+    "evaluation_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_evaluation_v2_2.json",
+    "fine_grained_surface_typing": "not_validated",
+    "item_level_gate_for_m4": "not_met",
+    "access_state_dimension": "supported_on_val007_sample",
+    "exact_surface_accuracy": 0.22580645161290322,
+    "weighted_f1": 0.2828236279849183,
+    "item_level_precision": 1.0,
+    "item_level_recall": 0.14285714285714285,
+    "item_level_f1": 0.25,
+    "item_level_specificity": 1.0,
+    "access_state_agreement": 1.0
+  },
+  "development_data_after_val007": {
+    "prior_human_labelled_urls": 86,
+    "val007_new_human_labelled_urls": 31,
+    "known_human_labelled_urls_total_for_future_protocols": 117,
+    "rule": "Once VAL-007 is used for post-validation diagnosis or tuning, all 31 VAL-007 URLs become development data for any later protocol and must be excluded from the next independent validation sample."
+  },
+  "diagnostic_findings": [
+    {
+      "finding_id": "trailing_slash_item_specificity_loss",
+      "severity": "high",
+      "scope": "generic_url_parsing",
+      "evidence": "_item_specificity computes basename = path.rsplit('/', 1)[-1] without stripping a terminal slash. For detail URLs ending in '/', basename and stem become empty, so numeric or ID-like specificity evidence in the actual final segment is lost.",
+      "observed_failure_family": "Cinémathèque française HENRI /henri/film/<id>-<slug>/",
+      "mechanism": "The HENRI detail route retains only the weak path/title item score; without recovered specificity it does not satisfy audiovisual-item thresholds and later falls through to descendant:institutional-observation-root.",
+      "generic_correction_candidate": "Normalize the path with rstrip('/') before extracting basename/stem; regression-test trailing-slash and non-trailing-slash detail URLs as semantic equivalents.",
+      "domain_specific_rule_required": false
+    },
+    {
+      "finding_id": "observation_root_conflated_with_homepage",
+      "severity": "high",
+      "scope": "semantic_fallback",
+      "evidence": "classify_surface_type returns homepage whenever page_identity == root_identity after earlier heuristics. In MAR, root_url is the observation root selected for discovery, not necessarily the institution or platform homepage.",
+      "observed_failure_families": [
+        "BNT archive root",
+        "Cinemateca Digital video root",
+        "Cinémathèque française HENRI root",
+        "FINA/Ninateka watch root",
+        "Memoryscapes archive and filtered archive surfaces"
+      ],
+      "generic_correction_candidate": "Remove observation-root identity as sufficient semantic evidence for homepage. Reserve homepage for actual site-root or explicit homepage evidence; otherwise classify from semantic/list/item signals or remain unknown.",
+      "domain_specific_rule_required": false
+    },
+    {
+      "finding_id": "audiovisual_query_context_not_used",
+      "severity": "high",
+      "scope": "generic_query_semantics",
+      "observed_failure_family": "Cinemateca Portuguesa Ficha.aspx?obraid=<id>&type=Video",
+      "evidence": "Current specificity only recognizes a fixed set of query keys and does not use identifier-like key suffixes or audiovisual query values. The generic key 'obraid' ends in 'id', while type=Video supplies direct audiovisual context; neither currently contributes the required item evidence.",
+      "generic_correction_candidate": "Recognize identifier-like query keys such as keys ending in 'id' and explicit audiovisual values for generic type/format/media parameters, while requiring item-page or media corroboration to preserve precision.",
+      "domain_specific_rule_required": false
+    },
+    {
+      "finding_id": "clip_detail_route_not_in_audiovisual_route_model",
+      "severity": "high",
+      "scope": "generic_audiovisual_route_semantics",
+      "observed_failure_family": "Memoryscapes /clips/<id>_<slug>",
+      "evidence": "The current audiovisual path vocabulary covers film/video/audio/movie but not clip/clips, and explicit audiovisual detail detection is restricted to singular route tokens. The reviewed clip pages also carried public Vimeo/MP4 media but remained unknown.",
+      "generic_correction_candidate": "Add clip/clips to generic audiovisual route vocabulary and recognize plural audiovisual collection routes followed by a specific detail segment when corroborated by media or strong item identity.",
+      "domain_specific_rule_required": false
+    },
+    {
+      "finding_id": "search_index_semantics_under_detected",
+      "severity": "high",
+      "scope": "list_and_index_detection",
+      "evidence": "VAL-007 human search_or_index support was 9 and recall was 1/9. Six search/index units were predicted homepage, showing that root fallback dominated semantic list/index evidence.",
+      "generic_correction_candidate": "After removing root-as-homepage conflation, add generic index evidence from collection/list semantics available in text, metadata and discovery structure; calibrate only on the now-development 117 known URLs and preserve conservative item precision.",
+      "domain_specific_rule_required": false
+    }
+  ],
+  "next_development_candidate": {
+    "target_protocol_version": "2.3.0",
+    "priority_order": [
+      "fix trailing-slash item specificity extraction",
+      "separate observation root from semantic homepage",
+      "add generic identifier-like query and audiovisual query-value evidence",
+      "add generic clip detail-route support with corroboration",
+      "improve list/index semantics without class balancing or domain-ID memorisation"
+    ],
+    "required_regression_set": "All 117 human-labelled M3 URLs available after VAL-007, explicitly development-only for protocol 2.3.0.",
+    "precision_guardrail": "Do not trade the current zero binary false-positive pattern for uncontrolled item promotion; candidate changes must be evaluated against both item recall and non-item specificity on the full development set.",
+    "independent_validation_requirement": "Any 2.3.0 candidate must be preregistered and prediction-frozen on new unseen corpora/URLs excluding all 117 development URLs before M4 scaling can be reconsidered."
+  },
+  "prohibited_interpretations": [
+    "This diagnostic does not alter or invalidate the authoritative failed VAL-007 result.",
+    "The identified implementation defects do not permit recomputing VAL-007 as if a corrected classifier had been frozen before review.",
+    "Any replay of corrected rules on VAL-007 is development-only and cannot be reported as independent validation performance.",
+    "M4 remains blocked until a later protocol passes a new independent preregistered validation.",
+    "This diagnostic does not modify the official T2 baseline and does not establish any AI-use claim."
+  ]
+}

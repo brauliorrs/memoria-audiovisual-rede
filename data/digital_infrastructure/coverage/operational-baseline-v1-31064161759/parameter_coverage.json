@@ -1,0 +1,3321 @@
+[
+  {
+    "corpus_code": "ape",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ape",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "euscreen",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "WordPress 7.0.2"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "RSS/Atom",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "euscreen",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "euscreen",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Drupal 11 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "ina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "ina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "Linked Open Data",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "ina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "archipop",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aamod",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "WordPress 7.0.2"
+    ]
+  },
+  {
+    "corpus_code": "aamod",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "aamod",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aamod",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "RSS/Atom"
+    ]
+  },
+  {
+    "corpus_code": "aamod",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aamod",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aamod",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "sfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "sfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "sfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "sfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "sfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "sfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "sfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "anf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "anf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "anf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "anf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "anf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "anf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "Autenticação/login",
+      "Direitos autorais condicionam o acesso"
+    ]
+  },
+  {
+    "corpus_code": "anf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aqshf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "WordPress 7.0.2"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aqshf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "RSS/Atom"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "Autenticação/login",
+      "Direitos autorais condicionam o acesso"
+    ]
+  },
+  {
+    "corpus_code": "aqshf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "asim",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Drupal 8 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "asim",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "asim",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "asim",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "Linked Open Data",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "asim",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "Apache Solr",
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "asim",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "asim",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bbc",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bbc",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "bbc",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "bbc",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "bbc",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bbc",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bbc",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Drupal"
+    ]
+  },
+  {
+    "corpus_code": "bfi",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bfi",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Direitos autorais condicionam o acesso"
+    ]
+  },
+  {
+    "corpus_code": "bfi",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnfa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "bnt",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "bnt",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "bnt",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "barch",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ciclic",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cineam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "luce",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "luce",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "luce",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinemateca-portuguesa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinearchives",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-bretagne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cdna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Onemo 17.3.24"
+    ]
+  },
+  {
+    "corpus_code": "cdna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "cdna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "cdna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cdna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cdna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cdna",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 3,
+    "detected_values": [
+      "Dublin Core",
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "saint-etienne",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cpsa",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematheque-francaise",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinematek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinememoire",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Cinémémoire.net PHP engine by Jumi.J4"
+    ]
+  },
+  {
+    "corpus_code": "cinememoire",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinememoire",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "cinememoire",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinememoire",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "cinememoire",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "cinememoire",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ccma",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "crnogorska-kinoteka",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "czech-television",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "czech-television",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "GraphQL",
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "czech-television",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 3,
+    "detected_values": [
+      "EAD",
+      "JSON-LD / Schema.org",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "czech-television",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "czech-television",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "czech-television",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "czech-television",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Drupal 10 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "dff",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "dff",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dff",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "IIIF",
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "dr",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "dr",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dr",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Drupal 10 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "deutsche-kinemathek",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dhm",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "TYPO3 CMS"
+    ]
+  },
+  {
+    "corpus_code": "dhm",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dhm",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "dhm",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "dhm",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dhm",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "dhm",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "ecpad",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Busca facetada"
+    ]
+  },
+  {
+    "corpus_code": "ecpad",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ecpad",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ert",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "WordPress 6.8.3"
+    ]
+  },
+  {
+    "corpus_code": "ert",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "ert",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ert",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "RSS/Atom",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "ert",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ert",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "ert",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Drupal 8 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 3,
+    "detected_values": [
+      "Linked Open Data",
+      "RSS/Atom",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "Apache Solr",
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "european-film-gateway",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "eye",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Drupal 7 (https://www.drupal.org)"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "eye",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "Open Graph",
+      "RDFa"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Linked Open Data"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "Direitos autorais condicionam o acesso",
+      "Restrição de indexação (robots meta)"
+    ]
+  },
+  {
+    "corpus_code": "eye",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "estonian_film_archive",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "EAD",
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmarchiv_austria",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "IIIF"
+    ]
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Restrição de indexação (robots meta)"
+    ]
+  },
+  {
+    "corpus_code": "filmmuseum_dusseldorf",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_espanola",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "WordPress 7.0.2"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "JSON-LD / Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "RSS/Atom",
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_valenciana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "DSpace"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca-vasca",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "filmoteca_catalunya",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "fina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "fina",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "autrefois",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "WordPress"
+    ]
+  },
+  {
+    "corpus_code": "autrefois",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "autrefois",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "autrefois",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Schema.org"
+    ]
+  },
+  {
+    "corpus_code": "autrefois",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "autrefois",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "autrefois",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "csc-cineteca-nazionale",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "home-movies-memoryscapes",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "far",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Onemo 17.3.24"
+    ]
+  },
+  {
+    "corpus_code": "far",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "REST/JSON"
+    ]
+  },
+  {
+    "corpus_code": "far",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "far",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "far",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "far",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "far",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "iam",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "europeana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "europeana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "SPARQL"
+    ]
+  },
+  {
+    "corpus_code": "europeana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Open Graph"
+    ]
+  },
+  {
+    "corpus_code": "europeana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "europeana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Formulário de busca HTML"
+    ]
+  },
+  {
+    "corpus_code": "europeana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "Autenticação/login"
+    ]
+  },
+  {
+    "corpus_code": "europeana",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "pares",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "portal-portugues-arquivos",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "unknown",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aapb",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "technology",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "WordPress"
+    ]
+  },
+  {
+    "corpus_code": "aapb",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "api_service",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aapb",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "metadata_format",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aapb",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "interoperability",
+    "status": "detected",
+    "observation_count": 1,
+    "detected_values": [
+      "OpenSearch"
+    ]
+  },
+  {
+    "corpus_code": "aapb",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "search",
+    "status": "detected",
+    "observation_count": 2,
+    "detected_values": [
+      "Formulário de busca HTML",
+      "OpenSearch"
+    ]
+  },
+  {
+    "corpus_code": "aapb",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "restriction",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  },
+  {
+    "corpus_code": "aapb",
+    "snapshot_id": "operational-baseline-v1-31064161759",
+    "detector_group": "ai_evidence",
+    "status": "not_detected",
+    "observation_count": 1,
+    "detected_values": []
+  }
+]

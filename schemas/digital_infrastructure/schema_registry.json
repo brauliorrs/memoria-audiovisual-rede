@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "status": "structural_only",
   "execution_performed": false,
   "schemas": [
@@ -17,6 +17,7 @@
     {"entity": "snapshot_manifest", "path": "schemas/digital_infrastructure/snapshot_manifest.schema.json"},
     {"entity": "integrity_report", "path": "schemas/digital_infrastructure/integrity_report.schema.json"},
     {"entity": "entity_decision", "path": "schemas/digital_infrastructure/entity_decision.schema.json"},
+    {"entity": "experiment_registry", "path": "schemas/digital_infrastructure/experiment_registry.schema.json"},
     {"entity": "snapshot_comparison", "path": "schemas/snapshot_comparison.schema.json"},
     {"entity": "indicator_definition", "path": "schemas/indicator_definition.schema.json"},
     {"entity": "indicator_result", "path": "schemas/indicator_result.schema.json"},

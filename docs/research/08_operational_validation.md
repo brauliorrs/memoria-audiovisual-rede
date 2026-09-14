@@ -2,49 +2,69 @@
 
 ## Purpose
 
-Operational validation determines whether the implemented research infrastructure produces technically correct and scientifically defensible results when applied to real audiovisual archives.
+Operational validation determines whether the implemented research infrastructure produces technically correct, reproducible and scientifically defensible results when applied to real audiovisual archives.
 
-Passing unit tests is necessary but not sufficient. Validation also requires controlled execution, evidence inspection, detector assessment, and review of false positives and false negatives.
+Passing automated checks is necessary but not sufficient. Validation also requires controlled execution, inspection of evidence, detector-level error analysis, denominator verification, review of exclusions and confirmation that public outputs do not exceed what the observed evidence supports.
+
+## What operational validation is — and is not
+
+Operational validation is the transition between architectural implementation and scientific use.
+
+It confirms that:
+
+- implemented components behave according to their documented contracts;
+- evidence can be traced to sources, methods, dates and review decisions;
+- analytical populations and denominators are constructed correctly;
+- temporal comparisons preserve uncertainty and historical state;
+- public outputs distinguish detected evidence from verified institutional facts.
+
+It does not, by itself, establish that every detector is universally accurate, that every institutional website is fully observable, or that absence of public evidence proves absence of a practice or technology.
 
 ## Validation sequence
 
 ```text
-1. Syntax and dependency checks
+1. Syntax, dependency and schema checks
 2. Unit and integration tests
-3. Controlled execution on a small corpus sample
-4. Manual evidence inspection
-5. Detector-level error analysis
-6. Indicator verification
-7. Workflow and historical persistence checks
-8. Full-corpus execution
-9. Acceptance decision
+3. Documentation, citation, link and internationalisation checks
+4. Controlled execution on a heterogeneous corpus sample
+5. Manual evidence inspection
+6. Detector-level error analysis
+7. Indicator and denominator verification
+8. Review, publication and historical-persistence checks
+9. Two-snapshot longitudinal validation
+10. Full-corpus readiness decision
 ```
 
-## Automated quality checks
+## Automated quality controls
 
-The quality workflow must verify at least:
+The current automated controls cover:
 
-- successful dependency installation;
-- Python module compilation;
-- complete unit-test execution;
-- deployment snapshot checks when applicable;
-- absence of known schema or integrity failures.
+- dependency installation;
+- Python compilation;
+- unit and integration tests;
+- scientific snapshot and reference-corpus integrity;
+- indicator-result and methodology consistency;
+- deployment snapshot checks;
+- Markdown internal-link validation;
+- `CITATION.cff` validation;
+- multilingual interface auditing.
 
-A green workflow confirms consistency with the implemented test contracts. It does not prove external validity of heuristic detections.
+A green workflow confirms consistency with the implemented contracts. It does not prove external validity of heuristic detections or completeness of institutional observation.
 
 ## Controlled corpus sample
 
-The first operational run should use a deliberately heterogeneous sample, including:
+The first empirical validation run must use a deliberately heterogeneous sample, including:
 
 - an archive with direct public access;
-- an archive requiring formal request or registration;
+- an archive requiring registration, authentication or formal request;
 - an aggregator;
 - a corpus with a documented API;
 - a corpus with IIIF or OAI-PMH evidence;
 - a technically unstable or partially assessable route;
-- an excluded commercial image or video bank.
+- an excluded commercial image or video bank;
+- a case in which public evidence is ambiguous or distributed across internal pages.
 
-The purpose is to test methodological boundaries, not to maximise corpus size.
+The purpose is to test methodological boundaries and failure modes, not to maximise corpus size.
 
 ## Detector validation
 
@@ -54,67 +74,75 @@ Each detector group must be evaluated separately:
 - APIs and public services;
 - metadata formats;
 - interoperability mechanisms;
-- search mechanisms;
+- search and discovery mechanisms;
 - access restrictions;
-- publicly observable AI-related signals.
+- public evidence related to AI or automated processing.
 
-For every group, validation should record:
+For every detector group, validation must record:
 
 - confirmed positives;
 - false positives;
-- confirmed negatives;
+- confirmed negatives where a defensible negative can be established;
 - suspected false negatives;
+- ambiguous results;
 - not-assessable cases;
 - evidence quality;
-- language or terminology issues;
-- route instability.
+- language and terminology issues;
+- route instability;
+- observation coverage.
+
+A `not detected` result means that the declared procedure did not identify evidence on the assessed public surfaces. It must not be converted automatically into institutional absence.
 
 ## Access validation
 
-The Audiovisual Archive Access Index requires special review because a single unrecognised restriction term can alter the numerator.
+The Audiovisual Archive Access Index requires specific review because a single unrecognised restriction can alter the numerator.
 
 Validation must test multilingual expressions related to:
 
 - registration;
 - authentication;
-- formal request;
-- email request;
+- formal or administrative request;
+- email or form submission;
 - authorisation;
-- payment;
-- subscription;
-- on-site-only consultation.
+- payment or subscription;
+- on-site-only consultation;
+- partial access to records without access to the audiovisual object.
 
-Commercial paid banks must remain catalogued but excluded from the scientific corpus.
+Commercial paid banks must remain visible in the Discovery Registry but excluded from the Scientific Corpus and from the indicator denominator.
 
 ## Indicator verification
 
-For each controlled run, indicator results should be independently checked from the coverage matrix. Verification should confirm:
+For each controlled run, indicator results must be independently reconstructed from the coverage matrix and the active methodological contract.
 
-- numerator;
-- denominator;
-- excluded corpora;
-- exclusion reasons;
-- treatment of unknown and missing states;
-- methodology version;
+Verification must confirm:
+
+- indicator and methodology versions;
+- analytical population;
+- numerator and denominator;
+- eligible and assessable units;
+- excluded units and reasons;
+- treatment of unknown, error, ambiguous and missing states;
 - persistence key;
-- integrity hash.
+- integrity hash;
+- compatibility with the machine-readable indicator and methodology registries.
 
-Composite indexes require an additional check of component availability, weights, renormalisation, corpus scores, and aggregate calculation.
+Composite indexes require additional verification of component availability, weights, minimum evaluable coverage, renormalisation, unit-level scores, aggregate calculation and sensitivity analysis.
 
 ## Longitudinal validation
 
-At least two controlled snapshots are needed to validate temporal behaviour. The second snapshot should include deliberate test changes such as:
+At least two controlled snapshots are required to validate temporal behaviour. The second snapshot should contain deliberate test changes such as:
 
 - appearance of a technology;
 - disappearance of a previously detected signal;
-- access restriction change;
-- new API evidence;
+- change in an access restriction;
+- new API or interoperability evidence;
 - temporary route failure;
-- unchanged observation.
+- unchanged observation;
+- observation that becomes non-assessable.
 
-The system must distinguish real change from error, missing observation, and temporary unavailability.
+The system must distinguish substantive change from collection error, missing observation, temporary unavailability and methodological change.
 
-## Human review validation
+## Human-review validation
 
 Sensitive or material events must be tested through the complete review lifecycle:
 
@@ -125,49 +153,104 @@ detection
 → reviewer decision
 → quorum where required
 → publication eligibility
-→ versioned public view
+→ versioned public output
 ```
 
-Disappearance and other sensitive claims must not be published as definitive facts without the required confirmations.
+Disappearance, restriction, institutional adoption of AI and other consequential claims must not be published as verified facts without the required evidence and review.
+
+## Experiment documentation standard
+
+Every empirical calibration, validation, diagnostic replay or operational pilot that can affect the scientific interpretation of MAR must be registered as a durable experiment.
+
+The canonical policy is [Experiment Registry and Validation Record](13_experiment_registry.md). Detailed reports are stored under `docs/research/experiments/`, and the machine-readable index is:
+
+```text
+data/digital_infrastructure/ai_experiments/experiment_registry_v1.json
+```
+
+A scientifically closed experiment must record, where applicable:
+
+- stable experiment ID and version;
+- validation question;
+- experiment type and scientific role;
+- sample-selection procedure and unit of analysis;
+- observation and review dates;
+- software branch, commit and workflow identifiers;
+- protocol and classifier version;
+- automated predictions;
+- prediction-artifact integrity hash;
+- blinding procedure;
+- human-review artifact;
+- evaluation artifact;
+- protocol deviations;
+- limitations and non-assessable cases;
+- permitted and prohibited interpretations;
+- final decision and next validation gate.
+
+For blind validation of automated mechanisms, predictions must be durably persisted and integrity-identified **before** the human-review queue is opened. If this does not occur, the run may remain scientifically useful as calibration, but it must not be retrospectively described as a valid estimate of the original mechanism's performance.
+
+Protocol deviations are scientific data. They must be preserved in the experiment history rather than silently repaired or overwritten.
 
 ## Persistence and recovery
 
-Validation should confirm that:
+Validation must confirm that:
 
 - previous snapshots are not overwritten;
 - append-only histories remain valid;
 - interrupted batches can be resumed safely;
 - manifests match persisted products;
 - corrupted or inconsistent state blocks consolidation;
-- temporary workflow artifact expiry does not remove durable history.
+- methodology changes do not silently rewrite historical results;
+- temporary workflow-artifact expiry does not remove durable scientific history;
+- experimental predictions, human-review decisions and final comparison reports required for scientific reproducibility are not left only in transient runner state.
 
-## Acceptance criteria
+## Public-interface validation
 
-The infrastructure should be considered ready for the first official cycle only when:
+The public observatory and the future project showcase require separate acceptance checks.
 
-- the full automated test suite passes;
-- controlled corpus results have been manually reviewed;
-- critical false positives are corrected;
-- denominator rules are confirmed;
-- the access index matches manual classification;
-- snapshot comparison behaves as intended;
-- historical persistence is verified;
-- unresolved limitations are documented.
+The observatory must:
+
+- consume validated or explicitly provisional products;
+- present denominators, coverage and limitations;
+- preserve multilingual terminology without using translated labels as data identifiers;
+- remain functional with partial or historical datasets;
+- avoid presenting technical implementation as empirical validation.
+
+The showcase must present the project accurately and direct users to the observatory, repository and documentation without duplicating provisional analytical claims.
+
+## Acceptance criteria for the first official cycle
+
+The infrastructure should be considered ready only when:
+
+- the complete automated quality suite passes;
+- the controlled sample has been manually reviewed;
+- critical false positives and known false-negative patterns have been addressed;
+- eligibility and denominator rules are confirmed;
+- the access index matches independent manual classification;
+- indicator results can be reconstructed from their registered methodology;
+- two-snapshot comparison behaves as intended;
+- review and publication gates function correctly;
+- historical persistence and recovery are verified;
+- scientifically relevant experiments have durable registry entries and artifact inventories;
+- unresolved limitations are documented;
+- the acceptance decision is recorded explicitly.
 
 ## Validation outputs
 
-Each validation cycle should produce a concise report containing:
+Each validation cycle must produce a concise, versioned report containing:
 
 - scope and selected corpora;
-- software and methodology versions;
+- software, schema, indicator and methodology versions;
 - tests executed;
-- detector performance findings;
-- indicator verification;
+- detector-performance findings;
+- indicator and denominator verification;
 - known limitations;
 - corrections applied;
-- final acceptance status.
+- unresolved risks;
+- final acceptance status and responsible reviewer;
+- links to the corresponding registered experiments and durable artifacts when empirical experiments were performed.
 
-Operational validation is therefore both a software-quality process and a methodological audit.
+Operational validation is therefore both a software-quality process and a methodological audit. It is the principal gate preventing architectural readiness from being presented as scientific validation.
 
 ---
 

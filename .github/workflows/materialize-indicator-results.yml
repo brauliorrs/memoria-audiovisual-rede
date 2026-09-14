@@ -1,0 +1,91 @@
+name: Materialize Indicator Results v1
+
+on:
+  push:
+    branches:
+      - presentation/rpv-1
+    paths:
+      - ".github/workflows/materialize-indicator-results.yml"
+      - "src/memoria_audiovisual/scientific_infrastructure/indicator_results_registry.py"
+      - "scripts/materialize_indicator_results.py"
+      - "data/reference_corpus/snapshots/coverage_snapshot_v1.0.json"
+      - "data/reference_corpus/snapshots/snapshot_v1.0.json"
+      - "data/reference_corpus/manifest.json"
+      - "data/templates/analytics/indicator_registry.json"
+      - "data/templates/analytics/methodology_registry.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout presentation branch
+        uses: actions/checkout@v5
+        with:
+          ref: presentation/rpv-1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Materialize nine indicator results
+        run: |
+          rm -f data/reference_corpus/snapshots/indicator_results_v1.0.json
+          python scripts/materialize_indicator_results.py \
+            --pipeline-commit "$GITHUB_SHA"
+
+      - name: Validate materialized structure
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("data/reference_corpus/snapshots/indicator_results_v1.0.json")
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          content = payload.get("content") or {}
+          results = content.get("results") or []
+          ids = [item.get("indicator_id") for item in results]
+          provenance = payload.get("provenance") or {}
+          sources = provenance.get("source_artifacts") or {}
+          if content.get("indicator_count") != 9 or len(results) != 9:
+              raise SystemExit("o registro deve conter exatamente 9 indicadores")
+          if len(ids) != len(set(ids)):
+              raise SystemExit("indicadores duplicados no registro")
+          if payload.get("artifact", {}).get("status") != "completed":
+              raise SystemExit("registro de resultados não concluído")
+          if len(sources) != 5:
+              raise SystemExit("proveniência deve conter cinco artefatos de origem")
+          for name, reference in sources.items():
+              if not reference.get("path") or not reference.get("sha256"):
+                  raise SystemExit(f"proveniência incompleta: {name}")
+          print(json.dumps({
+              "indicator_count": len(results),
+              "source_artifact_count": len(sources),
+              "status": "completed",
+          }, indent=2))
+          PY
+
+      - name: Commit indicator results registry
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/reference_corpus/snapshots/indicator_results_v1.0.json
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração para registrar."
+            exit 0
+          fi
+          git commit -m "data(science): completar proveniência dos resultados [skip ci]"
+          git push origin HEAD:presentation/rpv-1

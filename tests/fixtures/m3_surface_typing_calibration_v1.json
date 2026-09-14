@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "m3-surface-typing-calibration-v1",
+  "source_experiment_id": "MAR-T2A-M3-BLIND-001",
+  "scientific_role": "development_and_regression_calibration_only",
+  "is_independent_validation_sample": false,
+  "is_prevalence_sample": false,
+  "source_observed_on": "2026-08-19",
+  "human_review_completed_on": "2026-08-24",
+  "units_total": 17,
+  "units": [
+    {
+      "review_unit_id": "archipop-surface-1af58c451b47c5ed",
+      "root_url": "https://lesfilms.archipop.org/",
+      "url": "https://lesfilms.archipop.org/",
+      "title": "Les films - Archipop - Cinéma amateur en Hauts de France",
+      "fetch_status": "fetched",
+      "media_urls": ["https://lesfilms.archipop.org/files/605/10_0522FS0009_plan_HD_1.mp4"],
+      "expected_surface_type": "homepage",
+      "expected_item_level": false,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "archipop-surface-4b33f3df9114d32e",
+      "root_url": "https://lesfilms.archipop.org/",
+      "url": "https://lesfilms.archipop.org/les-films-communion-christian-vacances-berck-570-4362-1-0.html",
+      "title": "Communion Christian - Vacances Berck - Serge DEPREZ - 1955 - Les films - Archipop - Cinéma amateur en Hauts de France",
+      "fetch_status": "fetched",
+      "media_urls": ["https://diazarchipop.oembed.diazinteregio.org/embed/0430_0439/0436FH0006?feature=oembed"],
+      "expected_surface_type": "audiovisual_item",
+      "expected_item_level": true,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "archipop-surface-bd858f95774cb6be",
+      "root_url": "https://lesfilms.archipop.org/",
+      "url": "https://lesfilms.archipop.org/les-films-examen-detaille-des-pieces-exclusivement-francaises-anterieures-au-20e-siecle-570-4400-1-0.html",
+      "title": "Examen détaillé des pièces exclusivement françaises antérieures au 20e siècle - Achille BAYART - 1972 - Les films - Archipop - Cinéma amateur en Hauts de France",
+      "fetch_status": "fetched",
+      "media_urls": ["https://diazarchipop.oembed.diazinteregio.org/embed/0450_0459/0455FI0001?feature=oembed"],
+      "expected_surface_type": "audiovisual_item",
+      "expected_item_level": true,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "archipop-surface-64ab3dbd8ce53008",
+      "root_url": "https://lesfilms.archipop.org/",
+      "url": "https://lesfilms.archipop.org/les-films-meru-camp-chantier-jeunes-contre-la-faim-partie-1-570-1345-1-0.html",
+      "title": "Méru, camp chantier jeunes contre la faim - Partie 1 - Jean-Pierre EVRARD - 1969 - Les films - Archipop - Cinéma amateur en Hauts de France",
+      "fetch_status": "fetched",
+      "media_urls": ["https://diazarchipop.oembed.diazinteregio.org/embed/0001_0009/0002FH0001?feature=oembed"],
+      "expected_surface_type": "audiovisual_item",
+      "expected_item_level": true,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "bfi-surface-3b02a262fbfe5f0f",
+      "root_url": "https://replay.bfi.org.uk/search",
+      "url": "https://replay.bfi.org.uk/search",
+      "title": "- 819 videos found | Replay",
+      "fetch_status": "fetched",
+      "media_urls": [],
+      "expected_surface_type": "search_or_index",
+      "expected_item_level": false,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "bfi-surface-73565b8cad7c7671",
+      "root_url": "https://replay.bfi.org.uk/search",
+      "url": "https://replay.bfi.org.uk/about/partner-archives",
+      "title": "Partner Archives | Replay",
+      "fetch_status": "fetched",
+      "media_urls": [],
+      "expected_surface_type": "news_or_editorial",
+      "expected_item_level": false,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "bfi-surface-0152a65ab86e5226",
+      "root_url": "https://replay.bfi.org.uk/search",
+      "url": "https://replay.bfi.org.uk/curated-collections",
+      "title": "Curated Collections | Replay",
+      "fetch_status": "fetched",
+      "media_urls": [],
+      "expected_surface_type": "archive_landing_page",
+      "expected_item_level": false,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "bfi-surface-7963b6c0f7fb115e",
+      "root_url": "https://replay.bfi.org.uk/search",
+      "url": "https://replay.bfi.org.uk/video/0480337c-e444-5b53-89e9-da6da693da47",
+      "title": "Searching | Replay",
+      "fetch_status": "fetched",
+      "media_urls": [],
+      "text": "Playback Denied: Location; PLAYER_ERR_GEO_RESTRICTED; Video is unavailable from your current location.",
+      "expected_surface_type": "audiovisual_item",
+      "expected_item_level": true,
+      "expected_access_state": "geo_restricted"
+    },
+    {
+      "review_unit_id": "ecpad-surface-34b37aeacd0a7007",
+      "root_url": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+      "url": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+      "title": "Consulter les archives en ligne",
+      "fetch_status": "fetched",
+      "media_urls": [],
+      "expected_surface_type": "search_or_index",
+      "expected_item_level": false,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "ecpad-surface-0e9962e81b5340a4",
+      "root_url": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+      "url": "https://archives.ecpad.fr/archives/aide-a-la-recherche/premiere-guerre-mondiale",
+      "title": null,
+      "fetch_status": "redirect_outside_scope",
+      "media_urls": [],
+      "expected_surface_type": "search_or_index",
+      "expected_item_level": false,
+      "expected_access_state": "redirect_outside_scope"
+    },
+    {
+      "review_unit_id": "ecpad-surface-66d560f66fb6a81a",
+      "root_url": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+      "url": "https://archives.ecpad.fr/archives/aide-a-la-recherche/seconde-guerre-mondiale",
+      "title": null,
+      "fetch_status": "redirect_outside_scope",
+      "media_urls": [],
+      "expected_surface_type": "search_or_index",
+      "expected_item_level": false,
+      "expected_access_state": "redirect_outside_scope"
+    },
+    {
+      "review_unit_id": "ecpad-surface-8bd141d5b908e2f3",
+      "root_url": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+      "url": "https://archives.ecpad.fr/archives/aide-a-la-recherche/fonds-prives",
+      "title": null,
+      "fetch_status": "redirect_outside_scope",
+      "media_urls": [],
+      "expected_surface_type": "search_or_index",
+      "expected_item_level": false,
+      "expected_access_state": "redirect_outside_scope"
+    },
+    {
+      "review_unit_id": "europeana-surface-4071ce8a0d87c041",
+      "root_url": "https://www.europeana.eu/",
+      "url": "https://www.europeana.eu/",
+      "title": null,
+      "fetch_status": "blocked_by_robots",
+      "media_urls": [],
+      "expected_surface_type": "homepage",
+      "expected_item_level": false,
+      "expected_access_state": "collector_blocked"
+    },
+    {
+      "review_unit_id": "ina-surface-358ad55cd8aea854",
+      "root_url": "https://www.ina.fr/institut-national-audiovisuel",
+      "url": "https://www.ina.fr/institut-national-audiovisuel",
+      "title": "L'Institut national de l'audiovisuel | INA",
+      "fetch_status": "fetched",
+      "media_urls": [],
+      "expected_surface_type": "homepage",
+      "expected_item_level": false,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "ina-surface-2687ee176b4b4e33",
+      "root_url": "https://www.ina.fr/institut-national-audiovisuel",
+      "url": "https://www.ina.fr/institut-national-audiovisuel/collections-audiovisuelles/archives-emblematiques",
+      "title": "Archives emblématiques | INA",
+      "fetch_status": "fetched",
+      "media_urls": [],
+      "expected_surface_type": "search_or_index",
+      "expected_item_level": false,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "ina-surface-021c7d55b2064fae",
+      "root_url": "https://www.ina.fr/institut-national-audiovisuel",
+      "url": "https://www.ina.fr/institut-national-audiovisuel/collections-audiovisuelles/collections-partenaires",
+      "title": "Les collections partenaires | INA",
+      "fetch_status": "fetched",
+      "media_urls": [],
+      "expected_surface_type": "search_or_index",
+      "expected_item_level": false,
+      "expected_access_state": "accessible"
+    },
+    {
+      "review_unit_id": "ina-surface-58c7e91d7ea0a177",
+      "root_url": "https://www.ina.fr/institut-national-audiovisuel",
+      "url": "https://www.ina.fr/institut-national-audiovisuel/collections-audiovisuelles/presse-filmee-et-cinema",
+      "title": "Presse filmée et cinema | INA",
+      "fetch_status": "fetched",
+      "media_urls": [],
+      "expected_surface_type": "institutional_landing_page",
+      "expected_item_level": false,
+      "expected_access_state": "accessible"
+    }
+  ]
+}

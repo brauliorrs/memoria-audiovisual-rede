@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "sample_protocol_version": "1.0.0",
+  "run_id": "m3-surface-independent-v2-32857274723",
+  "stage": "t2a_mar_surface_typing_real_sample",
+  "does_not_modify_official_baseline": true,
+  "is_scientific_result": false,
+  "entities_requested": [
+    "eafa",
+    "eye",
+    "luce",
+    "cinearchives",
+    "cinememoire",
+    "european_film_gateway"
+  ],
+  "policy": {
+    "max_depth": 2,
+    "max_pages": 8,
+    "timeout_seconds": 12.0,
+    "respect_robots_txt": true
+  },
+  "entities": [
+    {
+      "entity_id": "eafa",
+      "status": "completed",
+      "root_url": "https://eafa.org.uk/",
+      "pages_total": 1,
+      "fetched_pages": 0,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/eafa/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/eafa/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "eye",
+      "status": "completed",
+      "root_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith%20film%20fragment",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/eye/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/eye/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "luce",
+      "status": "completed",
+      "root_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?query=&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&activeFilter=archiveType_string",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/luce/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/luce/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "cinearchives",
+      "status": "completed",
+      "root_url": "https://www.cinearchives.org/catalogue-1104-0-0-0.html",
+      "pages_total": 8,
+      "fetched_pages": 4,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/cinearchives/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/cinearchives/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "cinememoire",
+      "status": "completed",
+      "root_url": "https://cinememoire.net/recherche-simple",
+      "pages_total": 8,
+      "fetched_pages": 8,
+      "errors_total": 0,
+      "report_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/cinememoire/surface_discovery_report.json",
+      "classifier_path": "data/output/_ai_surface_discovery/m3-surface-independent-v2-32857274723/cinememoire/surface_classifier_text.jsonl"
+    },
+    {
+      "entity_id": "european_film_gateway",
+      "status": "unknown_corpus",
+      "root_url": null,
+      "pages_total": 0,
+      "fetched_pages": 0
+    }
+  ]
+}

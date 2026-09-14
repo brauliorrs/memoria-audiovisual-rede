@@ -1,0 +1,37 @@
+{
+  "freeze_id": "MAR-T2A-M3-VAL-007-HUMAN-REVIEW-FREEZE",
+  "experiment_id": "MAR-T2A-M3-VAL-007",
+  "protocol_id": "MAR-T2A-M3-VAL-007-PROTOCOL",
+  "surface_typing_protocol_version": "2.2.0",
+  "frozen_on": "2026-09-08",
+  "human_review_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_2.json",
+  "human_review_final_commit_sha": "5004d01422c1645ab07df5cd1c149569a81ce07c",
+  "human_review_final_blob_sha": "a9f8fc78107424ffd33add5830ed743185d1fbaf",
+  "human_review_sha256": "673b5d11e731bc45d0d9415696bc355ce6772ffd4de24ba8a2d9b0c73dae49eb",
+  "reviewed_units_total": 31,
+  "human_item_level_true_total": 14,
+  "human_non_item_level_total": 16,
+  "human_ambiguous_total": 1,
+  "queue_coverage_check": {
+    "duplicate_ids": 0,
+    "missing_queue_ids": 0,
+    "extra_ids": 0
+  },
+  "blinding": {
+    "model_prediction_blinded_during_human_review": true,
+    "frozen_predictions_opened_before_human_review_completion": false,
+    "prediction_comparison_permitted_after_this_freeze": true
+  },
+  "source_run": {
+    "workflow_run_id": 33673923717,
+    "job_id": 100393939906,
+    "artifact_id": 9863619119,
+    "artifact_digest": "sha256:e09235bd9c2f22fd73233c497b52b52e020c195282563ed100de4ca15a4e8498"
+  },
+  "source_review_queue": {
+    "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_review_queue_v2_2.json",
+    "blob_sha": "aed13cc50b5bc62e12d2f05191bc6bb2eb357e24",
+    "sha256": "2c764eab221dbe595ada50eda1cd2b843e976fca25d8a57f39380724727d8fa8"
+  },
+  "note": "This manifest freezes the completed blind human review before any formal comparison against the already-frozen model predictions. The 31 review-unit IDs were checked against the frozen review queue with no duplicate, missing, or extra IDs. Git commit/blob SHAs and the review SHA256 provide durable repository provenance."
+}

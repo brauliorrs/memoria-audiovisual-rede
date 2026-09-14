@@ -1,0 +1,83 @@
+name: T2A AI content surface assessment
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Identificador auditável da execução"
+        required: false
+        default: "t2a-content-blind-v1"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: t2a-ai-content-surface-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  assess:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      QUEUE: data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json
+      PREDICTIONS: data/output/ai_content_blind_surface_predictions_v1.json
+      SURFACE_OUTPUT: data/output
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Assess public item surfaces
+        run: |
+          python scripts/assess_ai_content_blind_queue.py \
+            --queue "$QUEUE" \
+            --output "$PREDICTIONS" \
+            --surface-output-dir "$SURFACE_OUTPUT" \
+            --run-id "${{ inputs.run_id }}" \
+            --fetch-surfaces
+
+      - name: Validate experimental separation
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          queue = json.loads(Path(os.environ["QUEUE"]).read_text(encoding="utf-8"))
+          predictions = json.loads(Path(os.environ["PREDICTIONS"]).read_text(encoding="utf-8"))
+          if queue.get("does_not_modify_official_baseline") is not True:
+              raise SystemExit("a fila experimental deve permanecer separada do T2")
+          if predictions.get("does_not_modify_official_baseline") is not True:
+              raise SystemExit("as previsões de superfície não podem modificar o T2")
+          if predictions.get("assessment_stage") != "item_surface":
+              raise SystemExit("a execução deve registrar avaliação de superfície")
+          print(json.dumps({
+              "queue_id": queue.get("queue_id"),
+              "predictions_total": predictions.get("predictions_total"),
+              "positive_predictions": predictions.get("positive_predictions"),
+              "class_counts": predictions.get("class_counts"),
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload surface-assessment products
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2a-ai-content-surface-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            data/digital_infrastructure/ai_experiments/ai_content_blind_review_queue_v1.json
+            data/output/ai_content_blind_surface_predictions_v1.json
+            data/output/_ai_surface_discovery/${{ inputs.run_id }}/

@@ -1,6 +1,47 @@
 {
-  "registry_version": "1.2.0",
+  "registry_version": "1.3.0",
   "methodologies": [
+    {
+      "indicator_id": "audiovisual_archive_access_index",
+      "indicator_version": "1.0.0",
+      "methodology_version": "1.0.0",
+      "definition": "Percentual de arquivos audiovisuais elegíveis e avaliáveis cujo acesso público observado não exige cadastro, autenticação, pagamento ou solicitação formal.",
+      "formula": "100 * arquivos_elegiveis_sem_barreira_observada / arquivos_elegiveis_avaliaveis",
+      "source": "parameter_coverage.json:restriction e política de elegibilidade do corpus",
+      "numerator_rule": "Contar corpora elegíveis com estado avaliável nos quais nenhuma barreira de cadastro, login, autenticação, pagamento, assinatura, autorização institucional, formulário ou solicitação formal tenha sido detectada.",
+      "denominator_rule": "Contar somente corpora pertencentes ao corpus científico e com observação de restrição em estado detected, not_detected ou unknown.",
+      "barrier_terms": [
+        "cadastro",
+        "cadastro obrigatório",
+        "registro",
+        "login",
+        "autenticação",
+        "solicitação formal",
+        "solicitação por e-mail",
+        "formulário de acesso",
+        "autorização institucional",
+        "paid access",
+        "pagamento",
+        "assinatura"
+      ],
+      "included_statuses": ["detected", "not_detected", "unknown"],
+      "excluded_statuses": ["error", "not_assessable", "missing_observation"],
+      "exclusion_policy": "Entidades fora do corpus científico, incluindo bancos comerciais pagos, permanecem no registro de descoberta, mas são excluídas do numerador e do denominador. Corpora elegíveis sem observação avaliável também são excluídos do denominador.",
+      "unknown_policy": "O estado unknown permanece avaliável apenas quando existe observação registrada e nenhuma barreira explícita foi detectada; o resultado deve conservar esse estado nas dimensões de auditoria para análise posterior.",
+      "evidence_requirements": [
+        "decisão de elegibilidade do corpus",
+        "estado de restrição observado",
+        "valores detectados normalizados",
+        "evidência vinculada à superfície pública",
+        "identificador do snapshot"
+      ],
+      "limitations": [
+        "A ausência de barreira detectada não comprova que todo o acervo esteja disponível nem que o acesso seja permanente.",
+        "Barreiras introduzidas após a página inicial, limitações territoriais ou condições não explicitadas publicamente podem não ser observadas.",
+        "O indicador mede acesso público imediato, não qualidade, volume, preservação, completude ou relevância do acervo.",
+        "Resultados com observações unknown devem ser interpretados em conjunto com a cobertura e as evidências do snapshot."
+      ]
+    },
     {
       "indicator_id": "api_coverage",
       "indicator_version": "1.0.0",

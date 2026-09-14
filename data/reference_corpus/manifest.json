@@ -1,0 +1,30 @@
+{
+  "reference_corpus": {
+    "manifest_id": "scientific_reference_corpus_manifest",
+    "version": "1.0.0",
+    "status": "frozen",
+    "created_at": "2026-08-04",
+    "language": "pt-BR",
+    "description": "Manifesto científico que identifica, sem duplicação, o estado canônico do corpus usado como baseline de validação da plataforma."
+  },
+  "dataset": {
+    "path": "src/memoria_audiovisual/corpora.py",
+    "selector": "CORPORA",
+    "source_revision": "11467ab82e4c8797765c19b188e993d1323091f8",
+    "hash_algorithm": "git-blob-sha1",
+    "content_hash": "64a8c8937131182ddbdf82df4e49ff9b3d8a4657",
+    "entities": 58
+  },
+  "scientific_context": {
+    "indicator_registry_version": "1.0.0",
+    "methodology_registry_version": "1.3.0",
+    "pipeline_stage": "2B.3A",
+    "software_branch": "presentation/rpv-1"
+  },
+  "governance": {
+    "single_source_of_truth": true,
+    "dataset_is_not_duplicated": true,
+    "changes_require_new_manifest_version": true,
+    "derived_snapshots_are_external_to_manifest": true
+  }
+}
