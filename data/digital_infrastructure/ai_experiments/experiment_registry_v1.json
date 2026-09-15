@@ -3,7 +3,7 @@
   "registry_id": "mar-experiment-registry-v1",
   "project": "Memória Audiovisual em Rede",
   "scope": "scientific experiments, calibration, blind validation and diagnostics performed during T2A operational validation",
-  "updated_on": "2026-09-02",
+  "updated_on": "2026-09-15",
   "does_not_modify_official_baseline": true,
   "governance_document": "docs/research/13_experiment_registry.md",
   "experiments": [
@@ -781,6 +781,153 @@
           "path": "scripts/build_surface_type_review_queue.py",
           "role": "balanced_review_builder_at_decision",
           "initial_blob_sha": "02acd1af0e649db4f0857de0b7416e71daabe207"
+        }
+      ]
+    },
+    {
+      "scientific_layer": "mar_intelligence_automation",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "experiment_id": "MAR-T2A-M3-VAL-007",
+      "version": "2.2.0",
+      "stage": "t2a_mar_surface_typing_independent_validation",
+      "experiment_types": [
+        "blind_human_validation",
+        "ecological_validation"
+      ],
+      "status": "failed",
+      "claim_level": "empirical_validation",
+      "decision_date": "2026-09-08",
+      "blinding": {
+        "human_reviewer_saw_model_predictions": false
+      },
+      "question": "Does M3 2.2.0 meet the preregistered semantic, item-level and access gates on independent entities?",
+      "sample_summary": {
+        "units_total": 31,
+        "acceptance_assessment": {
+          "fine_grained_surface_typing": "not_validated",
+          "fine_grained_weighted_f1_gate": "failed",
+          "fine_grained_supported_major_class_recall_gate": "failed",
+          "item_level_gate_for_m4": "not_met",
+          "item_level_precision_gate": "passed",
+          "item_level_recall_gate": "failed",
+          "item_level_specificity_gate": "passed",
+          "item_level_entity_failure_rule": "failed",
+          "access_state_dimension": "supported_on_this_sample",
+          "overall_validation_status": "failed",
+          "rationale": "Weighted F1 was 0.2828 against the preregistered 0.50 minimum; every human class with support >=5 had recall below 0.50; binary item-level recall was 14.29% against the 70% minimum; and three entities with at least two human item-level units had all such units missed. Access agreement was 100% but cannot compensate for semantic or item-level failure."
+        }
+      },
+      "scientific_decision": "Do not accept protocol 2.2.0 as independently validated for fine-grained M3 surface typing and do not scale M4. Preserve VAL-007 unchanged as the authoritative independent result. Retain access-state separation. Any classifier or sampling improvement must be implemented under a later protocol version and evaluated with a new preregistered, prediction-frozen independent ecological validation before M4 scaling can be reconsidered.",
+      "limitations": [
+        "The independent ecological sample contains 31 units from six entities and is too small for broad generalisation.",
+        "FINA/Ninateka contributed only one review unit, limiting entity-level interpretation for that corpus.",
+        "Homepage, news_or_editorial, item_record and restricted_or_unavailable had zero human support; institutional_landing_page and unknown had support of one. Performance claims for sparse classes are descriptive only.",
+        "Within-entity route repetition is substantial, especially the five HENRI film pages and four Memoryscapes clip pages, so aggregate metrics are sensitive to clustered architecture patterns.",
+        "The sample was not designed to estimate prevalence of surface classes.",
+        "Human labels are authoritative for this blind validation and were frozen before model predictions were opened; they must not be retroactively revised using model output.",
+        "The preregistered thresholds are operational project gates, not population-level confidence intervals or prevalence estimates."
+      ],
+      "prohibited_interpretations": [
+        "does not estimate corpus-wide prevalence of surface classes",
+        "does not validate protocol 2.2.0 for fine-grained surface typing",
+        "does not justify scaling M4",
+        "100% item-level precision does not compensate for 14.29% recall and the entity all-miss failures",
+        "100% access-state agreement does not compensate for semantic surface-role or item-level failure",
+        "does not modify the official T2 baseline",
+        "does not establish corpus membership, institutional AI use or AI participation in audiovisual content",
+        "development-set performance from CAL-006 must not be reported as independent validation evidence"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_evaluation_v2_2.json",
+          "role": "frozen_independent_evaluation",
+          "sha256": "d8fb4ad330bdf868e2239218d81ed410b744d8735f3fcc1a71ecf8739cc4258b"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_2.json",
+          "role": "human_review",
+          "sha256": "673b5d11e731bc45d0d9415696bc355ce6772ffd4de24ba8a2d9b0c73dae49eb"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_freeze_v2_2.json",
+          "role": "human_review_freeze",
+          "sha256": "dff3a7f1822f0e4fd696d54fbfbf4dd1e4503d35391c1a1b8e05a885edffb9df"
+        },
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_prediction_freeze_v2_2.json",
+          "role": "prediction_freeze",
+          "sha256": "7bc42ab4840561977ec442aeb40d16d0d8d4bbd480a590f2d87d1cf361c8a6e0",
+          "frozen_before_human_review": true
+        }
+      ]
+    },
+    {
+      "scientific_layer": "mar_intelligence_automation",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "experiment_id": "MAR-T2A-M3-CAL-008",
+      "version": "2.3.0",
+      "stage": "t2a_mar_surface_typing_post_validation_development",
+      "experiment_types": [
+        "calibration_experiment",
+        "diagnostic_replay"
+      ],
+      "status": "completed_calibration_only",
+      "claim_level": "calibration_only",
+      "decision_date": "2026-09-08",
+      "source_experiment_id": "MAR-T2A-M3-VAL-007",
+      "question": "Can generic 2.3.0 candidate rules address known VAL-007 failures while preserving development regressions?",
+      "sample_summary": {
+        "known_development_units_total": 117
+      },
+      "scientific_decision": "The candidate was designed after observing VAL-007 human labels and failure patterns. Passing those same numeric gates in replay is an in-sample development result and provides no independent evidence of generalisation.",
+      "limitations": [
+        "Development replay after observing VAL-007; no independent generalisation evidence."
+      ],
+      "prohibited_interpretations": [
+        "do not report 80.65% exact accuracy as independent 2.3.0 performance",
+        "do not report 92.86% item recall as independent 2.3.0 performance",
+        "do not use VAL-007 again as validation evidence for 2.3.0",
+        "do not scale M4 from this development replay",
+        "do not modify the official T2 baseline"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_post_val007_development_v2_3.json",
+          "role": "historical_development_evaluation",
+          "sha256": "b2d0557897771ccf0c293b4c07119f9fb85063b3d0ba4f8e47b8e18d98523175"
+        }
+      ]
+    },
+    {
+      "scientific_layer": "mar_intelligence_automation",
+      "is_prevalence_sample": false,
+      "does_not_modify_official_baseline": true,
+      "experiment_id": "MAR-T2A-M3-VAL-009",
+      "version": "2.3.0",
+      "stage": "t2a_mar_surface_typing_independent_preregistration",
+      "experiment_types": [
+        "ecological_validation"
+      ],
+      "status": "reserved_draft_not_executed",
+      "claim_level": "protocol_scope",
+      "created_on": "2026-09-15",
+      "question": "Does the fixed M3 2.3.0 candidate generalise to public surfaces from entities absent from previous M3 human-labelled development?",
+      "scientific_use": "Reserve the identifier for planned blind ecological validation only. Complete readiness and seal before any independent sampling. No human review yet. M4 remains blocked.",
+      "limitations": [
+        "No new collection, human review, independent metrics or freeze exists for this draft."
+      ],
+      "prohibited_interpretations": [
+        "No independent validation claim",
+        "No M4 promotion",
+        "No reuse of known development units as independent evidence"
+      ],
+      "artifacts": [
+        {
+          "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_validation_protocol_v2_3_draft.json",
+          "role": "initial_preregistration_draft",
+          "sha256": "6884d24c07e68fa9b563ddda5779fce70057103c54221890fdfca62ec89c4fba"
         }
       ]
     }

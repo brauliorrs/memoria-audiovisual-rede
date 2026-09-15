@@ -2,8 +2,8 @@
 
 Preparado em 15/09/2026. **Minuta completa para revisão; ainda não selada nem executada.**
 
-Identificador proposto: `MAR-T2A-M3-VAL-009`, posterior à CAL-008. Deve ser
-conferido no registro central antes do selo. O candidato de referência é
+Identificador reservado no registro central: `MAR-T2A-M3-VAL-009`, posterior à CAL-008,
+com status `reserved_draft_not_executed`. O candidato de referência é
 `2.3.0-dev`, commit `bb52621862b973301f6fbe5330f2cd1203ab77b8`.
 Referência de código não significa congelamento ou promoção.
 
@@ -119,9 +119,18 @@ adaptação: exigir seleção explícita do candidato, metadados corretos da ver
 fila sem nenhum campo previsto e evidências brutas separadas das decisões do modelo.
 Também testar exclusões/deduplicação e fórmulas do avaliador antes de usar dados novos.
 
-Verificar e completar o registro central de VAL-007 e CAL-008 e reservar VAL-009,
-sem modificar as decisões históricas. Os registros de desenvolvimento existentes
-indicam essa pendência. Esta minuta não declara que ela já foi resolvida.
+O registro central de VAL-007 e CAL-008 foi completado a partir dos artefatos
+existentes, sem modificar as decisões históricas; VAL-009 foi reservado como minuta.
+O novo módulo de prontidão seleciona antes de classificar, usa o candidato explícito
+e produz fila humana por lista de campos permitidos. O calculador das métricas foi
+testado com casos sintéticos e a matriz histórica da VAL-007. Essas verificações
+não constituem execução independente. A minuta JSON original permanece preservada
+como referência inicial; suas pendências devem ser lidas com o relatório abaixo.
+
+Consultar [prontidão técnica e pendências de execução](2026-09_m3_v23_validation_readiness.md)
+antes de qualquer selo ou coleta. Ainda é necessário integrar a proveniência do
+coletor, implementar o executor que verifica os manifestos de freeze, auditar a
+exposição adicional e definir custodiante, revisor e armazenamento restrito.
 
 Nenhuma coleta, geração de previsões, revisão humana, alteração de gates históricos,
 congelamento ou promoção foi realizada por este pré-registro em preparação.
