@@ -1,0 +1,234 @@
+{
+  "schema_version": "1.0.0",
+  "protocol_id": "MAR-T2A-M3-VAL-009-PROTOCOL",
+  "experiment_id": "MAR-T2A-M3-VAL-009",
+  "prepared_on": "2026-09-15",
+  "status": "draft_preregistration_pending_readiness_and_freeze",
+  "protocol_version": "2.3.0",
+  "candidate_version": "2.3.0-dev",
+  "candidate_reference_commit": "bb52621862b973301f6fbe5330f2cd1203ab77b8",
+  "candidate_reference_is_freeze": false,
+  "execution_authorized_by_this_artifact": false,
+  "does_not_modify_official_baseline": true,
+  "m4_scaling_allowed": false,
+  "identity_note": "009 is proposed to follow CAL-008; verify and register the identifier before sealing. No independent validation is claimed.",
+  "question": "Does the fixed M3 2.3.0 candidate generalise to public surfaces from entities absent from previous M3 human-labelled development?",
+  "claim_scope": "Surface-level ecological validation, conditional on bounded discovery; not prevalence, completeness of item discovery, or validation of M5/M6/AI.",
+  "entities": [
+    {
+      "entity_id": "cinematek",
+      "root_url": "https://cinematek.be/en/collections/be-film",
+      "country": "Belgium"
+    },
+    {
+      "entity_id": "cinematheque-bretagne",
+      "root_url": "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-0.html",
+      "country": "France"
+    },
+    {
+      "entity_id": "dr",
+      "root_url": "https://www.dr.dk/drtv/gensyn",
+      "country": "Denmark"
+    },
+    {
+      "entity_id": "ert",
+      "root_url": "https://archive.ert.gr/",
+      "country": "Greece"
+    },
+    {
+      "entity_id": "estonian_film_archive",
+      "root_url": "https://arkaader.ee/landing/br/rHczO7kKnl/pbOiQfMOLr",
+      "country": "Estonia"
+    },
+    {
+      "entity_id": "filmoteca_catalunya",
+      "root_url": "https://filmo.platfo.es/pages/home",
+      "country": "Spain"
+    }
+  ],
+  "entity_selection_basis": "Existing CORPORA/config at aaf11778f26bbbaa43aa1aa9e13e4d7f06455864; no new live inspection or predictions used. Novelty is relative to M3 labelled sets, not all MAR collection history. Shared technologies may remain.",
+  "excluded_entities": [
+    "archipop",
+    "bfi",
+    "ecpad",
+    "europeana",
+    "ina",
+    "cinearchives",
+    "cinememoire",
+    "eafa",
+    "eye",
+    "luce",
+    "dff",
+    "filmarchiv_austria",
+    "euscreen",
+    "czech-television",
+    "ciclic",
+    "cineam",
+    "bbc",
+    "bnt",
+    "fina",
+    "cinemateca-portuguesa",
+    "cinematheque-francaise",
+    "home-movies-memoryscapes"
+  ],
+  "exclusion_manifest": "data/digital_infrastructure/ai_experiments/m3_surface_type_known_urls_exclusion_v2_3_draft.json",
+  "exclusion_policy": {
+    "known_review_units": 117,
+    "known_unique_urls": 117,
+    "sources": [
+      {
+        "path": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+        "sha256": "ca3497f013664c4e7aba2690c0d3479cd48cfa7fdaf5b6e00642bc7bbc65d48b",
+        "units": 17
+      },
+      {
+        "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json",
+        "sha256": "9b5f18f840ac4f13941ca208b42a716912ee893eae2da50e68f5af07c8291e14",
+        "units": 33
+      },
+      {
+        "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_1.json",
+        "sha256": "153871a33ada28f3e708528ef61a47b3a249d703cdcff48879d6aee89e78a67d",
+        "units": 36
+      },
+      {
+        "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_2.json",
+        "sha256": "673b5d11e731bc45d0d9415696bc355ce6772ffd4de24ba8a2d9b0c73dae49eb",
+        "units": 31
+      }
+    ],
+    "supplemental_rule": "Before seal, inventory all later development fixtures/URLs and documented aliases. Never treat 117 as an upper limit.",
+    "url_identity": "Lowercase scheme/host, remove default port and fragment; retain path case, query values and ordering. Check exact URL and conservative key for requested and redirected URLs. Known aliases and same-item language variants remain excluded when identifiable without labels.",
+    "new_sample_duplicates": "First occurrence of conservative URL key across all entities wins; log every duplicate and exclusion before applying caps."
+  },
+  "sampling": {
+    "entity_order": "as listed",
+    "max_depth": 2,
+    "max_pages_per_entity": 8,
+    "timeout_seconds": 12,
+    "respect_robots_txt": true,
+    "credentials": false,
+    "access_bypass": false,
+    "max_review_units_per_entity": 6,
+    "max_review_units": 36,
+    "minimum_review_units": 24,
+    "minimum_entities": 5,
+    "ordering": "Frozen discovery traversal order; first six unique non-excluded URL records per entity, including error/restriction records. Select before classification; no class balancing, media-based enrichment or manual URL insertion.",
+    "insufficient_sample": "Stop before review if total <24 or entities <5. Preserve insufficient-sample run; no replacement entities, extra crawl, or cherry-picked rerun.",
+    "retry_policy": "No result-driven reruns. A technical interruption may resume only persisted state with the same sealed code/config; refetch or loss of state invalidates the run. Preserve failures."
+  },
+  "labels": {
+    "surface_types": [
+      "homepage",
+      "institutional_landing_page",
+      "archive_landing_page",
+      "search_or_index",
+      "news_or_editorial",
+      "item_record",
+      "audiovisual_item",
+      "restricted_or_unavailable",
+      "unknown"
+    ],
+    "item_positive": [
+      "item_record",
+      "audiovisual_item"
+    ],
+    "human_unknown_binary": null,
+    "access_states": [
+      "accessible",
+      "geo_restricted",
+      "collector_blocked",
+      "redirect_outside_scope",
+      "request_error",
+      "http_error",
+      "unknown"
+    ],
+    "unit": "Main observed page/snapshot, not a linked media file, parent or institution. An embed alone does not make an editorial/index page an item.",
+    "review": "One primary human reviewer, ID, timestamp, evidence reference and rationale on every unit. No inter-rater reliability claim. Clarifications only before freeze and without model disclosure; preserve amendments.",
+    "temporal_rule": "Judge frozen observation evidence. Later live checks are separately dated context and cannot silently replace the source snapshot or historical access label."
+  },
+  "blinding": {
+    "human_queue_allowed_fields": [
+      "review_unit_id",
+      "entity_id",
+      "page_url",
+      "root_url",
+      "parent_url",
+      "snapshot_reference",
+      "observed_at",
+      "human_surface_type",
+      "human_is_item_level",
+      "human_access_state",
+      "human_review_note",
+      "reviewer_id",
+      "reviewed_at",
+      "review_status"
+    ],
+    "forbidden_fields": [
+      "predicted_surface_type",
+      "predicted_item_level",
+      "prediction_confidence",
+      "prediction_evidence",
+      "predicted_access_state",
+      "predicted_access_evidence",
+      "collector_access_state"
+    ],
+    "evidence_rule": "Provide raw captured evidence, not classifier explanations or derived access labels. A raw HTTP response is evidence, not a supplied human label.",
+    "prediction_storage": "Seal predictions before review in restricted durable storage accessible to the custodian, not reviewer. Publish only digest/provenance and blinded queue. Public GitHub predictions or publicly accessible workflow artifacts are not an adequate blind.",
+    "disclosure": "Only after all human rows and a separate review freeze manifest are persisted."
+  },
+  "metrics": {
+    "fine": "All selected units; confusion matrix with rows human, columns model in listed nine-class order; exact accuracy, per-class precision/recall/F1, support-weighted F1, macro F1 for all classes and human-supported classes.",
+    "zero_division": "Per-class precision/recall/F1 with zero denominator =0 for multiclass summaries; explicitly mark absent support. No selective class removal from weighted F1.",
+    "binary": "Exclude only human unknown/null. Model abstention/unknown is non-item, so a missed human item is FN. TP/TN/FP/FN, precision TP/(TP+FP), recall TP/(TP+FN), specificity TN/(TN+FP), F1 2TP/(2TP+FP+FN), accuracy (TP+TN)/N.",
+    "binary_zero_denominator": "Report null, never perfect score. Any required gate metric undefined yields INCONCLUSIVE unless another evaluable gate already fails.",
+    "access": "Exact agreement over every selected unit; unknown is a category, not an excluded row. Report confusion matrix separately.",
+    "integrity": "Missing/duplicate/extra IDs, missing predictions or invalid human-label/item mapping invalidate evaluation; never shrink denominator to matching rows.",
+    "per_entity": "Report support, TP/TN/FP/FN and exact agreement for every entity. Alias/language siblings clustered in descriptive diagnostics; no independence or population confidence claim."
+  },
+  "gates": {
+    "source": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_validation_protocol_v2_2.json",
+    "threshold_policy": "Reuse existing VAL-007 operational thresholds; no adoption of extra F1 or stricter access suggestions from conversation.",
+    "fine_grained": {
+      "weighted_f1_minimum": 0.5,
+      "major_class_support_minimum": 5,
+      "major_class_recall_minimum": 0.5
+    },
+    "item_level": {
+      "precision_minimum": 0.8,
+      "recall_minimum": 0.7,
+      "specificity_minimum": 0.85,
+      "entity_rule": "Every entity with >=2 human item units must have TP>=1."
+    },
+    "access": {
+      "agreement_minimum": 0.9
+    },
+    "comparison": "Use full precision, >= boundary; rounded displays do not decide gates.",
+    "decision": "Report all three gates separately. Integrity failure = INVALID. Any evaluable criterion failure = FAIL. Otherwise missing sample sufficiency/undefined required metric = INCONCLUSIVE. PASS requires all criteria evaluable and met. Only all-gate PASS supports a later explicit M4 advancement decision; no automatic deployment."
+  },
+  "readiness_requirements": [
+    "Verify/register VAL-007, CAL-008 and proposed VAL-009 in the experiment registry without modifying historical records.",
+    "Freeze candidate wrapper AND imported 2.2.0 base, discovery, configuration, sampling/queue builder, evaluator, exclusions, codebook and dependency versions with SHA-256 and exact commit.",
+    "Implement explicit candidate dispatch and matching version metadata: existing queue builder currently imports the 2.2.0 classifier.",
+    "Remove derived collector_access_state from the blinded queue and verify no prediction leak in files/logs/artifacts shared with reviewer.",
+    "Implement and test the specified URL exclusion/deduplication and metric rules with synthetic/development data only.",
+    "Verify source identities/active status and supplemental development exposure before sealing, without selecting on new model outcomes.",
+    "Record durable private prediction storage, custodian and reviewer roles; do not proceed if blinding cannot be enforced."
+  ],
+  "freeze_sequence": [
+    "Complete readiness checks using known data only",
+    "Seal implementation, protocol and exclusion inventory before sampling",
+    "Execute one bounded discovery run and persist raw snapshots",
+    "Select units without predictions; enforce sufficiency and exclusions",
+    "Generate and seal predictions; release only blinded queue/evidence",
+    "Complete human review then persist separate human freeze",
+    "Open predictions, evaluate once, record every gate and limitation"
+  ],
+  "prohibited": [
+    "No edits to VAL-007 or 2.2.0",
+    "No use of 117 known units as new independent evidence",
+    "No tuning, entity replacement, relabelling, threshold changes or new sampling after seal",
+    "No official T2 change",
+    "No M4 promotion from development replay"
+  ]
+}
