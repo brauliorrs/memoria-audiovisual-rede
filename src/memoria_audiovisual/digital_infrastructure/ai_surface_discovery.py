@@ -8,20 +8,23 @@ autenticação ou contorna barreiras de acesso.
 
 from __future__ import annotations
 
+import base64
 import hashlib
 import heapq
 import json
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Iterable
 from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
 from urllib.robotparser import RobotFileParser
 
 import requests
 from bs4 import BeautifulSoup
 
+from .raw_artifacts import RawArtifactStore
+
 SURFACE_PROTOCOL_VERSION = "1.0.0"
+SURFACE_SNAPSHOT_SCHEMA_VERSION = "1.0.0"
 DEFAULT_USER_AGENT = "MemoriaAudiovisualRede-T2A/1.0 (+public-research-crawler)"
 
 # Vocabulário de descoberta, não evidência suficiente por si só.
@@ -177,6 +180,73 @@ class SurfacePage:
 
 
 @dataclass(frozen=True, slots=True)
+class SurfaceCapture:
+    """Evidence captured before discovery reduces a response to classifier fields."""
+
+    requested_url: str
+    final_url: str | None
+    observed_at: str
+    fetch_status: str
+    status_code: int | None = None
+    content_type: str | None = None
+    response_body: bytes | None = field(default=None, repr=False, compare=False)
+    response_received_bytes: int | None = None
+    response_truncated: bool = False
+    error_type: str | None = None
+    error_message: str | None = None
+    robots_evidence: dict[str, object] | None = field(
+        default=None,
+        repr=False,
+        compare=False,
+    )
+
+    def snapshot_payload(
+        self,
+        *,
+        report: "SurfaceDiscoveryReport",
+        page: SurfacePage,
+        run_id: str,
+        entity_id: str,
+    ) -> dict[str, object]:
+        response: dict[str, object] | None = None
+        if self.response_body is not None:
+            response = {
+                "status_code": self.status_code,
+                "content_type": self.content_type,
+                "received_byte_size": self.response_received_bytes,
+                "captured_byte_size": len(self.response_body),
+                "captured_sha256": hashlib.sha256(self.response_body).hexdigest(),
+                "truncated": self.response_truncated,
+                "body_base64": base64.b64encode(self.response_body).decode("ascii"),
+            }
+
+        error: dict[str, str | None] | None = None
+        if self.error_type is not None or self.error_message is not None:
+            error = {
+                "type": self.error_type,
+                "message": self.error_message,
+            }
+
+        return {
+            "snapshot_schema_version": SURFACE_SNAPSHOT_SCHEMA_VERSION,
+            "collector_protocol_version": report.protocol_version,
+            "run_id": run_id,
+            "entity_id": entity_id,
+            "root_url": report.root_url,
+            "requested_url": self.requested_url,
+            "final_url": self.final_url,
+            "parent_url": page.parent_url,
+            "depth": page.depth,
+            "observed_at": self.observed_at,
+            "fetch_status": self.fetch_status,
+            "collector_policy": asdict(report.policy),
+            "response": response,
+            "robots": self.robots_evidence,
+            "error": error,
+        }
+
+
+@dataclass(frozen=True, slots=True)
 class SurfaceDiscoveryReport:
     root_url: str
     institutional_base_host: str
@@ -186,12 +256,19 @@ class SurfaceDiscoveryReport:
     finished_at: str
     protocol_version: str = SURFACE_PROTOCOL_VERSION
     errors: tuple[str, ...] = ()
+    captures: tuple[SurfaceCapture, ...] = field(
+        default=(),
+        repr=False,
+        compare=False,
+    )
 
     @property
     def fetched_pages(self) -> int:
         return sum(page.fetch_status == "fetched" for page in self.pages)
 
     def to_dict(self) -> dict[str, object]:
+        # Captures deliberately remain out of this legacy view. The materializer
+        # preserves them as content-addressed snapshot artifacts first.
         return {
             "protocol_version": self.protocol_version,
             "root_url": self.root_url,
@@ -267,7 +344,12 @@ def _link_priority(url: str, anchor_text: str) -> int:
     return -score
 
 
-def _extract_html_payload(html: str, *, base_url: str, max_text_chars: int) -> tuple[
+def _extract_html_payload(
+    html: str,
+    *,
+    base_url: str,
+    max_text_chars: int,
+) -> tuple[
     str,
     str | None,
     str,
@@ -322,7 +404,11 @@ def _extract_html_payload(html: str, *, base_url: str, max_text_chars: int) -> t
     )
 
 
-def _extract_non_html_payload(text: str, *, max_text_chars: int) -> tuple[str, str | None, str, str]:
+def _extract_non_html_payload(
+    text: str,
+    *,
+    max_text_chars: int,
+) -> tuple[str, str | None, str, str]:
     body = text[:max_text_chars]
     return body, None, "", ""
 
@@ -331,20 +417,49 @@ class _RobotsPolicy:
     def __init__(self, *, session: requests.Session, policy: SurfaceDiscoveryPolicy) -> None:
         self.session = session
         self.policy = policy
-        self._cache: dict[str, RobotFileParser | None | bool] = {}
+        self._cache: dict[
+            str,
+            tuple[RobotFileParser | None | bool, dict[str, object]],
+        ] = {}
 
-    def allows(self, url: str) -> bool:
+    @staticmethod
+    def _body_evidence(
+        body: bytes,
+        *,
+        received_size: int,
+        truncated: bool,
+    ) -> dict[str, object]:
+        return {
+            "received_byte_size": received_size,
+            "captured_byte_size": len(body),
+            "captured_sha256": hashlib.sha256(body).hexdigest(),
+            "truncated": truncated,
+            "body_base64": base64.b64encode(body).decode("ascii"),
+        }
+
+    def decision(self, url: str) -> tuple[bool, dict[str, object]]:
+        """Return the access decision together with evidence used to make it."""
         if not self.policy.respect_robots_txt:
-            return True
+            return True, {
+                "checked": False,
+                "allowed": True,
+                "reason": "robots_check_disabled",
+            }
+
         parts = urlsplit(url)
         origin = f"{parts.scheme}://{parts.netloc}"
-        cached = self._cache.get(origin)
-        if cached is False:
-            return False
-        if isinstance(cached, RobotFileParser):
-            return cached.can_fetch(self.policy.user_agent, url)
+        robots_url = origin + "/robots.txt"
+
         if origin not in self._cache:
-            robots_url = origin + "/robots.txt"
+            state: RobotFileParser | None | bool = None
+            evidence: dict[str, object] = {
+                "checked": True,
+                "robots_url": robots_url,
+                "status_code": None,
+                "final_url": None,
+                "response": None,
+                "error": None,
+            }
             try:
                 response = self.session.get(
                     robots_url,
@@ -352,22 +467,53 @@ class _RobotsPolicy:
                     headers={"User-Agent": self.policy.user_agent},
                     allow_redirects=True,
                 )
+                full_body = response.content
+                raw_body = full_body[: self.policy.max_response_bytes]
+                truncated = len(full_body) > self.policy.max_response_bytes
+                evidence["status_code"] = response.status_code
+                evidence["final_url"] = str(response.url)
+                evidence["response"] = self._body_evidence(
+                    raw_body,
+                    received_size=len(full_body),
+                    truncated=truncated,
+                )
+
                 if response.status_code in {401, 403}:
-                    self._cache[origin] = False
-                    return False
-                if response.status_code == 404:
-                    self._cache[origin] = None
-                    return True
-                if response.ok:
+                    state = False
+                elif response.status_code == 404:
+                    state = None
+                elif response.ok:
                     parser = RobotFileParser()
                     parser.set_url(robots_url)
                     parser.parse(response.text.splitlines())
-                    self._cache[origin] = parser
-                    return parser.can_fetch(self.policy.user_agent, url)
-            except requests.RequestException:
-                pass
-            self._cache[origin] = None
-        return True
+                    state = parser
+            except requests.RequestException as exc:
+                evidence["error"] = {
+                    "type": type(exc).__name__,
+                    "message": str(exc),
+                }
+                state = None
+            self._cache[origin] = (state, evidence)
+
+        state, evidence = self._cache[origin]
+        if state is False:
+            allowed = False
+            reason = "robots_endpoint_denied"
+        elif isinstance(state, RobotFileParser):
+            allowed = state.can_fetch(self.policy.user_agent, url)
+            reason = "robots_rule_allow" if allowed else "robots_rule_deny"
+        else:
+            allowed = True
+            reason = "no_enforceable_robots_rule"
+
+        current = dict(evidence)
+        current["allowed"] = allowed
+        current["reason"] = reason
+        return allowed, current
+
+    def allows(self, url: str) -> bool:
+        """Compatibility view for callers that only need the Boolean decision."""
+        return self.decision(url)[0]
 
 
 def discover_public_surfaces(
@@ -390,9 +536,19 @@ def discover_public_surfaces(
 
     queue: list[_QueueItem] = []
     sequence = 0
-    heapq.heappush(queue, _QueueItem(priority=-10_000, sequence=sequence, url=canonical_root, parent_url=None, depth=0))
+    heapq.heappush(
+        queue,
+        _QueueItem(
+            priority=-10_000,
+            sequence=sequence,
+            url=canonical_root,
+            parent_url=None,
+            depth=0,
+        ),
+    )
     seen: set[str] = set()
     pages: list[SurfacePage] = []
+    captures: list[SurfaceCapture] = []
     errors: list[str] = []
 
     try:
@@ -404,7 +560,10 @@ def discover_public_surfaces(
 
             if not is_url_in_institutional_scope(item.url, canonical_root):
                 continue
-            if not robots.allows(item.url):
+
+            allowed, robots_evidence = robots.decision(item.url)
+            if not allowed:
+                observed_at = _utcnow_iso()
                 pages.append(
                     SurfacePage(
                         url=item.url,
@@ -417,8 +576,17 @@ def discover_public_surfaces(
                         text="",
                         metadata_text="",
                         structured_text="",
-                        fetched_at=_utcnow_iso(),
+                        fetched_at=observed_at,
                         fetch_status="blocked_by_robots",
+                    )
+                )
+                captures.append(
+                    SurfaceCapture(
+                        requested_url=item.url,
+                        final_url=None,
+                        observed_at=observed_at,
+                        fetch_status="blocked_by_robots",
+                        robots_evidence=robots_evidence,
                     )
                 )
                 continue
@@ -427,10 +595,17 @@ def discover_public_surfaces(
                 response = http.get(
                     item.url,
                     timeout=policy.timeout_seconds,
-                    headers={"User-Agent": policy.user_agent, "Accept": "text/html,application/xhtml+xml,application/json,text/plain;q=0.8,*/*;q=0.1"},
+                    headers={
+                        "User-Agent": policy.user_agent,
+                        "Accept": (
+                            "text/html,application/xhtml+xml,application/json,"
+                            "text/plain;q=0.8,*/*;q=0.1"
+                        ),
+                    },
                     allow_redirects=True,
                 )
             except requests.RequestException as exc:
+                observed_at = _utcnow_iso()
                 errors.append(f"{item.url}: {type(exc).__name__}: {exc}")
                 pages.append(
                     SurfacePage(
@@ -444,13 +619,35 @@ def discover_public_surfaces(
                         text="",
                         metadata_text="",
                         structured_text="",
-                        fetched_at=_utcnow_iso(),
+                        fetched_at=observed_at,
                         fetch_status="request_error",
+                    )
+                )
+                captures.append(
+                    SurfaceCapture(
+                        requested_url=item.url,
+                        final_url=None,
+                        observed_at=observed_at,
+                        fetch_status="request_error",
+                        error_type=type(exc).__name__,
+                        error_message=str(exc),
+                        robots_evidence=robots_evidence,
                     )
                 )
                 continue
 
-            final_url = canonicalize_public_url(response.url) or item.url
+            # Preserve the HTTP response before the collector discards fields that
+            # are not needed by the classifier.
+            observed_at = _utcnow_iso()
+            final_url_raw = str(response.url)
+            final_url = canonicalize_public_url(final_url_raw) or item.url
+            full_body = response.content
+            raw_body = full_body[: policy.max_response_bytes]
+            truncated = len(full_body) > policy.max_response_bytes
+            content_hash = hashlib.sha256(raw_body).hexdigest()
+            raw_content_type = str(response.headers.get("Content-Type") or "")
+            content_type = raw_content_type.split(";", 1)[0].strip().lower()
+
             if not is_url_in_institutional_scope(final_url, canonical_root):
                 pages.append(
                     SurfacePage(
@@ -458,24 +655,38 @@ def discover_public_surfaces(
                         parent_url=item.parent_url,
                         depth=item.depth,
                         status_code=response.status_code,
-                        content_type=response.headers.get("Content-Type"),
-                        content_sha256=None,
+                        content_type=raw_content_type or None,
+                        content_sha256=content_hash,
                         title=None,
                         text="",
                         metadata_text="",
                         structured_text="",
-                        fetched_at=_utcnow_iso(),
+                        fetched_at=observed_at,
+                        truncated=truncated,
                         fetch_status="redirect_outside_scope",
+                    )
+                )
+                captures.append(
+                    SurfaceCapture(
+                        requested_url=item.url,
+                        final_url=final_url_raw,
+                        observed_at=observed_at,
+                        fetch_status="redirect_outside_scope",
+                        status_code=response.status_code,
+                        content_type=raw_content_type or None,
+                        response_body=raw_body,
+                        response_received_bytes=len(full_body),
+                        response_truncated=truncated,
+                        robots_evidence=robots_evidence,
                     )
                 )
                 continue
 
-            raw = response.content[: policy.max_response_bytes]
-            truncated = len(response.content) > policy.max_response_bytes
-            content_hash = hashlib.sha256(raw).hexdigest()
-            content_type = str(response.headers.get("Content-Type") or "").split(";", 1)[0].strip().lower()
-            allowed_type = not content_type or any(content_type.startswith(value) for value in _ALLOWED_CONTENT_TYPES)
+            allowed_type = not content_type or any(
+                content_type.startswith(value) for value in _ALLOWED_CONTENT_TYPES
+            )
             if not response.ok or not allowed_type:
+                fetch_status = "http_error" if not response.ok else "unsupported_content_type"
                 pages.append(
                     SurfacePage(
                         url=final_url,
@@ -488,18 +699,39 @@ def discover_public_surfaces(
                         text="",
                         metadata_text="",
                         structured_text="",
-                        fetched_at=_utcnow_iso(),
+                        fetched_at=observed_at,
                         truncated=truncated,
-                        fetch_status="http_error" if not response.ok else "unsupported_content_type",
+                        fetch_status=fetch_status,
+                    )
+                )
+                captures.append(
+                    SurfaceCapture(
+                        requested_url=item.url,
+                        final_url=final_url_raw,
+                        observed_at=observed_at,
+                        fetch_status=fetch_status,
+                        status_code=response.status_code,
+                        content_type=raw_content_type or None,
+                        response_body=raw_body,
+                        response_received_bytes=len(full_body),
+                        response_truncated=truncated,
+                        robots_evidence=robots_evidence,
                     )
                 )
                 continue
 
             encoding = response.encoding or "utf-8"
-            decoded = raw.decode(encoding, errors="replace")
+            decoded = raw_body.decode(encoding, errors="replace")
             links: tuple[tuple[str, str], ...] = ()
             if content_type in {"text/html", "application/xhtml+xml"} or "<html" in decoded[:500].lower():
-                text, title, metadata_text, structured_text, media_urls, links = _extract_html_payload(
+                (
+                    text,
+                    title,
+                    metadata_text,
+                    structured_text,
+                    media_urls,
+                    links,
+                ) = _extract_html_payload(
                     decoded,
                     base_url=final_url,
                     max_text_chars=policy.max_text_chars,
@@ -525,8 +757,22 @@ def discover_public_surfaces(
                     structured_text=structured_text,
                     media_urls=media_urls,
                     discovered_links=len(links),
-                    fetched_at=_utcnow_iso(),
+                    fetched_at=observed_at,
                     truncated=truncated,
+                )
+            )
+            captures.append(
+                SurfaceCapture(
+                    requested_url=item.url,
+                    final_url=final_url_raw,
+                    observed_at=observed_at,
+                    fetch_status="fetched",
+                    status_code=response.status_code,
+                    content_type=raw_content_type or None,
+                    response_body=raw_body,
+                    response_received_bytes=len(full_body),
+                    response_truncated=truncated,
+                    robots_evidence=robots_evidence,
                 )
             )
 
@@ -565,7 +811,51 @@ def discover_public_surfaces(
         started_at=started_at,
         finished_at=_utcnow_iso(),
         errors=tuple(errors),
+        captures=tuple(captures),
     )
+
+
+def _validate_storage_segment(value: str, *, label: str) -> str:
+    if (
+        not isinstance(value, str)
+        or not value
+        or value in {".", ".."}
+        or "/" in value
+        or "\\" in value
+    ):
+        raise ValueError(f"{label} deve ser um identificador simples")
+    return value
+
+
+def _write_materialization_files(
+    report_path: Path,
+    classifier_path: Path,
+    *,
+    report_text: str,
+    classifier_text: str,
+) -> None:
+    """Create both derived files without ever replacing an existing artifact."""
+    if report_path.exists() or classifier_path.exists():
+        raise FileExistsError("materialização existente; sobrescrita recusada")
+
+    created: list[Path] = []
+    try:
+        with report_path.open("x", encoding="utf-8", newline="\n") as handle:
+            handle.write(report_text)
+        created.append(report_path)
+
+        with classifier_path.open("x", encoding="utf-8", newline="\n") as handle:
+            handle.write(classifier_text)
+        created.append(classifier_path)
+    except Exception:
+        # Roll back only files created by this incomplete transaction. Historical
+        # artifacts that predated the call are never touched.
+        for path in reversed(created):
+            try:
+                path.unlink()
+            except FileNotFoundError:
+                pass
+        raise
 
 
 def materialize_surface_discovery(
@@ -575,21 +865,70 @@ def materialize_surface_discovery(
     run_id: str,
     entity_id: str,
 ) -> tuple[Path, Path]:
-    """Persiste auditoria completa e texto separado usado pelo classificador."""
-    root = Path(output_dir) / "_ai_surface_discovery" / run_id / entity_id
+    """Persist audit, classifier input and immutable evidence for each observation."""
+    run_id = _validate_storage_segment(run_id, label="run_id")
+    entity_id = _validate_storage_segment(entity_id, label="entity_id")
+    if len(report.captures) != len(report.pages):
+        raise ValueError("capturas ausentes ou desalinhadas; proveniência incompleta")
+
+    output_root = Path(output_dir)
+    root = output_root / "_ai_surface_discovery" / run_id / entity_id
     root.mkdir(parents=True, exist_ok=True)
     report_path = root / "surface_discovery_report.json"
     classifier_path = root / "surface_classifier_text.jsonl"
 
-    report_path.write_text(
-        json.dumps(report.to_dict(), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+    if report_path.exists() or classifier_path.exists():
+        raise FileExistsError("materialização existente; sobrescrita recusada")
+
+    snapshot_store = RawArtifactStore(root / "snapshots")
+    page_payloads: list[dict[str, object]] = []
+    for page, capture in zip(report.pages, report.captures, strict=True):
+        if page.fetch_status != capture.fetch_status or page.fetched_at != capture.observed_at:
+            raise ValueError("captura e página divergentes")
+
+        artifact = snapshot_store.preserve(
+            capture.snapshot_payload(
+                report=report,
+                page=page,
+                run_id=run_id,
+                entity_id=entity_id,
+            )
+        )
+        artifact_path = Path(artifact.path)
+        snapshot_reference = artifact_path.relative_to(output_root).as_posix()
+
+        page_payload = asdict(page)
+        page_payload["requested_url"] = capture.requested_url
+        page_payload["final_url"] = capture.final_url
+        # VAL-009 consumes the actual final URL when a response exists. For a
+        # block or request error there is no final response URL, so the unit is
+        # anchored to the URL that was actually requested.
+        page_payload["url"] = capture.final_url or page.url
+        page_payload["snapshot_reference"] = snapshot_reference
+        page_payload["snapshot_sha256"] = artifact.sha256
+        page_payloads.append(page_payload)
+
+    report_payload = report.to_dict()
+    report_payload["pages"] = page_payloads
+    report_payload["snapshot_schema_version"] = SURFACE_SNAPSHOT_SCHEMA_VERSION
+    report_text = json.dumps(
+        report_payload,
+        ensure_ascii=False,
+        indent=2,
+        sort_keys=True,
+    ) + "\n"
+    classifier_text = "".join(
+        json.dumps(page.classifier_payload(), ensure_ascii=False, sort_keys=True) + "\n"
+        for page in report.pages
+        if page.fetch_status == "fetched"
     )
-    with classifier_path.open("w", encoding="utf-8") as handle:
-        for page in report.pages:
-            if page.fetch_status != "fetched":
-                continue
-            handle.write(json.dumps(page.classifier_payload(), ensure_ascii=False, sort_keys=True) + "\n")
+
+    _write_materialization_files(
+        report_path,
+        classifier_path,
+        report_text=report_text,
+        classifier_text=classifier_text,
+    )
     return report_path, classifier_path
 
 
@@ -615,6 +954,8 @@ def discover_and_materialize_public_surfaces(
 __all__ = [
     "DISCOVERY_TERMS",
     "SURFACE_PROTOCOL_VERSION",
+    "SURFACE_SNAPSHOT_SCHEMA_VERSION",
+    "SurfaceCapture",
     "SurfaceDiscoveryPolicy",
     "SurfaceDiscoveryReport",
     "SurfacePage",
