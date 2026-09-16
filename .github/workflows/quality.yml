@@ -23,7 +23,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install -e .
+          pip install -e . pytest
 
       - name: Compile Python modules
         run: |
@@ -53,6 +53,9 @@ jobs:
           python -m py_compile src/memoria_audiovisual/sfa.py
           python -m py_compile src/memoria_audiovisual/sfa_exports.py
           python -m py_compile src/memoria_audiovisual/timeline.py
+          python -m py_compile src/memoria_audiovisual/statetech/digital_infrastructure_adapter.py
+          python -m py_compile src/memoria_audiovisual/statetech/digital_infrastructure_review.py
+          python -m py_compile scripts/audit_digital_infrastructure.py
           python -m py_compile scripts/build_ape_analytics.py
           python -m py_compile scripts/build_euscreen_analytics.py
           python -m py_compile scripts/build_ina_analytics.py
@@ -81,8 +84,11 @@ jobs:
           python -m py_compile scripts/check_anf_outputs.py
           python -m py_compile scripts/check_sfa_outputs.py
 
-      - name: Run unit tests
+      - name: Run unittest suite
         run: python -m unittest discover -s tests -v
+
+      - name: Validate Porta 2 contract
+        run: python -m pytest -q tests/test_digital_infrastructure_audit.py tests/test_digital_infrastructure_phase2.py
 
       - name: Check deployment snapshot
         run: python scripts/check_deployment_ready.py

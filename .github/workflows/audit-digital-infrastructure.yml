@@ -29,10 +29,10 @@ jobs:
           cache: pip
 
       - name: Instalar dependências
-        run: python -m pip install --upgrade pip && pip install -r requirements.txt pytest
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt pytest && pip install -e .
 
-      - name: Validar detectores
-        run: pytest -q tests/test_digital_infrastructure.py
+      - name: Validar detectores e contrato da Porta 2
+        run: pytest -q tests/test_digital_infrastructure_audit.py tests/test_digital_infrastructure_phase2.py
 
       - name: Executar auditoria piloto
         env:
@@ -45,15 +45,28 @@ jobs:
         run: |
           test -s data/output/digital_infrastructure_audit.csv
           test -s data/output/digital_infrastructure_audit.json
+          test -s data/output/digital_infrastructure_audit_raw.csv
+          test -s data/output/digital_infrastructure_audit_raw.json
+          test -s data/output/digital_infrastructure_audit_curated.csv
+          test -s data/output/digital_infrastructure_audit_curated.json
+          test -s data/output/digital_infrastructure_audit_publishable.csv
+          test -s data/output/digital_infrastructure_audit_publishable.json
+          test -s data/output/digital_infrastructure_audit_ledger.jsonl
           python - <<'PY'
           import json
           from pathlib import Path
 
-          path = Path('data/output/digital_infrastructure_audit.json')
-          payload = json.loads(path.read_text(encoding='utf-8'))
-          if not payload:
-              raise SystemExit('A auditoria não retornou registros.')
-          print(f'Registros auditados: {len(payload)}')
+          legacy = json.loads(Path('data/output/digital_infrastructure_audit.json').read_text(encoding='utf-8'))
+          raw = json.loads(Path('data/output/digital_infrastructure_audit_raw.json').read_text(encoding='utf-8'))
+          curated = json.loads(Path('data/output/digital_infrastructure_audit_curated.json').read_text(encoding='utf-8'))
+          publishable = json.loads(Path('data/output/digital_infrastructure_audit_publishable.json').read_text(encoding='utf-8'))
+          if not legacy or not raw:
+              raise SystemExit('A auditoria não retornou observações contratuais.')
+          if any(item.get('review_status') != 'pending_review' for item in raw):
+              raise SystemExit('A coleta automática promoveu indevidamente um registro para revisão concluída.')
+          if curated or publishable:
+              raise SystemExit('O piloto automático não pode gerar resultados curados/publicáveis sem revisão humana.')
+          print(f'Unidades legadas: {len(legacy)}; detecções contratuais: {len(raw)}')
           PY
 
       - name: Publicar resultados da auditoria
@@ -63,5 +76,12 @@ jobs:
           path: |
             data/output/digital_infrastructure_audit.csv
             data/output/digital_infrastructure_audit.json
+            data/output/digital_infrastructure_audit_raw.csv
+            data/output/digital_infrastructure_audit_raw.json
+            data/output/digital_infrastructure_audit_curated.csv
+            data/output/digital_infrastructure_audit_curated.json
+            data/output/digital_infrastructure_audit_publishable.csv
+            data/output/digital_infrastructure_audit_publishable.json
+            data/output/digital_infrastructure_audit_ledger.jsonl
           if-no-files-found: error
           retention-days: 30
