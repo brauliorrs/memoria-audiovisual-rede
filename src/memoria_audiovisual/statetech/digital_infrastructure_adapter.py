@@ -100,8 +100,10 @@ def _make_detection(
     evidence_source: str,
     evidence_value: str | None,
     automatic_confidence: str,
+    evidence_url: str | None = None,
 ) -> AdaptedRecord:
-    evidence_url = _safe_url(source.get("final_url"), str(source["source_url"]))
+    fallback_url = _safe_url(source.get("final_url"), str(source["source_url"]))
+    resolved_evidence_url = _safe_url(evidence_url, fallback_url)
     payload: dict[str, Any] = {
         "observation_id": observation_id,
         "snapshot_id": str(source["snapshot_id"]),
@@ -122,7 +124,7 @@ def _make_detection(
         "detector_version": DETECTOR_VERSION,
         "evidence_source": evidence_source,
         "evidence_value": evidence_value or None,
-        "evidence_url": evidence_url,
+        "evidence_url": resolved_evidence_url,
         "review_status": "pending_review",
         "reviewed_at": None,
         "reviewer": None,
@@ -130,11 +132,11 @@ def _make_detection(
         "supporting_source": None,
     }
 
-    natural_key = "|".join((observation_id, detector_id, detected_value))
+    natural_key = "|".join((observation_id, resolved_evidence_url, detector_id, detected_value))
     entity_id = stable_id(ENTITY_TYPE, natural_key)
     evidence_id = stable_id("evidence", natural_key)
     evidence = EvidenceRecord(
-        evidence_url=evidence_url,
+        evidence_url=resolved_evidence_url,
         evidence_type=detector_group,
         collection_method="public_surface_heuristic",
         source_title=str(source.get("institution") or "") or None,
@@ -206,20 +208,27 @@ class DigitalInfrastructureAuditAdapter:
                 values = ()
             evidence_value = str(source.get(spec.evidence_field) or "").strip() if spec.evidence_field else ""
             if values:
+                evidence_urls = (
+                    _split_values(source.get("evidence_urls"))
+                    if spec.detector_id == "api_surface"
+                    else ()
+                )
                 for value in values:
-                    records.append(
-                        _make_detection(
-                            source=source,
-                            observation_id=observation_id,
-                            detector_group=spec.detector_group,
-                            detector_id=spec.detector_id,
-                            detected_value=value,
-                            detection_status="detected",
-                            evidence_source=spec.evidence_source,
-                            evidence_value=evidence_value or value,
-                            automatic_confidence="medium",
+                    for evidence_url in evidence_urls or (None,):
+                        records.append(
+                            _make_detection(
+                                source=source,
+                                observation_id=observation_id,
+                                detector_group=spec.detector_group,
+                                detector_id=spec.detector_id,
+                                detected_value=value,
+                                detection_status="detected",
+                                evidence_source=spec.evidence_source,
+                                evidence_value=evidence_value or value,
+                                automatic_confidence="medium",
+                                evidence_url=evidence_url,
+                            )
                         )
-                    )
             else:
                 records.append(
                     _make_detection(
