@@ -204,15 +204,15 @@ class DigitalInfrastructureAuditAdapter:
 
         for spec in DETECTOR_SPECS:
             values = _split_values(source.get(spec.source_field))
+            evidence_urls: tuple[str, ...] = ()
             if spec.detector_id == "cms_signature" and values and values[0].lower().startswith("não identificado"):
                 values = ()
+            if spec.detector_id == "api_surface":
+                evidence_urls = _split_values(source.get("evidence_urls"))
+                if not values and bool(source.get("api_open_detected")) and evidence_urls:
+                    values = (spec.empty_value,)
             evidence_value = str(source.get(spec.evidence_field) or "").strip() if spec.evidence_field else ""
             if values:
-                evidence_urls = (
-                    _split_values(source.get("evidence_urls"))
-                    if spec.detector_id == "api_surface"
-                    else ()
-                )
                 for value in values:
                     for evidence_url in evidence_urls or (None,):
                         records.append(
@@ -224,7 +224,7 @@ class DigitalInfrastructureAuditAdapter:
                                 detected_value=value,
                                 detection_status="detected",
                                 evidence_source=spec.evidence_source,
-                                evidence_value=evidence_value or value,
+                                evidence_value=evidence_value or evidence_url or value,
                                 automatic_confidence="medium",
                                 evidence_url=evidence_url,
                             )
