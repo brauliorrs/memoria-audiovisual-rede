@@ -32,6 +32,7 @@ def sample_source() -> dict:
         "http_status": 200,
         "reachable": True,
         "cms": "Omeka S 4.0",
+        "api_open_detected": True,
         "api_types": "IIIF | REST/JSON",
         "api_evidence": "iiif manifest | /api/",
         "evidence_urls": "https://example.org/iiif/manifest/1",
@@ -96,6 +97,29 @@ def test_api_evidence_urls_are_preserved_in_detection_identity():
     assert len(set(evidence_ids)) == 2
 
 
+def test_link_only_api_signal_is_not_downgraded_to_not_detected():
+    source = sample_source()
+    source.update(
+        {
+            "api_open_detected": True,
+            "api_types": "",
+            "api_evidence": "",
+            "evidence_urls": "https://example.org/service/manifest",
+        }
+    )
+
+    records = [
+        record
+        for record in DigitalInfrastructureAuditAdapter().adapt(source)
+        if record.payload["detector_id"] == "api_surface"
+    ]
+
+    assert len(records) == 1
+    assert records[0].payload["detected_value"] == "public_api_signal"
+    assert records[0].payload["detection_status"] == "detected"
+    assert records[0].payload["evidence_url"] == "https://example.org/service/manifest"
+
+
 def test_unreachable_surface_is_not_interpreted_as_technology_absence():
     source = sample_source()
     source.update(
@@ -104,6 +128,7 @@ def test_unreachable_surface_is_not_interpreted_as_technology_absence():
             "http_status": 403,
             "final_url": "",
             "cms": "",
+            "api_open_detected": False,
             "api_types": "",
             "api_evidence": "",
             "evidence_urls": "",
