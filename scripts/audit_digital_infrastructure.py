@@ -29,6 +29,9 @@ from memoria_audiovisual.statetech.digital_infrastructure_adapter import (
     curated_rows,
     publishable_rows,
 )
+from memoria_audiovisual.statetech.digital_infrastructure_review import (
+    latest_infrastructure_rows,
+)
 from memoria_audiovisual.statetech.ledger import AtomicLedger
 from memoria_audiovisual.statetech.service import StatetechDataService
 
@@ -167,8 +170,10 @@ def main() -> int:
         json.dumps(legacy_records, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
+    latest_rows = latest_infrastructure_rows(service)
     schema_columns = list(schemas.load("digital_infrastructure_audit").get("properties", {}).keys())
-    extra_columns = sorted({key for row in raw_rows for key in row if key not in schema_columns})
+    export_rows = [*raw_rows, *latest_rows]
+    extra_columns = sorted({key for row in export_rows for key in row if key not in schema_columns})
     columns = [*schema_columns, *extra_columns]
     _write_table(
         raw_rows,
@@ -177,7 +182,7 @@ def main() -> int:
         columns=columns,
     )
 
-    curated = curated_rows(raw_rows)
+    curated = curated_rows(latest_rows)
     _write_table(
         curated,
         OUTPUT_DIR / CURATED_CSV_FILENAME,
@@ -185,7 +190,7 @@ def main() -> int:
         columns=columns,
     )
 
-    publishable = publishable_rows(raw_rows)
+    publishable = publishable_rows(latest_rows)
     _write_table(
         publishable,
         OUTPUT_DIR / PUBLISHABLE_CSV_FILENAME,

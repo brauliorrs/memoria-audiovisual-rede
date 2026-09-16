@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import replace
 from datetime import datetime, timezone
+from typing import Any
 
 from .adapters import AdaptedRecord
 from .ids import stable_id
@@ -18,6 +19,24 @@ NOTE_REQUIRED = frozenset({"probable", "inconclusive", "false_positive", "not_as
 
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def latest_infrastructure_rows(service: StatetechDataService) -> list[dict[str, Any]]:
+    """Materializa a última versão registrada de cada entidade da auditoria."""
+    latest_by_entity: dict[str, dict[str, Any]] = {}
+    for entry in service.ledger.read_all():
+        for envelope in entry.records:
+            if envelope.get("record_type") != "entity_version":
+                continue
+            entity = envelope.get("payload")
+            if not isinstance(entity, dict) or entity.get("entity_type") != "digital_infrastructure_audit":
+                continue
+            entity_id = str(entity.get("entity_id") or "").strip()
+            payload = entity.get("payload")
+            if not entity_id or not isinstance(payload, dict):
+                continue
+            latest_by_entity[entity_id] = dict(payload)
+    return list(latest_by_entity.values())
 
 
 def register_infrastructure_review(

@@ -9,6 +9,7 @@ from memoria_audiovisual.statetech.digital_infrastructure_adapter import (
     publishable_rows,
 )
 from memoria_audiovisual.statetech.digital_infrastructure_review import (
+    latest_infrastructure_rows,
     register_infrastructure_review,
 )
 from memoria_audiovisual.statetech.ledger import AtomicLedger
@@ -33,6 +34,7 @@ def sample_source() -> dict:
         "cms": "Omeka S 4.0",
         "api_types": "IIIF | REST/JSON",
         "api_evidence": "iiif manifest | /api/",
+        "evidence_urls": "https://example.org/iiif/manifest/1",
         "metadata_formats": "JSON-LD / Schema.org | Dublin Core",
         "interoperability_protocols": "IIIF | Schema.org",
         "search_mechanisms": "Formulário de busca HTML",
@@ -65,6 +67,35 @@ def test_adapter_emits_contract_rows_pending_review_and_unique_evidence():
     assert any(record.payload["detected_value"] == "IIIF" for record in records)
 
 
+def test_api_evidence_urls_are_preserved_in_detection_identity():
+    source = sample_source()
+    source.update(
+        {
+            "api_types": "IIIF",
+            "api_evidence": "iiif",
+            "evidence_urls": (
+                "https://example.org/iiif/manifest/1 | "
+                "https://example.org/iiif/manifest/2"
+            ),
+        }
+    )
+
+    records = [
+        record
+        for record in DigitalInfrastructureAuditAdapter().adapt(source)
+        if record.payload["detector_id"] == "api_surface"
+        and record.payload["detected_value"] == "IIIF"
+    ]
+
+    assert [record.payload["evidence_url"] for record in records] == [
+        "https://example.org/iiif/manifest/1",
+        "https://example.org/iiif/manifest/2",
+    ]
+    assert len({record.natural_key for record in records}) == 2
+    evidence_ids = [record.evidences[0].to_dict()["evidence_id"] for record in records]
+    assert len(set(evidence_ids)) == 2
+
+
 def test_unreachable_surface_is_not_interpreted_as_technology_absence():
     source = sample_source()
     source.update(
@@ -74,6 +105,8 @@ def test_unreachable_surface_is_not_interpreted_as_technology_absence():
             "final_url": "",
             "cms": "",
             "api_types": "",
+            "api_evidence": "",
+            "evidence_urls": "",
             "metadata_formats": "",
             "interoperability_protocols": "",
             "search_mechanisms": "",
@@ -119,6 +152,36 @@ def test_human_review_creates_new_immutable_version(tmp_path):
     assert reviewed.version_id != raw_entity.version_id
     assert reviewed.payload["review_status"] == "confirmed"
     assert len(ledger.read_all()) == 2
+
+
+def test_latest_ledger_version_drives_curated_and_publishable_views(tmp_path):
+    source_record = DigitalInfrastructureAuditAdapter().adapt(sample_source())[0]
+    ledger = AtomicLedger(tmp_path / "infrastructure.jsonl")
+    service = StatetechDataService(ledger, SchemaRegistry(REPOSITORY_ROOT))
+
+    raw_entity = service.register_entity(
+        entity_type=source_record.entity_type,
+        natural_key=source_record.natural_key,
+        payload=source_record.payload,
+        provenance=source_record.provenance,
+        evidences=source_record.evidences,
+    )
+    register_infrastructure_review(
+        service,
+        source_record=source_record,
+        previous_version_id=raw_entity.version_id,
+        review_status="confirmed",
+        reviewer="reviewer:test",
+        review_note="Evidência confirmada na revisão humana.",
+        reviewed_at="2026-08-18T18:30:00+00:00",
+    )
+
+    latest_rows = latest_infrastructure_rows(service)
+
+    assert len(latest_rows) == 1
+    assert latest_rows[0]["review_status"] == "confirmed"
+    assert [row["review_status"] for row in curated_rows(latest_rows)] == ["confirmed"]
+    assert [row["review_status"] for row in publishable_rows(latest_rows)] == ["confirmed"]
 
 
 def test_nonconfirmed_review_requires_note(tmp_path):
