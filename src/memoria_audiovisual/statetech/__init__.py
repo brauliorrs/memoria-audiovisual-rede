@@ -1,8 +1,11 @@
-"""Núcleo executável da camada Estado–tecnologia."""
+"""Compatibilidade para o antigo namespace Estado–tecnologia.
 
-from .ids import stable_id, version_id
-from .models import EntityRecord, ProvenanceRecord
-from .persistence import JsonlRepository
+Novos consumidores devem importar de ``memoria_audiovisual.digital_infrastructure``.
+"""
+
+from ..digital_infrastructure.ids import stable_id, version_id
+from ..digital_infrastructure.models import EntityRecord, ProvenanceRecord
+from ..digital_infrastructure.persistence import JsonlRepository
 
 __all__ = [
     "EntityRecord",
