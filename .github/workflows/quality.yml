@@ -56,6 +56,7 @@ jobs:
           python -m py_compile src/memoria_audiovisual/sfa.py
           python -m py_compile src/memoria_audiovisual/sfa_exports.py
           python -m py_compile src/memoria_audiovisual/timeline.py
+          python -m compileall -q src/memoria_audiovisual/digital_infrastructure
           python -m py_compile src/memoria_audiovisual/statetech/digital_infrastructure_adapter.py
           python -m py_compile src/memoria_audiovisual/statetech/digital_infrastructure_review.py
           python -m py_compile scripts/audit_digital_infrastructure.py
