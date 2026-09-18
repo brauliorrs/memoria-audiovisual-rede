@@ -75,7 +75,9 @@ class IngestionCoordinatorTests(unittest.TestCase):
         self.assertEqual(result.mode, "preview")
         self.assertEqual(result.record_count, 2)
         self.assertEqual(result.committed_count, 0)
-        self.assertEqual(result.records_fingerprint, adapted_records_fingerprint(records))
+        self.assertEqual(
+            result.records_fingerprint, adapted_records_fingerprint(records)
+        )
         self.assertEqual(len(service.validator.validated), 2)
         self.assertEqual(service.registered, [])
 

@@ -15,6 +15,14 @@ dependencies = [
   "streamlit",
 ]
 
+[project.optional-dependencies]
+dev = [
+  "coverage==7.16.1",
+  "mypy==2.3.1",
+  "pytest==9.1.1",
+  "ruff==0.16.8",
+]
+
 [build-system]
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -24,3 +32,30 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+no_implicit_optional = true
+check_untyped_defs = true
+strict_equality = true
+show_error_codes = true
+
+[tool.coverage.run]
+branch = true
+relative_files = true
+
+[tool.coverage.report]
+fail_under = 90
+precision = 1
+show_missing = true
+skip_empty = true

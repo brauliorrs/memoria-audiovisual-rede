@@ -107,7 +107,9 @@ class IngestionCoordinator:
         batch_store: BatchManifestStore | None = None,
     ) -> None:
         if (artifact_store is None) != (batch_store is None):
-            raise ValueError("artifact_store e batch_store devem ser configurados juntos")
+            raise ValueError(
+                "artifact_store e batch_store devem ser configurados juntos"
+            )
         self.service = service
         self.artifact_store = artifact_store
         self.batch_store = batch_store
