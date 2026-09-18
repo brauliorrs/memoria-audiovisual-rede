@@ -6,6 +6,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -26,7 +33,26 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install -e . pytest
+          pip install -e ".[dev]"
+
+      - name: Lint canonical infrastructure
+        run: |
+          ruff check --select E9,F63,F7,F82 src/memoria_audiovisual/digital_infrastructure
+          ruff check             src/memoria_audiovisual/digital_infrastructure/adapters.py             src/memoria_audiovisual/digital_infrastructure/ingestion.py             src/memoria_audiovisual/digital_infrastructure/ingestion_batches.py             src/memoria_audiovisual/digital_infrastructure/raw_artifacts.py             tests/test_digital_infrastructure_ingestion.py             tests/test_digital_infrastructure_ingestion_artifacts.py
+
+      - name: Check formatting for Wave 2A scope
+        run: |
+          ruff format --check             src/memoria_audiovisual/digital_infrastructure/adapters.py             src/memoria_audiovisual/digital_infrastructure/ingestion.py             src/memoria_audiovisual/digital_infrastructure/ingestion_batches.py             src/memoria_audiovisual/digital_infrastructure/raw_artifacts.py             tests/test_digital_infrastructure_ingestion.py             tests/test_digital_infrastructure_ingestion_artifacts.py
+
+      - name: Type-check Wave 2A scope
+        run: |
+          mypy --follow-imports=skip             src/memoria_audiovisual/digital_infrastructure/adapters.py             src/memoria_audiovisual/digital_infrastructure/ingestion.py             src/memoria_audiovisual/digital_infrastructure/ingestion_batches.py             src/memoria_audiovisual/digital_infrastructure/raw_artifacts.py
+
+      - name: Measure Wave 2A coverage baseline
+        run: |
+          coverage erase
+          coverage run --branch -m pytest -q             tests/test_digital_infrastructure_ingestion.py             tests/test_digital_infrastructure_ingestion_artifacts.py
+          coverage report             --include="*/digital_infrastructure/adapters.py,*/digital_infrastructure/ingestion.py,*/digital_infrastructure/ingestion_batches.py,*/digital_infrastructure/raw_artifacts.py"             --show-missing
 
       - name: Compile Python modules
         run: |
