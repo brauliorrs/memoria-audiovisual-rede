@@ -7,7 +7,7 @@ import json
 import os
 from dataclasses import asdict, dataclass, is_dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from .locking import FileWriteLock
 
@@ -23,7 +23,7 @@ class RawArtifact:
 
 def canonical_json_bytes(value: Any) -> bytes:
     if is_dataclass(value):
-        value = asdict(value)
+        value = asdict(cast(Any, value))
     return json.dumps(
         value,
         ensure_ascii=False,
