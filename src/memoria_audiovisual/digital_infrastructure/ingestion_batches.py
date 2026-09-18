@@ -81,8 +81,6 @@ class BatchManifestStore:
                         ) from exc
                     if payload.get("batch_id") != batch_id:
                         continue
-                    payload["committed_keys"] = tuple(
-                        payload.get("committed_keys", ())
-                    )
+                    payload["committed_keys"] = tuple(payload.get("committed_keys", ()))
                     latest = BatchManifest(**payload)
         return latest

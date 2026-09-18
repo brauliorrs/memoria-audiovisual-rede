@@ -56,9 +56,7 @@ class RawArtifactStore:
                         f"artefato existente diverge do hash esperado: {target}"
                     )
             else:
-                temporary = target.with_name(
-                    f"{target.name}.{os.getpid()}.tmp"
-                )
+                temporary = target.with_name(f"{target.name}.{os.getpid()}.tmp")
                 try:
                     with temporary.open("wb") as handle:
                         handle.write(payload)
