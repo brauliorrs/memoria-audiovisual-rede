@@ -19,12 +19,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            pyproject.toml
 
       - name: Check dependency manifests
         run: python scripts/check_dependency_manifests.py
@@ -38,21 +42,41 @@ jobs:
       - name: Lint canonical infrastructure
         run: |
           ruff check --select E9,F63,F7,F82 src/memoria_audiovisual/digital_infrastructure
-          ruff check             src/memoria_audiovisual/digital_infrastructure/adapters.py             src/memoria_audiovisual/digital_infrastructure/ingestion.py             src/memoria_audiovisual/digital_infrastructure/ingestion_batches.py             src/memoria_audiovisual/digital_infrastructure/raw_artifacts.py             tests/test_digital_infrastructure_ingestion.py             tests/test_digital_infrastructure_ingestion_artifacts.py
+          ruff check \
+            src/memoria_audiovisual/digital_infrastructure/adapters.py \
+            src/memoria_audiovisual/digital_infrastructure/ingestion.py \
+            src/memoria_audiovisual/digital_infrastructure/ingestion_batches.py \
+            src/memoria_audiovisual/digital_infrastructure/raw_artifacts.py \
+            tests/test_digital_infrastructure_ingestion.py \
+            tests/test_digital_infrastructure_ingestion_artifacts.py
 
       - name: Check formatting for Wave 2A scope
         run: |
-          ruff format --check             src/memoria_audiovisual/digital_infrastructure/adapters.py             src/memoria_audiovisual/digital_infrastructure/ingestion.py             src/memoria_audiovisual/digital_infrastructure/ingestion_batches.py             src/memoria_audiovisual/digital_infrastructure/raw_artifacts.py             tests/test_digital_infrastructure_ingestion.py             tests/test_digital_infrastructure_ingestion_artifacts.py
+          ruff format --check \
+            src/memoria_audiovisual/digital_infrastructure/adapters.py \
+            src/memoria_audiovisual/digital_infrastructure/ingestion.py \
+            src/memoria_audiovisual/digital_infrastructure/ingestion_batches.py \
+            src/memoria_audiovisual/digital_infrastructure/raw_artifacts.py \
+            tests/test_digital_infrastructure_ingestion.py \
+            tests/test_digital_infrastructure_ingestion_artifacts.py
 
       - name: Type-check Wave 2A scope
         run: |
-          mypy --follow-imports=skip             src/memoria_audiovisual/digital_infrastructure/adapters.py             src/memoria_audiovisual/digital_infrastructure/ingestion.py             src/memoria_audiovisual/digital_infrastructure/ingestion_batches.py             src/memoria_audiovisual/digital_infrastructure/raw_artifacts.py
+          mypy --follow-imports=skip \
+            src/memoria_audiovisual/digital_infrastructure/adapters.py \
+            src/memoria_audiovisual/digital_infrastructure/ingestion.py \
+            src/memoria_audiovisual/digital_infrastructure/ingestion_batches.py \
+            src/memoria_audiovisual/digital_infrastructure/raw_artifacts.py
 
-      - name: Measure Wave 2A coverage baseline
+      - name: Enforce Wave 2A coverage floor
         run: |
           coverage erase
-          coverage run --branch -m pytest -q             tests/test_digital_infrastructure_ingestion.py             tests/test_digital_infrastructure_ingestion_artifacts.py
-          coverage report             --include="*/digital_infrastructure/adapters.py,*/digital_infrastructure/ingestion.py,*/digital_infrastructure/ingestion_batches.py,*/digital_infrastructure/raw_artifacts.py"             --show-missing
+          coverage run --branch -m pytest -q \
+            tests/test_digital_infrastructure_ingestion.py \
+            tests/test_digital_infrastructure_ingestion_artifacts.py
+          coverage report \
+            --include="*/digital_infrastructure/adapters.py,*/digital_infrastructure/ingestion.py,*/digital_infrastructure/ingestion_batches.py,*/digital_infrastructure/raw_artifacts.py" \
+            --show-missing
 
       - name: Compile Python modules
         run: |
