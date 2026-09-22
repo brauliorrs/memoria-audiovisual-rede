@@ -8,6 +8,12 @@ devem ser inferidos a partir da versão do pacote Python.
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-22
+
+Primeira baseline formal do software. Esta versão estabelece um ponto de referência
+reprodutível para o código existente sem reescrever retroativamente o histórico do
+projeto.
+
 ### Added
 
 - governança formal de releases;
@@ -16,8 +22,10 @@ devem ser inferidos a partir da versão do pacote Python.
 
 ### Notes
 
-- o metadata do pacote atualmente declara `0.1.0`;
-- `0.1.0` ainda não deve ser tratado como release formal até existir uma tag
-  `v0.1.0` apontando para um commit aprovado e uma GitHub Release correspondente;
-- o histórico anterior não será retroativamente reescrito sem evidência suficiente
-  para atribuir mudanças a versões específicas.
+- o metadata do pacote declara `0.1.0`;
+- esta versão só deve ser tratada como release formal quando a tag `v0.1.0`
+  apontar para o commit aprovado e existir uma GitHub Release correspondente;
+- o histórico anterior não foi retroativamente reclassificado em versões sem
+  evidência suficiente;
+- a versão do software não substitui os identificadores próprios de snapshots
+  científicos, schemas ou protocolos de validação e não reabre freezes científicos.
