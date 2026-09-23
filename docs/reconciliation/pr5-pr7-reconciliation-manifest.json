@@ -1,0 +1,53 @@
+{
+  "plan_version": "1.0.0",
+  "status": "strategy_only",
+  "source_pull_requests": {
+    "5": {
+      "role": "longitudinal_core_and_analytics",
+      "integration_mode": "selective_port",
+      "direct_merge_allowed": false
+    },
+    "7": {
+      "role": "scientific_platform_ui_i18n_t2a",
+      "integration_mode": "selective_port_after_pr5_core",
+      "direct_merge_allowed": false
+    },
+    "8": {
+      "role": "porta2_invariant_baseline",
+      "validated_head": "ac176f6b1726f97467360a5a18618609e4bb4ab7",
+      "must_preserve": true
+    },
+    "12": {
+      "role": "dependency_manifest_alignment",
+      "must_preserve": true
+    }
+  },
+  "waves": [
+    "baseline_pr8_pr12",
+    "namespace_and_core_contracts",
+    "longitudinal_core",
+    "analytics_and_scientific_docs",
+    "scientific_platform_i18n_ui",
+    "t2a_ai",
+    "generated_artifacts"
+  ],
+  "porta2_invariants": [
+    "link_only_api_signal_must_not_be_downgraded",
+    "preserve_each_evidence_url",
+    "evidence_url_participates_in_detection_identity",
+    "derived_views_use_latest_ledger_version",
+    "human_review_is_append_only",
+    "unreachable_is_not_absence",
+    "automatic_detection_stays_pending_review",
+    "publishable_statuses_are_explicitly_gated"
+  ],
+  "hard_abort_conditions": [
+    "porta2_invariant_regression",
+    "evidence_url_loss",
+    "historical_overwrite",
+    "baseline_depends_on_experimental_ai",
+    "stable_id_change_without_migration",
+    "generated_artifact_without_verifiable_origin",
+    "tests_removed_or_weakened_to_get_green_ci"
+  ]
+}
