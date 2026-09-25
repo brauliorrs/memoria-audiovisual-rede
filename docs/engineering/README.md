@@ -4,6 +4,7 @@ Documentos de engenharia atualmente formalizados:
 
 - [Quality hardening](quality-hardening.md)
 - [VAL-009: reconciliação e preflight técnico (desenvolvimento)](val009-reconciliation.md)
+- [VAL-009: proveniência do coletor e snapshots (desenvolvimento)](val009-capture-provenance.md)
 - [Política de versionamento e releases](release-policy.md)
 - [Checklist de release](release-checklist.md)
 - [Changelog do software](../../CHANGELOG.md)
