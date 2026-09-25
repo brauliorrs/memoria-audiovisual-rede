@@ -305,6 +305,78 @@ class OriginBridgeTests(unittest.TestCase):
         self.assertEqual(event.capture_state, "blocked_by_robots")
         self.assertIsNone(event.final_url)
 
+    def test_v23_remaining_states_preserve_origin_semantics(self):
+        cases = [
+            ("request_error", None, None, b"", "text/html"),
+            ("http_error", 503, "https://example.org/error", b"", "text/plain"),
+            ("http_error", 404, "https://example.org/error", b"not found", "text/plain"),
+            ("unsupported_content_type", 200, "https://example.org/file",
+             b"binary", "application/octet-stream"),
+            ("redirect_outside_scope", 200, "https://outside.example.net/other",
+             b"external content", "text/plain"),
+        ]
+        for state, status, final, body, media_type in cases:
+            with self.subTest(state=state, status=status, body=body):
+                report = self._v23()
+                event, page = report.captures[0], report.pages[0]
+                event.fetch_status = state
+                event.status_code = status
+                event.final_url = final
+                event.response_body = body if status is not None else None
+                event.response_received_bytes = len(body) if status is not None else None
+                event.content_type = media_type if status is not None else None
+                event.error_type = "Timeout" if state == "request_error" else None
+                event.error_message = (
+                    "synthetic timeout" if state == "request_error" else None
+                )
+                page.fetch_status = state
+                page.status_code = status
+                page.url = (
+                    report.captures[0].requested_url
+                    if state in {"request_error", "redirect_outside_scope"}
+                    else final
+                )
+                page.content_sha256 = (
+                    hashlib.sha256(body).hexdigest() if status is not None else None
+                )
+                captured, = from_v23_origin_report(report, entity_id="entity-0")
+                self.assertEqual(captured.capture_state, state)
+                self.assertEqual(captured.final_url, final)
+                receipt = self.store.persist(captured)
+                self.assertEqual(receipt.capture_state, state)
+                self.assertEqual(receipt.raw_body_sha256, hashlib.sha256(body).hexdigest())
+                self.store.load(receipt)
+
+    def test_v23_truncated_prefix_must_not_be_claimed_as_complete(self):
+        report = self._v23()
+        report.captures[0].response_truncated = True
+        report.captures[0].response_received_bytes = (
+            len(report.captures[0].response_body) + 100
+        )
+        capture, = from_v23_origin_report(report, entity_id="entity-0")
+        self.assertTrue(capture.response_truncated)
+        self.assertGreater(capture.response_received_bytes, len(capture.raw_body))
+        receipt = self.store.persist(capture)
+        self.assertTrue(receipt.response_truncated)
+        self.assertEqual(self.store.load(receipt), capture.raw_body)
+        report.captures[0].response_received_bytes = len(capture.raw_body)
+        with self.assertRaises(CaptureProvenanceError):
+            from_v23_origin_report(report, entity_id="entity-0")
+
+    def test_v23_robots_disabled_is_not_eligible_for_preregistered_protocol(self):
+        report = self._v23()
+        report.captures[0].robots_evidence = {
+            "checked": False, "allowed": True, "reason": "robots_check_disabled",
+        }
+        with self.assertRaises(CaptureProvenanceError):
+            from_v23_origin_report(report, entity_id="entity-0")
+
+    def test_v23_query_value_mismatch_is_rejected_without_overwriting_origin(self):
+        report = self._v23()
+        report.pages[0].url = "https://example.org/final?a=9&b=2"
+        with self.assertRaises(CaptureProvenanceError):
+            from_v23_origin_report(report, entity_id="entity-0")
+
     def test_materialization_preserves_truncation_and_all_nonselected(self):
         events = []
         for index in range(5):
