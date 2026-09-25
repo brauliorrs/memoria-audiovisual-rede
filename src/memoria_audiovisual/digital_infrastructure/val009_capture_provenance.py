@@ -25,7 +25,8 @@ from .locking import FileWriteLock
 _HASH = re.compile(r"[0-9a-f]{64}\Z")
 _STATES = frozenset({
     "fetched", "http_error", "collector_blocked", "geo_restricted",
-    "redirect_outside_scope", "request_error",
+    "redirect_outside_scope", "request_error", "blocked_by_robots",
+    "unsupported_content_type",
 })
 _HUMAN_FIELDS = (
     "human_surface_type", "human_is_item_level", "human_access_state",
@@ -92,6 +93,14 @@ class CapturedPage:
     raw_body: bytes        # Exact source bytes, not parsed or reserialized HTML.
     http_status_code: int | None = None
     media_type: str | None = None
+    response_received_bytes: int | None = None
+    response_truncated: bool = False
+    robots_evidence: dict[str, Any] | None = None
+    error_type: str | None = None
+    error_message: str | None = None
+    parent_url: str | None = None
+    depth: int | None = None
+    collector_protocol_version: str | None = None
 
     def validate(self) -> None:
         if not isinstance(self.entity_id, str) or not self.entity_id.strip():
@@ -110,9 +119,62 @@ class CapturedPage:
             or not 100 <= self.http_status_code <= 599
         ):
             raise CaptureProvenanceError("Invalid HTTP status code")
+        if self.response_received_bytes is not None and (
+            type(self.response_received_bytes) is not int
+            or self.response_received_bytes < len(self.raw_body)
+        ):
+            raise CaptureProvenanceError("Invalid received byte count")
+        if type(self.response_truncated) is not bool:
+            raise CaptureProvenanceError("Invalid truncation marker")
+        if self.response_truncated and (
+            self.response_received_bytes is None
+            or self.response_received_bytes <= len(self.raw_body)
+        ):
+            raise CaptureProvenanceError(
+                "Truncated body needs explicit received byte lower bound"
+            )
+        if (not self.response_truncated
+                and self.response_received_bytes is not None
+                and self.response_received_bytes != len(self.raw_body)):
+            raise CaptureProvenanceError("Untruncated body length mismatch")
+        if self.robots_evidence is not None:
+            if not isinstance(self.robots_evidence, dict):
+                raise CaptureProvenanceError("Invalid robots evidence")
+            try:
+                _json(self.robots_evidence)
+            except (TypeError, ValueError) as exc:
+                raise CaptureProvenanceError("Non-JSON robots evidence") from exc
+        if self.parent_url is not None:
+            url_identity(self.parent_url)
+        if self.depth is not None and (
+            type(self.depth) is not int or self.depth < 0
+        ):
+            raise CaptureProvenanceError("Invalid collection depth")
+        if self.collector_protocol_version is not None and (
+            not isinstance(self.collector_protocol_version, str)
+            or not self.collector_protocol_version.strip()
+        ):
+            raise CaptureProvenanceError("Invalid collector protocol version")
+        if self.capture_state in {"blocked_by_robots", "request_error"} and (
+            self.final_url is not None or self.http_status_code is not None
+            or self.raw_body or self.response_truncated
+        ):
+            raise CaptureProvenanceError(
+                "No-response capture cannot claim URL, HTTP status or response bytes"
+            )
+        if self.capture_state in {"unsupported_content_type", "redirect_outside_scope"}:
+            if self.final_url is None or self.http_status_code is None:
+                raise CaptureProvenanceError("HTTP observation missing final URL/status")
+        if self.capture_state == "unsupported_content_type" and (
+            self.http_status_code is None
+            or not 200 <= self.http_status_code < 400
+        ):
+            raise CaptureProvenanceError(
+                "Unsupported media is not an HTTP error"
+            )
         if self.capture_state == "fetched":
             if (
-                self.final_url is None or not self.raw_body
+                self.final_url is None
                 or self.http_status_code is None
                 or not 200 <= self.http_status_code < 400
             ):
@@ -150,6 +212,14 @@ class Receipt:
     snapshot_reference: str
     snapshot_sha256: str
     payload_kind: str
+    response_received_bytes: int = 0
+    response_truncated: bool = False
+    robots_evidence: dict[str, Any] | None = None
+    error_type: str | None = None
+    error_message: str | None = None
+    parent_url: str | None = None
+    depth: int | None = None
+    collector_protocol_version: str | None = None
 
     def document(self) -> dict[str, Any]:
         return dict(vars(self))
@@ -189,9 +259,13 @@ class CaptureStore:
 
     def persist(self, capture: CapturedPage) -> Receipt:
         capture.validate()
-        kind = "raw_response_bytes" if capture.raw_body else "no_response_envelope"
+        kind = (
+            "raw_response_bytes" if capture.raw_body
+            else "empty_response_envelope" if capture.http_status_code is not None
+            else "no_response_envelope"
+        )
         material = capture.raw_body if capture.raw_body else _json({
-            "artifact_kind": "no_response_envelope",
+            "artifact_kind": kind,
             "entity_id": capture.entity_id,
             "requested_url": capture.requested_url,
             "final_url": capture.final_url,
@@ -225,6 +299,18 @@ class CaptureStore:
             snapshot_reference=f"snapshot/{material_sha}",
             snapshot_sha256=material_sha,
             payload_kind=kind,
+            response_received_bytes=(
+                capture.response_received_bytes
+                if capture.response_received_bytes is not None
+                else len(capture.raw_body)
+            ),
+            response_truncated=capture.response_truncated,
+            robots_evidence=capture.robots_evidence,
+            error_type=capture.error_type,
+            error_message=capture.error_message,
+            parent_url=capture.parent_url,
+            depth=capture.depth,
+            collector_protocol_version=capture.collector_protocol_version,
         )
         self._write_immutable(self._path("snapshots", material_sha), material)
         receipt_bytes = _json(receipt.document())
@@ -249,9 +335,9 @@ class CaptureStore:
             raise CaptureProvenanceError("Capture receipt changed")
         if receipt.snapshot_reference != f"snapshot/{receipt.snapshot_sha256}":
             raise CaptureProvenanceError("Snapshot reference mismatch")
-        if receipt.payload_kind == "no_response_envelope":
+        if receipt.payload_kind in {"no_response_envelope", "empty_response_envelope"}:
             expected = _json({
-                "artifact_kind": "no_response_envelope",
+                "artifact_kind": receipt.payload_kind,
                 "entity_id": receipt.entity_id,
                 "requested_url": receipt.requested_url,
                 "final_url": receipt.final_url,
