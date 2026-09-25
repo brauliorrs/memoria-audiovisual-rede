@@ -58,9 +58,13 @@ class Response:
         self.read_bytes = 0
 
     def iter_content(self, *, chunk_size):
+        if self.fail_stream:
+            # Yield less than the caller's cap so the next read is required.
+            fragment = self.body[:min(2, chunk_size)]
+            self.read_bytes += len(fragment)
+            yield fragment
+            raise requests.Timeout("synthetic mid-stream interruption")
         for i in range(0, len(self.body), chunk_size):
-            if self.fail_stream and i:
-                raise requests.Timeout("synthetic mid-stream interruption")
             chunk = self.body[i:i + chunk_size]
             self.read_bytes += len(chunk)
             yield chunk
