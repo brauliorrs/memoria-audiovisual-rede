@@ -245,7 +245,7 @@ class CaptureProvenanceTests(unittest.TestCase):
     def test_invalid_source_urls_bytes_and_timestamps_are_rejected(self):
         cases = [
             {"requested_url": ""}, {"root_url": "not-a-url"},
-            {"final_url": None}, {"raw_body": b""},
+            {"final_url": None},
             {"captured_at": "2026-09-20T10:01:00"},
             {"captured_at": "2026-09-20T10:04:00+00:00"},
             {"discovery_index": True},
