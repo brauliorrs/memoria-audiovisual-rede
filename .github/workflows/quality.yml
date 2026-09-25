@@ -146,6 +146,13 @@ jobs:
             tests/test_val009_preflight.py
           python -m unittest discover -s tests -p 'test_val009_preflight.py' -v
 
+      - name: Validate VAL-009 collector provenance
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/digital_infrastructure/val009_capture_provenance.py \
+            tests/test_val009_capture_provenance.py
+          python -m unittest discover -s tests -p 'test_val009_capture_provenance.py' -v
+
       - name: Run unittest suite
         run: python -m unittest discover -s tests -v
 
