@@ -153,6 +153,13 @@ jobs:
             tests/test_val009_capture_provenance.py
           python -m unittest discover -s tests -p 'test_val009_capture_provenance.py' -v
 
+      - name: Validate VAL-009 v23 origin capture
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/digital_infrastructure/val009_origin_bridge.py \
+            tests/test_val009_origin_bridge.py
+          python -m unittest discover -s tests -p 'test_val009_origin_bridge.py' -v
+
       - name: Run unittest suite
         run: python -m unittest discover -s tests -v
 
