@@ -246,14 +246,18 @@ def from_v23_origin_report(report: Any, *, entity_id: str) -> tuple[CapturedPage
         final = getattr(origin, "final_url", None)
         if state in {"blocked_by_robots", "request_error"} and final is not None:
             raise CaptureProvenanceError("No-response observation claims final URL")
-        # Cross-check only the derived page's verifiable origin properties;
-        # redirect_outside_scope historically displayed the requested page URL.
-        if state not in {"redirect_outside_scope"}:
-            expected_page_url = (
-                final if final is not None else getattr(origin, "requested_url", None)
-            )
-            if getattr(page, "url", None) != expected_page_url:
-                raise CaptureProvenanceError("Derived page URL contradicts capture")
+        # SurfacePage.url canonicalizes query ordering; never overwrite
+        # final_url from the original v23 capture event.
+        if state in {"blocked_by_robots", "request_error"} and (
+            getattr(page, "url", None) != getattr(origin, "requested_url", None)
+        ):
+            raise CaptureProvenanceError("No-response derived page contradicts origin")
+        if final is not None and state != "redirect_outside_scope":
+            from urllib.parse import urlsplit
+            a = urlsplit(url_identity(getattr(page, "url", None)))
+            b = urlsplit(url_identity(final))
+            if (a.scheme, a.netloc, a.path) != (b.scheme, b.netloc, b.path):
+                raise CaptureProvenanceError("Derived page route contradicts origin")
         result = CapturedPage(
             entity_id=entity_id, root_url=root_url,
             requested_url=getattr(origin, "requested_url", None),
