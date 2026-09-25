@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable, Mapping
+from urllib.parse import parse_qsl, urlsplit
 
 import requests
 
@@ -81,7 +82,7 @@ def _status(*, final_url: str, status: int, media_type: str,
         return "redirect_outside_scope"
     if status >= 400:
         return "http_error"
-    if not any(media_type.startswith(prefix) for prefix in _ALLOWED_MEDIA):
+    if media_type and not any(media_type.startswith(prefix) for prefix in _ALLOWED_MEDIA):
         return "unsupported_content_type"
     return "fetched"
 
@@ -153,6 +154,7 @@ def capture_origin_http(
             raise CaptureProvenanceError("Origin response lacks bounded byte stream")
         parts: list[bytes] = []
         observed = 0
+        captured = 0
         try:
             chunks: Iterable[bytes] = response.iter_content(
                 chunk_size=min(max_response_bytes + 1, 8192)
@@ -162,9 +164,11 @@ def capture_origin_http(
                     raise CaptureProvenanceError("Non-byte HTTP response fragment")
                 if not chunk:
                     continue
-                remaining = max_response_bytes - sum(len(part) for part in parts)
+                remaining = max_response_bytes - captured
                 if remaining > 0:
-                    parts.append(chunk[:remaining])
+                    prefix = chunk[:remaining]
+                    parts.append(prefix)
+                    captured += len(prefix)
                 observed += len(chunk)
                 if observed > max_response_bytes:
                     break
@@ -239,7 +243,9 @@ def from_v23_origin_report(report: Any, *, entity_id: str) -> tuple[CapturedPage
         if type(truncated) is not bool:
             raise CaptureProvenanceError("Missing v23 truncation marker")
         robots = getattr(origin, "robots_evidence", None)
-        if not isinstance(robots, dict) or "reason" not in robots:
+        if (not isinstance(robots, dict) or robots.get("checked") is not True
+                or type(robots.get("allowed")) is not bool
+                or not isinstance(robots.get("reason"), str)):
             raise CaptureProvenanceError("Missing robots provenance on v23 event")
         if state == "blocked_by_robots" and robots.get("allowed") is not False:
             raise CaptureProvenanceError("Robots block lacks denial evidence")
@@ -253,10 +259,13 @@ def from_v23_origin_report(report: Any, *, entity_id: str) -> tuple[CapturedPage
         ):
             raise CaptureProvenanceError("No-response derived page contradicts origin")
         if final is not None and state != "redirect_outside_scope":
-            from urllib.parse import urlsplit
             a = urlsplit(url_identity(getattr(page, "url", None)))
             b = urlsplit(url_identity(final))
-            if (a.scheme, a.netloc, a.path) != (b.scheme, b.netloc, b.path):
+            if (
+                (a.scheme, a.netloc, a.path) != (b.scheme, b.netloc, b.path)
+                or sorted(parse_qsl(a.query, keep_blank_values=True))
+                != sorted(parse_qsl(b.query, keep_blank_values=True))
+            ):
                 raise CaptureProvenanceError("Derived page route contradicts origin")
         result = CapturedPage(
             entity_id=entity_id, root_url=root_url,
