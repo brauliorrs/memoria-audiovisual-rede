@@ -9,6 +9,7 @@ module NEVER issues scientific permission to collect, freeze, or evaluate.
 from __future__ import annotations
 
 import argparse
+import ast
 import csv
 import hashlib
 import io
@@ -84,6 +85,11 @@ def validate_methodology_structure(
         raise AuditError("Source inventory diverged from reviewed Git blob")
     _require_blob(review.get("historical_protocol_git_blob_sha"))
     fixture = review["fixture_screening"]
+    if (review["fixture_screening_scope"].get(
+            "fragment_reconstructions_documented") != 7
+        or review["fixture_screening_scope"].get(
+            "reconstructed_complete_test_expressions") != 8):
+        raise AuditError("Missing auditable reconstruction of split test URLs")
     previous = inventory["nonvalidated_fixture_literals"]
     if (
         len(fixture) != 22 or len(previous) != 22
@@ -102,6 +108,7 @@ def validate_methodology_structure(
     if len(originals) != 22:
         raise AuditError("Duplicate baseline literal")
     seen: set[tuple[str, str]] = set()
+    reconstructed: list[str] = []
     for row in fixture:
         key = (row["source_path"], row["literal_url"])
         if key in seen or key not in originals:
@@ -140,12 +147,26 @@ def validate_methodology_structure(
             raise AuditError("Non-M3 fixture is incorrectly called a fragment")
         if not isinstance(row["proposed_disposition"], str):
             raise AuditError("Disposition missing")
+        if row["url_expression_status"] == (
+                "fragment_of_concatenated_Python_expression"):
+            complete = row.get("reconstructed_complete_expressions")
+            if (not isinstance(complete, list) or not complete
+                    or any(not isinstance(x, str) or not x.startswith(
+                        row["literal_url"]) or x == row["literal_url"]
+                        for x in complete)
+                    or row.get("reconstruction_evidence") !=
+                    "concatenated_Python_ast_constant_in_exact_pinned_test_file"):
+                raise AuditError("Source expression not fully reconstructed")
+            reconstructed.extend(complete)
+        elif "reconstructed_complete_expressions" in row:
+            raise AuditError("Unexpected reconstructed non-fragment test URL")
     counts = Counter(row["usage"] for row in fixture)
     fragments = sum(
         row["url_expression_status"] ==
         "fragment_of_concatenated_Python_expression" for row in fixture
     )
-    if seen != set(originals) or counts != EXPECTED_GROUPS or fragments != 7:
+    if (seen != set(originals) or counts != EXPECTED_GROUPS or fragments != 7
+            or len(reconstructed) != 8 or len(set(reconstructed)) != 8):
         raise AuditError("Missing/misallocated fixture screening")
     targets = review["proposed_entities_scope"]
     prior = targets["entities"]
@@ -195,7 +216,8 @@ def validate_methodology_structure(
         "state": "HOLD_pending_independent_signoff",
         "proven_historical_urls": 137,
         "test_literals_screened": 22,
-        "test_URL_fragments_requiring_reconstruction": 7,
+        "test_URL_fragments_reconstructed_pending_review": 7,
+        "full_expressions_recovered_from_fragments": 8,
         "proposed_entities_with_prior_MAR_corpus": 6,
         "project_wide_unseen_entities": 0,
         "science_authorized": False,
@@ -220,6 +242,19 @@ def verify_at_historical_commit(
     prior_targets = review["proposed_entities_scope"]["entities"]
     if len(protocol_targets) != 6:
         raise AuditError("Original target population differs")
+    for fixture in review["fixture_screening"]:
+        if fixture["url_expression_status"] != (
+                "fragment_of_concatenated_Python_expression"):
+            continue
+        pinned_source = historical_root / fixture["source_path"]
+        tree = ast.parse(pinned_source.read_text(encoding="utf-8"))
+        constant_strings = [
+            node.value for node in ast.walk(tree)
+            if isinstance(node, ast.Constant) and isinstance(node.value, str)
+        ]
+        for reconstructed in fixture["reconstructed_complete_expressions"]:
+            if not any(reconstructed in literal for literal in constant_strings):
+                raise AuditError("Reconstructed test URL absent from pinned AST")
     for target in prior_targets:
         eid, root = target["entity_id"], target["proposed_root_url"]
         if protocol_targets.get(eid) != root:
