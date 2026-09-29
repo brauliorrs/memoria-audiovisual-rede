@@ -6,6 +6,10 @@ O projeto combina coleta automatizada, curadoria metodológica, indicadores comp
 
 A plataforma permanece uma plataforma pública, com usos variados: pesquisa, ensino, pós-doutorado, artigos, relatórios, propostas competitivas e estudos comparativos sobre acervos audiovisuais. Para sustentar esses usos, cada unidade observada precisa preservar rotas, limites, completude, regimes de acesso, sinais de visibilidade, histórico de observação e evidências metodológicas auditáveis.
 
+## Metodologia científica do observatório
+
+A [metodologia científica de referência](docs/methodology/mar-scientific-methodology.md) estabelece o objeto de pesquisa, os níveis de análise, a constituição do corpus, as condições de publicação e a validação específica dos instrumentos. A [matriz de situação dos instrumentos](docs/methodology/instrument-status.json) distingue componentes implementados, avaliações empíricas e funcionalidades ainda experimentais. Esses documentos constituem proposta de consolidação para revisão acadêmica e não alteram os protocolos científicos congelados.
+
 ## Acesso público
 
 A versão pública do observatório está disponível no Streamlit:
