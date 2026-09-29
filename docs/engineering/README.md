@@ -6,6 +6,7 @@ Documentos de engenharia atualmente formalizados:
 - [VAL-009: reconciliação e preflight técnico (desenvolvimento)](val009-reconciliation.md)
 - [VAL-009: ponte da captura na origem e estados v23 (desenvolvimento)](val009-origin-capture.md)
 - [VAL-009: inventário suplementar de exposição (minuta)](val009-exposure-audit.md)
+- [VAL-009: triagem metodológica de URLs e independência das entidades (minuta)](val009-methodology-screening.md)
 - [VAL-009: proveniência do coletor e snapshots (desenvolvimento)](val009-capture-provenance.md)
 - [Política de versionamento e releases](release-policy.md)
 - [Checklist de release](release-checklist.md)
