@@ -1,0 +1,715 @@
+{
+  "additional_confirmed_historical_pages": [
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:34Z",
+      "parent_url": "https://euscreen.eu/collections/",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "f10dc2b288f0ec9aecc3a3ccb741c83a217b76d5260368072c04aae952139924",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 5,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/euscreen_surface_discovery_report.json",
+      "source_report_sha256": "3f791783329dea8781f72a3a663121882b62b673cfaf403bf02bc51c60cc9722",
+      "url": "https://euscreen.eu/"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:36Z",
+      "parent_url": "https://euscreen.eu/",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "aff9529605e9c4851b5134e994359431bb20a63647cb8a05063d3ccc897dfe05",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 7,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/euscreen_surface_discovery_report.json",
+      "source_report_sha256": "3f791783329dea8781f72a3a663121882b62b673cfaf403bf02bc51c60cc9722",
+      "url": "https://euscreen.eu/2021/04/medianumeric-training-a-new-generation-of-journalists/"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:27Z",
+      "parent_url": null,
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "64a37a46cfd4aafaeecd0eb1ec157ab715d2aa43bb0c63584019125094ebc5e4",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 0,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "source_report_sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e",
+      "url": "https://www.filmarchiv.at/de/filmarchiv-on"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:28Z",
+      "parent_url": "https://www.filmarchiv.at/de/filmarchiv-on",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "42f3c40644764ebda3c6f1f09cc4999d8b9863305cbf86ade2dc57354eae4562",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 1,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "source_report_sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e",
+      "url": "https://www.filmarchiv.at/de/filmarchiv-on/video/f_02ywaN5GhzFYXmAiaxTxav"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:28Z",
+      "parent_url": "https://www.filmarchiv.at/de/filmarchiv-on",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "e57a0617a9aa2d9d027c0a8129a0d0d43009f9b81e12276db2b1bfd308857e93",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 2,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "source_report_sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e",
+      "url": "https://www.filmarchiv.at/de/filmarchiv-on/video/f_02zdsnFJiHPaH6rk6FG8kt"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:28Z",
+      "parent_url": "https://www.filmarchiv.at/de/filmarchiv-on",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "3771a1fba3ed9364d0b6dc39cb173d9358339bb234f420c8f44d3c81b6c04ebd",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 3,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "source_report_sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e",
+      "url": "https://www.filmarchiv.at/de/filmarchiv-on/video/f_033NIrnvVQeTjdUaaiIbjp"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:28Z",
+      "parent_url": "https://www.filmarchiv.at/de/filmarchiv-on/video/f_02ywaN5GhzFYXmAiaxTxav",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "7e03cea413c6a4572cf122b8347a084eeadc777760be084aa07c9f359cdb2da4",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 4,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "source_report_sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e",
+      "url": "https://www.filmarchiv.at/be/be_users/log_in"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:28Z",
+      "parent_url": "https://www.filmarchiv.at/de/filmarchiv-on",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "048004ac940d4c72e598cb5f6bd177b47c2a940df85769bb6f0c4682d6e1359f",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 5,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "source_report_sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e",
+      "url": "https://www.filmarchiv.at/de/filmarchiv-on/video/f_02ys06ok5ernqcwWombXQR"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:28Z",
+      "parent_url": "https://www.filmarchiv.at/de/filmarchiv-on",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "7fe7d552f13fc0f455729d146b27d1c40f4a92fd686296a63fe2f6f4bd586eab",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 6,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "source_report_sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e",
+      "url": "https://www.filmarchiv.at/de/filmarchiv-on/video/f_02ys0gMOwI15zecu47QExW"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-08-25T23:38:29Z",
+      "parent_url": "https://www.filmarchiv.at/de/filmarchiv-on",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "a4dbb65260ba9c17cc1817370fe0a349c47e2d6cb7fdabc8a9772ad79386e231",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 7,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "source_report_sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e",
+      "url": "https://www.filmarchiv.at/de/filmarchiv-on/video/f_02ywaIqpcS3YYtr3BBmG4W"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:09Z",
+      "parent_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "3171046e128fc93ad3b819dce9719e7f992ae5337ff8e62161ea4737d8226247",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 6,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/bbc_surface_discovery_report.json",
+      "source_report_sha256": "d309d8ea29529ae0ce9e83e137417a8d6d853b85ef664ca733e0fc21acaf3c98",
+      "url": "https://www.bbc.co.uk/videos/c893dydjqn3o"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:10Z",
+      "parent_url": "https://www.bbc.co.uk/topics/c01yxyz46myt",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "3070b19420e0f6ef85baa844b22eea8cc15d0d7bd36ac9fd632e883a8cfff344",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 7,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/bbc_surface_discovery_report.json",
+      "source_report_sha256": "d309d8ea29529ae0ce9e83e137417a8d6d853b85ef664ca733e0fc21acaf3c98",
+      "url": "https://www.bbc.co.uk/videos/cv2z8p8zz9yo"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:14Z",
+      "parent_url": "https://bnt.bg/news/muzika-bezkrai-297914news.html",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "4696e79d57e44233743e88075c534b70aba61e762f06c3c17197b6367b1e8f03",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 6,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/bnt_surface_discovery_report.json",
+      "source_report_sha256": "63b9b12f14c61d76a1ef396ae719b2ae6dd5c515cccc00448561b28800b43363",
+      "url": "https://bnt.bg/news/muzika-bezkrai-specialen-broi-313388news.html"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:15Z",
+      "parent_url": "https://bnt.bg/news/muzika-bezkrai-297914news.html",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "9444c00f93798a3b1b5de14bff464a97d9f135a2151de31dc9bbb4c4691cae4d",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 7,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/bnt_surface_discovery_report.json",
+      "source_report_sha256": "63b9b12f14c61d76a1ef396ae719b2ae6dd5c515cccc00448561b28800b43363",
+      "url": "https://bnt.bg/news/muzika-bezkrai-specialen-sboren-broi-2-chast-313507news.html"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:20Z",
+      "parent_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "da65b44772d9020a40394c888b2e78e2ad4f0d06d6cf034594a92bff3671e0f1",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 6,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/cinemateca-portuguesa_surface_discovery_report.json",
+      "source_report_sha256": "0c95f060293b3adbc313e7e87fc91e3417eb9e569c988d516694fc024177dfa8",
+      "url": "https://www.cinemateca.pt/cinemateca-digital/Ficha.aspx?obraid=13016&type=Video"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:21Z",
+      "parent_url": "https://www.cinemateca.pt/cinemateca-digital/video.aspx",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "cf701a51080f2292ae62a091ea8bf12fe10596b4e5ae7cebe06b0a3c31eb7630",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 7,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/cinemateca-portuguesa_surface_discovery_report.json",
+      "source_report_sha256": "0c95f060293b3adbc313e7e87fc91e3417eb9e569c988d516694fc024177dfa8",
+      "url": "https://www.cinemateca.pt/cinemateca-digital/Ficha.aspx?obraid=13402&type=Video"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:24Z",
+      "parent_url": "https://www.cinematheque.fr/henri/",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "188e0075088ca22678430b9c0c6f3cfb39ac1029fb5ce64d99a92eba6766061b",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 6,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/cinematheque-francaise_surface_discovery_report.json",
+      "source_report_sha256": "43c83014624a2f2636ba1fc298352dafaba7f74dc3a4eb1bb482dcec58b49b24",
+      "url": "https://www.cinematheque.fr/henri/film/154287-thais-anton-giulio-bragaglia-1917/"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:24Z",
+      "parent_url": "https://www.cinematheque.fr/henri/",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "172a973923ac4707c53a28b5b1561d6745722080bd02dd57ee6bf40da51822ec",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 7,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/cinematheque-francaise_surface_discovery_report.json",
+      "source_report_sha256": "43c83014624a2f2636ba1fc298352dafaba7f74dc3a4eb1bb482dcec58b49b24",
+      "url": "https://www.cinematheque.fr/henri/film/154342-comment-le-petit-herisson-et-l-ourson-changeaient-le-ciel-natalia-martchenkova-1985/"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:29Z",
+      "parent_url": "https://www.memoryscapes.it/en/archive",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "95da96f5349367f0932cc3d84faad8c852713cd36e929d94f65df1ea2eaec8ae",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 6,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/home-movies-memoryscapes_surface_discovery_report.json",
+      "source_report_sha256": "b6e046424e744ad35639cd3de9742c4afb7819fdbe880f5b3e6d746aef26f9b6",
+      "url": "https://www.memoryscapes.it/en/clips/6775_portrait-of-grandma"
+    },
+    {
+      "evidence_kind": "historical_discovery_page",
+      "exclusion_reason": "historically_captured_not_in_original_117",
+      "final_url": null,
+      "note": "URL emitted by historical derived report; the source does not independently establish the original requested/final pair or retained response bytes.",
+      "observed_at": "2026-09-02T19:33:30Z",
+      "parent_url": "https://www.memoryscapes.it/en/clips/6775_portrait-of-grandma",
+      "redirect_alias_asserted": false,
+      "reported_page_content_sha256": "c5cdde2dc840646cf4807e4d17e617c0ac501cf6fae1f46d4528e1668963b5d2",
+      "requested_url": null,
+      "review_status": "confirmed_in_pinned_report",
+      "source_page_index": 7,
+      "source_report_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/home-movies-memoryscapes_surface_discovery_report.json",
+      "source_report_sha256": "b6e046424e744ad35639cd3de9742c4afb7819fdbe880f5b3e6d746aef26f9b6",
+      "url": "https://www.memoryscapes.it/en/clips/5066_the-plaia-of-catania"
+    }
+  ],
+  "artifact_id": "mar-t2a-m3-val009-exposure-inventory-v1-draft",
+  "historical_discovery_reports": [
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/cinearchives_surface_discovery_report.json",
+      "sha256": "de599be0293f017333b3a6043f508966f66821e3064ecc9d2421b5e2cf3a2ba1",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/cinememoire_surface_discovery_report.json",
+      "sha256": "3b243ed6533f98ff7adfb3e926b0c19d379140b262b4b908ce7cd3805892309d",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/eafa_surface_discovery_report.json",
+      "sha256": "94a777a9f90250d59cb9b4347ed405419ea79c6a973302a6e2e6e86548a2accf",
+      "pages_total": 1
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/eye_surface_discovery_report.json",
+      "sha256": "ee0527a2b4613e7c6bafb38b43394d5861c106c264442465c1e1bac5e117ad62",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2/luce_surface_discovery_report.json",
+      "sha256": "2be02f7aa3474b56aef2287689b7223993df25de6c834d6edcdca571ad8ce381",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/ciclic_surface_discovery_report.json",
+      "sha256": "9a695cbad18642bacc4cafa4f4352eb7ab2400bc148a86f60f379fa24dd296bc",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/cineam_surface_discovery_report.json",
+      "sha256": "d08ef563763608534aaf6e9e0e6e4b40d24bd06b3628561dbe5876a5e034df40",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/czech-television_surface_discovery_report.json",
+      "sha256": "f6b1ca840b29de7c61b81f04e233ccfc9dfd07cba7286eb59b26a05dcfd3a6ba",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/dff_surface_discovery_report.json",
+      "sha256": "3d5f61ad2a9c290e242e4c774f4677770a9f456ec65a27f59835645a54b78a0f",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/euscreen_surface_discovery_report.json",
+      "sha256": "3f791783329dea8781f72a3a663121882b62b673cfaf403bf02bc51c60cc9722",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_1/filmarchiv_austria_surface_discovery_report.json",
+      "sha256": "e09d8e85afd3a459f6777df6d22090894cd8c6afcc8f97ffad53d59b6a17c45e",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/bbc_surface_discovery_report.json",
+      "sha256": "d309d8ea29529ae0ce9e83e137417a8d6d853b85ef664ca733e0fc21acaf3c98",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/bnt_surface_discovery_report.json",
+      "sha256": "63b9b12f14c61d76a1ef396ae719b2ae6dd5c515cccc00448561b28800b43363",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/cinemateca-portuguesa_surface_discovery_report.json",
+      "sha256": "0c95f060293b3adbc313e7e87fc91e3417eb9e569c988d516694fc024177dfa8",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/cinematheque-francaise_surface_discovery_report.json",
+      "sha256": "43c83014624a2f2636ba1fc298352dafaba7f74dc3a4eb1bb482dcec58b49b24",
+      "pages_total": 8
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/fina_surface_discovery_report.json",
+      "sha256": "f86d2eb4a32825f283062cbbe2a7aec2bf31d772042e42619c9cc16f03bdd989",
+      "pages_total": 1
+    },
+    {
+      "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_sources_v2_2/home-movies-memoryscapes_surface_discovery_report.json",
+      "sha256": "b6e046424e744ad35639cd3de9742c4afb7819fdbe880f5b3e6d746aef26f9b6",
+      "pages_total": 8
+    }
+  ],
+  "historical_repository_revision": "4544bbc40e076cd7a81800a3c93ebbfb8efae5b2",
+  "no_new_site_visits": true,
+  "nonvalidated_fixture_literals": [
+    {
+      "url": "https://archives.ecpad.fr/archives/archives",
+      "source_path": "tests/test_surface_typing.py",
+      "source_git_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+      "source_sha256": "faaf85398cf3ed14788f0de464b0e261d3627f2b5e6dc55c3787cb5474b7aeef",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "M3 regression test source: real-domain URLs used as string fixtures, not new live capture evidence."
+    },
+    {
+      "url": "https://www.cinearchives.org/",
+      "source_path": "tests/test_surface_typing.py",
+      "source_git_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+      "source_sha256": "faaf85398cf3ed14788f0de464b0e261d3627f2b5e6dc55c3787cb5474b7aeef",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "M3 regression test source: real-domain URLs used as string fixtures, not new live capture evidence."
+    },
+    {
+      "url": "https://cinememoire.net/archives-cinememoire-ligne/",
+      "source_path": "tests/test_surface_typing.py",
+      "source_git_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+      "source_sha256": "faaf85398cf3ed14788f0de464b0e261d3627f2b5e6dc55c3787cb5474b7aeef",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "M3 regression test source: real-domain URLs used as string fixtures, not new live capture evidence."
+    },
+    {
+      "url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all",
+      "source_path": "tests/test_surface_typing.py",
+      "source_git_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+      "source_sha256": "faaf85398cf3ed14788f0de464b0e261d3627f2b5e6dc55c3787cb5474b7aeef",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "M3 regression test source: real-domain URLs used as string fixtures, not new live capture evidence."
+    },
+    {
+      "url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1896",
+      "source_path": "tests/test_surface_typing.py",
+      "source_git_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+      "source_sha256": "faaf85398cf3ed14788f0de464b0e261d3627f2b5e6dc55c3787cb5474b7aeef",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "M3 regression test source: real-domain URLs used as string fixtures, not new live capture evidence."
+    },
+    {
+      "url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/",
+      "source_path": "tests/test_surface_typing.py",
+      "source_git_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+      "source_sha256": "faaf85398cf3ed14788f0de464b0e261d3627f2b5e6dc55c3787cb5474b7aeef",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "M3 regression test source: real-domain URLs used as string fixtures, not new live capture evidence."
+    },
+    {
+      "url": "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052570/2/",
+      "source_path": "tests/test_surface_typing.py",
+      "source_git_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+      "source_sha256": "faaf85398cf3ed14788f0de464b0e261d3627f2b5e6dc55c3787cb5474b7aeef",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "M3 regression test source: real-domain URLs used as string fixtures, not new live capture evidence."
+    },
+    {
+      "url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?query=",
+      "source_path": "tests/test_surface_typing.py",
+      "source_git_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+      "source_sha256": "faaf85398cf3ed14788f0de464b0e261d3627f2b5e6dc55c3787cb5474b7aeef",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "M3 regression test source: real-domain URLs used as string fixtures, not new live capture evidence."
+    },
+    {
+      "url": "http://image.archivioluce.com/dm_0/IL/",
+      "source_path": "tests/test_surface_typing.py",
+      "source_git_blob_sha": "ffe9a2f74e11d3ff2759730031f69ed9a1672950",
+      "source_sha256": "faaf85398cf3ed14788f0de464b0e261d3627f2b5e6dc55c3787cb5474b7aeef",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "M3 regression test source: real-domain URLs used as string fixtures, not new live capture evidence."
+    },
+    {
+      "url": "https://www.ina.fr/page?b=2&a=1#top",
+      "source_path": "tests/test_ai_surface_discovery.py",
+      "source_git_blob_sha": "d6b8392376302826ae74fee8d0d180c2c95b7d9d",
+      "source_sha256": "deb80deb54d4d65fb00de090fdaeaef414f779eeaaa61a9321ed1472c8dfe56d",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Fake HTTP sessions use actual domain-looking URLs; no assertion of new live visit, includes synthetic placeholder and robots/media non-observation paths."
+    },
+    {
+      "url": "https://www.ina.fr/page?a=1&b=2",
+      "source_path": "tests/test_ai_surface_discovery.py",
+      "source_git_blob_sha": "d6b8392376302826ae74fee8d0d180c2c95b7d9d",
+      "source_sha256": "deb80deb54d4d65fb00de090fdaeaef414f779eeaaa61a9321ed1472c8dfe56d",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Fake HTTP sessions use actual domain-looking URLs; no assertion of new live visit, includes synthetic placeholder and robots/media non-observation paths."
+    },
+    {
+      "url": "https://data.ina.fr/traitements-ia",
+      "source_path": "tests/test_ai_surface_discovery.py",
+      "source_git_blob_sha": "d6b8392376302826ae74fee8d0d180c2c95b7d9d",
+      "source_sha256": "deb80deb54d4d65fb00de090fdaeaef414f779eeaaa61a9321ed1472c8dfe56d",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Fake HTTP sessions use actual domain-looking URLs; no assertion of new live visit, includes synthetic placeholder and robots/media non-observation paths."
+    },
+    {
+      "url": "https://www.ina.fr/",
+      "source_path": "tests/test_ai_surface_discovery.py",
+      "source_git_blob_sha": "d6b8392376302826ae74fee8d0d180c2c95b7d9d",
+      "source_sha256": "deb80deb54d4d65fb00de090fdaeaef414f779eeaaa61a9321ed1472c8dfe56d",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Fake HTTP sessions use actual domain-looking URLs; no assertion of new live visit, includes synthetic placeholder and robots/media non-observation paths."
+    },
+    {
+      "url": "https://www.ina.fr/contact",
+      "source_path": "tests/test_ai_surface_discovery.py",
+      "source_git_blob_sha": "d6b8392376302826ae74fee8d0d180c2c95b7d9d",
+      "source_sha256": "deb80deb54d4d65fb00de090fdaeaef414f779eeaaa61a9321ed1472c8dfe56d",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Fake HTTP sessions use actual domain-looking URLs; no assertion of new live visit, includes synthetic placeholder and robots/media non-observation paths."
+    },
+    {
+      "url": "https://www.ina.fr/robots.txt",
+      "source_path": "tests/test_ai_surface_discovery.py",
+      "source_git_blob_sha": "d6b8392376302826ae74fee8d0d180c2c95b7d9d",
+      "source_sha256": "deb80deb54d4d65fb00de090fdaeaef414f779eeaaa61a9321ed1472c8dfe56d",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Fake HTTP sessions use actual domain-looking URLs; no assertion of new live visit, includes synthetic placeholder and robots/media non-observation paths."
+    },
+    {
+      "url": "https://data.ina.fr/robots.txt",
+      "source_path": "tests/test_ai_surface_discovery.py",
+      "source_git_blob_sha": "d6b8392376302826ae74fee8d0d180c2c95b7d9d",
+      "source_sha256": "deb80deb54d4d65fb00de090fdaeaef414f779eeaaa61a9321ed1472c8dfe56d",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Fake HTTP sessions use actual domain-looking URLs; no assertion of new live visit, includes synthetic placeholder and robots/media non-observation paths."
+    },
+    {
+      "url": "https://www.ina.fr/document.pdf",
+      "source_path": "tests/test_ai_surface_discovery.py",
+      "source_git_blob_sha": "d6b8392376302826ae74fee8d0d180c2c95b7d9d",
+      "source_sha256": "deb80deb54d4d65fb00de090fdaeaef414f779eeaaa61a9321ed1472c8dfe56d",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Fake HTTP sessions use actual domain-looking URLs; no assertion of new live visit, includes synthetic placeholder and robots/media non-observation paths."
+    },
+    {
+      "url": "https://www.ina.fr/video.mp4",
+      "source_path": "tests/test_ai_surface_discovery.py",
+      "source_git_blob_sha": "d6b8392376302826ae74fee8d0d180c2c95b7d9d",
+      "source_sha256": "deb80deb54d4d65fb00de090fdaeaef414f779eeaaa61a9321ed1472c8dfe56d",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Fake HTTP sessions use actual domain-looking URLs; no assertion of new live visit, includes synthetic placeholder and robots/media non-observation paths."
+    },
+    {
+      "url": "https://www.meediateek.ee/film/view?id=1",
+      "source_path": "tests/test_estonian_film_archive_collection.py",
+      "source_git_blob_sha": "1569a4738b9cf89f1b86c067e68ecc03bfd05e81",
+      "source_sha256": "a158a9ec5bd098cbee19f060a899aa8ed768022f63b6f144e8cdbe6f18165648",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Synthetic Estonian/Arkaader-related collector fixture; target platform overlap requires protocol reviewer decision, not automatic page alias."
+    },
+    {
+      "url": "https://diazcinearchives.oembed.diazinteregio.org/embed/CineA-1964-Reflets-210-1_1?feature=oembed",
+      "source_path": "tests/test_cinearchives_collection.py",
+      "source_git_blob_sha": "1983b2391f0db4f89fbf00f92e1d73d39ed67d1b",
+      "source_sha256": "08fb335239d591e11e7630c874ef1acf0f110bb4bd068d3ff913c3b67a2c1f89",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Collector fixture with real-domain-looking media URLs; fixture alone does not prove a matching historical crawl or redirect."
+    },
+    {
+      "url": "https://www.cinearchives.org/catalogue-reflets-1104-239-1-0.html",
+      "source_path": "tests/test_cinearchives_collection.py",
+      "source_git_blob_sha": "1983b2391f0db4f89fbf00f92e1d73d39ed67d1b",
+      "source_sha256": "08fb335239d591e11e7630c874ef1acf0f110bb4bd068d3ff913c3b67a2c1f89",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Collector fixture with real-domain-looking media URLs; fixture alone does not prove a matching historical crawl or redirect."
+    },
+    {
+      "url": "https://diazcinearchives.oembed.diazinteregio.org/embed/CineA-1964-Reflets",
+      "source_path": "tests/test_cinearchives_collection.py",
+      "source_git_blob_sha": "1983b2391f0db4f89fbf00f92e1d73d39ed67d1b",
+      "source_sha256": "08fb335239d591e11e7630c874ef1acf0f110bb4bd068d3ff913c3b67a2c1f89",
+      "evidence_kind": "repository_test_literal",
+      "review_status": "human_review_required",
+      "auto_exclusion": false,
+      "basis": "Collector fixture with real-domain-looking media URLs; fixture alone does not prove a matching historical crawl or redirect."
+    }
+  ],
+  "original_exclusion_manifest": {
+    "declared_units_total": 117,
+    "declared_url_count": 117,
+    "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_known_urls_exclusion_v2_3_draft.json",
+    "sha256": "ab19c56254a3f7e71744622079c62d30a69829bb7f05ed6b013a7fda3ec57fa4",
+    "source_files": [
+      {
+        "path": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+        "sha256": "ca3497f013664c4e7aba2690c0d3479cd48cfa7fdaf5b6e00642bc7bbc65d48b",
+        "units": 17
+      },
+      {
+        "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json",
+        "sha256": "9b5f18f840ac4f13941ca208b42a716912ee893eae2da50e68f5af07c8291e14",
+        "units": 33
+      },
+      {
+        "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_1.json",
+        "sha256": "153871a33ada28f3e708528ef61a47b3a249d703cdcff48879d6aee89e78a67d",
+        "units": 36
+      },
+      {
+        "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_2.json",
+        "sha256": "673b5d11e731bc45d0d9415696bc355ce6772ffd4de24ba8a2d9b0c73dae49eb",
+        "units": 31
+      }
+    ]
+  },
+  "proposed_validation_entrypoints_not_evidence_of_independent_exposure": [
+    {
+      "entity_id": "cinematek",
+      "root_url": "https://cinematek.be/en/collections/be-film",
+      "eligibility_status": "entrypoint_in_prereg_not_independent_exposure_proof"
+    },
+    {
+      "entity_id": "cinematheque-bretagne",
+      "root_url": "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-0.html",
+      "eligibility_status": "entrypoint_in_prereg_not_independent_exposure_proof"
+    },
+    {
+      "entity_id": "dr",
+      "root_url": "https://www.dr.dk/drtv/gensyn",
+      "eligibility_status": "entrypoint_in_prereg_not_independent_exposure_proof"
+    },
+    {
+      "entity_id": "ert",
+      "root_url": "https://archive.ert.gr/",
+      "eligibility_status": "entrypoint_in_prereg_not_independent_exposure_proof"
+    },
+    {
+      "entity_id": "estonian_film_archive",
+      "root_url": "https://arkaader.ee/landing/br/rHczO7kKnl/pbOiQfMOLr",
+      "eligibility_status": "requires_separate_independence_review"
+    },
+    {
+      "entity_id": "filmoteca_catalunya",
+      "root_url": "https://filmo.platfo.es/pages/home",
+      "eligibility_status": "entrypoint_in_prereg_not_independent_exposure_proof"
+    }
+  ],
+  "review_decisions_pending": [
+    "Old discovery reports only preserve emitted page URL; requested versus final URL and live response bytes cannot be reconstructed.",
+    "Fixture strings with real-looking hosts are test inputs, not evidence of HTTP visits or redirected equivalence; screen them before final eligibility decisions.",
+    "Arkaader appears in preexisting collection code/tests; protocol reviewers must assess target independence at entity/technology level, not infer exact page overlap.",
+    "Language paths, media embeds, subdomains and equal hostnames alone are insufficient to prove URL aliases.",
+    "No automated freeze or independent collection before custodial review of this draft and all other operational gates."
+  ],
+  "schema_version": "1.0.0",
+  "scientific_role": "preexecution_source_audit_not_new_validation",
+  "status": "draft_not_frozen",
+  "verified_count_claims": {
+    "additional_unreviewed_historical_page_urls": 20,
+    "distinct_confirmed_conservative_identity_keys": 137,
+    "distinct_confirmed_exact_urls": 137,
+    "historical_discovery_reports": 17,
+    "historical_report_page_observations": 122,
+    "nonvalidated_fixture_literals_pending_review": 22,
+    "prior_reviewed_unique_urls": 117
+  }
+}
