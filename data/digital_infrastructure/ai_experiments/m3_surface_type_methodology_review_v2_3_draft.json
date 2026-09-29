@@ -20,8 +20,11 @@
     "statements": [
       "A repository literal proves test source exposure only, not a live visit or redirect.",
       "A fragment from concatenated Python strings is not itself the full tested URL.",
-      "No automatic addition to verified 137 until a designated protocol reviewer approves exact intended exclusions."
-    ]
+      "No automatic addition to verified 137 until a designated protocol reviewer approves exact intended exclusions.",
+      "Eight complete expression values reconstructed from seven split literal fragments; one is an image metadata URL rather than a candidate page."
+    ],
+    "fragment_reconstructions_documented": 7,
+    "reconstructed_complete_test_expressions": 8
   },
   "fixture_screening": [
     {
@@ -45,10 +48,14 @@
       "evidence": "literal_in_pinned_repository_test_not_a_live_HTTP_record",
       "usage": "M3_classifier_regression_input",
       "url_expression_status": "fragment_of_concatenated_Python_expression",
-      "proposed_disposition": "reconstruct_complete_expression_before_proposing_exclusion",
+      "proposed_disposition": "reconstructed_test_expression_requires_independent_scope_review_before_any_precautionary_exclusion",
       "human_signoff": "pending",
       "auto_exclusion": false,
-      "claimed_redirect_alias": false
+      "claimed_redirect_alias": false,
+      "reconstructed_complete_expressions": [
+        "https://www.cinearchives.org/catalogue-22-extraits-sur-lenine-1104-97-1-1.html"
+      ],
+      "reconstruction_evidence": "concatenated_Python_ast_constant_in_exact_pinned_test_file"
     },
     {
       "literal_url": "https://cinememoire.net/archives-cinememoire-ligne/",
@@ -58,10 +65,15 @@
       "evidence": "literal_in_pinned_repository_test_not_a_live_HTTP_record",
       "usage": "M3_classifier_regression_input",
       "url_expression_status": "fragment_of_concatenated_Python_expression",
-      "proposed_disposition": "reconstruct_complete_expression_before_proposing_exclusion",
+      "proposed_disposition": "reconstructed_test_expression_requires_independent_scope_review_before_any_precautionary_exclusion",
       "human_signoff": "pending",
       "auto_exclusion": false,
-      "claimed_redirect_alias": false
+      "claimed_redirect_alias": false,
+      "reconstructed_complete_expressions": [
+        "https://cinememoire.net/archives-cinememoire-ligne/films-darchives-des-anciennes-colonies",
+        "https://cinememoire.net/archives-cinememoire-ligne/archives-cinememoire-ligne/120-fiche-film/276-film-entomologiste-araignee"
+      ],
+      "reconstruction_evidence": "concatenated_Python_ast_constant_in_exact_pinned_test_file"
     },
     {
       "literal_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all",
@@ -71,10 +83,14 @@
       "evidence": "literal_in_pinned_repository_test_not_a_live_HTTP_record",
       "usage": "M3_classifier_regression_input",
       "url_expression_status": "fragment_of_concatenated_Python_expression",
-      "proposed_disposition": "reconstruct_complete_expression_before_proposing_exclusion",
+      "proposed_disposition": "reconstructed_test_expression_requires_independent_scope_review_before_any_precautionary_exclusion",
       "human_signoff": "pending",
       "auto_exclusion": false,
-      "claimed_redirect_alias": false
+      "claimed_redirect_alias": false,
+      "reconstructed_complete_expressions": [
+        "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment"
+      ],
+      "reconstruction_evidence": "concatenated_Python_ast_constant_in_exact_pinned_test_file"
     },
     {
       "literal_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1896",
@@ -84,10 +100,14 @@
       "evidence": "literal_in_pinned_repository_test_not_a_live_HTTP_record",
       "usage": "M3_classifier_regression_input",
       "url_expression_status": "fragment_of_concatenated_Python_expression",
-      "proposed_disposition": "reconstruct_complete_expression_before_proposing_exclusion",
+      "proposed_disposition": "reconstructed_test_expression_requires_independent_scope_review_before_any_precautionary_exclusion",
       "human_signoff": "pending",
       "auto_exclusion": false,
-      "claimed_redirect_alias": false
+      "claimed_redirect_alias": false,
+      "reconstructed_complete_expressions": [
+        "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1896?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment"
+      ],
+      "reconstruction_evidence": "concatenated_Python_ast_constant_in_exact_pinned_test_file"
     },
     {
       "literal_url": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/",
@@ -97,10 +117,14 @@
       "evidence": "literal_in_pinned_repository_test_not_a_live_HTTP_record",
       "usage": "M3_classifier_regression_input",
       "url_expression_status": "fragment_of_concatenated_Python_expression",
-      "proposed_disposition": "reconstruct_complete_expression_before_proposing_exclusion",
+      "proposed_disposition": "reconstructed_test_expression_requires_independent_scope_review_before_any_precautionary_exclusion",
       "human_signoff": "pending",
       "auto_exclusion": false,
-      "claimed_redirect_alias": false
+      "claimed_redirect_alias": false,
+      "reconstructed_complete_expressions": [
+        "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/1896%2B1897%2B1898%2B1899?f%5B0%5D=field_cm_media_filter%3Awith+film+fragment"
+      ],
+      "reconstruction_evidence": "concatenated_Python_ast_constant_in_exact_pinned_test_file"
     },
     {
       "literal_url": "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052570/2/",
@@ -110,10 +134,14 @@
       "evidence": "literal_in_pinned_repository_test_not_a_live_HTTP_record",
       "usage": "M3_classifier_regression_input",
       "url_expression_status": "fragment_of_concatenated_Python_expression",
-      "proposed_disposition": "reconstruct_complete_expression_before_proposing_exclusion",
+      "proposed_disposition": "reconstructed_test_expression_requires_independent_scope_review_before_any_precautionary_exclusion",
       "human_signoff": "pending",
       "auto_exclusion": false,
-      "claimed_redirect_alias": false
+      "claimed_redirect_alias": false,
+      "reconstructed_complete_expressions": [
+        "https://patrimonio.archivioluce.com/luce-web/detail/IL5000052570/2/l-esercito-americano-italia-durante-prima-guerra-mondiale-111-h-1228.html?startPage=0"
+      ],
+      "reconstruction_evidence": "concatenated_Python_ast_constant_in_exact_pinned_test_file"
     },
     {
       "literal_url": "https://patrimonio.archivioluce.com/luce-web/search/result.html?query=",
@@ -136,10 +164,14 @@
       "evidence": "literal_in_pinned_repository_test_not_a_live_HTTP_record",
       "usage": "M3_classifier_regression_input",
       "url_expression_status": "fragment_of_concatenated_Python_expression",
-      "proposed_disposition": "reconstruct_complete_expression_before_proposing_exclusion",
+      "proposed_disposition": "reconstructed_test_expression_requires_independent_scope_review_before_any_precautionary_exclusion",
       "human_signoff": "pending",
       "auto_exclusion": false,
-      "claimed_redirect_alias": false
+      "claimed_redirect_alias": false,
+      "reconstructed_complete_expressions": [
+        "http://image.archivioluce.com/dm_0/IL/video_frames/high/mpegRW/RW54701.jpg"
+      ],
+      "reconstruction_evidence": "concatenated_Python_ast_constant_in_exact_pinned_test_file"
     },
     {
       "literal_url": "https://www.ina.fr/page?b=2&a=1#top",
@@ -453,7 +485,7 @@
     "independent_collection_blocked": true,
     "prediction_release_blocked": true,
     "pending": [
-      "reconstruct_concatenated_test_URLs",
+      "independent_review_of_eight_reconstructed_expressions_and_page_vs_metadata_scope",
       "independent_fixture_and_entity_review",
       "confirm_no_indirect_rule_tuning_from_six_prior_MAR_corpora_or_narrow_claim/reselect",
       "approve_prospective_protocol_amendment_and_exclusion_manifest",
