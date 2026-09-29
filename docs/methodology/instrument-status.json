@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "document_status": "proposal_for_academic_review_not_a_scientific_validation_or_protocol_seal",
+  "as_of": "2026-09-29",
+  "scope": "MAR scientific observatory; instrumentation status and validation boundaries",
+  "canonical_methodology": "docs/methodology/mar-scientific-methodology.md",
+  "central_question": "Sob quais condições infraestruturais, institucionais, técnicas e culturais os acervos audiovisuais se tornam visíveis, invisíveis, restritos ou instáveis em ambientes digitais?",
+  "invariants": {
+    "platform_engineering_tests_imply_empirical_model_validation": false,
+    "prior_corpus_inclusion_automatically_implies_model_training": false,
+    "absence_of_public_ai_signal_implies_no_institutional_ai": false,
+    "ai_institutional_evidence_is_media_forensics": false,
+    "m4_promotion_authorized": false,
+    "val009_independent_evaluation_executed": false,
+    "model_m3_2_2_val007_passed": false,
+    "published_visibility_index_validated": false,
+    "all_european_physical_holdings_quantified": false
+  },
+  "components": [
+    {
+      "id": "corpus",
+      "scientific_role": "delimit observed public institutional and aggregator corpus",
+      "implementation": "public_corpora_and_exports_exist",
+      "technical_evidence": [
+        "README.md",
+        "src/memoria_audiovisual/corpora.py"
+      ],
+      "empirical_validation": "per_corpus_provenance_and_completeness_required",
+      "may_infer": "counts of actually materialized records by declared route and snapshot",
+      "must_not_infer": "total holdings of source institution or representativeness of all European archives"
+    },
+    {
+      "id": "public_search_and_discovery",
+      "scientific_role": "allow public consultation and analyze findability of routes and public records",
+      "implementation": "public_interface_and_discovery_modules_exist_quality_of_retrieval_not_established",
+      "technical_evidence": [
+        "README.md",
+        "app/streamlit_app.py"
+      ],
+      "empirical_validation": "requires_predefined_queries_and_human_relevance_reference_for_retrieval_claims",
+      "may_infer": "retrieval and route observations within documented query and platform scope",
+      "must_not_infer": "exhaustive discovery or ranked-retrieval accuracy without a suitable evaluation"
+    },
+    {
+      "id": "technical_infrastructure_audit",
+      "scientific_role": "collect evidence about CMS APIs metadata interoperability search and restrictions",
+      "implementation": "implemented_heuristic_and_technical_tests",
+      "technical_evidence": [
+        "src/memoria_audiovisual/digital_infrastructure_audit.py",
+        "docs/infrastructure-audit/VALIDATION_PROTOCOL.md"
+      ],
+      "empirical_validation": "independent_evidence_and_human_revision_needed_for_institutional_claims",
+      "may_infer": "a signal on the observed URL and observation date",
+      "must_not_infer": "institution-wide technology presence or absence from a single signal"
+    },
+    {
+      "id": "institutional_ai_evidence",
+      "scientific_role": "study documented use or declared adoption of AI in archival description search access and circulation",
+      "implementation": "heuristic_evidence_detection_and_curation_protocol_defined",
+      "technical_evidence": [
+        "src/memoria_audiovisual/digital_infrastructure_audit.py",
+        "docs/statetech-alignment/ai_systems_protocol.md"
+      ],
+      "empirical_validation": "evidence_linked_to_concrete_function_and_human_review_required",
+      "may_infer": "dated levels of detectable declaration or confirmed function when evidence supports it",
+      "must_not_infer": "AI use without evidence or generation/manipulation of a particular video"
+    },
+    {
+      "id": "M3_surface_typing",
+      "scientific_role": "classify public digital surface roles to support observation and sample selection",
+      "implementation": "versioned_candidate_and_preflight_engineering;_not_an_approved_model",
+      "technical_evidence": [
+        "docs/engineering/val009-methodology-screening.md",
+        "docs/engineering/val009-reconciliation.md"
+      ],
+      "empirical_validation": "VAL007_M3_2_2_failed_thresholds_VAL009_draft_not_executed",
+      "may_infer": "development findings or independently reviewed experiment findings within stated universe",
+      "must_not_infer": "model validity solely from CI or from preregistration draft"
+    },
+    {
+      "id": "M4_item_surface_gate",
+      "scientific_role": "decide item-level eligibility separately from surface-role classification",
+      "implementation": "experimentally_specified_not_promoted",
+      "technical_evidence": [
+        "docs/engineering/val009-reconciliation.md",
+        "docs/engineering/val009-methodology-screening.md"
+      ],
+      "empirical_validation": "historic_gate_failed_and_promotion_blocked",
+      "may_infer": "historical experimental evaluation only",
+      "must_not_infer": "reliable item retrieval or production suitability"
+    },
+    {
+      "id": "evidence_and_governance",
+      "scientific_role": "make evidence and human decisions attributable reproducible and eligible for publication",
+      "implementation": "data_contracts_ledger_and_review_policies_documented",
+      "technical_evidence": [
+        "src/memoria_audiovisual/digital_infrastructure/validation.py",
+        "src/memoria_audiovisual/digital_infrastructure/ledger.py",
+        "docs/statetech-alignment/curatorial_governance.md"
+      ],
+      "empirical_validation": "operational_role_segregation_and_external_seal_unverified_for_VAL009",
+      "may_infer": "verified integrity under tested software assumptions",
+      "must_not_infer": "actual WORM custody authenticated seals or complete blind review from metadata alone"
+    },
+    {
+      "id": "longitudinal_observatory",
+      "scientific_role": "observe appearance restriction loss and change of digital audiovisual visibility across comparable snapshots",
+      "implementation": "timeline_and_snapshot_exports_exist",
+      "technical_evidence": [
+        "README.md",
+        "src/memoria_audiovisual/snapshot_metadata.py"
+      ],
+      "empirical_validation": "comparability_and_repeated_observations_required_for_change_claims",
+      "may_infer": "dated changes when repeated snapshots are explicitly comparable",
+      "must_not_infer": "digital extinction from one failed request or from non-comparable snapshots"
+    },
+    {
+      "id": "composite_visibility_index",
+      "scientific_role": "possible future synthesis of validated visibility and findability dimensions",
+      "implementation": "research_objective_not_a_validated_published_index",
+      "technical_evidence": [
+        "README.md",
+        "docs/statetech-alignment/indicator_governance_policy.md"
+      ],
+      "empirical_validation": "requires_versioned_definition_and_explicit_denominators_and_validation",
+      "may_infer": "none until a specified approved index exists",
+      "must_not_infer": "overall institutional score from partial or unreviewed indicators"
+    }
+  ],
+  "research_protocol_notes": {
+    "VAL009": {
+      "status": "draft_hold_pending_methodology_and_roles",
+      "known_historical_urls_floor": 137,
+      "test_strings_pending_independent_review": 22,
+      "candidate_claim": "institutions absent from prior M3 human-labelled sets (not globally new to MAR)",
+      "six_proposed_institutions_in_broader_prior_MAR_corpus": true,
+      "indirect_development_exposure": "not_yet_resolved",
+      "evaluator_access": "must_remain_blinded_until_human_freeze"
+    },
+    "academic_presentation": "present_final_adopted_methods_and_material_deviations; preserve engineering chronology in audit log"
+  }
+}
