@@ -160,6 +160,13 @@ jobs:
             tests/test_val009_origin_bridge.py
           python -m unittest discover -s tests -p 'test_val009_origin_bridge.py' -v
 
+      - name: Validate VAL-009 methodology review structure (HOLD only)
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            scripts/review_val009_methodology.py tests/test_val009_methodology_review.py
+          python -m unittest discover -s tests -p 'test_val009_methodology_review.py' -v
+          python scripts/review_val009_methodology.py --structure-only
+
       - name: Validate VAL-009 exposure inventory against pinned historical checkout
         run: |
           python scripts/audit_val009_exposure.py --structure-only
@@ -170,6 +177,7 @@ jobs:
           git worktree add --detach ../mar-val009-historical 4544bbc40e076cd7a81800a3c93ebbfb8efae5b2
           python scripts/audit_val009_exposure.py --historical-root ../mar-val009-historical \
             --write-preview ./val009_exclusion_preview_UNSEALED.json
+          python scripts/review_val009_methodology.py --historical-root ../mar-val009-historical
           git worktree remove ../mar-val009-historical
 
       - name: Run unittest suite
