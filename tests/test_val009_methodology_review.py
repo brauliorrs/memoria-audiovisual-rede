@@ -34,7 +34,8 @@ class MethodologyScreeningTests(unittest.TestCase):
         result = self.checked()
         self.assertEqual(result["proven_historical_urls"], 137)
         self.assertEqual(result["test_literals_screened"], 22)
-        self.assertEqual(result["test_URL_fragments_requiring_reconstruction"], 7)
+        self.assertEqual(result["test_URL_fragments_reconstructed_pending_review"], 7)
+        self.assertEqual(result["full_expressions_recovered_from_fragments"], 8)
         self.assertEqual(result["proposed_entities_with_prior_MAR_corpus"], 6)
         self.assertEqual(result["project_wide_unseen_entities"], 0)
         self.assertFalse(result["science_authorized"])
@@ -78,6 +79,15 @@ class MethodologyScreeningTests(unittest.TestCase):
             "fragment_of_concatenated_Python_expression"
         )
         entry["url_expression_status"] = "complete_literal_or_root_used_in_test"
+        with self.assertRaises(AuditError):
+            self.checked(doc)
+        doc = copy.deepcopy(REVIEW)
+        fragment = next(
+            r for r in doc["fixture_screening"]
+            if r["url_expression_status"] ==
+            "fragment_of_concatenated_Python_expression"
+        )
+        fragment["reconstructed_complete_expressions"] = []
         with self.assertRaises(AuditError):
             self.checked(doc)
 
