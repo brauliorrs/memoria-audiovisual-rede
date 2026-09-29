@@ -160,6 +160,18 @@ jobs:
             tests/test_val009_origin_bridge.py
           python -m unittest discover -s tests -p 'test_val009_origin_bridge.py' -v
 
+      - name: Validate VAL-009 exposure inventory against pinned historical checkout
+        run: |
+          python scripts/audit_val009_exposure.py --structure-only
+          ruff check --select E9,F63,F7,F82 \
+            scripts/audit_val009_exposure.py tests/test_val009_exposure_inventory.py
+          python -m unittest discover -s tests -p 'test_val009_exposure_inventory.py' -v
+          git fetch --no-tags --depth=1 origin 4544bbc40e076cd7a81800a3c93ebbfb8efae5b2
+          git worktree add --detach ../mar-val009-historical 4544bbc40e076cd7a81800a3c93ebbfb8efae5b2
+          python scripts/audit_val009_exposure.py --historical-root ../mar-val009-historical \
+            --write-preview ./val009_exclusion_preview_UNSEALED.json
+          git worktree remove ../mar-val009-historical
+
       - name: Run unittest suite
         run: python -m unittest discover -s tests -v
 
