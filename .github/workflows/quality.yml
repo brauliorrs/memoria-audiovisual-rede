@@ -139,6 +139,19 @@ jobs:
           python -m py_compile scripts/check_anf_outputs.py
           python -m py_compile scripts/check_sfa_outputs.py
 
+      - name: Validate production analysis admission and corpus inclusion queue
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/analysis_instruments.py \
+            src/memoria_audiovisual/inclusion_queue.py \
+            scripts/run_approved_analysis.py \
+            scripts/next_inclusion_candidate.py \
+            tests/test_analysis_instruments.py \
+            tests/test_inclusion_queue.py
+          python -m unittest discover -s tests -p 'test_analysis_instruments.py' -v
+          python -m unittest discover -s tests -p 'test_inclusion_queue.py' -v
+          python scripts/run_approved_analysis.py --list > /tmp/mar-approved-analysis.json
+
       - name: Check MAR scientific methodology document contract
         run: |
           ruff check --select E9,F63,F7,F82 \

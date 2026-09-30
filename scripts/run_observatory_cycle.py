@@ -43,8 +43,12 @@ from memoria_audiovisual.organism import (
     write_monthly_cycle_manifest,
 )
 from memoria_audiovisual.prise2_protocol import write_prise2_protocol_probe
-from memoria_audiovisual.public_access_index import write_public_access_index
-from memoria_audiovisual.restricted_access_audit import write_restricted_access_audit
+from memoria_audiovisual.inclusion_queue import write_next_inclusion_candidates
+from memoria_audiovisual.analysis_instruments import (
+    InstrumentRegistryError,
+    run_production_analysis,
+    write_analysis_skipped_manifest,
+)
 
 
 def utcnow_iso():
@@ -106,8 +110,7 @@ def main():
     write_europe_closure_outputs(OUTPUT_DIR)
     write_cineteca_bologna_protocol_probe(OUTPUT_DIR)
     write_europe_research_outputs(OUTPUT_DIR)
-    write_restricted_access_audit(OUTPUT_DIR)
-    write_public_access_index(OUTPUT_DIR)
+    write_next_inclusion_candidates(output_dir=OUTPUT_DIR, limit=3)
 
     active_corpora = list_active_corpora(monthly_only=True)
     if args.corpora:
@@ -186,12 +189,39 @@ def main():
     )
     write_cycle_history(manifest, OUTPUT_DIR)
 
+    analysis_failed = False
+    if failures:
+        write_analysis_skipped_manifest(
+            "Global analysis was not recomputed because one or more corpus refreshes failed.",
+            output_dir=OUTPUT_DIR,
+            source_cycle_status="failed_full_refresh" if not args.corpora else "failed_partial_refresh",
+        )
+    elif args.corpora:
+        write_analysis_skipped_manifest(
+            "Global analysis was not recomputed after a partial corpus refresh.",
+            output_dir=OUTPUT_DIR,
+            source_cycle_status="successful_partial_refresh",
+        )
+    else:
+        try:
+            analysis_manifest = run_production_analysis(
+                output_dir=OUTPUT_DIR,
+                source_cycle_status="successful_full_refresh",
+            )
+            print(
+                "- instrumentos de análise de produção executados: "
+                f"{len(analysis_manifest['instruments'])}"
+            )
+        except (InstrumentRegistryError, OSError, ValueError) as exc:
+            analysis_failed = True
+            print(f"- falha na camada de análise de produção: {exc}")
+
     print("Ciclo mensal do organismo concluído.")
     print(f"- corpora ativos: {manifest['active_corpora_total']}")
     print(f"- sucessos: {manifest['successful_corpora_total']}")
     print(f"- falhas: {manifest['failed_corpora_total']}")
 
-    return 1 if failures else 0
+    return 1 if failures or analysis_failed else 0
 
 
 if __name__ == "__main__":
