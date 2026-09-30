@@ -137,7 +137,10 @@
       "indirect_development_exposure": "repository_audit_found_no_direct_use_of_the_six_corpora_in_117_labelled_M3_development_units_or_runtime_classifier_dependency; unrecorded_human_familiarity_cannot_be_proved_or_excluded",
       "evaluator_access": "must_remain_blinded_until_human_freeze",
       "corpus_relation_audit": "docs/methodology/m3-corpus-relation-audit.json",
-      "six_entity_methodological_status": "prior_MAR_corpora_but_held_out_from_labelled_M3_development_sets"
+      "six_entity_methodological_status": "prior_MAR_corpora_but_held_out_from_labelled_M3_development_sets",
+      "prospective_claim_amendment": "data/digital_infrastructure/ai_experiments/m3_surface_type_val009_amendment_v2_3_draft.json",
+      "proposed_research_question": "Does M3 2.3.0 classify previously unlabelled public digital surfaces from six institutions absent from all prior human-labelled M3 development sets, under sealed sampling and blinding?",
+      "claim_status": "prospective_draft_pending_independent_protocol_reviewer_signoff"
     },
     "academic_presentation": "present_final_adopted_methods_and_material_deviations; preserve engineering chronology in audit log"
   }

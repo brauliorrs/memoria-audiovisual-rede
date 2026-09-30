@@ -459,12 +459,15 @@
     }
   },
   "selection_and_claim_impact": {
-    "original_draft_unseen_entity_wording": "not_adequate_if_interpreted_as_institutions_unseen_in_entire_MAR",
+    "original_draft_unseen_entity_wording": "retained_only_as_absent_from_prior_human_labelled_M3_sets_not_globally_unseen_in_MAR",
     "source_populations_different": true,
-    "permissible_narrower_hypothesis_if_signed": "new_to_prior_blind_M3_human_review_sets_but_existing_in_broader_MAR_corpus",
-    "alternative_if_claim_requires_global_entity_novelty": "amend_prospective_protocol_and_prespecify_replacements_using_documentary_criteria_before_any_new_crawl_or_predictions",
-    "condition_for_either_path": "independent_review_of_cross_pipeline_indirect_design_exposure_and_disjointness",
-    "no_automatic_replacement_or_post_outcome_selection": true
+    "permissible_narrower_hypothesis_if_signed": "new_surfaces_and_new_human_labels_for_M3_from_six_institutions_absent_from_all_prior_human_labelled_M3_development_sets_but_preexisting_in_broader_MAR_corpus",
+    "alternative_if_claim_requires_global_entity_novelty": "separate_future_prospective_study_not_required_for_current_M3_instrument_validation",
+    "condition_for_either_path": "independent_protocol_reviewer_signoff_before_seal",
+    "no_automatic_replacement_or_post_outcome_selection": true,
+    "prospective_project_methodology_proposal": "retain_six_entities_with_narrow_M3_specific_claim",
+    "prospective_amendment_path": "data/digital_infrastructure/ai_experiments/m3_surface_type_val009_amendment_v2_3_draft.json",
+    "corpus_relation_audit_path": "docs/methodology/m3-corpus-relation-audit.json"
   },
   "exclusions_status": {
     "proven_minimum": 137,
@@ -485,9 +488,9 @@
     "independent_collection_blocked": true,
     "prediction_release_blocked": true,
     "pending": [
+      "independent_protocol_reviewer_accepts_or_rejects_narrow_claim_before_seal",
       "independent_review_of_eight_reconstructed_expressions_and_page_vs_metadata_scope",
       "independent_fixture_and_entity_review",
-      "confirm_no_indirect_rule_tuning_from_six_prior_MAR_corpora_or_narrow_claim/reselect",
       "approve_prospective_protocol_amendment_and_exclusion_manifest",
       "final_annotation_manual",
       "operational_custodian_reviewer_separation",
