@@ -100,7 +100,9 @@ class ForumDesImagesCollectionTests(unittest.TestCase):
             candidates[0].unit_code,
             "efg-friedrich-wilhelm-murnau-stiftung",
         )
-        self.assertEqual(candidates[0].rank, 7)
+        # Forum leaves the active queue, so definitive ranks are compacted.
+        # Murnau was historical rank 7 and becomes current queue-head rank 6.
+        self.assertEqual(candidates[0].rank, 6)
 
 
 if __name__ == "__main__":
