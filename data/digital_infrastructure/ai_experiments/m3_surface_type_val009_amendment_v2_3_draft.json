@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "amendment_id": "MAR-T2A-M3-VAL-009-AMENDMENT-001",
+  "experiment_id": "MAR-T2A-M3-VAL-009",
+  "prepared_on": "2026-09-30",
+  "status": "draft_prospective_amendment_pending_independent_protocol_reviewer_signoff",
+  "execution_authorized_by_this_artifact": false,
+  "scientific_seal_granted": false,
+  "base_protocol": {
+    "path": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_validation_protocol_v2_3_draft.json",
+    "historical_reference_commit": "4544bbc40e076cd7a81800a3c93ebbfb8efae5b2",
+    "git_blob_sha": "a349dccf76d1ee2fb8365422182ada3b275db42e",
+    "protocol_id": "MAR-T2A-M3-VAL-009-PROTOCOL",
+    "protocol_version": "2.3.0-draft",
+    "candidate_version": "2.3.0-dev",
+    "candidate_reference_commit": "bb52621862b973301f6fbe5330f2cd1203ab77b8",
+    "candidate_reference_is_freeze": false
+  },
+  "reason_for_amendment": "Repository audit established that all six proposed institutions predate M3 in the broader MAR corpus, while none occurs in the 117 human-labelled M3 development units and no direct runtime dependency from the audited M3 classifier to those six corpus exports was found. The claim is therefore narrowed prospectively before independent execution.",
+  "research_question": "Does M3 2.3.0 classify previously unlabelled public digital surfaces from six institutions that are absent from all prior human-labelled M3 development sets, under the sealed sampling and blinding procedure?",
+  "primary_claim_scope": {
+    "allowed": "Performance of the frozen M3 candidate on the selected new surfaces and human labels from the six preregistered institutions, all held out from prior human-labelled M3 development sets.",
+    "not_allowed": [
+      "generalisation to institutions wholly unseen by the MAR project",
+      "prevalence of surface classes in the institutions or Europe",
+      "completeness of discovery or institutional holdings",
+      "validity of the entire MAR platform",
+      "institutional use of AI or AI participation in audiovisual content",
+      "M4 promotion unless all separate preregistered gates permit a later decision"
+    ]
+  },
+  "corpus_relationship": {
+    "audit_path": "docs/methodology/m3-corpus-relation-audit.json",
+    "audit_git_blob_sha": "5ffa576d0653241c61d6a10c796a3ac00ab40c3b",
+    "all_six_preexisted_M3_in_broader_MAR_corpus": true,
+    "overlap_with_117_human_labelled_M3_development_units": 0,
+    "direct_runtime_dependency_on_six_general_corpus_exports_found": false,
+    "informal_human_familiarity": "cannot_be_proved_or_excluded_retrospectively",
+    "interpretation": "Prior MAR corpus membership is disclosed as a limitation of global institutional novelty, not as demonstrated label leakage."
+  },
+  "entities": [
+    {
+      "entity_id": "cinematek",
+      "root_url": "https://cinematek.be/en/collections/be-film",
+      "country": "Belgium",
+      "prior_MAR_corpus": true,
+      "prior_human_labelled_M3_development": false
+    },
+    {
+      "entity_id": "cinematheque-bretagne",
+      "root_url": "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-0.html",
+      "country": "France",
+      "prior_MAR_corpus": true,
+      "prior_human_labelled_M3_development": false
+    },
+    {
+      "entity_id": "dr",
+      "root_url": "https://www.dr.dk/drtv/gensyn",
+      "country": "Denmark",
+      "prior_MAR_corpus": true,
+      "prior_human_labelled_M3_development": false
+    },
+    {
+      "entity_id": "ert",
+      "root_url": "https://archive.ert.gr/",
+      "country": "Greece",
+      "prior_MAR_corpus": true,
+      "prior_human_labelled_M3_development": false
+    },
+    {
+      "entity_id": "estonian_film_archive",
+      "root_url": "https://arkaader.ee/landing/br/rHczO7kKnl/pbOiQfMOLr",
+      "country": "Estonia",
+      "prior_MAR_corpus": true,
+      "prior_human_labelled_M3_development": false
+    },
+    {
+      "entity_id": "filmoteca_catalunya",
+      "root_url": "https://filmo.platfo.es/pages/home",
+      "country": "Spain",
+      "prior_MAR_corpus": true,
+      "prior_human_labelled_M3_development": false
+    }
+  ],
+  "unchanged_from_base_protocol": [
+    "entity order and root URLs",
+    "sampling depth, page and unit caps",
+    "minimum sample rule and no replacement policy",
+    "selection before classification",
+    "blinding field contract and prediction custody principle",
+    "surface labels and access labels",
+    "metrics and all numeric gates",
+    "freeze order and fail-closed integrity rules",
+    "prohibition on post-freeze tuning and M4 automatic promotion"
+  ],
+  "exposure_and_exclusion_state": {
+    "verified_historical_URL_floor": 137,
+    "previous_117_human_review_URLs_included_in_floor": true,
+    "additional_20_historically_collected_pages_included_in_floor": true,
+    "test_strings_under_methodological_review": 22,
+    "reconstructed_complete_expressions_from_seven_fragments": 8,
+    "test_strings_automatically_promoted_to_exclusions": 0,
+    "demonstrated_legacy_requested_final_aliases": 0,
+    "final_exclusion_manifest_status": "pending_independent_review_and_consolidation",
+    "requirement": "The sealed exclusion manifest may grow prospectively from 137 but may not shrink below verified evidence. Any addition must have a documented evidence class and reviewer decision before new collection."
+  },
+  "prospective_decision": {
+    "proposed_by_project_methodology": "retain_the_six_entities_with_narrow_M3_specific_claim",
+    "rationale": "The validation target is the M3 instrument on new labels/surfaces. Absolute institutional novelty to the whole MAR project is a different research question and is not required for this instrument-validation claim.",
+    "independent_protocol_reviewer_status": "pending",
+    "independent_protocol_reviewer_id": null,
+    "reviewed_at": null,
+    "decision": null,
+    "rationale_review": null
+  },
+  "required_before_seal": [
+    "independent reviewer accepts or rejects this prospective claim amendment",
+    "finish review of 22 test strings and eight reconstructed expressions",
+    "materialize and review the final exclusion/alias manifest",
+    "freeze a final 2.3.0 candidate commit rather than a development reference",
+    "finalize the annotation manual",
+    "designate distinct custodian and human reviewer roles",
+    "provide restricted durable prediction storage inaccessible to the reviewer",
+    "define retention of all raw evidence including non-selected pages",
+    "obtain an authenticated external seal/witness for the protocol and freeze artifacts",
+    "run all fail-closed readiness checks before any independent collection"
+  ],
+  "prohibited": [
+    "do not visit the six targets to refine this amendment",
+    "do not generate or inspect new candidate predictions before protocol sealing",
+    "do not select replacement entities based on model outcomes",
+    "do not describe the six institutions as globally unseen in MAR",
+    "do not call this amendment an independent validation or scientific seal",
+    "do not alter historical VAL-007 results or reuse its labels as VAL-009 evidence"
+  ]
+}
