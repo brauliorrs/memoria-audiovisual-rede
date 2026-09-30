@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0.0",
+  "policy_version": "2026-09-30-production-instrument-gate-v1",
+  "status": "active_engineering_policy",
+  "principle": "Corpus acquisition and validated analysis run in production; experimental instruments remain isolated until efficacy validation and documentation are approved.",
+  "lifecycle_states": {
+    "production": "May run in the standard observatory analysis lane within its declared scope.",
+    "evidence_capture_only": "May collect evidence for later review, but may not publish an institutional scientific conclusion automatically.",
+    "experimental": "Development only; prohibited from the production analysis runner."
+  },
+  "admission_requirements": [
+    "declared scientific or descriptive purpose",
+    "versioned implementation",
+    "tests for the declared contract",
+    "documented validation or efficacy evidence appropriate to the instrument type",
+    "explicit output scope and prohibited inferences",
+    "versioned limitations",
+    "production entrypoint with fail-closed registry enforcement"
+  ],
+  "production_policy": {
+    "standard_cycle_runs_only_default_cycle_production_instruments": true,
+    "experimental_instruments_rejected_even_when_requested": true,
+    "evidence_capture_only_instruments_not_run_by_standard_cycle": true,
+    "analysis_runs_after_successful_full_corpus_refresh": true,
+    "partial_or_failed_corpus_refresh_does_not_recompute_global_analysis": true,
+    "unregistered_instruments_rejected": true
+  },
+  "instruments": [
+    {
+      "id": "restricted_access_audit",
+      "label": "Auditoria descritiva de acesso restrito",
+      "kind": "rule_based_descriptive_analysis",
+      "lifecycle": "production",
+      "version": "2026-06-acesso-pago-restrito-v1",
+      "default_cycle": true,
+      "runner": "restricted_access_audit",
+      "depends_on": [],
+      "validation_status": "validated_for_declared_rule_based_scope",
+      "efficacy_document": "docs/methodology/validated-analysis-instruments.md#1-auditoria-descritiva-de-acesso-restrito",
+      "tests": [
+        "tests/test_restricted_access_audit.py"
+      ],
+      "outputs": [
+        "observatorio_auditoria_acesso_pago_restrito.csv",
+        "observatorio_resumo_acesso_pago_restrito.csv"
+      ],
+      "may_infer": "Counts and descriptive categories produced from explicit access-surface fields and documented non-incorporation categories in the materialized corpus.",
+      "must_not_infer": "Institution-wide absence/presence of restrictions beyond observed records, causal effects, or completeness of holdings."
+    },
+    {
+      "id": "public_access_index",
+      "label": "Indicador descritivo de registros públicos materializados",
+      "kind": "rule_based_descriptive_indicator",
+      "lifecycle": "production",
+      "version": "2026-06-indice-dados-publicos-v2",
+      "default_cycle": true,
+      "runner": "public_access_index",
+      "depends_on": [
+        "restricted_access_audit"
+      ],
+      "validation_status": "validated_for_declared_materialized_record_denominator",
+      "efficacy_document": "docs/methodology/validated-analysis-instruments.md#2-indicador-de-registros-públicos-materializados",
+      "tests": [
+        "tests/test_public_access_index.py"
+      ],
+      "outputs": [
+        "observatorio_indice_dados_publicos.csv",
+        "observatorio_indice_dados_publicos_por_corpus.csv",
+        "observatorio_unidades_acesso_restrito_indice.csv"
+      ],
+      "may_infer": "Share of public versus restricted records among records actually materialized under the current corpus rules and declared denominator.",
+      "must_not_infer": "Overall institutional openness, total holdings, audiovisual visibility index, or population-representative access rates."
+    },
+    {
+      "id": "digital_infrastructure_evidence",
+      "label": "Captura heurística de evidências de infraestrutura digital",
+      "kind": "heuristic_evidence_capture",
+      "lifecycle": "evidence_capture_only",
+      "version": "porta-2-current",
+      "default_cycle": false,
+      "runner": "manual_scripts/audit_digital_infrastructure.py",
+      "depends_on": [],
+      "validation_status": "validated_for_evidence_capture_not_automatic_institutional_claim",
+      "efficacy_document": "docs/infrastructure-audit/VALIDATION_PROTOCOL.md",
+      "tests": [
+        "tests/test_digital_infrastructure_audit.py",
+        "tests/test_digital_infrastructure_ingestion.py",
+        "tests/test_digital_infrastructure_ingestion_artifacts.py"
+      ],
+      "outputs": [
+        "digital_infrastructure_audit_raw.csv",
+        "digital_infrastructure_audit_curated.csv",
+        "digital_infrastructure_audit_publishable.csv"
+      ],
+      "may_infer": "Detected signals and reviewed evidence on the observed URL/date according to the evidence lifecycle.",
+      "must_not_infer": "Institution-wide technology or AI use from an unreviewed heuristic signal; absence of a signal as absence of a technology."
+    },
+    {
+      "id": "M3_surface_typing",
+      "label": "M3 — tipagem de superfícies digitais",
+      "kind": "classifier",
+      "lifecycle": "experimental",
+      "version": "2.3.0-dev",
+      "default_cycle": false,
+      "runner": "none",
+      "depends_on": [],
+      "validation_status": "VAL007_failed_VAL009_draft_hold",
+      "efficacy_document": "docs/research/experiments/2026-09_val009_prospective_claim_amendment.md",
+      "tests": [
+        "tests/test_val009_preflight.py",
+        "tests/test_val009_claim_amendment.py"
+      ],
+      "outputs": [],
+      "may_infer": "Development-only outputs until independent validation is executed.",
+      "must_not_infer": "Production classification accuracy, validated generalisation, or M4 eligibility."
+    },
+    {
+      "id": "M4_item_surface_gate",
+      "label": "M4 — elegibilidade binária de superfície de item",
+      "kind": "classifier_gate",
+      "lifecycle": "experimental",
+      "version": "historical-development",
+      "default_cycle": false,
+      "runner": "none",
+      "depends_on": [
+        "M3_surface_typing"
+      ],
+      "validation_status": "historic_gate_failed_promotion_blocked",
+      "efficacy_document": "docs/engineering/val009-reconciliation.md",
+      "tests": [],
+      "outputs": [],
+      "may_infer": "Historical experimental results only.",
+      "must_not_infer": "Production item eligibility."
+    },
+    {
+      "id": "search_relevance_evaluation",
+      "label": "Avaliação de relevância do motor de busca",
+      "kind": "retrieval_evaluation",
+      "lifecycle": "experimental",
+      "version": "not_yet_validated",
+      "default_cycle": false,
+      "runner": "none",
+      "depends_on": [],
+      "validation_status": "requires_query_set_and_human_relevance_judgments",
+      "efficacy_document": "docs/methodology/mar-scientific-methodology.md",
+      "tests": [],
+      "outputs": [],
+      "may_infer": "Nothing beyond engineering behavior until retrieval evaluation is completed.",
+      "must_not_infer": "Precision, recall, ranking quality, or exhaustive findability."
+    },
+    {
+      "id": "composite_visibility_index",
+      "label": "Índice composto de visibilidade audiovisual digital",
+      "kind": "composite_indicator",
+      "lifecycle": "experimental",
+      "version": "research-objective",
+      "default_cycle": false,
+      "runner": "none",
+      "depends_on": [],
+      "validation_status": "not_defined_or_validated",
+      "efficacy_document": "docs/statetech-alignment/indicator_governance_policy.md",
+      "tests": [],
+      "outputs": [],
+      "may_infer": "Nothing until a versioned definition and validation exist.",
+      "must_not_infer": "Overall visibility score from current partial indicators."
+    }
+  ]
+}
