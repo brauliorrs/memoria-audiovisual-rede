@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 import time
-from urllib.parse import urlencode, urljoin, urlparse
+from urllib.parse import urljoin, urlparse
 from urllib.robotparser import RobotFileParser
 
 import requests
@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 
 from .config import (
     HEADERS,
+    MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
     MURNAU_STIFTUNG_DETAIL_URL_TEMPLATE,
     MURNAU_STIFTUNG_HOLDINGS_URL,
     MURNAU_STIFTUNG_HOME_URL,
@@ -27,6 +28,8 @@ MURNAU_STIFTUNG_COUNTRY = normalize_country("Germany")
 MURNAU_STIFTUNG_PLATFORM_LABEL = "Murnau-Stiftung Filmsuche"
 MURNAU_STIFTUNG_START_YEAR = 1895
 MURNAU_STIFTUNG_END_YEAR = 1969
+MURNAU_STIFTUNG_ALPHA_LETTERS = tuple("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+MURNAU_STIFTUNG_MAX_DETAIL_PAGES = 24
 
 SESSION = requests.Session()
 SESSION.headers.update(
@@ -125,6 +128,52 @@ def parse_murnau_search_page(html_text, page_url, *, query_year=""):
     return records, declared_total
 
 
+def _smallest_record_context(anchor):
+    current = anchor.parent
+    for _ in range(5):
+        if current is None:
+            break
+        text = _clean_text(current.get_text(" ", strip=True), limit=2000)
+        if re.search(r"Produktionsjahr:\s*(?:18|19|20)\d{2}", text, re.I):
+            return text
+        current = current.parent
+    return ""
+
+
+def parse_murnau_alpha_page(html_text, page_url, *, letter=""):
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    records = []
+    seen = set()
+    for anchor in soup.find_all("a", href=True):
+        detail_url = urljoin(page_url, anchor.get("href", ""))
+        record_id = _record_id_from_url(detail_url)
+        if not record_id or record_id in seen:
+            continue
+        seen.add(record_id)
+        title = _clean_text(anchor.get_text(" ", strip=True), limit=350)
+        if not title:
+            title = _clean_text(anchor.get("title"), limit=350)
+        context = _smallest_record_context(anchor)
+        year_match = re.search(
+            r"Produktionsjahr:\s*((?:18|19|20)\d{2})",
+            context,
+            re.I,
+        )
+        records.append(
+            {
+                "record_id": record_id,
+                "page_url": MURNAU_STIFTUNG_DETAIL_URL_TEMPLATE.format(
+                    record_id=record_id
+                ),
+                "title": title or f"Film {record_id}",
+                "date": year_match.group(1) if year_match else "",
+                "source_query_url": page_url,
+                "source_partition": str(letter or "").upper(),
+            }
+        )
+    return records
+
+
 def parse_murnau_detail_page(html_text, page_url):
     soup = BeautifulSoup(html_text or "", "html.parser")
     text = _clean_text(soup.get_text(" ", strip=True), limit=12000)
@@ -221,17 +270,16 @@ def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed
     errors = []
     records_by_id = {}
     declared_holdings_total = 0
-    declared_search_total = 0
-    mismatched_partitions = []
 
-    allowed, robots_status = robots_checker(MURNAU_STIFTUNG_SEARCH_URL)
+    first_list_url = MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE.format(letter="A")
+    allowed, robots_status = robots_checker(first_list_url)
     if not allowed:
         internal_pages.append(
             _internal_page_row(
                 institution,
-                MURNAU_STIFTUNG_SEARCH_URL,
+                first_list_url,
                 "bloqueado_robots",
-                warning="Filmsuche pública; coleta interrompida antes da busca.",
+                warning="Lista alfabética pública; coleta interrompida antes da enumeração.",
                 error=robots_status,
             )
         )
@@ -243,13 +291,13 @@ def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed
                 "status": "sem_registros",
                 "http_code": "",
                 "integrity_status": "instavel",
-                "final_url": MURNAU_STIFTUNG_SEARCH_URL,
+                "final_url": first_list_url,
                 "video_links_found_total": 0,
                 "embedded_video_signals_total": 0,
                 "candidate_internal_pages": 1,
                 "priority_review": True,
                 "warning": (
-                    "A base Filmsuche foi confirmada publicamente, mas a rodada foi "
+                    "A base pública de filmes foi confirmada, mas a rodada foi "
                     "interrompida porque a política robots não pôde ser validada."
                 ),
                 "error": robots_status,
@@ -273,30 +321,23 @@ def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed
     except Exception as error:
         errors.append(f"holdings: {error}")
 
-    for year in range(MURNAU_STIFTUNG_START_YEAR, MURNAU_STIFTUNG_END_YEAR + 1):
-        search_url = f"{MURNAU_STIFTUNG_SEARCH_URL}?{urlencode({'year': year})}"
+    partition_counts = {}
+    for letter in MURNAU_STIFTUNG_ALPHA_LETTERS:
+        list_url = MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE.format(letter=letter)
         try:
-            response = fetch(search_url)
+            response = fetch(list_url)
             response.raise_for_status()
-            records, declared_total = parse_murnau_search_page(
+            records = parse_murnau_alpha_page(
                 response.text,
                 response.url,
-                query_year=str(year),
+                letter=letter,
             )
-            declared_search_total += declared_total
-            if declared_total != len(records):
-                mismatched_partitions.append(
-                    {
-                        "year": year,
-                        "declared": declared_total,
-                        "parsed": len(records),
-                    }
-                )
+            partition_counts[letter] = len(records)
             for record in records:
                 current = records_by_id.get(record["record_id"])
                 if current is None:
                     records_by_id[record["record_id"]] = record
-                elif not current.get("title") and record.get("title"):
+                elif not current.get("date") and record.get("date"):
                     records_by_id[record["record_id"]] = record
             internal_pages.append(
                 _internal_page_row(
@@ -306,36 +347,91 @@ def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed
                     response.status_code,
                     count=len(records),
                     warning=(
-                        f"Partição anual {year}; resultados declarados={declared_total}; "
-                        f"links únicos na página={len(records)}; robots={robots_status}."
+                        f"Partição alfabética {letter}; links únicos na página={len(records)}; "
+                        f"robots={robots_status}."
                     ),
                 )
             )
         except Exception as error:
-            errors.append(f"{year}: {error}")
+            errors.append(f"{letter}: {error}")
+            partition_counts[letter] = 0
             internal_pages.append(
                 _internal_page_row(
                     institution,
-                    search_url,
+                    list_url,
                     "erro",
-                    warning=f"Falha na partição anual {year}.",
+                    warning=f"Falha na partição alfabética {letter}.",
                     error=str(error),
                 )
             )
 
     records = sorted(
         records_by_id.values(),
-        key=lambda row: (row.get("date", ""), row.get("title", ""), row["record_id"]),
+        key=lambda row: (row.get("title", "").casefold(), row["record_id"]),
     )
-    links = [_record_to_video_row(institution, record) for record in records]
-    integrity = "integro" if records and not errors and not mismatched_partitions else "instavel"
-    mismatch_note = (
-        "; ".join(
-            f"{item['year']}:{item['parsed']}/{item['declared']}"
-            for item in mismatched_partitions[:12]
+
+    detail_allowed, detail_robots_status = robots_checker(
+        MURNAU_STIFTUNG_DETAIL_URL_TEMPLATE.format(record_id=1)
+    )
+    if detail_allowed:
+        for record in records[:MURNAU_STIFTUNG_MAX_DETAIL_PAGES]:
+            try:
+                response = fetch(record["page_url"])
+                response.raise_for_status()
+                detail = parse_murnau_detail_page(response.text, response.url)
+                record.update(
+                    {
+                        key: value
+                        for key, value in detail.items()
+                        if value or key in {"record_id", "page_url"}
+                    }
+                )
+                internal_pages.append(
+                    _internal_page_row(
+                        institution,
+                        response.url,
+                        "ok",
+                        response.status_code,
+                        count=1,
+                        warning=(
+                            "Ficha pública enriquecida de forma determinística; "
+                            f"robots={detail_robots_status}."
+                        ),
+                    )
+                )
+            except Exception as error:
+                errors.append(f"detail {record['record_id']}: {error}")
+    else:
+        internal_pages.append(
+            _internal_page_row(
+                institution,
+                MURNAU_STIFTUNG_DETAIL_URL_TEMPLATE.format(record_id=1),
+                "bloqueado_robots",
+                warning="Enriquecimento de fichas omitido; enumeração alfabética preservada.",
+                error=detail_robots_status,
+            )
         )
-        if mismatched_partitions
-        else "nenhuma"
+
+    links = [_record_to_video_row(institution, record) for record in records]
+    lower_bound_ok = (
+        bool(records)
+        and (
+            declared_holdings_total <= 0
+            or len(records) >= declared_holdings_total
+        )
+    )
+    complete_partitions = all(
+        letter in partition_counts and partition_counts[letter] > 0
+        for letter in MURNAU_STIFTUNG_ALPHA_LETTERS
+    )
+    integrity = (
+        "integro"
+        if lower_bound_ok and complete_partitions and not errors
+        else "instavel"
+    )
+    partition_note = ", ".join(
+        f"{letter}:{partition_counts.get(letter, 0)}"
+        for letter in MURNAU_STIFTUNG_ALPHA_LETTERS
     )
     summary = [
         {
@@ -345,19 +441,20 @@ def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed
             "status": "ok" if records else "sem_registros",
             "http_code": 200 if records else "",
             "integrity_status": integrity,
-            "final_url": MURNAU_STIFTUNG_SEARCH_URL,
+            "final_url": first_list_url,
             "video_links_found_total": len(links),
             "embedded_video_signals_total": 0,
             "candidate_internal_pages": len(internal_pages),
             "priority_review": integrity != "integro",
             "warning": _clean_text(
-                "Snapshot sistemático da Filmsuche por ano, de "
-                f"{MURNAU_STIFTUNG_START_YEAR} a {MURNAU_STIFTUNG_END_YEAR}. "
-                f"A instituição declara mais de {declared_holdings_total or '6.000'} filmes "
-                f"em seu acervo; as partições retornaram {declared_search_total} ocorrências "
-                f"de busca e {len(links)} IDs únicos. Divergências resultado/link: {mismatch_note}. "
-                "A rodada não afirma que registros sem ano sejam cobertos, nem que o acervo "
-                "físico total esteja online. Os permalinks são fichas de metadados, não players."
+                "Snapshot alfabético da base pública de filmes da Murnau-Stiftung. "
+                f"A instituição declara mais de {declared_holdings_total or '6.000'} filmes; "
+                f"a rodada materializou {len(links)} IDs únicos por partições A-Z. "
+                f"Contagens por letra: {partition_note}. "
+                f"Até {MURNAU_STIFTUNG_MAX_DETAIL_PAGES} fichas são enriquecidas "
+                "deterministicamente sem baixar mídia. Os permalinks representam "
+                "metadados de catálogo e não implicam streaming público ou cobertura "
+                "do acervo fiduciário adicional."
             ),
             "error": " | ".join(errors[:12]),
         }
@@ -366,10 +463,12 @@ def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed
 
 
 __all__ = [
+    "MURNAU_STIFTUNG_ALPHA_LETTERS",
     "MURNAU_STIFTUNG_END_YEAR",
     "MURNAU_STIFTUNG_START_YEAR",
     "collect_murnau_stiftung_dataset",
     "collect_murnau_stiftung_institutions",
+    "parse_murnau_alpha_page",
     "parse_murnau_detail_page",
     "parse_murnau_search_page",
 ]
