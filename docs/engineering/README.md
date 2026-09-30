@@ -8,6 +8,7 @@ Documentos de engenharia atualmente formalizados:
 - [VAL-009: inventário suplementar de exposição (minuta)](val009-exposure-audit.md)
 - [VAL-009: triagem metodológica de URLs e independência das entidades (minuta)](val009-methodology-screening.md)
 - [VAL-009: proveniência do coletor e snapshots (desenvolvimento)](val009-capture-provenance.md)
+- [Produção: corpus contínuo e ciclo de vida dos instrumentos](production-analysis-lifecycle.md)
 - [Política de versionamento e releases](release-policy.md)
 - [Checklist de release](release-checklist.md)
 - [Changelog do software](../../CHANGELOG.md)
