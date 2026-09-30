@@ -47,6 +47,7 @@ from .config import (
     CINEARCHIVES_CATALOG_URL,
     CDNA_FILMS_URL,
     CINEMATHEQUE_BRETAGNE_FILMS_URL,
+    FORUM_DES_IMAGES_HOME_URL,
     CINEMATHEQUE_FRANCAISE_HENRI_URL,
     CINEMATHEQUE_SUISSE_MEMOBASE_RECORDSET_URL,
     CINEMATEK_BE_FILM_URL,
@@ -108,6 +109,7 @@ from .output_files import (
     CINEARCHIVES_OUTPUT_FILES,
     CDNA_OUTPUT_FILES,
     CINEMATHEQUE_BRETAGNE_OUTPUT_FILES,
+    FORUM_DES_IMAGES_OUTPUT_FILES,
     CINEMATHEQUE_FRANCAISE_OUTPUT_FILES,
     CINEMATHEQUE_SUISSE_OUTPUT_FILES,
     CINEMATEK_OUTPUT_FILES,
@@ -833,6 +835,26 @@ def build_cinematheque_bretagne_snapshot_metadata(
         dataset="cinematheque_bretagne",
         source_url=CINEMATHEQUE_BRETAGNE_FILMS_URL,
         output_files=CINEMATHEQUE_BRETAGNE_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_forum_des_images_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="forum_des_images",
+        source_url=FORUM_DES_IMAGES_HOME_URL,
+        output_files=FORUM_DES_IMAGES_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
