@@ -32,6 +32,11 @@ def main():
     if internal is None or internal.empty:
         print("Murnau-Stiftung: trilha de consultas ausente.")
         return 1
+    print("Murnau-Stiftung: resumo do probe")
+    print(f"- status: {summary.iloc[0].get('status', '-')}")
+    print(f"- integridade: {summary.iloc[0].get('integrity_status', '-')}")
+    print(f"- registros declarados/materializados: {summary.iloc[0].get('video_links_found_total', 0)}")
+    print(f"- nota: {summary.iloc[0].get('warning', '')}")
     if summary.iloc[0].get("integrity_status") != "integro":
         print("Murnau-Stiftung: snapshot de busca não íntegro; revisar partições.")
         return 1
