@@ -35,6 +35,7 @@ from .config import (
     FINA_VIDEO_LIST_URL,
     MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
+    MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
     FILMOTECA_ESPANOLA_PLATFO_URL,
@@ -97,6 +98,7 @@ from .output_files import (
     FINA_OUTPUT_FILES,
     HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
+    MURNAU_STIFTUNG_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
     FILMOTECA_ESPANOLA_OUTPUT_FILES,
@@ -955,6 +957,26 @@ def build_filmarchiv_austria_snapshot_metadata(
         dataset="filmarchiv_austria",
         source_url=FILMARCHIV_AUSTRIA_ON_URL,
         output_files=FILMARCHIV_AUSTRIA_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_murnau_stiftung_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="murnau_stiftung",
+        source_url=MURNAU_STIFTUNG_SEARCH_URL,
+        output_files=MURNAU_STIFTUNG_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
