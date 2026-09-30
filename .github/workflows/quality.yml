@@ -151,17 +151,19 @@ jobs:
 
       - name: Probe Murnau-Stiftung live catalogue before corpus admission
         if: github.event_name == 'pull_request' && github.head_ref == 'corpus/murnau-stiftung-v1'
-        run: |
-          python scripts/run_murnau_stiftung_pipeline.py
-          python scripts/check_murnau_stiftung_outputs.py
+        run: python scripts/run_murnau_stiftung_pipeline.py
 
       - name: Upload Murnau-Stiftung probe artifact
-        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/murnau-stiftung-v1'
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/murnau-stiftung-v1'
         uses: actions/upload-artifact@v4
         with:
           name: murnau-stiftung-probe
           path: data/output/murnau_stiftung_*
           if-no-files-found: error
+
+      - name: Validate Murnau-Stiftung live probe
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/murnau-stiftung-v1'
+        run: python scripts/check_murnau_stiftung_outputs.py
 
       - name: Validate Forum des images corpus contract
         run: |
