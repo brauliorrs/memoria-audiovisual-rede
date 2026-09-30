@@ -222,5 +222,17 @@ jobs:
       - name: Validate Porta 2 contract
         run: python -m pytest -q tests/test_digital_infrastructure_audit.py tests/test_digital_infrastructure_phase2.py
 
+      - name: Materialize Forum des images baseline for corpus PR
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/forum-des-images-v1'
+        run: python scripts/run_forum_des_images_pipeline.py
+
+      - name: Upload Forum des images baseline artifact
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/forum-des-images-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: forum-des-images-baseline
+          path: data/output/forum_des_images_*
+          if-no-files-found: error
+
       - name: Check deployment snapshot
         run: python scripts/check_deployment_ready.py
