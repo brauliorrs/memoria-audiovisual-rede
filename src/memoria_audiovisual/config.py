@@ -174,6 +174,12 @@ CINEMATHEQUE_BRETAGNE_FILMS_URL = "https://www.cinematheque-bretagne.bzh/voir-le
 CINEMATHEQUE_BRETAGNE_FILMS_PAGE_URL_TEMPLATE = (
     "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-{page}.html"
 )
+FORUM_DES_IMAGES_HOME_URL = "https://collections.forumdesimages.fr/"
+FORUM_DES_IMAGES_FILMS_AMATEURS_URL = "https://collections.forumdesimages.fr/collections/filmsamateurs.dot"
+FORUM_DES_IMAGES_BROWSE_URL = "https://collections.forumdesimages.fr/CogniTellUI/faces/browse.xhtml"
+FORUM_DES_IMAGES_DETAILS_URL_TEMPLATE = (
+    "https://collections.forumdesimages.fr/CogniTellUI/faces/details.xhtml?id={record_id}"
+)
 CINEMATHEQUE_FRANCAISE_HOME_URL = "https://www.cinematheque.fr/"
 CINEMATHEQUE_FRANCAISE_COLLECTIONS_URL = "https://www.cinematheque.fr/les-collections-de-la-cinematheque-francaise.html"
 CINEMATHEQUE_FRANCAISE_HENRI_URL = "https://www.cinematheque.fr/henri/"
@@ -466,6 +472,7 @@ DEUTSCHE_KINEMATHEK_OUTPUT_PREFIX = "deutsche_kinemathek"
 DR_OUTPUT_PREFIX = "dr"
 CINEARCHIVES_OUTPUT_PREFIX = "cinearchives"
 CINEMATHEQUE_BRETAGNE_OUTPUT_PREFIX = "cinematheque_bretagne"
+FORUM_DES_IMAGES_OUTPUT_PREFIX = "forum_des_images"
 CINEMATHEQUE_FRANCAISE_OUTPUT_PREFIX = "cinematheque_francaise"
 CINEMATEK_OUTPUT_PREFIX = "cinematek"
 EYE_OUTPUT_PREFIX = "eye"
