@@ -119,8 +119,11 @@ from .cdna import collect_cdna_dataset
 from .cdna_exports import build_cdna_analysis_extra_sheets
 from .cdna_exports import write_cdna_analysis_outputs
 from .cinematheque_bretagne import collect_cinematheque_bretagne_dataset
+from .forum_des_images import collect_forum_des_images_dataset
 from .cinematheque_bretagne_exports import build_cinematheque_bretagne_analysis_extra_sheets
 from .cinematheque_bretagne_exports import write_cinematheque_bretagne_analysis_outputs
+from .forum_des_images_exports import build_forum_des_images_analysis_extra_sheets
+from .forum_des_images_exports import write_forum_des_images_analysis_outputs
 from .cinematheque_francaise import collect_cinematheque_francaise_dataset
 from .cinematheque_francaise_exports import build_cinematheque_francaise_analysis_extra_sheets
 from .cinematheque_francaise_exports import write_cinematheque_francaise_analysis_outputs
@@ -195,6 +198,7 @@ from .config import (
     CINEARCHIVES_CATALOG_URL,
     CDNA_FILMS_URL,
     CINEMATHEQUE_BRETAGNE_FILMS_URL,
+    FORUM_DES_IMAGES_HOME_URL,
     CINEMATHEQUE_FRANCAISE_HENRI_URL,
     CINEMATHEQUE_SUISSE_MEMOBASE_RECORDSET_URL,
     CINEMATEK_BE_FILM_URL,
@@ -275,6 +279,7 @@ from .output_files import (
     CINEARCHIVES_OUTPUT_FILES,
     CDNA_OUTPUT_FILES,
     CINEMATHEQUE_BRETAGNE_OUTPUT_FILES,
+    FORUM_DES_IMAGES_OUTPUT_FILES,
     CINEMATHEQUE_FRANCAISE_OUTPUT_FILES,
     CINEMATHEQUE_SUISSE_OUTPUT_FILES,
     CINEMATEK_OUTPUT_FILES,
@@ -346,6 +351,7 @@ from .snapshot_metadata import (
     build_cinearchives_snapshot_metadata,
     build_cdna_snapshot_metadata,
     build_cinematheque_bretagne_snapshot_metadata,
+    build_forum_des_images_snapshot_metadata,
     build_cinematheque_francaise_snapshot_metadata,
     build_cinematheque_suisse_snapshot_metadata,
     build_cinematek_snapshot_metadata,
@@ -661,6 +667,18 @@ CINEMATHEQUE_BRETAGNE_VIDEO_LINK_FIELDS = [
 ]
 CINEMATHEQUE_BRETAGNE_INTERNAL_PAGE_FIELDS = [
     field.replace("archipop_detail_url", "cinematheque_bretagne_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
+]
+FORUM_DES_IMAGES_INSTITUTION_FIELDS = [
+    field.replace("archipop_detail_url", "forum_des_images_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
+]
+FORUM_DES_IMAGES_SUMMARY_FIELDS = [
+    field.replace("archipop_detail_url", "forum_des_images_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS
+]
+FORUM_DES_IMAGES_VIDEO_LINK_FIELDS = [
+    field.replace("archipop_detail_url", "forum_des_images_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS
+]
+FORUM_DES_IMAGES_INTERNAL_PAGE_FIELDS = [
+    field.replace("archipop_detail_url", "forum_des_images_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
 ]
 CINEMATHEQUE_FRANCAISE_INSTITUTION_FIELDS = [
     field.replace("archipop_detail_url", "cinematheque_francaise_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
@@ -1909,6 +1927,25 @@ def run_cinematheque_bretagne_pipeline():
         report_title="RELATORIO - CINEMATHEQUE DE BRETAGNE",
         institutions_sheet_title="Cinémathèque de Bretagne",
         generated_by="scripts/run_cinematheque_bretagne_pipeline.py",
+    )
+
+
+def run_forum_des_images_pipeline():
+    _run_corpus_pipeline(
+        source_label="Forum des images / Collections",
+        source_url=FORUM_DES_IMAGES_HOME_URL,
+        collect_dataset=collect_forum_des_images_dataset,
+        institution_fields=FORUM_DES_IMAGES_INSTITUTION_FIELDS,
+        summary_fields=FORUM_DES_IMAGES_SUMMARY_FIELDS,
+        video_link_fields=FORUM_DES_IMAGES_VIDEO_LINK_FIELDS,
+        internal_page_fields=FORUM_DES_IMAGES_INTERNAL_PAGE_FIELDS,
+        output_files=FORUM_DES_IMAGES_OUTPUT_FILES,
+        analysis_output_writer=write_forum_des_images_analysis_outputs,
+        analysis_extra_sheets_builder=build_forum_des_images_analysis_extra_sheets,
+        snapshot_builder=build_forum_des_images_snapshot_metadata,
+        report_title="RELATORIO - FORUM DES IMAGES",
+        institutions_sheet_title="Forum des images",
+        generated_by="scripts/run_forum_des_images_pipeline.py",
     )
 
 
