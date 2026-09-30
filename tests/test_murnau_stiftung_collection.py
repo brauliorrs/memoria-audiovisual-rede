@@ -1,9 +1,11 @@
+import string
 import unittest
 
 from memoria_audiovisual.murnau_stiftung import (
-    MURNAU_STIFTUNG_END_YEAR,
-    MURNAU_STIFTUNG_START_YEAR,
+    MURNAU_STIFTUNG_ALPHA_LETTERS,
+    MURNAU_STIFTUNG_MAX_DETAIL_PAGES,
     collect_murnau_stiftung_dataset,
+    parse_murnau_alpha_page,
     parse_murnau_detail_page,
     parse_murnau_search_page,
 )
@@ -15,6 +17,22 @@ SEARCH_1921 = """
 <a href="/movie/674">Nosferatu</a>
 <a href="/movie/674">Nosferatu duplicate navigation</a>
 <a href="/movie/999">Testfilm</a>
+</body></html>
+"""
+
+ALPHA_HTML = """
+<html><body>
+<div class="views-row">
+  <a href="/movie/674">Nosferatu</a>
+  <div>Produktionsjahr: 1921</div>
+  <div>Erstaufführung: 04.03.1922</div>
+</div>
+<div class="views-row">
+  <a href="/movie/999">Testfilm</a>
+  <div>Produktionsjahr: 1931</div>
+  <div>Erstaufführung: 01.01.1932</div>
+</div>
+<a href="/movie/674">duplicate navigation</a>
 </body></html>
 """
 
@@ -51,8 +69,23 @@ class FakeResponse:
             raise RuntimeError(f"HTTP {self.status_code}")
 
 
+def synthetic_letter_page(letter, count=240):
+    offset = (ord(letter) - ord("A") + 1) * 10000
+    rows = []
+    for index in range(count):
+        record_id = offset + index
+        year = 1900 + (index % 60)
+        rows.append(
+            f'<div class="views-row"><a href="/movie/{record_id}">'
+            f'{letter} Film {index:03d}</a>'
+            f'<div>Produktionsjahr: {year}</div>'
+            f'<div>Erstaufführung: 01.01.{year}</div></div>'
+        )
+    return "<html><body>" + "".join(rows) + "</body></html>"
+
+
 class MurnauStiftungCollectionTests(unittest.TestCase):
-    def test_search_parser_deduplicates_ids_and_checks_declared_total(self):
+    def test_search_parser_remains_available_as_diagnostic(self):
         rows, total = parse_murnau_search_page(
             SEARCH_1921,
             "https://www.murnau-stiftung.de/movie_search?year=1921",
@@ -60,8 +93,18 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
         )
         self.assertEqual(total, 2)
         self.assertEqual([row["record_id"] for row in rows], ["674", "999"])
+        self.assertEqual(rows[0]["date"], "1921")
+
+    def test_alpha_parser_deduplicates_ids_and_extracts_year(self):
+        rows = parse_murnau_alpha_page(
+            ALPHA_HTML,
+            "https://www.murnau-stiftung.de/list/movies/letter/N",
+            letter="N",
+        )
+        self.assertEqual([row["record_id"] for row in rows], ["674", "999"])
         self.assertEqual(rows[0]["title"], "Nosferatu")
         self.assertEqual(rows[0]["date"], "1921")
+        self.assertEqual(rows[0]["source_partition"], "N")
         self.assertEqual(
             rows[0]["page_url"],
             "https://www.murnau-stiftung.de/movie/674",
@@ -79,16 +122,21 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
         self.assertIn("Prana Film", row["production"])
         self.assertIn("64min", row["length"])
 
-    def test_collector_can_materialize_year_partitioned_catalog_without_details(self):
+    def test_collector_requires_complete_alpha_partitions_and_holdings_floor(self):
         def robots_checker(_url):
             return True, "robots_evaluated"
 
         def fetch(url):
             if url.endswith("/filmbestand"):
                 return FakeResponse(HOLDINGS_HTML, url)
-            if "year=1921" in url:
-                return FakeResponse(SEARCH_1921, url)
-            return FakeResponse("<html><body><h2>0 Suchergebnisse</h2></body></html>", url)
+            if "/list/movies/letter/" in url:
+                letter = url.rstrip("/").rsplit("/", 1)[-1].upper()
+                if letter not in string.ascii_uppercase:
+                    raise AssertionError(url)
+                return FakeResponse(synthetic_letter_page(letter), url)
+            if "/movie/" in url:
+                return FakeResponse(DETAIL_HTML, url)
+            raise AssertionError(url)
 
         institutions, summary, links, internal = collect_murnau_stiftung_dataset(
             fetch=fetch,
@@ -96,15 +144,41 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
         )
         self.assertEqual(len(institutions), 1)
         self.assertEqual(summary[0]["integrity_status"], "integro")
-        self.assertEqual(summary[0]["video_links_found_total"], 2)
-        self.assertEqual(len(links), 2)
+        self.assertEqual(summary[0]["video_links_found_total"], 6240)
+        self.assertEqual(len(links), 6240)
         self.assertEqual(
             len(internal),
-            1 + (MURNAU_STIFTUNG_END_YEAR - MURNAU_STIFTUNG_START_YEAR + 1),
+            1 + len(MURNAU_STIFTUNG_ALPHA_LETTERS)
+            + MURNAU_STIFTUNG_MAX_DETAIL_PAGES,
         )
         self.assertTrue(
             all(row["platform"] == "Murnau-Stiftung Filmsuche" for row in links)
         )
+
+    def test_collector_marks_incomplete_catalog_unstable(self):
+        def robots_checker(_url):
+            return True, "robots_evaluated"
+
+        def fetch(url):
+            if url.endswith("/filmbestand"):
+                return FakeResponse(HOLDINGS_HTML, url)
+            if "/list/movies/letter/" in url:
+                letter = url.rstrip("/").rsplit("/", 1)[-1].upper()
+                return FakeResponse(
+                    synthetic_letter_page(letter, count=1),
+                    url,
+                )
+            if "/movie/" in url:
+                return FakeResponse(DETAIL_HTML, url)
+            raise AssertionError(url)
+
+        _, summary, links, _ = collect_murnau_stiftung_dataset(
+            fetch=fetch,
+            robots_checker=robots_checker,
+        )
+        self.assertEqual(len(links), 26)
+        self.assertEqual(summary[0]["integrity_status"], "instavel")
+        self.assertTrue(summary[0]["priority_review"])
 
     def test_collector_fails_closed_when_robots_is_not_verifiable(self):
         institutions, summary, links, internal = collect_murnau_stiftung_dataset(
