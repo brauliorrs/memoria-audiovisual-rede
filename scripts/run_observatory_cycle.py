@@ -44,6 +44,11 @@ from memoria_audiovisual.organism import (
 )
 from memoria_audiovisual.prise2_protocol import write_prise2_protocol_probe
 from memoria_audiovisual.inclusion_queue import write_next_inclusion_candidates
+from memoria_audiovisual.analysis_instruments import (
+    InstrumentRegistryError,
+    run_production_analysis,
+    write_analysis_skipped_manifest,
+)
 
 
 def utcnow_iso():
@@ -184,12 +189,39 @@ def main():
     )
     write_cycle_history(manifest, OUTPUT_DIR)
 
+    analysis_failed = False
+    if failures:
+        write_analysis_skipped_manifest(
+            "Global analysis was not recomputed because one or more corpus refreshes failed.",
+            output_dir=OUTPUT_DIR,
+            source_cycle_status="failed_full_refresh" if not args.corpora else "failed_partial_refresh",
+        )
+    elif args.corpora:
+        write_analysis_skipped_manifest(
+            "Global analysis was not recomputed after a partial corpus refresh.",
+            output_dir=OUTPUT_DIR,
+            source_cycle_status="successful_partial_refresh",
+        )
+    else:
+        try:
+            analysis_manifest = run_production_analysis(
+                output_dir=OUTPUT_DIR,
+                source_cycle_status="successful_full_refresh",
+            )
+            print(
+                "- instrumentos de análise de produção executados: "
+                f"{len(analysis_manifest['instruments'])}"
+            )
+        except (InstrumentRegistryError, OSError, ValueError) as exc:
+            analysis_failed = True
+            print(f"- falha na camada de análise de produção: {exc}")
+
     print("Ciclo mensal do organismo concluído.")
     print(f"- corpora ativos: {manifest['active_corpora_total']}")
     print(f"- sucessos: {manifest['successful_corpora_total']}")
     print(f"- falhas: {manifest['failed_corpora_total']}")
 
-    return 1 if failures else 0
+    return 1 if failures or analysis_failed else 0
 
 
 if __name__ == "__main__":
