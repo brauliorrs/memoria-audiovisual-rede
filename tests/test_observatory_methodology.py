@@ -79,7 +79,14 @@ class ObservatoryMethodologyTests(unittest.TestCase):
         self.assertEqual(val["known_historical_urls_floor"], 137)
         self.assertEqual(val["test_strings_pending_independent_review"], 22)
         self.assertTrue(val["six_proposed_institutions_in_broader_prior_MAR_corpus"])
-        self.assertEqual(val["indirect_development_exposure"], "not_yet_resolved")
+        self.assertIn(
+            "repository_audit_found_no_direct_use",
+            val["indirect_development_exposure"],
+        )
+        self.assertEqual(
+            val["corpus_relation_audit"],
+            "docs/methodology/m3-corpus-relation-audit.json",
+        )
         self.assertIn("VAL-007", self.methodology)
         self.assertIn("não selada e não executada", self.methodology)
 

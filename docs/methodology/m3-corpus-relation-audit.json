@@ -1,0 +1,210 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "MAR-T2A-M3-CORPUS-RELATION-AUDIT-001",
+  "status": "completed_repository_documentary_audit",
+  "audited_on": "2026-09-30",
+  "question": "What relationship is documented between the six previously incorporated MAR corpora proposed for VAL-009 and the development of M3?",
+  "scope": "Versioned repository evidence only. This audit can prove file/data lineage and explicit development inputs; it cannot prove or disprove unrecorded human memory or informal inspection.",
+  "historical_reference_commit": "4544bbc40e076cd7a81800a3c93ebbfb8efae5b2",
+  "findings": {
+    "six_entities_preexisted_M3": true,
+    "all_six_added_to_versioned_project_before_initial_M3_commit": true,
+    "overlap_with_117_labelled_M3_development_units": 0,
+    "six_entities_used_as_labelled_M3_calibration_or_validation_sources": false,
+    "audited_M3_classifier_has_direct_runtime_dependency_on_general_corpus_exports": false,
+    "audited_M3_candidate_contains_six_entity_domains_or_names": false,
+    "candidate_2_3_explicitly_derived_from_known_VAL007_failure_families": true,
+    "indirect_manual_exposure_to_general_corpus": "not_determinable_from_repository",
+    "project_wide_entity_novelty_for_six": false,
+    "held_out_from_labelled_M3_development_sets_for_six": true
+  },
+  "chronology": [
+    {
+      "event": "six_general_MAR_corpus_snapshots_exist",
+      "versioned_commit": "f9c3c23ff66297d6c94b96ca7f94b13fb4a90c32",
+      "committed_at": "2026-07-17T18:04:59Z",
+      "note": "Snapshot generation dates range from 2026-06-19 to 2026-07-17."
+    },
+    {
+      "event": "initial_M3_surface_classifier_added",
+      "commit": "1e66082016cea751a6e61bf6a565c55afbf49fdc",
+      "committed_at": "2026-08-19T18:47:06Z",
+      "source_blob_sha": "b1d2dc61e4c39ce325b1f4518b92e833a3ffa2d2",
+      "test_blob_sha": "a9b84b88400fa9535d5d29582f1c575a89faeb41",
+      "note": "Initial real-domain tests reference INA and ECPAD; other initial examples are synthetic."
+    },
+    {
+      "event": "first_real_blind_M3_queue_versioned",
+      "commit": "e4cddb5cd25fc63e897de0574a8374dbc0a541fe",
+      "committed_at": "2026-08-19T19:08:58Z",
+      "entities": [
+        "archipop",
+        "bfi",
+        "ecpad",
+        "europeana",
+        "ina"
+      ],
+      "units": 17
+    },
+    {
+      "event": "protocol_2_0_calibration_completed_from_17_human_units",
+      "commit": "1b5373154c8f92375fe1a634f30b73c8a12f23f6",
+      "committed_at": "2026-08-25T02:28:50Z"
+    },
+    {
+      "event": "candidate_2_3_added_after_VAL007_failure",
+      "commit": "7137d3f1c177213fd26c9ccb3148002c9eaeeede",
+      "committed_at": "2026-09-09T01:13:28Z",
+      "candidate_final_audited_blob_sha": "30b4d0682e1c92fa7138e71de35366f0b1e9a86b",
+      "candidate_test_final_audited_blob_sha": "4f24fc7c39e25a45a99858270587c4dfe98010c4",
+      "note": "Synthetic tests reproduce generic structures observed in VAL-007 entities such as Cinemateca Portuguesa, Cinémathèque française and Memoryscapes."
+    }
+  ],
+  "six_prior_corpora": [
+    {
+      "entity_id": "cinematek",
+      "source_url": "https://cinematek.be/en/collections/be-film",
+      "generated_at": "2026-07-06T15:30:24Z",
+      "metadata_path": "data/output/cinematek_snapshot_metadata.json",
+      "metadata_blob_sha": "4d65e4619e5aede5aa0763b6a7be9d18be1c99b7"
+    },
+    {
+      "entity_id": "cinematheque-bretagne",
+      "source_url": "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-0.html",
+      "generated_at": "2026-06-19T17:33:10Z",
+      "metadata_path": "data/output/cinematheque_bretagne_snapshot_metadata.json",
+      "metadata_blob_sha": "452521e6dab9dd97a47bb0e92483f40bebc61d27"
+    },
+    {
+      "entity_id": "dr",
+      "source_url": "https://www.dr.dk/drtv/gensyn",
+      "generated_at": "2026-07-13T18:12:07Z",
+      "metadata_path": "data/output/dr_snapshot_metadata.json",
+      "metadata_blob_sha": "34b1c991a839cc025e116fa5686892c32bd856d5"
+    },
+    {
+      "entity_id": "ert",
+      "source_url": "https://archive.ert.gr/",
+      "generated_at": "2026-07-14T18:54:42Z",
+      "metadata_path": "data/output/ert_snapshot_metadata.json",
+      "metadata_blob_sha": "3616ce141debf528053a55cdb160176d48527267"
+    },
+    {
+      "entity_id": "estonian_film_archive",
+      "source_url": "https://arkaader.ee/landing/br/rHczO7kKnl/pbOiQfMOLr",
+      "generated_at": "2026-07-15T19:38:45Z",
+      "metadata_path": "data/output/efa_estonia_snapshot_metadata.json",
+      "metadata_blob_sha": "2acbb4da2b4748a77626836380d717a005a83cd7"
+    },
+    {
+      "entity_id": "filmoteca_catalunya",
+      "source_url": "https://filmo.platfo.es/pages/home",
+      "generated_at": "2026-07-17T17:09:08Z",
+      "metadata_path": "data/output/filmoteca_catalunya_snapshot_metadata.json",
+      "metadata_blob_sha": "39f8c15b190a0261d5046f067ea4aaa22d2077c9"
+    }
+  ],
+  "labelled_M3_development_lineage": [
+    {
+      "stage": "initial_blind_calibration_then_development",
+      "units": 17,
+      "entities": [
+        "archipop",
+        "bfi",
+        "ecpad",
+        "europeana",
+        "ina"
+      ],
+      "artifact": "tests/fixtures/m3_surface_typing_calibration_v1.json",
+      "blob_sha": "c708f7b85b84f775c870ed00c76417e9ac3d7f44"
+    },
+    {
+      "stage": "VAL003_then_development_for_2_1",
+      "units": 33,
+      "entities": [
+        "cinearchives",
+        "cinememoire",
+        "eafa",
+        "eye",
+        "luce"
+      ],
+      "artifact": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2.json",
+      "blob_sha": "4b511dfe9157473a3d1dbcf41c1dcc966a716d2a"
+    },
+    {
+      "stage": "VAL005_then_development_for_2_2",
+      "units": 36,
+      "entities": [
+        "ciclic",
+        "cineam",
+        "czech-television",
+        "dff",
+        "euscreen"
+      ],
+      "artifact": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_1.json",
+      "blob_sha": "56a5ceedfaa8609784fa7fcac008d3dc13fd23b1"
+    },
+    {
+      "stage": "VAL007_then_development_for_2_3",
+      "units": 31,
+      "entities": [
+        "bbc",
+        "bnt",
+        "cinemateca-portuguesa",
+        "cinematheque-francaise",
+        "fina",
+        "home-movies-memoryscapes"
+      ],
+      "artifact": "data/digital_infrastructure/ai_experiments/m3_surface_type_independent_human_review_v2_2.json",
+      "blob_sha": "a9f8fc78107424ffd33add5830ed743185d1fbaf"
+    }
+  ],
+  "explicit_2_3_design_trace": {
+    "source": "VAL-007 post-validation error analysis",
+    "examples": [
+      {
+        "development_structure": "/cinemateca-digital/Ficha.aspx?...&type=Video and /Colecoes/Filme-e-Video.aspx",
+        "source_entity": "cinemateca-portuguesa"
+      },
+      {
+        "development_structure": "/henri/film/<specific-film>/",
+        "source_entity": "cinematheque-francaise"
+      },
+      {
+        "development_structure": "/en/clips/<id> and /en/archive/?authors=...",
+        "source_entity": "home-movies-memoryscapes"
+      }
+    ],
+    "interpretation": "The repository directly links the 2.3 candidate changes to known VAL-007 failure families. This is development evidence and is intentionally not independent validation."
+  },
+  "epistemic_classification": {
+    "proven": [
+      "The six institutions were already part of the broader MAR corpus before M3 existed.",
+      "None of the six institutions occurs in the 117 human-labelled M3 development units.",
+      "The audited deterministic M3 classifier modules do not load data/output corpus exports at runtime.",
+      "The 2.3 candidate and its regression tests encode failure families observed in labelled M3 validation sets, especially VAL-007."
+    ],
+    "not_proven": [
+      "That the developer never viewed or remembered the six earlier corpora when designing generic M3 rules.",
+      "That prior general-MAR familiarity had zero cognitive influence on vocabulary or heuristics.",
+      "That the six institutions are globally unseen by the MAR project."
+    ],
+    "rejected_claims": [
+      "The six institutions are independent because they were never in MAR.",
+      "Prior presence in MAR automatically means the six were used to train/calibrate M3.",
+      "Repository silence can prove absence of all informal human influence."
+    ]
+  },
+  "methodological_decision_recommended": {
+    "VAL009_claim_allowed_if_formally_approved": "Evaluation on new, previously unlabelled M3 surfaces from institutions absent from all prior human-labelled M3 development sets.",
+    "VAL009_claim_not_allowed": "Generalisation to institutions wholly unseen by the MAR project.",
+    "required_controls": [
+      "Exclude every historically known M3 development URL and all subsequently confirmed exposure aliases before sampling.",
+      "Freeze the candidate and predictions before blind human review.",
+      "Do not tune rules after seeing VAL-009 human labels.",
+      "Describe the six institutions as prior MAR corpora but held out from M3 labelled development.",
+      "Treat possible informal prior familiarity as a limitation, not as demonstrated data leakage."
+    ],
+    "status": "recommendation_pending_formal_protocol_reviewer_signoff"
+  }
+}
