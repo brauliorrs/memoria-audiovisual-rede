@@ -39,7 +39,6 @@ from .config import (
     CINEMEMOIRE_SEARCH_URL,
     CDNA_FILMS_URL,
     CINEMATHEQUE_BRETAGNE_FILMS_URL,
-    FORUM_DES_IMAGES_HOME_URL,
     CINEMATHEQUE_FRANCAISE_HENRI_URL,
     CINEMATHEQUE_SUISSE_MEMOBASE_RECORDSET_URL,
     CINEMATEK_BE_FILM_URL,
@@ -101,7 +100,6 @@ from .output_files import (
     CINEMEMOIRE_OUTPUT_FILES,
     CDNA_OUTPUT_FILES,
     CINEMATHEQUE_BRETAGNE_OUTPUT_FILES,
-    FORUM_DES_IMAGES_OUTPUT_FILES,
     CINEMATHEQUE_FRANCAISE_OUTPUT_FILES,
     CINEMATHEQUE_SUISSE_OUTPUT_FILES,
     CINEMATEK_OUTPUT_FILES,
@@ -161,7 +159,6 @@ from .output_files import (
     list_cinememoire_output_filenames,
     list_cdna_output_filenames,
     list_cinematheque_bretagne_output_filenames,
-    list_forum_des_images_output_filenames,
     list_cinematheque_francaise_output_filenames,
     list_cinematheque_suisse_output_filenames,
     list_cinematek_output_filenames,
@@ -645,61 +642,6 @@ CORPORA = {
         "run_script_path": "scripts/run_cinearchives_pipeline.py",
         "build_script_path": "scripts/run_cinearchives_pipeline.py",
         "check_script_path": "scripts/check_cinearchives_outputs.py",
-        "organism_active": True,
-        "monthly_refresh_enabled": True,
-    },
-    "forum-des-images": {
-        "code": "forum_des_images",
-        "label": "Forum des images",
-        "short_label": "Forum des images",
-        "category_code": "institution",
-        "expansion_priority": 3,
-        "entity_level": "instituição custodial",
-        "coverage_level": "instituição individual europeia",
-        "scope": "catálogo público de filmes, coleções e documentação audiovisual",
-        "methodological_unit": "fichas públicas do catálogo Collections du Forum des images",
-        "ape_relationship": (
-            "identificado na fila europeia via INEDITS e incorporado como corpus "
-            "institucional autônomo após validação individual da rota pública"
-        ),
-        "expansion_rationale": (
-            "Cabeça rank 6 da fila definitiva europeia; a superfície Collections expõe "
-            "busca, facetas, fichas audiovisuais e estado de visibilidade na internet."
-        ),
-        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
-        "audiovisual_scope_note": (
-            "O catálogo declara fundo superior a 8.000 filmes e materializa metadados "
-            "públicos de filmes, incluindo disponibilidade de consulta/visibilidade."
-        ),
-        "zero_result_policy": (
-            "Zero registros exige revisão da rota, robots ou estrutura, pois a superfície "
-            "pública observada é explicitamente audiovisual."
-        ),
-        "collection_completeness": "Amostra reprodutível e limitada do catálogo público",
-        "selection_criterion": (
-            "Parte da página inicial e de coleções oficiais, segue até quatro rotas públicas "
-            "de busca/faceta e materializa até trinta fichas de detalhe, sem baixar mídia."
-        ),
-        "selection_limit": "Até 4 rotas públicas de busca/faceta e até 30 fichas públicas por rodada.",
-        "completeness_note": (
-            "Não representa os mais de 8.000 filmes como catálogo integral nem afirma "
-            "disponibilidade online de todos os itens; mede somente registros públicos "
-            "materializados pela rodada documentada."
-        ),
-        "source_url": FORUM_DES_IMAGES_HOME_URL,
-        "output_files": FORUM_DES_IMAGES_OUTPUT_FILES,
-        "list_output_filenames": list_forum_des_images_output_filenames,
-        "detail_url_field": "forum_des_images_detail_url",
-        "content_flag_field": "content_available_in_source",
-        "detail_url_label": "catálogo Collections du Forum des images",
-        "content_flag_label": "metadados audiovisuais publicados na fonte",
-        "website_label": "Collections du Forum des images",
-        "run_script": "python scripts/run_forum_des_images_pipeline.py",
-        "build_script": "python scripts/run_forum_des_images_pipeline.py",
-        "check_script": "python scripts/check_forum_des_images_outputs.py",
-        "run_script_path": "scripts/run_forum_des_images_pipeline.py",
-        "build_script_path": "scripts/run_forum_des_images_pipeline.py",
-        "check_script_path": "scripts/check_forum_des_images_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },
