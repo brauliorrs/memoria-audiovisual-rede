@@ -53,6 +53,9 @@ def main():
     if payload.get("dataset") != "murnau_stiftung":
         print("Murnau-Stiftung: dataset incorreto no snapshot metadata.")
         return 1
+    if payload.get("source_url") != "https://www.murnau-stiftung.de/list/movies/letter/A":
+        print("Murnau-Stiftung: fonte canônica do snapshot não é a listagem A-Z.")
+        return 1
     print("Validação staged da Murnau-Stiftung")
     print(f"- registros materializados: {len(links)}")
     print(f"- consultas/páginas observadas: {len(internal)}")
