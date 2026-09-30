@@ -1,6 +1,12 @@
 import string
 import unittest
 
+from memoria_audiovisual.corpora import CORPORA
+from memoria_audiovisual.europe_research import (
+    build_europe_research_queue,
+    build_europe_research_registry,
+)
+from memoria_audiovisual.inclusion_queue import select_inclusion_candidates
 from memoria_audiovisual.murnau_stiftung import (
     MURNAU_STIFTUNG_ALPHA_LETTERS,
     MURNAU_STIFTUNG_MAX_DETAIL_PAGES,
@@ -209,6 +215,32 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
                 for row in internal
             )
         )
+
+    def test_promoted_corpus_is_active_and_queue_advances_to_gosfilmofond(self):
+        corpus = CORPORA["murnau-stiftung"]
+        self.assertTrue(corpus["organism_active"])
+        self.assertTrue(corpus["monthly_refresh_enabled"])
+        self.assertEqual(corpus["code"], "murnau_stiftung")
+        self.assertIn("3.889", corpus["audiovisual_scope_note"])
+
+        registry = build_europe_research_registry()
+        murnau = registry.loc[
+            registry["unit_code"] == "efg-friedrich-wilhelm-murnau-stiftung"
+        ].iloc[0]
+        self.assertEqual(murnau["organism_status"], "ativo")
+        self.assertEqual(murnau["queue_layer"], "corpus_ativo")
+
+        queue = build_europe_research_queue(registry)
+        self.assertNotIn(
+            "efg-friedrich-wilhelm-murnau-stiftung",
+            set(queue["unit_code"].astype(str)),
+        )
+        candidates = select_inclusion_candidates(
+            queue.to_dict(orient="records"),
+            limit=1,
+        )
+        self.assertEqual(candidates[0].unit_code, "fiaf-gosfilmofond")
+        self.assertEqual(candidates[0].rank, 6)
 
     def test_collector_fails_closed_when_robots_is_not_verifiable(self):
         institutions, summary, links, internal = collect_murnau_stiftung_dataset(
