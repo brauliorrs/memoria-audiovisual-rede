@@ -19,7 +19,7 @@
   "reason_for_amendment": "Repository audit established that all six proposed institutions predate M3 in the broader MAR corpus, while none occurs in the 117 human-labelled M3 development units and no direct runtime dependency from the audited M3 classifier to those six corpus exports was found. The claim is therefore narrowed prospectively before independent execution.",
   "research_question": "Does M3 2.3.0 classify previously unlabelled public digital surfaces from six institutions that are absent from all prior human-labelled M3 development sets, under the sealed sampling and blinding procedure?",
   "primary_claim_scope": {
-    "allowed": "Performance of the frozen M3 candidate on the selected new surfaces and human labels from the six preregistered institutions, all held out from prior human-labelled M3 development sets.",
+    "allowed": "Performance of the frozen M3 candidate on previously unlabelled selected surfaces and new human labels from the six preregistered institutions, all held out from prior human-labelled M3 development sets.",
     "not_allowed": [
       "generalisation to institutions wholly unseen by the MAR project",
       "prevalence of surface classes in the institutions or Europe",
