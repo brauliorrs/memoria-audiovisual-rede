@@ -1,6 +1,6 @@
 import unittest
 
-from memoria_audiovisual.corpora import CORPORA
+from memoria_audiovisual.europe_research import build_europe_research_queue, build_europe_research_registry
 from memoria_audiovisual.forum_des_images import (
     collect_forum_des_images_institutions,
     parse_forum_des_images_browse_page,
@@ -73,16 +73,27 @@ class ForumDesImagesCollectionTests(unittest.TestCase):
         self.assertEqual(row["video_link"], "https://player.example.org/video/100")
         self.assertIn("Alice Martin", row["subject"])
 
-    def test_corpus_registry_records_bounded_non_exhaustive_scope(self):
-        corpus = CORPORA["forum-des-images"]
-        self.assertTrue(corpus["organism_active"])
-        self.assertTrue(corpus["monthly_refresh_enabled"])
-        self.assertEqual(corpus["code"], "forum_des_images")
-        self.assertIn("30 fichas", corpus["selection_limit"])
-        self.assertIn("Não representa", corpus["completeness_note"])
+    def test_forum_is_protocolled_not_active_and_does_not_block_queue(self):
+        registry = build_europe_research_registry()
+        row = registry.loc[
+            registry["unit_code"] == "inedits-forum-des-images"
+        ].iloc[0]
+        self.assertEqual(row["organism_status"], "protocolado")
+        self.assertEqual(row["queue_layer"], "protocolo_de_nao_incorporacao")
         self.assertEqual(
-            corpus["check_script"],
-            "python scripts/check_forum_des_images_outputs.py",
+            row["video_location_status"],
+            "catalogo_publico_validado_coleta_bloqueada_por_robots_nao_verificavel",
+        )
+        self.assertFalse(bool(row["blocks_expansion"]))
+        queue = build_europe_research_queue(registry)
+        self.assertNotIn(
+            "inedits-forum-des-images",
+            set(queue["unit_code"].astype(str)),
+        )
+        next_row = queue.sort_values("definitive_queue_rank").iloc[0]
+        self.assertEqual(
+            next_row["unit_code"],
+            "efg-friedrich-wilhelm-murnau-stiftung",
         )
 
 
