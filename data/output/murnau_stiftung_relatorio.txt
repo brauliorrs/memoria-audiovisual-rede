@@ -1,7 +1,7 @@
 RELATORIO - FRIEDRICH-WILHELM-MURNAU-STIFTUNG
 ============================================================
 
-Fonte: https://www.murnau-stiftung.de/movie_search
+Fonte: https://www.murnau-stiftung.de/list/movies/letter/A
 Total de instituicoes analisadas: 1
 Instituicoes com acesso OK: 1
 Instituicoes com ao menos 1 link de video/plataforma: 1
