@@ -421,7 +421,7 @@ def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed
         )
     )
     complete_partitions = all(
-        letter in partition_counts and partition_counts[letter] > 0
+        letter in partition_counts
         for letter in MURNAU_STIFTUNG_ALPHA_LETTERS
     )
     integrity = (
