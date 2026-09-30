@@ -98,10 +98,10 @@ class ForumDesImagesCollectionTests(unittest.TestCase):
         self.assertEqual(len(candidates), 1)
         self.assertEqual(
             candidates[0].unit_code,
-            "efg-friedrich-wilhelm-murnau-stiftung",
+            "fiaf-gosfilmofond",
         )
-        # Forum leaves the active queue, so definitive ranks are compacted.
-        # Murnau was historical rank 7 and becomes current queue-head rank 6.
+        # Forum is protocolled and Murnau is now active, so the remaining
+        # definitive queue is compacted again. Gosfilmofond becomes rank 6.
         self.assertEqual(candidates[0].rank, 6)
 
 
