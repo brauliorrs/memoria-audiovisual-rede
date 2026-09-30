@@ -35,6 +35,7 @@ from .config import (
     FINA_VIDEO_LIST_URL,
     MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
+    MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
     MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
@@ -975,7 +976,7 @@ def build_murnau_stiftung_snapshot_metadata(
     return build_snapshot_metadata(
         output_dir,
         dataset="murnau_stiftung",
-        source_url=MURNAU_STIFTUNG_SEARCH_URL,
+        source_url=MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE.format(letter="A"),
         output_files=MURNAU_STIFTUNG_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
