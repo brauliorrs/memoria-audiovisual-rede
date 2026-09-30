@@ -136,7 +136,7 @@ def parse_murnau_detail_page(html_text, page_url):
         year_match = re.search(r"\b(18\d{2}|19\d{2}|20\d{2})\b", text)
     year = year_match.group(1) if year_match else ""
     director_match = re.search(r"\bRegie:\s*([^•|]+?)(?=\s+(?:Drehbuch:|Autor:|Kamera:|Musik:|Ton:|Bauten:|Produktion:|Kurzinhalt:|$))", text, re.I)
-    production_match = re.search(r"\bProduktion:\s*([^•|]+?)(?=\s+(?:FSK-|©|$))", text, re.I)
+    production_match = re.search(r"\bProduktion:\s*([^•|]+?)(?=\s+FSK-|\s+©|$)", text, re.I)
     length_match = re.search(r"\bLänge:\s*([^•|]+?)(?=\s+(?:Land:|Regie:|$))", text, re.I)
     return {
         "record_id": record_id,
