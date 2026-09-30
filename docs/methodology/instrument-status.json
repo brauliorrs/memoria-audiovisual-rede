@@ -134,8 +134,10 @@
       "test_strings_pending_independent_review": 22,
       "candidate_claim": "institutions absent from prior M3 human-labelled sets (not globally new to MAR)",
       "six_proposed_institutions_in_broader_prior_MAR_corpus": true,
-      "indirect_development_exposure": "not_yet_resolved",
-      "evaluator_access": "must_remain_blinded_until_human_freeze"
+      "indirect_development_exposure": "repository_audit_found_no_direct_use_of_the_six_corpora_in_117_labelled_M3_development_units_or_runtime_classifier_dependency; unrecorded_human_familiarity_cannot_be_proved_or_excluded",
+      "evaluator_access": "must_remain_blinded_until_human_freeze",
+      "corpus_relation_audit": "docs/methodology/m3-corpus-relation-audit.json",
+      "six_entity_methodological_status": "prior_MAR_corpora_but_held_out_from_labelled_M3_development_sets"
     },
     "academic_presentation": "present_final_adopted_methods_and_material_deviations; preserve engineering chronology in audit log"
   }
