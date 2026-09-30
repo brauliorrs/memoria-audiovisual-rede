@@ -413,20 +413,13 @@ def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed
         )
 
     links = [_record_to_video_row(institution, record) for record in records]
-    lower_bound_ok = (
-        bool(records)
-        and (
-            declared_holdings_total <= 0
-            or len(records) >= declared_holdings_total
-        )
-    )
     complete_partitions = all(
         letter in partition_counts
         for letter in MURNAU_STIFTUNG_ALPHA_LETTERS
     )
     integrity = (
         "integro"
-        if lower_bound_ok and complete_partitions and not errors
+        if records and complete_partitions and not errors
         else "instavel"
     )
     partition_note = ", ".join(
@@ -448,13 +441,15 @@ def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed
             "priority_review": integrity != "integro",
             "warning": _clean_text(
                 "Snapshot alfabético da base pública de filmes da Murnau-Stiftung. "
-                f"A instituição declara mais de {declared_holdings_total or '6.000'} filmes; "
-                f"a rodada materializou {len(links)} IDs únicos por partições A-Z. "
+                f"A instituição declara mais de {declared_holdings_total or '6.000'} filmes em seu acervo físico; "
+                f"a rodada materializou {len(links)} IDs únicos no catálogo público por partições A-Z. "
                 f"Contagens por letra: {partition_note}. "
                 f"Até {MURNAU_STIFTUNG_MAX_DETAIL_PAGES} fichas são enriquecidas "
                 "deterministicamente sem baixar mídia. Os permalinks representam "
-                "metadados de catálogo e não implicam streaming público ou cobertura "
-                "do acervo fiduciário adicional."
+                "metadados de catálogo e não implicam streaming público, cobertura "
+                "integral do acervo físico nem cobertura do acervo fiduciário adicional. "
+                "O total físico declarado é contexto institucional, não denominador de completude "
+                "do catálogo público observado."
             ),
             "error": " | ".join(errors[:12]),
         }
