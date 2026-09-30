@@ -214,7 +214,7 @@ def _record_to_video_row(institution, record):
     }
 
 
-def collect_murnau_stiftung_dataset():
+def collect_murnau_stiftung_dataset(fetch=_fetch, robots_checker=_robots_allowed):
     institutions = collect_murnau_stiftung_institutions()
     institution = institutions[0]
     internal_pages = []
@@ -224,7 +224,7 @@ def collect_murnau_stiftung_dataset():
     declared_search_total = 0
     mismatched_partitions = []
 
-    allowed, robots_status = _robots_allowed(MURNAU_STIFTUNG_SEARCH_URL)
+    allowed, robots_status = robots_checker(MURNAU_STIFTUNG_SEARCH_URL)
     if not allowed:
         internal_pages.append(
             _internal_page_row(
@@ -258,7 +258,7 @@ def collect_murnau_stiftung_dataset():
         return institutions, summary, [], internal_pages
 
     try:
-        response = _fetch(MURNAU_STIFTUNG_HOLDINGS_URL)
+        response = fetch(MURNAU_STIFTUNG_HOLDINGS_URL)
         response.raise_for_status()
         declared_holdings_total = _parse_declared_holdings_total(response.text)
         internal_pages.append(
@@ -276,7 +276,7 @@ def collect_murnau_stiftung_dataset():
     for year in range(MURNAU_STIFTUNG_START_YEAR, MURNAU_STIFTUNG_END_YEAR + 1):
         search_url = f"{MURNAU_STIFTUNG_SEARCH_URL}?{urlencode({'year': year})}"
         try:
-            response = _fetch(search_url)
+            response = fetch(search_url)
             response.raise_for_status()
             records, declared_total = parse_murnau_search_page(
                 response.text,
