@@ -43,8 +43,7 @@ from memoria_audiovisual.organism import (
     write_monthly_cycle_manifest,
 )
 from memoria_audiovisual.prise2_protocol import write_prise2_protocol_probe
-from memoria_audiovisual.public_access_index import write_public_access_index
-from memoria_audiovisual.restricted_access_audit import write_restricted_access_audit
+from memoria_audiovisual.inclusion_queue import write_next_inclusion_candidates
 
 
 def utcnow_iso():
@@ -106,8 +105,7 @@ def main():
     write_europe_closure_outputs(OUTPUT_DIR)
     write_cineteca_bologna_protocol_probe(OUTPUT_DIR)
     write_europe_research_outputs(OUTPUT_DIR)
-    write_restricted_access_audit(OUTPUT_DIR)
-    write_public_access_index(OUTPUT_DIR)
+    write_next_inclusion_candidates(output_dir=OUTPUT_DIR, limit=3)
 
     active_corpora = list_active_corpora(monthly_only=True)
     if args.corpora:
