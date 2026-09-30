@@ -27,6 +27,7 @@ from .config import (
     FINA_VIDEO_LIST_URL,
     MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
+    MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
     FILMOTECA_ESPANOLA_PLATFO_URL,
@@ -88,6 +89,7 @@ from .output_files import (
     FINA_OUTPUT_FILES,
     HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
+    MURNAU_STIFTUNG_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
     FILMOTECA_ESPANOLA_OUTPUT_FILES,
@@ -147,6 +149,7 @@ from .output_files import (
     list_fina_output_filenames,
     list_home_movies_output_filenames,
     list_filmarchiv_austria_output_filenames,
+    list_murnau_stiftung_output_filenames,
     list_filmmuseum_dusseldorf_output_filenames,
     list_filmoteca_catalunya_output_filenames,
     list_filmoteca_espanola_output_filenames,
@@ -2775,6 +2778,66 @@ CORPORA = {
         "run_script_path": "scripts/run_dff_pipeline.py",
         "build_script_path": "scripts/run_dff_pipeline.py",
         "check_script_path": "scripts/check_dff_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "murnau-stiftung": {
+        "code": "murnau_stiftung",
+        "label": "Friedrich-Wilhelm-Murnau-Stiftung",
+        "short_label": "Murnau-Stiftung",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial e detentora de direitos",
+        "coverage_level": "instituição individual europeia",
+        "scope": "base pública de filmes da Friedrich-Wilhelm-Murnau-Stiftung",
+        "methodological_unit": "fichas públicas de filmes identificadas por permalink /movie/<id>",
+        "ape_relationship": (
+            "identificada na fila europeia via European Film Gateway e incorporada "
+            "como corpus institucional autônomo após validação individual"
+        ),
+        "expansion_rationale": (
+            "A base pública expõe índice alfabético A-Z, busca e fichas permanentes. "
+            "O probe real materializou 3.889 IDs únicos em todas as 26 partições, "
+            "com robots verificável e sem falhas de partição."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "A instituição declara mais de 6.000 filmes no acervo físico. O corpus MAR "
+            "materializa 3.889 fichas públicas observadas na listagem A-Z da rodada, "
+            "sem afirmar cobertura integral do acervo físico ou do acervo fiduciário."
+        ),
+        "zero_result_policy": (
+            "Zero registros ou falha em qualquer partição A-Z indica mudança de rota, "
+            "bloqueio ou erro de coleta e exige revisão antes de atualizar o snapshot."
+        ),
+        "collection_completeness": "snapshot completo das partições públicas A-Z observadas na rodada",
+        "selection_criterion": (
+            "Percorre as 26 partições alfabéticas da lista pública, deduplica IDs /movie/<id> "
+            "e enriquece deterministicamente até 24 fichas, sem baixar mídia."
+        ),
+        "selection_limit": (
+            "Sem amostra arbitrária na enumeração A-Z: coleta todos os IDs expostos nas 26 "
+            "partições públicas da rodada; enriquecimento de detalhe limitado a 24 fichas."
+        ),
+        "completeness_note": (
+            "Completo em relação às partições públicas A-Z materializadas na rodada. "
+            "Não usa os mais de 6.000 filmes do acervo físico como denominador de completude "
+            "e não afirma disponibilidade pública de streaming dos títulos."
+        ),
+        "source_url": MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE.format(letter="A"),
+        "output_files": MURNAU_STIFTUNG_OUTPUT_FILES,
+        "list_output_filenames": list_murnau_stiftung_output_filenames,
+        "detail_url_field": "murnau_stiftung_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "base pública de filmes da Murnau-Stiftung",
+        "content_flag_label": "fichas públicas de metadados cinematográficos",
+        "website_label": "Murnau-Stiftung Filmbestand",
+        "run_script": "python scripts/run_murnau_stiftung_pipeline.py",
+        "build_script": "python scripts/run_murnau_stiftung_pipeline.py",
+        "check_script": "python scripts/check_murnau_stiftung_outputs.py",
+        "run_script_path": "scripts/run_murnau_stiftung_pipeline.py",
+        "build_script_path": "scripts/run_murnau_stiftung_pipeline.py",
+        "check_script_path": "scripts/check_murnau_stiftung_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },
