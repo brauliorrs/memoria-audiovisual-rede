@@ -189,6 +189,7 @@ from .config import (
     FINA_VIDEO_LIST_URL,
     MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
+    MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
     MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
@@ -2064,8 +2065,8 @@ def run_filmarchiv_austria_pipeline():
 
 def run_murnau_stiftung_pipeline():
     _run_corpus_pipeline(
-        source_label="Friedrich-Wilhelm-Murnau-Stiftung / Filmsuche",
-        source_url=MURNAU_STIFTUNG_SEARCH_URL,
+        source_label="Friedrich-Wilhelm-Murnau-Stiftung / catálogo público A-Z",
+        source_url=MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE.format(letter="A"),
         collect_dataset=collect_murnau_stiftung_dataset,
         institution_fields=MURNAU_STIFTUNG_INSTITUTION_FIELDS,
         summary_fields=MURNAU_STIFTUNG_SUMMARY_FIELDS,
