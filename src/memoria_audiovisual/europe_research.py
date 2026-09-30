@@ -73,6 +73,7 @@ PROTOCOLLED_EUROPEAN_CODES = {
     "inedits-county-archives-puy-de-dome",
     "inedits-cinematheque-corse",
     "inedits-prise-2",
+    "inedits-forum-des-images",
 }
 
 DIRECTORY_EXPANSION_CODES = {
@@ -528,6 +529,40 @@ def _classify_research_row(row):
             "video_location_strategy": (
                 "usar apenas `mediaType=VIDEO`; coletar referências pela busca oficial e enriquecer cada "
                 "item pelo endpoint público `media?reference=...`, preservando metadados de acesso e direitos"
+            ),
+            "blocks_expansion": False,
+        }
+
+    if code == "inedits-forum-des-images":
+        return {
+            "relationship_to_current_corpus": (
+                "catálogo público audiovisual confirmado; coleta automatizada bloqueada "
+                "pela impossibilidade de verificar robots na rodada de incorporação"
+            ),
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_nao_incorporacao",
+            "queue_decision": "monitorar_sem_incorporar_ate_robots_verificavel",
+            "queue_priority": 80,
+            "queue_reason": (
+                "A superfície Collections du Forum des images expõe busca, facetas e fichas "
+                "audiovisuais públicas. No Quality Checks #1760, o coletor fail-closed não "
+                "conseguiu obter/verificar robots.txt; por política do MAR, nenhuma página "
+                "foi coletada como corpus e a unidade não pode ser ativada nesta rodada."
+            ),
+            "next_action": (
+                "retestar_robots_e_catalogo_em_ciclo_futuro_sem_contornar_barreiras"
+            ),
+            "inclusion_gate": (
+                "só incorporar após o coletor conseguir verificar a política robots e "
+                "materializar de forma reprodutível registros públicos não vazios"
+            ),
+            "video_location_status": (
+                "catalogo_publico_validado_coleta_bloqueada_por_robots_nao_verificavel"
+            ),
+            "video_location_candidate_url": "https://collections.forumdesimages.fr/",
+            "video_location_strategy": (
+                "preservar o coletor limitado já implementado; retestar robots, busca/facetas "
+                "e fichas públicas em rodada futura sem contornar autenticação ou bloqueios"
             ),
             "blocks_expansion": False,
         }
