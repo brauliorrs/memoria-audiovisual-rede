@@ -155,7 +155,7 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
             all(row["platform"] == "Murnau-Stiftung Filmsuche" for row in links)
         )
 
-    def test_collector_marks_incomplete_catalog_unstable(self):
+    def test_physical_holdings_floor_does_not_define_public_catalog_completeness(self):
         def robots_checker(_url):
             return True, "robots_evaluated"
 
@@ -177,8 +177,38 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
             robots_checker=robots_checker,
         )
         self.assertEqual(len(links), 26)
+        self.assertEqual(summary[0]["integrity_status"], "integro")
+        self.assertFalse(summary[0]["priority_review"])
+        self.assertIn("não denominador de completude", summary[0]["warning"])
+
+    def test_failed_alpha_partition_marks_snapshot_unstable(self):
+        def robots_checker(_url):
+            return True, "robots_evaluated"
+
+        def fetch(url):
+            if url.endswith("/filmbestand"):
+                return FakeResponse(HOLDINGS_HTML, url)
+            if url.endswith("/letter/Q"):
+                raise RuntimeError("synthetic partition failure")
+            if "/list/movies/letter/" in url:
+                letter = url.rstrip("/").rsplit("/", 1)[-1].upper()
+                return FakeResponse(synthetic_letter_page(letter, count=2), url)
+            if "/movie/" in url:
+                return FakeResponse(DETAIL_HTML, url)
+            raise AssertionError(url)
+
+        _, summary, _, internal = collect_murnau_stiftung_dataset(
+            fetch=fetch,
+            robots_checker=robots_checker,
+        )
         self.assertEqual(summary[0]["integrity_status"], "instavel")
         self.assertTrue(summary[0]["priority_review"])
+        self.assertTrue(
+            any(
+                row["status"] == "erro" and row["internal_page"].endswith("/letter/Q")
+                for row in internal
+            )
+        )
 
     def test_collector_fails_closed_when_robots_is_not_verifiable(self):
         institutions, summary, links, internal = collect_murnau_stiftung_dataset(
