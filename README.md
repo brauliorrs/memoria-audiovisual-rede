@@ -10,6 +10,26 @@ A plataforma permanece uma plataforma pública, com usos variados: pesquisa, ens
 
 A [metodologia científica de referência](docs/methodology/mar-scientific-methodology.md) estabelece o objeto de pesquisa, os níveis de análise, a constituição do corpus, as condições de publicação e a validação específica dos instrumentos. A [matriz de situação dos instrumentos](docs/methodology/instrument-status.json) distingue componentes implementados, avaliações empíricas e funcionalidades ainda experimentais. Esses documentos constituem proposta de consolidação para revisão acadêmica e não alteram os protocolos científicos congelados.
 
+## Operação: corpus contínuo e instrumentos validados
+
+A expansão do corpus e o desenvolvimento de instrumentos passam a operar em trilhas independentes. A fila de inclusão continua avançando mesmo quando classificadores experimentais estão em validação. Um instrumento novo só entra no executor de produção depois de validação de eficácia, limites documentados e admissão no [registro de instrumentos](docs/methodology/analysis-instrument-registry.json).
+
+- [Política operacional e ciclo de promoção](docs/engineering/production-analysis-lifecycle.md)
+- [Instrumentos atualmente admitidos e evidência de eficácia](docs/methodology/validated-analysis-instruments.md)
+
+Próximos itens da fila, sem incorporação automática:
+
+```bash
+python scripts/next_inclusion_candidate.py --limit 3
+```
+
+Instrumentos de análise admitidos em produção:
+
+```bash
+python scripts/run_approved_analysis.py --list
+python scripts/run_approved_analysis.py
+```
+
 ## Acesso público
 
 A versão pública do observatório está disponível no Streamlit:
