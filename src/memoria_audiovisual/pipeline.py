@@ -83,8 +83,11 @@ from .home_movies import collect_home_movies_dataset
 from .home_movies_exports import build_home_movies_analysis_extra_sheets
 from .home_movies_exports import write_home_movies_analysis_outputs
 from .filmarchiv_austria import collect_filmarchiv_austria_dataset
+from .murnau_stiftung import collect_murnau_stiftung_dataset
 from .filmarchiv_austria_exports import build_filmarchiv_austria_analysis_extra_sheets
 from .filmarchiv_austria_exports import write_filmarchiv_austria_analysis_outputs
+from .murnau_stiftung_exports import build_murnau_stiftung_analysis_extra_sheets
+from .murnau_stiftung_exports import write_murnau_stiftung_analysis_outputs
 from .filmmuseum_dusseldorf import collect_filmmuseum_dusseldorf_dataset
 from .filmmuseum_dusseldorf_exports import build_filmmuseum_dusseldorf_analysis_extra_sheets
 from .filmmuseum_dusseldorf_exports import write_filmmuseum_dusseldorf_analysis_outputs
@@ -186,6 +189,7 @@ from .config import (
     FINA_VIDEO_LIST_URL,
     MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
+    MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
     FILMOTECA_ESPANOLA_PLATFO_URL,
@@ -267,6 +271,7 @@ from .output_files import (
     FINA_OUTPUT_FILES,
     HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
+    MURNAU_STIFTUNG_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
     FILMOTECA_ESPANOLA_OUTPUT_FILES,
@@ -339,6 +344,7 @@ from .snapshot_metadata import (
     build_fina_snapshot_metadata,
     build_home_movies_snapshot_metadata,
     build_filmarchiv_austria_snapshot_metadata,
+    build_murnau_stiftung_snapshot_metadata,
     build_filmmuseum_dusseldorf_snapshot_metadata,
     build_filmoteca_catalunya_snapshot_metadata,
     build_filmoteca_espanola_snapshot_metadata,
@@ -763,6 +769,18 @@ FILMARCHIV_AUSTRIA_VIDEO_LINK_FIELDS = [
 ]
 FILMARCHIV_AUSTRIA_INTERNAL_PAGE_FIELDS = [
     field.replace("archipop_detail_url", "filmarchiv_austria_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
+]
+MURNAU_STIFTUNG_INSTITUTION_FIELDS = [
+    field.replace("archipop_detail_url", "murnau_stiftung_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
+]
+MURNAU_STIFTUNG_SUMMARY_FIELDS = [
+    field.replace("archipop_detail_url", "murnau_stiftung_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS
+]
+MURNAU_STIFTUNG_VIDEO_LINK_FIELDS = [
+    field.replace("archipop_detail_url", "murnau_stiftung_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS
+]
+MURNAU_STIFTUNG_INTERNAL_PAGE_FIELDS = [
+    field.replace("archipop_detail_url", "murnau_stiftung_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
 ]
 FILMMUSEUM_DUSSELDORF_INSTITUTION_FIELDS = [
     field.replace("archipop_detail_url", "filmmuseum_dusseldorf_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
@@ -2041,6 +2059,25 @@ def run_filmarchiv_austria_pipeline():
         report_title="RELATORIO - FILMARCHIV AUSTRIA / FILMARCHIV ON",
         institutions_sheet_title="Filmarchiv Austria",
         generated_by="scripts/run_filmarchiv_austria_pipeline.py",
+    )
+
+
+def run_murnau_stiftung_pipeline():
+    _run_corpus_pipeline(
+        source_label="Friedrich-Wilhelm-Murnau-Stiftung / Filmsuche",
+        source_url=MURNAU_STIFTUNG_SEARCH_URL,
+        collect_dataset=collect_murnau_stiftung_dataset,
+        institution_fields=MURNAU_STIFTUNG_INSTITUTION_FIELDS,
+        summary_fields=MURNAU_STIFTUNG_SUMMARY_FIELDS,
+        video_link_fields=MURNAU_STIFTUNG_VIDEO_LINK_FIELDS,
+        internal_page_fields=MURNAU_STIFTUNG_INTERNAL_PAGE_FIELDS,
+        output_files=MURNAU_STIFTUNG_OUTPUT_FILES,
+        analysis_output_writer=write_murnau_stiftung_analysis_outputs,
+        analysis_extra_sheets_builder=build_murnau_stiftung_analysis_extra_sheets,
+        snapshot_builder=build_murnau_stiftung_snapshot_metadata,
+        report_title="RELATORIO - FRIEDRICH-WILHELM-MURNAU-STIFTUNG",
+        institutions_sheet_title="Murnau-Stiftung",
+        generated_by="scripts/run_murnau_stiftung_pipeline.py",
     )
 
 
