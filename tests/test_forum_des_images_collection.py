@@ -1,6 +1,7 @@
 import unittest
 
 from memoria_audiovisual.europe_research import build_europe_research_queue, build_europe_research_registry
+from memoria_audiovisual.inclusion_queue import select_inclusion_candidates
 from memoria_audiovisual.forum_des_images import (
     collect_forum_des_images_institutions,
     parse_forum_des_images_browse_page,
@@ -90,11 +91,16 @@ class ForumDesImagesCollectionTests(unittest.TestCase):
             "inedits-forum-des-images",
             set(queue["unit_code"].astype(str)),
         )
-        next_row = queue.sort_values("definitive_queue_rank").iloc[0]
+        candidates = select_inclusion_candidates(
+            queue.to_dict(orient="records"),
+            limit=1,
+        )
+        self.assertEqual(len(candidates), 1)
         self.assertEqual(
-            next_row["unit_code"],
+            candidates[0].unit_code,
             "efg-friedrich-wilhelm-murnau-stiftung",
         )
+        self.assertEqual(candidates[0].rank, 7)
 
 
 if __name__ == "__main__":
