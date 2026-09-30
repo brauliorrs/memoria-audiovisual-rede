@@ -139,6 +139,30 @@ jobs:
           python -m py_compile scripts/check_anf_outputs.py
           python -m py_compile scripts/check_sfa_outputs.py
 
+      - name: Validate Murnau-Stiftung staged corpus contract
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/murnau_stiftung.py \
+            src/memoria_audiovisual/murnau_stiftung_exports.py \
+            scripts/run_murnau_stiftung_pipeline.py \
+            scripts/check_murnau_stiftung_outputs.py \
+            tests/test_murnau_stiftung_collection.py
+          python -m unittest discover -s tests -p 'test_murnau_stiftung_collection.py' -v
+
+      - name: Probe Murnau-Stiftung live catalogue before corpus admission
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/murnau-stiftung-v1'
+        run: |
+          python scripts/run_murnau_stiftung_pipeline.py
+          python scripts/check_murnau_stiftung_outputs.py
+
+      - name: Upload Murnau-Stiftung probe artifact
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/murnau-stiftung-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: murnau-stiftung-probe
+          path: data/output/murnau_stiftung_*
+          if-no-files-found: error
+
       - name: Validate Forum des images corpus contract
         run: |
           ruff check --select E9,F63,F7,F82 \
