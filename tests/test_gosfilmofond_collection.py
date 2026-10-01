@@ -192,8 +192,13 @@ class GosfilmofondCollectionTests(unittest.TestCase):
         self.assertIn("59.733", corpus["audiovisual_scope_note"])
 
         registry = build_europe_research_registry()
-        gos = registry.loc[registry["unit_code"] == "fiaf-gosfilmofond"].iloc[0]
-        self.assertEqual(gos["organism_status"], "corpus_ativo")
+        gos = registry.loc[registry["unit_code"] == "gosfilmofond"].iloc[0]
+        self.assertEqual(gos["organism_status"], "ativo")
+        self.assertEqual(gos["queue_layer"], "corpus_ativo")
+        self.assertNotIn(
+            "fiaf-gosfilmofond",
+            set(registry["unit_code"].astype(str)),
+        )
 
         queue = build_europe_research_queue(registry)
         candidates = select_inclusion_candidates(
