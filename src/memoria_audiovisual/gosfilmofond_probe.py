@@ -308,7 +308,26 @@ def parse_ajax_response(text: str, endpoint_url: str) -> dict[str, Any]:
         "film_links": film_links,
         "film_links_count": len(film_links),
         "total_candidates": sorted(set(total_candidates))[-10:],
+    page_numbers = []
+    for node in soup.find_all(["a", "button", "span"]):
+        marker = " ".join(
+            [
+                " ".join(node.get("class", [])),
+                str(node.get("data-page", "")),
+                node.get_text(" ", strip=True),
+            ]
+        )
+        if not re.search(r"page|paged|pagination|page-numbers", marker, re.I):
+            continue
+        for raw in re.findall(r"\d[\d\s\u00a0]*", marker):
+            digits = re.sub(r"\D", "", raw)
+            if digits:
+                page_numbers.append(int(digits))
+    page_numbers = sorted(set(page_numbers))
+
         "pagination_hints": pagination[:50],
+        "page_numbers": page_numbers[-50:],
+        "max_page_number": max(page_numbers) if page_numbers else None,
         "response_length": len(text or ""),
     }
 
@@ -343,6 +362,8 @@ def probe_ajax_pagination(
                 "film_links_count": 0,
                 "total_candidates": [],
                 "pagination_hints": [],
+                "page_numbers": [],
+                "max_page_number": None,
                 "response_length": len(response.text or ""),
             }
         )
@@ -362,6 +383,8 @@ def probe_ajax_pagination(
                 ],
                 "total_candidates": parsed["total_candidates"],
                 "pagination_hints": parsed["pagination_hints"][:20],
+                "page_numbers": parsed["page_numbers"][-20:],
+                "max_page_number": parsed["max_page_number"],
                 "response_length": parsed["response_length"],
                 "json": parsed["json"],
             }
@@ -545,12 +568,23 @@ def parse_catalog_html(html_text: str, page_url: str) -> dict[str, Any]:
                     }
                 )
 
+    page_count_options = []
+    for wrapper in soup.find_all(class_=re.compile(r"page[-_ ]?count", re.I)):
+        for option in wrapper.find_all("option"):
+            raw = _clean_text(option.get("value") or option.get_text(" ", strip=True))
+            if raw.isdigit():
+                value = int(raw)
+                if 0 < value <= 500:
+                    page_count_options.append(value)
+    page_count_options = sorted(set(page_count_options))
+
     return {
         "title": _clean_text(soup.title.get_text(" ", strip=True) if soup.title else ""),
         "film_links": film_links,
         "film_links_count": len(film_links),
         "pagination_links": pagination_links,
         "forms": forms,
+        "page_count_options": page_count_options,
         "scripts": sorted(set(scripts)),
         "inline_discovery": inline_discovery[:30],
         "data_hints": data_hints[:80],
@@ -697,7 +731,13 @@ def run_gosfilmofond_probe(
         result["catalog"] = catalog
 
     if allowed.get(GOSFILMOFOND_AJAX_URL, False):
-        result["ajax_probe"] = probe_ajax_pagination(session)
+        declared_sizes = catalog.get("page_count_options", [])
+        chosen_size = max(declared_sizes) if declared_sizes else 10
+        result["ajax_probe"] = probe_ajax_pagination(
+            session,
+            page_count=chosen_size,
+        )
+        result["ajax_probe"]["declared_page_count_options"] = declared_sizes
 
     for sitemap_url in GOSFILMOFOND_SITEMAP_CANDIDATES:
         item = {
