@@ -1,5 +1,9 @@
+import json
 import unittest
 
+from memoria_audiovisual.corpora import CORPORA
+from memoria_audiovisual.europe_research import build_europe_research_queue, build_europe_research_registry
+from memoria_audiovisual.inclusion_queue import select_inclusion_candidates
 from memoria_audiovisual.gosfilmofond import (
     GOSFILMOFOND_AJAX_URL,
     GOSFILMOFOND_CATALOG_URL,
@@ -97,6 +101,16 @@ class GosfilmofondCollectionTests(unittest.TestCase):
         )
         self.assertEqual(meta["max_page_number"], 3)
 
+    def test_ajax_parser_decodes_json_wrapped_html_before_card_parsing(self):
+        wrapped = json.dumps(
+            {"html": ajax_html(1, [("100", "Первый фильм", "1980")], max_page=1)}
+        )
+        rows, meta = parse_gosfilmofond_ajax_page(wrapped)
+        self.assertEqual([row["record_key"] for row in rows], ["100"])
+        self.assertEqual(rows[0]["page_url"], "https://gosfilmofond.ru/films/100/")
+        self.assertEqual(rows[0]["date"], "1980")
+        self.assertTrue(meta["json"])
+
     def test_three_page_catalog_is_complete_and_deduplicated(self):
         pages = {
             1: ajax_html(
@@ -166,6 +180,22 @@ class GosfilmofondCollectionTests(unittest.TestCase):
         self.assertEqual(links, [])
         self.assertIn("short_intermediate_page", summary[0]["error"])
         self.assertEqual(internal[-1]["status"], "erro")
+
+    def test_promoted_corpus_is_active_and_queue_advances_to_croatian_cinematheque(self):
+        corpus = CORPORA["gosfilmofond"]
+        self.assertTrue(corpus["organism_active"])
+        self.assertTrue(corpus["monthly_refresh_enabled"])
+        self.assertEqual(corpus["code"], "gosfilmofond")
+        self.assertIn("59.733", corpus["audiovisual_scope_note"])
+
+        registry = build_europe_research_registry()
+        gos = registry.loc[registry["unit_code"] == "fiaf-gosfilmofond"].iloc[0]
+        self.assertEqual(gos["organism_status"], "corpus_ativo")
+
+        queue = build_europe_research_queue(registry)
+        candidates = select_inclusion_candidates(queue.to_dict(orient="records"), limit=1)
+        self.assertEqual(candidates[0].unit_code, "fiaf-croatian-cinematheque")
+        self.assertEqual(candidates[0].rank, 6)
 
     def test_robots_block_prevents_any_ajax_enumeration(self):
         blocked = """User-agent: *
