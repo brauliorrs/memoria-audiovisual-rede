@@ -382,6 +382,7 @@ def _active_european_code_aliases():
         "fiaf-estonian-film-archive": "estonian_film_archive",
         "fiaf-fina": "fina",
         "fiaf-filmarchiv-austria": "filmarchiv_austria",
+        "fiaf-gosfilmofond": "gosfilmofond",
         "fiaf-filmmuseum-dusseldorf": "filmmuseum_dusseldorf",
         "fiaf-filmoteca-catalunya": "filmoteca_catalunya",
         "fiaf-filmoteca-espanola": "filmoteca_espanola",
