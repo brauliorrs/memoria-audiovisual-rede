@@ -303,11 +303,6 @@ def parse_ajax_response(text: str, endpoint_url: str) -> dict[str, Any]:
         if re.search(r"page|paged|pagination|след|далее|next", marker, re.I):
             pagination.append(_clean_text(marker, limit=300))
 
-    return {
-        "json": json_ok,
-        "film_links": film_links,
-        "film_links_count": len(film_links),
-        "total_candidates": sorted(set(total_candidates))[-10:],
     page_numbers = []
     for node in soup.find_all(["a", "button", "span"]):
         marker = " ".join(
@@ -325,6 +320,11 @@ def parse_ajax_response(text: str, endpoint_url: str) -> dict[str, Any]:
                 page_numbers.append(int(digits))
     page_numbers = sorted(set(page_numbers))
 
+    return {
+        "json": json_ok,
+        "film_links": film_links,
+        "film_links_count": len(film_links),
+        "total_candidates": sorted(set(total_candidates))[-10:],
         "pagination_hints": pagination[:50],
         "page_numbers": page_numbers[-50:],
         "max_page_number": max(page_numbers) if page_numbers else None,
