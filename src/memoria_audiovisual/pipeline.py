@@ -120,10 +120,13 @@ from .cdna_exports import build_cdna_analysis_extra_sheets
 from .cdna_exports import write_cdna_analysis_outputs
 from .cinematheque_bretagne import collect_cinematheque_bretagne_dataset
 from .forum_des_images import collect_forum_des_images_dataset
+from .murnau_stiftung import collect_murnau_stiftung_dataset
 from .cinematheque_bretagne_exports import build_cinematheque_bretagne_analysis_extra_sheets
 from .cinematheque_bretagne_exports import write_cinematheque_bretagne_analysis_outputs
 from .forum_des_images_exports import build_forum_des_images_analysis_extra_sheets
 from .forum_des_images_exports import write_forum_des_images_analysis_outputs
+from .murnau_stiftung_exports import build_murnau_stiftung_analysis_extra_sheets
+from .murnau_stiftung_exports import write_murnau_stiftung_analysis_outputs
 from .cinematheque_francaise import collect_cinematheque_francaise_dataset
 from .cinematheque_francaise_exports import build_cinematheque_francaise_analysis_extra_sheets
 from .cinematheque_francaise_exports import write_cinematheque_francaise_analysis_outputs
@@ -199,6 +202,7 @@ from .config import (
     CDNA_FILMS_URL,
     CINEMATHEQUE_BRETAGNE_FILMS_URL,
     FORUM_DES_IMAGES_HOME_URL,
+    MURNAU_STIFTUNG_FILM_SEARCH_URL,
     CINEMATHEQUE_FRANCAISE_HENRI_URL,
     CINEMATHEQUE_SUISSE_MEMOBASE_RECORDSET_URL,
     CINEMATEK_BE_FILM_URL,
@@ -280,6 +284,7 @@ from .output_files import (
     CDNA_OUTPUT_FILES,
     CINEMATHEQUE_BRETAGNE_OUTPUT_FILES,
     FORUM_DES_IMAGES_OUTPUT_FILES,
+    MURNAU_STIFTUNG_OUTPUT_FILES,
     CINEMATHEQUE_FRANCAISE_OUTPUT_FILES,
     CINEMATHEQUE_SUISSE_OUTPUT_FILES,
     CINEMATEK_OUTPUT_FILES,
@@ -352,6 +357,7 @@ from .snapshot_metadata import (
     build_cdna_snapshot_metadata,
     build_cinematheque_bretagne_snapshot_metadata,
     build_forum_des_images_snapshot_metadata,
+    build_murnau_stiftung_snapshot_metadata,
     build_cinematheque_francaise_snapshot_metadata,
     build_cinematheque_suisse_snapshot_metadata,
     build_cinematek_snapshot_metadata,
@@ -679,6 +685,18 @@ FORUM_DES_IMAGES_VIDEO_LINK_FIELDS = [
 ]
 FORUM_DES_IMAGES_INTERNAL_PAGE_FIELDS = [
     field.replace("archipop_detail_url", "forum_des_images_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
+]
+MURNAU_STIFTUNG_INSTITUTION_FIELDS = [
+    field.replace("archipop_detail_url", "murnau_stiftung_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
+]
+MURNAU_STIFTUNG_SUMMARY_FIELDS = [
+    field.replace("archipop_detail_url", "murnau_stiftung_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS
+]
+MURNAU_STIFTUNG_VIDEO_LINK_FIELDS = [
+    field.replace("archipop_detail_url", "murnau_stiftung_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS
+]
+MURNAU_STIFTUNG_INTERNAL_PAGE_FIELDS = [
+    field.replace("archipop_detail_url", "murnau_stiftung_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
 ]
 CINEMATHEQUE_FRANCAISE_INSTITUTION_FIELDS = [
     field.replace("archipop_detail_url", "cinematheque_francaise_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
@@ -1946,6 +1964,25 @@ def run_forum_des_images_pipeline():
         report_title="RELATORIO - FORUM DES IMAGES",
         institutions_sheet_title="Forum des images",
         generated_by="scripts/run_forum_des_images_pipeline.py",
+    )
+
+
+def run_murnau_stiftung_pipeline():
+    _run_corpus_pipeline(
+        source_label="Friedrich-Wilhelm-Murnau-Stiftung / Filmsuche",
+        source_url=MURNAU_STIFTUNG_FILM_SEARCH_URL,
+        collect_dataset=collect_murnau_stiftung_dataset,
+        institution_fields=MURNAU_STIFTUNG_INSTITUTION_FIELDS,
+        summary_fields=MURNAU_STIFTUNG_SUMMARY_FIELDS,
+        video_link_fields=MURNAU_STIFTUNG_VIDEO_LINK_FIELDS,
+        internal_page_fields=MURNAU_STIFTUNG_INTERNAL_PAGE_FIELDS,
+        output_files=MURNAU_STIFTUNG_OUTPUT_FILES,
+        analysis_output_writer=write_murnau_stiftung_analysis_outputs,
+        analysis_extra_sheets_builder=build_murnau_stiftung_analysis_extra_sheets,
+        snapshot_builder=build_murnau_stiftung_snapshot_metadata,
+        report_title="RELATORIO - FRIEDRICH-WILHELM-MURNAU-STIFTUNG",
+        institutions_sheet_title="Friedrich-Wilhelm-Murnau-Stiftung",
+        generated_by="scripts/run_murnau_stiftung_pipeline.py",
     )
 
 
