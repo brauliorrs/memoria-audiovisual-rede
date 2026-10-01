@@ -27,6 +27,21 @@ def main() -> int:
     print("Gosfilmofond public catalogue probe")
     print(f"- gate: {payload['gate_assessment']}")
     print(f"- robots mode: {payload['robots'].get('mode')}")
+    print(
+        "- robots status: "
+        f"{payload['robots'].get('status_code')} "
+        f"error={payload['robots'].get('error')}"
+    )
+    for target in payload["robots"].get("targets", []):
+        print(
+            "- robots target: "
+            f"allowed={target.get('allowed')} "
+            f"reason={target.get('reason')} "
+            f"url={target.get('url')}"
+        )
+    excerpt = payload["robots"].get("robots_excerpt", "")
+    if excerpt:
+        print(f"- robots excerpt: {excerpt}")
     catalog = payload.get("catalog") or {}
     print(f"- catalog status: {catalog.get('status_code')}")
     print(f"- film links in initial HTML: {catalog.get('film_links_count', 0)}")
