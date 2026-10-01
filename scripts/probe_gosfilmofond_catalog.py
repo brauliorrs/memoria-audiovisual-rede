@@ -49,6 +49,22 @@ def main() -> int:
         "- enumeration mechanisms: "
         + ", ".join(payload.get("enumeration_mechanisms", []))
     )
+    ajax = payload.get("ajax_probe") or {}
+    if ajax:
+        print(
+            "- AJAX probe: "
+            f"reproducible={ajax.get('reproducible_pagination_candidate')} "
+            f"unique={ajax.get('unique_records_observed')} "
+            f"pages={ajax.get('pages_requested')}"
+        )
+        for page in ajax.get("pages", []):
+            print(
+                "- AJAX page: "
+                f"page={page.get('page')} status={page.get('status_code')} "
+                f"records={page.get('film_links_count')} "
+                f"keys={page.get('record_keys', [])[:10]} "
+                f"totals={page.get('total_candidates', [])}"
+            )
     for item in payload.get("sitemaps", []):
         parsed = item.get("parsed") or {}
         print(
