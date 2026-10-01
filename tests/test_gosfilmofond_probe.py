@@ -36,6 +36,7 @@ var config = {action: 'load_more_films', paged: 1};
 <a href="/films/240363/">ФОНТАН</a>
 <a href="/films/240658/">ГОСПОДИН ОФОРМИТЕЛЬ</a>
 <a class="next page-numbers" href="/films/page/2/">Далее</a>
+<div class="page-count"><select><option value="10">10</option><option value="50">50</option></select></div>
 <div data-action="filter-films" data-page="2"></div>
 </body>
 </html>
@@ -129,6 +130,7 @@ class GosfilmofondProbeTests(unittest.TestCase):
         self.assertTrue({"search", "year", "genre"}.issubset(names))
         self.assertTrue(parsed["inline_discovery"])
         self.assertTrue(parsed["data_hints"])
+        self.assertEqual(parsed["page_count_options"], [10, 50])
 
     def test_sitemap_parser_separates_film_urls_and_nested_sitemaps(self):
         parsed = parse_sitemap_xml(SITEMAP_XML)
@@ -243,6 +245,11 @@ class GosfilmofondProbeTests(unittest.TestCase):
         self.assertIn(
             "wordpress_rest_candidate_routes",
             payload["enumeration_mechanisms"],
+        )
+        self.assertEqual(payload["ajax_probe"]["page_count"], 50)
+        self.assertEqual(
+            payload["ajax_probe"]["declared_page_count_options"],
+            [10, 50],
         )
         self.assertTrue(
             payload["ajax_probe"]["reproducible_pagination_candidate"]
