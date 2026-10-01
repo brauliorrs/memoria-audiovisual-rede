@@ -2,7 +2,10 @@ import json
 import unittest
 
 from memoria_audiovisual.corpora import CORPORA
-from memoria_audiovisual.europe_research import build_europe_research_queue, build_europe_research_registry
+from memoria_audiovisual.europe_research import (
+    build_europe_research_queue,
+    build_europe_research_registry,
+)
 from memoria_audiovisual.inclusion_queue import select_inclusion_candidates
 from memoria_audiovisual.gosfilmofond import (
     GOSFILMOFOND_AJAX_URL,
@@ -193,7 +196,10 @@ class GosfilmofondCollectionTests(unittest.TestCase):
         self.assertEqual(gos["organism_status"], "corpus_ativo")
 
         queue = build_europe_research_queue(registry)
-        candidates = select_inclusion_candidates(queue.to_dict(orient="records"), limit=1)
+        candidates = select_inclusion_candidates(
+            queue.to_dict(orient="records"),
+            limit=1,
+        )
         self.assertEqual(candidates[0].unit_code, "fiaf-croatian-cinematheque")
         self.assertEqual(candidates[0].rank, 6)
 
