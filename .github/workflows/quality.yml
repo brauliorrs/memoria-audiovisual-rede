@@ -205,21 +205,8 @@ jobs:
             tests/test_gosfilmofond_collection.py
           python -m unittest discover -s tests -p 'test_gosfilmofond_collection.py' -v
 
-      - name: Materialize Gosfilmofond staged baseline
-        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/gosfilmofond-v1'
-        run: python scripts/run_gosfilmofond_pipeline.py
-
-      - name: Check Gosfilmofond staged baseline
-        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/gosfilmofond-v1'
+      - name: Validate Gosfilmofond canonical baseline
         run: python scripts/check_gosfilmofond_outputs.py
-
-      - name: Upload Gosfilmofond staged baseline artifact
-        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/gosfilmofond-v1' && hashFiles('data/output/gosfilmofond_*') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: gosfilmofond-staged-baseline
-          path: data/output/gosfilmofond_*
-          if-no-files-found: error
 
       - name: Validate production analysis admission and corpus inclusion queue
         run: |
