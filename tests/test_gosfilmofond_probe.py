@@ -9,6 +9,7 @@ from memoria_audiovisual.gosfilmofond_probe import (
     GOSFILMOFOND_SITEMAP_CANDIDATES,
     parse_catalog_html,
     parse_sitemap_xml,
+    robots_allowed_rfc9309,
     run_gosfilmofond_probe,
     summarize_rest_root,
 )
@@ -66,6 +67,16 @@ REST_JSON = json.dumps(
 
 ROBOTS = """User-agent: *
 Allow: /
+"""
+
+QUERY_ROBOTS = """User-agent: *
+Disallow: /wp-
+Disallow: /?
+Disallow: /*?
+Disallow: /&
+Disallow: /*&
+Disallow: /page/
+Allow: /wp-admin/admin-ajax.php
 """
 
 
@@ -172,7 +183,7 @@ class GosfilmofondProbeTests(unittest.TestCase):
         self.assertFalse(payload["automatic_incorporation_authorized"])
         self.assertFalse(payload["brute_force_id_scan_performed"])
         self.assertFalse(payload["experimental_model_used"])
-        self.assertEqual(payload["robots"]["mode"], "evaluated")
+        self.assertEqual(payload["robots"]["mode"], "evaluated_rfc9309")
         self.assertIn(
             "sitemap_film_urls",
             payload["enumeration_mechanisms"],
@@ -184,6 +195,50 @@ class GosfilmofondProbeTests(unittest.TestCase):
         self.assertEqual(
             payload["gate_assessment"],
             "candidate_enumeration_mechanism_detected_requires_collector_validation",
+        )
+
+    def test_rfc9309_matcher_does_not_collapse_query_rules_to_root(self):
+        self.assertTrue(
+            robots_allowed_rfc9309(
+                QUERY_ROBOTS,
+                "MAR-Test-Agent",
+                "https://gosfilmofond.ru/",
+            )
+        )
+        self.assertTrue(
+            robots_allowed_rfc9309(
+                QUERY_ROBOTS,
+                "MAR-Test-Agent",
+                "https://gosfilmofond.ru/films/",
+            )
+        )
+        self.assertFalse(
+            robots_allowed_rfc9309(
+                QUERY_ROBOTS,
+                "MAR-Test-Agent",
+                "https://gosfilmofond.ru/films/?year=1988",
+            )
+        )
+        self.assertFalse(
+            robots_allowed_rfc9309(
+                QUERY_ROBOTS,
+                "MAR-Test-Agent",
+                "https://gosfilmofond.ru/wp-json/",
+            )
+        )
+        self.assertTrue(
+            robots_allowed_rfc9309(
+                QUERY_ROBOTS,
+                "MAR-Test-Agent",
+                "https://gosfilmofond.ru/wp-admin/admin-ajax.php",
+            )
+        )
+        self.assertFalse(
+            robots_allowed_rfc9309(
+                QUERY_ROBOTS,
+                "MAR-Test-Agent",
+                "https://gosfilmofond.ru/page/2/",
+            )
         )
 
     def test_unverifiable_robots_holds_without_catalog_fetch(self):
