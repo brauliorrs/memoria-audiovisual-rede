@@ -7,6 +7,7 @@ audiovisual media.
 """
 from __future__ import annotations
 
+import json
 import re
 import time
 from urllib.parse import urljoin, urlparse
@@ -86,9 +87,32 @@ def _smallest_card_context(anchor):
     return best
 
 
+def _ajax_html_fragments(text):
+    """Return actual HTML fragments from plain HTML or JSON-wrapped AJAX."""
+    raw = text or ""
+    try:
+        payload = json.loads(raw)
+    except (TypeError, json.JSONDecodeError):
+        return [raw]
+
+    fragments = []
+    stack = [payload]
+    while stack:
+        value = stack.pop()
+        if isinstance(value, str):
+            if "<" in value or "/films/" in value:
+                fragments.append(value)
+        elif isinstance(value, dict):
+            stack.extend(value.values())
+        elif isinstance(value, list):
+            stack.extend(value)
+    return fragments
+
+
 def parse_gosfilmofond_ajax_page(html_text, endpoint_url=GOSFILMOFOND_AJAX_URL):
     """Parse one public AJAX result page into stable film-card records."""
-    soup = BeautifulSoup(html_text or "", "html.parser")
+    fragments = _ajax_html_fragments(html_text)
+    soup = BeautifulSoup("\n".join(fragments), "html.parser")
     records = []
     seen = set()
     for anchor in soup.find_all("a", href=True):
