@@ -15,7 +15,6 @@ import time
 from dataclasses import dataclass
 from typing import Any
 from urllib.parse import urljoin, urlparse
-from urllib.robotparser import RobotFileParser
 
 import requests
 from bs4 import BeautifulSoup
@@ -113,6 +112,93 @@ def fetch_public_url(
     )
 
 
+
+def _robots_groups(text: str) -> list[dict[str, Any]]:
+    """Parse groups while preserving '?' and '*' in path patterns."""
+    groups: list[dict[str, Any]] = []
+    agents: list[str] = []
+    rules: list[tuple[bool, str]] = []
+    saw_rule = False
+
+    def flush() -> None:
+        nonlocal agents, rules, saw_rule
+        if agents:
+            groups.append({"agents": tuple(agents), "rules": tuple(rules)})
+        agents = []
+        rules = []
+        saw_rule = False
+
+    for raw_line in (text or "").splitlines():
+        line = raw_line.split("#", 1)[0].strip()
+        if not line or ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        key = key.strip().lower()
+        value = value.strip()
+        if key == "user-agent":
+            if saw_rule:
+                flush()
+            agents.append(value.lower())
+            continue
+        if key not in {"allow", "disallow"} or not agents:
+            continue
+        saw_rule = True
+        if value:
+            rules.append((key == "allow", value))
+    flush()
+    return groups
+
+
+def _robots_rule_regex(pattern: str) -> re.Pattern[str]:
+    anchored = pattern.endswith("$")
+    body = pattern[:-1] if anchored else pattern
+    expression = ".*".join(re.escape(part) for part in body.split("*"))
+    return re.compile("^" + expression + ("$" if anchored else ""))
+
+
+def _robots_rule_specificity(pattern: str) -> int:
+    return len(pattern.rstrip("$").replace("*", ""))
+
+
+def robots_allowed_rfc9309(text: str, user_agent: str, url: str) -> bool:
+    """Apply RFC 9309-style longest-match semantics to common REP patterns."""
+    groups = _robots_groups(text)
+    agent = str(user_agent or "*").lower()
+    explicit = [
+        group
+        for group in groups
+        if any(
+            token and token != "*" and token in agent
+            for token in group["agents"]
+        )
+    ]
+    selected = explicit or [
+        group for group in groups if "*" in group["agents"]
+    ]
+    if not selected:
+        return True
+
+    parsed = urlparse(url)
+    target = parsed.path or "/"
+    if parsed.query:
+        target += "?" + parsed.query
+
+    matches: list[tuple[int, bool]] = []
+    for group in selected:
+        for allowance, pattern in group["rules"]:
+            if _robots_rule_regex(pattern).search(target):
+                matches.append(
+                    (_robots_rule_specificity(pattern), allowance)
+                )
+    if not matches:
+        return True
+    longest = max(score for score, _ in matches)
+    finalists = [
+        allowance for score, allowance in matches if score == longest
+    ]
+    return any(finalists)
+
+
 def evaluate_robots(
     session: requests.Session,
     target_urls: list[str] | tuple[str, ...],
@@ -152,17 +238,18 @@ def evaluate_robots(
             )
         return result
 
-    parser = RobotFileParser()
-    parser.set_url(response.final_url or GOSFILMOFOND_ROBOTS_URL)
-    parser.parse(response.text.splitlines())
     user_agent = session.headers.get("User-Agent", "*")
-    result["mode"] = "evaluated"
+    result["mode"] = "evaluated_rfc9309"
     for url in target_urls:
         result["targets"].append(
             {
                 "url": url,
-                "allowed": bool(parser.can_fetch(user_agent, url)),
-                "reason": "robots_evaluated",
+                "allowed": robots_allowed_rfc9309(
+                    response.text,
+                    user_agent,
+                    url,
+                ),
+                "reason": "robots_evaluated_rfc9309",
             }
         )
     return result
@@ -493,6 +580,7 @@ __all__ = [
     "fetch_public_url",
     "parse_catalog_html",
     "parse_sitemap_xml",
+    "robots_allowed_rfc9309",
     "run_gosfilmofond_probe",
     "summarize_rest_root",
 ]
