@@ -1,51 +1,90 @@
-# Gosfilmofond — engenharia staged do catálogo público
+# Gosfilmofond — decisão de incorporação do catálogo público
 
-**Estado:** coletor staged em validação operacional; não constitui ainda promoção a corpus ativo.
+**Fila europeia:** antigo rank 8; cabeça operacional após a Murnau-Stiftung.  
+**Decisão metodológica:** **incorporar como corpus institucional ativo**, limitado à superfície pública de metadados enumerada por `/films/` + `admin-ajax.php`.
 
-## Evidência técnica
+## 1. Fonte e gate
 
-O probe público validou no executor do GitHub:
+O catálogo público do Gosfilmofond expõe filtros por metadados e fichas permanentes `/films/<key>/`. A própria superfície usa o endpoint WordPress `/wp-admin/admin-ajax.php` para paginação.
 
-- `robots.txt` acessível e avaliado segundo semântica RFC 9309;
-- `/films/` permitido;
-- `/wp-admin/admin-ajax.php` explicitamente permitido;
-- `/wp-json/` e certas rotas de paginação/query bloqueadas, portanto não utilizadas;
-- interface pública com tamanhos de página 10, 20, 50 e 100;
-- `page_count=100` validado;
-- duas páginas AJAX consecutivas com 100 registros cada, IDs distintos;
-- 598 páginas declaradas pela interface observada.
+O executor MAR relê `robots.txt` em modo fail-closed. Na rodada de admissão:
+- `/films/` estava permitido;
+- `/wp-admin/admin-ajax.php` estava explicitamente permitido;
+- o maior tamanho de página declarado pela interface era 100;
+- a primeira resposta declarava 598 páginas.
 
-O catálogo público e fichas individuais expõem metadados cinematográficos, mas a existência de uma ficha não implica streaming público.
+O corpus não escaneia IDs e não baixa mídia.
 
-## Estratégia staged
+## 2. Prova operacional
 
-O coletor usa somente o mecanismo público `action=filter_films` em `admin-ajax.php`.
+A enumeração staged real foi executada no GitHub Actions no PR #38.
 
-Ele:
+Rodada que comprovou o gate de corpus:
+- workflow: Quality Checks #1808;
+- run id: `36904019386`;
+- HEAD da rodada: `70e63e5d1e7ce162276aed9f2ad188c050014a18`;
+- artifact: `gosfilmofond-staged-baseline`;
+- artifact id: `11185896280`;
+- artifact ZIP SHA-256: `fd2f0d421fcec2800629e923f66b9003107b7b7e1ca0fa42c7acf4120ce96bbc`.
 
-1. relê `robots.txt` antes da enumeração;
-2. abre `/films/` para obter os tamanhos de página declarados;
-3. seleciona o maior tamanho público permitido, atualmente 100;
-4. estabelece o total de páginas a partir da primeira resposta;
-5. percorre sequencialmente as páginas declaradas;
-6. deduplica por chave pública `/films/<key>/`;
-7. falha em drift do total de páginas, página intermediária curta, duplicações entre páginas ou erro de requisição;
-8. não escaneia IDs;
-9. não baixa mídia;
-10. não usa M3/M4.
+O workflow completo foi cancelado após novos commits no PR, mas **as etapas de materialização, validação do baseline e upload do artefato já haviam concluído com sucesso** antes do cancelamento. A promoção continua condicionada ao Quality Checks do HEAD final do PR.
 
-## Critério de promoção
-
-A rodada real precisa satisfazer simultaneamente:
-
+Resultado da rodada:
+- **59.733 registros públicos únicos**;
+- **598 páginas AJAX enumeradas**;
 - `integrity_status=integro`;
-- ao menos 50.000 permalinks públicos únicos;
-- ao menos 500 páginas AJAX observadas;
-- URLs restritas ao contrato `https://gosfilmofond.ru/films/<key>/`;
-- nenhuma página obrigatória com erro;
-- snapshot e catálogo com a mesma contagem;
-- pipeline/checks e CI completos verdes.
+- todos os arquivos esperados encontrados;
+- 24 arquivos de saída preservados no artefato;
+- nenhum download de mídia.
 
-Esses limites não definem tamanho físico do acervo. Servem apenas para impedir que uma coleta truncada seja promovida como representação do catálogo web que, no probe, declarou aproximadamente 598 páginas de 100 registros.
+## 3. Regra de completude operacional
 
-Se o critério falhar, o Gosfilmofond permanece protocolado para reavaliação e a fila avança.
+Um snapshot Gosfilmofond só é elegível quando:
+
+1. `robots.txt` é verificável e permite catálogo + endpoint AJAX;
+2. o tamanho de página é obtido da própria interface pública;
+3. a paginação total é estabelecida pela resposta pública;
+4. todas as páginas obrigatórias são percorridas;
+5. páginas intermediárias têm a cardinalidade esperada;
+6. não existem duplicações entre páginas;
+7. os permalinks ficam restritos a `https://gosfilmofond.ru/films/<key>/`;
+8. snapshot e catálogo concordam na contagem;
+9. os checks terminam sem erro.
+
+Os limites mínimos de 50.000 registros e 500 páginas são guardrails contra truncamento grosseiro do mecanismo observado, não estimativas do acervo físico.
+
+## 4. Distinção entre catálogo web e acervo físico
+
+O MAR não usa números institucionais de rolos, materiais ou itens custodiais como denominador deste corpus.
+
+O universo materializado na rodada de admissão é:
+
+> **59.733 fichas públicas enumeradas em 598 páginas AJAX da superfície observada.**
+
+Portanto:
+- não se afirma cobertura integral do acervo físico;
+- não se afirma que as fichas correspondam a streaming público;
+- não se infere licença de reprodução a partir da ficha;
+- a completude é definida somente em relação à paginação pública materializada.
+
+## 5. Robustez adicionada após o baseline
+
+O review do PR identificou dois pontos P2 e ambos foram corrigidos antes da promoção:
+- respostas AJAX em envelope JSON agora são decodificadas antes do parsing de cards;
+- artefatos staged passam a ser preservados com `always()` mesmo quando o check de baseline falha.
+
+Há teste regressivo específico para o envelope JSON.
+
+## 6. Relação com instrumentos experimentais
+
+M3, M4 e demais instrumentos experimentais **não participam** da decisão de incorporação.
+
+A admissão decorre exclusivamente de relevância institucional audiovisual, enumeração pública reprodutível, política de acesso técnico verificável, completude operacional delimitada e CI.
+
+## 7. Estado na fila
+
+Após a promoção:
+- `fiaf-gosfilmofond` deixa a fila e passa a `corpus_ativo`;
+- **Croatian State Archive - Croatian Cinematheque** (`fiaf-croatian-cinematheque`) torna-se a próxima unidade operacional, com rank compactado para 6.
+
+A unidade seguinte continua sujeita ao seu próprio gate; nenhuma decisão é herdada do Gosfilmofond.
