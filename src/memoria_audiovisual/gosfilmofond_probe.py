@@ -31,6 +31,7 @@ GOSFILMOFOND_SITEMAP_CANDIDATES = (
     "https://gosfilmofond.ru/sitemap.xml",
 )
 GOSFILMOFOND_REST_ROOT = "https://gosfilmofond.ru/wp-json/"
+GOSFILMOFOND_AJAX_URL = "https://gosfilmofond.ru/wp-admin/admin-ajax.php"
 GOSFILMOFOND_PROBE_VERSION = "2026-10-gosfilmofond-probe-v1"
 
 _FILM_PATH_RE = re.compile(r"^/films/(?:[A-Za-z0-9._~%+-]+/)?$")
@@ -197,6 +198,194 @@ def robots_allowed_rfc9309(text: str, user_agent: str, url: str) -> bool:
         allowance for score, allowance in matches if score == longest
     ]
     return any(finalists)
+
+
+
+def post_public_form(
+    session: requests.Session,
+    url: str,
+    data: dict[str, str],
+    *,
+    attempts: int = 3,
+) -> ProbeResponse:
+    response = None
+    try:
+        for attempt in range(attempts):
+            response = session.post(
+                url,
+                data=data,
+                timeout=(8, REQUEST_TIMEOUT),
+                allow_redirects=True,
+            )
+            if response.status_code not in {429, 503}:
+                break
+            time.sleep(1.0 * (attempt + 1))
+    except requests.RequestException as exc:
+        return ProbeResponse(
+            requested_url=url,
+            final_url=getattr(response, "url", None),
+            status_code=getattr(response, "status_code", None),
+            content_type=(
+                response.headers.get("content-type", "")
+                if response is not None
+                else ""
+            ),
+            text="",
+            error=f"{type(exc).__name__}: {exc}",
+        )
+    return ProbeResponse(
+        requested_url=url,
+        final_url=response.url,
+        status_code=response.status_code,
+        content_type=response.headers.get("content-type", ""),
+        text=response.text,
+        error=None,
+    )
+
+
+def _walk_json_strings(value: Any):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for child in value.values():
+            yield from _walk_json_strings(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from _walk_json_strings(child)
+
+
+def parse_ajax_response(text: str, endpoint_url: str) -> dict[str, Any]:
+    """Extract public film permalinks from HTML or JSON-wrapped HTML."""
+    candidates = [text or ""]
+    json_ok = False
+    try:
+        payload = json.loads(text)
+    except (TypeError, json.JSONDecodeError):
+        payload = None
+    else:
+        json_ok = True
+        candidates.extend(_walk_json_strings(payload))
+
+    film_links: list[dict[str, str]] = []
+    seen: set[str] = set()
+    text_fragments = []
+    for fragment in candidates:
+        if "<" not in fragment and "/films/" not in fragment:
+            continue
+        text_fragments.append(fragment)
+        parsed = parse_catalog_html(fragment, endpoint_url)
+        for row in parsed["film_links"]:
+            if row["url"] not in seen:
+                seen.add(row["url"])
+                film_links.append(row)
+
+    combined = "\n".join(text_fragments)
+    total_candidates = []
+    for pattern in (
+        r"(?:total|found|results?|найдено|всего)[^0-9]{0,40}([\d\s\u00a0]+)",
+        r"([\d\s\u00a0]+)\s+(?:films?|фильм(?:ов|а)?)",
+    ):
+        for match in re.finditer(pattern, combined, re.I):
+            raw = re.sub(r"\D", "", match.group(1))
+            if raw:
+                total_candidates.append(int(raw))
+
+    pagination = []
+    soup = BeautifulSoup(combined or "", "html.parser")
+    for node in soup.find_all(["a", "button"]):
+        marker = " ".join(
+            [
+                " ".join(node.get("class", [])),
+                str(node.get("data-page", "")),
+                node.get_text(" ", strip=True),
+            ]
+        )
+        if re.search(r"page|paged|pagination|след|далее|next", marker, re.I):
+            pagination.append(_clean_text(marker, limit=300))
+
+    return {
+        "json": json_ok,
+        "film_links": film_links,
+        "film_links_count": len(film_links),
+        "total_candidates": sorted(set(total_candidates))[-10:],
+        "pagination_hints": pagination[:50],
+        "response_length": len(text or ""),
+    }
+
+
+def probe_ajax_pagination(
+    session: requests.Session,
+    *,
+    page_count: int = 10,
+    pages: tuple[int, ...] = (1, 2),
+) -> dict[str, Any]:
+    rows = []
+    union: set[str] = set()
+    for page in pages:
+        payload = {
+            "action": "filter_films",
+            "paged": str(page),
+            "order": "",
+            "search": "",
+            "page_count": str(page_count),
+        }
+        response = post_public_form(
+            session,
+            GOSFILMOFOND_AJAX_URL,
+            payload,
+        )
+        parsed = (
+            parse_ajax_response(response.text, response.final_url or GOSFILMOFOND_AJAX_URL)
+            if response.status_code == 200 and not response.error
+            else {
+                "json": False,
+                "film_links": [],
+                "film_links_count": 0,
+                "total_candidates": [],
+                "pagination_hints": [],
+                "response_length": len(response.text or ""),
+            }
+        )
+        ids = [row["record_key"] for row in parsed["film_links"]]
+        union.update(ids)
+        rows.append(
+            {
+                "page": page,
+                "request": payload,
+                "status_code": response.status_code,
+                "error": response.error,
+                "content_type": response.content_type,
+                "film_links_count": parsed["film_links_count"],
+                "record_keys": ids[:30],
+                "film_url_samples": [
+                    row["url"] for row in parsed["film_links"][:10]
+                ],
+                "total_candidates": parsed["total_candidates"],
+                "pagination_hints": parsed["pagination_hints"][:20],
+                "response_length": parsed["response_length"],
+                "json": parsed["json"],
+            }
+        )
+    page_sets = [set(row["record_keys"]) for row in rows]
+    disjoint_pages = (
+        len(page_sets) >= 2
+        and bool(page_sets[0])
+        and bool(page_sets[1])
+        and page_sets[0].isdisjoint(page_sets[1])
+    )
+    return {
+        "endpoint": GOSFILMOFOND_AJAX_URL,
+        "page_count": page_count,
+        "pages_requested": list(pages),
+        "pages": rows,
+        "unique_records_observed": len(union),
+        "distinct_nonempty_pages": disjoint_pages,
+        "reproducible_pagination_candidate": (
+            all(row["status_code"] == 200 and not row["error"] for row in rows)
+            and all(row["film_links_count"] > 0 for row in rows)
+            and disjoint_pages
+        ),
+    }
 
 
 def evaluate_robots(
@@ -449,6 +638,7 @@ def run_gosfilmofond_probe(
     target_urls = [
         GOSFILMOFOND_HOME_URL,
         GOSFILMOFOND_CATALOG_URL,
+        GOSFILMOFOND_AJAX_URL,
         GOSFILMOFOND_REST_ROOT,
         *GOSFILMOFOND_SITEMAP_CANDIDATES,
     ]
@@ -465,6 +655,7 @@ def run_gosfilmofond_probe(
         "robots": robots,
         "home": None,
         "catalog": None,
+        "ajax_probe": None,
         "sitemaps": [],
         "rest": None,
         "enumeration_mechanisms": [],
@@ -504,6 +695,9 @@ def run_gosfilmofond_probe(
                 )
             )
         result["catalog"] = catalog
+
+    if allowed.get(GOSFILMOFOND_AJAX_URL, False):
+        result["ajax_probe"] = probe_ajax_pagination(session)
 
     for sitemap_url in GOSFILMOFOND_SITEMAP_CANDIDATES:
         item = {
@@ -552,6 +746,12 @@ def run_gosfilmofond_probe(
         result["sitemaps"],
         result.get("rest"),
     )
+    if (result.get("ajax_probe") or {}).get(
+        "reproducible_pagination_candidate"
+    ):
+        result["enumeration_mechanisms"].append(
+            "allowed_ajax_reproducible_pagination"
+        )
 
     catalog_ok = catalog.get("status_code") == 200 and not catalog.get("error")
     robots_catalog = allowed.get(GOSFILMOFOND_CATALOG_URL, False)
@@ -560,6 +760,10 @@ def run_gosfilmofond_probe(
         result["gate_assessment"] = "hold_robots_not_allowed_or_unverifiable"
     elif not catalog_ok:
         result["gate_assessment"] = "hold_catalog_unreachable"
+    elif (result.get("ajax_probe") or {}).get(
+        "reproducible_pagination_candidate"
+    ):
+        result["gate_assessment"] = "ajax_pagination_validated_for_bounded_collector_engineering"
     elif mechanisms:
         result["gate_assessment"] = "candidate_enumeration_mechanism_detected_requires_collector_validation"
     else:
@@ -570,6 +774,7 @@ def run_gosfilmofond_probe(
 
 __all__ = [
     "GOSFILMOFOND_CATALOG_URL",
+    "GOSFILMOFOND_AJAX_URL",
     "GOSFILMOFOND_HOME_URL",
     "GOSFILMOFOND_PROBE_VERSION",
     "GOSFILMOFOND_REST_ROOT",
@@ -579,6 +784,8 @@ __all__ = [
     "evaluate_robots",
     "fetch_public_url",
     "parse_catalog_html",
+    "parse_ajax_response",
+    "probe_ajax_pagination",
     "parse_sitemap_xml",
     "robots_allowed_rfc9309",
     "run_gosfilmofond_probe",
