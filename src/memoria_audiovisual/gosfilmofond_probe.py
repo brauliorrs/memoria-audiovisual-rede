@@ -305,19 +305,17 @@ def parse_ajax_response(text: str, endpoint_url: str) -> dict[str, Any]:
 
     page_numbers = []
     for node in soup.find_all(["a", "button", "span"]):
-        marker = " ".join(
-            [
-                " ".join(node.get("class", [])),
-                str(node.get("data-page", "")),
-                node.get_text(" ", strip=True),
-            ]
-        )
+        classes = " ".join(node.get("class", []))
+        data_page = str(node.get("data-page", "")).strip()
+        node_text = node.get_text(" ", strip=True)
+        marker = " ".join([classes, data_page, node_text])
         if not re.search(r"page|paged|pagination|page-numbers", marker, re.I):
             continue
-        for raw in re.findall(r"\d[\d\s\u00a0]*", marker):
-            digits = re.sub(r"\D", "", raw)
-            if digits:
-                page_numbers.append(int(digits))
+        if re.fullmatch(r"\d+", data_page):
+            page_numbers.append(int(data_page))
+        compact_text = re.sub(r"[\s\u00a0]+", "", node_text)
+        if re.fullmatch(r"\d+", compact_text):
+            page_numbers.append(int(compact_text))
     page_numbers = sorted(set(page_numbers))
 
     return {
