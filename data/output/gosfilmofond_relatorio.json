@@ -1,0 +1,53 @@
+{
+  "source": "https://gosfilmofond.ru/films/",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Gosfilmofond Film Catalogue": 59733
+  },
+  "top_domains": [
+    [
+      "gosfilmofond.ru",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Gosfilmofond of Russia",
+      "slug": "gosfilmofond-of-russia",
+      "country": "Russia",
+      "continent": "Europe",
+      "repository_code": "RU-GOSFILMOFOND",
+      "archive_type": "National film archive",
+      "gosfilmofond_detail_url": "https://gosfilmofond.ru/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://gosfilmofond.ru/",
+      "partner_domain": "gosfilmofond.ru",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://gosfilmofond.ru/films/",
+      "video_links_found_total": 59733,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 600,
+      "priority_review": false,
+      "warning": "Enumeração do catálogo público via formulário oficial /films/ e endpoint /wp-admin/admin-ajax.php explicitamente permitido em robots.txt. A interface pública declarou page_count=100; a rodada observou 598 páginas e materializou 59733 permalinks únicos. O corpus representa a superfície pública materializada nesta rodada, não o acervo físico total e não disponibilidade de streaming.",
+      "error": ""
+    }
+  ]
+}
