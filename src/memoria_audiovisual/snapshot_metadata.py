@@ -36,6 +36,7 @@ from .config import (
     MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
+    GOSFILMOFOND_CATALOG_URL,
     MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
@@ -100,6 +101,7 @@ from .output_files import (
     HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     MURNAU_STIFTUNG_OUTPUT_FILES,
+    GOSFILMOFOND_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
     FILMOTECA_ESPANOLA_OUTPUT_FILES,
@@ -978,6 +980,26 @@ def build_murnau_stiftung_snapshot_metadata(
         dataset="murnau_stiftung",
         source_url=MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE.format(letter="A"),
         output_files=MURNAU_STIFTUNG_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_gosfilmofond_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="gosfilmofond",
+        source_url=GOSFILMOFOND_CATALOG_URL,
+        output_files=GOSFILMOFOND_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
