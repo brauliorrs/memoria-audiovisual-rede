@@ -195,6 +195,32 @@ jobs:
             tests/test_forum_des_images_collection.py
           python -m unittest discover -s tests -p 'test_forum_des_images_collection.py' -v
 
+      - name: Validate Gosfilmofond staged collector
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/gosfilmofond.py \
+            src/memoria_audiovisual/gosfilmofond_exports.py \
+            scripts/run_gosfilmofond_pipeline.py \
+            scripts/check_gosfilmofond_outputs.py \
+            tests/test_gosfilmofond_collection.py
+          python -m unittest discover -s tests -p 'test_gosfilmofond_collection.py' -v
+
+      - name: Materialize Gosfilmofond staged baseline
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/gosfilmofond-v1'
+        run: python scripts/run_gosfilmofond_pipeline.py
+
+      - name: Check Gosfilmofond staged baseline
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/gosfilmofond-v1'
+        run: python scripts/check_gosfilmofond_outputs.py
+
+      - name: Upload Gosfilmofond staged baseline artifact
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/gosfilmofond-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: gosfilmofond-staged-baseline
+          path: data/output/gosfilmofond_*
+          if-no-files-found: error
+
       - name: Validate production analysis admission and corpus inclusion queue
         run: |
           ruff check --select E9,F63,F7,F82 \
