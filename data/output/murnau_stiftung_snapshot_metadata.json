@@ -1,0 +1,168 @@
+{
+  "dataset": "murnau_stiftung",
+  "generated_at": "2026-09-30T23:22:09Z",
+  "generated_by": "scripts/run_murnau_stiftung_pipeline.py",
+  "observation_key": "murnau_stiftung:2026-09-30T23:22:08Z",
+  "source_url": "https://www.murnau-stiftung.de/list/movies/letter/A",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-09-30T23:22:08Z",
+  "analytic_outputs_last_modified_at": "2026-09-30T23:22:06Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 3889,
+    "videos_in_curatorial_catalog": 3889,
+    "visibility_categories": 1,
+    "theme_categories": 3,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "murnau_stiftung_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 412,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "summary": {
+      "filename": "murnau_stiftung_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1439,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "video_links": {
+      "filename": "murnau_stiftung_links_video.csv",
+      "exists": true,
+      "size_bytes": 2498307,
+      "last_modified_at": "2026-09-30T23:22:07Z"
+    },
+    "internal_pages": {
+      "filename": "murnau_stiftung_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 20017,
+      "last_modified_at": "2026-09-30T23:22:07Z"
+    },
+    "analytic_summary": {
+      "filename": "murnau_stiftung_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1794,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "murnau_stiftung_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 2825806,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "availability_summary": {
+      "filename": "murnau_stiftung_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "availability_reasons": {
+      "filename": "murnau_stiftung_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "visibility_summary": {
+      "filename": "murnau_stiftung_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "access_surface_summary": {
+      "filename": "murnau_stiftung_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 52,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "access_regime_summary": {
+      "filename": "murnau_stiftung_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "theme_summary": {
+      "filename": "murnau_stiftung_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 117,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "theme_country": {
+      "filename": "murnau_stiftung_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 146,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "archive_type_summary": {
+      "filename": "murnau_stiftung_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 98,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "theme_platform": {
+      "filename": "murnau_stiftung_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 206,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "theme_archive_type": {
+      "filename": "murnau_stiftung_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 343,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "visibility_archive_type": {
+      "filename": "murnau_stiftung_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 158,
+      "last_modified_at": "2026-09-30T23:22:06Z"
+    },
+    "timeline_corpus": {
+      "filename": "murnau_stiftung_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 730,
+      "last_modified_at": "2026-09-30T23:22:09Z"
+    },
+    "timeline_institutions": {
+      "filename": "murnau_stiftung_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1393,
+      "last_modified_at": "2026-09-30T23:22:09Z"
+    },
+    "extinction_signals": {
+      "filename": "murnau_stiftung_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 291,
+      "last_modified_at": "2026-09-30T23:22:09Z"
+    },
+    "snapshot_metadata": {
+      "filename": "murnau_stiftung_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5343,
+      "last_modified_at": "2026-09-30T23:22:09Z"
+    },
+    "report_json": {
+      "filename": "murnau_stiftung_relatorio.json",
+      "exists": true,
+      "size_bytes": 2200,
+      "last_modified_at": "2026-09-30T23:22:07Z"
+    },
+    "report_txt": {
+      "filename": "murnau_stiftung_relatorio.txt",
+      "exists": true,
+      "size_bytes": 923,
+      "last_modified_at": "2026-09-30T23:22:07Z"
+    },
+    "report_xlsx": {
+      "filename": "murnau_stiftung_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 685746,
+      "last_modified_at": "2026-09-30T23:22:08Z"
+    }
+  }
+}

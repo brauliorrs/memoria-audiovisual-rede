@@ -374,6 +374,7 @@ def _active_european_code_aliases():
         "efg-arxiu-mallorca": "asim",
         "efg-crnogorska-kinoteka": "crnogorska-kinoteka",
         "efg-deutsches-historisches-museum": "dhm",
+        "efg-friedrich-wilhelm-murnau-stiftung": "murnau-stiftung",
         "fiaf-ecpad": "ecpad",
         "fiaf-deutsche-kinemathek": "deutsche-kinemathek",
         "fiaf-dff": "dff",

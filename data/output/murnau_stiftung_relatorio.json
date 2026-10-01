@@ -1,0 +1,53 @@
+{
+  "source": "https://www.murnau-stiftung.de/list/movies/letter/A",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Murnau-Stiftung Filmsuche": 3889
+  },
+  "top_domains": [
+    [
+      "murnau-stiftung.de",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Friedrich-Wilhelm-Murnau-Stiftung",
+      "slug": "friedrich-wilhelm-murnau-stiftung",
+      "country": "Germany",
+      "continent": "Europe",
+      "repository_code": "DE-FW-MURNAU-STIFTUNG",
+      "archive_type": "Film archive and rights-holding foundation with public film database",
+      "murnau_stiftung_detail_url": "https://www.murnau-stiftung.de/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.murnau-stiftung.de/",
+      "partner_domain": "murnau-stiftung.de",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.murnau-stiftung.de/list/movies/letter/A",
+      "video_links_found_total": 3889,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 51,
+      "priority_review": false,
+      "warning": "Snapshot alfabético da base pública de filmes da Murnau-Stiftung. A instituição declara mais de 6000 filmes em seu acervo físico; a rodada materializou 3889 IDs únicos no catálogo público por partições A-Z. Contagens por letra: A:207, B:216, C:49, D:153, E:147, F:234, G:253, H:200, I:148, J:74, K:219, L:172, M:276, N:87, O:38, P:131, Q:12, R:125, S:407, T:159, U:79, V:151, W:258, X:2, Y:4, Z:88. Até 24 fichas são enriquecidas deterministicamente sem baixar mídia. Os permalinks representam metadados de catálogo e não implicam streaming público, cobertura integral do acervo físico nem cobertura do acervo fiduciário adicional. O total físico declarado é contexto institucional, não denominador de completude do catálogo público observado.",
+      "error": ""
+    }
+  ]
+}
