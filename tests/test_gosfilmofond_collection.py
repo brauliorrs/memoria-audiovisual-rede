@@ -184,7 +184,7 @@ class GosfilmofondCollectionTests(unittest.TestCase):
         self.assertIn("short_intermediate_page", summary[0]["error"])
         self.assertEqual(internal[-1]["status"], "erro")
 
-    def test_promoted_corpus_is_active_and_queue_advances_to_croatian_cinematheque(self):
+    def test_promoted_corpus_is_active_and_queue_advances_past_croatian_hold(self):
         corpus = CORPORA["gosfilmofond"]
         self.assertTrue(corpus["organism_active"])
         self.assertTrue(corpus["monthly_refresh_enabled"])
@@ -205,7 +205,7 @@ class GosfilmofondCollectionTests(unittest.TestCase):
             queue.to_dict(orient="records"),
             limit=1,
         )
-        self.assertEqual(candidates[0].unit_code, "fiaf-croatian-cinematheque")
+        self.assertEqual(candidates[0].unit_code, "fiaf-ifi-irish-film-archive")
         self.assertEqual(candidates[0].rank, 6)
 
     def test_robots_block_prevents_any_ajax_enumeration(self):
