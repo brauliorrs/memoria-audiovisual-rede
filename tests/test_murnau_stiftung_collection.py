@@ -216,7 +216,7 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
             )
         )
 
-    def test_promoted_corpus_is_active_and_queue_advances_to_gosfilmofond(self):
+    def test_promoted_murnau_remains_active_after_queue_advances_past_gosfilmofond(self):
         corpus = CORPORA["murnau-stiftung"]
         self.assertTrue(corpus["organism_active"])
         self.assertTrue(corpus["monthly_refresh_enabled"])
@@ -239,7 +239,7 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
             queue.to_dict(orient="records"),
             limit=1,
         )
-        self.assertEqual(candidates[0].unit_code, "fiaf-gosfilmofond")
+        self.assertEqual(candidates[0].unit_code, "fiaf-croatian-cinematheque")
         self.assertEqual(candidates[0].rank, 6)
 
     def test_collector_fails_closed_when_robots_is_not_verifiable(self):

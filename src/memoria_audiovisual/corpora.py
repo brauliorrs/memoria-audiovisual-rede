@@ -28,6 +28,7 @@ from .config import (
     MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
+    GOSFILMOFOND_CATALOG_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
     FILMOTECA_ESPANOLA_PLATFO_URL,
@@ -90,6 +91,7 @@ from .output_files import (
     HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     MURNAU_STIFTUNG_OUTPUT_FILES,
+    GOSFILMOFOND_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
     FILMOTECA_ESPANOLA_OUTPUT_FILES,
@@ -150,6 +152,7 @@ from .output_files import (
     list_home_movies_output_filenames,
     list_filmarchiv_austria_output_filenames,
     list_murnau_stiftung_output_filenames,
+    list_gosfilmofond_output_filenames,
     list_filmmuseum_dusseldorf_output_filenames,
     list_filmoteca_catalunya_output_filenames,
     list_filmoteca_espanola_output_filenames,
@@ -2838,6 +2841,71 @@ CORPORA = {
         "run_script_path": "scripts/run_murnau_stiftung_pipeline.py",
         "build_script_path": "scripts/run_murnau_stiftung_pipeline.py",
         "check_script_path": "scripts/check_murnau_stiftung_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "gosfilmofond": {
+        "code": "gosfilmofond",
+        "label": "Gosfilmofond of Russia",
+        "short_label": "Gosfilmofond",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial / arquivo nacional de filmes",
+        "coverage_level": "instituição individual europeia",
+        "scope": "catálogo público de filmes do Gosfilmofond of Russia",
+        "methodological_unit": "fichas públicas identificadas por permalink /films/<key>/",
+        "ape_relationship": (
+            "identificada na fila europeia via FIAF e incorporada como corpus "
+            "institucional autônomo após validação individual"
+        ),
+        "expansion_rationale": (
+            "A superfície pública /films/ expõe filtros e paginação AJAX reprodutível. "
+            "A rodada de admissão materializou 59.733 permalinks únicos em 598 páginas "
+            "com integridade íntegra e robots verificável."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "O corpus MAR representa as 59.733 fichas públicas materializadas na rodada "
+            "de admissão. Números institucionais de acervo físico, rolos ou materiais "
+            "sob custódia não são usados como denominador de completude do catálogo web."
+        ),
+        "zero_result_policy": (
+            "Falha de robots, drift da paginação, página obrigatória vazia/curta, "
+            "duplicações entre páginas ou enumeração abaixo dos limites de admissão "
+            "bloqueiam a atualização do snapshot."
+        ),
+        "collection_completeness": (
+            "snapshot completo das 598 páginas AJAX declaradas pela superfície pública "
+            "e materializadas na rodada de admissão"
+        ),
+        "selection_criterion": (
+            "Usa somente action=filter_films no endpoint público permitido, com "
+            "page_count=100 declarado pela interface; percorre sequencialmente as "
+            "páginas observadas e deduplica por permalink /films/<key>/."
+        ),
+        "selection_limit": (
+            "Sem amostra arbitrária na enumeração: materializa todos os registros "
+            "expostos nas páginas obrigatórias da rodada; não escaneia IDs e não baixa mídia."
+        ),
+        "completeness_note": (
+            "Completo em relação à paginação pública observada e validada na rodada. "
+            "Não afirma cobertura integral do acervo físico, nem disponibilidade pública "
+            "de streaming ou licença de reprodução dos títulos."
+        ),
+        "source_url": GOSFILMOFOND_CATALOG_URL,
+        "output_files": GOSFILMOFOND_OUTPUT_FILES,
+        "list_output_filenames": list_gosfilmofond_output_filenames,
+        "detail_url_field": "gosfilmofond_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "catálogo público de filmes do Gosfilmofond",
+        "content_flag_label": "fichas públicas de metadados cinematográficos",
+        "website_label": "Gosfilmofond Film Catalogue",
+        "run_script": "python scripts/run_gosfilmofond_pipeline.py",
+        "build_script": "python scripts/run_gosfilmofond_pipeline.py",
+        "check_script": "python scripts/check_gosfilmofond_outputs.py",
+        "run_script_path": "scripts/run_gosfilmofond_pipeline.py",
+        "build_script_path": "scripts/run_gosfilmofond_pipeline.py",
+        "check_script_path": "scripts/check_gosfilmofond_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },
