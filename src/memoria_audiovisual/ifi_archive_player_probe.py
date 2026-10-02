@@ -37,7 +37,14 @@ _DISCOVERY_RE = re.compile(
     r"wp-json|rest|api|ajax|load[_-]?more)",
     re.I,
 )
-_SEARCH_RE = re.compile(r"(?:search|query|keyword|filter|s=|browse)", re.I)
+_SEARCH_CONTROL_RE = re.compile(
+    r"(?:^s$|search|query|keyword|filter)",
+    re.I,
+)
+_SEARCH_ACTION_RE = re.compile(
+    r"(?:/search(?:/|$)|[?&](?:s|q|query)=)",
+    re.I,
+)
 _XML_LOC_RE = re.compile(r"<loc>\s*([^<]+?)\s*</loc>", re.I)
 _EXCLUDED_ROOTS = {
     "",
@@ -305,18 +312,24 @@ def parse_surface_html(html_text: str, page_url: str) -> dict[str, Any]:
             "controls": controls[:100],
         }
         forms.append(row)
-        marker = " ".join(
-            [
-                row["action"],
-                " ".join(
-                    " ".join(str(control.get(key, "")) for key in (
-                        "name", "value", "placeholder", "label"
-                    ))
-                    for control in controls
-                ),
-            ]
+        control_marker = " ".join(
+            " ".join(
+                str(control.get(key, ""))
+                for key in ("name", "value", "placeholder", "label")
+            )
+            for control in controls
         )
-        if _SEARCH_RE.search(marker):
+        has_search_control = any(
+            _SEARCH_CONTROL_RE.search(str(control.get("name", "")))
+            or _SEARCH_CONTROL_RE.search(str(control.get("placeholder", "")))
+            or _SEARCH_CONTROL_RE.search(str(control.get("label", "")))
+            or _SEARCH_CONTROL_RE.search(str(control.get("value", "")))
+            for control in controls
+        )
+        if (
+            has_search_control
+            or _SEARCH_ACTION_RE.search(row["action"])
+        ) and control_marker:
             search_forms.append(row)
 
     film_links = []
@@ -642,6 +655,14 @@ def run_ifi_archive_player_probe(
         for item in sitemaps
     ):
         mechanisms.append("sitemap_film_permalink_candidates")
+    if any(
+        any(
+            _POST_SITEMAP_PATH_RE.match(urlparse(url).path)
+            for url in (item.get("parsed") or {}).get("nested_sitemaps", [])
+        )
+        for item in sitemaps
+    ):
+        mechanisms.append("nested_post_sitemap_partitions")
     if rest and rest.get("candidate_routes"):
         mechanisms.append("wordpress_rest_candidate_routes")
 

@@ -77,6 +77,20 @@ class IfiArchivePlayerProbeTests(unittest.TestCase):
             ["https://ifiarchiveplayer.ie/browse/page/2/"],
         )
 
+
+    def test_browse_postback_newsletter_is_not_search_form(self):
+        html = """
+        <html><body>
+          <form action="/browse/" method="post">
+            <input name="email" placeholder="Email" />
+            <button>Subscribe</button>
+          </form>
+          <a href="/film-one/">Film one</a>
+        </body></html>
+        """
+        parsed = parse_surface_html(html, IFI_PLAYER_BROWSE_URL)
+        self.assertEqual(parsed["search_forms"], [])
+
     def test_robots_longest_match_semantics(self):
         robots = """User-agent: *
 Disallow: /browse/
