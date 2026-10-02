@@ -327,6 +327,30 @@ def _allowed_map(result: dict[str, Any]) -> dict[str, bool]:
     }
 
 
+def _search_specific_mechanisms(parsed: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    search_forms = []
+    for form in parsed.get("forms", []):
+        control_text = " ".join(
+            " ".join(
+                str(control.get(key, ""))
+                for key in ("name", "type", "value", "label")
+            )
+            for control in form.get("controls", [])
+        )
+        marker = f"{form.get('action', '')} {control_text}"
+        if re.search(r"(?:trazilica|search|pretra|query|pojam|keyword|filter)", marker, re.I):
+            search_forms.append(form)
+
+    search_routes = []
+    for link in parsed.get("discovery_links", []):
+        marker = f"{link.get('url', '')} {link.get('text', '')}"
+        if re.search(r"(?:trazilica|search|pretra)", marker, re.I):
+            search_routes.append(link)
+
+    return search_forms, search_routes
+
+
+
 def run_croatian_cinematheque_probe(
     *,
     session: requests.Session | None = None,
@@ -398,23 +422,19 @@ def run_croatian_cinematheque_probe(
         {},
     )
     parsed_hais = hais_surface.get("parsed") or {}
-    forms = parsed_hais.get("forms", [])
-    discovery_links = parsed_hais.get("discovery_links", [])
+    search_forms, search_routes = _search_specific_mechanisms(parsed_hais)
     mechanisms = []
-    if forms:
+    if search_forms:
         mechanisms.append("hais_public_search_form")
-    if discovery_links:
-        mechanisms.append("hais_internal_discovery_routes")
+    if search_routes:
+        mechanisms.append("hais_internal_search_routes")
     if any((item.get("parsed") or {}).get("candidate_count", 0) for item in sitemaps):
         mechanisms.append("sitemap_discovery_candidates")
 
-    all_roots_allowed = (
-        hda_allowed.get(HDA_HOME_URL, False)
-        and hais_allowed.get(HAIS_HOME_URL, False)
-    )
-    if not all_roots_allowed:
+    hais_root_allowed = hais_allowed.get(HAIS_HOME_URL, False)
+    if not hais_root_allowed:
         gate = "hold_robots_not_allowed_or_unverifiable"
-    elif forms or discovery_links:
+    elif search_forms or search_routes:
         gate = "public_search_surface_confirmed_enumeration_not_yet_validated"
     else:
         gate = "hold_no_reproducible_enumeration_surface_detected"

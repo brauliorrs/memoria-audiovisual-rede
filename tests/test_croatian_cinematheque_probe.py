@@ -126,5 +126,44 @@ Allow: /HDA/trazilica/
         self.assertEqual(payload["custodial_title_count_context_only"], 15000)
 
 
+    def test_hda_robots_outage_does_not_block_permitted_hais_search(self):
+        responses = {
+            HDA_ROBOTS_URL: FakeResponse(HDA_ROBOTS_URL, "", 503, "text/plain"),
+            HAIS_ROBOTS_URL: FakeResponse(HAIS_ROBOTS_URL, ROBOTS_ALLOW, 200, "text/plain"),
+            HAIS_HOME_URL: FakeResponse(HAIS_HOME_URL, HAIS_HTML),
+        }
+        payload = run_croatian_cinematheque_probe(session=FakeSession(responses))
+        self.assertEqual(
+            payload["gate_assessment"],
+            "public_search_surface_confirmed_enumeration_not_yet_validated",
+        )
+
+    def test_unrelated_hais_form_does_not_confirm_search_surface(self):
+        unrelated = """
+        <html><body>
+          <form action="/login" method="post">
+            <input name="username" />
+            <button>Login</button>
+          </form>
+          <a href="/page/video-help">Help page</a>
+        </body></html>
+        """
+        responses = {
+            HDA_ROBOTS_URL: FakeResponse(HDA_ROBOTS_URL, ROBOTS_ALLOW, 200, "text/plain"),
+            HAIS_ROBOTS_URL: FakeResponse(HAIS_ROBOTS_URL, ROBOTS_ALLOW, 200, "text/plain"),
+            HDA_HOME_URL: FakeResponse(HDA_HOME_URL, "<html><body>HDA</body></html>"),
+            HDA_KINOTEKA_URL: FakeResponse(HDA_KINOTEKA_URL, "<html><body>Kinoteka</body></html>"),
+            HDA_FILM_HOLDINGS_URL: FakeResponse(HDA_FILM_HOLDINGS_URL, "<html><body>Films</body></html>"),
+            HAIS_HOME_URL: FakeResponse(HAIS_HOME_URL, unrelated),
+        }
+        payload = run_croatian_cinematheque_probe(session=FakeSession(responses))
+        self.assertEqual(
+            payload["gate_assessment"],
+            "hold_no_reproducible_enumeration_surface_detected",
+        )
+        self.assertNotIn("hais_public_search_form", payload["enumeration_mechanisms"])
+        self.assertNotIn("hais_internal_search_routes", payload["enumeration_mechanisms"])
+
+
 if __name__ == "__main__":
     unittest.main()
