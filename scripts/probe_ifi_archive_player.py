@@ -42,6 +42,15 @@ def main() -> int:
             f"search_forms={len(parsed.get('search_forms', []))} "
             f"pagination={len(parsed.get('pagination_links', []))}"
         )
+    bounded = payload.get("bounded_post_sitemap_probe") or {}
+    if bounded:
+        print(
+            "- bounded post-sitemap probe: "
+            f"reproducible={bounded.get('reproducible_bounded_enumeration')} "
+            f"partitions={bounded.get('partitions_selected', [])} "
+            f"unique={bounded.get('unique_film_permalink_candidates', 0)} "
+            f"all_shards={bounded.get('all_discovered_post_sitemaps_covered')}"
+        )
     rest = payload.get("rest") or {}
     if rest:
         print(

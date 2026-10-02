@@ -7,6 +7,7 @@ from memoria_audiovisual.ifi_archive_player_probe import (
     IFI_PLAYER_HOME_URL,
     IFI_PLAYER_REST_ROOT,
     IFI_PLAYER_ROBOTS_URL,
+    parse_sitemap,
     parse_surface_html,
     robots_allowed,
     run_ifi_archive_player_probe,
@@ -202,6 +203,83 @@ Allow: /browse/public/
         self.assertEqual(
             payload["gate_assessment"],
             "hold_no_reproducible_enumeration_candidate_detected",
+        )
+
+
+    def test_sitemap_index_xml_is_not_misclassified_as_film(self):
+        parsed = parse_sitemap(
+            """<sitemapindex>
+            <sitemap><loc>https://ifiarchiveplayer.ie/post-sitemap.xml</loc></sitemap>
+            <sitemap><loc>https://ifiarchiveplayer.ie/post-sitemap2.xml</loc></sitemap>
+            </sitemapindex>"""
+        )
+        self.assertEqual(parsed["film_candidate_count"], 0)
+        self.assertEqual(len(parsed["nested_sitemaps"]), 2)
+
+    def test_two_post_sitemaps_validate_bounded_enumeration(self):
+        index_xml = """<sitemapindex>
+          <sitemap><loc>https://ifiarchiveplayer.ie/post-sitemap.xml</loc></sitemap>
+          <sitemap><loc>https://ifiarchiveplayer.ie/post-sitemap2.xml</loc></sitemap>
+        </sitemapindex>"""
+        shard1 = """<urlset>
+          <url><loc>https://ifiarchiveplayer.ie/film-a/</loc></url>
+          <url><loc>https://ifiarchiveplayer.ie/film-b/</loc></url>
+        </urlset>"""
+        shard2 = """<urlset>
+          <url><loc>https://ifiarchiveplayer.ie/film-c/</loc></url>
+          <url><loc>https://ifiarchiveplayer.ie/film-d/</loc></url>
+        </urlset>"""
+        detail = """<html><body><h1>Film</h1>
+          <p>Category: Documentary</p><p>Year: 1975</p>
+          <p>Duration: 10 mins</p>
+        </body></html>"""
+        responses = {
+            IFI_PLAYER_ROBOTS_URL: FakeResponse(
+                IFI_PLAYER_ROBOTS_URL, ROBOTS_ALLOW, 200, "text/plain"
+            ),
+            IFI_PLAYER_HOME_URL: FakeResponse(
+                IFI_PLAYER_HOME_URL, "<html><body>Home</body></html>"
+            ),
+            IFI_PLAYER_BROWSE_URL: FakeResponse(
+                IFI_PLAYER_BROWSE_URL, BROWSE_HTML
+            ),
+            IFI_PLAYER_COLLECTIONS_URL: FakeResponse(
+                IFI_PLAYER_COLLECTIONS_URL, "<html><body>Collections</body></html>"
+            ),
+            "https://ifiarchiveplayer.ie/wp-sitemap.xml": FakeResponse(
+                "https://ifiarchiveplayer.ie/wp-sitemap.xml", index_xml, 200, "text/xml"
+            ),
+            "https://ifiarchiveplayer.ie/sitemap_index.xml": FakeResponse(
+                "https://ifiarchiveplayer.ie/sitemap_index.xml", index_xml, 200, "text/xml"
+            ),
+            "https://ifiarchiveplayer.ie/sitemap.xml": FakeResponse(
+                "https://ifiarchiveplayer.ie/sitemap.xml", index_xml, 200, "text/xml"
+            ),
+            "https://ifiarchiveplayer.ie/post-sitemap.xml": FakeResponse(
+                "https://ifiarchiveplayer.ie/post-sitemap.xml", shard1, 200, "text/xml"
+            ),
+            "https://ifiarchiveplayer.ie/post-sitemap2.xml": FakeResponse(
+                "https://ifiarchiveplayer.ie/post-sitemap2.xml", shard2, 200, "text/xml"
+            ),
+            "https://ifiarchiveplayer.ie/film-a/": FakeResponse(
+                "https://ifiarchiveplayer.ie/film-a/", detail
+            ),
+            "https://ifiarchiveplayer.ie/film-c/": FakeResponse(
+                "https://ifiarchiveplayer.ie/film-c/", detail
+            ),
+        }
+        payload = run_ifi_archive_player_probe(session=FakeSession(responses))
+        self.assertEqual(
+            payload["gate_assessment"],
+            "bounded_post_sitemap_enumeration_validated_for_collector_engineering",
+        )
+        bounded = payload["bounded_post_sitemap_probe"]
+        self.assertTrue(bounded["reproducible_bounded_enumeration"])
+        self.assertTrue(bounded["all_discovered_post_sitemaps_covered"])
+        self.assertEqual(bounded["unique_film_permalink_candidates"], 4)
+        self.assertEqual(
+            payload["next_action"],
+            "engineer_staged_collector_from_post_sitemaps",
         )
 
 

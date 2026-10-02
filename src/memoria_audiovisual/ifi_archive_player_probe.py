@@ -42,6 +42,7 @@ _XML_LOC_RE = re.compile(r"<loc>\s*([^<]+?)\s*</loc>", re.I)
 _EXCLUDED_ROOTS = {
     "",
     "about",
+    "app",
     "browse",
     "collections",
     "contact",
@@ -269,6 +270,8 @@ def _likely_film_permalink(url: str) -> bool:
     slug = parts[0].lower()
     if slug in _EXCLUDED_ROOTS:
         return False
+    if slug.endswith(".xml"):
+        return False
     if slug.startswith(("category", "tag", "author", "wp-")):
         return False
     return True
@@ -403,6 +406,137 @@ def summarize_rest_root(text: str) -> dict[str, Any]:
     }
 
 
+_POST_SITEMAP_PATH_RE = re.compile(r"^/post-sitemap(?:\d+)?\.xml$", re.I)
+_FILM_LABEL_RE = re.compile(
+    r"(?:Category|Directed by|Produced by|Year|Duration|Language)\s*:",
+    re.I,
+)
+
+
+def _film_detail_semantics(html_text: str) -> dict[str, Any]:
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    text = soup.get_text(" ", strip=True)
+    labels = sorted(set(match.group(0).rstrip(":") for match in _FILM_LABEL_RE.finditer(text)))
+    return {
+        "labels": labels,
+        "label_count": len(labels),
+        "film_semantics_confirmed": len(labels) >= 2,
+        "title": _clean(soup.find("h1").get_text(" ", strip=True) if soup.find("h1") else ""),
+    }
+
+
+def probe_bounded_post_sitemaps(
+    session: requests.Session,
+    *,
+    robots_text: str,
+    sitemaps: list[dict[str, Any]],
+) -> dict[str, Any]:
+    discovered = []
+    for item in sitemaps:
+        for url in (item.get("parsed") or {}).get("nested_sitemaps", []):
+            parsed = urlparse(url)
+            if (
+                parsed.netloc.lower() == "ifiarchiveplayer.ie"
+                and _POST_SITEMAP_PATH_RE.match(parsed.path)
+            ):
+                discovered.append(url)
+    post_sitemaps = sorted(set(discovered))
+    selected = post_sitemaps[:2]
+
+    partitions = []
+    all_sets = []
+    detail_samples = []
+    for url in selected:
+        if not robots_allowed(robots_text, CRAWLER_TOKEN, url):
+            partitions.append(
+                {"url": url, "status": "blocked_by_robots", "film_candidate_count": 0}
+            )
+            all_sets.append(set())
+            continue
+        response = fetch_public_url(session, url)
+        parsed = (
+            parse_sitemap(response.text)
+            if response.status_code == 200 and not response.error
+            else {
+                "url_count": 0,
+                "film_candidate_count": 0,
+                "film_candidate_samples": [],
+                "nested_sitemaps": [],
+            }
+        )
+        candidates = [
+            item
+            for item in _XML_LOC_RE.findall(response.text or "")
+            if _likely_film_permalink(_clean(item))
+        ]
+        candidate_set = set(candidates)
+        all_sets.append(candidate_set)
+        partitions.append(
+            {
+                "url": url,
+                "status_code": response.status_code,
+                "error": response.error,
+                "url_count": parsed["url_count"],
+                "film_candidate_count": len(candidate_set),
+                "film_candidate_samples": sorted(candidate_set)[:20],
+            }
+        )
+        if candidates:
+            detail_url = sorted(candidate_set)[0]
+            if robots_allowed(robots_text, CRAWLER_TOKEN, detail_url):
+                detail_response = fetch_public_url(session, detail_url)
+                semantics = (
+                    _film_detail_semantics(detail_response.text)
+                    if detail_response.status_code == 200 and not detail_response.error
+                    else {
+                        "labels": [],
+                        "label_count": 0,
+                        "film_semantics_confirmed": False,
+                        "title": "",
+                    }
+                )
+                detail_samples.append(
+                    {
+                        "url": detail_url,
+                        "status_code": detail_response.status_code,
+                        "error": detail_response.error,
+                        **semantics,
+                    }
+                )
+
+    disjoint = (
+        len(all_sets) == 2
+        and bool(all_sets[0])
+        and bool(all_sets[1])
+        and all_sets[0].isdisjoint(all_sets[1])
+    )
+    unique_urls = set().union(*all_sets) if all_sets else set()
+    partitions_ok = (
+        len(partitions) == 2
+        and all(row.get("status_code") == 200 and not row.get("error") for row in partitions)
+        and all(row.get("film_candidate_count", 0) > 0 for row in partitions)
+    )
+    detail_semantics_ok = (
+        len(detail_samples) == 2
+        and all(row.get("film_semantics_confirmed") for row in detail_samples)
+    )
+    return {
+        "post_sitemaps_discovered": post_sitemaps,
+        "partitions_selected": selected,
+        "all_discovered_post_sitemaps_covered": (
+            bool(post_sitemaps) and len(selected) == len(post_sitemaps)
+        ),
+        "partitions": partitions,
+        "unique_film_permalink_candidates": len(unique_urls),
+        "disjoint_partitions": disjoint,
+        "detail_samples": detail_samples,
+        "reproducible_bounded_enumeration": (
+            partitions_ok and disjoint and detail_semantics_ok
+        ),
+    }
+
+
+
 def run_ifi_archive_player_probe(
     *,
     session: requests.Session | None = None,
@@ -511,13 +645,21 @@ def run_ifi_archive_player_probe(
     if rest and rest.get("candidate_routes"):
         mechanisms.append("wordpress_rest_candidate_routes")
 
+    bounded = probe_bounded_post_sitemaps(
+        session,
+        robots_text=robots_text,
+        sitemaps=sitemaps,
+    )
+
     browse_allowed = allowed.get(IFI_PLAYER_BROWSE_URL, False)
     if not browse_allowed:
         gate = "hold_robots_not_allowed_or_unverifiable"
+    elif bounded["reproducible_bounded_enumeration"]:
+        gate = "bounded_post_sitemap_enumeration_validated_for_collector_engineering"
     elif film_links and (
         search_forms
         or pagination_links
-        or "sitemap_film_permalink_candidates" in mechanisms
+        or bounded["post_sitemaps_discovered"]
         or "wordpress_rest_candidate_routes" in mechanisms
     ):
         gate = "public_enumeration_candidate_detected_bounded_probe_required"
@@ -539,13 +681,19 @@ def run_ifi_archive_player_probe(
         "surfaces": surfaces,
         "sitemaps": sitemaps,
         "rest": rest,
+        "bounded_post_sitemap_probe": bounded,
         "enumeration_mechanisms": mechanisms,
         "gate_assessment": gate,
         "next_action": (
-            "engineer_bounded_two_page_or_partition_probe"
+            "engineer_staged_collector_from_post_sitemaps"
             if gate
-            == "public_enumeration_candidate_detected_bounded_probe_required"
-            else "protocol_hold_or_retest"
+            == "bounded_post_sitemap_enumeration_validated_for_collector_engineering"
+            else (
+                "engineer_bounded_two_page_or_partition_probe"
+                if gate
+                == "public_enumeration_candidate_detected_bounded_probe_required"
+                else "protocol_hold_or_retest"
+            )
         ),
     }
 
@@ -556,7 +704,9 @@ __all__ = [
     "IFI_PLAYER_HOME_URL",
     "IFI_PLAYER_REST_ROOT",
     "IFI_PLAYER_ROBOTS_URL",
+    "parse_sitemap",
     "parse_surface_html",
+    "probe_bounded_post_sitemaps",
     "robots_allowed",
     "run_ifi_archive_player_probe",
 ]
