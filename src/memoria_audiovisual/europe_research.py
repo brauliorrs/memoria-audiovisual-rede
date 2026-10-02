@@ -682,6 +682,32 @@ def _classify_research_row(row):
             "blocks_expansion": False,
         }
 
+    if code == "fiaf-croatian-cinematheque":
+        return {
+            "relationship_to_current_corpus": "protocolado fora do corpus ativo",
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_negativa",
+            "queue_decision": "manter_protocolo_sem_incorporacao",
+            "queue_priority": 80,
+            "queue_reason": (
+                "O HDA confirma a Hrvatska kinoteka e suas páginas institucionais públicas responderam, "
+                "mas o HAIS ficou inverificável por timeout no runner durante a checagem de robots.txt. "
+                "Pelo contrato fail-closed, não se executou enumeração nem se inferiu completude."
+            ),
+            "next_action": "retestar_hais_em_ciclo_futuro_sem_bloquear_fila",
+            "inclusion_gate": (
+                "só incorporar após robots do HAIS ser verificável e uma rota pública de busca/paginação "
+                "audiovisual ser demonstrada de forma reprodutível"
+            ),
+            "video_location_status": "hais_inverificavel_timeout_fail_closed",
+            "video_location_candidate_url": "https://hais.arhiv.hr/",
+            "video_location_strategy": (
+                "retestar HAIS; não fazer brute force de IDs, não usar o total custodial como denominador "
+                "e não promover amostra parcial"
+            ),
+            "blocks_expansion": False,
+        }
+
     if code in PROTOCOLLED_EUROPEAN_CODES:
         return {
             "relationship_to_current_corpus": "protocolado fora do corpus ativo",
