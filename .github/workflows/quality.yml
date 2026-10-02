@@ -179,6 +179,32 @@ jobs:
           path: data/output/ifi_archive_player_probe.json
           if-no-files-found: error
 
+      - name: Validate IFI Archive Player staged collector
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/ifi_archive_player.py \
+            src/memoria_audiovisual/ifi_archive_player_exports.py \
+            scripts/run_ifi_archive_player_pipeline.py \
+            scripts/check_ifi_archive_player_outputs.py \
+            tests/test_ifi_archive_player_collection.py
+          python -m unittest discover -s tests -p 'test_ifi_archive_player_collection.py' -v
+
+      - name: Run IFI Archive Player staged baseline
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/ifi-irish-film-archive-v1'
+        run: python scripts/run_ifi_archive_player_pipeline.py
+
+      - name: Upload IFI Archive Player staged baseline
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/ifi-irish-film-archive-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ifi-archive-player-staged-baseline
+          path: data/output/ifi_archive_player_*
+          if-no-files-found: error
+
+      - name: Validate IFI Archive Player staged baseline
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/ifi-irish-film-archive-v1'
+        run: python scripts/check_ifi_archive_player_outputs.py
+
       - name: Validate Croatian Cinematheque technical probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \

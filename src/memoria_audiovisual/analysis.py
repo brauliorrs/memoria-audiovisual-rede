@@ -118,6 +118,9 @@ def infer_video_theme(row):
             return "Cinema experimental, curta e formação"
         return "Patrimônio fílmico estoniano"
 
+    if platform == "IFI Archive Player":
+        return "Patrimônio fílmico irlandês em acesso público"
+
     if platform == "Filmarchiv ON":
         if "filmgeschichte osterreich" in normalized or re.search(
             r"\b(regie|buch|kamera|mit:|spielfilm|drama|thriller|komodie|komödie|fiction|feature)\b",
@@ -953,6 +956,9 @@ def classify_access_surface(row):
         if "georrestrição" in video_description:
             return "Streaming institucional com restrição territorial"
         return "Streaming audiovisual institucional público"
+    if platform == "IFI Archive Player":
+        return "Streaming audiovisual institucional público"
+
     if platform == "Filmarchiv ON":
         return "Streaming audiovisual institucional público"
     if platform == "d:kult online":
