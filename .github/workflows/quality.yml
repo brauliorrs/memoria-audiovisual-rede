@@ -159,6 +159,26 @@ jobs:
           path: data/output/gosfilmofond_catalog_probe.json
           if-no-files-found: error
 
+      - name: Validate Croatian Cinematheque technical probe contract
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/croatian_cinematheque_probe.py \
+            scripts/probe_croatian_cinematheque.py \
+            tests/test_croatian_cinematheque_probe.py
+          python -m unittest discover -s tests -p 'test_croatian_cinematheque_probe.py' -v
+
+      - name: Probe Croatian Cinematheque public discovery surfaces
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/croatian-cinematheque-probe-v1'
+        run: python scripts/probe_croatian_cinematheque.py
+
+      - name: Upload Croatian Cinematheque probe artifact
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/croatian-cinematheque-probe-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: croatian-cinematheque-probe
+          path: data/output/croatian_cinematheque_probe.json
+          if-no-files-found: error
+
       - name: Validate Murnau-Stiftung staged corpus contract
         run: |
           ruff check --select E9,F63,F7,F82 \

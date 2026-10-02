@@ -69,6 +69,7 @@ PROTOCOLLED_EUROPEAN_CODES = {
     "fiaf-cineteca-italiana",
     "fiaf-cineteca-bologna",
     "fiaf-cinematheque-luxembourg",
+    "fiaf-croatian-cinematheque",
     "inedits-ad-libitum",
     "inedits-county-archives-puy-de-dome",
     "inedits-cinematheque-corse",
@@ -531,6 +532,41 @@ def _classify_research_row(row):
             "video_location_strategy": (
                 "usar apenas `mediaType=VIDEO`; coletar referências pela busca oficial e enriquecer cada "
                 "item pelo endpoint público `media?reference=...`, preservando metadados de acesso e direitos"
+            ),
+            "blocks_expansion": False,
+        }
+
+    if code == "fiaf-croatian-cinematheque":
+        return {
+            "relationship_to_current_corpus": (
+                "arquivo fílmico confirmado; pesquisa pública centralizada no HAIS, "
+                "mas coleta bloqueada por robots não verificável na rodada"
+            ),
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_nao_incorporacao",
+            "queue_decision": "monitorar_sem_incorporar_ate_robots_verificavel",
+            "queue_priority": 80,
+            "queue_reason": (
+                "O HDA confirmou publicamente a Hrvatska kinoteka e suas superfícies "
+                "institucionais, mas o Quality Checks #1825 não conseguiu obter "
+                "https://hais.arhiv.hr/robots.txt por timeout. Como a enumeração relevante "
+                "depende do HAIS, o probe fail-closed não acessou a busca e não demonstrou "
+                "paginação ou enumeração reprodutível nesta rodada."
+            ),
+            "next_action": (
+                "retestar_robots_e_busca_hais_em_ciclo_futuro_sem_contornar_barreiras"
+            ),
+            "inclusion_gate": (
+                "só incorporar após robots do HAIS ser verificável e uma rodada limitada "
+                "demonstrar isolamento e enumeração reprodutível de registros audiovisuais"
+            ),
+            "video_location_status": (
+                "superficie_publica_hais_identificada_coleta_bloqueada_por_robots_nao_verificavel"
+            ),
+            "video_location_candidate_url": "https://hais.arhiv.hr/",
+            "video_location_strategy": (
+                "retestar HAIS com o mesmo executor fail-closed; somente depois inspecionar "
+                "formulários, paginação e registros audiovisuais, sem brute force ou download de mídia"
             ),
             "blocks_expansion": False,
         }
