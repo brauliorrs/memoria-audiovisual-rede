@@ -187,6 +187,9 @@ def evaluate_robots(
         "robots_excerpt": _clean(response.text, limit=1800),
     }
     robots_text = response.text or ""
+    result["sitemaps"] = sorted(
+        set(_SITEMAP_DIRECTIVE_RE.findall(robots_text))
+    )
     if response.error:
         result["mode"] = "unverifiable"
         reason = "robots_unreachable"
@@ -282,6 +285,29 @@ def parse_archive_html(html_text: str, page_url: str) -> dict[str, Any]:
     }
 
 
+def parse_sitemap(xml_text: str) -> dict[str, Any]:
+    urls = [_clean(value) for value in _XML_LOC_RE.findall(xml_text or "")]
+    detail_urls = []
+    video_detail_urls = []
+    nested_sitemaps = []
+    for url in urls:
+        parsed = urlparse(url)
+        if parsed.path.lower().endswith(".xml"):
+            nested_sitemaps.append(url)
+        if _DETAIL_PATH_RE.match(parsed.path):
+            detail_urls.append(url)
+        if _VIDEO_DETAIL_PATH_RE.match(parsed.path):
+            video_detail_urls.append(url)
+    return {
+        "url_count": len(urls),
+        "detail_candidate_count": len(set(detail_urls)),
+        "video_detail_candidate_count": len(set(video_detail_urls)),
+        "detail_candidate_samples": sorted(set(detail_urls))[:20],
+        "video_detail_candidate_samples": sorted(set(video_detail_urls))[:20],
+        "nested_sitemaps": sorted(set(nested_sitemaps))[:50],
+    }
+
+
 def parse_detail_html(html_text: str, page_url: str) -> dict[str, Any]:
     soup = BeautifulSoup(html_text or "", "html.parser")
     text = soup.get_text(" ", strip=True)
@@ -325,7 +351,6 @@ def run_image_est_probe(
     targets = (
         IMAGE_EST_HOME_URL,
         IMAGE_EST_ARCHIVE_URL,
-        IMAGE_EST_FILMS_FILTER_URL,
     )
     robots, robots_text = evaluate_robots(session, targets)
     allowed_map = {
@@ -344,6 +369,7 @@ def run_image_est_probe(
         "robots": robots,
         "archive_surface": None,
         "films_filter": None,
+        "sitemaps": [],
         "bounded_pages": [],
         "detail_samples": [],
         "gate_assessment": "hold_unresolved",
@@ -353,6 +379,13 @@ def run_image_est_probe(
     if not all(allowed_map.get(url, False) for url in targets):
         result["gate_assessment"] = "hold_robots_not_allowed_or_unverifiable"
         return result
+
+    ajax_allowed = (
+        robots_allowed(robots_text, CRAWLER_TOKEN, IMAGE_EST_FILMS_FILTER_URL)
+        if robots.get("mode") == "evaluated_rfc9309"
+        else robots.get("mode") == "absent"
+    )
+    result["films_filter_robots_allowed"] = bool(ajax_allowed)
 
     archive_response = fetch_public_url(session, IMAGE_EST_ARCHIVE_URL)
     archive_parsed = (
@@ -371,34 +404,128 @@ def run_image_est_probe(
     filter_discovered = IMAGE_EST_FILMS_FILTER_URL in archive_parsed.get(
         "films_filter_links", []
     )
-    if not filter_discovered:
-        result["gate_assessment"] = "hold_films_filter_not_discovered_in_public_html"
-        return result
+    result["films_filter_discovered"] = filter_discovered
 
-    filter_response = fetch_public_url(session, IMAGE_EST_FILMS_FILTER_URL)
-    filter_parsed = (
-        parse_archive_html(
-            filter_response.text,
-            filter_response.final_url or IMAGE_EST_FILMS_FILTER_URL,
+    filter_parsed: dict[str, Any] = {}
+    if filter_discovered and ajax_allowed:
+        filter_response = fetch_public_url(session, IMAGE_EST_FILMS_FILTER_URL)
+        filter_parsed = (
+            parse_archive_html(
+                filter_response.text,
+                filter_response.final_url or IMAGE_EST_FILMS_FILTER_URL,
+            )
+            if filter_response.status_code == 200 and not filter_response.error
+            else {}
         )
-        if filter_response.status_code == 200 and not filter_response.error
-        else {}
-    )
-    result["films_filter"] = {
-        "requested_url": IMAGE_EST_FILMS_FILTER_URL,
-        "final_url": filter_response.final_url,
-        "status_code": filter_response.status_code,
-        "error": filter_response.error,
-        "parsed": filter_parsed,
-    }
+        result["films_filter"] = {
+            "requested_url": IMAGE_EST_FILMS_FILTER_URL,
+            "final_url": filter_response.final_url,
+            "status_code": filter_response.status_code,
+            "error": filter_response.error,
+            "parsed": filter_parsed,
+        }
+
+    sitemap_video_candidates: list[str] = []
+    for sitemap_url in robots.get("sitemaps", []):
+        if not robots_allowed(robots_text, CRAWLER_TOKEN, sitemap_url):
+            result["sitemaps"].append(
+                {"url": sitemap_url, "status": "blocked_by_robots"}
+            )
+            continue
+        sitemap_response = fetch_public_url(session, sitemap_url)
+        parsed_sitemap = (
+            parse_sitemap(sitemap_response.text)
+            if sitemap_response.status_code == 200 and not sitemap_response.error
+            else {}
+        )
+        sitemap_video_candidates.extend(
+            parsed_sitemap.get("video_detail_candidate_samples", [])
+        )
+        nested_rows = []
+        for nested_url in parsed_sitemap.get("nested_sitemaps", []):
+            nested_rows.append(
+                {
+                    "url": nested_url,
+                    "allowed": robots_allowed(
+                        robots_text,
+                        CRAWLER_TOKEN,
+                        nested_url,
+                    ),
+                }
+            )
+        result["sitemaps"].append(
+            {
+                "url": sitemap_url,
+                "status_code": sitemap_response.status_code,
+                "error": sitemap_response.error,
+                "parsed": parsed_sitemap,
+                "nested_sitemaps_policy": nested_rows,
+            }
+        )
 
     if (
-        filter_response.status_code != 200
-        or filter_response.error
-        or not filter_parsed.get("result_count")
-        or not filter_parsed.get("detail_links_count")
+        not filter_parsed
+        and not sitemap_video_candidates
     ):
-        result["gate_assessment"] = "hold_video_filter_not_reproducible"
+        result["gate_assessment"] = (
+            "hold_ajax_blocked_and_no_direct_video_sitemap_enumeration"
+            if filter_discovered and not ajax_allowed
+            else "hold_no_reproducible_video_enumeration_surface"
+        )
+        return result
+
+    if not filter_parsed and sitemap_video_candidates:
+        for detail_url in sitemap_video_candidates[:2]:
+            if not robots_allowed(robots_text, CRAWLER_TOKEN, detail_url):
+                result["detail_samples"].append(
+                    {"url": detail_url, "status": "blocked_by_robots"}
+                )
+                continue
+            response = fetch_public_url(session, detail_url)
+            semantics = (
+                parse_detail_html(response.text, response.final_url or detail_url)
+                if response.status_code == 200 and not response.error
+                else {
+                    "title": "",
+                    "labels": [],
+                    "label_count": 0,
+                    "iframe_urls": [],
+                    "film_semantics_confirmed": False,
+                }
+            )
+            result["detail_samples"].append(
+                {
+                    "url": detail_url,
+                    "status_code": response.status_code,
+                    "error": response.error,
+                    **semantics,
+                }
+            )
+        sitemap_semantics_ok = (
+            len(result["detail_samples"]) == 2
+            and all(
+                row.get("film_semantics_confirmed")
+                for row in result["detail_samples"]
+            )
+        )
+        result["bounded_enumeration"] = {
+            "mechanism": "robots_declared_sitemap",
+            "direct_video_permalink_candidates_observed": len(
+                set(sitemap_video_candidates)
+            ),
+            "detail_semantics_confirmed": sitemap_semantics_ok,
+        }
+        if sitemap_semantics_ok:
+            result["gate_assessment"] = (
+                "direct_video_sitemap_candidates_confirmed_staged_required"
+            )
+            result["next_action"] = (
+                "engineer_full_staged_sitemap_enumeration_with_integrity_gates"
+            )
+        else:
+            result["gate_assessment"] = (
+                "hold_sitemap_candidates_lack_confirmed_video_semantics"
+            )
         return result
 
     first_details = set(filter_parsed.get("detail_links", []))
@@ -515,6 +642,7 @@ __all__ = [
     "IMAGE_EST_ROBOTS_URL",
     "parse_archive_html",
     "parse_detail_html",
+    "parse_sitemap",
     "robots_allowed",
     "run_image_est_probe",
 ]
