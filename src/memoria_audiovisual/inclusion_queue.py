@@ -2,7 +2,9 @@
 
 The selector consumes the already-versioned European research queue. It never
 visits a website, never uses model predictions and never changes inclusion
-criteria. It only exposes the next human/engineering work items in queue order.
+criteria. It only exposes the next human/engineering work items in corpus-analysis
+sequence order. The rank is the sequential corpus number assigned by the
+engine, not a compacted position in the remaining queue.
 """
 from __future__ import annotations
 
@@ -164,6 +166,10 @@ def write_next_inclusion_candidates(
             "queue_decision=avaliar_arquivo_individual_um_por_um; "
             "organism_status=candidato_individual; blocks_expansion=false; "
             "ascending definitive_queue_rank"
+        ),
+        "numbering_rule": (
+            "definitive_queue_rank is the sequential corpus-analysis number; "
+            "directories do not consume corpus numbers"
         ),
         "automatic_incorporation_authorized": False,
         "candidate_count": len(candidates),
