@@ -2,6 +2,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from memoria_audiovisual.corpora import CORPORA
+
 from memoria_audiovisual.europe_research import (
     EUROPE_RESEARCH_QUEUE_FILENAME,
     EUROPE_RESEARCH_REGISTRY_FILENAME,
@@ -121,9 +123,16 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertNotIn("fiat-european-commission-av-service", priority_by_code)
         self.assertGreater(priority_by_code["ace-members"], priority_by_code["fiat-rtp"])
         self.assertLess(priority_by_code["fiat-rtp"], priority_by_code["german-digital-library"])
-        self.assertEqual(queue_df.iloc[0]["definitive_queue_rank"], 1)
-        image_est_rank = queue_df.loc[queue_df["unit_code"] == "inedits-image-est", "definitive_queue_rank"].iloc[0]
-        self.assertEqual(image_est_rank, 6)
+        self.assertEqual(len(CORPORA), 61)
+        self.assertEqual(queue_df.iloc[0]["definitive_queue_rank"], "")
+        image_est_rank = int(
+            queue_df.loc[
+                queue_df["unit_code"] == "inedits-image-est",
+                "definitive_queue_rank",
+            ].iloc[0]
+        )
+        self.assertEqual(image_est_rank, len(CORPORA) + 1)
+        self.assertEqual(image_est_rank, 62)
         self.assertNotIn("fiaf-ifi-irish-film-archive", priority_by_code)
         self.assertIn("video_location_candidate_url", queue_df.columns)
         self.assertFalse(queue_df["queue_decision"].astype(str).str.contains("sonoro", case=False).any())
