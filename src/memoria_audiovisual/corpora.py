@@ -62,6 +62,7 @@ from .config import (
     PPA_HOME_URL,
     SFA_HOME_URL,
 )
+from .image_est import IMAGE_EST_SITEMAP_URL
 from .output_files import (
     AAPB_OUTPUT_FILES,
     AAMOD_OUTPUT_FILES,
@@ -94,6 +95,7 @@ from .output_files import (
     MURNAU_STIFTUNG_OUTPUT_FILES,
     GOSFILMOFOND_OUTPUT_FILES,
     IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
+    IMAGE_EST_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
     FILMOTECA_ESPANOLA_OUTPUT_FILES,
@@ -156,6 +158,7 @@ from .output_files import (
     list_murnau_stiftung_output_filenames,
     list_gosfilmofond_output_filenames,
     list_ifi_archive_player_output_filenames,
+    list_image_est_output_filenames,
     list_filmmuseum_dusseldorf_output_filenames,
     list_filmoteca_catalunya_output_filenames,
     list_filmoteca_espanola_output_filenames,
@@ -2972,6 +2975,74 @@ CORPORA = {
         "run_script_path": "scripts/run_ifi_archive_player_pipeline.py",
         "build_script_path": "scripts/run_ifi_archive_player_pipeline.py",
         "check_script_path": "scripts/check_ifi_archive_player_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "image-est": {
+        "code": "image_est",
+        "label": "Image'Est",
+        "short_label": "Image'Est",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "arquivo audiovisual regional / instituição custodial",
+        "coverage_level": "Europa / Grand Est / França",
+        "scope": "patrimônio audiovisual público enumerado pelo sitemap da Image'Est",
+        "methodological_unit": (
+            "permalinks documentais tipados no sitemap público; somente types 1 e 3 "
+            "validados semanticamente como audiovisuais"
+        ),
+        "ape_relationship": (
+            "identificada na fila europeia via INEDITS e incorporada como corpus "
+            "institucional autônomo após probe e baseline staged validados"
+        ),
+        "expansion_rationale": (
+            "O sitemap público declarado em robots expôs 53.694 fichas tipadas na rodada. "
+            "Os types 1 (2.351) e 3 (689) foram validados como audiovisuais e materializados, "
+            "totalizando 3.040 permalinks únicos; o type 2 (50.654) foi excluído."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "O corpus MAR representa os 3.040 permalinks audiovisuais materializados na "
+            "rodada de admissão. Declarações institucionais de acervo físico são contexto "
+            "custodial e não denominadores de completude web."
+        ),
+        "zero_result_policy": (
+            "Falha de robots, ausência ou quebra do sitemap, novo type code, permalinks "
+            "documentais sem tipagem, duplicações ou drift semântico bloqueiam a atualização."
+        ),
+        "collection_completeness": (
+            "snapshot completo dos permalinks type 1 e type 3 expostos pelo sitemap público "
+            "e validados como audiovisuais na rodada de admissão"
+        ),
+        "selection_criterion": (
+            "Lê somente o sitemap público permitido, agrupa fichas pelo type code observado, "
+            "valida semanticamente os tipos e materializa integralmente types 1 e 3; type 2 "
+            "é não audiovisual e permanece excluído."
+        ),
+        "selection_limit": (
+            "Sem amostra arbitrária na enumeração: todos os 3.040 permalinks audiovisuais "
+            "da rodada são materializados; enriquecimento determinístico limitado a 24 fichas, "
+            "sem brute force de IDs e sem download de mídia."
+        ),
+        "completeness_note": (
+            "Completo em relação ao sitemap público e aos types audiovisuais validados na "
+            "rodada. Não afirma cobertura integral do acervo físico nem licença para baixar, "
+            "copiar ou redistribuir mídia."
+        ),
+        "source_url": IMAGE_EST_SITEMAP_URL,
+        "output_files": IMAGE_EST_OUTPUT_FILES,
+        "list_output_filenames": list_image_est_output_filenames,
+        "detail_url_field": "image_est_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "Image'Est",
+        "content_flag_label": "fichas públicas de patrimônio audiovisual",
+        "website_label": "Image'Est - Patrimoine",
+        "run_script": "python scripts/run_image_est_pipeline.py",
+        "build_script": "python scripts/run_image_est_pipeline.py",
+        "check_script": "python scripts/check_image_est_outputs.py",
+        "run_script_path": "scripts/run_image_est_pipeline.py",
+        "build_script_path": "scripts/run_image_est_pipeline.py",
+        "check_script_path": "scripts/check_image_est_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },

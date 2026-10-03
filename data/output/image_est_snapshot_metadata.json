@@ -1,0 +1,168 @@
+{
+  "dataset": "image_est",
+  "generated_at": "2026-10-03T16:20:23Z",
+  "generated_by": "scripts/run_image_est_pipeline.py",
+  "observation_key": "image_est:2026-10-03T16:20:23Z",
+  "source_url": "https://www.image-est.fr/sitemap.xml",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-10-03T16:20:23Z",
+  "analytic_outputs_last_modified_at": "2026-10-03T16:20:21Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 3040,
+    "videos_in_curatorial_catalog": 3040,
+    "visibility_categories": 1,
+    "theme_categories": 4,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "image_est_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 293,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "summary": {
+      "filename": "image_est_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1054,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "video_links": {
+      "filename": "image_est_links_video.csv",
+      "exists": true,
+      "size_bytes": 1687313,
+      "last_modified_at": "2026-10-03T16:20:22Z"
+    },
+    "internal_pages": {
+      "filename": "image_est_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 10077,
+      "last_modified_at": "2026-10-03T16:20:22Z"
+    },
+    "analytic_summary": {
+      "filename": "image_est_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1409,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "image_est_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 1959744,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "availability_summary": {
+      "filename": "image_est_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "availability_reasons": {
+      "filename": "image_est_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "visibility_summary": {
+      "filename": "image_est_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "access_surface_summary": {
+      "filename": "image_est_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 52,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "access_regime_summary": {
+      "filename": "image_est_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "theme_summary": {
+      "filename": "image_est_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 151,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "theme_country": {
+      "filename": "image_est_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 184,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "archive_type_summary": {
+      "filename": "image_est_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 67,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "theme_platform": {
+      "filename": "image_est_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 254,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "theme_archive_type": {
+      "filename": "image_est_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 322,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "visibility_archive_type": {
+      "filename": "image_est_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 127,
+      "last_modified_at": "2026-10-03T16:20:21Z"
+    },
+    "timeline_corpus": {
+      "filename": "image_est_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 529,
+      "last_modified_at": "2026-10-03T16:20:23Z"
+    },
+    "timeline_institutions": {
+      "filename": "image_est_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 747,
+      "last_modified_at": "2026-10-03T16:20:23Z"
+    },
+    "extinction_signals": {
+      "filename": "image_est_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 291,
+      "last_modified_at": "2026-10-03T16:20:23Z"
+    },
+    "snapshot_metadata": {
+      "filename": "image_est_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5143,
+      "last_modified_at": "2026-10-03T16:20:23Z"
+    },
+    "report_json": {
+      "filename": "image_est_relatorio.json",
+      "exists": true,
+      "size_bytes": 1791,
+      "last_modified_at": "2026-10-03T16:20:22Z"
+    },
+    "report_txt": {
+      "filename": "image_est_relatorio.txt",
+      "exists": true,
+      "size_bytes": 836,
+      "last_modified_at": "2026-10-03T16:20:22Z"
+    },
+    "report_xlsx": {
+      "filename": "image_est_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 624927,
+      "last_modified_at": "2026-10-03T16:20:23Z"
+    }
+  }
+}

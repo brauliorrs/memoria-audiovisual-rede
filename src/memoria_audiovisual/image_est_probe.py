@@ -79,38 +79,92 @@ def fetch_public_url(
     url: str,
     *,
     attempts: int = 3,
+    robots_text: str | None = None,
+    max_redirects: int = 5,
 ) -> ProbeResponse:
+    requested_url = url
+    current_url = url
     response = None
-    try:
-        for attempt in range(attempts):
-            response = session.get(
-                url,
-                timeout=(8, REQUEST_TIMEOUT),
-                allow_redirects=True,
+
+    for _redirect_index in range(max_redirects + 1):
+        parsed = urlparse(current_url)
+        if parsed.scheme.lower() != "https" or parsed.netloc.lower() != "www.image-est.fr":
+            return ProbeResponse(
+                requested_url=requested_url,
+                final_url=current_url,
+                status_code=getattr(response, "status_code", None),
+                content_type="",
+                text="",
+                error="redirect_target_outside_authorized_origin",
             )
-            if response.status_code not in {429, 503}:
-                break
-            time.sleep(float(attempt + 1))
-    except requests.RequestException as exc:
+        if robots_text is not None and not robots_allowed(
+            robots_text,
+            CRAWLER_TOKEN,
+            current_url,
+        ):
+            return ProbeResponse(
+                requested_url=requested_url,
+                final_url=current_url,
+                status_code=getattr(response, "status_code", None),
+                content_type="",
+                text="",
+                error="redirect_target_blocked_by_robots",
+            )
+
+        try:
+            for attempt in range(attempts):
+                response = session.get(
+                    current_url,
+                    timeout=(8, REQUEST_TIMEOUT),
+                    allow_redirects=False,
+                )
+                if response.status_code not in {429, 503}:
+                    break
+                time.sleep(float(attempt + 1))
+        except requests.RequestException as exc:
+            return ProbeResponse(
+                requested_url=requested_url,
+                final_url=current_url,
+                status_code=getattr(response, "status_code", None),
+                content_type=(
+                    response.headers.get("content-type", "")
+                    if response is not None
+                    else ""
+                ),
+                text="",
+                error=f"{type(exc).__name__}: {exc}",
+            )
+
+        if response.status_code in {301, 302, 303, 307, 308}:
+            location = response.headers.get("location", "")
+            if not location:
+                return ProbeResponse(
+                    requested_url=requested_url,
+                    final_url=current_url,
+                    status_code=response.status_code,
+                    content_type=response.headers.get("content-type", ""),
+                    text="",
+                    error="redirect_without_location",
+                )
+            current_url = urljoin(current_url, location)
+            continue
+
         return ProbeResponse(
-            requested_url=url,
-            final_url=getattr(response, "url", None),
-            status_code=getattr(response, "status_code", None),
-            content_type=(
-                response.headers.get("content-type", "")
-                if response is not None
-                else ""
-            ),
-            text="",
-            error=f"{type(exc).__name__}: {exc}",
+            requested_url=requested_url,
+            final_url=current_url,
+            status_code=response.status_code,
+            content_type=response.headers.get("content-type", ""),
+            text=response.text,
+            error=None,
         )
+
     return ProbeResponse(
-        requested_url=url,
-        final_url=response.url,
-        status_code=response.status_code,
-        content_type=response.headers.get("content-type", ""),
-        text=response.text,
-        error=None,
+        requested_url=requested_url,
+        final_url=current_url,
+        status_code=getattr(response, "status_code", None),
+        content_type="",
+        text="",
+        error="redirect_limit_exceeded",
     )
 
 
@@ -154,15 +208,25 @@ def _rule_regex(pattern: str) -> re.Pattern[str]:
 def robots_allowed(text: str, user_agent: str, url: str) -> bool:
     groups = _robots_groups(text)
     agent = str(user_agent or "*").lower()
-    explicit = [
-        group
-        for group in groups
-        if any(
-            token and token != "*" and token in agent
+    explicit_matches = []
+    for group in groups:
+        matching_lengths = [
+            len(token)
             for token in group["agents"]
-        )
-    ]
-    selected = explicit or [group for group in groups if "*" in group["agents"]]
+            if token and token != "*" and token in agent
+        ]
+        if matching_lengths:
+            explicit_matches.append((max(matching_lengths), group))
+
+    if explicit_matches:
+        longest_agent_match = max(length for length, _group in explicit_matches)
+        selected = [
+            group
+            for length, group in explicit_matches
+            if length == longest_agent_match
+        ]
+    else:
+        selected = [group for group in groups if "*" in group["agents"]]
     if not selected:
         return True
 
@@ -417,7 +481,11 @@ def run_image_est_probe(
     )
     result["films_filter_robots_allowed"] = bool(ajax_allowed)
 
-    archive_response = fetch_public_url(session, IMAGE_EST_ARCHIVE_URL)
+    archive_response = fetch_public_url(
+        session,
+        IMAGE_EST_ARCHIVE_URL,
+        robots_text=robots_text,
+    )
     archive_parsed = (
         parse_archive_html(archive_response.text, archive_response.final_url or IMAGE_EST_ARCHIVE_URL)
         if archive_response.status_code == 200 and not archive_response.error
@@ -438,7 +506,11 @@ def run_image_est_probe(
 
     filter_parsed: dict[str, Any] = {}
     if filter_discovered and ajax_allowed:
-        filter_response = fetch_public_url(session, IMAGE_EST_FILMS_FILTER_URL)
+        filter_response = fetch_public_url(
+            session,
+            IMAGE_EST_FILMS_FILTER_URL,
+            robots_text=robots_text,
+        )
         filter_parsed = (
             parse_archive_html(
                 filter_response.text,
@@ -465,7 +537,11 @@ def run_image_est_probe(
                 {"url": sitemap_url, "status": "blocked_by_robots"}
             )
             continue
-        sitemap_response = fetch_public_url(session, sitemap_url)
+        sitemap_response = fetch_public_url(
+            session,
+            sitemap_url,
+            robots_text=robots_text,
+        )
         parsed_sitemap = (
             parse_sitemap(sitemap_response.text)
             if sitemap_response.status_code == 200 and not sitemap_response.error
@@ -533,7 +609,7 @@ def run_image_est_probe(
                         {"url": detail_url, "status": "blocked_by_robots"}
                     )
                     continue
-                response = fetch_public_url(session, detail_url)
+                response = fetch_public_url(session, detail_url, robots_text=robots_text)
                 semantics = (
                     parse_detail_html(
                         response.text,
@@ -640,7 +716,7 @@ def run_image_est_probe(
                 {"url": page_url, "status": "blocked_by_robots"}
             )
             continue
-        response = fetch_public_url(session, page_url)
+        response = fetch_public_url(session, page_url, robots_text=robots_text)
         parsed = (
             parse_archive_html(response.text, response.final_url or page_url)
             if response.status_code == 200 and not response.error
@@ -665,7 +741,7 @@ def run_image_est_probe(
                 {"url": detail_url, "status": "blocked_by_robots"}
             )
             continue
-        response = fetch_public_url(session, detail_url)
+        response = fetch_public_url(session, detail_url, robots_text=robots_text)
         semantics = (
             parse_detail_html(response.text, response.final_url or detail_url)
             if response.status_code == 200 and not response.error

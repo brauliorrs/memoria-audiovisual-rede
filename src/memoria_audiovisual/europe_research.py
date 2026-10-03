@@ -426,6 +426,7 @@ def _active_european_code_aliases():
         "inedits-cinematheque-saint-etienne": "saint-etienne",
         "inedits-far": "far",
         "inedits-home-movies": "home-movies-memoryscapes",
+        "inedits-image-est": "image_est",
         "euscreen-cna": "cna",
         "fiaf-cnc-aff": "cnc-aff",
         "the-european-film-gateway": "european-film-gateway",
@@ -441,6 +442,7 @@ def _is_european_corpus(corpus_def):
         corpus_def["code"] in {"ape", "euscreen", "european-film-gateway", "europeana", "pares", "portal-portugues-arquivos", "ina"}
         or "europe" in coverage
         or "europeu" in coverage
+        or "europa" in coverage
     )
 
 

@@ -243,8 +243,8 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
             queue.to_dict(orient="records"),
             limit=1,
         )
-        self.assertEqual(candidates[0].unit_code, "inedits-image-est")
-        self.assertEqual(candidates[0].rank, 78)
+        self.assertEqual(candidates[0].unit_code, "fiaf-imperial-war-museums-film-archive")
+        self.assertEqual(candidates[0].rank, 79)
 
     def test_collector_fails_closed_when_robots_is_not_verifiable(self):
         institutions, summary, links, internal = collect_murnau_stiftung_dataset(

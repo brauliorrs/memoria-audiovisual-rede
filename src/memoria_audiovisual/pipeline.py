@@ -85,6 +85,7 @@ from .home_movies_exports import write_home_movies_analysis_outputs
 from .filmarchiv_austria import collect_filmarchiv_austria_dataset
 from .murnau_stiftung import collect_murnau_stiftung_dataset
 from .ifi_archive_player import collect_ifi_archive_player_dataset
+from .image_est import collect_image_est_dataset
 from .gosfilmofond import collect_gosfilmofond_dataset
 from .filmarchiv_austria_exports import build_filmarchiv_austria_analysis_extra_sheets
 from .filmarchiv_austria_exports import write_filmarchiv_austria_analysis_outputs
@@ -92,6 +93,8 @@ from .murnau_stiftung_exports import build_murnau_stiftung_analysis_extra_sheets
 from .murnau_stiftung_exports import write_murnau_stiftung_analysis_outputs
 from .ifi_archive_player_exports import build_ifi_archive_player_analysis_extra_sheets
 from .ifi_archive_player_exports import write_ifi_archive_player_analysis_outputs
+from .image_est_exports import build_image_est_analysis_extra_sheets
+from .image_est_exports import write_image_est_analysis_outputs
 from .gosfilmofond_exports import build_gosfilmofond_analysis_extra_sheets
 from .gosfilmofond_exports import write_gosfilmofond_analysis_outputs
 from .filmmuseum_dusseldorf import collect_filmmuseum_dusseldorf_dataset
@@ -197,6 +200,7 @@ from .config import (
     FILMARCHIV_AUSTRIA_ON_URL,
     MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
     IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
+    IMAGE_EST_SITEMAP_URL,
     GOSFILMOFOND_CATALOG_URL,
     MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
@@ -282,6 +286,7 @@ from .output_files import (
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     MURNAU_STIFTUNG_OUTPUT_FILES,
     IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
+    IMAGE_EST_OUTPUT_FILES,
     GOSFILMOFOND_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -357,6 +362,7 @@ from .snapshot_metadata import (
     build_filmarchiv_austria_snapshot_metadata,
     build_murnau_stiftung_snapshot_metadata,
     build_ifi_archive_player_snapshot_metadata,
+    build_image_est_snapshot_metadata,
     build_gosfilmofond_snapshot_metadata,
     build_filmmuseum_dusseldorf_snapshot_metadata,
     build_filmoteca_catalunya_snapshot_metadata,
@@ -809,6 +815,23 @@ IFI_ARCHIVE_PLAYER_VIDEO_LINK_FIELDS = [
 ]
 IFI_ARCHIVE_PLAYER_INTERNAL_PAGE_FIELDS = [
     field.replace("archipop_detail_url", "ifi_archive_player_detail_url")
+    for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
+]
+
+IMAGE_EST_INSTITUTION_FIELDS = [
+    field.replace("archipop_detail_url", "image_est_detail_url")
+    for field in ARCHIPOP_INSTITUTION_FIELDS
+]
+IMAGE_EST_SUMMARY_FIELDS = [
+    field.replace("archipop_detail_url", "image_est_detail_url")
+    for field in ARCHIPOP_SUMMARY_FIELDS
+]
+IMAGE_EST_VIDEO_LINK_FIELDS = [
+    field.replace("archipop_detail_url", "image_est_detail_url")
+    for field in ARCHIPOP_VIDEO_LINK_FIELDS
+]
+IMAGE_EST_INTERNAL_PAGE_FIELDS = [
+    field.replace("archipop_detail_url", "image_est_detail_url")
     for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
 ]
 GOSFILMOFOND_INSTITUTION_FIELDS = [
@@ -2138,6 +2161,25 @@ def run_ifi_archive_player_pipeline():
         report_title="RELATORIO - IFI IRISH FILM ARCHIVE / ARCHIVE PLAYER",
         institutions_sheet_title="IFI Irish Film Archive",
         generated_by="scripts/run_ifi_archive_player_pipeline.py",
+    )
+
+
+def run_image_est_pipeline():
+    _run_corpus_pipeline(
+        source_label="Image'Est / sitemap público de patrimônio audiovisual",
+        source_url=IMAGE_EST_SITEMAP_URL,
+        collect_dataset=collect_image_est_dataset,
+        institution_fields=IMAGE_EST_INSTITUTION_FIELDS,
+        summary_fields=IMAGE_EST_SUMMARY_FIELDS,
+        video_link_fields=IMAGE_EST_VIDEO_LINK_FIELDS,
+        internal_page_fields=IMAGE_EST_INTERNAL_PAGE_FIELDS,
+        output_files=IMAGE_EST_OUTPUT_FILES,
+        analysis_output_writer=write_image_est_analysis_outputs,
+        analysis_extra_sheets_builder=build_image_est_analysis_extra_sheets,
+        snapshot_builder=build_image_est_snapshot_metadata,
+        report_title="RELATORIO - IMAGE'EST",
+        institutions_sheet_title="Image'Est",
+        generated_by="scripts/run_image_est_pipeline.py",
     )
 
 

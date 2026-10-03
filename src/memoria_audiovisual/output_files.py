@@ -28,6 +28,7 @@ from .config import (
     FILMARCHIV_AUSTRIA_OUTPUT_PREFIX,
     MURNAU_STIFTUNG_OUTPUT_PREFIX,
     IFI_ARCHIVE_PLAYER_OUTPUT_PREFIX,
+    IMAGE_EST_OUTPUT_PREFIX,
     GOSFILMOFOND_OUTPUT_PREFIX,
     FILMMUSEUM_DUSSELDORF_OUTPUT_PREFIX,
     FILMOTECA_CATALUNYA_OUTPUT_PREFIX,
@@ -145,6 +146,7 @@ CSC_CINETECA_OUTPUT_FILES = build_output_files(CSC_CINETECA_OUTPUT_PREFIX)
 FILMARCHIV_AUSTRIA_OUTPUT_FILES = build_output_files(FILMARCHIV_AUSTRIA_OUTPUT_PREFIX)
 MURNAU_STIFTUNG_OUTPUT_FILES = build_output_files(MURNAU_STIFTUNG_OUTPUT_PREFIX)
 IFI_ARCHIVE_PLAYER_OUTPUT_FILES = build_output_files(IFI_ARCHIVE_PLAYER_OUTPUT_PREFIX)
+IMAGE_EST_OUTPUT_FILES = build_output_files(IMAGE_EST_OUTPUT_PREFIX)
 GOSFILMOFOND_OUTPUT_FILES = build_output_files(GOSFILMOFOND_OUTPUT_PREFIX)
 FILMMUSEUM_DUSSELDORF_OUTPUT_FILES = build_output_files(FILMMUSEUM_DUSSELDORF_OUTPUT_PREFIX)
 FILMOTECA_CATALUNYA_OUTPUT_FILES = build_output_files(FILMOTECA_CATALUNYA_OUTPUT_PREFIX)
@@ -302,6 +304,10 @@ def list_ifi_archive_player_output_filenames():
     return list_output_filenames(IFI_ARCHIVE_PLAYER_OUTPUT_FILES)
 
 
+def list_image_est_output_filenames():
+    return list_output_filenames(IMAGE_EST_OUTPUT_FILES)
+
+
 def list_gosfilmofond_output_filenames():
     return list_output_filenames(GOSFILMOFOND_OUTPUT_FILES)
 
@@ -455,6 +461,7 @@ __all__ = [
     "ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES",
     "FAR_OUTPUT_FILES",
     "HOME_MOVIES_OUTPUT_FILES",
+    "IMAGE_EST_OUTPUT_FILES",
     "FILMARCHIV_AUSTRIA_OUTPUT_FILES",
     "FILMMUSEUM_DUSSELDORF_OUTPUT_FILES",
     "FILMOTECA_CATALUNYA_OUTPUT_FILES",
@@ -514,6 +521,7 @@ __all__ = [
     "list_estonian_film_archive_output_filenames",
     "list_far_output_filenames",
     "list_home_movies_output_filenames",
+    "list_image_est_output_filenames",
     "list_filmarchiv_austria_output_filenames",
     "list_filmmuseum_dusseldorf_output_filenames",
     "list_filmoteca_catalunya_output_filenames",

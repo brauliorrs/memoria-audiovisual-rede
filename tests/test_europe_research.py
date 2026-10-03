@@ -109,6 +109,9 @@ class EuropeResearchTests(unittest.TestCase):
         registry_df = build_europe_research_registry()
         queue_df = build_europe_research_queue(registry_df)
         priority_by_code = dict(zip(queue_df["unit_code"], queue_df["queue_priority"]))
+        image_est_row = registry_df.loc[registry_df["unit_code"] == "image_est"].iloc[0]
+        self.assertEqual(image_est_row["organism_status"], "ativo")
+        self.assertNotIn("inedits-image-est", set(registry_df["unit_code"].astype(str)))
 
         self.assertEqual(priority_by_code["efg-contributing-archives"], 1)
         self.assertEqual(priority_by_code["inedits-members"], 1)
@@ -124,17 +127,18 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertNotIn("fiat-european-commission-av-service", priority_by_code)
         self.assertGreater(priority_by_code["ace-members"], priority_by_code["fiat-rtp"])
         self.assertLess(priority_by_code["fiat-rtp"], priority_by_code["german-digital-library"])
-        self.assertEqual(len(CORPORA), 61)
+        self.assertEqual(len(CORPORA), 62)
         self.assertEqual(queue_df.iloc[0]["definitive_queue_rank"], "")
-        image_est_rank = int(
+        iwm_rank = int(
             queue_df.loc[
-                queue_df["unit_code"] == "inedits-image-est",
+                queue_df["unit_code"] == "fiaf-imperial-war-museums-film-archive",
                 "definitive_queue_rank",
             ].iloc[0]
         )
-        self.assertEqual(analyzed_corpora_total(registry_df), 77)
-        self.assertEqual(image_est_rank, analyzed_corpora_total(registry_df) + 1)
-        self.assertEqual(image_est_rank, 78)
+        self.assertEqual(analyzed_corpora_total(registry_df), 78)
+        self.assertEqual(iwm_rank, analyzed_corpora_total(registry_df) + 1)
+        self.assertEqual(iwm_rank, 79)
+        self.assertNotIn("inedits-image-est", priority_by_code)
         self.assertNotIn("fiaf-ifi-irish-film-archive", priority_by_code)
         self.assertIn("video_location_candidate_url", queue_df.columns)
         self.assertFalse(queue_df["queue_decision"].astype(str).str.contains("sonoro", case=False).any())
