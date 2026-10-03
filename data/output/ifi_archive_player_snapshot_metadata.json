@@ -1,0 +1,168 @@
+{
+  "dataset": "ifi_archive_player",
+  "generated_at": "2026-10-02T18:34:44Z",
+  "generated_by": "scripts/run_ifi_archive_player_pipeline.py",
+  "observation_key": "ifi_archive_player:2026-10-02T18:34:44Z",
+  "source_url": "https://ifiarchiveplayer.ie/sitemap_index.xml",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-10-02T18:34:44Z",
+  "analytic_outputs_last_modified_at": "2026-10-02T18:34:44Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 1115,
+    "videos_in_curatorial_catalog": 1115,
+    "visibility_categories": 1,
+    "theme_categories": 1,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "ifi_archive_player_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 317,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "summary": {
+      "filename": "ifi_archive_player_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1183,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "video_links": {
+      "filename": "ifi_archive_player_links_video.csv",
+      "exists": true,
+      "size_bytes": 604329,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "internal_pages": {
+      "filename": "ifi_archive_player_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 8607,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "analytic_summary": {
+      "filename": "ifi_archive_player_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1577,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "ifi_archive_player_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 738664,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "availability_summary": {
+      "filename": "ifi_archive_player_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "availability_reasons": {
+      "filename": "ifi_archive_player_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "visibility_summary": {
+      "filename": "ifi_archive_player_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "access_surface_summary": {
+      "filename": "ifi_archive_player_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 69,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "access_regime_summary": {
+      "filename": "ifi_archive_player_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 70,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "theme_summary": {
+      "filename": "ifi_archive_player_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 68,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "theme_country": {
+      "filename": "ifi_archive_player_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 81,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "archive_type_summary": {
+      "filename": "ifi_archive_player_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 51,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "theme_platform": {
+      "filename": "ifi_archive_player_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 98,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "theme_archive_type": {
+      "filename": "ifi_archive_player_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 109,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "visibility_archive_type": {
+      "filename": "ifi_archive_player_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 111,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "timeline_corpus": {
+      "filename": "ifi_archive_player_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 556,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "timeline_institutions": {
+      "filename": "ifi_archive_player_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 824,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "extinction_signals": {
+      "filename": "ifi_archive_player_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 291,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "snapshot_metadata": {
+      "filename": "ifi_archive_player_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5389,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "report_json": {
+      "filename": "ifi_archive_player_relatorio.json",
+      "exists": true,
+      "size_bytes": 1932,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "report_txt": {
+      "filename": "ifi_archive_player_relatorio.txt",
+      "exists": true,
+      "size_bytes": 900,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    },
+    "report_xlsx": {
+      "filename": "ifi_archive_player_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 231037,
+      "last_modified_at": "2026-10-02T18:34:44Z"
+    }
+  }
+}

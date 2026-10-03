@@ -98,11 +98,11 @@ class ForumDesImagesCollectionTests(unittest.TestCase):
         self.assertEqual(len(candidates), 1)
         self.assertEqual(
             candidates[0].unit_code,
-            "fiaf-ifi-irish-film-archive",
+            "inedits-image-est",
         )
-        # Forum and Croatian Cinematheque remain protocolled while Murnau and
-        # Gosfilmofond are active. The remaining definitive queue compacts
-        # again and IFI Irish Film Archive becomes rank 6.
+        # Forum and Croatian Cinematheque remain protocolled while Murnau,
+        # Gosfilmofond and IFI Archive Player are active. The definitive queue
+        # compacts again and Image'Est becomes rank 6.
         self.assertEqual(candidates[0].rank, 6)
 
 

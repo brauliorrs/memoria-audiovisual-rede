@@ -84,11 +84,14 @@ from .home_movies_exports import build_home_movies_analysis_extra_sheets
 from .home_movies_exports import write_home_movies_analysis_outputs
 from .filmarchiv_austria import collect_filmarchiv_austria_dataset
 from .murnau_stiftung import collect_murnau_stiftung_dataset
+from .ifi_archive_player import collect_ifi_archive_player_dataset
 from .gosfilmofond import collect_gosfilmofond_dataset
 from .filmarchiv_austria_exports import build_filmarchiv_austria_analysis_extra_sheets
 from .filmarchiv_austria_exports import write_filmarchiv_austria_analysis_outputs
 from .murnau_stiftung_exports import build_murnau_stiftung_analysis_extra_sheets
 from .murnau_stiftung_exports import write_murnau_stiftung_analysis_outputs
+from .ifi_archive_player_exports import build_ifi_archive_player_analysis_extra_sheets
+from .ifi_archive_player_exports import write_ifi_archive_player_analysis_outputs
 from .gosfilmofond_exports import build_gosfilmofond_analysis_extra_sheets
 from .gosfilmofond_exports import write_gosfilmofond_analysis_outputs
 from .filmmuseum_dusseldorf import collect_filmmuseum_dusseldorf_dataset
@@ -193,6 +196,7 @@ from .config import (
     MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
+    IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
     GOSFILMOFOND_CATALOG_URL,
     MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
@@ -277,6 +281,7 @@ from .output_files import (
     HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     MURNAU_STIFTUNG_OUTPUT_FILES,
+    IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
     GOSFILMOFOND_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -351,6 +356,7 @@ from .snapshot_metadata import (
     build_home_movies_snapshot_metadata,
     build_filmarchiv_austria_snapshot_metadata,
     build_murnau_stiftung_snapshot_metadata,
+    build_ifi_archive_player_snapshot_metadata,
     build_gosfilmofond_snapshot_metadata,
     build_filmmuseum_dusseldorf_snapshot_metadata,
     build_filmoteca_catalunya_snapshot_metadata,
@@ -788,6 +794,22 @@ MURNAU_STIFTUNG_VIDEO_LINK_FIELDS = [
 ]
 MURNAU_STIFTUNG_INTERNAL_PAGE_FIELDS = [
     field.replace("archipop_detail_url", "murnau_stiftung_detail_url") for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
+]
+IFI_ARCHIVE_PLAYER_INSTITUTION_FIELDS = [
+    field.replace("archipop_detail_url", "ifi_archive_player_detail_url")
+    for field in ARCHIPOP_INSTITUTION_FIELDS
+]
+IFI_ARCHIVE_PLAYER_SUMMARY_FIELDS = [
+    field.replace("archipop_detail_url", "ifi_archive_player_detail_url")
+    for field in ARCHIPOP_SUMMARY_FIELDS
+]
+IFI_ARCHIVE_PLAYER_VIDEO_LINK_FIELDS = [
+    field.replace("archipop_detail_url", "ifi_archive_player_detail_url")
+    for field in ARCHIPOP_VIDEO_LINK_FIELDS
+]
+IFI_ARCHIVE_PLAYER_INTERNAL_PAGE_FIELDS = [
+    field.replace("archipop_detail_url", "ifi_archive_player_detail_url")
+    for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
 ]
 GOSFILMOFOND_INSTITUTION_FIELDS = [
     field.replace("archipop_detail_url", "gosfilmofond_detail_url") for field in ARCHIPOP_INSTITUTION_FIELDS
@@ -2097,6 +2119,25 @@ def run_murnau_stiftung_pipeline():
         report_title="RELATORIO - FRIEDRICH-WILHELM-MURNAU-STIFTUNG",
         institutions_sheet_title="Murnau-Stiftung",
         generated_by="scripts/run_murnau_stiftung_pipeline.py",
+    )
+
+
+def run_ifi_archive_player_pipeline():
+    _run_corpus_pipeline(
+        source_label="IFI Irish Film Archive / IFI Archive Player",
+        source_url=IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
+        collect_dataset=collect_ifi_archive_player_dataset,
+        institution_fields=IFI_ARCHIVE_PLAYER_INSTITUTION_FIELDS,
+        summary_fields=IFI_ARCHIVE_PLAYER_SUMMARY_FIELDS,
+        video_link_fields=IFI_ARCHIVE_PLAYER_VIDEO_LINK_FIELDS,
+        internal_page_fields=IFI_ARCHIVE_PLAYER_INTERNAL_PAGE_FIELDS,
+        output_files=IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
+        analysis_output_writer=write_ifi_archive_player_analysis_outputs,
+        analysis_extra_sheets_builder=build_ifi_archive_player_analysis_extra_sheets,
+        snapshot_builder=build_ifi_archive_player_snapshot_metadata,
+        report_title="RELATORIO - IFI IRISH FILM ARCHIVE / ARCHIVE PLAYER",
+        institutions_sheet_title="IFI Irish Film Archive",
+        generated_by="scripts/run_ifi_archive_player_pipeline.py",
     )
 
 

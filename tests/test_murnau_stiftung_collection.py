@@ -225,7 +225,7 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
 
         registry = build_europe_research_registry()
         murnau = registry.loc[
-            registry["unit_code"] == "efg-friedrich-wilhelm-murnau-stiftung"
+            registry["unit_code"] == "murnau_stiftung"
         ].iloc[0]
         self.assertEqual(murnau["organism_status"], "ativo")
         self.assertEqual(murnau["queue_layer"], "corpus_ativo")
@@ -233,13 +233,17 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
         queue = build_europe_research_queue(registry)
         self.assertNotIn(
             "efg-friedrich-wilhelm-murnau-stiftung",
+            set(registry["unit_code"].astype(str)),
+        )
+        self.assertNotIn(
+            "murnau_stiftung",
             set(queue["unit_code"].astype(str)),
         )
         candidates = select_inclusion_candidates(
             queue.to_dict(orient="records"),
             limit=1,
         )
-        self.assertEqual(candidates[0].unit_code, "fiaf-ifi-irish-film-archive")
+        self.assertEqual(candidates[0].unit_code, "inedits-image-est")
         self.assertEqual(candidates[0].rank, 6)
 
     def test_collector_fails_closed_when_robots_is_not_verifiable(self):

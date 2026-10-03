@@ -36,6 +36,7 @@ from .config import (
     MEMORYSCAPES_ARCHIVE_URL,
     FILMARCHIV_AUSTRIA_ON_URL,
     MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
+    IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
     GOSFILMOFOND_CATALOG_URL,
     MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
@@ -101,6 +102,7 @@ from .output_files import (
     HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     MURNAU_STIFTUNG_OUTPUT_FILES,
+    IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
     GOSFILMOFOND_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -980,6 +982,26 @@ def build_murnau_stiftung_snapshot_metadata(
         dataset="murnau_stiftung",
         source_url=MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE.format(letter="A"),
         output_files=MURNAU_STIFTUNG_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_ifi_archive_player_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="ifi_archive_player",
+        source_url=IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
+        output_files=IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,

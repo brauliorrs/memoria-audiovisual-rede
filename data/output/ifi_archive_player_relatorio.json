@@ -1,0 +1,53 @@
+{
+  "source": "https://ifiarchiveplayer.ie/sitemap_index.xml",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "IFI Archive Player": 1115
+  },
+  "top_domains": [
+    [
+      "ifiarchiveplayer.ie",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "IFI Irish Film Archive",
+      "slug": "ifi-irish-film-archive",
+      "country": "Ireland",
+      "continent": "Europe",
+      "repository_code": "IE-IFI-IFA",
+      "archive_type": "National film archive",
+      "ifi_archive_player_detail_url": "https://ifiarchiveplayer.ie/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://ifiarchiveplayer.ie/",
+      "partner_domain": "ifiarchiveplayer.ie",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://ifiarchiveplayer.ie/sitemap_index.xml",
+      "video_links_found_total": 1115,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 27,
+      "priority_review": false,
+      "warning": "Snapshot do IFI Archive Player enumerado por todas as partições post-sitemap anunciadas pelo índice público na rodada. A rodada materializou 1115 permalinks únicos em 2 partições (post-sitemap.xml:1000, post-sitemap2.xml:115). A declaração institucional de mais de 1.000 filmes é contexto da plataforma e não denominador de completude. O acervo físico do IFI é mais amplo e também não é denominador. Permalinks públicos não implicam licença para download, cópia ou redistribuição da mídia. Enriquecimento determinístico limitado a 24 fichas. Avisos não fatais de detalhe=0.",
+      "error": ""
+    }
+  ]
+}

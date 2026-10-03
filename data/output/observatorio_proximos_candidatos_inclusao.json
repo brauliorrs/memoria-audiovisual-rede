@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "source_queue": "observatorio_fila_pesquisa_europa.csv",
+  "selection_rule": "queue_layer=fila_definitiva_um_por_um; queue_decision=avaliar_arquivo_individual_um_por_um; organism_status=candidato_individual; blocks_expansion=false; ascending definitive_queue_rank",
+  "automatic_incorporation_authorized": false,
+  "candidate_count": 3,
+  "candidates": [
+    {
+      "rank": 6,
+      "unit_code": "inedits-image-est",
+      "unit_label": "Image'Est",
+      "country_or_scope": "Grand Est / França",
+      "source_family": "INEDITS",
+      "source_url": "http://www.image-est.fr/",
+      "next_action": "sondar_site_catalogo_api_e_disponibilidade_audiovisual",
+      "inclusion_gate": "só incorporar após validar rota pública de vídeos, metadados audiovisuais ou catálogo coletável",
+      "video_location_status": "a_localizar",
+      "video_location_candidate_url": "http://www.image-est.fr/",
+      "evidence_reference": "Página pública de membros da INEDITS - Amateur Films / Memory of Europe.",
+      "rule_version": "2026-05-pesquisa-europa-v3"
+    },
+    {
+      "rank": 7,
+      "unit_code": "fiaf-imperial-war-museums-film-archive",
+      "unit_label": "Imperial War Museums - Film Archive",
+      "country_or_scope": "Reino Unido",
+      "source_family": "FIAF",
+      "source_url": "https://film.iwmcollections.org.uk",
+      "next_action": "sondar_site_catalogo_api_e_disponibilidade_audiovisual",
+      "inclusion_gate": "só incorporar após validar rota pública de vídeos, metadados audiovisuais ou catálogo coletável",
+      "video_location_status": "a_localizar",
+      "video_location_candidate_url": "https://film.iwmcollections.org.uk",
+      "evidence_reference": "Lista oficial de membros da FIAF.",
+      "rule_version": "2026-05-pesquisa-europa-v3"
+    },
+    {
+      "rank": 8,
+      "unit_code": "inedits-jean-vigo-institute",
+      "unit_label": "Jean Vigo Institute",
+      "country_or_scope": "França",
+      "source_family": "INEDITS",
+      "source_url": "https://www.inst-jeanvigo.eu/",
+      "next_action": "sondar_site_catalogo_api_e_disponibilidade_audiovisual",
+      "inclusion_gate": "só incorporar após validar rota pública de vídeos, metadados audiovisuais ou catálogo coletável",
+      "video_location_status": "a_localizar",
+      "video_location_candidate_url": "https://www.inst-jeanvigo.eu/",
+      "evidence_reference": "Página pública de membros da INEDITS - Amateur Films / Memory of Europe.",
+      "rule_version": "2026-05-pesquisa-europa-v3"
+    }
+  ],
+  "note": "This file schedules engineering/research work only. A candidate enters the active corpus only after its existing inclusion_gate is satisfied and its dedicated pipeline/checks are reviewed."
+}
