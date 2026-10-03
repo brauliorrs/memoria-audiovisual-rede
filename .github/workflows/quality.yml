@@ -232,6 +232,26 @@ jobs:
             data/output/observatorio_proximos_candidatos_inclusao.json
           if-no-files-found: error
 
+      - name: Validate Image'Est technical probe contract
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/image_est_probe.py \
+            scripts/probe_image_est.py \
+            tests/test_image_est_probe.py
+          python -m unittest discover -s tests -p 'test_image_est_probe.py' -v
+
+      - name: Probe Image'Est public film catalogue
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/image-est-probe-v1'
+        run: python scripts/probe_image_est.py
+
+      - name: Upload Image'Est probe artifact
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/image-est-probe-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-est-probe
+          path: data/output/image_est_probe.json
+          if-no-files-found: error
+
       - name: Validate Croatian Cinematheque technical probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \
