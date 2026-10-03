@@ -262,6 +262,9 @@ jobs:
             tests/test_image_est_collection.py
           python -m unittest discover -s tests -p 'test_image_est_collection.py' -v
 
+      - name: Validate Image'Est canonical baseline
+        run: python scripts/check_image_est_outputs.py
+
       - name: Run Image'Est staged baseline
         if: github.event_name == 'pull_request' && github.head_ref == 'corpus/image-est-v1'
         run: python scripts/run_image_est_pipeline.py

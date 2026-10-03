@@ -74,14 +74,14 @@ class InclusionQueueTests(unittest.TestCase):
         )
         self.assertEqual(
             [candidate.rank for candidate in candidates],
-            [78, 79, 80],
+            [79, 80, 81],
         )
         self.assertEqual(
             [candidate.unit_code for candidate in candidates],
             [
-                "inedits-image-est",
                 "fiaf-imperial-war-museums-film-archive",
                 "inedits-jean-vigo-institute",
+                "fiaf-jugoslovenska-kinoteka",
             ],
         )
         self.assertTrue(all(candidate.inclusion_gate for candidate in candidates))

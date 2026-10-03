@@ -426,6 +426,7 @@ def _active_european_code_aliases():
         "inedits-cinematheque-saint-etienne": "saint-etienne",
         "inedits-far": "far",
         "inedits-home-movies": "home-movies-memoryscapes",
+        "inedits-image-est": "image_est",
         "euscreen-cna": "cna",
         "fiaf-cnc-aff": "cnc-aff",
         "the-european-film-gateway": "european-film-gateway",
