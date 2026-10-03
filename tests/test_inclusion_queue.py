@@ -6,6 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from memoria_audiovisual.analysis_progress import ANALYSIS_PROGRESS_FILENAME
 from memoria_audiovisual.inclusion_queue import (
     InclusionQueueError,
     NEXT_INCLUSION_FILENAME,
@@ -101,6 +102,9 @@ class InclusionQueueTests(unittest.TestCase):
             saved = json.loads((output / NEXT_INCLUSION_FILENAME).read_text(encoding="utf-8"))
             self.assertFalse(saved["automatic_incorporation_authorized"])
             self.assertEqual(saved["next_analysis_number"], 78)
+            progress = json.loads((output / ANALYSIS_PROGRESS_FILENAME).read_text(encoding="utf-8"))
+            self.assertEqual(progress["analyzed_corpora_total"], 77)
+            self.assertEqual(progress["next_analysis_number"], 78)
 
 
 if __name__ == "__main__":
