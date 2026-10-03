@@ -4,6 +4,7 @@ from memoria_audiovisual.image_est_probe import (
     IMAGE_EST_FILMS_FILTER_URL,
     parse_archive_html,
     parse_detail_html,
+    parse_sitemap,
     robots_allowed,
 )
 
@@ -74,6 +75,29 @@ class ImageEstProbeTests(unittest.TestCase):
                 "MemoriaAudiovisualRede",
                 "https://www.image-est.fr/js/public/catalogue",
             )
+        )
+
+    def test_sitemap_parser_separates_video_details_from_mixed_records(self):
+        xml = """
+        <urlset>
+          <url><loc>https://www.image-est.fr/fiche-documentaire-film-a-1284-744-3-0.html</loc></url>
+          <url><loc>https://www.image-est.fr/fiche-documentaire-1284-0-0-2453.html</loc></url>
+          <url><loc>https://www.image-est.fr/archive_content.xml</loc></url>
+        </urlset>
+        """
+        parsed = parse_sitemap(xml)
+        self.assertEqual(parsed["url_count"], 3)
+        self.assertEqual(parsed["detail_candidate_count"], 2)
+        self.assertEqual(parsed["video_detail_candidate_count"], 1)
+        self.assertEqual(
+            parsed["video_detail_candidate_samples"],
+            [
+                "https://www.image-est.fr/fiche-documentaire-film-a-1284-744-3-0.html"
+            ],
+        )
+        self.assertEqual(
+            parsed["nested_sitemaps"],
+            ["https://www.image-est.fr/archive_content.xml"],
         )
 
     def test_invalid_detail_without_iframe_does_not_confirm_semantics(self):
