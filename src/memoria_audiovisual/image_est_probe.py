@@ -34,6 +34,10 @@ _VIDEO_DETAIL_PATH_RE = re.compile(
     r"/fiche-documentaire-[^?#]+-1284-[^/?#]+-3-0\.html$",
     re.I,
 )
+_TYPED_DETAIL_PATH_RE = re.compile(
+    r"/fiche-documentaire-[^?#]+-1284-[^/?#]+-(\d+)-0\.html$",
+    re.I,
+)
 _XML_LOC_RE = re.compile(r"<loc>\s*([^<]+?)\s*</loc>", re.I)
 _SITEMAP_DIRECTIVE_RE = re.compile(r"(?im)^\s*Sitemap:\s*(\S+)\s*$")
 _RESULT_COUNT_RE = re.compile(r"([0-9][0-9\s\u00a0\u202f.]*)\s+r[ée]sultat", re.I)
@@ -296,6 +300,8 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
     detail_urls = []
     video_detail_urls = []
     nested_sitemaps = []
+    typed_counts: dict[str, int] = {}
+    typed_samples: dict[str, list[str]] = {}
     for url in urls:
         parsed = urlparse(url)
         if parsed.path.lower().endswith(".xml"):
@@ -304,12 +310,29 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
             detail_urls.append(url)
         if _VIDEO_DETAIL_PATH_RE.match(parsed.path):
             video_detail_urls.append(url)
+        type_match = _TYPED_DETAIL_PATH_RE.match(parsed.path)
+        if type_match:
+            type_code = type_match.group(1)
+            typed_counts[type_code] = typed_counts.get(type_code, 0) + 1
+            samples = typed_samples.setdefault(type_code, [])
+            if len(samples) < 3:
+                samples.append(url)
+    typed_total = sum(typed_counts.values())
     return {
         "url_count": len(urls),
         "detail_candidate_count": len(set(detail_urls)),
         "video_detail_candidate_count": len(set(video_detail_urls)),
         "detail_candidate_samples": sorted(set(detail_urls))[:20],
         "video_detail_candidate_samples": sorted(set(video_detail_urls))[:20],
+        "typed_detail_counts": dict(sorted(typed_counts.items())),
+        "typed_detail_samples": {
+            key: value
+            for key, value in sorted(typed_samples.items())
+        },
+        "untyped_detail_candidate_count": max(
+            0,
+            len(set(detail_urls)) - typed_total,
+        ),
         "nested_sitemaps": sorted(set(nested_sitemaps))[:50],
     }
 
@@ -329,7 +352,8 @@ def parse_detail_html(html_text: str, page_url: str) -> dict[str, Any]:
         "labels": labels,
         "label_count": len(labels),
         "iframe_urls": iframes[:10],
-        "film_semantics_confirmed": len(labels) >= 3 and bool(iframes),
+        "embedded_player_present": bool(iframes),
+        "film_semantics_confirmed": "Durée" in labels and len(labels) >= 3,
     }
 
 
@@ -432,6 +456,9 @@ def run_image_est_probe(
         }
 
     sitemap_video_candidates: list[str] = []
+    sitemap_typed_counts: dict[str, int] = {}
+    sitemap_typed_samples: dict[str, list[str]] = {}
+    sitemap_untyped_details = 0
     for sitemap_url in robots.get("sitemaps", []):
         if not robots_allowed(robots_text, CRAWLER_TOKEN, sitemap_url):
             result["sitemaps"].append(
@@ -447,6 +474,22 @@ def run_image_est_probe(
         sitemap_video_candidates.extend(
             parsed_sitemap.get("video_detail_candidate_samples", [])
         )
+        sitemap_untyped_details += int(
+            parsed_sitemap.get("untyped_detail_candidate_count", 0)
+        )
+        for type_code, count in parsed_sitemap.get(
+            "typed_detail_counts", {}
+        ).items():
+            sitemap_typed_counts[type_code] = (
+                sitemap_typed_counts.get(type_code, 0) + int(count)
+            )
+        for type_code, samples in parsed_sitemap.get(
+            "typed_detail_samples", {}
+        ).items():
+            bucket = sitemap_typed_samples.setdefault(type_code, [])
+            for sample_url in samples:
+                if sample_url not in bucket and len(bucket) < 3:
+                    bucket.append(sample_url)
         nested_rows = []
         for nested_url in parsed_sitemap.get("nested_sitemaps", []):
             nested_rows.append(
@@ -480,57 +523,109 @@ def run_image_est_probe(
         )
         return result
 
-    if not filter_parsed and sitemap_video_candidates:
-        for detail_url in sitemap_video_candidates[:2]:
-            if not robots_allowed(robots_text, CRAWLER_TOKEN, detail_url):
-                result["detail_samples"].append(
-                    {"url": detail_url, "status": "blocked_by_robots"}
+    if not filter_parsed and sitemap_typed_samples:
+        type_classification: dict[str, dict[str, Any]] = {}
+        for type_code in sorted(sitemap_typed_samples):
+            sample_rows = []
+            for detail_url in sitemap_typed_samples[type_code][:2]:
+                if not robots_allowed(robots_text, CRAWLER_TOKEN, detail_url):
+                    sample_rows.append(
+                        {"url": detail_url, "status": "blocked_by_robots"}
+                    )
+                    continue
+                response = fetch_public_url(session, detail_url)
+                semantics = (
+                    parse_detail_html(
+                        response.text,
+                        response.final_url or detail_url,
+                    )
+                    if response.status_code == 200 and not response.error
+                    else {
+                        "title": "",
+                        "labels": [],
+                        "label_count": 0,
+                        "iframe_urls": [],
+                        "embedded_player_present": False,
+                        "film_semantics_confirmed": False,
+                    }
                 )
-                continue
-            response = fetch_public_url(session, detail_url)
-            semantics = (
-                parse_detail_html(response.text, response.final_url or detail_url)
-                if response.status_code == 200 and not response.error
-                else {
-                    "title": "",
-                    "labels": [],
-                    "label_count": 0,
-                    "iframe_urls": [],
-                    "film_semantics_confirmed": False,
-                }
-            )
-            result["detail_samples"].append(
-                {
+                row = {
                     "url": detail_url,
                     "status_code": response.status_code,
                     "error": response.error,
+                    "type_code": type_code,
                     **semantics,
                 }
+                sample_rows.append(row)
+                result["detail_samples"].append(row)
+
+            complete_sample = (
+                len(sample_rows) == 2
+                and all(row.get("status_code") == 200 for row in sample_rows)
             )
-        sitemap_semantics_ok = (
-            len(result["detail_samples"]) == 2
-            and all(
-                row.get("film_semantics_confirmed")
-                for row in result["detail_samples"]
+            all_video = (
+                complete_sample
+                and all(
+                    row.get("film_semantics_confirmed")
+                    for row in sample_rows
+                )
             )
+            all_nonvideo = (
+                complete_sample
+                and all(
+                    not row.get("film_semantics_confirmed")
+                    for row in sample_rows
+                )
+            )
+            type_classification[type_code] = {
+                "sitemap_count": sitemap_typed_counts.get(type_code, 0),
+                "samples": sample_rows,
+                "classification": (
+                    "audiovisual"
+                    if all_video
+                    else "non_audiovisual"
+                    if all_nonvideo
+                    else "ambiguous"
+                ),
+            }
+
+        ambiguous_types = [
+            type_code
+            for type_code, row in type_classification.items()
+            if row["classification"] == "ambiguous"
+        ]
+        video_types = [
+            type_code
+            for type_code, row in type_classification.items()
+            if row["classification"] == "audiovisual"
+        ]
+        video_total = sum(
+            sitemap_typed_counts.get(type_code, 0)
+            for type_code in video_types
         )
         result["bounded_enumeration"] = {
             "mechanism": "robots_declared_sitemap",
-            "direct_video_permalink_candidates_observed": len(
-                set(sitemap_video_candidates)
-            ),
-            "detail_semantics_confirmed": sitemap_semantics_ok,
+            "typed_detail_counts": dict(sorted(sitemap_typed_counts.items())),
+            "untyped_detail_candidate_count": sitemap_untyped_details,
+            "type_classification": type_classification,
+            "confirmed_audiovisual_type_codes": video_types,
+            "confirmed_audiovisual_permalink_total": video_total,
+            "all_typed_codes_classified": not ambiguous_types,
         }
-        if sitemap_semantics_ok:
+        if (
+            video_types
+            and not ambiguous_types
+            and sitemap_untyped_details == 0
+        ):
             result["gate_assessment"] = (
-                "direct_video_sitemap_candidates_confirmed_staged_required"
+                "complete_sitemap_type_classification_confirmed_staged_required"
             )
             result["next_action"] = (
                 "engineer_full_staged_sitemap_enumeration_with_integrity_gates"
             )
         else:
             result["gate_assessment"] = (
-                "hold_sitemap_candidates_lack_confirmed_video_semantics"
+                "hold_sitemap_type_classification_incomplete"
             )
         return result
 
