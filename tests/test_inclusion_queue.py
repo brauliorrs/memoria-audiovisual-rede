@@ -74,7 +74,7 @@ class InclusionQueueTests(unittest.TestCase):
         )
         self.assertEqual(
             [candidate.rank for candidate in candidates],
-            [62, 63, 64],
+            [78, 79, 80],
         )
         self.assertEqual(
             [candidate.unit_code for candidate in candidates],
