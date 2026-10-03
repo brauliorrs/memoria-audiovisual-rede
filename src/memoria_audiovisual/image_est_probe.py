@@ -30,6 +30,12 @@ CRAWLER_TOKEN = "MemoriaAudiovisualRede"
 
 _ARCHIVE_PAGE_RE = re.compile(r"/nos-archives-1283-0-0-(\d+)\.html$", re.I)
 _DETAIL_PATH_RE = re.compile(r"/fiche-documentaire-[^?#]+-1284-[^/?#]+\.html$", re.I)
+_VIDEO_DETAIL_PATH_RE = re.compile(
+    r"/fiche-documentaire-[^?#]+-1284-[^/?#]+-3-0\.html$",
+    re.I,
+)
+_XML_LOC_RE = re.compile(r"<loc>\s*([^<]+?)\s*</loc>", re.I)
+_SITEMAP_DIRECTIVE_RE = re.compile(r"(?im)^\s*Sitemap:\s*(\S+)\s*$")
 _RESULT_COUNT_RE = re.compile(r"([0-9][0-9\s\u00a0\u202f.]*)\s+r[ée]sultat", re.I)
 _FILM_LABELS = ("Année", "Durée", "Format", "Son", "Fonds")
 
