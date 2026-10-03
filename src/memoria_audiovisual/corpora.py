@@ -2985,7 +2985,7 @@ CORPORA = {
         "category_code": "institution",
         "expansion_priority": 3,
         "entity_level": "arquivo audiovisual regional / instituição custodial",
-        "coverage_level": "Grand Est / França",
+        "coverage_level": "Europa / Grand Est / França",
         "scope": "patrimônio audiovisual público enumerado pelo sitemap da Image'Est",
         "methodological_unit": (
             "permalinks documentais tipados no sitemap público; somente types 1 e 3 "
