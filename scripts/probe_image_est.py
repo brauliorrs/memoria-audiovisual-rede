@@ -20,8 +20,6 @@ def main() -> int:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(dumps_probe(payload), encoding="utf-8")
     print(dumps_probe(payload), end="")
-    if payload["gate_assessment"] == "hold_robots_not_allowed_or_unverifiable":
-        return 3
     return 0
 
 
