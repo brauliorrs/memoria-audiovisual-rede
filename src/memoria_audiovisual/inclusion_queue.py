@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-from .analysis_progress import build_analysis_progress
+from .analysis_progress import write_analysis_progress
 from .config import OUTPUT_DIR
 
 EUROPE_RESEARCH_QUEUE_FILENAME = "observatorio_fila_pesquisa_europa.csv"
@@ -157,7 +157,7 @@ def write_next_inclusion_candidates(
 ) -> dict:
     output_dir = Path(output_dir)
     candidates = next_inclusion_candidates(output_dir=output_dir, limit=limit)
-    progress = build_analysis_progress()
+    progress = write_analysis_progress(output_dir=output_dir)
     numbered_candidates = []
     for offset, candidate in enumerate(candidates, start=1):
         item = candidate.to_dict()
