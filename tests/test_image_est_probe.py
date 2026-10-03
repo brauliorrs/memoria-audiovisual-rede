@@ -166,7 +166,7 @@ class ImageEstProbeTests(unittest.TestCase):
             session.calls,
             ["https://www.image-est.fr/nos-archives-1283-0-0-0.html"],
         )
-\n    def test_sitemap_parser_separates_video_details_from_mixed_records(self):
+    def test_sitemap_parser_separates_video_details_from_mixed_records(self):
         xml = """
         <urlset>
           <url><loc>https://www.image-est.fr/fiche-documentaire-film-a-1284-744-3-0.html</loc></url>
