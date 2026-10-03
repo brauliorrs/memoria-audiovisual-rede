@@ -29,7 +29,7 @@ IMAGE_EST_PROBE_VERSION = "2026-10-image-est-probe-v1"
 CRAWLER_TOKEN = "MemoriaAudiovisualRede"
 
 _ARCHIVE_PAGE_RE = re.compile(r"/nos-archives-1283-0-0-(\d+)\.html$", re.I)
-_DETAIL_PATH_RE = re.compile(r"/fiche-documentaire-[^?#]+-1284-[^/?#]+\.html$", re.I)
+_DETAIL_PATH_RE = re.compile(r"/fiche-documentaire-[^/?#]+\.html$", re.I)
 _VIDEO_DETAIL_PATH_RE = re.compile(
     r"/fiche-documentaire-[^?#]+-1284-[^/?#]+-3-0\.html$",
     re.I,
