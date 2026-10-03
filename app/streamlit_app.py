@@ -17,6 +17,7 @@ if str(SRC_DIR) not in sys.path:
 
 from memoria_audiovisual import analysis as analysis_utils
 from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
+from memoria_audiovisual.analysis_progress import build_analysis_progress
 from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
 from memoria_audiovisual.atresmedia_protocol import ATRESMEDIA_PROTOCOL_FILENAME
@@ -2794,13 +2795,22 @@ def render_observatory_overview_tab():
         st.info("O mapeamento europeu ampliado ainda não está disponível.")
     else:
         europe_queue_layer = europe_research_queue_df.get("queue_layer", pd.Series(dtype="object")).astype(str)
-        europe_research_cols = st.columns(4)
+        analysis_progress = build_analysis_progress(europe_research_registry_df)
+        europe_research_cols = st.columns(6)
         europe_research_cols[0].metric("Unidades europeias mapeadas", len(europe_research_registry_df))
         europe_research_cols[1].metric(
+            "Corpora analisados pelo motor",
+            analysis_progress["analyzed_corpora_total"],
+        )
+        europe_research_cols[2].metric(
+            "Próxima análise",
+            f'#{analysis_progress["next_analysis_number"]}',
+        )
+        europe_research_cols[3].metric(
             "Próximas análises individuais",
             int((europe_queue_layer == "fila_definitiva_um_por_um").sum()),
         )
-        europe_research_cols[2].metric(
+        europe_research_cols[4].metric(
             "Diretórios a expandir",
             int(
                 (
@@ -2809,7 +2819,7 @@ def render_observatory_overview_tab():
                 ).sum()
             ),
         )
-        europe_research_cols[3].metric(
+        europe_research_cols[5].metric(
             "Arquivos individuais",
             int(
                 (
@@ -2824,7 +2834,7 @@ def render_observatory_overview_tab():
         with research_tab_queue:
             queue_display_df = europe_research_queue_df.rename(
                 columns={
-                    "definitive_queue_rank": "ordem",
+                    "definitive_queue_rank": "ordem da fila",
                     "unit_label": "unidade",
                     "unit_type": "tipo",
                     "source_family": "fonte",
@@ -2841,7 +2851,7 @@ def render_observatory_overview_tab():
                 select_existing_columns(
                     queue_display_df,
                     [
-                        "ordem",
+                        "ordem da fila",
                         "unidade",
                         "tipo",
                         "fonte",
