@@ -1,0 +1,2 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+ifi_archive_player,ifi_archive_player:2026-10-02T18:34:44Z,2026-10-02T18:34:44Z,,2026-10-02T18:34:44Z,2026-10-02T18:34:44Z,scripts/run_ifi_archive_player_pipeline.py,1,1,1,1115,1115,1,1,1,1,1
