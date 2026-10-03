@@ -442,6 +442,7 @@ def _is_european_corpus(corpus_def):
         corpus_def["code"] in {"ape", "euscreen", "european-film-gateway", "europeana", "pares", "portal-portugues-arquivos", "ina"}
         or "europe" in coverage
         or "europeu" in coverage
+        or "europa" in coverage
     )
 
 
