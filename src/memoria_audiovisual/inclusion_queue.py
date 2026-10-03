@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
+from .analysis_progress import build_analysis_progress
 from .config import OUTPUT_DIR
 
 EUROPE_RESEARCH_QUEUE_FILENAME = "observatorio_fila_pesquisa_europa.csv"
@@ -156,8 +157,16 @@ def write_next_inclusion_candidates(
 ) -> dict:
     output_dir = Path(output_dir)
     candidates = next_inclusion_candidates(output_dir=output_dir, limit=limit)
+    progress = build_analysis_progress()
+    numbered_candidates = []
+    for offset, candidate in enumerate(candidates, start=1):
+        item = candidate.to_dict()
+        item["queue_order"] = item["rank"]
+        item["analysis_number"] = progress["analyzed_corpora_total"] + offset
+        numbered_candidates.append(item)
+
     payload = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "source_queue": EUROPE_RESEARCH_QUEUE_FILENAME,
         "selection_rule": (
             "queue_layer=fila_definitiva_um_por_um; "
@@ -166,12 +175,19 @@ def write_next_inclusion_candidates(
             "ascending definitive_queue_rank"
         ),
         "automatic_incorporation_authorized": False,
+        "analyzed_corpora_total": progress["analyzed_corpora_total"],
+        "next_analysis_number": progress["next_analysis_number"],
+        "numbering_rule": (
+            "analysis_number is cumulative over unique canonical corpus-level analyses; "
+            "active, inactive and protocolled decisions count once"
+        ),
         "candidate_count": len(candidates),
-        "candidates": [candidate.to_dict() for candidate in candidates],
+        "candidates": numbered_candidates,
         "note": (
-            "This file schedules engineering/research work only. A candidate enters "
-            "the active corpus only after its existing inclusion_gate is satisfied "
-            "and its dedicated pipeline/checks are reviewed."
+            "This file schedules engineering/research work only. analysis_number is the "
+            "user-facing cumulative corpus-analysis sequence; rank/queue_order only orders "
+            "pending work. A candidate enters the active corpus only after its existing "
+            "inclusion_gate is satisfied and its dedicated pipeline/checks are reviewed."
         ),
     }
     output_dir.mkdir(parents=True, exist_ok=True)
