@@ -1,0 +1,123 @@
+name: Persist ImageEst promotion state
+
+on:
+  push:
+    branches:
+      - corpus/image-est-v1
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  persist:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout promotion branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: corpus/image-est-v1
+          fetch-depth: 0
+
+      - name: Download validated ImageEst staged baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/image-est-baseline
+          mkdir -p /tmp/image-est-baseline
+          gh run download 37136396002 \
+            --repo "${{ github.repository }}" \
+            --name image-est-staged-baseline \
+            --dir /tmp/image-est-baseline
+
+      - name: Verify exact staged baseline hashes
+        run: |
+          cat > /tmp/image-est-expected.sha256 <<'EOF'
+          0ca6fb4eb501e5b6dd5f1e7a85fe32cb6514050bd7610d1eed9d035fe5aa1e67  image_est_catalogo_videos_analitico.csv
+          3aac31169d3ad65311baf162ead13c88603352bd07435090e9532b5b506204b6  image_est_instituicoes.csv
+          2352312d47ba2ccda86af73318f812c46e8da1f5b032433874ae9b4f81de942c  image_est_linha_do_tempo_corpus.csv
+          9851da6d7c29447e40412a206bdc21d05127938ebf04b4ccf259ad7a29a3358b  image_est_linha_do_tempo_instituicoes.csv
+          9a2ca0c11e78e18743c6a255de7bc544c9bb7b93275e82e36a2b44b96cd32a81  image_est_links_video.csv
+          6dd19a81ddb933a938773693fa1a05b43db263df8b2ca6a762c9b54be45d5f16  image_est_paginas_internas.csv
+          7b7c930bb3a9b3c77b4454ed3fbd909d1875c6fdbe546a8f0a33c1aa77168723  image_est_relatorio.json
+          2737ac740cf4aa94c8a455dbf6c91dbaff023ddaef46bf159cfb93d5bad315bd  image_est_relatorio.txt
+          b77b882ce6e0cad9ad60efb11b8d8c76df0f4d5f91433cbfe2ec27ecbc69ae13  image_est_relatorio.xlsx
+          57a9d9b7ba4c163a4495dbb2302006253db92459623410a15ae222410440db44  image_est_resumo_disponibilidade.csv
+          c7b44668e616f3b4f6fe06e9c7c07f33e78efa25e18a4e9b3c37a4c13a162c1e  image_est_resumo_instituicoes.csv
+          70536974dcadc1f4e3474c9846b9c388b26b420d27c119f607f04fe7b61780d1  image_est_resumo_instituicoes_analitico.csv
+          36ec3f4444266a866107ccc15a5c044b504ea2b6c486107751bf054600a2cd98  image_est_resumo_modalidades_acesso.csv
+          d11c92ff50e3146a919003a51bc7df064e7d412283ff7c2133d76eb366b5814d  image_est_resumo_regimes_acesso.csv
+          612f63b153d2f2abcc1253260b30d8485475eafe165cdba9946fe7db4ce8c757  image_est_resumo_temas.csv
+          d231be65270bdb90513a2be08b91feab7fcc6a114900120ed4ba821cccf3501d  image_est_resumo_tipos_arquivo.csv
+          04cf3111de9fe5045ff0897b587f02fd850305d03d2f315268635c4be3e004f2  image_est_resumo_visibilidade.csv
+          af051ad7ecfb03d71c2167287f121145809002b7828a2cfb0a9c741325ec25d7  image_est_sinais_possivel_extincao.csv
+          65b213c0ccc9043e809bbc82a96b4732f6e9a5ec0552b6da629c4998952edffb  image_est_snapshot_metadata.json
+          4eaec8faebc489bb9c9454198ce8ce642ba20861113f125e01e241f33bd9e48e  image_est_subcategorias_disponibilidade.csv
+          1e2e0d506b888166e72168fcd21e9c47a5fbc3654daa57470b52037020edb954  image_est_tema_pais.csv
+          33482399cd244c6f823907e7bbef26f94784f3e618aad64a64cf4f5e0458a01b  image_est_tema_plataforma.csv
+          d18341ec8c2b330b46ad6ccc0dcb3084d894c46b8259685b41b89bf94e1bc702  image_est_tema_tipo_arquivo.csv
+          a51e792e7c1197caaa5ae79f906d62b384ff4d0899ae9ddf6fe9e2f685e7f838  image_est_visibilidade_tipo_arquivo.csv
+          EOF
+          cd /tmp/image-est-baseline
+          sha256sum -c /tmp/image-est-expected.sha256
+          test "$(find . -maxdepth 1 -type f -name 'image_est_*' | wc -l)" -eq 24
+
+      - name: Persist exact validated baseline
+        run: |
+          cp /tmp/image-est-baseline/image_est_* data/output/
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            pyproject.toml
+
+      - name: Install validation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e ".[dev]"
+
+      - name: Validate persisted ImageEst baseline
+        run: python scripts/check_image_est_outputs.py
+
+      - name: Regenerate queue if ImageEst is active
+        run: |
+          python - <<'PY'
+          from memoria_audiovisual.config import OUTPUT_DIR
+          from memoria_audiovisual.corpora import CORPORA
+          from memoria_audiovisual.europe_research import write_europe_research_outputs
+          from memoria_audiovisual.inclusion_queue import write_next_inclusion_candidates
+
+          if any(
+              corpus_def.get("code") == "image_est"
+              and corpus_def.get("organism_active", False)
+              for corpus_def in CORPORA.values()
+          ):
+              write_europe_research_outputs(OUTPUT_DIR)
+              payload = write_next_inclusion_candidates(output_dir=OUTPUT_DIR, limit=3)
+              candidates = payload["candidates"]
+              assert candidates[0]["unit_code"] == "fiaf-imperial-war-museums-film-archive", candidates
+              assert candidates[0]["rank"] == 79, candidates
+              assert all(candidate["unit_code"] != "inedits-image-est" for candidate in candidates)
+          PY
+
+      - name: Commit exact baseline and regenerated queue
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/output/image_est_*
+          if grep -q '"code": "image_est"' src/memoria_audiovisual/corpora.py; then
+            git add \
+              data/output/observatorio_pesquisa_europa.csv \
+              data/output/observatorio_fila_pesquisa_europa.csv \
+              data/output/observatorio_resumo_pesquisa_europa.csv \
+              data/output/observatorio_proximos_candidatos_inclusao.json
+          fi
+          git diff --cached --quiet && exit 0
+          git commit -m "data(image-est): persist validated baseline and promotion state"
+          git push origin HEAD:corpus/image-est-v1
