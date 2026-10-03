@@ -102,6 +102,17 @@ class ImageEstCollectionTests(unittest.TestCase):
         self.assertFalse(any("-2-0.html" in row["video_link"] for row in links))
         self.assertFalse(any("/js/" in url for url in calls))
         self.assertFalse(any("diazie" in url for url in calls))
+        self.assertEqual(len(calls), 7)
+        self.assertEqual(len(calls), len(set(calls)))
+        audited_detail_urls = [
+            row["internal_page"]
+            for row in internal
+            if "fiche-documentaire-" in row["internal_page"]
+        ]
+        self.assertEqual(
+            len(audited_detail_urls),
+            len(set(audited_detail_urls)),
+        )
         type_rows = {
             row["internal_page"]: row["video_links_found"]
             for row in internal
