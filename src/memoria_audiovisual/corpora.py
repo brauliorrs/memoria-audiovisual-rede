@@ -3774,6 +3774,20 @@ def list_corpora_by_category(category_code):
     ]
 
 
+def count_documented_corpora():
+    """Return every corpus already analyzed/documented by the engine.
+
+    Active and inactive corpus definitions both count because each represents
+    a completed corpus-level analysis decision in the engine.
+    """
+    return len(CORPORA)
+
+
+def next_corpus_sequence_number():
+    """Return the sequential number assigned to the next corpus analysis."""
+    return count_documented_corpora() + 1
+
+
 def list_active_corpora(*, monthly_only=False):
     corpora = [
         corpus_definition
@@ -3802,6 +3816,8 @@ __all__ = [
     "CORPUS_CATEGORIES",
     "get_category_definition",
     "get_corpus_definition",
+    "count_documented_corpora",
+    "next_corpus_sequence_number",
     "list_active_corpora",
     "list_corpora_by_category",
 ]
