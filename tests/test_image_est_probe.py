@@ -2,6 +2,7 @@ import unittest
 
 from memoria_audiovisual.image_est_probe import (
     IMAGE_EST_FILMS_FILTER_URL,
+    fetch_public_url,
     parse_archive_html,
     parse_detail_html,
     parse_sitemap,
@@ -77,7 +78,95 @@ class ImageEstProbeTests(unittest.TestCase):
             )
         )
 
-    def test_sitemap_parser_separates_video_details_from_mixed_records(self):
+
+    def test_longest_matching_user_agent_group_wins(self):
+        robots = """
+        User-agent: Memoria
+        Allow: /private/
+
+        User-agent: MemoriaAudiovisualRede
+        Disallow: /private/
+        """
+        self.assertFalse(
+            robots_allowed(
+                robots,
+                "MemoriaAudiovisualRede/1.0",
+                "https://www.image-est.fr/private/item",
+            )
+        )
+
+    def test_redirect_is_authorized_before_following(self):
+        class FakeResponse:
+            def __init__(self, status_code, url, location="", text=""):
+                self.status_code = status_code
+                self.url = url
+                self.text = text
+                self.headers = {
+                    "content-type": "text/html",
+                    **({"location": location} if location else {}),
+                }
+
+        class FakeSession:
+            def __init__(self):
+                self.calls = []
+
+            def get(self, url, **kwargs):
+                self.calls.append((url, kwargs))
+                return FakeResponse(
+                    302,
+                    url,
+                    "/js/private/blocked",
+                )
+
+        session = FakeSession()
+        robots = "User-agent: *\nDisallow: /js/\n"
+        response = fetch_public_url(
+            session,
+            "https://www.image-est.fr/nos-archives-1283-0-0-0.html",
+            robots_text=robots,
+        )
+        self.assertEqual(response.error, "redirect_target_blocked_by_robots")
+        self.assertEqual(len(session.calls), 1)
+        self.assertFalse(session.calls[0][1]["allow_redirects"])
+
+    def test_cross_origin_redirect_is_never_followed(self):
+        class FakeResponse:
+            def __init__(self, status_code, url, location="", text=""):
+                self.status_code = status_code
+                self.url = url
+                self.text = text
+                self.headers = {
+                    "content-type": "text/html",
+                    **({"location": location} if location else {}),
+                }
+
+        class FakeSession:
+            def __init__(self):
+                self.calls = []
+
+            def get(self, url, **kwargs):
+                self.calls.append(url)
+                return FakeResponse(
+                    302,
+                    url,
+                    "https://example.org/catalogue",
+                )
+
+        session = FakeSession()
+        response = fetch_public_url(
+            session,
+            "https://www.image-est.fr/nos-archives-1283-0-0-0.html",
+            robots_text="User-agent: *\nAllow: /\n",
+        )
+        self.assertEqual(
+            response.error,
+            "redirect_target_outside_authorized_origin",
+        )
+        self.assertEqual(
+            session.calls,
+            ["https://www.image-est.fr/nos-archives-1283-0-0-0.html"],
+        )
+\n    def test_sitemap_parser_separates_video_details_from_mixed_records(self):
         xml = """
         <urlset>
           <url><loc>https://www.image-est.fr/fiche-documentaire-film-a-1284-744-3-0.html</loc></url>
