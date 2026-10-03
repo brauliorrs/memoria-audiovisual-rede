@@ -5,7 +5,12 @@ from pathlib import Path
 import pandas as pd
 
 from .config import OUTPUT_DIR
-from .corpora import CORPORA, CORPUS_CATEGORIES, list_active_corpora
+from .corpora import (
+    CORPORA,
+    CORPUS_CATEGORIES,
+    list_active_corpora,
+    next_corpus_sequence_number,
+)
 
 
 EUROPE_RESEARCH_REGISTRY_FILENAME = "observatorio_pesquisa_europa.csv"
@@ -966,7 +971,24 @@ def build_europe_research_queue(registry_df):
         .sort_values(["queue_priority", "unit_label"])
         .reset_index(drop=True)
     )
-    queue_df["definitive_queue_rank"] = range(1, len(queue_df) + 1)
+    # This is a corpus sequence number, not a compacted queue position.
+    # Sources/directories do not consume corpus numbers.
+    queue_df["definitive_queue_rank"] = pd.Series(
+        [""] * len(queue_df),
+        index=queue_df.index,
+        dtype="object",
+    )
+    eligible_mask = (
+        (queue_df["queue_layer"] == "fila_definitiva_um_por_um")
+        & (queue_df["queue_decision"] == "avaliar_arquivo_individual_um_por_um")
+        & (queue_df["organism_status"] == "candidato_individual")
+        & (~queue_df["blocks_expansion"].astype(bool))
+    )
+    next_number = next_corpus_sequence_number()
+    eligible_total = int(eligible_mask.sum())
+    queue_df.loc[eligible_mask, "definitive_queue_rank"] = list(
+        range(next_number, next_number + eligible_total)
+    )
     return queue_df
 
 
