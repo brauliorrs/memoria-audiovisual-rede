@@ -1,0 +1,114 @@
+name: Persist IFI promotion state
+
+on:
+  push:
+    branches:
+      - corpus/ifi-irish-film-archive-v1
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  persist:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout promotion branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: corpus/ifi-irish-film-archive-v1
+          fetch-depth: 0
+
+      - name: Download validated IFI staged baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/ifi-baseline
+          mkdir -p /tmp/ifi-baseline
+          gh run download 37048269272 \
+            --repo "${{ github.repository }}" \
+            --name ifi-archive-player-staged-baseline \
+            --dir /tmp/ifi-baseline
+
+      - name: Verify exact staged baseline hashes
+        run: |
+          cat > /tmp/ifi-expected.sha256 <<'EOF'
+          dc508ec38cea9b25f11e13985672c997041d336cce40401674359c24bfb6a112  ifi_archive_player_catalogo_videos_analitico.csv
+          fa8f8fd9b7cc44e5016cc65821172b17bcc904263f0b73be3276949ff26758dc  ifi_archive_player_instituicoes.csv
+          5a65db95bf283c811898406ff4e51bc1962fe65e64e996e8502d6fed0fa6cd88  ifi_archive_player_linha_do_tempo_corpus.csv
+          504978584b8984a6420f202d88bae1171551b3110adeac5655b09c3cf201a481  ifi_archive_player_linha_do_tempo_instituicoes.csv
+          97d756e993121e70907660d7d397d99444ee6280303f624489c09589df653531  ifi_archive_player_links_video.csv
+          506525959e0548769dff6cc4bcfb8e665d377d8ceffa1b47beff2d7ef862cc73  ifi_archive_player_paginas_internas.csv
+          45a7415858793b9a6ae24ce04107a85acf8ea1be28f29089c5547221b1a72bfc  ifi_archive_player_relatorio.json
+          a82a61aaa60ac139f457c2091d8a5905c117e6e3d97d01325c506935949c133b  ifi_archive_player_relatorio.txt
+          5f4c60d95c234c6cfd8af447397bb0a080a780053296f43748cdf4f81ba51d47  ifi_archive_player_relatorio.xlsx
+          57a9d9b7ba4c163a4495dbb2302006253db92459623410a15ae222410440db44  ifi_archive_player_resumo_disponibilidade.csv
+          c29c1929b7564e766809e69594ea7d152c2749fbd53516fe3e65181f047a325a  ifi_archive_player_resumo_instituicoes.csv
+          fc915aa8d8ea2f7f40a22658c1a1219e231bf8075d4d6a0694002588d4ccf223  ifi_archive_player_resumo_instituicoes_analitico.csv
+          66bd16cb6ecdcf37d031b2058f49c479c5d04828b60e53fad8b8ad6fe43a4260  ifi_archive_player_resumo_modalidades_acesso.csv
+          1356a126ffa7f5e2071e702128f7bfddb22ba60376b92e8aa2f95eeb9774ee5d  ifi_archive_player_resumo_regimes_acesso.csv
+          82fe5fe1294da6b69ca87a612ccd485d0c256135564f16840009aa7ee230f548  ifi_archive_player_resumo_temas.csv
+          4ac76138126e136357e355462e9f8763151f959d429599e17bcd9e1bd3659a74  ifi_archive_player_resumo_tipos_arquivo.csv
+          04cf3111de9fe5045ff0897b587f02fd850305d03d2f315268635c4be3e004f2  ifi_archive_player_resumo_visibilidade.csv
+          af051ad7ecfb03d71c2167287f121145809002b7828a2cfb0a9c741325ec25d7  ifi_archive_player_sinais_possivel_extincao.csv
+          84b20a31216fc22669589fad13c4d5bb0cb368d199583ca2273a2f6fe63fa36c  ifi_archive_player_snapshot_metadata.json
+          4eaec8faebc489bb9c9454198ce8ce642ba20861113f125e01e241f33bd9e48e  ifi_archive_player_subcategorias_disponibilidade.csv
+          de317d61ab705a0007bca5e14a9cd02166d40f1d0d415e34b0aaeb69c3c97470  ifi_archive_player_tema_pais.csv
+          6d3884e3f210b4309e78fe57af35a256bfb9160161ab1d82e0ef870bc53686be  ifi_archive_player_tema_plataforma.csv
+          0f04949135abb7dbe1fdfbf8800ddae396e8384d0d5909457e1be8491b076de2  ifi_archive_player_tema_tipo_arquivo.csv
+          1a23c0fae6490e9e9fdcea9a4db21312231b022da04294a6656a29db3ae66fc5  ifi_archive_player_visibilidade_tipo_arquivo.csv
+          EOF
+          cd /tmp/ifi-baseline
+          sha256sum -c /tmp/ifi-expected.sha256
+          test "$(find . -maxdepth 1 -type f -name 'ifi_archive_player_*' | wc -l)" -eq 24
+
+      - name: Persist exact validated baseline
+        run: |
+          cp /tmp/ifi-baseline/ifi_archive_player_* data/output/
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            pyproject.toml
+
+      - name: Install promotion dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e ".[dev]"
+
+      - name: Validate persisted IFI baseline
+        run: python scripts/check_ifi_archive_player_outputs.py
+
+      - name: Regenerate canonical Europe registry and inclusion queue
+        run: |
+          python - <<'PY'
+          from memoria_audiovisual.config import OUTPUT_DIR
+          from memoria_audiovisual.europe_research import write_europe_research_outputs
+          from memoria_audiovisual.inclusion_queue import write_next_inclusion_candidates
+
+          write_europe_research_outputs(OUTPUT_DIR)
+          payload = write_next_inclusion_candidates(output_dir=OUTPUT_DIR, limit=3)
+          candidates = payload["candidates"]
+          assert candidates[0]["unit_code"] == "inedits-image-est", candidates
+          assert candidates[0]["rank"] == 6, candidates
+          assert all(row["unit_code"] != "fiaf-ifi-irish-film-archive" for row in candidates)
+          PY
+
+      - name: Commit promotion state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/output/ifi_archive_player_* \
+            data/output/observatorio_pesquisa_europa.csv \
+            data/output/observatorio_fila_pesquisa_europa.csv \
+            data/output/observatorio_resumo_pesquisa_europa.csv \
+            data/output/observatorio_proximos_candidatos_inclusao.json
+          git diff --cached --quiet && exit 1
+          git commit -m "data(ifi): persist validated baseline and compact queue"
+          git push origin HEAD:corpus/ifi-irish-film-archive-v1

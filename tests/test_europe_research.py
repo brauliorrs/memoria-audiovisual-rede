@@ -47,6 +47,9 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertIn("archipop", unit_codes)
         self.assertNotIn("inedits-archipop", unit_codes)
         self.assertIn("cinememoire", unit_codes)
+        self.assertIn("ifi_archive_player", unit_codes)
+        self.assertNotIn("fiaf-ifi-irish-film-archive", unit_codes)
+        self.assertNotIn("efg-friedrich-wilhelm-murnau-stiftung", unit_codes)
         self.assertNotIn("inedits-cinememoire", unit_codes)
         archipop_row = registry_df.loc[registry_df["unit_code"] == "archipop"].iloc[0]
         self.assertEqual(archipop_row["unit_type"], "corpus_ativo")
@@ -119,6 +122,9 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertGreater(priority_by_code["ace-members"], priority_by_code["fiat-rtp"])
         self.assertLess(priority_by_code["fiat-rtp"], priority_by_code["german-digital-library"])
         self.assertEqual(queue_df.iloc[0]["definitive_queue_rank"], 1)
+        image_est_rank = queue_df.loc[queue_df["unit_code"] == "inedits-image-est", "definitive_queue_rank"].iloc[0]
+        self.assertEqual(image_est_rank, 6)
+        self.assertNotIn("fiaf-ifi-irish-film-archive", priority_by_code)
         self.assertIn("video_location_candidate_url", queue_df.columns)
         self.assertFalse(queue_df["queue_decision"].astype(str).str.contains("sonoro", case=False).any())
 

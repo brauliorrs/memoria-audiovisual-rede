@@ -189,6 +189,9 @@ jobs:
             tests/test_ifi_archive_player_collection.py
           python -m unittest discover -s tests -p 'test_ifi_archive_player_collection.py' -v
 
+      - name: Validate IFI Archive Player canonical baseline
+        run: python scripts/check_ifi_archive_player_outputs.py
+
       - name: Run IFI Archive Player staged baseline
         if: github.event_name == 'pull_request' && github.head_ref == 'corpus/ifi-irish-film-archive-v1'
         run: python scripts/run_ifi_archive_player_pipeline.py
@@ -204,6 +207,30 @@ jobs:
       - name: Validate IFI Archive Player staged baseline
         if: github.event_name == 'pull_request' && github.head_ref == 'corpus/ifi-irish-film-archive-v1'
         run: python scripts/check_ifi_archive_player_outputs.py
+
+      - name: Regenerate IFI promotion queue outputs
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/ifi-irish-film-archive-v1'
+        run: |
+          python - <<'PY'
+          from memoria_audiovisual.config import OUTPUT_DIR
+          from memoria_audiovisual.europe_research import write_europe_research_outputs
+          from memoria_audiovisual.inclusion_queue import write_next_inclusion_candidates
+
+          write_europe_research_outputs(OUTPUT_DIR)
+          write_next_inclusion_candidates(output_dir=OUTPUT_DIR, limit=3)
+          PY
+
+      - name: Upload IFI promotion queue outputs
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/ifi-irish-film-archive-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ifi-promotion-queue
+          path: |
+            data/output/observatorio_pesquisa_europa.csv
+            data/output/observatorio_fila_pesquisa_europa.csv
+            data/output/observatorio_resumo_pesquisa_europa.csv
+            data/output/observatorio_proximos_candidatos_inclusao.json
+          if-no-files-found: error
 
       - name: Validate Croatian Cinematheque technical probe contract
         run: |

@@ -29,6 +29,7 @@ from .config import (
     FILMARCHIV_AUSTRIA_ON_URL,
     MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
     GOSFILMOFOND_CATALOG_URL,
+    IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
     FILMOTECA_ESPANOLA_PLATFO_URL,
@@ -92,6 +93,7 @@ from .output_files import (
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     MURNAU_STIFTUNG_OUTPUT_FILES,
     GOSFILMOFOND_OUTPUT_FILES,
+    IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
     FILMOTECA_ESPANOLA_OUTPUT_FILES,
@@ -153,6 +155,7 @@ from .output_files import (
     list_filmarchiv_austria_output_filenames,
     list_murnau_stiftung_output_filenames,
     list_gosfilmofond_output_filenames,
+    list_ifi_archive_player_output_filenames,
     list_filmmuseum_dusseldorf_output_filenames,
     list_filmoteca_catalunya_output_filenames,
     list_filmoteca_espanola_output_filenames,
@@ -2906,6 +2909,69 @@ CORPORA = {
         "run_script_path": "scripts/run_gosfilmofond_pipeline.py",
         "build_script_path": "scripts/run_gosfilmofond_pipeline.py",
         "check_script_path": "scripts/check_gosfilmofond_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "ifi-archive-player": {
+        "code": "ifi_archive_player",
+        "label": "IFI Irish Film Archive / IFI Archive Player",
+        "short_label": "IFI Archive Player",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial / arquivo nacional de filmes",
+        "coverage_level": "instituição individual europeia",
+        "scope": "catálogo público de filmes do IFI Archive Player",
+        "methodological_unit": "permalinks root-level anunciados pelos post-sitemaps públicos",
+        "ape_relationship": (
+            "identificado na fila europeia via FIAF e incorporado como corpus "
+            "institucional autônomo após probe e baseline staged validados"
+        ),
+        "expansion_rationale": (
+            "O índice público de sitemaps anuncia dinamicamente as partições post-sitemap. "
+            "A rodada de admissão materializou 1.115 permalinks únicos em 2/2 partições "
+            "com integridade íntegra e robots verificável."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "O corpus MAR representa os 1.115 permalinks públicos materializados na rodada "
+            "de admissão. A declaração institucional de mais de 1.000 filmes e o acervo físico "
+            "mais amplo do IFI são contexto e não denominadores de completude web."
+        ),
+        "zero_result_policy": (
+            "Falha de robots, ausência ou vazio de partição anunciada, duplicações entre "
+            "partições ou quebra do contrato dos sitemaps bloqueiam a atualização."
+        ),
+        "collection_completeness": (
+            "snapshot completo das partições post-sitemap anunciadas pelo índice público "
+            "e materializadas na rodada de admissão"
+        ),
+        "selection_criterion": (
+            "Lê o sitemap_index.xml público, descobre dinamicamente todos os post-sitemap*.xml "
+            "anunciados e materializa os permalinks root-level elegíveis, sem varredura de IDs."
+        ),
+        "selection_limit": (
+            "Sem amostra arbitrária na enumeração; enriquecimento determinístico limitado "
+            "a 24 fichas e nenhum download de mídia."
+        ),
+        "completeness_note": (
+            "Completo em relação às partições públicas anunciadas e validadas na rodada. "
+            "Não afirma cobertura integral do acervo físico, nem licença para baixar, copiar "
+            "ou redistribuir mídia."
+        ),
+        "source_url": IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
+        "output_files": IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
+        "list_output_filenames": list_ifi_archive_player_output_filenames,
+        "detail_url_field": "ifi_archive_player_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "IFI Archive Player",
+        "content_flag_label": "fichas públicas de metadados filmográficos",
+        "website_label": "IFI Archive Player",
+        "run_script": "python scripts/run_ifi_archive_player_pipeline.py",
+        "build_script": "python scripts/run_ifi_archive_player_pipeline.py",
+        "check_script": "python scripts/check_ifi_archive_player_outputs.py",
+        "run_script_path": "scripts/run_ifi_archive_player_pipeline.py",
+        "build_script_path": "scripts/run_ifi_archive_player_pipeline.py",
+        "check_script_path": "scripts/check_ifi_archive_player_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },
