@@ -100,9 +100,12 @@ O código principal está em `src/memoria_audiovisual/digital_infrastructure_aud
 
 O organismo trabalha com corpora ativos e unidades documentadas fora do corpus ativo.
 
-- Corpora ativos materializados: `51`.
+- Corpora analisados/documentados pelo motor: `61`.
+- Corpora ativos materializados: `58`.
+- Corpora inativos documentados: `3`.
 - Agregadores ativos: `7`.
-- Arquivos e instituições ativos: `44`.
+- Arquivos e instituições ativos: `51`.
+- Próximo número sequencial de corpus: `62` (Image'Est).
 - Fila europeia de fechamento documentada no MVP.
 - Snapshot público atual: aproximadamente `277 MB`.
 - Interface principal: `app/streamlit_app.py`.

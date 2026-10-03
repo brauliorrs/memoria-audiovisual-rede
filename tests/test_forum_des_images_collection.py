@@ -102,8 +102,8 @@ class ForumDesImagesCollectionTests(unittest.TestCase):
         )
         # Forum and Croatian Cinematheque remain protocolled while Murnau,
         # Gosfilmofond and IFI Archive Player are active. The definitive queue
-        # compacts again and Image'Est becomes rank 6.
-        self.assertEqual(candidates[0].rank, 6)
+        # the next engine corpus number is 62, assigned to Image'Est.
+        self.assertEqual(candidates[0].rank, 62)
 
 
 if __name__ == "__main__":
