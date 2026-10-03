@@ -9,7 +9,6 @@ from .corpora import (
     CORPORA,
     CORPUS_CATEGORIES,
     list_active_corpora,
-    next_corpus_sequence_number,
 )
 
 
@@ -963,6 +962,32 @@ def build_europe_research_registry():
     )
 
 
+
+def analyzed_corpus_codes(registry_df=None):
+    """Return unique canonical corpus-level units with a completed analysis decision."""
+    registry_df = build_europe_research_registry() if registry_df is None else registry_df
+    aliases = _active_european_code_aliases()
+    corpus_codes = {
+        str(corpus_def["code"]).strip()
+        for corpus_def in CORPORA.values()
+        if str(corpus_def.get("code", "")).strip()
+    }
+    protocolled_codes = {
+        aliases.get(str(code).strip(), str(code).strip())
+        for code in registry_df.loc[
+            registry_df["organism_status"].astype(str) == "protocolado",
+            "unit_code",
+        ]
+        if str(code).strip()
+    }
+    return tuple(sorted(corpus_codes | protocolled_codes))
+
+
+def analyzed_corpora_total(registry_df=None):
+    """Count completed corpus-level analyses, deduplicated by canonical identity."""
+    return len(analyzed_corpus_codes(registry_df))
+
+
 def build_europe_research_queue(registry_df):
     if registry_df is None or registry_df.empty:
         return pd.DataFrame(columns=EUROPE_RESEARCH_COLUMNS)
@@ -984,7 +1009,7 @@ def build_europe_research_queue(registry_df):
         & (queue_df["organism_status"] == "candidato_individual")
         & (~queue_df["blocks_expansion"].astype(bool))
     )
-    next_number = next_corpus_sequence_number()
+    next_number = analyzed_corpora_total(registry_df) + 1
     eligible_total = int(eligible_mask.sum())
     queue_df.loc[eligible_mask, "definitive_queue_rank"] = list(
         range(next_number, next_number + eligible_total)
@@ -1027,6 +1052,8 @@ __all__ = [
     "EUROPE_RESEARCH_REGISTRY_FILENAME",
     "EUROPE_RESEARCH_RULE_VERSION",
     "EUROPE_RESEARCH_SUMMARY_FILENAME",
+    "analyzed_corpus_codes",
+    "analyzed_corpora_total",
     "build_europe_research_queue",
     "build_europe_research_registry",
     "build_europe_research_summary",

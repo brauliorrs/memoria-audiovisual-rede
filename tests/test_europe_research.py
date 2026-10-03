@@ -8,6 +8,7 @@ from memoria_audiovisual.europe_research import (
     EUROPE_RESEARCH_QUEUE_FILENAME,
     EUROPE_RESEARCH_REGISTRY_FILENAME,
     EUROPE_RESEARCH_SUMMARY_FILENAME,
+    analyzed_corpora_total,
     build_europe_research_queue,
     build_europe_research_registry,
     build_europe_research_summary,
@@ -131,8 +132,9 @@ class EuropeResearchTests(unittest.TestCase):
                 "definitive_queue_rank",
             ].iloc[0]
         )
-        self.assertEqual(image_est_rank, len(CORPORA) + 1)
-        self.assertEqual(image_est_rank, 62)
+        self.assertEqual(analyzed_corpora_total(registry_df), 77)
+        self.assertEqual(image_est_rank, analyzed_corpora_total(registry_df) + 1)
+        self.assertEqual(image_est_rank, 78)
         self.assertNotIn("fiaf-ifi-irish-film-archive", priority_by_code)
         self.assertIn("video_location_candidate_url", queue_df.columns)
         self.assertFalse(queue_df["queue_decision"].astype(str).str.contains("sonoro", case=False).any())

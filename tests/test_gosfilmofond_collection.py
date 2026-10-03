@@ -206,7 +206,7 @@ class GosfilmofondCollectionTests(unittest.TestCase):
             limit=1,
         )
         self.assertEqual(candidates[0].unit_code, "inedits-image-est")
-        self.assertEqual(candidates[0].rank, 62)
+        self.assertEqual(candidates[0].rank, 78)
 
     def test_robots_block_prevents_any_ajax_enumeration(self):
         blocked = """User-agent: *
