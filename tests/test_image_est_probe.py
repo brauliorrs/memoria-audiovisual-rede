@@ -81,7 +81,7 @@ class ImageEstProbeTests(unittest.TestCase):
         xml = """
         <urlset>
           <url><loc>https://www.image-est.fr/fiche-documentaire-film-a-1284-744-3-0.html</loc></url>
-          <url><loc>https://www.image-est.fr/fiche-documentaire-1284-0-0-2453.html</loc></url>
+          <url><loc>https://www.image-est.fr/fiche-documentaire-photo-b-1284-745-2-0.html</loc></url>
           <url><loc>https://www.image-est.fr/archive_content.xml</loc></url>
         </urlset>
         """
