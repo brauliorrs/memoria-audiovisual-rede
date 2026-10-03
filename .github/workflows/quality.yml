@@ -252,6 +252,32 @@ jobs:
           path: data/output/image_est_probe.json
           if-no-files-found: error
 
+      - name: Validate Image'Est staged collector
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/image_est.py \
+            src/memoria_audiovisual/image_est_exports.py \
+            scripts/run_image_est_pipeline.py \
+            scripts/check_image_est_outputs.py \
+            tests/test_image_est_collection.py
+          python -m unittest discover -s tests -p 'test_image_est_collection.py' -v
+
+      - name: Run Image'Est staged baseline
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/image-est-v1'
+        run: python scripts/run_image_est_pipeline.py
+
+      - name: Upload Image'Est staged baseline
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/image-est-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-est-staged-baseline
+          path: data/output/image_est_*
+          if-no-files-found: error
+
+      - name: Validate Image'Est staged baseline
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/image-est-v1'
+        run: python scripts/check_image_est_outputs.py
+
       - name: Validate Croatian Cinematheque technical probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \
