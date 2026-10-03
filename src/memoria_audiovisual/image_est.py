@@ -363,6 +363,7 @@ def collect_image_est_dataset(
         )
 
     classifications = {}
+    detail_cache = {}
     for type_code, sample_urls in _classification_samples(
         parsed["typed_urls"]
     ).items():
@@ -389,6 +390,7 @@ def collect_image_est_dataset(
                 response.text,
                 response.final_url or detail_url,
             )
+            detail_cache[detail_url] = detail
             sample_rows.append(detail)
             internal_pages.append(
                 _internal_page_row(
@@ -498,22 +500,39 @@ def collect_image_est_dataset(
         )
 
     for record in detail_candidates:
-        if not robots_allowed(robots_text, CRAWLER_TOKEN, record["page_url"]):
-            detail_warnings.append(
-                f"{record['page_url']}: robots blocked"
+        detail = detail_cache.get(record["page_url"])
+        if detail is None:
+            if not robots_allowed(robots_text, CRAWLER_TOKEN, record["page_url"]):
+                detail_warnings.append(
+                    f"{record['page_url']}: robots blocked"
+                )
+                continue
+            response = fetch_allowed(session, record["page_url"], robots_text)
+            if response.error or response.status_code != 200:
+                detail_warnings.append(
+                    f"{record['page_url']}: "
+                    f"{response.error or response.status_code}"
+                )
+                continue
+            detail = parse_image_est_detail_page(
+                response.text,
+                response.final_url or record["page_url"],
             )
-            continue
-        response = fetch_allowed(session, record["page_url"], robots_text)
-        if response.error or response.status_code != 200:
-            detail_warnings.append(
-                f"{record['page_url']}: "
-                f"{response.error or response.status_code}"
+            detail_cache[record["page_url"]] = detail
+            internal_pages.append(
+                _internal_page_row(
+                    institution,
+                    response.final_url or record["page_url"],
+                    "ok",
+                    response.status_code,
+                    count=1,
+                    warning=(
+                        "Ficha audiovisual pública enriquecida deterministicamente; "
+                        f"type={record['type_code']}."
+                    ),
+                )
             )
-            continue
-        detail = parse_image_est_detail_page(
-            response.text,
-            response.final_url or record["page_url"],
-        )
+
         if not detail["film_semantics_confirmed"]:
             fatal_errors.append(
                 f"enriched_audiovisual_record_lost_semantics={record['page_url']}"
@@ -522,19 +541,6 @@ def collect_image_est_dataset(
         for key in ("title", "date", "duration", "format", "sound", "fonds"):
             if detail.get(key):
                 record[key] = detail[key]
-        internal_pages.append(
-            _internal_page_row(
-                institution,
-                response.final_url or record["page_url"],
-                "ok",
-                response.status_code,
-                count=1,
-                warning=(
-                    "Ficha audiovisual pública enriquecida deterministicamente; "
-                    f"type={record['type_code']}."
-                ),
-            )
-        )
 
     links = [_record_to_video_row(institution, record) for record in records]
     unique_links = {row["video_link"] for row in links}
