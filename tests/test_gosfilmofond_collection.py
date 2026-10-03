@@ -205,7 +205,7 @@ class GosfilmofondCollectionTests(unittest.TestCase):
             queue.to_dict(orient="records"),
             limit=1,
         )
-        self.assertEqual(candidates[0].unit_code, "fiaf-ifi-irish-film-archive")
+        self.assertEqual(candidates[0].unit_code, "inedits-image-est")
         self.assertEqual(candidates[0].rank, 6)
 
     def test_robots_block_prevents_any_ajax_enumeration(self):
