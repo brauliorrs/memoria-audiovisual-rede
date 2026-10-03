@@ -89,6 +89,8 @@ class ImageEstProbeTests(unittest.TestCase):
         self.assertEqual(parsed["url_count"], 3)
         self.assertEqual(parsed["detail_candidate_count"], 2)
         self.assertEqual(parsed["video_detail_candidate_count"], 1)
+        self.assertEqual(parsed["typed_detail_counts"], {"2": 1, "3": 1})
+        self.assertEqual(parsed["untyped_detail_candidate_count"], 0)
         self.assertEqual(
             parsed["video_detail_candidate_samples"],
             [
@@ -99,6 +101,25 @@ class ImageEstProbeTests(unittest.TestCase):
             parsed["nested_sitemaps"],
             ["https://www.image-est.fr/archive_content.xml"],
         )
+
+    def test_film_metadata_can_confirm_audiovisual_without_embedded_player(self):
+        html = """
+        <html><body>
+          <h1>Des gestes et des mots</h1>
+          <dl>
+            <dt>Année</dt><dd>2003</dd>
+            <dt>Durée</dt><dd>00:13:10</dd>
+            <dt>Son</dt><dd>Sonore</dd>
+            <dt>Fonds</dt><dd>Alain RIES</dd>
+          </dl>
+        </body></html>
+        """
+        parsed = parse_detail_html(
+            html,
+            "https://www.image-est.fr/fiche-documentaire-film-1284-1858-1-0.html",
+        )
+        self.assertTrue(parsed["film_semantics_confirmed"])
+        self.assertFalse(parsed["embedded_player_present"])
 
     def test_invalid_detail_without_iframe_does_not_confirm_semantics(self):
         parsed = parse_detail_html(
