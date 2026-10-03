@@ -132,7 +132,7 @@ class EuropeResearchTests(unittest.TestCase):
             ].iloc[0]
         )
         self.assertEqual(image_est_rank, len(CORPORA) + 1)
-        self.assertEqual(image_est_rank, 62)
+        self.assertEqual(image_est_rank, 78)
         self.assertNotIn("fiaf-ifi-irish-film-archive", priority_by_code)
         self.assertIn("video_location_candidate_url", queue_df.columns)
         self.assertFalse(queue_df["queue_decision"].astype(str).str.contains("sonoro", case=False).any())
