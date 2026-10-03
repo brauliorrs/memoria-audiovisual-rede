@@ -105,7 +105,7 @@ O organismo trabalha com corpora ativos e unidades documentadas fora do corpus a
 - Corpora inativos documentados: `3`.
 - Agregadores ativos: `7`.
 - Arquivos e instituições ativos: `51`.
-- Próximo número sequencial de corpus: `62` (Image'Est).
+- Próximo número sequencial de análise: `78` (Image'Est).
 - Fila europeia de fechamento documentada no MVP.
 - Snapshot público atual: aproximadamente `277 MB`.
 - Interface principal: `app/streamlit_app.py`.
