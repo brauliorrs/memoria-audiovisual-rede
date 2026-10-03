@@ -6,7 +6,7 @@
   "candidate_count": 3,
   "candidates": [
     {
-      "rank": 6,
+      "rank": 62,
       "unit_code": "inedits-image-est",
       "unit_label": "Image'Est",
       "country_or_scope": "Grand Est / França",
@@ -20,7 +20,7 @@
       "rule_version": "2026-05-pesquisa-europa-v3"
     },
     {
-      "rank": 7,
+      "rank": 63,
       "unit_code": "fiaf-imperial-war-museums-film-archive",
       "unit_label": "Imperial War Museums - Film Archive",
       "country_or_scope": "Reino Unido",
@@ -34,7 +34,7 @@
       "rule_version": "2026-05-pesquisa-europa-v3"
     },
     {
-      "rank": 8,
+      "rank": 64,
       "unit_code": "inedits-jean-vigo-institute",
       "unit_label": "Jean Vigo Institute",
       "country_or_scope": "França",
@@ -48,5 +48,6 @@
       "rule_version": "2026-05-pesquisa-europa-v3"
     }
   ],
-  "note": "This file schedules engineering/research work only. A candidate enters the active corpus only after its existing inclusion_gate is satisfied and its dedicated pipeline/checks are reviewed."
+  "note": "This file schedules engineering/research work only. A candidate enters the active corpus only after its existing inclusion_gate is satisfied and its dedicated pipeline/checks are reviewed.",
+  "numbering_rule": "definitive_queue_rank is the sequential corpus-analysis number; directories do not consume corpus numbers"
 }
