@@ -1,0 +1,53 @@
+{
+  "source": "https://www.image-est.fr/sitemap.xml",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "Image'Est - Patrimoine": 3040
+  },
+  "top_domains": [
+    [
+      "image-est.fr",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Image'Est",
+      "slug": "image-est",
+      "country": "France",
+      "continent": "Europe",
+      "repository_code": "FR-IMAGE-EST",
+      "archive_type": "Regional audiovisual heritage archive",
+      "image_est_detail_url": "https://www.image-est.fr/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://www.image-est.fr/",
+      "partner_domain": "image-est.fr",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://www.image-est.fr/sitemap.xml",
+      "video_links_found_total": 3040,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 30,
+      "priority_review": false,
+      "warning": "Snapshot Image'Est enumerado pelo sitemap público declarado em robots.txt. Apenas os tipos 1 e 3, validados como audiovisuais, foram materializados; tipo 2 foi excluído. Contagens da rodada: {'1': 2351, '2': 50654, '3': 689}. Total audiovisual=3040. A rota AJAX /js/ permanece explicitamente fora de escopo por robots. A declaração institucional de acervo físico não é denominador de completude web. Nenhuma mídia foi baixada. Enriquecimento determinístico limitado a 24 fichas; avisos não fatais=0.",
+      "error": ""
+    }
+  ]
+}
