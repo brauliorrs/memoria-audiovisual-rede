@@ -481,7 +481,11 @@ def run_image_est_probe(
     )
     result["films_filter_robots_allowed"] = bool(ajax_allowed)
 
-    archive_response = fetch_public_url(\n        session, IMAGE_EST_ARCHIVE_URL, robots_text=robots_text\n    )
+    archive_response = fetch_public_url(
+        session,
+        IMAGE_EST_ARCHIVE_URL,
+        robots_text=robots_text,
+    )
     archive_parsed = (
         parse_archive_html(archive_response.text, archive_response.final_url or IMAGE_EST_ARCHIVE_URL)
         if archive_response.status_code == 200 and not archive_response.error
@@ -502,7 +506,11 @@ def run_image_est_probe(
 
     filter_parsed: dict[str, Any] = {}
     if filter_discovered and ajax_allowed:
-        filter_response = fetch_public_url(\n            session, IMAGE_EST_FILMS_FILTER_URL, robots_text=robots_text\n        )
+        filter_response = fetch_public_url(
+            session,
+            IMAGE_EST_FILMS_FILTER_URL,
+            robots_text=robots_text,
+        )
         filter_parsed = (
             parse_archive_html(
                 filter_response.text,
@@ -529,7 +537,11 @@ def run_image_est_probe(
                 {"url": sitemap_url, "status": "blocked_by_robots"}
             )
             continue
-        sitemap_response = fetch_public_url(\n            session, sitemap_url, robots_text=robots_text\n        )
+        sitemap_response = fetch_public_url(
+            session,
+            sitemap_url,
+            robots_text=robots_text,
+        )
         parsed_sitemap = (
             parse_sitemap(sitemap_response.text)
             if sitemap_response.status_code == 200 and not sitemap_response.error
