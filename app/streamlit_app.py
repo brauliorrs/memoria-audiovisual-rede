@@ -71,6 +71,7 @@ from memoria_audiovisual.europe_research import (
     EUROPE_RESEARCH_QUEUE_FILENAME,
     EUROPE_RESEARCH_REGISTRY_FILENAME,
     EUROPE_RESEARCH_SUMMARY_FILENAME,
+    analyzed_corpora_total,
     build_europe_research_queue,
     build_europe_research_registry,
     build_europe_research_summary,
@@ -2043,6 +2044,7 @@ def render_observatory_overview_tab():
     category_overview_df = pd.DataFrame(category_rows)
 
     total_corpora = len(overview_df)
+    total_analyzed_corpora = analyzed_corpora_total()
     total_institutions = int(pd.to_numeric(overview_df["institutions"], errors="coerce").fillna(0).sum())
     total_with_video_links = int(
         pd.to_numeric(overview_df["institutions_with_video_links"], errors="coerce").fillna(0).sum()
@@ -2053,7 +2055,7 @@ def render_observatory_overview_tab():
     )
 
     metric_cols = st.columns(5)
-    metric_cols[0].metric("Corpora analisados pelo motor", total_corpora)
+    metric_cols[0].metric("Corpora analisados pelo motor", total_analyzed_corpora)
     metric_cols[1].metric("Instituições no observatório", total_institutions)
     metric_cols[2].metric("Instituições com links de vídeo", total_with_video_links)
     metric_cols[3].metric("Links de vídeo detectados", total_video_links)
