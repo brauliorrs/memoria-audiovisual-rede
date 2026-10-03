@@ -2053,7 +2053,7 @@ def render_observatory_overview_tab():
     )
 
     metric_cols = st.columns(5)
-    metric_cols[0].metric("Unidades documentais ativas", total_corpora)
+    metric_cols[0].metric("Corpora analisados pelo motor", total_corpora)
     metric_cols[1].metric("Instituições no observatório", total_institutions)
     metric_cols[2].metric("Instituições com links de vídeo", total_with_video_links)
     metric_cols[3].metric("Links de vídeo detectados", total_video_links)
