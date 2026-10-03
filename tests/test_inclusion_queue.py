@@ -72,6 +72,18 @@ class InclusionQueueTests(unittest.TestCase):
             [candidate.rank for candidate in candidates],
             sorted(candidate.rank for candidate in candidates),
         )
+        self.assertEqual(
+            [candidate.rank for candidate in candidates],
+            [62, 63, 64],
+        )
+        self.assertEqual(
+            [candidate.unit_code for candidate in candidates],
+            [
+                "inedits-image-est",
+                "fiaf-imperial-war-museums-film-archive",
+                "inedits-jean-vigo-institute",
+            ],
+        )
         self.assertTrue(all(candidate.inclusion_gate for candidate in candidates))
         self.assertTrue(all(candidate.source_url.startswith(("http://", "https://"))
                             for candidate in candidates))
