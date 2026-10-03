@@ -109,6 +109,9 @@ class EuropeResearchTests(unittest.TestCase):
         registry_df = build_europe_research_registry()
         queue_df = build_europe_research_queue(registry_df)
         priority_by_code = dict(zip(queue_df["unit_code"], queue_df["queue_priority"]))
+        image_est_row = registry_df.loc[registry_df["unit_code"] == "image_est"].iloc[0]
+        self.assertEqual(image_est_row["organism_status"], "ativo")
+        self.assertNotIn("inedits-image-est", set(registry_df["unit_code"].astype(str)))
 
         self.assertEqual(priority_by_code["efg-contributing-archives"], 1)
         self.assertEqual(priority_by_code["inedits-members"], 1)
