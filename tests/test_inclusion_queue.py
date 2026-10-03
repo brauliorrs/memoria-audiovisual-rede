@@ -84,8 +84,23 @@ class InclusionQueueTests(unittest.TestCase):
             payload = write_next_inclusion_candidates(output_dir=output, limit=3)
             self.assertFalse(payload["automatic_incorporation_authorized"])
             self.assertEqual(payload["candidate_count"], 3)
+            self.assertEqual(payload["analyzed_corpora_total"], 77)
+            self.assertEqual(payload["next_analysis_number"], 78)
+            self.assertEqual(
+                [candidate["analysis_number"] for candidate in payload["candidates"]],
+                [78, 79, 80],
+            )
+            self.assertEqual(
+                [candidate["unit_code"] for candidate in payload["candidates"]],
+                [
+                    "inedits-image-est",
+                    "fiaf-imperial-war-museums-film-archive",
+                    "inedits-jean-vigo-institute",
+                ],
+            )
             saved = json.loads((output / NEXT_INCLUSION_FILENAME).read_text(encoding="utf-8"))
             self.assertFalse(saved["automatic_incorporation_authorized"])
+            self.assertEqual(saved["next_analysis_number"], 78)
 
 
 if __name__ == "__main__":
