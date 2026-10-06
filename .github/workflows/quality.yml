@@ -301,6 +301,32 @@ jobs:
           path: data/output/iwm_film_probe.json
           if-no-files-found: error
 
+      - name: Validate IWM Film staged collector
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/iwm_film.py \
+            src/memoria_audiovisual/iwm_film_exports.py \
+            scripts/run_iwm_film_pipeline.py \
+            scripts/check_iwm_film_outputs.py \
+            tests/test_iwm_film_collection.py
+          python -m unittest discover -s tests -p 'test_iwm_film_collection.py' -v
+
+      - name: Run IWM Film staged baseline
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/iwm-film-archive-v1'
+        run: python scripts/run_iwm_film_pipeline.py
+
+      - name: Upload IWM Film staged baseline
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/iwm-film-archive-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: iwm-film-staged-baseline
+          path: data/output/iwm_film_*
+          if-no-files-found: error
+
+      - name: Validate IWM Film staged baseline
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/iwm-film-archive-v1'
+        run: python scripts/check_iwm_film_outputs.py
+
       - name: Validate Croatian Cinematheque technical probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \
