@@ -23,7 +23,7 @@ IWM_FILM_SEARCH_URL = "https://film.iwmcollections.org.uk/search/results"
 IWM_FILM_CATEGORIES_URL = "https://film.iwmcollections.org.uk/conflict_categories"
 IWM_FILM_FAQ_URL = "https://film.iwmcollections.org.uk/faqs"
 IWM_FILM_ROBOTS_URL = "https://film.iwmcollections.org.uk/robots.txt"
-IWM_FILM_PROBE_VERSION = "2026-10-iwm-film-probe-v1"
+IWM_FILM_PROBE_VERSION = "2026-10-iwm-film-probe-v2"
 CRAWLER_TOKEN = "MemoriaAudiovisualRede"
 
 _ALLOWED_HOST = "film.iwmcollections.org.uk"
@@ -466,6 +466,7 @@ def run_iwm_film_probe(
         "surfaces": [],
         "script_probes": [],
         "sitemaps": [],
+        "sitemap_traversal_truncated": False,
         "record_samples": [],
         "enumeration_mechanisms": [],
         "gate_assessment": "hold_unresolved",
@@ -533,16 +534,40 @@ def run_iwm_film_probe(
         discovered_records.update(hints.get("record_links", []))
         discovered_endpoint_hints.update(hints.get("endpoint_hints", []))
 
-    for sitemap_url in robots.get("sitemaps", [])[:4]:
+    sitemap_queue: list[tuple[str, str | None, int]] = [
+        (url, None, 0) for url in robots.get("sitemaps", [])[:4]
+    ]
+    queued_sitemaps = {url for url, _, _ in sitemap_queue}
+    visited_sitemaps: set[str] = set()
+    sitemap_record_urls: set[str] = set()
+    max_sitemap_documents = 32
+
+    while sitemap_queue and len(visited_sitemaps) < max_sitemap_documents:
+        sitemap_url, parent_url, depth = sitemap_queue.pop(0)
+        if sitemap_url in visited_sitemaps:
+            continue
+        visited_sitemaps.add(sitemap_url)
+
         parsed_url = urlparse(sitemap_url)
+        provenance = parent_url or "robots.txt"
         if parsed_url.scheme.lower() != "https" or parsed_url.netloc.lower() != _ALLOWED_HOST:
             result["sitemaps"].append(
-                {"url": sitemap_url, "status": "outside_authorized_origin"}
+                {
+                    "url": sitemap_url,
+                    "declared_by": provenance,
+                    "depth": depth,
+                    "status": "outside_authorized_origin",
+                }
             )
             continue
         if not robots_allowed(robots_text, CRAWLER_TOKEN, sitemap_url):
             result["sitemaps"].append(
-                {"url": sitemap_url, "status": "blocked_by_robots"}
+                {
+                    "url": sitemap_url,
+                    "declared_by": provenance,
+                    "depth": depth,
+                    "status": "blocked_by_robots",
+                }
             )
             continue
         response = fetch_public_url(
@@ -556,18 +581,41 @@ def run_iwm_film_probe(
         result["sitemaps"].append(
             {
                 "url": sitemap_url,
+                "declared_by": provenance,
+                "depth": depth,
                 "status_code": response.status_code,
                 "error": response.error,
                 "parsed": parsed,
             }
         )
-        discovered_records.update(parsed.get("record_links", []))
+        sitemap_links = parsed.get("record_links", [])
+        sitemap_record_urls.update(sitemap_links)
+        discovered_records.update(sitemap_links)
+
+        for nested_url in parsed.get("nested_sitemaps", []):
+            if nested_url not in queued_sitemaps:
+                sitemap_queue.append((nested_url, sitemap_url, depth + 1))
+                queued_sitemaps.add(nested_url)
+
+    if sitemap_queue:
+        result["sitemap_traversal_truncated"] = True
 
     record_urls = sorted(discovered_records)
-    for record_url in record_urls[:2]:
+    sitemap_sample_urls = sorted(sitemap_record_urls)
+    sample_urls = sitemap_sample_urls or record_urls
+    sample_provenance = (
+        "robots_declared_sitemap"
+        if sitemap_sample_urls
+        else "public_discovery_surface"
+    )
+    for record_url in sample_urls[:2]:
         if not robots_allowed(robots_text, CRAWLER_TOKEN, record_url):
             result["record_samples"].append(
-                {"url": record_url, "status": "blocked_by_robots"}
+                {
+                    "url": record_url,
+                    "provenance": sample_provenance,
+                    "status": "blocked_by_robots",
+                }
             )
             continue
         response = fetch_public_url(
@@ -581,6 +629,7 @@ def run_iwm_film_probe(
         result["record_samples"].append(
             {
                 "requested_url": record_url,
+                "provenance": sample_provenance,
                 "final_url": response.final_url,
                 "status_code": response.status_code,
                 "error": response.error,
@@ -634,11 +683,31 @@ def run_iwm_film_probe(
         )
         if result["record_samples"]
         else False,
+        "sitemap_sampled_record_count": sum(
+            1
+            for row in result["record_samples"]
+            if row.get("provenance") == "robots_declared_sitemap"
+        ),
+        "sitemap_sampled_record_semantics_confirmed": (
+            bool(sitemap_sample_urls)
+            and bool(result["record_samples"])
+            and all(
+                row.get("provenance") == "robots_declared_sitemap"
+                and (row.get("parsed") or {}).get(
+                    "film_semantics_confirmed", False
+                )
+                for row in result["record_samples"]
+            )
+        ),
     }
 
-    if sitemap_record_count and result["discovery_summary"][
-        "sampled_record_semantics_confirmed"
-    ]:
+    if (
+        sitemap_record_count
+        and not result["sitemap_traversal_truncated"]
+        and result["discovery_summary"][
+            "sitemap_sampled_record_semantics_confirmed"
+        ]
+    ):
         result["gate_assessment"] = (
             "bounded_public_record_enumeration_confirmed_staged_required"
         )
