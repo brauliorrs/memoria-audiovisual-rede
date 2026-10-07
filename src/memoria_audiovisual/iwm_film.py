@@ -76,12 +76,18 @@ def parse_iwm_record_sitemap(xml_text):
     urls = [_clean_text(value) for value in _XML_LOC_RE.findall(xml_text or "")]
     records = []
     duplicates = set()
+    rejected = []
     seen = set()
     for url in urls:
         parsed = urlparse(url)
-        if parsed.scheme.lower() != "https" or parsed.netloc.lower() != _ALLOWED_HOST:
-            continue
-        if not _RECORD_PATH_RE.match(parsed.path):
+        valid_origin = (
+            parsed.scheme.lower() == "https"
+            and parsed.netloc.lower() == _ALLOWED_HOST
+        )
+        valid_path = bool(_RECORD_PATH_RE.match(parsed.path))
+        clean_permalink = not (parsed.params or parsed.query or parsed.fragment)
+        if not (valid_origin and valid_path and clean_permalink):
+            rejected.append(url)
             continue
         canonical = f"https://{_ALLOWED_HOST}{parsed.path.rstrip('/')}"
         if canonical in seen:
@@ -92,6 +98,8 @@ def parse_iwm_record_sitemap(xml_text):
     return {
         "record_urls": sorted(records),
         "duplicates": sorted(duplicates),
+        "rejected_urls": sorted(set(rejected)),
+        "rejected_location_count": len(rejected),
         "url_count": len(urls),
         "record_count": len(records),
     }
@@ -367,12 +375,20 @@ def collect_iwm_film_dataset(
         parsed = parse_iwm_record_sitemap(response.text)
         urls = parsed["record_urls"]
         partition_sets[partition_url] = set(urls)
+        partition_errors = []
         if not urls:
-            fatal_errors.append(f"{partition_url}: empty record partition")
-        if parsed["duplicates"]:
-            fatal_errors.append(
-                f"{partition_url}: duplicate_urls={len(parsed['duplicates'])}"
+            partition_errors.append("empty record partition")
+        if parsed["rejected_location_count"]:
+            partition_errors.append(
+                "rejected_locations="
+                f"{parsed['rejected_location_count']}"
             )
+        if parsed["duplicates"]:
+            partition_errors.append(
+                f"duplicate_urls={len(parsed['duplicates'])}"
+            )
+        for error in partition_errors:
+            fatal_errors.append(f"{partition_url}: {error}")
         for page_url in urls:
             record_id = _RECORD_PATH_RE.match(urlparse(page_url).path).group(1)
             records_by_url.setdefault(
@@ -395,18 +411,16 @@ def collect_iwm_film_dataset(
             _internal_page_row(
                 institution,
                 response.final_url or partition_url,
-                "ok",
+                "erro" if partition_errors else "ok",
                 response.status_code,
                 count=len(urls),
                 warning=(
                     "Partição sitemap de registros; "
-                    f"permalinks únicos={len(urls)}; robots={robots_status}."
+                    f"locs declarados={parsed['url_count']}; "
+                    f"permalinks únicos válidos={len(urls)}; "
+                    f"robots={robots_status}."
                 ),
-                error=(
-                    f"duplicate_urls={len(parsed['duplicates'])}"
-                    if parsed["duplicates"]
-                    else ""
-                ),
+                error=" | ".join(partition_errors),
             )
         )
 
