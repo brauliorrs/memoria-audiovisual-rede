@@ -73,7 +73,7 @@ class IwmFilmCollectionTests(unittest.TestCase):
         self.assertEqual(parsed["duplicates"], [f"{BASE}/record/100"])
         self.assertEqual(
             parsed["rejected_urls"],
-            [f"{BASE}/news/100", "https://example.org/record/999"],
+            ["https://example.org/record/999", f"{BASE}/news/100"],
         )
         self.assertEqual(parsed["rejected_location_count"], 2)
         self.assertEqual(parsed["record_count"], 1)
