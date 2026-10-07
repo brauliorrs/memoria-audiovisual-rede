@@ -71,6 +71,11 @@ class IwmFilmCollectionTests(unittest.TestCase):
         parsed = parse_iwm_record_sitemap(xml)
         self.assertEqual(parsed["record_urls"], [f"{BASE}/record/100"])
         self.assertEqual(parsed["duplicates"], [f"{BASE}/record/100"])
+        self.assertEqual(
+            parsed["rejected_urls"],
+            [f"{BASE}/news/100", "https://example.org/record/999"],
+        )
+        self.assertEqual(parsed["rejected_location_count"], 2)
         self.assertEqual(parsed["record_count"], 1)
 
     def test_detail_parser_confirms_public_film_metadata(self):
@@ -120,6 +125,45 @@ class IwmFilmCollectionTests(unittest.TestCase):
             3,
         )
         self.assertTrue(all(row["platform"] == "IWM Film" for row in links))
+
+    def test_partially_unparseable_partition_fails_integrity(self):
+        mixed_shard = f"""<urlset>
+        <url><loc>{BASE}/record/100</loc></url>
+        <url><loc>{BASE}/news/should-not-be-silently-dropped</loc></url>
+        </urlset>"""
+        single_index = f"""<sitemapindex>
+        <sitemap><loc>{PART_1}</loc></sitemap>
+        </sitemapindex>"""
+
+        def fetch_allowed(_session, url, _robots_text):
+            if url == INDEX_URL:
+                return response(url, single_index)
+            if url == PART_1:
+                return response(url, mixed_shard)
+            if url == f"{BASE}/record/100":
+                return response(url, DETAIL)
+            raise AssertionError(url)
+
+        _, summary, links, internal = collect_iwm_film_dataset(
+            session=object(),
+            robots_loader=lambda _session: (
+                True,
+                "robots_evaluated_rfc9309",
+                "User-agent: *\nAllow: /\n",
+            ),
+            fetch_allowed=fetch_allowed,
+        )
+
+        self.assertEqual(len(links), 1)
+        self.assertEqual(summary[0]["integrity_status"], "instavel")
+        self.assertIn("rejected_locations=1", summary[0]["error"])
+        partition_rows = [
+            row
+            for row in internal
+            if row["internal_page"] == PART_1
+        ]
+        self.assertEqual(partition_rows[0]["status"], "erro")
+        self.assertIn("rejected_locations=1", partition_rows[0]["error"])
 
     def test_cross_partition_duplicate_fails_integrity(self):
         duplicate = f"""<urlset>
