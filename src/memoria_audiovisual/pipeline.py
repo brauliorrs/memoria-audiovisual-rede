@@ -86,6 +86,7 @@ from .filmarchiv_austria import collect_filmarchiv_austria_dataset
 from .murnau_stiftung import collect_murnau_stiftung_dataset
 from .ifi_archive_player import collect_ifi_archive_player_dataset
 from .image_est import collect_image_est_dataset
+from .iwm_film import collect_iwm_film_dataset
 from .gosfilmofond import collect_gosfilmofond_dataset
 from .filmarchiv_austria_exports import build_filmarchiv_austria_analysis_extra_sheets
 from .filmarchiv_austria_exports import write_filmarchiv_austria_analysis_outputs
@@ -95,6 +96,8 @@ from .ifi_archive_player_exports import build_ifi_archive_player_analysis_extra_
 from .ifi_archive_player_exports import write_ifi_archive_player_analysis_outputs
 from .image_est_exports import build_image_est_analysis_extra_sheets
 from .image_est_exports import write_image_est_analysis_outputs
+from .iwm_film_exports import build_iwm_film_analysis_extra_sheets
+from .iwm_film_exports import write_iwm_film_analysis_outputs
 from .gosfilmofond_exports import build_gosfilmofond_analysis_extra_sheets
 from .gosfilmofond_exports import write_gosfilmofond_analysis_outputs
 from .filmmuseum_dusseldorf import collect_filmmuseum_dusseldorf_dataset
@@ -201,6 +204,7 @@ from .config import (
     MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
     IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
     IMAGE_EST_SITEMAP_URL,
+    IWM_FILM_SITEMAP_INDEX_URL,
     GOSFILMOFOND_CATALOG_URL,
     MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
@@ -287,6 +291,7 @@ from .output_files import (
     MURNAU_STIFTUNG_OUTPUT_FILES,
     IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
     IMAGE_EST_OUTPUT_FILES,
+    IWM_FILM_OUTPUT_FILES,
     GOSFILMOFOND_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -363,6 +368,7 @@ from .snapshot_metadata import (
     build_murnau_stiftung_snapshot_metadata,
     build_ifi_archive_player_snapshot_metadata,
     build_image_est_snapshot_metadata,
+    build_iwm_film_snapshot_metadata,
     build_gosfilmofond_snapshot_metadata,
     build_filmmuseum_dusseldorf_snapshot_metadata,
     build_filmoteca_catalunya_snapshot_metadata,
@@ -832,6 +838,22 @@ IMAGE_EST_VIDEO_LINK_FIELDS = [
 ]
 IMAGE_EST_INTERNAL_PAGE_FIELDS = [
     field.replace("archipop_detail_url", "image_est_detail_url")
+    for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
+]
+IWM_FILM_INSTITUTION_FIELDS = [
+    field.replace("archipop_detail_url", "iwm_film_detail_url")
+    for field in ARCHIPOP_INSTITUTION_FIELDS
+]
+IWM_FILM_SUMMARY_FIELDS = [
+    field.replace("archipop_detail_url", "iwm_film_detail_url")
+    for field in ARCHIPOP_SUMMARY_FIELDS
+]
+IWM_FILM_VIDEO_LINK_FIELDS = [
+    field.replace("archipop_detail_url", "iwm_film_detail_url")
+    for field in ARCHIPOP_VIDEO_LINK_FIELDS
+]
+IWM_FILM_INTERNAL_PAGE_FIELDS = [
+    field.replace("archipop_detail_url", "iwm_film_detail_url")
     for field in ARCHIPOP_INTERNAL_PAGE_FIELDS
 ]
 GOSFILMOFOND_INSTITUTION_FIELDS = [
@@ -2180,6 +2202,25 @@ def run_image_est_pipeline():
         report_title="RELATORIO - IMAGE'EST",
         institutions_sheet_title="Image'Est",
         generated_by="scripts/run_image_est_pipeline.py",
+    )
+
+
+def run_iwm_film_pipeline():
+    _run_corpus_pipeline(
+        source_label="Imperial War Museums / IWM Film public catalogue",
+        source_url=IWM_FILM_SITEMAP_INDEX_URL,
+        collect_dataset=collect_iwm_film_dataset,
+        institution_fields=IWM_FILM_INSTITUTION_FIELDS,
+        summary_fields=IWM_FILM_SUMMARY_FIELDS,
+        video_link_fields=IWM_FILM_VIDEO_LINK_FIELDS,
+        internal_page_fields=IWM_FILM_INTERNAL_PAGE_FIELDS,
+        output_files=IWM_FILM_OUTPUT_FILES,
+        analysis_output_writer=write_iwm_film_analysis_outputs,
+        analysis_extra_sheets_builder=build_iwm_film_analysis_extra_sheets,
+        snapshot_builder=build_iwm_film_snapshot_metadata,
+        report_title="RELATORIO - IMPERIAL WAR MUSEUMS / IWM FILM",
+        institutions_sheet_title="Imperial War Museums",
+        generated_by="scripts/run_iwm_film_pipeline.py",
     )
 
 

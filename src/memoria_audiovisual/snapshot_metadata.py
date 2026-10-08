@@ -38,6 +38,7 @@ from .config import (
     MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
     IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
     IMAGE_EST_SITEMAP_URL,
+    IWM_FILM_SITEMAP_INDEX_URL,
     GOSFILMOFOND_CATALOG_URL,
     MURNAU_STIFTUNG_SEARCH_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
@@ -105,6 +106,7 @@ from .output_files import (
     MURNAU_STIFTUNG_OUTPUT_FILES,
     IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
     IMAGE_EST_OUTPUT_FILES,
+    IWM_FILM_OUTPUT_FILES,
     GOSFILMOFOND_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
@@ -1024,6 +1026,26 @@ def build_image_est_snapshot_metadata(
         dataset="image_est",
         source_url=IMAGE_EST_SITEMAP_URL,
         output_files=IMAGE_EST_OUTPUT_FILES,
+        summary_df=summary_df,
+        links_df=links_df,
+        analysis_frames=analysis_frames,
+        generated_by=generated_by,
+    )
+
+
+def build_iwm_film_snapshot_metadata(
+    output_dir,
+    *,
+    summary_df,
+    links_df,
+    analysis_frames,
+    generated_by,
+):
+    return build_snapshot_metadata(
+        output_dir,
+        dataset="iwm_film",
+        source_url=IWM_FILM_SITEMAP_INDEX_URL,
+        output_files=IWM_FILM_OUTPUT_FILES,
         summary_df=summary_df,
         links_df=links_df,
         analysis_frames=analysis_frames,
