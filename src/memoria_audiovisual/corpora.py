@@ -30,6 +30,7 @@ from .config import (
     MURNAU_STIFTUNG_ALPHA_LIST_URL_TEMPLATE,
     GOSFILMOFOND_CATALOG_URL,
     IFI_ARCHIVE_PLAYER_SITEMAP_INDEX_URL,
+    IWM_FILM_SITEMAP_INDEX_URL,
     DKULT_DUSSELDORF_AV_COLLECTION_OBJECTS_URL,
     FILMOTECA_CATALUNYA_PLATFO_URL,
     FILMOTECA_ESPANOLA_PLATFO_URL,
@@ -96,6 +97,7 @@ from .output_files import (
     GOSFILMOFOND_OUTPUT_FILES,
     IFI_ARCHIVE_PLAYER_OUTPUT_FILES,
     IMAGE_EST_OUTPUT_FILES,
+    IWM_FILM_OUTPUT_FILES,
     FILMMUSEUM_DUSSELDORF_OUTPUT_FILES,
     FILMOTECA_CATALUNYA_OUTPUT_FILES,
     FILMOTECA_ESPANOLA_OUTPUT_FILES,
@@ -159,6 +161,7 @@ from .output_files import (
     list_gosfilmofond_output_filenames,
     list_ifi_archive_player_output_filenames,
     list_image_est_output_filenames,
+    list_iwm_film_output_filenames,
     list_filmmuseum_dusseldorf_output_filenames,
     list_filmoteca_catalunya_output_filenames,
     list_filmoteca_espanola_output_filenames,
@@ -3043,6 +3046,73 @@ CORPORA = {
         "run_script_path": "scripts/run_image_est_pipeline.py",
         "build_script_path": "scripts/run_image_est_pipeline.py",
         "check_script_path": "scripts/check_image_est_outputs.py",
+        "organism_active": True,
+        "monthly_refresh_enabled": True,
+    },
+    "iwm-film": {
+        "code": "iwm_film",
+        "label": "Imperial War Museums - Film Archive",
+        "short_label": "IWM Film",
+        "category_code": "institution",
+        "expansion_priority": 3,
+        "entity_level": "instituição custodial / arquivo nacional de filmes",
+        "coverage_level": "instituição individual europeia",
+        "scope": "catálogo público do Imperial War Museums Film Archive",
+        "methodological_unit": (
+            "permalinks /record/<id> anunciados pelas partições sitemap-records "
+            "do índice público declarado em robots"
+        ),
+        "ape_relationship": (
+            "identificado na fila europeia via FIAF e incorporado como corpus "
+            "institucional autônomo após probe e baseline staged validados"
+        ),
+        "expansion_rationale": (
+            "O índice público de sitemaps anunciou a partição sitemap-records-1.xml. "
+            "A rodada de admissão materializou 40.877 permalinks únicos, com "
+            "40.877/40.877 locs válidos e 24/24 fichas semânticas confirmadas."
+        ),
+        "observatory_role": "arquivo-corpus europeu incorporado por validação individual",
+        "audiovisual_scope_note": (
+            "O corpus MAR representa os permalinks filmográficos públicos enumerados "
+            "nas partições sitemap-records da rodada. As 25.000 horas declaradas pelo "
+            "IWM são contexto custodial e não denominador de completude web."
+        ),
+        "zero_result_policy": (
+            "Falha de robots, ausência ou vazio de partição anunciada, qualquer loc "
+            "não parseável, duplicação ou drift semântico da amostra bloqueiam a atualização."
+        ),
+        "collection_completeness": (
+            "snapshot completo das partições sitemap-records anunciadas pelo índice "
+            "público e validadas na rodada"
+        ),
+        "selection_criterion": (
+            "Lê somente o sitemap index declarado em robots, descobre dinamicamente "
+            "todas as partições sitemap-records*.xml e materializa cada permalink "
+            "/record/<id> válido, sem inferir intervalos de IDs."
+        ),
+        "selection_limit": (
+            "Sem amostra arbitrária na enumeração; validação/enriquecimento "
+            "determinístico limitado a 24 fichas e nenhum download de mídia."
+        ),
+        "completeness_note": (
+            "Completo em relação às partições públicas anunciadas e integralmente "
+            "parseáveis na rodada. Não afirma cobertura integral do acervo físico, "
+            "digitalização, streaming ou licença de reprodução."
+        ),
+        "source_url": IWM_FILM_SITEMAP_INDEX_URL,
+        "output_files": IWM_FILM_OUTPUT_FILES,
+        "list_output_filenames": list_iwm_film_output_filenames,
+        "detail_url_field": "iwm_film_detail_url",
+        "content_flag_field": "content_available_in_source",
+        "detail_url_label": "IWM Film Archive",
+        "content_flag_label": "fichas públicas de metadados filmográficos",
+        "website_label": "IWM Film",
+        "run_script": "python scripts/run_iwm_film_pipeline.py",
+        "build_script": "python scripts/run_iwm_film_pipeline.py",
+        "check_script": "python scripts/check_iwm_film_outputs.py",
+        "run_script_path": "scripts/run_iwm_film_pipeline.py",
+        "build_script_path": "scripts/run_iwm_film_pipeline.py",
+        "check_script_path": "scripts/check_iwm_film_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
     },
