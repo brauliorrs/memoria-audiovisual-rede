@@ -389,6 +389,7 @@ def _active_european_code_aliases():
         "fiaf-filmarchiv-austria": "filmarchiv_austria",
         "fiaf-gosfilmofond": "gosfilmofond",
         "fiaf-ifi-irish-film-archive": "ifi_archive_player",
+        "fiaf-imperial-war-museums-film-archive": "iwm_film",
         "fiaf-filmmuseum-dusseldorf": "filmmuseum_dusseldorf",
         "fiaf-filmoteca-catalunya": "filmoteca_catalunya",
         "fiaf-filmoteca-espanola": "filmoteca_espanola",
