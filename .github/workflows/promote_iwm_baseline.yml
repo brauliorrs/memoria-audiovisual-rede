@@ -59,7 +59,7 @@ jobs:
           af0c89c1d45787ff6bff0cfba032413ce52dc5ddeb6c806584061fca241244a6  iwm_film_tema_plataforma.csv
           0cb2e4c4c7aadad1f4a944beb9085cf7e8cc22335630fba47af846a407347f96  iwm_film_tema_tipo_arquivo.csv
           1f6ce182b78f354ba1690f3ccd86a62d0adf5c54c873e0ad89a69c7f4e05e112  iwm_film_visibilidade_tipo_arquivo.csv
-EOF
+          EOF
           (cd /tmp/iwm-baseline && sha256sum -c /tmp/iwm-sha256.txt)
           test "$(find /tmp/iwm-baseline -maxdepth 1 -type f -name 'iwm_film_*' | wc -l)" -eq 24
 
