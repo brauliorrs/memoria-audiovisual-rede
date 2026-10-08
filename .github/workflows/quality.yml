@@ -327,6 +327,26 @@ jobs:
         if: github.event_name == 'pull_request' && (github.head_ref == 'corpus/iwm-film-archive-v1' || github.head_ref == 'corpus/iwm-film-archive-promote-v1')
         run: python scripts/check_iwm_film_outputs.py
 
+      - name: Validate Jean Vigo technical probe contract
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/jean_vigo_probe.py \
+            scripts/probe_jean_vigo.py \
+            tests/test_jean_vigo_probe.py
+          python -m unittest discover -s tests -p 'test_jean_vigo_probe.py' -v
+
+      - name: Probe Jean Vigo public discovery surfaces
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/jean-vigo-probe-v1'
+        run: python scripts/probe_jean_vigo.py
+
+      - name: Upload Jean Vigo probe artifact
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/jean-vigo-probe-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: jean-vigo-probe
+          path: data/output/jean_vigo_probe.json
+          if-no-files-found: error
+
       - name: Validate Croatian Cinematheque technical probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \
