@@ -1,0 +1,2 @@
+﻿dataset,observation_key,snapshot_generated_at,source_status_date,raw_outputs_last_modified_at,analytic_outputs_last_modified_at,generated_by,institutions,institutions_with_website,institutions_with_video_links,video_links_total,videos_in_curatorial_catalog,visibility_categories,theme_categories,archive_type_categories,platforms_detected,countries_with_videos
+iwm_film,iwm_film:2026-10-07T00:09:39Z,2026-10-07T00:09:41Z,,2026-10-07T00:09:39Z,2026-10-07T00:09:20Z,scripts/run_iwm_film_pipeline.py,1,1,1,40877,40877,1,2,1,1,1
