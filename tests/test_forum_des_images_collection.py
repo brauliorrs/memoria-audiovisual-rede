@@ -98,12 +98,12 @@ class ForumDesImagesCollectionTests(unittest.TestCase):
         self.assertEqual(len(candidates), 1)
         self.assertEqual(
             candidates[0].unit_code,
-            "fiaf-imperial-war-museums-film-archive",
+            "inedits-jean-vigo-institute",
         )
         # Forum and Croatian Cinematheque remain protocolled while Murnau,
         # Gosfilmofond, IFI Archive Player and Image'Est are active. The next
-        # engine analysis number is 79, assigned to Imperial War Museums.
-        self.assertEqual(candidates[0].rank, 79)
+        # engine analysis number is 80, assigned to Jean Vigo Institute.
+        self.assertEqual(candidates[0].rank, 80)
 
 
 if __name__ == "__main__":
