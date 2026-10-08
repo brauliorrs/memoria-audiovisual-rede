@@ -35,30 +35,30 @@ jobs:
       - name: Verify every staged output byte-for-byte
         run: |
           cat > /tmp/iwm-sha256.txt <<'EOF'
-05b2fd7486355008792c8f306ac78a6306ba0869f0fc170db7a96eadd1d2f51f  iwm_film_catalogo_videos_analitico.csv
-6dcf708d0bbbc5b784c0eeabecc9b4aef7768c10ff5aec166d39b2484be42734  iwm_film_instituicoes.csv
-a953fa7083484ff715cf874ed4572e57d93d0815bc7c93eead688a00a94e3769  iwm_film_linha_do_tempo_corpus.csv
-54776a7ca964f674082ed6e6839d6da062c8b7904ce1641a895f007335dc1180  iwm_film_linha_do_tempo_instituicoes.csv
-0ae2508d387fe8954836a3ae114d4f84a82ccccdadabeef1a4d464f8fb044ffa  iwm_film_links_video.csv
-6c11b5d03c975101020fa162120ae92dff70690dee3858af0c85643fbd94ceb6  iwm_film_paginas_internas.csv
-88f52641cdf180d51baecade61aafab8d3bf0c4e0cb627a1110491ba7da43f85  iwm_film_relatorio.json
-df9f95d01fc322b0604df5446ee52569caff1e49bfcb8118b73acb100ff1a3d0  iwm_film_relatorio.txt
-b71624baf95a5520c7ad7d8b716ec6bbdacb7c382335639890b04cd9b5c7e404  iwm_film_relatorio.xlsx
-57a9d9b7ba4c163a4495dbb2302006253db92459623410a15ae222410440db44  iwm_film_resumo_disponibilidade.csv
-7a079b6168a4ca11fe8c3d96a71d5e42e2cab05333800c745f921b17e0a4a0e2  iwm_film_resumo_instituicoes.csv
-f5c5bf638e2e63e587b0d2c0bc16b73fd37e6a4223e45ab2f0f4096f61b742ca  iwm_film_resumo_instituicoes_analitico.csv
-9615778a43be505ef84b505e39962b8781140081c3fe7a004c518a190c13aa74  iwm_film_resumo_modalidades_acesso.csv
-d11c92ff50e3146a919003a51bc7df064e7d412283ff7c2133d76eb366b5814d  iwm_film_resumo_regimes_acesso.csv
-eee67b5aa62b0c28264effb5cb59eb1a11ba09ad8bcf67fb2fdde88eb6ce11bb  iwm_film_resumo_temas.csv
-8ff0d957893245327ea95629179514064690845b7e2c88d771d16e32733d51ad  iwm_film_resumo_tipos_arquivo.csv
-04cf3111de9fe5045ff0897b587f02fd850305d03d2f315268635c4be3e004f2  iwm_film_resumo_visibilidade.csv
-af051ad7ecfb03d71c2167287f121145809002b7828a2cfb0a9c741325ec25d7  iwm_film_sinais_possivel_extincao.csv
-fdfb63baca219c9610475ef3ee20ca42a5818d072bdf560909bca80401c30c57  iwm_film_snapshot_metadata.json
-4eaec8faebc489bb9c9454198ce8ce642ba20861113f125e01e241f33bd9e48e  iwm_film_subcategorias_disponibilidade.csv
-abaabc4c493ec6a9d0fa94cf1f097cd03d0e239c8cceb8ec52373c239b595a93  iwm_film_tema_pais.csv
-af0c89c1d45787ff6bff0cfba032413ce52dc5ddeb6c806584061fca241244a6  iwm_film_tema_plataforma.csv
-0cb2e4c4c7aadad1f4a944beb9085cf7e8cc22335630fba47af846a407347f96  iwm_film_tema_tipo_arquivo.csv
-1f6ce182b78f354ba1690f3ccd86a62d0adf5c54c873e0ad89a69c7f4e05e112  iwm_film_visibilidade_tipo_arquivo.csv
+          05b2fd7486355008792c8f306ac78a6306ba0869f0fc170db7a96eadd1d2f51f  iwm_film_catalogo_videos_analitico.csv
+          6dcf708d0bbbc5b784c0eeabecc9b4aef7768c10ff5aec166d39b2484be42734  iwm_film_instituicoes.csv
+          a953fa7083484ff715cf874ed4572e57d93d0815bc7c93eead688a00a94e3769  iwm_film_linha_do_tempo_corpus.csv
+          54776a7ca964f674082ed6e6839d6da062c8b7904ce1641a895f007335dc1180  iwm_film_linha_do_tempo_instituicoes.csv
+          0ae2508d387fe8954836a3ae114d4f84a82ccccdadabeef1a4d464f8fb044ffa  iwm_film_links_video.csv
+          6c11b5d03c975101020fa162120ae92dff70690dee3858af0c85643fbd94ceb6  iwm_film_paginas_internas.csv
+          88f52641cdf180d51baecade61aafab8d3bf0c4e0cb627a1110491ba7da43f85  iwm_film_relatorio.json
+          df9f95d01fc322b0604df5446ee52569caff1e49bfcb8118b73acb100ff1a3d0  iwm_film_relatorio.txt
+          b71624baf95a5520c7ad7d8b716ec6bbdacb7c382335639890b04cd9b5c7e404  iwm_film_relatorio.xlsx
+          57a9d9b7ba4c163a4495dbb2302006253db92459623410a15ae222410440db44  iwm_film_resumo_disponibilidade.csv
+          7a079b6168a4ca11fe8c3d96a71d5e42e2cab05333800c745f921b17e0a4a0e2  iwm_film_resumo_instituicoes.csv
+          f5c5bf638e2e63e587b0d2c0bc16b73fd37e6a4223e45ab2f0f4096f61b742ca  iwm_film_resumo_instituicoes_analitico.csv
+          9615778a43be505ef84b505e39962b8781140081c3fe7a004c518a190c13aa74  iwm_film_resumo_modalidades_acesso.csv
+          d11c92ff50e3146a919003a51bc7df064e7d412283ff7c2133d76eb366b5814d  iwm_film_resumo_regimes_acesso.csv
+          eee67b5aa62b0c28264effb5cb59eb1a11ba09ad8bcf67fb2fdde88eb6ce11bb  iwm_film_resumo_temas.csv
+          8ff0d957893245327ea95629179514064690845b7e2c88d771d16e32733d51ad  iwm_film_resumo_tipos_arquivo.csv
+          04cf3111de9fe5045ff0897b587f02fd850305d03d2f315268635c4be3e004f2  iwm_film_resumo_visibilidade.csv
+          af051ad7ecfb03d71c2167287f121145809002b7828a2cfb0a9c741325ec25d7  iwm_film_sinais_possivel_extincao.csv
+          fdfb63baca219c9610475ef3ee20ca42a5818d072bdf560909bca80401c30c57  iwm_film_snapshot_metadata.json
+          4eaec8faebc489bb9c9454198ce8ce642ba20861113f125e01e241f33bd9e48e  iwm_film_subcategorias_disponibilidade.csv
+          abaabc4c493ec6a9d0fa94cf1f097cd03d0e239c8cceb8ec52373c239b595a93  iwm_film_tema_pais.csv
+          af0c89c1d45787ff6bff0cfba032413ce52dc5ddeb6c806584061fca241244a6  iwm_film_tema_plataforma.csv
+          0cb2e4c4c7aadad1f4a944beb9085cf7e8cc22335630fba47af846a407347f96  iwm_film_tema_tipo_arquivo.csv
+          1f6ce182b78f354ba1690f3ccd86a62d0adf5c54c873e0ad89a69c7f4e05e112  iwm_film_visibilidade_tipo_arquivo.csv
 EOF
           (cd /tmp/iwm-baseline && sha256sum -c /tmp/iwm-sha256.txt)
           test "$(find /tmp/iwm-baseline -maxdepth 1 -type f -name 'iwm_film_*' | wc -l)" -eq 24
