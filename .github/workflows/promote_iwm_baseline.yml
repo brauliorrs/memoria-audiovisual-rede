@@ -9,6 +9,9 @@ permissions:
   contents: write
   actions: read
 
+env:
+  PYTHONPATH: src
+
 jobs:
   persist-validated-baseline:
     if: github.actor != 'github-actions[bot]'
