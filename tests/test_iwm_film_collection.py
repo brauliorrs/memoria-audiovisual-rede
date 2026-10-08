@@ -1,5 +1,6 @@
 import unittest
 
+from memoria_audiovisual.analysis import infer_video_theme
 from memoria_audiovisual.iwm_film import (
     collect_iwm_film_dataset,
     parse_iwm_detail_page,
@@ -125,6 +126,34 @@ class IwmFilmCollectionTests(unittest.TestCase):
             3,
         )
         self.assertTrue(all(row["platform"] == "IWM Film" for row in links))
+
+    def test_iwm_theme_inference_ignores_collection_boilerplate(self):
+        unenriched = {
+            "platform": "IWM Film",
+            "video_title": "",
+            "video_subject": "IWM Film Archive record",
+            "video_description": (
+                "Public film-catalogue metadata permalink enumerated from the "
+                "robots-declared IWM Film sitemap."
+            ),
+        }
+        military = {
+            **unenriched,
+            "video_title": "MILITARY ACTIVITIES IN KENYA",
+        }
+
+        self.assertEqual(
+            infer_video_theme(unenriched),
+            "Registro filmográfico IWM — tema não identificado",
+        )
+        self.assertEqual(
+            infer_video_theme(military),
+            "Guerra, forças armadas e conflito",
+        )
+        self.assertNotEqual(
+            infer_video_theme(unenriched),
+            "Digitalização e acesso",
+        )
 
     def test_partially_unparseable_partition_fails_integrity(self):
         mixed_shard = f"""<urlset>

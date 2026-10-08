@@ -1,0 +1,53 @@
+{
+  "source": "https://film.iwmcollections.org.uk/instance/sitemaps/sitemap-index.xml",
+  "total_institutions": 1,
+  "ok_count": 1,
+  "with_video_count": 1,
+  "with_embeds_count": 0,
+  "status_summary": {
+    "ok": 1
+  },
+  "integrity_summary": {
+    "integro": 1
+  },
+  "platform_summary": {
+    "IWM Film": 40877
+  },
+  "top_domains": [
+    [
+      "film.iwmcollections.org.uk",
+      1
+    ]
+  ],
+  "continent_summary": {
+    "Europe": 1
+  },
+  "video_continent_summary": {
+    "Europe": 1
+  },
+  "top_institutions": [
+    {
+      "institution": "Imperial War Museums",
+      "slug": "imperial-war-museums",
+      "country": "United Kingdom",
+      "continent": "Europe",
+      "repository_code": "GB-IWM-FILM",
+      "archive_type": "National museum film archive",
+      "iwm_film_detail_url": "https://film.iwmcollections.org.uk/",
+      "content_available_in_source": true,
+      "website_available": true,
+      "partner_site": "https://film.iwmcollections.org.uk/",
+      "partner_domain": "film.iwmcollections.org.uk",
+      "status": "ok",
+      "http_code": 200,
+      "integrity_status": "integro",
+      "final_url": "https://film.iwmcollections.org.uk/instance/sitemaps/sitemap-index.xml",
+      "video_links_found_total": 40877,
+      "embedded_video_signals_total": 0,
+      "candidate_internal_pages": 26,
+      "priority_review": false,
+      "warning": "Snapshot do IWM Film enumerado por todas as partições sitemap-records anunciadas pelo índice público nesta rodada. A rodada materializou 40877 permalinks únicos em 1 partições (sitemap-records-1.xml:40877). As 25.000 horas declaradas pelo IWM são apenas contexto custodial e não denominador de completude web. A existência de ficha pública não implica digitalização, streaming ou licença de reprodução. Nenhuma mídia foi baixada. Validação/enriquecimento determinístico limitado a 24 fichas; semântica confirmada=24/24.",
+      "error": ""
+    }
+  ]
+}

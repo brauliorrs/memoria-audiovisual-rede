@@ -37,6 +37,13 @@ class OrganismTests(unittest.TestCase):
         ]:
             self.assertIn(column, registry_df.columns)
 
+    def test_promoted_iwm_is_active_and_monthly(self):
+        registry_df = build_active_corpora_registry()
+        iwm_rows = registry_df.loc[registry_df["code"] == "iwm_film"]
+        self.assertEqual(len(iwm_rows), 1)
+        self.assertTrue(bool(iwm_rows.iloc[0]["monthly_refresh_enabled"]))
+        self.assertEqual(len(registry_df), 60)
+
     def test_write_monthly_cycle_manifest_and_registry_create_files(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             output_dir = Path(tmp_dir)

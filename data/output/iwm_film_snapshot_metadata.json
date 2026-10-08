@@ -1,0 +1,168 @@
+{
+  "dataset": "iwm_film",
+  "generated_at": "2026-10-08T16:45:51Z",
+  "generated_by": "scripts/run_iwm_film_pipeline.py",
+  "observation_key": "iwm_film:2026-10-08T16:45:49Z",
+  "source_url": "https://film.iwmcollections.org.uk/instance/sitemaps/sitemap-index.xml",
+  "source_status_date": "",
+  "raw_outputs_last_modified_at": "2026-10-08T16:45:49Z",
+  "analytic_outputs_last_modified_at": "2026-10-08T16:45:33Z",
+  "counts": {
+    "institutions": 1,
+    "institutions_with_website": 1,
+    "institutions_with_video_links": 1,
+    "video_links_total": 40877,
+    "videos_in_curatorial_catalog": 40877,
+    "visibility_categories": 1,
+    "theme_categories": 2,
+    "archive_type_categories": 1,
+    "platforms_detected": 1,
+    "countries_with_videos": 1
+  },
+  "files": {
+    "institutions": {
+      "filename": "iwm_film_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 332,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "summary": {
+      "filename": "iwm_film_resumo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1174,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "video_links": {
+      "filename": "iwm_film_links_video.csv",
+      "exists": true,
+      "size_bytes": 21743975,
+      "last_modified_at": "2026-10-08T16:45:34Z"
+    },
+    "internal_pages": {
+      "filename": "iwm_film_paginas_internas.csv",
+      "exists": true,
+      "size_bytes": 8595,
+      "last_modified_at": "2026-10-08T16:45:34Z"
+    },
+    "analytic_summary": {
+      "filename": "iwm_film_resumo_instituicoes_analitico.csv",
+      "exists": true,
+      "size_bytes": 1531,
+      "last_modified_at": "2026-10-08T16:45:32Z"
+    },
+    "analytic_video_catalog": {
+      "filename": "iwm_film_catalogo_videos_analitico.csv",
+      "exists": true,
+      "size_bytes": 26118794,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "availability_summary": {
+      "filename": "iwm_film_resumo_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 32,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "availability_reasons": {
+      "filename": "iwm_film_subcategorias_disponibilidade.csv",
+      "exists": true,
+      "size_bytes": 45,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "visibility_summary": {
+      "filename": "iwm_film_resumo_visibilidade.csv",
+      "exists": true,
+      "size_bytes": 66,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "access_surface_summary": {
+      "filename": "iwm_film_resumo_modalidades_acesso.csv",
+      "exists": true,
+      "size_bytes": 53,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "access_regime_summary": {
+      "filename": "iwm_film_resumo_regimes_acesso.csv",
+      "exists": true,
+      "size_bytes": 48,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "theme_summary": {
+      "filename": "iwm_film_resumo_temas.csv",
+      "exists": true,
+      "size_bytes": 113,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "theme_country": {
+      "filename": "iwm_film_tema_pais.csv",
+      "exists": true,
+      "size_bytes": 148,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "archive_type_summary": {
+      "filename": "iwm_film_resumo_tipos_arquivo.csv",
+      "exists": true,
+      "size_bytes": 58,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "theme_platform": {
+      "filename": "iwm_film_tema_plataforma.csv",
+      "exists": true,
+      "size_bytes": 142,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "theme_archive_type": {
+      "filename": "iwm_film_tema_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 190,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "visibility_archive_type": {
+      "filename": "iwm_film_visibilidade_tipo_arquivo.csv",
+      "exists": true,
+      "size_bytes": 118,
+      "last_modified_at": "2026-10-08T16:45:33Z"
+    },
+    "timeline_corpus": {
+      "filename": "iwm_film_linha_do_tempo_corpus.csv",
+      "exists": true,
+      "size_bytes": 692,
+      "last_modified_at": "2026-10-08T16:45:51Z"
+    },
+    "timeline_institutions": {
+      "filename": "iwm_film_linha_do_tempo_instituicoes.csv",
+      "exists": true,
+      "size_bytes": 1277,
+      "last_modified_at": "2026-10-08T16:45:51Z"
+    },
+    "extinction_signals": {
+      "filename": "iwm_film_sinais_possivel_extincao.csv",
+      "exists": true,
+      "size_bytes": 291,
+      "last_modified_at": "2026-10-08T16:45:51Z"
+    },
+    "snapshot_metadata": {
+      "filename": "iwm_film_snapshot_metadata.json",
+      "exists": true,
+      "size_bytes": 5177,
+      "last_modified_at": "2026-10-08T16:45:51Z"
+    },
+    "report_json": {
+      "filename": "iwm_film_relatorio.json",
+      "exists": true,
+      "size_bytes": 1946,
+      "last_modified_at": "2026-10-08T16:45:34Z"
+    },
+    "report_txt": {
+      "filename": "iwm_film_relatorio.txt",
+      "exists": true,
+      "size_bytes": 939,
+      "last_modified_at": "2026-10-08T16:45:34Z"
+    },
+    "report_xlsx": {
+      "filename": "iwm_film_relatorio.xlsx",
+      "exists": true,
+      "size_bytes": 5394543,
+      "last_modified_at": "2026-10-08T16:45:49Z"
+    }
+  }
+}

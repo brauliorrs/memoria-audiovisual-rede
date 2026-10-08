@@ -312,11 +312,11 @@ jobs:
           python -m unittest discover -s tests -p 'test_iwm_film_collection.py' -v
 
       - name: Run IWM Film staged baseline
-        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/iwm-film-archive-v1'
+        if: github.event_name == 'pull_request' && (github.head_ref == 'corpus/iwm-film-archive-v1' || github.head_ref == 'corpus/iwm-film-archive-promote-v1')
         run: python scripts/run_iwm_film_pipeline.py
 
       - name: Upload IWM Film staged baseline
-        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/iwm-film-archive-v1'
+        if: always() && github.event_name == 'pull_request' && (github.head_ref == 'corpus/iwm-film-archive-v1' || github.head_ref == 'corpus/iwm-film-archive-promote-v1')
         uses: actions/upload-artifact@v4
         with:
           name: iwm-film-staged-baseline
@@ -324,7 +324,7 @@ jobs:
           if-no-files-found: error
 
       - name: Validate IWM Film staged baseline
-        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/iwm-film-archive-v1'
+        if: github.event_name == 'pull_request' && (github.head_ref == 'corpus/iwm-film-archive-v1' || github.head_ref == 'corpus/iwm-film-archive-promote-v1')
         run: python scripts/check_iwm_film_outputs.py
 
       - name: Validate Croatian Cinematheque technical probe contract

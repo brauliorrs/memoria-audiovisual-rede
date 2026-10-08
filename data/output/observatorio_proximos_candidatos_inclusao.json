@@ -7,20 +7,6 @@
   "candidate_count": 3,
   "candidates": [
     {
-      "rank": 79,
-      "unit_code": "fiaf-imperial-war-museums-film-archive",
-      "unit_label": "Imperial War Museums - Film Archive",
-      "country_or_scope": "Reino Unido",
-      "source_family": "FIAF",
-      "source_url": "https://film.iwmcollections.org.uk",
-      "next_action": "sondar_site_catalogo_api_e_disponibilidade_audiovisual",
-      "inclusion_gate": "só incorporar após validar rota pública de vídeos, metadados audiovisuais ou catálogo coletável",
-      "video_location_status": "a_localizar",
-      "video_location_candidate_url": "https://film.iwmcollections.org.uk",
-      "evidence_reference": "Lista oficial de membros da FIAF.",
-      "rule_version": "2026-05-pesquisa-europa-v3"
-    },
-    {
       "rank": 80,
       "unit_code": "inedits-jean-vigo-institute",
       "unit_label": "Jean Vigo Institute",
@@ -45,6 +31,20 @@
       "inclusion_gate": "só incorporar após validar rota pública de vídeos, metadados audiovisuais ou catálogo coletável",
       "video_location_status": "a_localizar",
       "video_location_candidate_url": "https://www.kinoteka.org.rs",
+      "evidence_reference": "Lista oficial de membros da FIAF.",
+      "rule_version": "2026-05-pesquisa-europa-v3"
+    },
+    {
+      "rank": 82,
+      "unit_code": "fiaf-kavi",
+      "unit_label": "Kansallinen Audiovisuaalinen Instituutti / National Audiovisual Institute",
+      "country_or_scope": "Finlândia",
+      "source_family": "FIAF",
+      "source_url": "https://www.kavi.fi",
+      "next_action": "sondar_site_catalogo_api_e_disponibilidade_audiovisual",
+      "inclusion_gate": "só incorporar após validar rota pública de vídeos, metadados audiovisuais ou catálogo coletável",
+      "video_location_status": "a_localizar",
+      "video_location_candidate_url": "https://www.kavi.fi",
       "evidence_reference": "Lista oficial de membros da FIAF.",
       "rule_version": "2026-05-pesquisa-europa-v3"
     }

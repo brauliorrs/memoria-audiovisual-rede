@@ -121,6 +121,28 @@ def infer_video_theme(row):
     if platform == "IFI Archive Player":
         return "Patrimônio fílmico irlandês em acesso público"
 
+    if platform == "IWM Film":
+        # IWM rows carry a collection-method boilerplate in video_description.
+        # Theme inference must therefore use record-level title evidence only;
+        # otherwise generic words such as "metadata" and "catalogue" turn the
+        # whole 40k-record corpus into an artificial "Digitalização e acesso"
+        # topic. Unenriched/ambiguous records remain explicitly unclassified.
+        title = normalize_for_matching(row.get("video_title"))
+        if not title:
+            return "Registro filmográfico IWM — tema não identificado"
+        if re.search(
+            r"\b(war|battle|military|army|navy|air force|raf|troops?|soldiers?|"
+            r"campaign|front|invasion|bombing|artillery|regiment)\b",
+            title,
+        ):
+            return "Guerra, forças armadas e conflito"
+        if re.search(
+            r"\b(newsreel|documentary|report|actualit(?:y|ies)|chronicle)\b",
+            title,
+        ):
+            return "Documentário e registro histórico"
+        return "Registro filmográfico IWM — tema não identificado"
+
     if platform == "Filmarchiv ON":
         if "filmgeschichte osterreich" in normalized or re.search(
             r"\b(regie|buch|kamera|mit:|spielfilm|drama|thriller|komodie|komödie|fiction|feature)\b",

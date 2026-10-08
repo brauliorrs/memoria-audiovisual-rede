@@ -127,19 +127,32 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertNotIn("fiat-european-commission-av-service", priority_by_code)
         self.assertGreater(priority_by_code["ace-members"], priority_by_code["fiat-rtp"])
         self.assertLess(priority_by_code["fiat-rtp"], priority_by_code["german-digital-library"])
-        self.assertEqual(len(CORPORA), 62)
+        self.assertEqual(len(CORPORA), 63)
         self.assertEqual(queue_df.iloc[0]["definitive_queue_rank"], "")
-        iwm_rank = int(
+        iwm_row = registry_df.loc[registry_df["unit_code"] == "iwm_film"].iloc[0]
+        self.assertEqual(iwm_row["organism_status"], "ativo")
+        self.assertNotIn(
+            "fiaf-imperial-war-museums-film-archive",
+            set(registry_df["unit_code"].astype(str)),
+        )
+        jean_vigo_rank = int(
             queue_df.loc[
-                queue_df["unit_code"] == "fiaf-imperial-war-museums-film-archive",
+                queue_df["unit_code"] == "inedits-jean-vigo-institute",
                 "definitive_queue_rank",
             ].iloc[0]
         )
-        self.assertEqual(analyzed_corpora_total(registry_df), 78)
-        self.assertEqual(iwm_rank, analyzed_corpora_total(registry_df) + 1)
-        self.assertEqual(iwm_rank, 79)
+        self.assertEqual(analyzed_corpora_total(registry_df), 79)
+        self.assertEqual(
+            jean_vigo_rank,
+            analyzed_corpora_total(registry_df) + 1,
+        )
+        self.assertEqual(jean_vigo_rank, 80)
         self.assertNotIn("inedits-image-est", priority_by_code)
         self.assertNotIn("fiaf-ifi-irish-film-archive", priority_by_code)
+        self.assertNotIn(
+            "fiaf-imperial-war-museums-film-archive",
+            priority_by_code,
+        )
         self.assertIn("video_location_candidate_url", queue_df.columns)
         self.assertFalse(queue_df["queue_decision"].astype(str).str.contains("sonoro", case=False).any())
 

@@ -100,12 +100,14 @@ O código principal está em `src/memoria_audiovisual/digital_infrastructure_aud
 
 O organismo trabalha com corpora ativos e unidades documentadas fora do corpus ativo.
 
-- Corpora/unidades analisados pelo motor: `78`.
-- Corpora ativos materializados: `59`.
+- Corpora/unidades analisados pelo motor: `79`.
+- Corpora ativos materializados: `60`.
 - Corpora inativos documentados: `3`.
 - Agregadores ativos: `7`.
-- Arquivos e instituições ativos: `52`.
-- Próximo número sequencial de análise: `79` (Imperial War Museums - Film Archive).
+- Arquivos e instituições ativos: `53`.
+- Próximo número sequencial de análise: `80` (Jean Vigo Institute).
+
+O corpus nº 79, **Imperial War Museums - Film Archive**, foi promovido após probe, staged collector e preservação byte-for-byte do baseline validado.
 - Fila europeia de fechamento documentada no MVP.
 - Snapshot público atual: aproximadamente `277 MB`.
 - Interface principal: `app/streamlit_app.py`.
