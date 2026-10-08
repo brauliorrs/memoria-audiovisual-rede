@@ -6,6 +6,7 @@ import pandas as pd
 
 from memoria_audiovisual.atresmedia_protocol import ATRESMEDIA_ACCESS_CATEGORY
 from memoria_audiovisual.europe_closure import EUROPE_CLOSURE_EXCLUDED_UNITS_FILENAME
+from memoria_audiovisual.output_files import IWM_FILM_OUTPUT_FILES
 from memoria_audiovisual.public_access_index import (
     PUBLIC_ACCESS_INDEX_BY_CORPUS_FILENAME,
     PUBLIC_ACCESS_INDEX_FILENAME,
@@ -106,6 +107,35 @@ class PublicAccessIndexTests(unittest.TestCase):
             self.assertEqual(europe["restricted_units_total"], 2)
             self.assertEqual(north_america["public_records"], 1)
             self.assertNotIn("fiat-atresmedia", restricted_units_df["unit_code"].tolist())
+
+    def test_promoted_iwm_is_included_in_public_access_index(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_dir = Path(tmp_dir)
+            pd.DataFrame(
+                [
+                    {
+                        "institution": "Imperial War Museums - Film Archive",
+                        "continent": "Europe",
+                        "access_surface": "Catálogo descritivo audiovisual institucional",
+                        "video_title_display": "IWM record",
+                    }
+                ]
+            ).to_csv(
+                output_dir / IWM_FILM_OUTPUT_FILES["analytic_video_catalog"],
+                index=False,
+            )
+
+            outputs = build_public_access_index(output_dir)
+            iwm_rows = outputs["by_corpus"].loc[
+                outputs["by_corpus"]["corpus_code"] == "iwm_film"
+            ]
+
+            self.assertEqual(len(iwm_rows), 1)
+            self.assertEqual(
+                int(iwm_rows.iloc[0]["materialized_records_total"]),
+                1,
+            )
+            self.assertTrue(bool(iwm_rows.iloc[0]["has_public_records"]))
 
     def test_write_public_access_index_materializes_files(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
