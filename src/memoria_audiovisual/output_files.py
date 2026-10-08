@@ -310,6 +310,10 @@ def list_image_est_output_filenames():
     return list_output_filenames(IMAGE_EST_OUTPUT_FILES)
 
 
+def list_iwm_film_output_filenames():
+    return list_output_filenames(IWM_FILM_OUTPUT_FILES)
+
+
 def list_gosfilmofond_output_filenames():
     return list_output_filenames(GOSFILMOFOND_OUTPUT_FILES)
 
@@ -464,6 +468,7 @@ __all__ = [
     "FAR_OUTPUT_FILES",
     "HOME_MOVIES_OUTPUT_FILES",
     "IMAGE_EST_OUTPUT_FILES",
+    "IWM_FILM_OUTPUT_FILES",
     "FILMARCHIV_AUSTRIA_OUTPUT_FILES",
     "FILMMUSEUM_DUSSELDORF_OUTPUT_FILES",
     "FILMOTECA_CATALUNYA_OUTPUT_FILES",
@@ -524,6 +529,7 @@ __all__ = [
     "list_far_output_filenames",
     "list_home_movies_output_filenames",
     "list_image_est_output_filenames",
+    "list_iwm_film_output_filenames",
     "list_filmarchiv_austria_output_filenames",
     "list_filmmuseum_dusseldorf_output_filenames",
     "list_filmoteca_catalunya_output_filenames",
