@@ -229,6 +229,69 @@ def fetch_public_url(
     )
 
 
+def resolve_declared_sitemap_url(
+    session: requests.Session,
+    url: str,
+) -> tuple[str | None, dict[str, Any]]:
+    """Resolve a robots-declared sitemap without accepting HTTP content.
+
+    HTTPS declarations pass through unchanged. An explicit HTTP declaration may
+    be contacted only to observe a redirect; its response body is never used.
+    The redirect must land on HTTPS at the same authorized host.
+    """
+    parsed = urlparse(url)
+    evidence: dict[str, Any] = {
+        "declared_url": url,
+        "resolved_url": None,
+        "status": None,
+        "http_status": None,
+    }
+    if parsed.netloc.lower() != _ALLOWED_HOST:
+        evidence["status"] = "rejected_origin"
+        return None, evidence
+    if parsed.scheme.lower() == "https":
+        evidence["resolved_url"] = url
+        evidence["status"] = "https_declared"
+        return url, evidence
+    if parsed.scheme.lower() != "http":
+        evidence["status"] = "rejected_scheme"
+        return None, evidence
+
+    try:
+        response = session.get(
+            url,
+            timeout=(8, REQUEST_TIMEOUT),
+            allow_redirects=False,
+        )
+    except requests.RequestException as exc:
+        evidence["status"] = "http_redirect_probe_failed"
+        evidence["error"] = f"{type(exc).__name__}: {exc}"
+        return None, evidence
+
+    evidence["http_status"] = response.status_code
+    if response.status_code not in {301, 302, 303, 307, 308}:
+        evidence["status"] = "http_content_not_accepted"
+        return None, evidence
+    location = response.headers.get("location", "")
+    if not location:
+        evidence["status"] = "redirect_without_location"
+        return None, evidence
+
+    target = urljoin(url, location)
+    target_parsed = urlparse(target)
+    if (
+        target_parsed.scheme.lower() != "https"
+        or target_parsed.netloc.lower() != _ALLOWED_HOST
+    ):
+        evidence["status"] = "redirect_target_not_authorized_https"
+        evidence["redirect_target"] = target
+        return None, evidence
+
+    evidence["resolved_url"] = target
+    evidence["status"] = "http_redirected_to_authorized_https"
+    return target, evidence
+
+
 def parse_surface_html(html_text: str, page_url: str) -> dict[str, Any]:
     soup = BeautifulSoup(html_text or "", "html.parser")
     same_host: list[str] = []
@@ -388,11 +451,16 @@ def _fetch_declared_sitemaps(
     *,
     max_sitemaps: int = 20,
 ) -> tuple[list[dict[str, Any]], list[str], bool]:
-    queue = list(sitemap_urls)
+    queue: list[str] = []
     seen: set[str] = set()
     reports: list[dict[str, Any]] = []
     pages: list[str] = []
     truncated = False
+    for declared_url in sitemap_urls:
+        resolved, transport = resolve_declared_sitemap_url(session, declared_url)
+        reports.append({"transport": transport, "status": "transport_checked"})
+        if resolved and resolved not in queue:
+            queue.append(resolved)
     while queue:
         if len(seen) >= max_sitemaps:
             truncated = True
@@ -421,8 +489,20 @@ def _fetch_declared_sitemaps(
         reports.append(report)
         pages.extend(parsed_map["same_host_pages"])
         for child in parsed_map["nested_sitemaps"]:
-            if child not in seen and child not in queue:
-                queue.append(child)
+            resolved_child, transport = resolve_declared_sitemap_url(session, child)
+            reports.append(
+                {
+                    "url": child,
+                    "transport": transport,
+                    "status": "nested_transport_checked",
+                }
+            )
+            if (
+                resolved_child
+                and resolved_child not in seen
+                and resolved_child not in queue
+            ):
+                queue.append(resolved_child)
     return reports, sorted(set(pages)), truncated
 
 
