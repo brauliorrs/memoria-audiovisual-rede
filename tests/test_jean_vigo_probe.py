@@ -5,6 +5,7 @@ from memoria_audiovisual.jean_vigo_probe import (
     classify_public_url,
     parse_sitemap,
     parse_surface_html,
+    resolve_declared_sitemap_url,
     robots_allowed,
     run_jean_vigo_probe,
 )
@@ -130,6 +131,47 @@ class JeanVigoProbeTests(unittest.TestCase):
             "https://www.inst-jeanvigo.eu/record/1",
             home["same_host_links"],
         )
+
+
+    def test_declared_http_sitemap_only_accepts_same_host_https_redirect(self):
+        class Session:
+            def get(self, url, **_kwargs):
+                class Response:
+                    status_code = 301
+                    headers = {
+                        "location": "https://www.inst-jeanvigo.eu/sitemap_index.xml"
+                    }
+                    text = "SHOULD NOT BE USED"
+                return Response()
+
+        resolved, evidence = resolve_declared_sitemap_url(
+            Session(),
+            "http://www.inst-jeanvigo.eu/sitemap_index.xml",
+        )
+        self.assertEqual(
+            resolved,
+            "https://www.inst-jeanvigo.eu/sitemap_index.xml",
+        )
+        self.assertEqual(
+            evidence["status"],
+            "http_redirected_to_authorized_https",
+        )
+
+    def test_declared_http_sitemap_rejects_http_content_without_redirect(self):
+        class Session:
+            def get(self, url, **_kwargs):
+                class Response:
+                    status_code = 200
+                    headers = {"content-type": "application/xml"}
+                    text = "<urlset></urlset>"
+                return Response()
+
+        resolved, evidence = resolve_declared_sitemap_url(
+            Session(),
+            "http://www.inst-jeanvigo.eu/sitemap_index.xml",
+        )
+        self.assertIsNone(resolved)
+        self.assertEqual(evidence["status"], "http_content_not_accepted")
 
     def test_probe_holds_when_robots_is_unverifiable(self):
         class Session:
