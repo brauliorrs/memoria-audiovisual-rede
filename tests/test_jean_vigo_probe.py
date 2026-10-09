@@ -157,6 +157,31 @@ class JeanVigoProbeTests(unittest.TestCase):
             "http_redirected_to_authorized_https",
         )
 
+
+    def test_declared_http_sitemap_accepts_canonical_apex_https_redirect(self):
+        class Session:
+            def get(self, url, **_kwargs):
+                class Response:
+                    status_code = 301
+                    headers = {
+                        "location": "https://inst-jeanvigo.eu/sitemap_index.xml"
+                    }
+                    text = ""
+                return Response()
+
+        resolved, evidence = resolve_declared_sitemap_url(
+            Session(),
+            "http://www.inst-jeanvigo.eu/sitemap_index.xml",
+        )
+        self.assertEqual(
+            resolved,
+            "https://inst-jeanvigo.eu/sitemap_index.xml",
+        )
+        self.assertEqual(
+            evidence["status"],
+            "http_redirected_to_authorized_https",
+        )
+
     def test_declared_http_sitemap_rejects_http_content_without_redirect(self):
         class Session:
             def get(self, url, **_kwargs):
