@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import re
 import time
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -283,28 +284,61 @@ def parse_surface_html(html_text: str, page_url: str) -> dict[str, Any]:
     }
 
 
+def _local_tag(tag: str) -> str:
+    return str(tag).rsplit("}", 1)[-1].lower()
+
+
 def parse_sitemap(xml_text: str) -> dict[str, Any]:
-    urls = [_clean(value) for value in _XML_LOC_RE.findall(xml_text or "")]
     same_host_pages: list[str] = []
     nested: list[str] = []
     rejected: list[str] = []
-    for url in urls:
-        parsed = urlparse(url)
-        if parsed.scheme.lower() != "https" or parsed.netloc.lower() != _ALLOWED_HOST:
-            rejected.append(url)
+    urls: list[str] = []
+
+    try:
+        root = ET.fromstring(xml_text or "")
+    except ET.ParseError:
+        # Keep evidence about malformed payloads without guessing sitemap roles.
+        urls = [_clean(value) for value in _XML_LOC_RE.findall(xml_text or "")]
+        return {
+            "url_count": len(urls),
+            "same_host_page_count": 0,
+            "same_host_pages": [],
+            "nested_sitemaps": [],
+            "rejected_urls": [],
+            "parse_error": True,
+        }
+
+    root_kind = _local_tag(root.tag)
+    for container in list(root):
+        container_kind = _local_tag(container.tag)
+        loc_value = ""
+        for child in list(container):
+            if _local_tag(child.tag) == "loc":
+                loc_value = _clean(child.text)
+                break
+        if not loc_value:
             continue
-        if parsed.path.lower().endswith(".xml"):
-            nested.append(url)
+        urls.append(loc_value)
+        parsed = urlparse(loc_value)
+        if parsed.scheme.lower() != "https" or parsed.netloc.lower() != _ALLOWED_HOST:
+            rejected.append(loc_value)
+            continue
+
+        is_nested = root_kind == "sitemapindex" and container_kind == "sitemap"
+        if is_nested:
+            nested.append(loc_value)
             continue
         if parsed.path.lower().endswith(_ASSET_SUFFIXES):
             continue
-        same_host_pages.append(url)
+        same_host_pages.append(loc_value)
+
     return {
         "url_count": len(urls),
         "same_host_page_count": len(set(same_host_pages)),
         "same_host_pages": sorted(set(same_host_pages)),
         "nested_sitemaps": sorted(set(nested)),
         "rejected_urls": sorted(set(rejected)),
+        "parse_error": False,
     }
 
 
@@ -437,7 +471,7 @@ def run_jean_vigo_probe(session: requests.Session | None = None) -> dict[str, An
             "error": response.error,
         }
         if not response.error and response.status_code == 200:
-            parsed = parse_surface_html(response.text, url)
+            parsed = parse_surface_html(response.text, response.final_url or url)
             row.update(parsed)
             row["status"] = "ok"
             for link in parsed["external_links"]:
