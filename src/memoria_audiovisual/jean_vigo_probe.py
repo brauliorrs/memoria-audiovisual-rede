@@ -29,6 +29,7 @@ JEAN_VIGO_PROBE_VERSION = "2026-10-jean-vigo-probe-v1"
 CRAWLER_TOKEN = "MemoriaAudiovisualRede"
 
 _ALLOWED_HOST = "www.inst-jeanvigo.eu"
+_ALLOWED_HOSTS = {_ALLOWED_HOST, "inst-jeanvigo.eu"}
 _SITEMAP_DIRECTIVE_RE = re.compile(r"(?im)^\s*Sitemap:\s*(\S+)\s*$")
 _XML_LOC_RE = re.compile(r"<loc>\s*([^<]+?)\s*</loc>", re.I)
 _ASSET_SUFFIXES = (
@@ -159,7 +160,7 @@ def fetch_public_url(
     response = None
     for _ in range(max_redirects + 1):
         parsed = urlparse(current_url)
-        if parsed.scheme.lower() != "https" or parsed.netloc.lower() != _ALLOWED_HOST:
+        if parsed.scheme.lower() != "https" or parsed.netloc.lower() not in _ALLOWED_HOSTS:
             return ProbeResponse(
                 requested_url,
                 current_url,
@@ -246,7 +247,7 @@ def resolve_declared_sitemap_url(
         "status": None,
         "http_status": None,
     }
-    if parsed.netloc.lower() != _ALLOWED_HOST:
+    if parsed.netloc.lower() not in _ALLOWED_HOSTS:
         evidence["status"] = "rejected_origin"
         return None, evidence
     if parsed.scheme.lower() == "https":
@@ -281,7 +282,7 @@ def resolve_declared_sitemap_url(
     target_parsed = urlparse(target)
     if (
         target_parsed.scheme.lower() != "https"
-        or target_parsed.netloc.lower() != _ALLOWED_HOST
+        or target_parsed.netloc.lower() not in _ALLOWED_HOSTS
     ):
         evidence["status"] = "redirect_target_not_authorized_https"
         evidence["redirect_target"] = target
@@ -303,7 +304,7 @@ def parse_surface_html(html_text: str, page_url: str) -> dict[str, Any]:
         parsed = urlparse(absolute)
         if parsed.scheme not in {"http", "https"}:
             continue
-        if parsed.netloc.lower() == _ALLOWED_HOST:
+        if parsed.netloc.lower() in _ALLOWED_HOSTS:
             if absolute not in same_host:
                 same_host.append(absolute)
         elif absolute not in external:
@@ -327,7 +328,7 @@ def parse_surface_html(html_text: str, page_url: str) -> dict[str, Any]:
         )
     for script in soup.find_all("script", src=True):
         absolute = urljoin(page_url, script.get("src", ""))
-        if urlparse(absolute).netloc.lower() == _ALLOWED_HOST:
+        if urlparse(absolute).netloc.lower() in _ALLOWED_HOSTS:
             scripts.append(absolute)
 
     visible = _clean(soup.get_text(" ", strip=True), limit=12000)
@@ -383,7 +384,7 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
             continue
         urls.append(loc_value)
         parsed = urlparse(loc_value)
-        if parsed.scheme.lower() != "https" or parsed.netloc.lower() != _ALLOWED_HOST:
+        if parsed.scheme.lower() != "https" or parsed.netloc.lower() not in _ALLOWED_HOSTS:
             rejected.append(loc_value)
             continue
 
@@ -470,7 +471,7 @@ def _fetch_declared_sitemaps(
             continue
         seen.add(url)
         parsed = urlparse(url)
-        if parsed.scheme.lower() != "https" or parsed.netloc.lower() != _ALLOWED_HOST:
+        if parsed.scheme.lower() != "https" or parsed.netloc.lower() not in _ALLOWED_HOSTS:
             reports.append({"url": url, "status": "rejected_origin"})
             continue
         response = fetch_public_url(session, url, robots_text=robots_text)
