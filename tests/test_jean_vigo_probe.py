@@ -28,19 +28,36 @@ class JeanVigoProbeTests(unittest.TestCase):
         )
         self.assertIn("s", parsed["forms"][0]["input_names"])
 
-    def test_sitemap_parser_keeps_pages_and_nested_sitemaps(self):
+    def test_sitemap_parser_detects_nested_by_xml_structure_not_suffix(self):
         xml = """
-        <sitemapindex>
-          <sitemap><loc>https://www.inst-jeanvigo.eu/post-sitemap.xml</loc></sitemap>
-          <url><loc>https://www.inst-jeanvigo.eu/agenda/example</loc></url>
-          <url><loc>https://other.example/record/1</loc></url>
+        <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+          <sitemap>
+            <loc>https://www.inst-jeanvigo.eu/sitemap-feed?part=1</loc>
+          </sitemap>
+          <sitemap>
+            <loc>https://www.inst-jeanvigo.eu/post-sitemap.xml.gz</loc>
+          </sitemap>
         </sitemapindex>
         """
         parsed = parse_sitemap(xml)
         self.assertEqual(
             parsed["nested_sitemaps"],
-            ["https://www.inst-jeanvigo.eu/post-sitemap.xml"],
+            [
+                "https://www.inst-jeanvigo.eu/post-sitemap.xml.gz",
+                "https://www.inst-jeanvigo.eu/sitemap-feed?part=1",
+            ],
         )
+        self.assertEqual(parsed["same_host_pages"], [])
+        self.assertFalse(parsed["parse_error"])
+
+    def test_urlset_parser_keeps_pages_and_rejects_external_urls(self):
+        xml = """
+        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+          <url><loc>https://www.inst-jeanvigo.eu/agenda/example</loc></url>
+          <url><loc>https://other.example/record/1</loc></url>
+        </urlset>
+        """
+        parsed = parse_sitemap(xml)
         self.assertEqual(
             parsed["same_host_pages"],
             ["https://www.inst-jeanvigo.eu/agenda/example"],
@@ -79,6 +96,39 @@ class JeanVigoProbeTests(unittest.TestCase):
                 "MemoriaAudiovisualRede",
                 "https://www.inst-jeanvigo.eu/private/public/x",
             )
+        )
+
+
+    def test_probe_resolves_relative_links_against_final_redirect_url(self):
+        robots = "User-agent: *\nAllow: /\n"
+        page = '<html><body><a href="record/1">record</a></body></html>'
+
+        class Session:
+            def get(self, url, **_kwargs):
+                class Response:
+                    status_code = 200
+                    headers = {"content-type": "text/html"}
+                    text = page
+
+                response = Response()
+                if url.endswith("robots.txt"):
+                    response.text = robots
+                    response.headers = {"content-type": "text/plain"}
+                elif url == "https://www.inst-jeanvigo.eu/":
+                    response.status_code = 301
+                    response.headers = {"location": "/canonical/"}
+                    response.text = ""
+                return response
+
+        payload = run_jean_vigo_probe(Session())
+        home = payload["surfaces"][0]
+        self.assertIn(
+            "https://www.inst-jeanvigo.eu/canonical/record/1",
+            home["same_host_links"],
+        )
+        self.assertNotIn(
+            "https://www.inst-jeanvigo.eu/record/1",
+            home["same_host_links"],
         )
 
     def test_probe_holds_when_robots_is_unverifiable(self):
