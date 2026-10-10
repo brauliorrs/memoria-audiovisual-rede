@@ -253,8 +253,8 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
             "inedits-jean-vigo-institute",
             set(queue["unit_code"].astype(str)),
         )
-        self.assertEqual(candidates[0].unit_code, "fiaf-jugoslovenska-kinoteka")
-        self.assertEqual(candidates[0].rank, 81)
+        self.assertEqual(candidates[0].unit_code, "fiaf-kavi")
+        self.assertEqual(candidates[0].rank, 82)
 
     def test_collector_fails_closed_when_robots_is_not_verifiable(self):
         institutions, summary, links, internal = collect_murnau_stiftung_dataset(
