@@ -77,6 +77,23 @@ class JeanVigoProbeTests(unittest.TestCase):
             ],
         )
 
+
+    def test_nested_http_sitemap_is_preserved_for_transport_validation(self):
+        xml = """
+        <sitemapindex>
+          <sitemap>
+            <loc>http://inst-jeanvigo.eu/child-sitemap</loc>
+          </sitemap>
+        </sitemapindex>
+        """
+        parsed = parse_sitemap(xml)
+        self.assertFalse(parsed["parse_error"])
+        self.assertEqual(
+            parsed["nested_sitemaps"],
+            ["http://inst-jeanvigo.eu/child-sitemap"],
+        )
+        self.assertEqual(parsed["rejected_urls"], [])
+
     def test_sitemap_parser_fails_closed_on_unattributed_loc(self):
         xml = """
         <sitemapindex>
