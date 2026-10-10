@@ -507,7 +507,10 @@ def parse_collection_page_semantics(
             labels.add(label)
     for node in scope.find_all(["strong", "b"]):
         text = _normalized_label(node.get_text(" ", strip=True))
-        if text in _ARCHIVAL_IDENTIFIER_LABELS or text in _FILM_METADATA_LABELS:
+        if (
+            _matches_label_family(text, _ARCHIVAL_IDENTIFIER_LABELS)
+            or _matches_label_family(text, _FILM_METADATA_LABELS)
+        ):
             labels.add(text)
 
     identifiers = sorted(
