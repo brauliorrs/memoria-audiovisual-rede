@@ -370,7 +370,7 @@ def parse_surface_html(html_text: str, page_url: str) -> dict[str, Any]:
     external: list[str] = []
     forms: list[dict[str, Any]] = []
     scripts: list[str] = []
-    for anchor in soup.find_all("a", href=True):
+    for anchor in scope.find_all("a", href=True):
         absolute = urljoin(page_url, anchor.get("href", ""))
         parsed = urlparse(absolute)
         if parsed.scheme not in {"http", "https"}:
@@ -441,18 +441,71 @@ def _text_markers(text: str, family: set[str]) -> list[str]:
     return found
 
 
+def _content_scope(soup: BeautifulSoup) -> Any:
+    for selector in (
+        "main",
+        "article",
+        ".entry-content",
+        ".post-content",
+        ".page-content",
+        "#content",
+    ):
+        node = soup.select_one(selector)
+        if node is not None:
+            return node
+    return soup.body or soup
+
+
+def _unstructured_record_evidence(scope: Any) -> list[dict[str, Any]]:
+    evidence: list[dict[str, Any]] = []
+    text_film_family = _FILM_METADATA_LABELS - {"date"}
+    for node in scope.find_all(["p", "li", "dd", "td"]):
+        text = _clean(node.get_text(" ", strip=True))
+        if not text or len(text) > 1600:
+            continue
+        lowered = text.lower()
+        identifiers = _text_markers(lowered, _ARCHIVAL_IDENTIFIER_LABELS)
+        film_markers = _text_markers(lowered, text_film_family)
+        if identifiers and len(film_markers) >= 3:
+            evidence.append(
+                {
+                    "identifier_markers": identifiers,
+                    "film_markers": film_markers,
+                    "excerpt": _clean(text, limit=320),
+                }
+            )
+    if evidence:
+        return evidence[:5]
+
+    visible = _clean(scope.get_text(" ", strip=True))
+    if 0 < len(visible) <= 3000:
+        lowered = visible.lower()
+        identifiers = _text_markers(lowered, _ARCHIVAL_IDENTIFIER_LABELS)
+        film_markers = _text_markers(lowered, text_film_family)
+        if identifiers and len(film_markers) >= 3:
+            return [
+                {
+                    "identifier_markers": identifiers,
+                    "film_markers": film_markers,
+                    "excerpt": _clean(visible, limit=320),
+                }
+            ]
+    return []
+
+
 def parse_collection_page_semantics(
     html_text: str,
     page_url: str,
 ) -> dict[str, Any]:
     """Classify one sitemap-derived collection page conservatively."""
     soup = BeautifulSoup(html_text or "", "html.parser")
+    scope = _content_scope(soup)
     labels: set[str] = set()
-    for node in soup.find_all(["dt", "th"]):
+    for node in scope.find_all(["dt", "th"]):
         label = _normalized_label(node.get_text(" ", strip=True))
         if label:
             labels.add(label)
-    for node in soup.find_all(["strong", "b"]):
+    for node in scope.find_all(["strong", "b"]):
         text = _normalized_label(node.get_text(" ", strip=True))
         if text in _ARCHIVAL_IDENTIFIER_LABELS or text in _FILM_METADATA_LABELS:
             labels.add(text)
@@ -467,13 +520,14 @@ def parse_collection_page_semantics(
         for label in labels
         if _matches_label_family(label, _FILM_METADATA_LABELS)
     )
-    visible_text = _clean(soup.get_text(" ", strip=True), limit=30000).lower()
+    visible_text = _clean(scope.get_text(" ", strip=True), limit=30000).lower()
     text_identifiers = _text_markers(
         visible_text,
         _ARCHIVAL_IDENTIFIER_LABELS,
     )
     text_film_family = _FILM_METADATA_LABELS - {"date"}
     text_film_markers = _text_markers(visible_text, text_film_family)
+    unstructured_evidence = _unstructured_record_evidence(scope)
 
     same_host_children: set[str] = set()
     external_archive_links: set[str] = set()
@@ -529,8 +583,7 @@ def parse_collection_page_semantics(
     unstructured_candidate = (
         not strong_record
         and not structured_candidate
-        and bool(text_identifiers)
-        and len(text_film_markers) >= 3
+        and bool(unstructured_evidence)
     )
     if strong_record:
         semantic_class = "individual_archival_record_confirmed"
@@ -545,7 +598,7 @@ def parse_collection_page_semantics(
     else:
         semantic_class = "institutional_collection_page"
 
-    heading = soup.find("h1")
+    heading = scope.find("h1") or soup.find("h1")
     title = _clean(
         heading.get_text(" ", strip=True)
         if heading
@@ -558,6 +611,7 @@ def parse_collection_page_semantics(
         "film_metadata_labels": film_labels,
         "text_identifier_markers": text_identifiers,
         "text_film_markers": text_film_markers,
+        "unstructured_record_evidence": unstructured_evidence,
         "schema_types": sorted(schema_types)[:20],
         "same_host_collection_child_count": len(same_host_children),
         "same_host_collection_child_sample": sorted(same_host_children)[:12],
