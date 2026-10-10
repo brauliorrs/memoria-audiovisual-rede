@@ -102,6 +102,39 @@ class MemoireFilmiqueProbeTests(unittest.TestCase):
             )
         )
 
+
+    def test_probe_classifies_antibot_challenge_explicitly(self):
+        robots = "User-agent: *\nAllow: /\n"
+        challenge = """
+        <html><body>
+          <h1>Verification in progress</h1>
+          <p>Please prove you are human. Slide the button.</p>
+        </body></html>
+        """
+
+        class Session:
+            def get(self, url, **_kwargs):
+                class Response:
+                    status_code = 200
+                    headers = {"content-type": "text/html"}
+                    text = challenge
+
+                response = Response()
+                if url.endswith("robots.txt"):
+                    response.status_code = 404
+                    response.text = "not found"
+                return response
+
+        payload = run_memoire_filmique_probe(Session())
+        self.assertEqual(
+            payload["gate_assessment"],
+            "hold_external_surface_antibot_challenge",
+        )
+        self.assertEqual(
+            payload["next_action"],
+            "do_not_bypass_challenge_retest_or_seek_public_export",
+        )
+
     def test_probe_holds_on_incomplete_enumeration(self):
         robots = "User-agent: *\nAllow: /\n"
         collection = """
