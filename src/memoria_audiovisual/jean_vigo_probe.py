@@ -747,10 +747,14 @@ def classify_public_url(url: str) -> str:
     path = urlparse(url).path.lower()
     if path.startswith("/agenda/"):
         return "agenda_or_programming"
-    if "collections-cinematheque" in path or "memoire-filmique" in path:
-        return "institutional_collection_page"
-    if "/actualites/" in path or "/mots-cles/" in path or "/categories/" in path:
+    if (
+        path.startswith("/actualites/")
+        or path.startswith("/mots-cles/")
+        or path.startswith("/categories/")
+    ):
         return "editorial_page"
+    if _COLLECTION_PATH_TOKEN in path:
+        return "institutional_collection_page"
     return "other_public_page"
 
 
