@@ -324,6 +324,37 @@ class JeanVigoProbeTests(unittest.TestCase):
             "unstructured_archival_record_candidate",
         )
 
+
+    def test_long_editorial_article_does_not_become_unstructured_record(self):
+        nav_links = "".join(
+            f'<a href="/collections-cinematheque-perpignan-institut-jean-vigo/{i}">x</a>'
+            for i in range(6)
+        )
+        filler = "texte éditorial " * 500
+        html = f"""
+        <html><body>
+          <nav>{nav_links}</nav>
+          <main>
+            <h1>Article sur une affiche</h1>
+            <p>Référence historique au cinéma.</p>
+            <p>{filler}</p>
+            <p>Année 1975. Production hollywoodienne.</p>
+            <p>Le réalisateur travaille au format cinémascope.</p>
+          </main>
+        </body></html>
+        """
+        parsed = parse_collection_page_semantics(
+            html,
+            "https://www.inst-jeanvigo.eu/"
+            "collections-cinematheque-perpignan-institut-jean-vigo/article",
+        )
+        self.assertEqual(
+            parsed["semantic_class"],
+            "institutional_collection_page",
+        )
+        self.assertEqual(parsed["same_host_collection_child_count"], 0)
+        self.assertEqual(parsed["unstructured_record_evidence"], [])
+
     def test_collection_semantics_distinguishes_hub_and_external_pointer(self):
         hub = """
         <html><body><h1>Collection</h1>
