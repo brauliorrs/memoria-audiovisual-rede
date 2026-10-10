@@ -609,13 +609,25 @@ def run_memoire_filmique_probe(
         for key, value in enumeration.items()
         if key != "item_urls"
     }
+    challenge_seen = any(
+        row.get("status") == "challenge"
+        for row in enumeration.get("pages", [])
+    )
     if not enumeration["enumeration_complete"]:
-        payload["gate_assessment"] = (
-            "hold_external_surface_enumeration_incomplete"
-        )
-        payload["next_action"] = (
-            "protocol_external_surface_without_partial_corpus"
-        )
+        if challenge_seen:
+            payload["gate_assessment"] = (
+                "hold_external_surface_antibot_challenge"
+            )
+            payload["next_action"] = (
+                "do_not_bypass_challenge_retest_or_seek_public_export"
+            )
+        else:
+            payload["gate_assessment"] = (
+                "hold_external_surface_enumeration_incomplete"
+            )
+            payload["next_action"] = (
+                "protocol_external_surface_without_partial_corpus"
+            )
         return payload
 
     sample_urls = _deterministic_sample(
