@@ -405,21 +405,46 @@ def _parse_sitemap_strict(xml_text: str) -> tuple[list[tuple[str, str]], str]:
     return pairs, root_kind
 
 
-def _parse_sitemap_tolerant(xml_text: str) -> list[tuple[str, str]]:
-    """Recover only structurally attributable loc entries from malformed XML."""
+def _parse_sitemap_tolerant(
+    xml_text: str,
+) -> tuple[list[tuple[str, str]], str]:
+    """Recover only loc entries attributable to one recognized sitemap root."""
     soup = BeautifulSoup(xml_text or "", "html.parser")
+    roots = [
+        tag
+        for tag in soup.find_all(
+            lambda tag: _local_tag(getattr(tag, "name", ""))
+            in {"sitemapindex", "urlset"}
+        )
+    ]
+    root_kinds = {_local_tag(tag.name) for tag in roots}
+    if len(root_kinds) != 1:
+        return [], "ambiguous"
+    root_kind = next(iter(root_kinds))
+    expected_container = "sitemap" if root_kind == "sitemapindex" else "url"
+
     pairs: list[tuple[str, str]] = []
-    for loc in soup.find_all(lambda tag: _local_tag(tag.name) == "loc"):
+    for loc in soup.find_all(
+        lambda tag: _local_tag(getattr(tag, "name", "")) == "loc"
+    ):
         parent = loc.parent
+        container_kind = ""
+        root_seen = False
         while parent is not None:
             kind = _local_tag(getattr(parent, "name", ""))
-            if kind in {"sitemap", "url"}:
-                pairs.append((kind, _clean(loc.get_text("", strip=True))))
+            if kind in {"sitemap", "url"} and not container_kind:
+                container_kind = kind
+            if kind in {"sitemapindex", "urlset"}:
+                root_seen = kind == root_kind
                 break
-            if kind in {"sitemapindex", "urlset", "html", "body"}:
+            if kind in {"html", "body"}:
                 break
             parent = getattr(parent, "parent", None)
-    return pairs
+        if root_seen and container_kind == expected_container:
+            pairs.append(
+                (container_kind, _clean(loc.get_text("", strip=True)))
+            )
+    return pairs, root_kind
 
 
 def parse_sitemap(xml_text: str) -> dict[str, Any]:
@@ -435,8 +460,7 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
         parse_mode = "strict_xml"
     except ET.ParseError as exc:
         strict_error = _clean(str(exc), limit=300)
-        pairs = _parse_sitemap_tolerant(xml_text)
-        root_kind = "recovered"
+        pairs, root_kind = _parse_sitemap_tolerant(xml_text)
         parse_mode = "tolerant_structural"
 
     for container_kind, loc_value in pairs:
@@ -451,7 +475,10 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
 
     attributed_count = len(pairs)
     ambiguous_loc_count = max(raw_loc_count - attributed_count, 0)
-    recovery_failed = bool(raw_loc_count) and ambiguous_loc_count > 0
+    root_valid = root_kind in {"sitemapindex", "urlset"}
+    recovery_failed = (not root_valid) or (
+        bool(raw_loc_count) and ambiguous_loc_count > 0
+    )
 
     return {
         "url_count": len(urls),
@@ -464,6 +491,7 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
         "rejected_urls": sorted(set(rejected)),
         "parse_mode": parse_mode,
         "root_kind": root_kind,
+        "root_valid": root_valid,
         "strict_parse_error": strict_error,
         "parse_error": recovery_failed,
     }
