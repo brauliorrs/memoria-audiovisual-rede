@@ -8,7 +8,7 @@
 - Issue do ciclo: https://github.com/brauliorrs/memoria-audiovisual-rede/issues/57
 - PR técnico: https://github.com/brauliorrs/memoria-audiovisual-rede/pull/58
 - **Estado da superfície institucional: HOLD / não incorporada.**
-- **Estado da análise nº 81: aberto** para auditoria de superfícies subordinadas externas oficialmente referenciadas.
+- **Estado da análise nº 81: HOLD / protocolado / não incorporado**, após auditoria das superfícies públicas do domínio e EFG1914; análise encerrada do ponto de vista de incorporação, com critérios claros de retomada.
 
 ## Superfície institucional auditada
 
@@ -57,7 +57,13 @@ O próprio arquivo informa que materiais dos seus fundos são apresentados em ht
 
 A interface pública em https://www.europeanfilmgateway.eu/search-efg/efg1914 publica o facet de provedor **`Jugoslovenska Kinoteka (67)`**. Esse número é uma contagem *apresentada pela interface*, não um conjunto enumerado de 67 registros. O FAQ do portal (https://europeanfilmgateway.eu/about_efg/faq) declara que os resultados individuais têm um campo `Provider` e que os arquivos colaboradores detêm os objetos originais.
 
-A sonda subordinada `jugoslovenska_efg1914_probe.py` opera apenas sobre a URL explicitamente publicada, com `robots.txt` por host e captura de facet/link/formulário sem submeter parâmetros inferidos. Não reutiliza o `efg_institutional.fetch_url` legado porque ele contém uma rotina específica de `validate-browser`: nenhuma etapa de verificação de navegador, captcha ou desafio é atravessada na sonda nº 81. `staged_collector_authorized` permanece `false` sem enumeração, metadados e proveniência verificados.
+A sonda subordinada `jugoslovenska_efg1914_probe.py` opera apenas sobre a URL explicitamente publicada, com `robots.txt` por host e captura de facet/link/formulário sem submeter parâmetros inferidos. Não reutiliza o `efg_institutional.fetch_url` legado porque ele contém uma rotina específica de `validate-browser`: nenhuma etapa de verificação de navegador, captcha ou desafio é atravessada na sonda nº 81.
+
+**Resultado vivo:** execução Quality Checks [#38085333738](https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/38085333738), artefato `jugoslovenska-efg1914-probe` id `11682446118`, digest ZIP `sha256:e786e7db5d3dccebc3b36493f8d39e61e557d7fd16531f796b65b170bafbe1a1`. O `robots.txt` de `www.europeanfilmgateway.eu` respondeu HTTP 200 e foi avaliado; a rota EFG1914 `https://www.europeanfilmgateway.eu/search-efg/efg1914` respondeu **HTTP 403**. Gate `hold_access_blocked`, `records_enumerated=0`, `staged_collector_authorized=false`. A cifra publicada no facet “Jugoslovenska Kinoteka (67)” **não** constitui registros enumerados. Nenhum bypass, `validate-browser` ou tentativa de inventar query foi efetuado.
+
+**Decisão formal nº 81:** `HOLD / protocolo_de_negativa / manter_protocolo_sem_incorporacao`. O número histórico 81 está consumido sem compactar a fila; próxima candidata nº **82: KAVI / National Audiovisual Institute (Finlândia)**. Os canais YouTube/Vimeo oficialmente referenciados são superfícies de divulgação de filmes e trechos, não uma enumeração completa de fichas de custódia; permanecem pistas para reavaliação separada, sem autorização de staged neste ciclo.
+
+**Reabrir apenas** se existir mecanismo autorizado de enumeração completa, metadados de filmes individualizados e campo `Provider`/custódia que vincule os registros à Jugoslovenska Kinoteka, com total reconciliável e auditoria semântica. Um acesso posterior que deixe de retornar 403 permite nova sonda, nunca promoção automática.
 
 ## Comandos
 
@@ -68,4 +74,4 @@ python -m unittest discover -s tests -p 'test_jugoslovenska_efg1914_probe.py' -v
 python scripts/probe_jugoslovenska_efg1914.py
 ```
 
-Os resultados acima são da sonda viva. O merge da análise e eventual transição histórica da fila não estão autorizados por este documento; ficam condicionados aos gates restantes.
+As evidências documentam a decisão de HOLD e fundamentam a transição da fila no registro de pesquisa. O merge depende de CI verde, revisão de código e persistência dos arquivos derivados da fila. Nenhum corpus foi incorporado.
