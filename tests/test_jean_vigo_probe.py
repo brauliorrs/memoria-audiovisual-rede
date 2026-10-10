@@ -51,6 +51,47 @@ class JeanVigoProbeTests(unittest.TestCase):
         self.assertEqual(parsed["same_host_pages"], [])
         self.assertFalse(parsed["parse_error"])
 
+
+    def test_sitemap_parser_recovers_malformed_xml_by_container_structure(self):
+        xml = """
+        <sitemapindex>
+          <sitemap>
+            <loc>https://inst-jeanvigo.eu/post-sitemap.xml?part=1&lang=fr</loc>
+          </sitemap>
+          <sitemap>
+            <loc>https://inst-jeanvigo.eu/page-sitemap.xml.gz</loc>
+          </sitemap>
+        </sitemapindex>
+        """
+        parsed = parse_sitemap(xml)
+        self.assertEqual(parsed["parse_mode"], "tolerant_structural")
+        self.assertFalse(parsed["parse_error"])
+        self.assertEqual(parsed["raw_loc_count"], 2)
+        self.assertEqual(parsed["attributed_loc_count"], 2)
+        self.assertEqual(parsed["ambiguous_loc_count"], 0)
+        self.assertEqual(
+            parsed["nested_sitemaps"],
+            [
+                "https://inst-jeanvigo.eu/page-sitemap.xml.gz",
+                "https://inst-jeanvigo.eu/post-sitemap.xml?part=1&lang=fr",
+            ],
+        )
+
+    def test_sitemap_parser_fails_closed_on_unattributed_loc(self):
+        xml = """
+        <sitemapindex>
+          <sitemap>
+            <loc>https://inst-jeanvigo.eu/post-sitemap.xml</loc>
+          </sitemap>
+          <loc>https://inst-jeanvigo.eu/ambiguous</loc>
+        </sitemapindex>
+        """
+        parsed = parse_sitemap(xml)
+        self.assertTrue(parsed["parse_error"])
+        self.assertEqual(parsed["raw_loc_count"], 2)
+        self.assertEqual(parsed["attributed_loc_count"], 1)
+        self.assertEqual(parsed["ambiguous_loc_count"], 1)
+
     def test_urlset_parser_keeps_pages_and_rejects_external_urls(self):
         xml = """
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
