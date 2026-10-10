@@ -75,3 +75,11 @@ python scripts/probe_jugoslovenska_efg1914.py
 ```
 
 As evidências documentam a decisão de HOLD e fundamentam a transição da fila no registro de pesquisa. O merge depende de CI verde, revisão de código e persistência dos arquivos derivados da fila. Nenhum corpus foi incorporado.
+
+## Consolidação dos arquivos gerados da fila
+
+Após a validação integral do PR #58, o job `persist-jugoslovenska-hold-queue` regenerou e registrou na própria branch os quatro artefatos derivados: `observatorio_pesquisa_europa.csv`, `observatorio_fila_pesquisa_europa.csv`, `observatorio_resumo_pesquisa_europa.csv` e `observatorio_proximos_candidatos_inclusao.json`. O commit automático é `debb51af3109d9f7719724486bd217fc5bf4fdda` e não altera código executável.
+
+A seleção versionada confirma `automatic_incorporation_authorized=false` e as próximas posições **82 = `fiaf-kavi` (Finlândia)**, **83 = `fiaf-kinoteka-north-macedonia`** e **84 = `fiaf-kvikmyndasafn-islands`**. A numeração não é compactada após o HOLD nº 81.
+
+Esta atualização também força a execução do status check `quality` no HEAD que incorpora os arquivos derivados, conforme a proteção de merge do repositório.
