@@ -99,6 +99,32 @@ class JeanVigoProbeTests(unittest.TestCase):
         self.assertFalse(parsed["parse_error"])
 
 
+
+    def test_sitemap_strict_parser_ignores_image_extension_loc(self):
+        xml = """
+        
+        <?xml version="1.0" encoding="UTF-8"?>
+        <urlset
+          xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+          xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+          <url>
+            <loc>https://www.inst-jeanvigo.eu/agenda/example</loc>
+            <image:image>
+              <image:loc>https://www.inst-jeanvigo.eu/media/poster.jpg</image:loc>
+            </image:image>
+          </url>
+        </urlset>
+        """
+        parsed = parse_sitemap(xml)
+        self.assertEqual(parsed["parse_mode"], "strict_xml")
+        self.assertFalse(parsed["parse_error"])
+        self.assertEqual(parsed["raw_loc_count"], 1)
+        self.assertEqual(parsed["attributed_loc_count"], 1)
+        self.assertEqual(
+            parsed["same_host_pages"],
+            ["https://www.inst-jeanvigo.eu/agenda/example"],
+        )
+
     def test_sitemap_parser_recovers_malformed_xml_by_container_structure(self):
         xml = """
         <sitemapindex>
