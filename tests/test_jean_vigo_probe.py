@@ -65,6 +65,8 @@ class JeanVigoProbeTests(unittest.TestCase):
         """
         parsed = parse_sitemap(xml)
         self.assertEqual(parsed["parse_mode"], "tolerant_structural")
+        self.assertEqual(parsed["root_kind"], "sitemapindex")
+        self.assertTrue(parsed["root_valid"])
         self.assertFalse(parsed["parse_error"])
         self.assertEqual(parsed["raw_loc_count"], 2)
         self.assertEqual(parsed["attributed_loc_count"], 2)
@@ -122,6 +124,19 @@ class JeanVigoProbeTests(unittest.TestCase):
             ["https://www.inst-jeanvigo.eu/agenda/example"],
         )
         self.assertEqual(len(parsed["rejected_urls"]), 1)
+
+
+    def test_sitemap_parser_rejects_html_even_when_loc_tags_exist(self):
+        xml = """
+        <html><body>
+          <div><loc>https://inst-jeanvigo.eu/fake-record</loc></div>
+        </body></html>
+        """
+        parsed = parse_sitemap(xml)
+        self.assertTrue(parsed["parse_error"])
+        self.assertFalse(parsed["root_valid"])
+        self.assertEqual(parsed["same_host_pages"], [])
+        self.assertEqual(parsed["nested_sitemaps"], [])
 
     def test_classification_does_not_treat_agenda_as_collection(self):
         self.assertEqual(
