@@ -53,11 +53,19 @@ O próprio arquivo informa que materiais dos seus fundos são apresentados em ht
 
 **Próximo gate nº 81:** verificar acesso público, robots e mecanismo reprodutível de enumeração da coleção publicada pelo arquivo no EFG, exigir campo de provedor/custódia por registro, metadados semânticos de item audiovisual e distinguir trechos de itens integrais. Usar APIs somente quando documentalmente públicas, sem inferir IDs, sem contornar barreiras e sem capturar mídia. Se não houver rota admissível, protocolar HOLD formal e avançar a fila somente depois disso.
 
+### Primeiro gate EFG1914, separado do acervo institucional
+
+A interface pública em https://www.europeanfilmgateway.eu/search-efg/efg1914 publica o facet de provedor **`Jugoslovenska Kinoteka (67)`**. Esse número é uma contagem *apresentada pela interface*, não um conjunto enumerado de 67 registros. O FAQ do portal (https://europeanfilmgateway.eu/about_efg/faq) declara que os resultados individuais têm um campo `Provider` e que os arquivos colaboradores detêm os objetos originais.
+
+A sonda subordinada `jugoslovenska_efg1914_probe.py` opera apenas sobre a URL explicitamente publicada, com `robots.txt` por host e captura de facet/link/formulário sem submeter parâmetros inferidos. Não reutiliza o `efg_institutional.fetch_url` legado porque ele contém uma rotina específica de `validate-browser`: nenhuma etapa de verificação de navegador, captcha ou desafio é atravessada na sonda nº 81. `staged_collector_authorized` permanece `false` sem enumeração, metadados e proveniência verificados.
+
 ## Comandos
 
 ```bash
 python -m unittest discover -s tests -p 'test_jugoslovenska_kinoteka_probe.py' -v
 python scripts/probe_jugoslovenska_kinoteka.py
+python -m unittest discover -s tests -p 'test_jugoslovenska_efg1914_probe.py' -v
+python scripts/probe_jugoslovenska_efg1914.py
 ```
 
 Os resultados acima são da sonda viva. O merge da análise e eventual transição histórica da fila não estão autorizados por este documento; ficam condicionados aos gates restantes.
