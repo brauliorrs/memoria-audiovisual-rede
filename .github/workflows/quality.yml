@@ -386,6 +386,46 @@ jobs:
             data/output/observatorio_proximos_candidatos_inclusao.json
           if-no-files-found: error
 
+      - name: Validate Jugoslovenska Kinoteka technical probe contract
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/jugoslovenska_kinoteka_probe.py \
+            scripts/probe_jugoslovenska_kinoteka.py \
+            tests/test_jugoslovenska_kinoteka_probe.py
+          python -m unittest discover -s tests -p 'test_jugoslovenska_kinoteka_probe.py' -v
+
+      - name: Probe Jugoslovenska Kinoteka public discovery surfaces
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/jugoslovenska-kinoteka-probe-v1'
+        run: python scripts/probe_jugoslovenska_kinoteka.py
+
+      - name: Upload Jugoslovenska Kinoteka probe artifact
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/jugoslovenska-kinoteka-probe-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: jugoslovenska-kinoteka-probe
+          path: data/output/jugoslovenska_kinoteka_probe.json
+          if-no-files-found: error
+
+      - name: Validate Jugoslovenska EFG1914 subordinate probe
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/jugoslovenska_efg1914_probe.py \
+            scripts/probe_jugoslovenska_efg1914.py \
+            tests/test_jugoslovenska_efg1914_probe.py
+          python -m unittest discover -s tests -p 'test_jugoslovenska_efg1914_probe.py' -v
+
+      - name: Probe Jugoslovenska EFG1914 public provider facet
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/jugoslovenska-kinoteka-probe-v1'
+        run: python scripts/probe_jugoslovenska_efg1914.py
+
+      - name: Upload Jugoslovenska EFG1914 probe artifact
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/jugoslovenska-kinoteka-probe-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: jugoslovenska-efg1914-probe
+          path: data/output/jugoslovenska_efg1914_probe.json
+          if-no-files-found: error
+
       - name: Validate Croatian Cinematheque technical probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \
@@ -530,6 +570,48 @@ jobs:
 
       - name: Check deployment snapshot
         run: python scripts/check_deployment_ready.py
+
+  persist-jugoslovenska-hold-queue:
+    if: github.event_name == 'pull_request' && github.head_ref == 'corpus/jugoslovenska-kinoteka-probe-v1'
+    needs: quality
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout PR branch for generated outputs
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+
+      - name: Install runtime dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Regenerate and commit Jugoslovenska HOLD queue outputs
+        run: |
+          python scripts/build_europe_research_queue.py
+          python scripts/next_inclusion_candidate.py --limit 3
+          git add \
+            data/output/observatorio_pesquisa_europa.csv \
+            data/output/observatorio_fila_pesquisa_europa.csv \
+            data/output/observatorio_resumo_pesquisa_europa.csv \
+            data/output/observatorio_proximos_candidatos_inclusao.json
+          if git diff --cached --quiet; then
+            echo "Queue outputs already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Regenerate Europe queue after Jugoslovenska #81 HOLD"
+          git push origin HEAD:${{ github.head_ref }}
 
   persist-jean-vigo-hold-queue:
     if: github.event_name == 'pull_request' && github.head_ref == 'corpus/jean-vigo-probe-v1'

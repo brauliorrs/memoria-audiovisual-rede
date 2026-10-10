@@ -80,6 +80,7 @@ PROTOCOLLED_EUROPEAN_CODES = {
     "inedits-prise-2",
     "inedits-forum-des-images",
     "inedits-jean-vigo-institute",
+    "fiaf-jugoslovenska-kinoteka",
 }
 
 DIRECTORY_EXPANSION_CODES = {
@@ -687,6 +688,52 @@ def _classify_research_row(row):
             "video_location_strategy": (
                 "usar o endpoint AJAX oficial com paginação incremental, limites de requisição e retomada; "
                 "validar fichas individuais e distinguir metadados públicos de mídia local/autorizada"
+            ),
+            "blocks_expansion": False,
+        }
+
+    if code == "fiaf-jugoslovenska-kinoteka":
+        return {
+            "relationship_to_current_corpus": (
+                "análise nº 81 concluída em HOLD após enumeração pública do domínio "
+                "institucional e sonda independente de proveniência EFG1914"
+            ),
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_negativa",
+            "queue_decision": "manter_protocolo_sem_incorporacao",
+            "queue_priority": 81,
+            "queue_reason": (
+                "Os robots dos domínios www e en foram avaliados. Dois índices e "
+                "12 sitemaps filhos enumeraram 1.496 URLs públicas sem truncamento; "
+                "a amostra estratificada de 20 páginas, incluindo portfolio, não "
+                "comprovou fichas de filmes individualizadas com custódia. O EFG1914 "
+                "apresenta um filtro de provedor Jugoslovenska Kinoteka (67), mas a "
+                "rota pública devolveu HTTP 403 no CI após verificação de robots, "
+                "sem permitir enumeração, filtro de provedor ou validação de "
+                "metadados. Nenhum desafio foi contornado e os 67 não são "
+                "considerados fichas coletadas. Publicações no YouTube/Vimeo são "
+                "pistas subordinadas não equivalentes a catálogo completo."
+            ),
+            "next_action": (
+                "reavaliar_acesso_publico_efg1914_ou_obter_exportacao_oficial "
+                "com_provider_custodia_e_enumeracao_integra"
+            ),
+            "inclusion_gate": (
+                "incorporar somente registros enumerados de forma completa e "
+                "reprodutível e vinculados comprovadamente à Jugoslovenska Kinoteka, "
+                "com semântica de filme e identificador/proveniência por ficha"
+            ),
+            "video_location_status": (
+                "dominio_institucional_sem_fichas_confirmadas_efg1914_http_403"
+            ),
+            "video_location_candidate_url": (
+                "https://www.kinoteka.org.rs/; "
+                "https://www.europeanfilmgateway.eu/search-efg/efg1914"
+            ),
+            "video_location_strategy": (
+                "não contornar HTTP 403, validação de navegador ou autenticação; "
+                "distinguir programação, portfolios e fragmentos online de fichas "
+                "arquivísticas; registrar provider em cada item antes de staged"
             ),
             "blocks_expansion": False,
         }

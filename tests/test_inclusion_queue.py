@@ -63,30 +63,38 @@ class InclusionQueueTests(unittest.TestCase):
             select_inclusion_candidates([row(6, "a")], limit=0)
 
     def test_current_versioned_queue_yields_ordered_work_items(self):
-        candidates = next_inclusion_candidates(
-            output_dir=ROOT / "data" / "output",
-            limit=3,
+        # Build from the current registry rather than a potentially stale
+        # checked-in CSV during a HOLD transition PR.
+        from memoria_audiovisual.europe_research import (
+            write_europe_research_outputs,
         )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            write_europe_research_outputs(Path(tmp))
+            candidates = next_inclusion_candidates(
+                output_dir=Path(tmp),
+                limit=3,
+            )
         self.assertEqual(len(candidates), 3)
         self.assertEqual(
             [candidate.rank for candidate in candidates],
             sorted(candidate.rank for candidate in candidates),
         )
         # The generated queue must retain historical numbering after
-        # Jean Vigo (#80) was protocolled in HOLD, without compacting it.
+        # Jugoslovenska (#81) was protocolled in HOLD, without compacting it.
         self.assertEqual(
             [candidate.rank for candidate in candidates],
-            [81, 82, 83],
+            [82, 83, 84],
         )
         self.assertEqual(
             [candidate.unit_code for candidate in candidates[:2]],
             [
-                "fiaf-jugoslovenska-kinoteka",
                 "fiaf-kavi",
+                "fiaf-kinoteka-north-macedonia",
             ],
         )
         self.assertNotIn(
-            "inedits-jean-vigo-institute",
+            "fiaf-jugoslovenska-kinoteka",
             [candidate.unit_code for candidate in candidates],
         )
         self.assertTrue(all(candidate.inclusion_gate for candidate in candidates))

@@ -215,8 +215,8 @@ class GosfilmofondCollectionTests(unittest.TestCase):
             "inedits-jean-vigo-institute",
             set(queue["unit_code"].astype(str)),
         )
-        self.assertEqual(candidates[0].unit_code, "fiaf-jugoslovenska-kinoteka")
-        self.assertEqual(candidates[0].rank, 81)
+        self.assertEqual(candidates[0].unit_code, "fiaf-kavi")
+        self.assertEqual(candidates[0].rank, 82)
 
     def test_robots_block_prevents_any_ajax_enumeration(self):
         blocked = """User-agent: *
