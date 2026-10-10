@@ -224,7 +224,16 @@ def parse_sitemap(text: str) -> tuple[str, list[str]]:
         if len(loc) != 1 or not (loc[0].text or "").strip():
             raise ValueError("sitemap_missing_or_duplicate_loc")
         values.append((loc[0].text or "").strip())
-    if len(values) != sum(1 for node in root.iter() if _local(node.tag) == "loc"):
+    # A WordPress sitemap may embed image/video/news extension elements,
+    # including image:loc. Only loc in the root sitemap namespace identifies
+    # a page or nested sitemap. Extension locs are not omitted records.
+    namespace = (
+        root.tag.split("}", 1)[0] + "}" if root.tag.startswith("{") else ""
+    )
+    sitemap_loc_tag = namespace + "loc"
+    if len(values) != sum(
+        1 for node in root.iter() if node.tag == sitemap_loc_tag
+    ):
         raise ValueError("sitemap_unattributed_loc")
     if len(values) != len(set(values)):
         raise ValueError("sitemap_duplicate_loc")
@@ -367,6 +376,7 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
             kind, locs = parse_sitemap(_xml_text(response))
         except (ValueError, OSError, UnicodeError, EOFError) as exc:
             report["result"] = f"parse_failed:{type(exc).__name__}"
+            report["parse_error_code"] = str(exc)[:180]
             errors.append("sitemap_parse_failed")
             payload["sitemap_reports"].append(report)
             continue
