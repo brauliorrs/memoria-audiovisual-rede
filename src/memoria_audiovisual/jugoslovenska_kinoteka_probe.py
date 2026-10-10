@@ -293,8 +293,12 @@ def classify_page(url: str) -> str:
     if path in {"jugoslovenska-kinoteka", "arhiv-jugoslovenske-kinoteke",
                 "archive", "about", "biblioteka", "kontakt"}:
         return "institutional_overview"
-    if any(item in path for item in ("katalog", "catalog", "filmograf",
-                                     "filmska-grada", "film-archive")):
+    segments = tuple(part for part in path.split("/") if part)
+    # Individual article slugs mentioning "film-archive" are not catalogues.
+    if any(
+        part in {"katalog", "catalog", "catalogue", "filmografija", "filmovi"}
+        for part in segments
+    ):
         return "possible_catalogue_surface"
     return "unverified_public_page"
 
