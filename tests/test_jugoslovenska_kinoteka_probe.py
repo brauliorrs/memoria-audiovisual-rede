@@ -74,6 +74,18 @@ class JugoslovenskaKinotekaProbeTests(unittest.TestCase):
         self.assertEqual(len(locs), 2)
         self.assertIn("https://www.kinoteka.org.rs/child?partition=1", locs)
 
+    def test_image_extension_loc_does_not_count_as_missing_film_record(self):
+        xml = (
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
+            ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'
+            '<url><loc>https://www.kinoteka.org.rs/film-example</loc>'
+            '<image:image><image:loc>https://www.kinoteka.org.rs/poster.jpg</image:loc>'
+            '</image:image></url></urlset>'
+        )
+        kind, urls = parse_sitemap(xml)
+        self.assertEqual(kind, "urlset")
+        self.assertEqual(urls, ["https://www.kinoteka.org.rs/film-example"])
+
     def test_xml_unattributed_prefixed_loc_fails_closed(self):
         xml = (
             '<sm:urlset xmlns:sm="http://www.sitemaps.org/schemas/sitemap/0.9">'
