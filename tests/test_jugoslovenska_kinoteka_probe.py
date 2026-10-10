@@ -7,6 +7,7 @@ from unittest.mock import patch
 
 from memoria_audiovisual.jugoslovenska_kinoteka_probe import (
     HOME,
+    SURFACES,
     RobotsGuard,
     Response,
     _sample,
@@ -37,6 +38,13 @@ class FakeSession:
         if url not in self.mapping:
             return FakeResponse("Not Found", 404)
         return self.mapping[url]
+
+
+def _with_complete_research_surfaces(mapping):
+    result = dict(mapping)
+    for _name, url in SURFACES:
+        result.setdefault(url, FakeResponse("<html><h1>Public surface</h1></html>"))
+    return result
 
 
 class JugoslovenskaKinotekaProbeTests(unittest.TestCase):
@@ -217,7 +225,7 @@ class JugoslovenskaKinotekaProbeTests(unittest.TestCase):
                 "<html><body><h1>Film page</h1></body></html>",
             ),
         })
-        report = run_probe(session)
+        report = run_probe(FakeSession(_with_complete_research_surfaces(session.mapping)))
         self.assertTrue(report["traversal_complete"])
         self.assertEqual(report["enumerated_public_url_count"], 2)
         self.assertEqual(
@@ -254,10 +262,42 @@ class JugoslovenskaKinotekaProbeTests(unittest.TestCase):
             "memoria_audiovisual.jugoslovenska_kinoteka_probe.MAX_LOC_URLS",
             2,
         ):
-            result = run_probe(FakeSession(mapping))
+            result = run_probe(FakeSession(_with_complete_research_surfaces(mapping)))
         self.assertEqual(result["enumerated_public_url_count"], 2)
         self.assertTrue(result["traversal_complete"])
         self.assertEqual(result["traversal_errors"], [])
+
+    def test_failed_english_surface_prevents_complete_enumeration(self):
+        robots = (
+            "User-agent: *\nAllow: /\n"
+            "Sitemap: https://www.kinoteka.org.rs/sitemap.xml\n"
+        )
+        xml = (
+            "<urlset><url>"
+            "<loc>https://www.kinoteka.org.rs/film-example</loc>"
+            "</url></urlset>"
+        )
+        mapping = {
+            "https://www.kinoteka.org.rs/robots.txt": FakeResponse(
+                robots, headers={"content-type": "text/plain"},
+            ),
+            "https://en.kinoteka.org.rs/robots.txt": FakeResponse(
+                "Unavailable", status=403,
+            ),
+            "https://www.kinoteka.org.rs/sitemap.xml": FakeResponse(
+                xml, headers={"content-type": "application/xml"},
+            ),
+        }
+        result = run_probe(FakeSession(_with_complete_research_surfaces(mapping)))
+        self.assertFalse(result["traversal_complete"])
+        self.assertEqual(
+            result["gate_assessment"],
+            "hold_public_enumeration_incomplete",
+        )
+        self.assertIn(
+            "required_surface_unverifiable:english_archive",
+            result["traversal_errors"],
+        )
 
     def test_sitemap_fetch_failure_prohibits_complete_enumeration(self):
         robots = (
