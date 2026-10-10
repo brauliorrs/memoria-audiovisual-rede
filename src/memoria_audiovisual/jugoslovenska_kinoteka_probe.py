@@ -518,7 +518,9 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
                     source_by_url.setdefault(page, url)
                 else:
                     errors.append("non_https_or_external_sitemap_page")
-    if queue or len(enumerated) >= MAX_LOC_URLS:
+    # Exactly reaching the limit is valid when all declared sitemaps have
+    # been consumed. An unread queue or an oversize final sitemap is not.
+    if queue or len(enumerated) > MAX_LOC_URLS:
         errors.append("traversal_budget_exhausted")
     urls = sorted(enumerated)
     counts = dict(sorted(Counter(classify_page(x) for x in urls).items()))
