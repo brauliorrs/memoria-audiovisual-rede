@@ -448,7 +448,7 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
 
     attributed_count = len(pairs)
     ambiguous_loc_count = max(raw_loc_count - attributed_count, 0)
-    recovery_failed = bool(raw_loc_count) and attributed_count == 0
+    recovery_failed = bool(raw_loc_count) and ambiguous_loc_count > 0
 
     return {
         "url_count": len(urls),
@@ -546,6 +546,10 @@ def _fetch_declared_sitemaps(
             continue
         parsed_map = parse_sitemap(response.text)
         report.update(parsed_map)
+        if parsed_map["parse_error"]:
+            report["status"] = "parse_failed"
+            reports.append(report)
+            continue
         report["status"] = "ok"
         reports.append(report)
         pages.extend(parsed_map["same_host_pages"])
