@@ -370,7 +370,7 @@ def parse_surface_html(html_text: str, page_url: str) -> dict[str, Any]:
     external: list[str] = []
     forms: list[dict[str, Any]] = []
     scripts: list[str] = []
-    for anchor in scope.find_all("a", href=True):
+    for anchor in soup.find_all("a", href=True):
         absolute = urljoin(page_url, anchor.get("href", ""))
         parsed = urlparse(absolute)
         if parsed.scheme not in {"http", "https"}:
@@ -534,7 +534,7 @@ def parse_collection_page_semantics(
 
     same_host_children: set[str] = set()
     external_archive_links: set[str] = set()
-    for anchor in soup.find_all("a", href=True):
+    for anchor in scope.find_all("a", href=True):
         absolute = urljoin(page_url, anchor.get("href", ""))
         parsed = urlparse(absolute)
         if parsed.scheme not in {"http", "https"}:
