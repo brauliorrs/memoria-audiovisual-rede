@@ -159,6 +159,22 @@ class JeanVigoProbeTests(unittest.TestCase):
         self.assertEqual(parsed["ambiguous_loc_count"], 1)
 
 
+
+    def test_sitemap_loc_count_ignores_comment_markup(self):
+        xml = """
+        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+          <!-- <loc>https://www.inst-jeanvigo.eu/not-a-real-loc</loc> -->
+          <url>
+            <loc>https://www.inst-jeanvigo.eu/agenda/example</loc>
+          </url>
+        </urlset>
+        """
+        parsed = parse_sitemap(xml)
+        self.assertFalse(parsed["parse_error"])
+        self.assertEqual(parsed["raw_loc_count"], 1)
+        self.assertEqual(parsed["attributed_loc_count"], 1)
+        self.assertEqual(parsed["ambiguous_loc_count"], 0)
+
     def test_prefixed_unattributed_loc_is_counted_and_fails_closed(self):
         xml = """
         <sm:sitemapindex xmlns:sm="http://www.sitemaps.org/schemas/sitemap/0.9">
