@@ -300,10 +300,14 @@ def classify_page(url: str) -> str:
 
 
 def _sample(values: list[str], count: int = 12) -> list[str]:
-    if not values:
-        return []
-    indexes = {int(i * (len(values) - 1) / max(1, count - 1))
-               for i in range(min(len(values), count))}
+    if count < 1:
+        raise ValueError("sample_size_must_be_positive")
+    if len(values) <= count:
+        return list(values)
+    indexes = {
+        (i * (len(values) - 1)) // (count - 1)
+        for i in range(count)
+    } if count > 1 else {0}
     return [values[i] for i in sorted(indexes)]
 
 
