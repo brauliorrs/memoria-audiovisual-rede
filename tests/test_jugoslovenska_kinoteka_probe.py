@@ -11,6 +11,7 @@ from memoria_audiovisual.jugoslovenska_kinoteka_probe import (
     _sample,
     _xml_text,
     classify_page,
+    parse_film_record_semantics,
     parse_sitemap,
     parse_surface,
     run_probe,
@@ -156,6 +157,31 @@ class JugoslovenskaKinotekaProbeTests(unittest.TestCase):
         )
         self.assertEqual(parsed["external_links_sample"], ["https://outside.example/"])
 
+    def test_structured_film_metadata_without_custody_is_not_archival_record(self):
+        html = (
+            "<html><body><h1>Film screening</h1>"
+            "<table><tr><th>Режија</th><td>A.</td></tr>"
+            "<tr><th>Година</th><td>1980</td></tr></table>"
+            "</body></html>"
+        )
+        report = parse_film_record_semantics(html)
+        self.assertEqual(
+            report["semantic_class"],
+            "film_metadata_without_archival_identifier",
+        )
+        archival = (
+            "<html><body><table>"
+            "<tr><th>Сигнатура</th><td>JK-001</td></tr>"
+            "<tr><th>Режија</th><td>A.</td></tr>"
+            "<tr><th>Година</th><td>1980</td></tr>"
+            "</table></body></html>"
+        )
+        record = parse_film_record_semantics(archival)
+        self.assertEqual(
+            record["semantic_class"],
+            "structured_archival_record_candidate",
+        )
+
     def test_sitemap_enumeration_is_evidence_not_staged_permission(self):
         robots = (
             "User-agent: *\nAllow: /\n"
@@ -182,6 +208,12 @@ class JugoslovenskaKinotekaProbeTests(unittest.TestCase):
             ),
             "https://www.kinoteka.org.rs/items?part=1": FakeResponse(
                 urlset, headers={"content-type": "application/xml"},
+            ),
+            "https://www.kinoteka.org.rs/repertoar/film-a": FakeResponse(
+                "<html><body><h1>Screening</h1></body></html>",
+            ),
+            "https://www.kinoteka.org.rs/katalog/film-b": FakeResponse(
+                "<html><body><h1>Film page</h1></body></html>",
             ),
         })
         report = run_probe(session)
