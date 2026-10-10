@@ -243,8 +243,18 @@ class MurnauStiftungCollectionTests(unittest.TestCase):
             queue.to_dict(orient="records"),
             limit=1,
         )
-        self.assertEqual(candidates[0].unit_code, "inedits-jean-vigo-institute")
-        self.assertEqual(candidates[0].rank, 80)
+        # Jean Vigo (#80) was analyzed and protocolled in HOLD, so it must
+        # remain counted without occupying the next inclusion-candidate slot.
+        jean_vigo = registry.loc[
+            registry["unit_code"] == "inedits-jean-vigo-institute"
+        ].iloc[0]
+        self.assertEqual(jean_vigo["organism_status"], "protocolado")
+        self.assertNotIn(
+            "inedits-jean-vigo-institute",
+            set(queue["unit_code"].astype(str)),
+        )
+        self.assertEqual(candidates[0].unit_code, "fiaf-jugoslovenska-kinoteka")
+        self.assertEqual(candidates[0].rank, 81)
 
     def test_collector_fails_closed_when_robots_is_not_verifiable(self):
         institutions, summary, links, internal = collect_murnau_stiftung_dataset(
