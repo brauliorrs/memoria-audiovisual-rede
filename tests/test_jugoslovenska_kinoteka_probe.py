@@ -8,6 +8,7 @@ from memoria_audiovisual.jugoslovenska_kinoteka_probe import (
     HOME,
     RobotsGuard,
     Response,
+    _sample,
     _xml_text,
     classify_page,
     parse_sitemap,
@@ -115,6 +116,13 @@ class JugoslovenskaKinotekaProbeTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "size_limit"):
             _xml_text(decoded)
+
+    def test_small_deterministic_candidate_sample_keeps_every_url(self):
+        self.assertEqual(_sample(["a", "b"], count=12), ["a", "b"])
+        self.assertEqual(_sample(["a", "b", "c"], count=2), ["a", "c"])
+        self.assertEqual(_sample([], count=12), [])
+        with self.assertRaisesRegex(ValueError, "sample_size_must_be_positive"):
+            _sample(["a"], count=0)
 
     def test_heritage_100_not_treated_as_individual_catalogue(self):
         self.assertEqual(
