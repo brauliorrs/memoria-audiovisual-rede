@@ -79,6 +79,7 @@ PROTOCOLLED_EUROPEAN_CODES = {
     "inedits-cinematheque-corse",
     "inedits-prise-2",
     "inedits-forum-des-images",
+    "inedits-jean-vigo-institute",
 }
 
 DIRECTORY_EXPANSION_CODES = {
@@ -686,6 +687,45 @@ def _classify_research_row(row):
             "video_location_strategy": (
                 "usar o endpoint AJAX oficial com paginação incremental, limites de requisição e retomada; "
                 "validar fichas individuais e distinguir metadados públicos de mídia local/autorizada"
+            ),
+            "blocks_expansion": False,
+        }
+
+    if code == "inedits-jean-vigo-institute":
+        return {
+            "relationship_to_current_corpus": (
+                "análise nº 80 concluída em HOLD após sonda do domínio principal "
+                "e da plataforma oficial compartilhada Mémoire Filmique"
+            ),
+            "organism_status": "protocolado",
+            "queue_layer": "protocolo_de_negativa",
+            "queue_decision": "manter_protocolo_sem_incorporacao",
+            "queue_priority": 80,
+            "queue_reason": (
+                "O domínio institucional foi enumerado por sitemap público, com 2.392 URLs e auditoria "
+                "exaustiva das 10 páginas reais da árvore de coleções, sem fichas patrimoniais individuais "
+                "enumeráveis. O próprio Institut Jean Vigo aponta Mémoire Filmique Pyrénées-Méditerranée "
+                "como plataforma online para grande parte dos filmes amadores; a rota de catálogo dessa "
+                "plataforma respondeu ao probe reprodutível do CI com verificação humana/anti-bot. "
+                "A barreira não foi contornada e não se admite corpus parcial ou atribuição integral da "
+                "plataforma compartilhada ao Jean Vigo."
+            ),
+            "next_action": (
+                "retestar_memoire_filmique_sem_contornar_challenge_ou_obter_exportacao_api_publica_com_proveniencia"
+            ),
+            "inclusion_gate": (
+                "somente incorporar após existir enumeração pública estável e reprodutível das fichas "
+                "e campo de custódia/proveniência que permita isolar o subconjunto Institut Jean Vigo"
+            ),
+            "video_location_status": (
+                "plataforma_oficial_compartilhada_antibot_sem_enumeracao_reprodutivel"
+            ),
+            "video_location_candidate_url": (
+                "https://www.inst-jeanvigo.eu/; https://www.memoirefilmiquedusud.eu/"
+            ),
+            "video_location_strategy": (
+                "não contornar verificação humana; priorizar sitemap/exportação/API/filtro público documentado "
+                "e validar proveniência registro a registro antes de qualquer staged corpus"
             ),
             "blocks_expansion": False,
         }

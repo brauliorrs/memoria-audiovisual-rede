@@ -96,14 +96,21 @@ class ForumDesImagesCollectionTests(unittest.TestCase):
             limit=1,
         )
         self.assertEqual(len(candidates), 1)
+        # Jean Vigo (#80) has also been protocolled in HOLD and must no
+        # longer occupy the next candidate slot, while retaining its rank.
+        jean_vigo = registry.loc[
+            registry["unit_code"] == "inedits-jean-vigo-institute"
+        ].iloc[0]
+        self.assertEqual(jean_vigo["organism_status"], "protocolado")
+        self.assertNotIn(
+            "inedits-jean-vigo-institute",
+            set(queue["unit_code"].astype(str)),
+        )
         self.assertEqual(
             candidates[0].unit_code,
-            "inedits-jean-vigo-institute",
+            "fiaf-jugoslovenska-kinoteka",
         )
-        # Forum and Croatian Cinematheque remain protocolled while Murnau,
-        # Gosfilmofond, IFI Archive Player and Image'Est are active. The next
-        # engine analysis number is 80, assigned to Jean Vigo Institute.
-        self.assertEqual(candidates[0].rank, 80)
+        self.assertEqual(candidates[0].rank, 81)
 
 
 if __name__ == "__main__":

@@ -205,8 +205,18 @@ class GosfilmofondCollectionTests(unittest.TestCase):
             queue.to_dict(orient="records"),
             limit=1,
         )
-        self.assertEqual(candidates[0].unit_code, "inedits-jean-vigo-institute")
-        self.assertEqual(candidates[0].rank, 80)
+        # Jean Vigo (#80) is protocolled in HOLD and no longer a pending
+        # inclusion candidate; the corpus sequence must not compact.
+        jean_vigo = registry.loc[
+            registry["unit_code"] == "inedits-jean-vigo-institute"
+        ].iloc[0]
+        self.assertEqual(jean_vigo["organism_status"], "protocolado")
+        self.assertNotIn(
+            "inedits-jean-vigo-institute",
+            set(queue["unit_code"].astype(str)),
+        )
+        self.assertEqual(candidates[0].unit_code, "fiaf-jugoslovenska-kinoteka")
+        self.assertEqual(candidates[0].rank, 81)
 
     def test_robots_block_prevents_any_ajax_enumeration(self):
         blocked = """User-agent: *
