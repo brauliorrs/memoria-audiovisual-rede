@@ -599,9 +599,14 @@ def _append_sitemap_loc(
     same_host_pages.append(loc_value)
 
 
-def _parse_sitemap_strict(xml_text: str) -> tuple[list[tuple[str, str]], str]:
+def _parse_sitemap_strict(
+    xml_text: str,
+) -> tuple[list[tuple[str, str]], str, int]:
     root = ET.fromstring(xml_text or "")
     root_kind = _local_tag(root.tag)
+    raw_loc_count = sum(
+        1 for node in root.iter() if _local_tag(node.tag) == "loc"
+    )
     pairs: list[tuple[str, str]] = []
     for container in list(root):
         container_kind = _local_tag(container.tag)
@@ -615,7 +620,7 @@ def _parse_sitemap_strict(xml_text: str) -> tuple[list[tuple[str, str]], str]:
             if _local_tag(child.tag) == "loc":
                 pairs.append((container_kind, _clean(child.text)))
                 break
-    return pairs, root_kind
+    return pairs, root_kind, raw_loc_count
 
 
 def _xml_entity_unescape(value: str) -> str:
@@ -633,7 +638,7 @@ def _xml_entity_unescape(value: str) -> str:
 
 def _parse_sitemap_tolerant(
     xml_text: str,
-) -> tuple[list[tuple[str, str]], str]:
+) -> tuple[list[tuple[str, str]], str, int]:
     """Recover sitemap roles from tags without HTML entity reinterpretation."""
     text = re.sub(r"<!--.*?-->", "", xml_text or "", flags=re.S)
     root_matches = [
@@ -645,8 +650,9 @@ def _parse_sitemap_tolerant(
             flags=re.I,
         )
     ]
+    raw_loc_count = len(_XML_LOC_OPEN_RE.findall(text))
     if len(root_matches) != 1:
-        return [], "ambiguous"
+        return [], "ambiguous", raw_loc_count
 
     root_kind = root_matches[0]
     root_match = re.search(
@@ -657,7 +663,7 @@ def _parse_sitemap_tolerant(
         flags=re.I | re.S,
     )
     if not root_match:
-        return [], root_kind
+        return [], root_kind, raw_loc_count
 
     expected_container = "sitemap" if root_kind == "sitemapindex" else "url"
     container_pattern = re.compile(
@@ -685,7 +691,7 @@ def _parse_sitemap_tolerant(
                 _clean(_xml_entity_unescape(raw_value)),
             )
         )
-    return pairs, root_kind
+    return pairs, root_kind, raw_loc_count
 
 
 def parse_sitemap(xml_text: str) -> dict[str, Any]:
@@ -693,15 +699,14 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
     nested: list[str] = []
     rejected: list[str] = []
     urls: list[str] = []
-    raw_loc_count = len(_XML_LOC_OPEN_RE.findall(xml_text or ""))
     strict_error: str | None = None
 
     try:
-        pairs, root_kind = _parse_sitemap_strict(xml_text)
+        pairs, root_kind, raw_loc_count = _parse_sitemap_strict(xml_text)
         parse_mode = "strict_xml"
     except ET.ParseError as exc:
         strict_error = _clean(str(exc), limit=300)
-        pairs, root_kind = _parse_sitemap_tolerant(xml_text)
+        pairs, root_kind, raw_loc_count = _parse_sitemap_tolerant(xml_text)
         parse_mode = "tolerant_structural"
 
     for container_kind, loc_value in pairs:
