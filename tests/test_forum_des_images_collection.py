@@ -108,9 +108,9 @@ class ForumDesImagesCollectionTests(unittest.TestCase):
         )
         self.assertEqual(
             candidates[0].unit_code,
-            "fiaf-jugoslovenska-kinoteka",
+            "fiaf-kavi",
         )
-        self.assertEqual(candidates[0].rank, 81)
+        self.assertEqual(candidates[0].rank, 82)
 
 
 if __name__ == "__main__":
