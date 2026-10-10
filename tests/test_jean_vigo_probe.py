@@ -260,6 +260,44 @@ class JeanVigoProbeTests(unittest.TestCase):
         )
         self.assertIn("cote", parsed["identifier_labels"])
 
+
+    def test_collection_semantics_accepts_extended_structured_labels(self):
+        html = """
+        <html><body><h1>Film X</h1>
+          <dl>
+            <dt>Cote du document</dt><dd>JV-42</dd>
+            <dt>Réalisation du film</dt><dd>A. Auteur</dd>
+            <dt>Année de production</dt><dd>1952</dd>
+          </dl>
+        </body></html>
+        """
+        parsed = parse_collection_page_semantics(
+            html,
+            "https://www.inst-jeanvigo.eu/"
+            "collections-cinematheque-perpignan-institut-jean-vigo/film-x",
+        )
+        self.assertEqual(
+            parsed["semantic_class"],
+            "individual_archival_record_confirmed",
+        )
+
+    def test_collection_semantics_flags_unstructured_record_candidate(self):
+        html = """
+        <html><body><h1>Film X</h1>
+          <p>Cote JV-42. Réalisation A. Auteur. Année 1952.
+          Durée 12 minutes. Support pellicule.</p>
+        </body></html>
+        """
+        parsed = parse_collection_page_semantics(
+            html,
+            "https://www.inst-jeanvigo.eu/"
+            "collections-cinematheque-perpignan-institut-jean-vigo/film-x",
+        )
+        self.assertEqual(
+            parsed["semantic_class"],
+            "unstructured_archival_record_candidate",
+        )
+
     def test_collection_semantics_distinguishes_hub_and_external_pointer(self):
         hub = """
         <html><body><h1>Collection</h1>
