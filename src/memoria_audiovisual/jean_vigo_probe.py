@@ -367,16 +367,19 @@ def _append_sitemap_loc(
         return
     urls.append(loc_value)
     parsed = urlparse(loc_value)
-    if (
-        parsed.scheme.lower() != "https"
-        or parsed.netloc.lower() not in _ALLOWED_HOSTS
-    ):
+    if parsed.netloc.lower() not in _ALLOWED_HOSTS:
         rejected.append(loc_value)
         return
     if container_kind == "sitemap":
+        if parsed.scheme.lower() not in {"http", "https"}:
+            rejected.append(loc_value)
+            return
         nested.append(loc_value)
         return
     if container_kind != "url":
+        return
+    if parsed.scheme.lower() != "https":
+        rejected.append(loc_value)
         return
     if parsed.path.lower().endswith(_ASSET_SUFFIXES):
         return
@@ -545,7 +548,15 @@ def _fetch_declared_sitemaps(
             reports.append(report)
             continue
         parsed_map = parse_sitemap(response.text)
-        report.update(parsed_map)
+        report.update(
+            {
+                key: value
+                for key, value in parsed_map.items()
+                if key not in {"same_host_pages", "nested_sitemaps"}
+            }
+        )
+        report["same_host_page_sample"] = parsed_map["same_host_pages"][:20]
+        report["nested_sitemap_sample"] = parsed_map["nested_sitemaps"][:20]
         if parsed_map["parse_error"]:
             report["status"] = "parse_failed"
             reports.append(report)
