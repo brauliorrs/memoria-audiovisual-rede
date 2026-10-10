@@ -405,45 +405,73 @@ def _parse_sitemap_strict(xml_text: str) -> tuple[list[tuple[str, str]], str]:
     return pairs, root_kind
 
 
+def _xml_entity_unescape(value: str) -> str:
+    replacements = (
+        ("&quot;", '"'),
+        ("&apos;", "'"),
+        ("&lt;", "<"),
+        ("&gt;", ">"),
+        ("&amp;", "&"),
+    )
+    for encoded, decoded in replacements:
+        value = value.replace(encoded, decoded)
+    return value
+
+
 def _parse_sitemap_tolerant(
     xml_text: str,
 ) -> tuple[list[tuple[str, str]], str]:
-    """Recover only loc entries attributable to one recognized sitemap root."""
-    soup = BeautifulSoup(xml_text or "", "html.parser")
-    roots = [
-        tag
-        for tag in soup.find_all(
-            lambda tag: _local_tag(getattr(tag, "name", ""))
-            in {"sitemapindex", "urlset"}
+    """Recover sitemap roles from tags without HTML entity reinterpretation."""
+    text = re.sub(r"<!--.*?-->", "", xml_text or "", flags=re.S)
+    root_matches = [
+        kind
+        for kind in ("sitemapindex", "urlset")
+        if re.search(
+            rf"<(?:[A-Za-z_][\w.-]*:)?{kind}\b[^>]*>",
+            text,
+            flags=re.I,
         )
     ]
-    root_kinds = {_local_tag(tag.name) for tag in roots}
-    if len(root_kinds) != 1:
+    if len(root_matches) != 1:
         return [], "ambiguous"
-    root_kind = next(iter(root_kinds))
+
+    root_kind = root_matches[0]
+    root_match = re.search(
+        rf"<(?:[A-Za-z_][\w.-]*:)?{root_kind}\b[^>]*>"
+        rf"(?P<body>.*?)"
+        rf"</(?:[A-Za-z_][\w.-]*:)?{root_kind}\s*>",
+        text,
+        flags=re.I | re.S,
+    )
+    if not root_match:
+        return [], root_kind
+
     expected_container = "sitemap" if root_kind == "sitemapindex" else "url"
+    container_pattern = re.compile(
+        rf"<(?:[A-Za-z_][\w.-]*:)?{expected_container}\b[^>]*>"
+        rf"(?P<body>.*?)"
+        rf"</(?:[A-Za-z_][\w.-]*:)?{expected_container}\s*>",
+        flags=re.I | re.S,
+    )
+    loc_pattern = re.compile(
+        r"<(?:[A-Za-z_][\w.-]*:)?loc\b[^>]*>"
+        r"(?P<value>.*?)"
+        r"</(?:[A-Za-z_][\w.-]*:)?loc\s*>",
+        flags=re.I | re.S,
+    )
 
     pairs: list[tuple[str, str]] = []
-    for loc in soup.find_all(
-        lambda tag: _local_tag(getattr(tag, "name", "")) == "loc"
-    ):
-        parent = loc.parent
-        container_kind = ""
-        root_seen = False
-        while parent is not None:
-            kind = _local_tag(getattr(parent, "name", ""))
-            if kind in {"sitemap", "url"} and not container_kind:
-                container_kind = kind
-            if kind in {"sitemapindex", "urlset"}:
-                root_seen = kind == root_kind
-                break
-            if kind in {"html", "body"}:
-                break
-            parent = getattr(parent, "parent", None)
-        if root_seen and container_kind == expected_container:
-            pairs.append(
-                (container_kind, _clean(loc.get_text("", strip=True)))
+    for container in container_pattern.finditer(root_match.group("body")):
+        loc = loc_pattern.search(container.group("body"))
+        if not loc:
+            continue
+        raw_value = re.sub(r"<[^>]+>", "", loc.group("value"))
+        pairs.append(
+            (
+                expected_container,
+                _clean(_xml_entity_unescape(raw_value)),
             )
+        )
     return pairs, root_kind
 
 
