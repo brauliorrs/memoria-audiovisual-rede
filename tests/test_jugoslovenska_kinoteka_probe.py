@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import gzip
 import unittest
+from unittest.mock import patch
 
 from memoria_audiovisual.jugoslovenska_kinoteka_probe import (
     HOME,
@@ -226,6 +227,37 @@ class JugoslovenskaKinotekaProbeTests(unittest.TestCase):
         self.assertEqual(
             report["classification_counts"]["screening_or_programming"], 1,
         )
+
+    def test_exact_url_budget_is_complete_when_queue_is_empty(self):
+        robots = (
+            "User-agent: *\nAllow: /\n"
+            "Sitemap: https://www.kinoteka.org.rs/post-sitemap.xml\n"
+        )
+        xml = (
+            "<urlset>"
+            "<url><loc>https://www.kinoteka.org.rs/one</loc></url>"
+            "<url><loc>https://www.kinoteka.org.rs/two</loc></url>"
+            "</urlset>"
+        )
+        mapping = {
+            "https://www.kinoteka.org.rs/robots.txt": FakeResponse(
+                robots, headers={"content-type": "text/plain"},
+            ),
+            "https://en.kinoteka.org.rs/robots.txt": FakeResponse("", 404),
+            "https://www.kinoteka.org.rs/post-sitemap.xml": FakeResponse(
+                xml, headers={"content-type": "application/xml"},
+            ),
+            "https://www.kinoteka.org.rs/one": FakeResponse("<html><h1>One</h1></html>"),
+            "https://www.kinoteka.org.rs/two": FakeResponse("<html><h1>Two</h1></html>"),
+        }
+        with patch(
+            "memoria_audiovisual.jugoslovenska_kinoteka_probe.MAX_LOC_URLS",
+            2,
+        ):
+            result = run_probe(FakeSession(mapping))
+        self.assertEqual(result["enumerated_public_url_count"], 2)
+        self.assertTrue(result["traversal_complete"])
+        self.assertEqual(result["traversal_errors"], [])
 
     def test_sitemap_fetch_failure_prohibits_complete_enumeration(self):
         robots = (
