@@ -349,7 +349,74 @@ def parse_surface_html(html_text: str, page_url: str) -> dict[str, Any]:
 
 
 def _local_tag(tag: str) -> str:
-    return str(tag).rsplit("}", 1)[-1].lower()
+    value = str(tag).rsplit("}", 1)[-1]
+    return value.rsplit(":", 1)[-1].lower()
+
+
+def _append_sitemap_loc(
+    loc_value: str,
+    container_kind: str,
+    *,
+    urls: list[str],
+    same_host_pages: list[str],
+    nested: list[str],
+    rejected: list[str],
+) -> None:
+    loc_value = _clean(loc_value)
+    if not loc_value:
+        return
+    urls.append(loc_value)
+    parsed = urlparse(loc_value)
+    if (
+        parsed.scheme.lower() != "https"
+        or parsed.netloc.lower() not in _ALLOWED_HOSTS
+    ):
+        rejected.append(loc_value)
+        return
+    if container_kind == "sitemap":
+        nested.append(loc_value)
+        return
+    if container_kind != "url":
+        return
+    if parsed.path.lower().endswith(_ASSET_SUFFIXES):
+        return
+    same_host_pages.append(loc_value)
+
+
+def _parse_sitemap_strict(xml_text: str) -> tuple[list[tuple[str, str]], str]:
+    root = ET.fromstring(xml_text or "")
+    root_kind = _local_tag(root.tag)
+    pairs: list[tuple[str, str]] = []
+    for container in list(root):
+        container_kind = _local_tag(container.tag)
+        if root_kind == "sitemapindex" and container_kind != "sitemap":
+            continue
+        if root_kind == "urlset" and container_kind != "url":
+            continue
+        if container_kind not in {"sitemap", "url"}:
+            continue
+        for child in list(container):
+            if _local_tag(child.tag) == "loc":
+                pairs.append((container_kind, _clean(child.text)))
+                break
+    return pairs, root_kind
+
+
+def _parse_sitemap_tolerant(xml_text: str) -> list[tuple[str, str]]:
+    """Recover only structurally attributable loc entries from malformed XML."""
+    soup = BeautifulSoup(xml_text or "", "html.parser")
+    pairs: list[tuple[str, str]] = []
+    for loc in soup.find_all(lambda tag: _local_tag(tag.name) == "loc"):
+        parent = loc.parent
+        while parent is not None:
+            kind = _local_tag(getattr(parent, "name", ""))
+            if kind in {"sitemap", "url"}:
+                pairs.append((kind, _clean(loc.get_text("", strip=True))))
+                break
+            if kind in {"sitemapindex", "urlset", "html", "body"}:
+                break
+            parent = getattr(parent, "parent", None)
+    return pairs
 
 
 def parse_sitemap(xml_text: str) -> dict[str, Any]:
@@ -357,52 +424,45 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
     nested: list[str] = []
     rejected: list[str] = []
     urls: list[str] = []
+    raw_loc_count = len(_XML_LOC_RE.findall(xml_text or ""))
+    strict_error: str | None = None
 
     try:
-        root = ET.fromstring(xml_text or "")
-    except ET.ParseError:
-        # Keep evidence about malformed payloads without guessing sitemap roles.
-        urls = [_clean(value) for value in _XML_LOC_RE.findall(xml_text or "")]
-        return {
-            "url_count": len(urls),
-            "same_host_page_count": 0,
-            "same_host_pages": [],
-            "nested_sitemaps": [],
-            "rejected_urls": [],
-            "parse_error": True,
-        }
+        pairs, root_kind = _parse_sitemap_strict(xml_text)
+        parse_mode = "strict_xml"
+    except ET.ParseError as exc:
+        strict_error = _clean(str(exc), limit=300)
+        pairs = _parse_sitemap_tolerant(xml_text)
+        root_kind = "recovered"
+        parse_mode = "tolerant_structural"
 
-    root_kind = _local_tag(root.tag)
-    for container in list(root):
-        container_kind = _local_tag(container.tag)
-        loc_value = ""
-        for child in list(container):
-            if _local_tag(child.tag) == "loc":
-                loc_value = _clean(child.text)
-                break
-        if not loc_value:
-            continue
-        urls.append(loc_value)
-        parsed = urlparse(loc_value)
-        if parsed.scheme.lower() != "https" or parsed.netloc.lower() not in _ALLOWED_HOSTS:
-            rejected.append(loc_value)
-            continue
+    for container_kind, loc_value in pairs:
+        _append_sitemap_loc(
+            loc_value,
+            container_kind,
+            urls=urls,
+            same_host_pages=same_host_pages,
+            nested=nested,
+            rejected=rejected,
+        )
 
-        is_nested = root_kind == "sitemapindex" and container_kind == "sitemap"
-        if is_nested:
-            nested.append(loc_value)
-            continue
-        if parsed.path.lower().endswith(_ASSET_SUFFIXES):
-            continue
-        same_host_pages.append(loc_value)
+    attributed_count = len(pairs)
+    ambiguous_loc_count = max(raw_loc_count - attributed_count, 0)
+    recovery_failed = bool(raw_loc_count) and attributed_count == 0
 
     return {
         "url_count": len(urls),
+        "raw_loc_count": raw_loc_count,
+        "attributed_loc_count": attributed_count,
+        "ambiguous_loc_count": ambiguous_loc_count,
         "same_host_page_count": len(set(same_host_pages)),
         "same_host_pages": sorted(set(same_host_pages)),
         "nested_sitemaps": sorted(set(nested)),
         "rejected_urls": sorted(set(rejected)),
-        "parse_error": False,
+        "parse_mode": parse_mode,
+        "root_kind": root_kind,
+        "strict_parse_error": strict_error,
+        "parse_error": recovery_failed,
     }
 
 
