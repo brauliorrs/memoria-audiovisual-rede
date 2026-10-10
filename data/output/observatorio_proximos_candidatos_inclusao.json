@@ -7,20 +7,6 @@
   "candidate_count": 3,
   "candidates": [
     {
-      "rank": 81,
-      "unit_code": "fiaf-jugoslovenska-kinoteka",
-      "unit_label": "Jugoslovenska Kinoteka",
-      "country_or_scope": "Sérvia",
-      "source_family": "FIAF",
-      "source_url": "https://www.kinoteka.org.rs",
-      "next_action": "sondar_site_catalogo_api_e_disponibilidade_audiovisual",
-      "inclusion_gate": "só incorporar após validar rota pública de vídeos, metadados audiovisuais ou catálogo coletável",
-      "video_location_status": "a_localizar",
-      "video_location_candidate_url": "https://www.kinoteka.org.rs",
-      "evidence_reference": "Lista oficial de membros da FIAF.",
-      "rule_version": "2026-05-pesquisa-europa-v3"
-    },
-    {
       "rank": 82,
       "unit_code": "fiaf-kavi",
       "unit_label": "Kansallinen Audiovisuaalinen Instituutti / National Audiovisual Institute",
@@ -45,6 +31,20 @@
       "inclusion_gate": "só incorporar após validar rota pública de vídeos, metadados audiovisuais ou catálogo coletável",
       "video_location_status": "a_localizar",
       "video_location_candidate_url": "https://kinoteka.mk",
+      "evidence_reference": "Lista oficial de membros da FIAF.",
+      "rule_version": "2026-05-pesquisa-europa-v3"
+    },
+    {
+      "rank": 84,
+      "unit_code": "fiaf-kvikmyndasafn-islands",
+      "unit_label": "Kvikmyndasafn Islands / National Film Archive of Iceland",
+      "country_or_scope": "Islândia",
+      "source_family": "FIAF",
+      "source_url": "https://www.kvikmyndasafn.is",
+      "next_action": "sondar_site_catalogo_api_e_disponibilidade_audiovisual",
+      "inclusion_gate": "só incorporar após validar rota pública de vídeos, metadados audiovisuais ou catálogo coletável",
+      "video_location_status": "a_localizar",
+      "video_location_candidate_url": "https://www.kvikmyndasafn.is",
       "evidence_reference": "Lista oficial de membros da FIAF.",
       "rule_version": "2026-05-pesquisa-europa-v3"
     }
