@@ -1,6 +1,8 @@
 """Fail-closed public-surface probe for the Jean Vigo Institute."""
 from __future__ import annotations
 
+import gzip
+import io
 import json
 import re
 import time
@@ -31,7 +33,11 @@ CRAWLER_TOKEN = "MemoriaAudiovisualRede"
 _ALLOWED_HOST = "www.inst-jeanvigo.eu"
 _ALLOWED_HOSTS = {_ALLOWED_HOST, "inst-jeanvigo.eu"}
 _SITEMAP_DIRECTIVE_RE = re.compile(r"(?im)^\s*Sitemap:\s*(\S+)\s*$")
-_XML_LOC_RE = re.compile(r"<loc>\s*([^<]+?)\s*</loc>", re.I)
+_XML_LOC_OPEN_RE = re.compile(
+    r"<(?:[A-Za-z_][\\w.-]*:)?loc\\b[^>]*>",
+    re.I,
+)
+_MAX_SITEMAP_DECOMPRESSED_BYTES = 8 * 1024 * 1024
 _ASSET_SUFFIXES = (
     ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".css", ".js",
     ".ico", ".pdf", ".zip", ".mp3", ".mp4", ".mov", ".avi",
@@ -46,6 +52,7 @@ class ProbeResponse:
     content_type: str
     text: str
     error: str | None
+    body: bytes = b""
 
 
 def _clean(value: Any, *, limit: int | None = None) -> str:
@@ -219,6 +226,7 @@ def fetch_public_url(
             response.headers.get("content-type", ""),
             response.text,
             None,
+            getattr(response, "content", b"") or b"",
         )
     return ProbeResponse(
         requested_url,
@@ -228,6 +236,42 @@ def fetch_public_url(
         "",
         "redirect_limit_exceeded",
     )
+
+
+def decode_sitemap_response(
+    response: ProbeResponse,
+    *,
+    max_decompressed_bytes: int = _MAX_SITEMAP_DECOMPRESSED_BYTES,
+) -> tuple[str | None, str | None]:
+    """Decode a sitemap response, including raw application/gzip bodies."""
+    raw = response.body or b""
+    content_type = (response.content_type or "").split(";", 1)[0].strip().lower()
+    path = urlparse(response.final_url or response.requested_url).path.lower()
+    gzip_expected = path.endswith(".gz") or content_type in {
+        "application/gzip",
+        "application/x-gzip",
+    }
+
+    if raw.startswith(b"\x1f\x8b"):
+        try:
+            with gzip.GzipFile(fileobj=io.BytesIO(raw)) as stream:
+                decoded = stream.read(max_decompressed_bytes + 1)
+        except (OSError, EOFError) as exc:
+            return None, f"gzip_decode_failed:{type(exc).__name__}"
+        if len(decoded) > max_decompressed_bytes:
+            return None, "gzip_decompressed_too_large"
+        try:
+            return decoded.decode("utf-8-sig"), None
+        except UnicodeDecodeError:
+            return None, "gzip_utf8_decode_failed"
+
+    if gzip_expected and raw and not response.text.lstrip().startswith("<"):
+        return None, "gzip_body_missing_magic"
+
+    text = response.text or ""
+    if len(text.encode("utf-8", errors="ignore")) > max_decompressed_bytes:
+        return None, "sitemap_text_too_large"
+    return text, None
 
 
 def resolve_declared_sitemap_url(
@@ -480,7 +524,7 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
     nested: list[str] = []
     rejected: list[str] = []
     urls: list[str] = []
-    raw_loc_count = len(_XML_LOC_RE.findall(xml_text or ""))
+    raw_loc_count = len(_XML_LOC_OPEN_RE.findall(xml_text or ""))
     strict_error: str | None = None
 
     try:
@@ -603,7 +647,13 @@ def _fetch_declared_sitemaps(
             report["status"] = "fetch_failed"
             reports.append(report)
             continue
-        parsed_map = parse_sitemap(response.text)
+        sitemap_text, decode_error = decode_sitemap_response(response)
+        if decode_error or sitemap_text is None:
+            report["status"] = "decode_failed"
+            report["decode_error"] = decode_error
+            reports.append(report)
+            continue
+        parsed_map = parse_sitemap(sitemap_text)
         report.update(
             {
                 key: value
