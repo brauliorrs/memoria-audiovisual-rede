@@ -81,7 +81,7 @@ class JugoslovenskaKinotekaProbeTests(unittest.TestCase):
             "<sm:loc>https://www.kinoteka.org.rs/unattributed</sm:loc>"
             "</sm:urlset>"
         )
-        with self.assertRaisesRegex(ValueError, "unattributed"):
+        with self.assertRaisesRegex(ValueError, "sitemap_(unattributed_loc|unexpected_container)"):
             parse_sitemap(xml)
 
     def test_malformed_sitemap_and_html_challenge_never_enumerate(self):
