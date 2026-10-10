@@ -34,7 +34,7 @@ _ALLOWED_HOST = "www.inst-jeanvigo.eu"
 _ALLOWED_HOSTS = {_ALLOWED_HOST, "inst-jeanvigo.eu"}
 _SITEMAP_DIRECTIVE_RE = re.compile(r"(?im)^\s*Sitemap:\s*(\S+)\s*$")
 _XML_LOC_OPEN_RE = re.compile(
-    r"<(?:[A-Za-z_][\\w.-]*:)?loc\\b[^>]*>",
+    r"<(?:[A-Za-z_][\w.-]*:)?loc\b[^>]*>",
     re.I,
 )
 _MAX_SITEMAP_DECOMPRESSED_BYTES = 8 * 1024 * 1024
