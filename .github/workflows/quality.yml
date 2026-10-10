@@ -347,6 +347,26 @@ jobs:
           path: data/output/jean_vigo_probe.json
           if-no-files-found: error
 
+      - name: Validate Mémoire Filmique subordinate probe contract
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/memoire_filmique_probe.py \
+            scripts/probe_memoire_filmique.py \
+            tests/test_memoire_filmique_probe.py
+          python -m unittest discover -s tests -p 'test_memoire_filmique_probe.py' -v
+
+      - name: Probe Mémoire Filmique subordinate public catalogue
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/jean-vigo-probe-v1'
+        run: python scripts/probe_memoire_filmique.py
+
+      - name: Upload Mémoire Filmique subordinate probe artifact
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/jean-vigo-probe-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: memoire-filmique-probe
+          path: data/output/memoire_filmique_probe.json
+          if-no-files-found: error
+
       - name: Validate Croatian Cinematheque technical probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \
