@@ -1,8 +1,10 @@
+import gzip
 import unittest
 
 from memoria_audiovisual.jean_vigo_probe import (
     ProbeResponse,
     classify_public_url,
+    decode_sitemap_response,
     parse_sitemap,
     parse_surface_html,
     resolve_declared_sitemap_url,
@@ -28,6 +30,49 @@ class JeanVigoProbeTests(unittest.TestCase):
             parsed["external_links"],
         )
         self.assertIn("s", parsed["forms"][0]["input_names"])
+
+
+    def test_gzip_sitemap_body_is_decompressed_before_parsing(self):
+        xml = (
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+            '<url><loc>https://www.inst-jeanvigo.eu/agenda/example</loc></url>'
+            '</urlset>'
+        )
+        response = ProbeResponse(
+            requested_url="https://www.inst-jeanvigo.eu/child.xml.gz",
+            final_url="https://www.inst-jeanvigo.eu/child.xml.gz",
+            status_code=200,
+            content_type="application/gzip",
+            text="",
+            error=None,
+            body=gzip.compress(xml.encode("utf-8")),
+        )
+        decoded, error = decode_sitemap_response(response)
+        self.assertIsNone(error)
+        self.assertEqual(decoded, xml)
+        parsed = parse_sitemap(decoded or "")
+        self.assertFalse(parsed["parse_error"])
+        self.assertEqual(
+            parsed["same_host_pages"],
+            ["https://www.inst-jeanvigo.eu/agenda/example"],
+        )
+
+    def test_gzip_sitemap_decompression_is_size_bounded(self):
+        response = ProbeResponse(
+            requested_url="https://www.inst-jeanvigo.eu/child.xml.gz",
+            final_url="https://www.inst-jeanvigo.eu/child.xml.gz",
+            status_code=200,
+            content_type="application/gzip",
+            text="",
+            error=None,
+            body=gzip.compress(b"x" * 64),
+        )
+        decoded, error = decode_sitemap_response(
+            response,
+            max_decompressed_bytes=16,
+        )
+        self.assertIsNone(decoded)
+        self.assertEqual(error, "gzip_decompressed_too_large")
 
     def test_sitemap_parser_detects_nested_by_xml_structure_not_suffix(self):
         xml = """
@@ -104,6 +149,22 @@ class JeanVigoProbeTests(unittest.TestCase):
           </sitemap>
           <loc>https://inst-jeanvigo.eu/ambiguous</loc>
         </sitemapindex>
+        """
+        parsed = parse_sitemap(xml)
+        self.assertTrue(parsed["parse_error"])
+        self.assertEqual(parsed["raw_loc_count"], 2)
+        self.assertEqual(parsed["attributed_loc_count"], 1)
+        self.assertEqual(parsed["ambiguous_loc_count"], 1)
+
+
+    def test_prefixed_unattributed_loc_is_counted_and_fails_closed(self):
+        xml = """
+        <sm:sitemapindex xmlns:sm="http://www.sitemaps.org/schemas/sitemap/0.9">
+          <sm:sitemap>
+            <sm:loc>https://inst-jeanvigo.eu/post-sitemap.xml</sm:loc>
+          </sm:sitemap>
+          <sm:loc>https://inst-jeanvigo.eu/ambiguous</sm:loc>
+        </sm:sitemapindex>
         """
         parsed = parse_sitemap(xml)
         self.assertTrue(parsed["parse_error"])
