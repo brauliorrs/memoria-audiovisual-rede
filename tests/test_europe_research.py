@@ -135,18 +135,35 @@ class EuropeResearchTests(unittest.TestCase):
             "fiaf-imperial-war-museums-film-archive",
             set(registry_df["unit_code"].astype(str)),
         )
-        jean_vigo_rank = int(
+        jean_vigo_row = registry_df.loc[
+            registry_df["unit_code"] == "inedits-jean-vigo-institute"
+        ].iloc[0]
+        self.assertEqual(jean_vigo_row["organism_status"], "protocolado")
+        self.assertEqual(
+            jean_vigo_row["video_location_status"],
+            "plataforma_oficial_compartilhada_antibot_sem_enumeracao_reprodutivel",
+        )
+        self.assertNotIn("inedits-jean-vigo-institute", priority_by_code)
+        self.assertEqual(analyzed_corpora_total(registry_df), 80)
+
+        jugoslovenska_rank = int(
             queue_df.loc[
-                queue_df["unit_code"] == "inedits-jean-vigo-institute",
+                queue_df["unit_code"] == "fiaf-jugoslovenska-kinoteka",
                 "definitive_queue_rank",
             ].iloc[0]
         )
-        self.assertEqual(analyzed_corpora_total(registry_df), 79)
+        kavi_rank = int(
+            queue_df.loc[
+                queue_df["unit_code"] == "fiaf-kavi",
+                "definitive_queue_rank",
+            ].iloc[0]
+        )
         self.assertEqual(
-            jean_vigo_rank,
+            jugoslovenska_rank,
             analyzed_corpora_total(registry_df) + 1,
         )
-        self.assertEqual(jean_vigo_rank, 80)
+        self.assertEqual(jugoslovenska_rank, 81)
+        self.assertEqual(kavi_rank, 82)
         self.assertNotIn("inedits-image-est", priority_by_code)
         self.assertNotIn("fiaf-ifi-irish-film-archive", priority_by_code)
         self.assertNotIn(
