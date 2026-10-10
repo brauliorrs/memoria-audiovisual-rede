@@ -424,6 +424,23 @@ def _normalized_label(value: Any) -> str:
     return text
 
 
+def _matches_label_family(label: str, family: set[str]) -> bool:
+    return any(
+        label == item
+        or label.startswith(item + " ")
+        or label.startswith(item + ":")
+        for item in family
+    )
+
+
+def _text_markers(text: str, family: set[str]) -> list[str]:
+    found: list[str] = []
+    for item in sorted(family):
+        if re.search(rf"(?<!\w){re.escape(item)}(?!\w)", text, flags=re.I):
+            found.append(item)
+    return found
+
+
 def parse_collection_page_semantics(
     html_text: str,
     page_url: str,
@@ -440,8 +457,23 @@ def parse_collection_page_semantics(
         if text in _ARCHIVAL_IDENTIFIER_LABELS or text in _FILM_METADATA_LABELS:
             labels.add(text)
 
-    identifiers = sorted(labels & _ARCHIVAL_IDENTIFIER_LABELS)
-    film_labels = sorted(labels & _FILM_METADATA_LABELS)
+    identifiers = sorted(
+        label
+        for label in labels
+        if _matches_label_family(label, _ARCHIVAL_IDENTIFIER_LABELS)
+    )
+    film_labels = sorted(
+        label
+        for label in labels
+        if _matches_label_family(label, _FILM_METADATA_LABELS)
+    )
+    visible_text = _clean(soup.get_text(" ", strip=True), limit=30000).lower()
+    text_identifiers = _text_markers(
+        visible_text,
+        _ARCHIVAL_IDENTIFIER_LABELS,
+    )
+    text_film_family = _FILM_METADATA_LABELS - {"date"}
+    text_film_markers = _text_markers(visible_text, text_film_family)
 
     same_host_children: set[str] = set()
     external_archive_links: set[str] = set()
@@ -487,17 +519,25 @@ def parse_collection_page_semantics(
                 stack.extend(current)
 
     strong_record = bool(identifiers) and len(film_labels) >= 2
-    record_candidate = (
+    structured_candidate = (
         not strong_record
         and (
             len(film_labels) >= 3
             or bool(schema_types & {"movie", "videoobject"})
         )
     )
+    unstructured_candidate = (
+        not strong_record
+        and not structured_candidate
+        and bool(text_identifiers)
+        and len(text_film_markers) >= 3
+    )
     if strong_record:
         semantic_class = "individual_archival_record_confirmed"
-    elif record_candidate:
+    elif structured_candidate:
         semantic_class = "individual_archival_record_candidate"
+    elif unstructured_candidate:
+        semantic_class = "unstructured_archival_record_candidate"
     elif len(same_host_children) >= 3:
         semantic_class = "collection_index_or_hub"
     elif external_archive_links:
@@ -516,6 +556,8 @@ def parse_collection_page_semantics(
         "semantic_class": semantic_class,
         "identifier_labels": identifiers,
         "film_metadata_labels": film_labels,
+        "text_identifier_markers": text_identifiers,
+        "text_film_markers": text_film_markers,
         "schema_types": sorted(schema_types)[:20],
         "same_host_collection_child_count": len(same_host_children),
         "same_host_collection_child_sample": sorted(same_host_children)[:12],
@@ -981,8 +1023,13 @@ def run_jean_vigo_probe(session: requests.Session | None = None) -> dict[str, An
     confirmed_records = payload["collection_semantic_counts"].get(
         "individual_archival_record_confirmed", 0
     )
-    record_candidates = payload["collection_semantic_counts"].get(
-        "individual_archival_record_candidate", 0
+    record_candidates = (
+        payload["collection_semantic_counts"].get(
+            "individual_archival_record_candidate", 0
+        )
+        + payload["collection_semantic_counts"].get(
+            "unstructured_archival_record_candidate", 0
+        )
     )
 
     if confirmed_records and audit_complete:
