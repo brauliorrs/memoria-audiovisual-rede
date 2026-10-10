@@ -641,17 +641,29 @@ def _append_sitemap_loc(
     same_host_pages.append(loc_value)
 
 
+def _tag_parts(tag: str) -> tuple[str | None, str]:
+    value = str(tag)
+    if value.startswith("{") and "}" in value:
+        namespace, local = value[1:].split("}", 1)
+        return namespace, local.lower()
+    return None, _local_tag(value)
+
+
 def _parse_sitemap_strict(
     xml_text: str,
 ) -> tuple[list[tuple[str, str]], str, int]:
     root = ET.fromstring(xml_text or "")
-    root_kind = _local_tag(root.tag)
+    root_namespace, root_kind = _tag_parts(root.tag)
     raw_loc_count = sum(
-        1 for node in root.iter() if _local_tag(node.tag) == "loc"
+        1
+        for node in root.iter()
+        if _tag_parts(node.tag) == (root_namespace, "loc")
     )
     pairs: list[tuple[str, str]] = []
     for container in list(root):
-        container_kind = _local_tag(container.tag)
+        container_namespace, container_kind = _tag_parts(container.tag)
+        if container_namespace != root_namespace:
+            continue
         if root_kind == "sitemapindex" and container_kind != "sitemap":
             continue
         if root_kind == "urlset" and container_kind != "url":
@@ -659,7 +671,8 @@ def _parse_sitemap_strict(
         if container_kind not in {"sitemap", "url"}:
             continue
         for child in list(container):
-            if _local_tag(child.tag) == "loc":
+            child_namespace, child_kind = _tag_parts(child.tag)
+            if child_namespace == root_namespace and child_kind == "loc":
                 pairs.append((container_kind, _clean(child.text)))
                 break
     return pairs, root_kind, raw_loc_count
@@ -742,13 +755,14 @@ def parse_sitemap(xml_text: str) -> dict[str, Any]:
     rejected: list[str] = []
     urls: list[str] = []
     strict_error: str | None = None
+    normalized_xml = (xml_text or "").lstrip("\ufeff \t\r\n")
 
     try:
-        pairs, root_kind, raw_loc_count = _parse_sitemap_strict(xml_text)
+        pairs, root_kind, raw_loc_count = _parse_sitemap_strict(normalized_xml)
         parse_mode = "strict_xml"
     except ET.ParseError as exc:
         strict_error = _clean(str(exc), limit=300)
-        pairs, root_kind, raw_loc_count = _parse_sitemap_tolerant(xml_text)
+        pairs, root_kind, raw_loc_count = _parse_sitemap_tolerant(normalized_xml)
         parse_mode = "tolerant_structural"
 
     for container_kind, loc_value in pairs:
