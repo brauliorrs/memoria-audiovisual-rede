@@ -38,6 +38,33 @@ _XML_LOC_OPEN_RE = re.compile(
     re.I,
 )
 _MAX_SITEMAP_DECOMPRESSED_BYTES = 8 * 1024 * 1024
+_MAX_COLLECTION_AUDIT_PAGES = 40
+_COLLECTION_PATH_TOKEN = "collections-cinematheque-perpignan-institut-jean-vigo"
+_ARCHIVAL_IDENTIFIER_LABELS = {
+    "cote",
+    "reference",
+    "référence",
+    "inventaire",
+    "numero d'inventaire",
+    "numéro d'inventaire",
+}
+_FILM_METADATA_LABELS = {
+    "realisateur",
+    "réalisateur",
+    "realisation",
+    "réalisation",
+    "annee",
+    "année",
+    "date",
+    "duree",
+    "durée",
+    "format",
+    "support",
+    "metrage",
+    "métrage",
+    "production",
+    "synopsis",
+}
 _ASSET_SUFFIXES = (
     ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".css", ".js",
     ".ico", ".pdf", ".zip", ".mp3", ".mp4", ".mov", ".avi",
@@ -392,6 +419,148 @@ def parse_surface_html(html_text: str, page_url: str) -> dict[str, Any]:
     }
 
 
+def _normalized_label(value: Any) -> str:
+    text = _clean(value).lower().strip(" :;.-")
+    return text
+
+
+def parse_collection_page_semantics(
+    html_text: str,
+    page_url: str,
+) -> dict[str, Any]:
+    """Classify one sitemap-derived collection page conservatively."""
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    labels: set[str] = set()
+    for node in soup.find_all(["dt", "th"]):
+        label = _normalized_label(node.get_text(" ", strip=True))
+        if label:
+            labels.add(label)
+    for node in soup.find_all(["strong", "b"]):
+        text = _normalized_label(node.get_text(" ", strip=True))
+        if text in _ARCHIVAL_IDENTIFIER_LABELS or text in _FILM_METADATA_LABELS:
+            labels.add(text)
+
+    identifiers = sorted(labels & _ARCHIVAL_IDENTIFIER_LABELS)
+    film_labels = sorted(labels & _FILM_METADATA_LABELS)
+
+    same_host_children: set[str] = set()
+    external_archive_links: set[str] = set()
+    for anchor in soup.find_all("a", href=True):
+        absolute = urljoin(page_url, anchor.get("href", ""))
+        parsed = urlparse(absolute)
+        if parsed.scheme not in {"http", "https"}:
+            continue
+        host = parsed.netloc.lower()
+        if (
+            host in _ALLOWED_HOSTS
+            and _COLLECTION_PATH_TOKEN in parsed.path.lower()
+            and absolute.rstrip("/") != page_url.rstrip("/")
+        ):
+            same_host_children.add(absolute)
+        if (
+            "memoirefilmiquedusud" in host
+            or "cine-ressources" in absolute.lower()
+            or host == "purl.org"
+        ):
+            external_archive_links.add(absolute)
+
+    schema_types: set[str] = set()
+    for script in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        raw = script.string or script.get_text() or ""
+        try:
+            value = json.loads(raw)
+        except (TypeError, ValueError):
+            continue
+        stack = [value]
+        while stack:
+            current = stack.pop()
+            if isinstance(current, dict):
+                type_value = current.get("@type")
+                if isinstance(type_value, str):
+                    schema_types.add(type_value.lower())
+                elif isinstance(type_value, list):
+                    schema_types.update(
+                        str(item).lower() for item in type_value
+                    )
+                stack.extend(current.values())
+            elif isinstance(current, list):
+                stack.extend(current)
+
+    strong_record = bool(identifiers) and len(film_labels) >= 2
+    record_candidate = (
+        not strong_record
+        and (
+            len(film_labels) >= 3
+            or bool(schema_types & {"movie", "videoobject"})
+        )
+    )
+    if strong_record:
+        semantic_class = "individual_archival_record_confirmed"
+    elif record_candidate:
+        semantic_class = "individual_archival_record_candidate"
+    elif len(same_host_children) >= 3:
+        semantic_class = "collection_index_or_hub"
+    elif external_archive_links:
+        semantic_class = "external_archive_pointer"
+    else:
+        semantic_class = "institutional_collection_page"
+
+    heading = soup.find("h1")
+    title = _clean(
+        heading.get_text(" ", strip=True)
+        if heading
+        else (soup.title.get_text(" ", strip=True) if soup.title else "")
+    )
+    return {
+        "title": title,
+        "semantic_class": semantic_class,
+        "identifier_labels": identifiers,
+        "film_metadata_labels": film_labels,
+        "schema_types": sorted(schema_types)[:20],
+        "same_host_collection_child_count": len(same_host_children),
+        "same_host_collection_child_sample": sorted(same_host_children)[:12],
+        "external_archive_links": sorted(external_archive_links)[:20],
+    }
+
+
+def audit_collection_pages(
+    session: requests.Session,
+    urls: list[str],
+    robots_text: str,
+    *,
+    max_pages: int = _MAX_COLLECTION_AUDIT_PAGES,
+) -> tuple[list[dict[str, Any]], bool]:
+    ordered = sorted(set(urls))
+    truncated = len(ordered) > max_pages
+    selected = ordered[:max_pages]
+    reports: list[dict[str, Any]] = []
+    for url in selected:
+        response = fetch_public_url(
+            session,
+            url,
+            robots_text=robots_text if robots_text else None,
+        )
+        row: dict[str, Any] = {
+            "url": url,
+            "final_url": response.final_url,
+            "status_code": response.status_code,
+            "error": response.error,
+        }
+        if response.error or response.status_code != 200:
+            row["status"] = "fetch_failed"
+            reports.append(row)
+            continue
+        row.update(
+            parse_collection_page_semantics(
+                response.text,
+                response.final_url or url,
+            )
+        )
+        row["status"] = "ok"
+        reports.append(row)
+    return reports, truncated
+
+
 def _local_tag(tag: str) -> str:
     value = str(tag).rsplit("}", 1)[-1]
     return value.rsplit(":", 1)[-1].lower()
@@ -701,6 +870,10 @@ def run_jean_vigo_probe(session: requests.Session | None = None) -> dict[str, An
         "sitemap_pages_total": 0,
         "sitemap_traversal_truncated": False,
         "classification_counts": {},
+        "collection_pages": [],
+        "collection_page_audit": [],
+        "collection_audit_truncated": False,
+        "collection_semantic_counts": {},
         "external_archive_hints": [],
         "gate_assessment": "hold_unverified_public_enumeration",
         "next_action": "record_hold_and_continue_queue",
@@ -758,21 +931,76 @@ def run_jean_vigo_probe(session: requests.Session | None = None) -> dict[str, An
         payload["sitemap_pages_total"] = len(pages)
         payload["sitemap_traversal_truncated"] = truncated
         counts: dict[str, int] = {}
+        collection_urls: list[str] = []
         for page in pages:
             key = classify_public_url(page)
             counts[key] = counts.get(key, 0) + 1
+            if key == "institutional_collection_page":
+                collection_urls.append(page)
         payload["classification_counts"] = counts
+        payload["collection_pages"] = sorted(set(collection_urls))
+
+        if (
+            collection_urls
+            and not payload["sitemap_traversal_truncated"]
+        ):
+            audit, audit_truncated = audit_collection_pages(
+                session,
+                collection_urls,
+                robots_text,
+            )
+            payload["collection_page_audit"] = audit
+            payload["collection_audit_truncated"] = audit_truncated
+            semantic_counts: dict[str, int] = {}
+            for row in audit:
+                key = row.get("semantic_class", "fetch_failed")
+                semantic_counts[key] = semantic_counts.get(key, 0) + 1
+                for link in row.get("external_archive_links", []):
+                    external_hints.add(link)
+            payload["collection_semantic_counts"] = semantic_counts
 
     payload["external_archive_hints"] = sorted(external_hints)
-    collection_pages = payload["classification_counts"].get(
-        "institutional_collection_page", 0
+    collection_count = len(payload["collection_pages"])
+    audit_rows = payload["collection_page_audit"]
+    audit_complete = (
+        collection_count > 0
+        and not payload["sitemap_traversal_truncated"]
+        and not payload["collection_audit_truncated"]
+        and len(audit_rows) == collection_count
+        and all(row.get("status") == "ok" for row in audit_rows)
     )
-    if collection_pages and not payload["sitemap_traversal_truncated"]:
+    confirmed_records = payload["collection_semantic_counts"].get(
+        "individual_archival_record_confirmed", 0
+    )
+    record_candidates = payload["collection_semantic_counts"].get(
+        "individual_archival_record_candidate", 0
+    )
+
+    if confirmed_records and audit_complete:
         payload["gate_assessment"] = (
-            "investigate_sitemap_collection_pages_semantics_before_staged"
+            "bounded_public_record_enumeration_confirmed_staged_required"
         )
         payload["next_action"] = (
-            "sample_sitemap_collection_pages_and_test_record_enumeration"
+            "engineer_staged_collector_from_sitemap_confirmed_records"
+        )
+    elif record_candidates and audit_complete:
+        payload["gate_assessment"] = (
+            "investigate_collection_record_candidates_before_staged"
+        )
+        payload["next_action"] = (
+            "validate_candidate_record_metadata_before_staged"
+        )
+    elif collection_count and not audit_complete:
+        payload["gate_assessment"] = "hold_collection_semantics_incomplete"
+        payload["next_action"] = (
+            "repair_or_repeat_collection_semantic_audit_before_decision"
+        )
+    elif collection_count and audit_complete:
+        payload["gate_assessment"] = (
+            "hold_primary_site_no_enumerable_archival_records"
+        )
+        payload["next_action"] = (
+            "protocol_primary_site_and_assess_external_archive_separately"
         )
     elif external_hints:
         payload["gate_assessment"] = "hold_primary_site_points_to_external_archive"
