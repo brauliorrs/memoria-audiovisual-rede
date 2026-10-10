@@ -3,8 +3,10 @@ import unittest
 
 from memoria_audiovisual.jean_vigo_probe import (
     ProbeResponse,
+    audit_collection_pages,
     classify_public_url,
     decode_sitemap_response,
+    parse_collection_page_semantics,
     parse_sitemap,
     parse_surface_html,
     resolve_declared_sitemap_url,
@@ -199,6 +201,100 @@ class JeanVigoProbeTests(unittest.TestCase):
         self.assertEqual(parsed["same_host_pages"], [])
         self.assertEqual(parsed["nested_sitemaps"], [])
 
+
+    def test_collection_semantics_requires_archival_identifier_for_confirmation(self):
+        html = """
+        <html><body><h1>Film X</h1>
+          <dl>
+            <dt>Réalisation</dt><dd>A. Auteur</dd>
+            <dt>Année</dt><dd>1952</dd>
+            <dt>Durée</dt><dd>12 min</dd>
+          </dl>
+        </body></html>
+        """
+        parsed = parse_collection_page_semantics(
+            html,
+            "https://www.inst-jeanvigo.eu/"
+            "collections-cinematheque-perpignan-institut-jean-vigo/film-x",
+        )
+        self.assertEqual(
+            parsed["semantic_class"],
+            "individual_archival_record_candidate",
+        )
+
+    def test_collection_semantics_confirms_structured_archival_film_record(self):
+        html = """
+        <html><body><h1>Film X</h1>
+          <table>
+            <tr><th>Cote</th><td>JV-42</td></tr>
+            <tr><th>Réalisation</th><td>A. Auteur</td></tr>
+            <tr><th>Année</th><td>1952</td></tr>
+            <tr><th>Durée</th><td>12 min</td></tr>
+          </table>
+        </body></html>
+        """
+        parsed = parse_collection_page_semantics(
+            html,
+            "https://www.inst-jeanvigo.eu/"
+            "collections-cinematheque-perpignan-institut-jean-vigo/film-x",
+        )
+        self.assertEqual(
+            parsed["semantic_class"],
+            "individual_archival_record_confirmed",
+        )
+        self.assertIn("cote", parsed["identifier_labels"])
+
+    def test_collection_semantics_distinguishes_hub_and_external_pointer(self):
+        hub = """
+        <html><body><h1>Collection</h1>
+          <a href="/collections-cinematheque-perpignan-institut-jean-vigo/a">A</a>
+          <a href="/collections-cinematheque-perpignan-institut-jean-vigo/b">B</a>
+          <a href="/collections-cinematheque-perpignan-institut-jean-vigo/c">C</a>
+        </body></html>
+        """
+        parsed = parse_collection_page_semantics(
+            hub,
+            "https://www.inst-jeanvigo.eu/"
+            "collections-cinematheque-perpignan-institut-jean-vigo",
+        )
+        self.assertEqual(parsed["semantic_class"], "collection_index_or_hub")
+
+        pointer = """
+        <html><body><h1>Films amateurs</h1>
+          <a href="https://www.memoirefilmiquedusud.eu/">Catalogue</a>
+        </body></html>
+        """
+        parsed = parse_collection_page_semantics(
+            pointer,
+            "https://www.inst-jeanvigo.eu/"
+            "collections-cinematheque-perpignan-institut-jean-vigo/amateur",
+        )
+        self.assertEqual(parsed["semantic_class"], "external_archive_pointer")
+
+    def test_collection_audit_reports_truncation_instead_of_partial_hold(self):
+        class Session:
+            def get(self, url, **_kwargs):
+                class Response:
+                    status_code = 200
+                    headers = {"content-type": "text/html"}
+                    text = "<html><body><h1>Collection</h1></body></html>"
+                    content = text.encode("utf-8")
+                return Response()
+
+        urls = [
+            "https://www.inst-jeanvigo.eu/"
+            f"collections-cinematheque-perpignan-institut-jean-vigo/{index}"
+            for index in range(3)
+        ]
+        reports, truncated = audit_collection_pages(
+            Session(),
+            urls,
+            "User-agent: *\nAllow: /\n",
+            max_pages=2,
+        )
+        self.assertTrue(truncated)
+        self.assertEqual(len(reports), 2)
+
     def test_classification_does_not_treat_agenda_as_collection(self):
         self.assertEqual(
             classify_public_url("https://www.inst-jeanvigo.eu/agenda/film-x"),
@@ -345,6 +441,62 @@ class JeanVigoProbeTests(unittest.TestCase):
         self.assertEqual(
             payload["gate_assessment"],
             "hold_robots_unverifiable",
+        )
+
+
+    def test_probe_advances_to_staged_only_for_complete_confirmed_records(self):
+        robots = (
+            "User-agent: *\nAllow: /\n"
+            "Sitemap: https://www.inst-jeanvigo.eu/sitemap.xml\n"
+        )
+        record_url = (
+            "https://www.inst-jeanvigo.eu/"
+            "collections-cinematheque-perpignan-institut-jean-vigo/film-x"
+        )
+        sitemap = (
+            "<urlset><url><loc>"
+            + record_url
+            + "</loc></url></urlset>"
+        )
+        record = """
+        <html><body><h1>Film X</h1>
+          <dl>
+            <dt>Cote</dt><dd>JV-1</dd>
+            <dt>Réalisation</dt><dd>Auteur</dd>
+            <dt>Année</dt><dd>1950</dd>
+          </dl>
+        </body></html>
+        """
+
+        class Session:
+            def get(self, url, **_kwargs):
+                class Response:
+                    status_code = 200
+                    headers = {"content-type": "text/html"}
+                    text = record
+                    content = record.encode("utf-8")
+
+                response = Response()
+                if url.endswith("robots.txt"):
+                    response.text = robots
+                    response.content = robots.encode("utf-8")
+                    response.headers = {"content-type": "text/plain"}
+                elif url.endswith("sitemap.xml"):
+                    response.text = sitemap
+                    response.content = sitemap.encode("utf-8")
+                    response.headers = {"content-type": "application/xml"}
+                return response
+
+        payload = run_jean_vigo_probe(Session())
+        self.assertEqual(
+            payload["gate_assessment"],
+            "bounded_public_record_enumeration_confirmed_staged_required",
+        )
+        self.assertEqual(
+            payload["collection_semantic_counts"][
+                "individual_archival_record_confirmed"
+            ],
+            1,
         )
 
     def test_probe_does_not_promote_agenda_only_sitemap(self):
