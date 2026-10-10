@@ -303,6 +303,117 @@ def classify_page(url: str) -> str:
     return "unverified_public_page"
 
 
+FILM_METADATA_LABELS = frozenset({
+    "режија", "редитељ", "година", "трајање", "продукција",
+    "režija", "reditelj", "godina", "trajanje", "produkcija",
+    "director", "year", "duration", "production",
+})
+ARCHIVAL_ID_LABELS = frozenset({
+    "сигнатура", "каталошки број", "инвентарни број", "шифра",
+    "signatura", "kataloški broj", "inventarni broj",
+    "shelfmark", "archive reference", "archive id",
+})
+
+
+def parse_film_record_semantics(html: str) -> dict[str, Any]:
+    """Inspect structured film metadata, not an article's film-related prose."""
+    soup = BeautifulSoup(html, "html.parser")
+    heading = soup.find("h1")
+    title = heading.get_text(" ", strip=True) if heading else (
+        soup.title.get_text(" ", strip=True) if soup.title else ""
+    )
+    labels = {
+        re.sub(r"\s+", " ", tag.get_text(" ", strip=True)).strip(" :.-").lower()
+        for tag in soup.select("dt,th")
+    }
+    labels.discard("")
+    film_labels = sorted(labels & FILM_METADATA_LABELS)
+    archival_labels = sorted(labels & ARCHIVAL_ID_LABELS)
+    schema_types: set[str] = set()
+    for script in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        try:
+            value = json.loads(script.string or script.get_text() or "")
+        except (ValueError, TypeError):
+            continue
+        nodes = [value]
+        while nodes:
+            node = nodes.pop()
+            if isinstance(node, list):
+                nodes.extend(node)
+            elif isinstance(node, dict):
+                kind = node.get("@type")
+                if isinstance(kind, str):
+                    schema_types.add(kind.lower())
+                elif isinstance(kind, list):
+                    schema_types.update(str(item).lower() for item in kind)
+                nodes.extend(node.values())
+    if archival_labels and len(film_labels) >= 2:
+        kind = "structured_archival_record_candidate"
+    elif len(film_labels) >= 2 or schema_types & {"movie", "videoobject"}:
+        kind = "film_metadata_without_archival_identifier"
+    else:
+        kind = "no_individual_archival_record_evidence"
+    return {
+        "title": title[:200],
+        "semantic_class": kind,
+        "archival_identifier_labels": archival_labels,
+        "film_metadata_labels": film_labels,
+        "schema_types": sorted(schema_types)[:15],
+    }
+
+
+def _sitemap_bucket(url: str) -> str:
+    path = urlparse(url).path.lower()
+    if "portfolio-sitemap" in path:
+        return "portfolio"
+    if "post-sitemap" in path:
+        return "posts"
+    if "page-sitemap" in path:
+        return "pages"
+    return "taxonomies_and_other"
+
+
+def audit_sitemap_strata(
+    guard: RobotsGuard,
+    source_by_url: dict[str, str],
+    *,
+    per_group: int = 4,
+    max_total: int = 20,
+) -> tuple[list[dict[str, Any]], bool]:
+    groups: dict[str, list[str]] = {}
+    for page, source in source_by_url.items():
+        bucket = _sitemap_bucket(source)
+        if bucket == "taxonomies_and_other":
+            continue
+        host = _host(page) or "unverified"
+        groups.setdefault(f"{host}:{bucket}", []).append(page)
+
+    selected: list[tuple[str, str]] = []
+    for group, pages in sorted(groups.items()):
+        for page in _sample(sorted(set(pages)), count=per_group):
+            selected.append((group, page))
+    truncated = len(selected) > max_total
+    rows: list[dict[str, Any]] = []
+    for group, page in selected[:max_total]:
+        response = guard.fetch(page)
+        row: dict[str, Any] = {
+            "group": group,
+            "url": page,
+            "final_url": response.final_url,
+            "status": response.status,
+            "error": response.error,
+        }
+        if response.error or response.status != 200:
+            row["result"] = "fetch_failed"
+        elif "html" not in response.content_type.lower():
+            row["result"] = "non_html_response"
+        else:
+            row["result"] = "ok"
+            row.update(parse_film_record_semantics(response.text))
+        rows.append(row)
+    return rows, truncated
+
+
 def _sample(values: list[str], count: int = 12) -> list[str]:
     if count < 1:
         raise ValueError("sample_size_must_be_positive")
@@ -327,6 +438,8 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
         "sitemap_reports": [], "enumerated_public_url_count": 0,
         "enumerated_url_sha256": None, "classification_counts": {},
         "candidate_url_sample": [], "traversal_complete": False,
+        "sitemap_bucket_counts": {}, "semantic_audit": [],
+        "semantic_audit_truncated": False, "semantic_class_counts": {},
         "gate_assessment": "hold_robots_unverifiable",
         "staged_collector_authorized": False,
         "notes": ["No media downloaded; no guessed IDs or private routes"],
@@ -365,6 +478,7 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
             errors.append("sitemap_declared_transport_unverifiable")
     seen: set[str] = set()
     enumerated: set[str] = set()
+    source_by_url: dict[str, str] = {}
     while queue and len(seen) < MAX_SITEMAPS and len(enumerated) < MAX_LOC_URLS:
         url = queue.pop(0)
         if url in seen:
@@ -401,6 +515,7 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
             for page in locs:
                 if _host(page):
                     enumerated.add(page)
+                    source_by_url.setdefault(page, url)
                 else:
                     errors.append("non_https_or_external_sitemap_page")
     if queue or len(enumerated) >= MAX_LOC_URLS:
@@ -417,14 +532,33 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
     payload["candidate_url_sample"] = _sample(candidates)
     payload["traversal_errors"] = sorted(set(errors))
     payload["traversal_complete"] = bool(initial) and not errors
+    payload["sitemap_bucket_counts"] = dict(sorted(Counter(
+        _sitemap_bucket(source) for source in source_by_url.values()
+    ).items()))
+    if payload["traversal_complete"]:
+        rows, truncated = audit_sitemap_strata(guard, source_by_url)
+        payload["semantic_audit"] = rows
+        payload["semantic_audit_truncated"] = truncated
+        payload["semantic_class_counts"] = dict(sorted(Counter(
+            row.get("semantic_class", row.get("result", "unverified"))
+            for row in rows
+        ).items()))
     if not initial:
         payload["gate_assessment"] = "hold_no_discovered_public_sitemap"
     elif errors:
         payload["gate_assessment"] = "hold_public_enumeration_incomplete"
+    elif payload["semantic_audit_truncated"] or any(
+        row["result"] != "ok" for row in payload["semantic_audit"]
+    ):
+        payload["gate_assessment"] = "hold_semantic_audit_incomplete"
+    elif payload["semantic_class_counts"].get(
+        "structured_archival_record_candidate", 0
+    ):
+        payload["gate_assessment"] = "investigate_archival_record_candidates"
     elif candidates:
         payload["gate_assessment"] = "investigate_candidate_catalogue_semantics"
     else:
-        payload["gate_assessment"] = "hold_no_proven_individual_film_records"
+        payload["gate_assessment"] = "hold_no_verified_public_archival_records"
     return payload
 
 
