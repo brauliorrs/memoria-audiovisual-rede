@@ -367,6 +367,25 @@ jobs:
           path: data/output/memoire_filmique_probe.json
           if-no-files-found: error
 
+      - name: Validate Jean Vigo HOLD queue transition
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/jean-vigo-probe-v1'
+        run: |
+          python -m unittest discover -s tests -p 'test_europe_research.py' -v
+          python scripts/build_europe_research_queue.py
+          python scripts/next_inclusion_candidate.py --limit 3
+
+      - name: Upload Jean Vigo HOLD queue outputs
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/jean-vigo-probe-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: jean-vigo-hold-queue-outputs
+          path: |
+            data/output/observatorio_pesquisa_europa.csv
+            data/output/observatorio_fila_pesquisa_europa.csv
+            data/output/observatorio_resumo_pesquisa_europa.csv
+            data/output/observatorio_proximos_candidatos_inclusao.json
+          if-no-files-found: error
+
       - name: Validate Croatian Cinematheque technical probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \
