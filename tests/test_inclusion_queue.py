@@ -72,17 +72,22 @@ class InclusionQueueTests(unittest.TestCase):
             [candidate.rank for candidate in candidates],
             sorted(candidate.rank for candidate in candidates),
         )
+        # The generated queue must retain historical numbering after
+        # Jean Vigo (#80) was protocolled in HOLD, without compacting it.
         self.assertEqual(
             [candidate.rank for candidate in candidates],
-            [80, 81, 82],
+            [81, 82, 83],
         )
         self.assertEqual(
-            [candidate.unit_code for candidate in candidates],
+            [candidate.unit_code for candidate in candidates[:2]],
             [
-                "inedits-jean-vigo-institute",
                 "fiaf-jugoslovenska-kinoteka",
                 "fiaf-kavi",
             ],
+        )
+        self.assertNotIn(
+            "inedits-jean-vigo-institute",
+            [candidate.unit_code for candidate in candidates],
         )
         self.assertTrue(all(candidate.inclusion_gate for candidate in candidates))
         self.assertTrue(all(candidate.source_url.startswith(("http://", "https://"))
