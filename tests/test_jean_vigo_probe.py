@@ -323,6 +323,12 @@ class JeanVigoProbeTests(unittest.TestCase):
             ),
             "institutional_collection_page",
         )
+        self.assertEqual(
+            classify_public_url(
+                "https://www.inst-jeanvigo.eu/categories/memoire-filmique"
+            ),
+            "editorial_page",
+        )
 
     def test_robots_longest_rule_wins(self):
         robots = """
