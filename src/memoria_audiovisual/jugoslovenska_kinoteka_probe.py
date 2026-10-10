@@ -448,16 +448,26 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
         return payload
 
     hints: set[str] = set()
+    surface_errors: list[str] = []
     for name, url in SURFACES:
         response = guard.fetch(url)
         row: dict[str, Any] = {
             "name": name, "requested_url": url, "final_url": response.final_url,
             "status": response.status, "error": response.error,
         }
-        if not response.error and response.status == 200 and "html" in response.content_type.lower():
+        if (
+            not response.error
+            and response.status == 200
+            and "html" in response.content_type.lower()
+        ):
             parsed = parse_surface(response.text, response.final_url or url)
             row.update(parsed)
             hints.update(parsed["sitemap_hints"])
+        else:
+            # An inaccessible declared research surface may hide sitemap
+            # hints or catalogue links. A partial host audit cannot be
+            # certified as complete simply because a sibling host worked.
+            surface_errors.append(f"required_surface_unverifiable:{name}")
         payload["surfaces"].append(row)
 
     initial = set()
@@ -466,7 +476,7 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
         initial.update(policy.get("sitemaps", []))
     initial.update(hints)
     queue: list[str] = []
-    errors: list[str] = []
+    errors: list[str] = list(surface_errors)
     for url in sorted(initial):
         resolved, transport = guard.resolve_declared_sitemap(url)
         payload["sitemap_reports"].append({
