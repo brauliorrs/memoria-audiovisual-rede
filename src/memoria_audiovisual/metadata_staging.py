@@ -94,6 +94,10 @@ def _restore(
         raise StageRejected("checkpoint_schema_mismatch")
     if payload.get("scope_sha256") != scope_digest:
         raise StageRejected("checkpoint_scope_mismatch")
+    if not isinstance(payload.get("scope"), dict) or (
+        _digest(payload["scope"]) != payload["scope_sha256"]
+    ):
+        raise StageRejected("checkpoint_scope_payload_tampered")
     if payload.get("expected_total") != total:
         raise StageRejected("checkpoint_total_drift")
     pages = payload.get("pages")
@@ -152,7 +156,10 @@ def _restore(
     if payload.get("status") == "complete":
         if token is not None or len(seen) != total:
             raise StageRejected("checkpoint_false_complete")
-    elif payload.get("status") != "partial":
+    elif payload.get("status") == "partial":
+        if token is None:
+            raise StageRejected("checkpoint_false_partial")
+    else:
         raise StageRejected("checkpoint_not_resumable")
     return seen, cursors, token
 
