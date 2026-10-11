@@ -9,6 +9,7 @@ import requests
 from memoria_audiovisual.kavi_elonet_probe import (
     API_ROOT, ELONET_FAQ, FACET_QUERY, HOME, SAMPLE_QUERY,
     SURFACES, _build_verified_facet_query, _build_verified_video_query,
+    _verified_record_url,
     _kavi_building_candidates, _video_format_candidates,
     parse_finna_response, parse_public_page, run_probe,
 )
@@ -77,6 +78,16 @@ def valid_routes():
             ]}, "records": [],
         }),
     )
+    items[_verified_record_url("kavi.elonet_elokuva_117150")] = FakeResponse(
+        mime="application/json", text=json.dumps({
+            "status": "OK", "resultCount": 1,
+            "records": [
+                {"id": "kavi.elonet_elokuva_117150",
+                 "title": "Test Film",
+                 "formats": [{"value": "0/Video/", "translated": "Video"}]},
+            ],
+        }),
+    )
     items[_build_verified_video_query("0/KAVI/", "0/Video/")] = FakeResponse(
         mime="application/json", text=json.dumps({
             "status": "OK", "resultCount": 12490,
@@ -129,7 +140,12 @@ class KaviElonetProbeTests(unittest.TestCase):
         self.assertEqual(
             output["api_probes"][-1]["probe"], "verified_building_and_video_sample",
         )
-        self.assertEqual(output["api_probes"][-1]["total_claim"], 12490)
+        self.assertEqual(output["api_probes"][-2]["total_claim"], 12490)
+        self.assertEqual(
+            output["api_probes"][-1]["probe"],
+            "verified_individual_film_metadata",
+        )
+        self.assertEqual(output["api_probes"][-1]["returned_records"], 1)
         self.assertNotIn("resumptionToken", " ".join(session.urls))
         self.assertTrue(all(row["error"] is None for row in output["surfaces"]))
 
@@ -144,6 +160,30 @@ class KaviElonetProbeTests(unittest.TestCase):
         self.assertIn("0%2FKAVI%2F", url)
         with self.assertRaisesRegex(ValueError, "unsafe_facet_code"):
             _build_verified_facet_query('KAVI" OR *')
+
+    def test_record_action_only_accepts_live_kavi_film_identifiers(self):
+        self.assertIn(
+            "/v1/record?id=kavi.elonet_elokuva_117150",
+            _verified_record_url("kavi.elonet_elokuva_117150"),
+        )
+        with self.assertRaisesRegex(ValueError, "record_id_not_verified_kavi_film"):
+            _verified_record_url("kavi_kirjasto.39091")
+        with self.assertRaisesRegex(ValueError, "unsafe_record_identifier"):
+            _verified_record_url("kavi.elonet_elokuva_1?inject=bad")
+
+    def test_mismatched_record_detail_is_a_hard_error(self):
+        routes = valid_routes()
+        routes[_verified_record_url("kavi.elonet_elokuva_117150")] = FakeResponse(
+            mime="application/json", text=json.dumps({
+                "status": "OK", "resultCount": 1,
+                "records": [{"id": "kavi.elonet_elokuva_OTHER"}],
+            }),
+        )
+        report = run_probe(FakeSession(routes))
+        self.assertEqual(report["gate_assessment"], "hold_finna_api_unverifiable")
+        self.assertEqual(
+            report["api_probes"][-1]["error"], "record_lookup_id_mismatch",
+        )
 
     def test_video_filter_derives_only_from_observed_metadata(self):
         records = [{"formats": [{"translated": "Video", "value": "0/Video/"},
