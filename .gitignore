@@ -19,3 +19,6 @@ playwright-report/
 *.pyc
 .bootstrap/
 .playwright/
+
+# Local metadata staging/checkpoints may contain opaque Finna resumption tokens.
+data/staging/
