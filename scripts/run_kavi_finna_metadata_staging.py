@@ -36,6 +36,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--max-pages", type=int, default=1)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--delay-seconds", type=float, default=1.0)
     parser.add_argument(
         "--execute", action="store_true",
         help="Required to enable network requests and local artifact writes",
@@ -43,6 +44,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if not 1 <= args.max_pages <= 25:
         parser.error("--max-pages must be between 1 and 25")
+    if not 0.5 <= args.delay_seconds <= 30.0:
+        parser.error("--delay-seconds must be between 0.5 and 30")
     scope = FinnaScope(
         building_code="0/KAVI/", format_code="0/Video/",
         evidence_sha256=args.evidence_sha256,
@@ -62,6 +65,7 @@ def main(argv: list[str] | None = None) -> int:
             args.directory,
             max_pages=args.max_pages,
             resume=args.resume,
+            request_delay_seconds=args.delay_seconds,
         )
     finally:
         session.close()
