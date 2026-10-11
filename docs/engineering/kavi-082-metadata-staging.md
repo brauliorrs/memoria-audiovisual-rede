@@ -49,6 +49,22 @@ python scripts/run_kavi_finna_metadata_staging.py \
   --evidence-sha256 <MESMO_SHA256> --execute --max-pages 1 --resume
 ```
 
+## Resultado do gate vivo bounded (uma página)
+
+A primeira sonda executada no CI revelou que a Finna devolve `resumptionToken` como objeto `{"token": "...", "expires": "..."}`, não string. O executor abortou corretamente sem gravar um checkpoint e o P1 foi corrigido para extrair `token` do objeto, verificando o tipo. O P2 do mesmo review foi resolvido recalculando o SHA-256 do escopo presente no checkpoint antes de retomar, e ambos têm regressões automatizadas.
+
+A nova execução viva no HEAD `4c416e30ffea902b90e89977922061c557d7ba57` passou pelo gate e gerou:
+
+- GitHub Actions [#38143526148](https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/38143526148);
+- artefato público `kavi-finna-staging-public-probe`, id **`11703149360`**, digest ZIP **`sha256:18dcb3d3bfa674447198622da55b6a9b89559260f2a6076f11ff92691842467f`**;
+- `expected_total=138377`, `record_count=200`, `page_count=1`, `status=partial`;
+- `promotion_authorized=false`, `media_downloaded=false`;
+- `scope_sha256=a8e1bc2890a2df2a49ec9f50bc021e65ad5a0d3c23006ca0ce012c1a87104922`.
+
+O artefato exporta **apenas o resumo**. Os tokens opacos e os dados brutos do lote não saem do staging local efêmero do CI. O coletor vivo usa limite de 1 página nesta verificação; a execução interativa admite até 25 páginas por rodada e aplica uma pausa conservadora de **1 segundo** entre páginas (mínimo 0,5s).
+
+**Este resultado NÃO significa 138.377 registros coletados**. Significa apenas que a primeira página foi validada e pode ser preservada em staging, com retorno de token para continuação. A retomada e o fecho de cobertura do conjunto completo continuam pendentes de uma execução controlada posterior.
+
 ## Gates pendentes para incorporar KAVI
 
 - Confirmar em execução viva **bounded** o contrato concreto de `resumptionToken` e, se necessário, ajustar o parser com evidências; não presumir que testes simulados já provaram enumeração real.
