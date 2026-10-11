@@ -219,6 +219,37 @@ def _build_verified_facet_query(facet_code: str) -> str:
     ])
 
 
+def _video_format_candidates(record_rows: list[dict[str, Any]]) -> list[str]:
+    """Use an observed Video format facet code, not a guessed API value."""
+    values: set[str] = set()
+    for row in record_rows:
+        formats = row.get("formats", [])
+        if not isinstance(formats, list):
+            continue
+        for item in formats:
+            if not isinstance(item, dict):
+                continue
+            label = item.get("translated")
+            value = item.get("value")
+            if (
+                isinstance(label, str) and label.casefold() == "video"
+                and isinstance(value, str) and value.endswith("/Video/")
+            ):
+                values.add(value)
+    return sorted(values)
+
+
+def _build_verified_video_query(building: str, video_format: str) -> str:
+    for term in (building, video_format):
+        if not term or '"' in term or len(term) > 160:
+            raise ValueError("unsafe_verified_facet")
+    return API_ROOT + "?" + urlencode([
+        ("lookfor", ""), ("limit", "3"),
+        ("filter[]", f'building:"{building}"'),
+        ("filter[]", f'format:"{video_format}"'),
+    ])
+
+
 def parse_finna_response(text: str, *, expect_facets: bool = False) -> dict[str, Any]:
     try:
         raw = json.loads(text)
@@ -359,6 +390,37 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
             elif not result.error:
                 filtered["error"] = "api_non_json_content"
             report["api_probes"].append(filtered)
+            title_row = next(
+                (r for r in report["api_probes"]
+                 if r["probe"] == "documented_title_sample"), None,
+            )
+            video_codes = _video_format_candidates(
+                title_row.get("record_summaries", [])
+                if title_row is not None and not title_row["error"] else [],
+            )
+            report["observed_video_format_codes"] = video_codes
+            if len(video_codes) == 1:
+                video_url = _build_verified_video_query(
+                    matches[0]["value"], video_codes[0],
+                )
+                video_response = guard.get(video_url)
+                video_row: dict[str, Any] = {
+                    "probe": "verified_building_and_video_sample",
+                    "requested_url": video_url,
+                    "final_url": video_response.final,
+                    "status": video_response.status,
+                    "error": video_response.error,
+                    "verified_building": matches[0],
+                    "verified_video_format": video_codes[0],
+                }
+                if not video_response.error and "json" in video_response.mime.lower():
+                    try:
+                        video_row.update(parse_finna_response(video_response.text))
+                    except ValueError as ex:
+                        video_row["error"] = str(ex)
+                elif not video_response.error:
+                    video_row["error"] = "api_non_json_content"
+                report["api_probes"].append(video_row)
     if any(row["error"] for row in report["api_probes"]):
         report["gate_assessment"] = "hold_finna_api_unverifiable"
     elif any(row["error"] for row in report["surfaces"]):
