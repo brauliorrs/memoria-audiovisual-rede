@@ -144,11 +144,17 @@ class Guard:
                                  "body_size_limit", mime)
                 # Stream just enough bytes; no unbounded download.
                 body = bytearray()
-                for chunk in r.iter_content(65536):
-                    body.extend(chunk)
-                    if len(body) > LIMIT_BYTES:
-                        return Fetch(requested, url, status, "",
-                                     "body_size_limit", mime)
+                try:
+                    for chunk in r.iter_content(65536):
+                        body.extend(chunk)
+                        if len(body) > LIMIT_BYTES:
+                            return Fetch(requested, url, status, "",
+                                         "body_size_limit", mime)
+                except (requests.RequestException, OSError, EOFError) as ex:
+                    return Fetch(
+                        requested, url, status, "",
+                        f"stream_read_failed:{type(ex).__name__}", mime,
+                    )
                 encoding = r.encoding or "utf-8"
                 return Fetch(requested, url, status,
                              bytes(body).decode(encoding, errors="replace"),
@@ -340,8 +346,20 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
             "final_url": result.final, "status": result.status,
             "error": result.error,
         }
-        if not result.error and "html" in result.mime.lower():
-            row.update(parse_public_page(result.text, result.final or url))
+        if not result.error:
+            if "html" not in result.mime.lower():
+                row["error"] = "required_surface_non_html"
+            elif any(
+                marker in result.text[:12000].casefold()
+                for marker in (
+                    "<title>just a moment", "checking your browser",
+                    "verify you are human", "/validate-browser",
+                    "cloudflare challenge",
+                )
+            ):
+                row["error"] = "required_surface_browser_challenge"
+            else:
+                row.update(parse_public_page(result.text, result.final or url))
         report["surfaces"].append(row)
     for label, url, facet in (
         ("building_facet", FACET_QUERY, True),
