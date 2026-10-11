@@ -6,7 +6,8 @@ import unittest
 
 from memoria_audiovisual.kavi_elonet_probe import (
     API_ROOT, ELONET_FAQ, FACET_QUERY, HOME, SAMPLE_QUERY,
-    SURFACES, _build_verified_facet_query, _kavi_building_candidates,
+    SURFACES, _build_verified_facet_query, _build_verified_video_query,
+    _kavi_building_candidates, _video_format_candidates,
     parse_finna_response, parse_public_page, run_probe,
 )
 
@@ -68,6 +69,15 @@ def valid_routes():
             ]}, "records": [],
         }),
     )
+    items[_build_verified_video_query("0/KAVI/", "0/Video/")] = FakeResponse(
+        mime="application/json", text=json.dumps({
+            "status": "OK", "resultCount": 12490,
+            "records": [
+                {"id": "kavi.elonet_elokuva_117150", "title": "Test Film",
+                 "formats": [{"value": "0/Video/", "translated": "Video"}]},
+            ],
+        }),
+    )
     items[_build_verified_facet_query("0/KAVI/")] = FakeResponse(
         mime="application/json", text=json.dumps({
             "status": "OK", "resultCount": 85,
@@ -81,7 +91,9 @@ def valid_routes():
             "status": "OK", "resultCount": 1,
             "records": [{"id": "kavi.elonet_elokuva_test",
                          "title": "Film test",
-                         "institutions": [{"value": "KAVI"}]}],
+                         "institutions": [{"value": "KAVI"}],
+                         "formats": [{"value": "0/Video/",
+                                      "translated": "Video"}]}],
         }),
     )
     return items
@@ -102,10 +114,14 @@ class KaviElonetProbeTests(unittest.TestCase):
             output["kavi_facet_resolution"], "one_facet_candidate",
         )
         self.assertEqual(
-            output["api_probes"][-1]["probe"],
+            output["api_probes"][-2]["probe"],
             "verified_building_facet_sample",
         )
-        self.assertEqual(output["api_probes"][-1]["total_claim"], 85)
+        self.assertEqual(output["api_probes"][-2]["total_claim"], 85)
+        self.assertEqual(
+            output["api_probes"][-1]["probe"], "verified_building_and_video_sample",
+        )
+        self.assertEqual(output["api_probes"][-1]["total_claim"], 12490)
         self.assertNotIn("resumptionToken", " ".join(session.urls))
         self.assertTrue(all(row["error"] is None for row in output["surfaces"]))
 
@@ -120,6 +136,17 @@ class KaviElonetProbeTests(unittest.TestCase):
         self.assertIn("0%2FKAVI%2F", url)
         with self.assertRaisesRegex(ValueError, "unsafe_facet_code"):
             _build_verified_facet_query('KAVI" OR *')
+
+    def test_video_filter_derives_only_from_observed_metadata(self):
+        records = [{"formats": [{"translated": "Video", "value": "0/Video/"},
+                                {"translated": "Film", "value": "1/Video/Film/"}]}]
+        self.assertEqual(_video_format_candidates(records), ["0/Video/"])
+        self.assertEqual(_video_format_candidates([{"formats": []}]), [])
+        query = _build_verified_video_query("0/KAVI/", "0/Video/")
+        self.assertEqual(query.count("filter%5B%5D="), 2)
+        self.assertIn("format", query)
+        with self.assertRaisesRegex(ValueError, "unsafe_verified_facet"):
+            _build_verified_video_query("0/KAVI/", 'Video"OR*')
 
     def test_ambiguous_legacy_and_successor_facets_do_not_guess_a_filter(self):
         routes = valid_routes()
