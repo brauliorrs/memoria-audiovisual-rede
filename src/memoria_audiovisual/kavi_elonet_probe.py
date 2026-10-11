@@ -174,6 +174,51 @@ def parse_public_page(html: str, base: str) -> dict[str, Any]:
     }
 
 
+def _kavi_building_candidates(buildings: list[Any]) -> list[dict[str, Any]]:
+    """Use only codes explicitly returned in the Finna building facet.
+
+    KAVI merged into Kuvi in 2026; names and legacy IDs may coexist.
+    This is discovery, not evidence of custody of an individual film.
+    """
+    found: list[dict[str, Any]] = []
+    stack = list(buildings)
+    while stack:
+        item = stack.pop()
+        if not isinstance(item, dict):
+            continue
+        value = item.get("value")
+        translated = item.get("translated")
+        if isinstance(value, str) and isinstance(translated, str):
+            label = translated.casefold()
+            tail = value.strip("/").split("/")[-1].casefold()
+            if (
+                tail in {"kavi", "kuvi", "elonet"}
+                or label in {"kavi", "kuvi", "elonet"}
+                or "kansallinen audiovisuaalinen instituutti" in label
+                or "taide- ja kulttuurivirasto" in label
+                or "finnish arts and culture agency" in label
+            ):
+                found.append({
+                    "value": value,
+                    "translated": translated,
+                    "count": item.get("count"),
+                })
+        children = item.get("children")
+        if isinstance(children, list):
+            stack.extend(children)
+    return sorted(found, key=lambda item: item["value"])
+
+
+def _build_verified_facet_query(facet_code: str) -> str:
+    """Build documented filter syntax only from a facet returned by the API."""
+    if not facet_code or '"' in facet_code or len(facet_code) > 160:
+        raise ValueError("unsafe_facet_code")
+    return API_ROOT + "?" + urlencode([
+        ("lookfor", ""), ("limit", "3"),
+        ("filter[]", f'building:"{facet_code}"'),
+    ])
+
+
 def parse_finna_response(text: str, *, expect_facets: bool = False) -> dict[str, Any]:
     try:
         raw = json.loads(text)
@@ -227,6 +272,7 @@ def parse_finna_response(text: str, *, expect_facets: bool = False) -> dict[str,
             for x in building[:20] if isinstance(x, dict)
         ],
         "building_facet_total_entries": len(building),
+        "kavi_building_candidates": _kavi_building_candidates(building),
     }
 
 
@@ -283,6 +329,36 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
         elif not result.error:
             row["error"] = "api_non_json_content"
         report["api_probes"].append(row)
+    # Only the live API facet, never a hardcoded or inferred provider ID,
+    # can authorize a limited, read-only provider-filtered sample.
+    facet_row = next(
+        (r for r in report["api_probes"] if r["probe"] == "building_facet"),
+        None,
+    )
+    if facet_row is not None and not facet_row["error"]:
+        matches = facet_row.get("kavi_building_candidates", [])
+        report["kavi_facet_resolution"] = (
+            "one_facet_candidate" if len(matches) == 1
+            else "none" if not matches else "ambiguous_multiple"
+        )
+        if len(matches) == 1:
+            filter_url = _build_verified_facet_query(matches[0]["value"])
+            result = guard.get(filter_url)
+            filtered: dict[str, Any] = {
+                "probe": "verified_building_facet_sample",
+                "requested_url": filter_url,
+                "final_url": result.final, "status": result.status,
+                "error": result.error,
+                "verified_building": matches[0],
+            }
+            if not result.error and "json" in result.mime.lower():
+                try:
+                    filtered.update(parse_finna_response(result.text))
+                except ValueError as ex:
+                    filtered["error"] = str(ex)
+            elif not result.error:
+                filtered["error"] = "api_non_json_content"
+            report["api_probes"].append(filtered)
     if any(row["error"] for row in report["api_probes"]):
         report["gate_assessment"] = "hold_finna_api_unverifiable"
     elif any(row["error"] for row in report["surfaces"]):
