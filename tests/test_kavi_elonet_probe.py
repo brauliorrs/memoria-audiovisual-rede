@@ -4,6 +4,8 @@ from __future__ import annotations
 import json
 import unittest
 
+import requests
+
 from memoria_audiovisual.kavi_elonet_probe import (
     API_ROOT, ELONET_FAQ, FACET_QUERY, HOME, SAMPLE_QUERY,
     SURFACES, _build_verified_facet_query, _build_verified_video_query,
@@ -40,6 +42,12 @@ class FakeSession:
     def get(self, url, **_kwargs):
         self.urls.append(url)
         return self.routes.get(url, FakeResponse(status=404))
+
+
+class BrokenStream(FakeResponse):
+    def iter_content(self, _size):
+        raise requests.exceptions.ChunkedEncodingError("stream interrupted")
+        yield b""
 
 
 ROBOTS = "User-agent: *\nAllow: /\n"
@@ -199,6 +207,37 @@ class KaviElonetProbeTests(unittest.TestCase):
             output["gate_assessment"], "hold_required_surface_unverifiable",
         )
         self.assertNotIn("https://www.kavi.fi/en/film/", session.urls)
+
+    def test_partial_stream_read_is_reported_and_never_promoted(self):
+        routes = valid_routes()
+        routes[ELONET_FAQ] = BrokenStream(text="<html></html>")
+        report = run_probe(FakeSession(routes))
+        faq = next(r for r in report["surfaces"]
+                   if r["surface"] == "elonet_faq")
+        self.assertIn("stream_read_failed", faq["error"])
+        self.assertEqual(
+            report["gate_assessment"], "hold_required_surface_unverifiable",
+        )
+        self.assertFalse(report["staged_collector_authorized"])
+
+    def test_non_html_or_browser_challenge_is_not_an_audited_surface(self):
+        routes = valid_routes()
+        routes[HOME] = FakeResponse(text="OK", mime="text/plain")
+        report = run_probe(FakeSession(routes))
+        self.assertEqual(
+            report["surfaces"][0]["error"], "required_surface_non_html",
+        )
+        self.assertEqual(
+            report["gate_assessment"], "hold_required_surface_unverifiable",
+        )
+        routes[HOME] = FakeResponse(
+            text="<html><title>Just a Moment</title>"
+                 "<p>Checking your browser</p></html>",
+        )
+        report = run_probe(FakeSession(routes))
+        self.assertEqual(
+            report["surfaces"][0]["error"], "required_surface_browser_challenge",
+        )
 
     def test_finna_duplicate_ids_rejected(self):
         duplicate = json.dumps({
