@@ -78,6 +78,17 @@ class MetadataStagingTests(unittest.TestCase):
                     FakeSource({}, total=2, evidence="b" * 64), root, resume=True,
                 )
 
+    def test_scope_payload_tampering_is_rejected_even_with_unchanged_digest(self):
+        source = FakeSource({None: page(["a"], 2, "next")}, total=2)
+        with tempfile.TemporaryDirectory() as root:
+            stage_metadata(source, root)
+            target = Path(root) / "checkpoint.json"
+            manifest = json.loads(target.read_text())
+            manifest["scope"]["evidence"] = "f" * 64
+            target.write_text(json.dumps(manifest), encoding="utf-8")
+            with self.assertRaisesRegex(StageRejected, "scope_payload_tampered"):
+                stage_metadata(source, root, resume=True)
+
     def test_missing_checkpoint_cannot_claim_resume(self):
         with tempfile.TemporaryDirectory() as root:
             with self.assertRaisesRegex(StageRejected, "checkpoint_missing"):
