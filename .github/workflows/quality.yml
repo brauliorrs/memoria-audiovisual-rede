@@ -386,6 +386,21 @@ jobs:
             data/output/observatorio_proximos_candidatos_inclusao.json
           if-no-files-found: error
 
+      - name: Validate KAVI Finna metadata staging and shared primitives
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/metadata_staging.py \
+            src/memoria_audiovisual/kavi_finna_adapter.py \
+            scripts/run_kavi_finna_metadata_staging.py \
+            tests/test_metadata_staging.py \
+            tests/test_kavi_finna_adapter.py
+          python -m py_compile \
+            src/memoria_audiovisual/metadata_staging.py \
+            src/memoria_audiovisual/kavi_finna_adapter.py \
+            scripts/run_kavi_finna_metadata_staging.py
+          python -m unittest discover -s tests -p 'test_metadata_staging.py' -v
+          python -m unittest discover -s tests -p 'test_kavi_finna_adapter.py' -v
+
       - name: Validate KAVI Elonet public metadata probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \
