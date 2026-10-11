@@ -50,6 +50,28 @@ A etapa seguinte só poderá realizar enumeração em lotes quando identificar e
 - O próximo gate faz consultas **individuais** ao método de leitura `/v1/record?id=<ID>` documentado na API, usando somente identificadores efetivamente retornados na amostra filtrada, verificando que cada resposta corresponde ao ID solicitado. Essa leitura não estabelece direitos de uso e não inicia enumeração massiva.
 - A API documenta `resumptionToken` para paginação além do limite de 100 mil resultados da paginação tradicional. A sonda inicial não o aciona; deverá ser usado em etapa específica com controle de integridade, volume, truncamento e proveniência.
 
+### Quarta execução viva — fichas individuais confirmadas
+
+- CI `#38138542393`; artefato `kavi-elonet-probe`, id `11701494421`, digest ZIP `sha256:466006cb7a499efff354e7f4425aface044440218bdb9a20a1550a3fe079e049`.
+- Os `robots.txt` dos três domínios retornaram HTTP 200; as páginas institucionais e consultas da API passaram sem falhas.
+- A faceta de provedor (`0/KAVI/`) exibiu **178.770 metadados heterogêneos**, enquanto a interseção com `0/Video/` confirmou **138.377 registros audiovisuais indexados** naquele snapshot. Os totais podem variar e não devem ser tratados como inventário físico nem registros já coletados.
+- Os IDs **`kavi.elonet_elokuva_116776`** (*Linnaisten vihreä kamari*) e **`kavi.elonet_elokuva_117264`** (*Koskenlaskijan morsian*) foram extraídos da amostra filtrada e consultados individualmente pelo endpoint documentado `/v1/record`. **2/2** consultas retornaram exatamente o ID solicitado e metadados de filme longo, com indicativo de presença de `onlineUrls`.
+- Essas respostas confirmam uma rota de **fichas filmográficas públicas** associadas ao catálogo Elonet; não afirmam propriedade, preservação de uma cópia física, cessão de direitos ou acesso legítimo de download aos vídeos.
+- Gate da sonda: `investigate_kavi_provider_scope_and_batch_enumeration`. `staged_collector_authorized=false`, `individual_film_records_enumerated=0`, `complete_kavi_catalogue=false` — os dois registros acima são **amostras de verificação**, não um conjunto de produção.
+- O contrato de segurança foi reforçado após review P2: falhas durante streaming geram erro auditável, HTTP 200 não HTML/challenge é rejeitado e não se transforma em falsa validação.
+
+### Próxima fase da análise nº 82
+
+Implementar **coletor staged de metadados** em PR separado, mas apenas após pré-registro do escopo e esquema de origem. A fonte oficial documenta `resumptionToken` para grandes conjuntos, cujo snapshot inclui pelo menos 138.377 registros de vídeo. O coletor deverá:
+
+1. Iniciar busca com os códigos `building` e `format` capturados da própria API (não hardcoded como evidência sem prova).
+2. Iterar o `resumptionToken` com limites de requisições, janela de snapshot, deduplicação, checkpoint sem conter segredo e detecção de ciclos, expirados, erros e inconsistência de totais; interromper fail-closed se não houver fechamento reprodutível.
+3. Validar em amostra determinística as fichas `/v1/record`, origem, `id`, `format`, modalidade de acesso e direitos. Manter claramente distintas `catalogado`, `sob custódia` e `online`.
+4. Incluir somente **metadados e URLs de referência**; **nenhum vídeo/imagem deve ser baixado** pelo pipeline.
+5. Publicar relatório de integridade e submetê-lo ao gate manual antes de qualquer promoção ao corpus ativo.
+
+**A análise nº 82 não está encerrada e a nº 83 não deve iniciar.**
+
 ## Protocolo da sonda
 
 1. Avaliar `robots.txt` antes de qualquer consulta a `kavi.fi`, `elonet.finna.fi` e `api.finna.fi` (e novos hosts de redirecionamento separadamente).
