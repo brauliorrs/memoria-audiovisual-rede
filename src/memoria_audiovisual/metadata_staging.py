@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol
@@ -170,6 +171,8 @@ def stage_metadata(
     *,
     max_pages: int = 1,
     resume: bool = False,
+    request_delay_seconds: float = 0.0,
+    sleep_fn=time.sleep,
 ) -> dict[str, Any]:
     """Stage bounded pages; never publish, merge into MAR, or download media.
 
@@ -178,6 +181,8 @@ def stage_metadata(
     """
     if not isinstance(max_pages, int) or isinstance(max_pages, bool) or max_pages < 1:
         raise ValueError("max_pages_must_be_positive")
+    if not 0 <= request_delay_seconds <= 60:
+        raise ValueError("invalid_request_delay")
     directory = Path(root)
     directory.mkdir(parents=True, exist_ok=True)
     with FileWriteLock(directory / "run", timeout=10):
@@ -213,7 +218,9 @@ def stage_metadata(
         if payload["status"] == "complete":
             return payload
         artifacts = RawArtifactStore(directory / "raw")
-        for _ in range(max_pages):
+        for page_index in range(max_pages):
+            if page_index and request_delay_seconds:
+                sleep_fn(request_delay_seconds)
             incoming = token
             page = source.fetch_page(token)
             new_ids = _valid_page(page, expected_total)
