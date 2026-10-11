@@ -67,6 +67,20 @@ class MetadataStagingTests(unittest.TestCase):
             self.assertEqual(len(source.requests), 2)
             self.assertEqual(len(list((Path(directory) / "raw").rglob("*.json"))), 2)
 
+    def test_request_delay_is_applied_between_pages_only(self):
+        calls = []
+        source = FakeSource({
+            None: page(["a"], 2, "t"),
+            "t": page(["b"], 2, None),
+        }, total=2)
+        with tempfile.TemporaryDirectory() as root:
+            report = stage_metadata(
+                source, root, max_pages=2, request_delay_seconds=0.25,
+                sleep_fn=calls.append,
+            )
+        self.assertEqual(report["status"], "complete")
+        self.assertEqual(calls, [0.25])
+
     def test_checkpoint_exists_requires_explicit_resume(self):
         source = FakeSource({None: page(["a"], 2, "t")}, total=2)
         with tempfile.TemporaryDirectory() as root:
