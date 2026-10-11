@@ -6,7 +6,8 @@ import unittest
 
 from memoria_audiovisual.kavi_elonet_probe import (
     API_ROOT, ELONET_FAQ, FACET_QUERY, HOME, SAMPLE_QUERY,
-    SURFACES, Guard, parse_finna_response, parse_public_page, run_probe,
+    SURFACES, _build_verified_facet_query, _kavi_building_candidates,
+    parse_finna_response, parse_public_page, run_probe,
 )
 
 
@@ -67,6 +68,14 @@ def valid_routes():
             ]}, "records": [],
         }),
     )
+    items[_build_verified_facet_query("0/KAVI/")] = FakeResponse(
+        mime="application/json", text=json.dumps({
+            "status": "OK", "resultCount": 85,
+            "records": [
+                {"id": "kavi.elonet_elokuva_117150", "title": "Film"},
+            ],
+        }),
+    )
     items[SAMPLE_QUERY] = FakeResponse(
         mime="application/json", text=json.dumps({
             "status": "OK", "resultCount": 1,
@@ -89,8 +98,46 @@ class KaviElonetProbeTests(unittest.TestCase):
         self.assertFalse(output["staged_collector_authorized"])
         self.assertEqual(output["individual_film_records_enumerated"], 0)
         self.assertEqual(output["api_probes"][0]["total_claim"], 100)
+        self.assertEqual(
+            output["kavi_facet_resolution"], "one_facet_candidate",
+        )
+        self.assertEqual(
+            output["api_probes"][-1]["probe"],
+            "verified_building_facet_sample",
+        )
+        self.assertEqual(output["api_probes"][-1]["total_claim"], 85)
         self.assertNotIn("resumptionToken", " ".join(session.urls))
         self.assertTrue(all(row["error"] is None for row in output["surfaces"]))
+
+    def test_only_discovered_exact_provider_facet_is_queryable(self):
+        facet = [{"value": "0/KAVI/", "translated": "KAVI", "count": 85},
+                 {"value": "0/KAVIKIRJASTO/", "translated": "Other", "count": 10},
+                 {"value": "0/KUVI/", "translated": "Kuvi", "count": 20}]
+        matches = _kavi_building_candidates(facet)
+        self.assertEqual([v["value"] for v in matches], ["0/KAVI/", "0/KUVI/"])
+        url = _build_verified_facet_query("0/KAVI/")
+        self.assertIn("filter%5B%5D=building", url)
+        self.assertIn("0%2FKAVI%2F", url)
+        with self.assertRaisesRegex(ValueError, "unsafe_facet_code"):
+            _build_verified_facet_query('KAVI" OR *')
+
+    def test_ambiguous_legacy_and_successor_facets_do_not_guess_a_filter(self):
+        routes = valid_routes()
+        routes[FACET_QUERY] = FakeResponse(
+            mime="application/json", text=json.dumps({
+                "status": "OK", "resultCount": 120,
+                "records": [],
+                "facets": {"building": [
+                    {"value": "0/KAVI/", "translated": "KAVI", "count": 85},
+                    {"value": "0/KUVI/", "translated": "Kuvi", "count": 35},
+                ]},
+            }),
+        )
+        session = FakeSession(routes)
+        result = run_probe(session)
+        self.assertEqual(result["kavi_facet_resolution"], "ambiguous_multiple")
+        self.assertEqual(len(result["api_probes"]), 2)
+        self.assertFalse(result["staged_collector_authorized"])
 
     def test_unverifiable_api_robots_fails_closed_without_api_request(self):
         routes = valid_routes()
