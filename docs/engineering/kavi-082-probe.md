@@ -10,6 +10,21 @@
 - Documentação oficial da [API Finna](https://www.kiwi.fi/spaces/Finna/pages/53839221/Finna%2BAPI%2Bin%2BEnglish).
 - [Termos da API](https://www.kiwi.fi/spaces/Finna/pages/53839699/Finna%2BAPI%2BTerms%2Bof%2BUse): metadados CC0; mídias associadas e respectivos direitos não são automaticamente liberados.
 
+### Continuidade institucional (2026)
+
+Desde **1º de janeiro de 2026**, o National Audiovisual Institute (KAVI) e o Arts Promotion Centre Finland (Taike) foram unificados na **Finnish Arts and Culture Agency (Kuvi / Taide- ja kulttuurivirasto)**. A página oficial https://kavi.fi/en/about-kavi/ confirma a continuidade integral das atividades e a permanência dos sites e serviços. O identificador histórico `fiaf-kavi` continua válido para a análise da fila: não se criará uma entrada nova ou um segundo corpus apenas por mudança administrativa. A descoberta das facetas considera tanto KAVI como Kuvi, mas não mistura suas contagens sem prova de relação.
+
+### Primeiro probe vivo (antes de filtro de provedor)
+
+- CI `#38137767376`; artefato `kavi-elonet-probe`, id `11702041701`, ZIP sha256 `49f72736c796631675b37cddcaf188b0bf8678aaa4e1d9951c9cf1b5c331d66f`.
+- `robots.txt` avaliados e válidos separadamente em `kavi.fi`, `elonet.finna.fi` e `api.finna.fi`.
+- Páginas oficiais e duas consultas leves de API: **HTTP 200**, JSON válido.
+- A primeira consulta respondeu com `resultCount=19.742.685`, que corresponde ao **índice Finna geral, não ao KAVI**. Reportou 236 entradas no facet `building`; o artefato inicial reteve apenas as primeiras 20 para inspeção.
+- A consulta limitada pelo título `Salaviinanpolttajat` retornou identificadores `kavi.elonet_elokuva_117150` e `kavi.elonet_elokuva_1582895`, ambos classificados como vídeo/curta no retorno. O total de resultados da busca não é contagem de filmes do instituto nem de itens sob custódia.
+- Gate inicial `investigate_kavi_provider_scope_and_batch_enumeration`; **0 registros incorporados**.
+
+O segundo probe passa a procurar as facetas de construção institucional por seus rótulos e códigos **efetivamente retornados pela API** (KAVI / Kuvi), sem inventar filtros. Somente se houver **exatamente uma** faceta inequívoca, é feita uma amostra filtrada limitada a três registros. Se houver facetas múltiplas, os códigos são registrados e nenhuma hipótese de soma ou união é aplicada. O processo continua sem `resumptionToken` nesta etapa.
+
 ## Critérios de prova
 
 Elonet publica filmografia e serviços VOD. O instituto informa que a base inclui títulos cujo uso audiovisual **não pertence** ao KAVI. Por isso, três conjuntos não podem ser tratados como equivalentes: filmes catalogados, filmes preservados sob custódia do instituto e filmes disponíveis para visualização online.
