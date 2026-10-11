@@ -162,7 +162,13 @@ class FinnaMetadataSource:
             raise StageRejected("finna_records_not_list")
         next_token = data.get("resumptionToken") or None
         if next_token is not None and not isinstance(next_token, str):
-            raise StageRejected("invalid_resumption_token")
+            # Only shape information is safe for logs; never reveal the token.
+            descriptor = type(next_token).__name__
+            if isinstance(next_token, dict):
+                descriptor += ":" + ",".join(
+                    sorted(str(k) for k in next_token if isinstance(k, str))
+                )[:120]
+            raise StageRejected("invalid_resumption_token_shape:" + descriptor)
         normalized: list[dict[str, Any]] = []
         for raw in records:
             if not isinstance(raw, dict):
