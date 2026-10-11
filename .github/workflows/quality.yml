@@ -386,6 +386,26 @@ jobs:
             data/output/observatorio_proximos_candidatos_inclusao.json
           if-no-files-found: error
 
+      - name: Validate KAVI Elonet public metadata probe contract
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/kavi_elonet_probe.py \
+            scripts/probe_kavi_elonet.py \
+            tests/test_kavi_elonet_probe.py
+          python -m unittest discover -s tests -p 'test_kavi_elonet_probe.py' -v
+
+      - name: Probe KAVI Elonet and documented Finna API
+        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/kavi-elonet-probe-v1'
+        run: python scripts/probe_kavi_elonet.py
+
+      - name: Upload KAVI Elonet probe artifact
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/kavi-elonet-probe-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: kavi-elonet-probe
+          path: data/output/kavi_elonet_probe.json
+          if-no-files-found: error
+
       - name: Validate Jugoslovenska Kinoteka technical probe contract
         run: |
           ruff check --select E9,F63,F7,F82 \
