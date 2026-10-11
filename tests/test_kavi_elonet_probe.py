@@ -133,19 +133,18 @@ class KaviElonetProbeTests(unittest.TestCase):
             output["kavi_facet_resolution"], "one_facet_candidate",
         )
         self.assertEqual(
-            output["api_probes"][-2]["probe"],
-            "verified_building_facet_sample",
+            [row["probe"] for row in output["api_probes"]],
+            [
+                "building_facet",
+                "documented_title_sample",
+                "verified_building_facet_sample",
+                "verified_building_and_video_sample",
+                "verified_individual_film_metadata",
+            ],
         )
-        self.assertEqual(output["api_probes"][-2]["total_claim"], 85)
-        self.assertEqual(
-            output["api_probes"][-1]["probe"], "verified_building_and_video_sample",
-        )
-        self.assertEqual(output["api_probes"][-2]["total_claim"], 12490)
-        self.assertEqual(
-            output["api_probes"][-1]["probe"],
-            "verified_individual_film_metadata",
-        )
-        self.assertEqual(output["api_probes"][-1]["returned_records"], 1)
+        self.assertEqual(output["api_probes"][2]["total_claim"], 85)
+        self.assertEqual(output["api_probes"][3]["total_claim"], 12490)
+        self.assertEqual(output["api_probes"][4]["returned_records"], 1)
         self.assertNotIn("resumptionToken", " ".join(session.urls))
         self.assertTrue(all(row["error"] is None for row in output["surfaces"]))
 
