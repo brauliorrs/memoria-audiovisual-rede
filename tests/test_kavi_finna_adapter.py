@@ -88,7 +88,7 @@ def routes():
     r[first_url] = Response({
         "status": "OK", "resultCount": 3,
         "records": [film("kavi.elonet_elokuva_1"), film("kavi.elonet_elokuva_2")],
-        "resumptionToken": "opaque-next",
+        "resumptionToken": {"token": "opaque-next", "expires": "2030-01-01T00:00:00Z"},
     })
     r[continuation] = Response({
         "status": "OK", "resultCount": 3,
@@ -127,6 +127,35 @@ class FinnaAdapterTests(unittest.TestCase):
             self.assertFalse(row["media_downloaded"])
             self.assertNotIn("onlineUrls", row)
             self.assertTrue(row["online_url_metadata_present"])
+
+    def test_finna_cursor_is_object_not_scalar(self):
+        for malformed in (
+            "opaque-scalar",
+            {"expires": "2030-01-01T00:00:00Z"},
+            {"token": 123, "expires": "2030-01-01T00:00:00Z"},
+        ):
+            with self.subTest(malformed_type=type(malformed).__name__):
+                r = routes()
+                p = FinnaMetadataSource(Session(r), scope())
+                r[p._verified_query()] = Response({
+                    "status": "OK", "resultCount": 3,
+                    "records": [film("kavi.elonet_elokuva_1")],
+                    "resumptionToken": malformed,
+                })
+                with tempfile.TemporaryDirectory() as root:
+                    with self.assertRaisesRegex(StageRejected, "resumption_token"):
+                        stage_metadata(p, root)
+        r = routes()
+        p = FinnaMetadataSource(Session(r), scope())
+        r[p._verified_query()] = Response({
+            "status": "OK", "resultCount": 0, "records": [],
+            "resumptionToken": {"token": "", "expires": "2030-01-01T00:00:00Z"},
+        })
+        r[p._verified_query(count_only=True)] = Response({
+            "status": "OK", "resultCount": 0, "records": [],
+        })
+        with tempfile.TemporaryDirectory() as root:
+            self.assertEqual(stage_metadata(p, root)["status"], "complete")
 
     def test_scope_from_preregistration_is_required(self):
         with self.assertRaisesRegex(ValueError, "unapproved_finna_scope"):
