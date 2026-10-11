@@ -22,6 +22,7 @@ HOME = "https://kavi.fi/en/film/"
 ELONET_FAQ = "https://elonet.finna.fi/Content/faq?lng=en-gb"
 ELONET_FILMOGRAPHY = "https://elonet.finna.fi/Content/filmography"
 API_ROOT = "https://api.finna.fi/v1/search"
+API_RECORD_ROOT = "https://api.finna.fi/v1/record"
 ALLOWED_HOSTS = frozenset({
     "kavi.fi", "www.kavi.fi", "elonet.finna.fi",
     "kavi.finna.fi", "api.finna.fi",
@@ -223,6 +224,17 @@ def _build_verified_facet_query(facet_code: str) -> str:
         ("lookfor", ""), ("limit", "3"),
         ("filter[]", f'building:"{facet_code}"'),
     ])
+
+
+def _verified_record_url(record_id: str) -> str:
+    """Follow a film ID returned by Finna, never enumerate guessed IDs."""
+    if not isinstance(record_id, str) or not record_id.startswith(
+        "kavi.elonet_elokuva_"
+    ):
+        raise ValueError("record_id_not_verified_kavi_film")
+    if len(record_id) > 140 or not record_id.replace(".", "").replace("_", "").isalnum():
+        raise ValueError("unsafe_record_identifier")
+    return API_RECORD_ROOT + "?" + urlencode({"id": record_id})
 
 
 def _video_format_candidates(record_rows: list[dict[str, Any]]) -> list[str]:
@@ -439,6 +451,39 @@ def run_probe(session: requests.Session | None = None) -> dict[str, Any]:
                 elif not video_response.error:
                     video_row["error"] = "api_non_json_content"
                 report["api_probes"].append(video_row)
+                # Two anchored, documented record lookups verify semantics
+                # without downloading media or traversing record ID ranges.
+                record_ids = video_row.get("record_id_sample", [])
+                filtered_ids = [
+                    item for item in record_ids
+                    if isinstance(item, str)
+                    and item.startswith("kavi.elonet_elokuva_")
+                ]
+                for record_id in filtered_ids[:2]:
+                    record_url = _verified_record_url(record_id)
+                    fetched = guard.get(record_url)
+                    item_row: dict[str, Any] = {
+                        "probe": "verified_individual_film_metadata",
+                        "requested_url": record_url,
+                        "final_url": fetched.final,
+                        "status": fetched.status,
+                        "error": fetched.error,
+                        "source_result_id": record_id,
+                    }
+                    if not fetched.error and "json" in fetched.mime.lower():
+                        try:
+                            record_data = parse_finna_response(fetched.text)
+                            if (
+                                record_data["returned_records"] != 1
+                                or record_data["record_id_sample"] != [record_id]
+                            ):
+                                raise ValueError("record_lookup_id_mismatch")
+                            item_row.update(record_data)
+                        except ValueError as ex:
+                            item_row["error"] = str(ex)
+                    elif not fetched.error:
+                        item_row["error"] = "api_non_json_content"
+                    report["api_probes"].append(item_row)
     if any(row["error"] for row in report["api_probes"]):
         report["gate_assessment"] = "hold_finna_api_unverifiable"
     elif any(row["error"] for row in report["surfaces"]):
