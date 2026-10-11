@@ -41,6 +41,15 @@ A etapa seguinte só poderá realizar enumeração em lotes quando identificar e
 - A busca por `Salaviinanpolttajat` retornou registros `kavi.elonet_elokuva_*` classificados como **Video** (código exibido `0/Video/`). Uma nova consulta exploratória de tamanho 3 combinará **os códigos institucionais e de formato que a API efetivamente retornou**, sem adivinhação.
 - A verificação de `robots.txt` de `kavi.fi` respondeu **HTTP 202** nesta segunda execução, tornando a auditoria da página obrigatória inconclusiva; os outros dois robots foram avaliados e as consultas à API e Elonet permaneceram acessíveis. Isso não autoriza forçar o acesso ou declarar o gate institucional plenamente verificado.
 
+### Terceira execução viva — interseção institucional × vídeo
+
+- CI `#38138289285`; artefato `kavi-elonet-probe`, id `11702047663`, digest ZIP `sha256:6c373394b1ae8dcbc95fb02526e6aa15b1ba0266249a1700e999fd7629302513`.
+- `robots.txt` de **todos os três hosts respondeu HTTP 200**, e as páginas exigidas foram auditadas sem falhas.
+- O filtro observado da API `building:"0/KAVI/" AND format:"0/Video/"` apresentou `resultCount=138.377`, **contagem de registros classificados como vídeo dentro da fonte KAVI/Kuvi**, não de filmes físicos sob custódia ou vídeos disponíveis para uso irrestrito.
+- Os primeiros três registros são `kavi.elonet_elokuva_116776`, `...117264` e `...101090`, classificados como longas-metragens. O campo `onlineUrls` estava presente nessa amostra, sem autorização para capturar a mídia.
+- O próximo gate faz consultas **individuais** ao método de leitura `/v1/record?id=<ID>` documentado na API, usando somente identificadores efetivamente retornados na amostra filtrada, verificando que cada resposta corresponde ao ID solicitado. Essa leitura não estabelece direitos de uso e não inicia enumeração massiva.
+- A API documenta `resumptionToken` para paginação além do limite de 100 mil resultados da paginação tradicional. A sonda inicial não o aciona; deverá ser usado em etapa específica com controle de integridade, volume, truncamento e proveniência.
+
 ## Protocolo da sonda
 
 1. Avaliar `robots.txt` antes de qualquer consulta a `kavi.fi`, `elonet.finna.fi` e `api.finna.fi` (e novos hosts de redirecionamento separadamente).
