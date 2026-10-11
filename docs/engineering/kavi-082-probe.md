@@ -33,6 +33,14 @@ A Finna documenta `/v1/search`, `facet[]` e, para grandes conjuntos, a paginaç�
 
 A etapa seguinte só poderá realizar enumeração em lotes quando identificar e demonstrar um filtro **oficial/documentado e reprodutível** que limite o conjunto a fichas da instituição KAVI, separando formato audiovisual de registros de biblioteca, autoridade e material não fílmico. A origem KAVI no índice não estabelece por si posse de direitos de vídeo.
 
+### Segundo probe vivo — faceta institucional comprovada
+
+- CI `#38138032167`; artefato `kavi-elonet-probe`, id `11702067099`, digest ZIP `sha256:d775aae566ea0c7f89e9aca070493617fee1e115ca9170b9d3f1ab48c3c36bf1`.
+- A API respondeu **HTTP 200** e identificou exatamente uma faceta `building` relacionada à continuidade KAVI/Kuvi: **`0/KAVI/`**, nome apresentado `Taide- ja kulttuurivirasto`, total anunciado **178.770 registros**.
+- O filtro específico foi produzido **a partir desse código observado** e funcionou, retornando três registros de exemplo. O primeiro conjunto amostrado contém **livros** (`kavi_kirjasto.*`), demonstrando empiricamente que os 178.770 registros não são exclusivamente filmes.
+- A busca por `Salaviinanpolttajat` retornou registros `kavi.elonet_elokuva_*` classificados como **Video** (código exibido `0/Video/`). Uma nova consulta exploratória de tamanho 3 combinará **os códigos institucionais e de formato que a API efetivamente retornou**, sem adivinhação.
+- A verificação de `robots.txt` de `kavi.fi` respondeu **HTTP 202** nesta segunda execução, tornando a auditoria da página obrigatória inconclusiva; os outros dois robots foram avaliados e as consultas à API e Elonet permaneceram acessíveis. Isso não autoriza forçar o acesso ou declarar o gate institucional plenamente verificado.
+
 ## Protocolo da sonda
 
 1. Avaliar `robots.txt` antes de qualquer consulta a `kavi.fi`, `elonet.finna.fi` e `api.finna.fi` (e novos hosts de redirecionamento separadamente).
