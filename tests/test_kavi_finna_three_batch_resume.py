@@ -122,6 +122,25 @@ class ThreeBatchProbeTests(unittest.TestCase):
             self.assertEqual(source.requests, [None])
             self.assertEqual(source.preflight_count, 1)
 
+    def test_naive_expiry_remains_hold_without_second_request(self):
+        # Regression for live CI #2009: undocumented timezone must not
+        # be interpreted as UTC or Helsinki local time.
+        source = FakeSource(expiry="2030-01-01T00:00:00")
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(
+                StageRejected, "resume_cursor_expiration_timezone_missing"
+            ):
+                self.probe(source, folder)
+            self.assertEqual(source.requests, [None])
+            self.assertEqual(source.preflight_count, 1)
+
+    def test_explicit_timezone_offset_is_accepted(self):
+        source = FakeSource(expiry="2030-01-01T02:00:00+02:00")
+        with tempfile.TemporaryDirectory() as folder:
+            result, _ = self.probe(source, folder)
+            self.assertTrue(result["resumption_verified_across_batches"])
+            self.assertEqual(source.requests, [None, "opaque-1", "opaque-2"])
+
     def test_count_drift_aborts_without_fetching_second_page(self):
         source = FakeSource(drift_on_call=2)
         with tempfile.TemporaryDirectory() as folder:
