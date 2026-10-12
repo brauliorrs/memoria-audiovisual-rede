@@ -81,7 +81,10 @@ class FinnaMetadataSource:
     """Public metadata only; no media fetch and no downstream publication."""
 
     def __init__(self, session: requests.Session, scope: FinnaScope):
-        self.guard = Guard(session)
+        # Finna's 200-record metadata pages can exceed the introductory
+        # HTML probe's 2 MB limit. Cap JSON streaming at 8 MiB per request;
+        # only the adapter opts in, and no video/image URLs are fetched.
+        self.guard = Guard(session, max_body_bytes=8 * 1024 * 1024)
         self._scope = scope
         self._total: int | None = None
 
