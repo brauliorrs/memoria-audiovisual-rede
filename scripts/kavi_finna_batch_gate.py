@@ -26,6 +26,7 @@ def verify_resume_expiration(
     *,
     now: datetime | None = None,
     safety_margin_seconds: float = 30.0,
+    expected_token: str | None = None,
 ) -> datetime | None:
     """Check the *source-provided* expiration of a checkpoint's next cursor.
 
@@ -74,6 +75,7 @@ def verify_resume_expiration(
         or not isinstance(normalized_cursor, str)
         or not normalized_cursor
         or source_cursor.get("token") != normalized_cursor
+        or (expected_token is not None and normalized_cursor != expected_token)
     ):
         raise StageRejected("resume_source_cursor_mismatch")
     expires = source_cursor.get("expires")
@@ -149,6 +151,13 @@ def execute_verified_batch(
     staged = stage_metadata(
         source, directory, max_pages=max_pages, resume=resume,
         request_delay_seconds=delay_seconds, sleep_fn=sleep_fn,
+        # Executed by the generic staging runner WITHIN FileWriteLock,
+        # immediately before EVERY continuation request. This closes both
+        # the inter-process resume race and the within-batch expiry gap.
+        before_fetch=lambda token: verify_resume_expiration(
+            directory, expected_token=token, now=now_fn(),
+            safety_margin_seconds=expiry_margin_seconds,
+        ),
     )
     if expected_total is not None and staged["expected_total"] != expected_total:
         raise StageRejected("batch_expected_total_mismatch")
