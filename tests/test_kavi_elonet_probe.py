@@ -11,7 +11,7 @@ from memoria_audiovisual.kavi_elonet_probe import (
     SURFACES, _build_verified_facet_query, _build_verified_video_query,
     _verified_record_url,
     _kavi_building_candidates, _video_format_candidates,
-    parse_finna_response, parse_public_page, run_probe,
+    Guard, parse_finna_response, parse_public_page, run_probe,
 )
 
 
@@ -309,6 +309,25 @@ class KaviElonetProbeTests(unittest.TestCase):
         self.assertTrue(parsed["same_origin_links_sample"][0].startswith(
             "https://elonet.finna.fi/"
         ))
+
+    def test_metadata_guard_response_size_cap_is_bounded_and_opt_in(self):
+        url = "https://api.finna.fi/v1/search"
+        routes = {
+            "https://api.finna.fi/robots.txt": FakeResponse(
+                text=ROBOTS, mime="text/plain",
+            ),
+            url: FakeResponse(text="x" * 256, mime="application/json"),
+        }
+        small = Guard(FakeSession(routes), max_body_bytes=128).get(url)
+        self.assertEqual(small.error, "body_size_limit")
+        allowed = Guard(FakeSession(routes), max_body_bytes=512).get(url)
+        self.assertIsNone(allowed.error)
+        self.assertEqual(len(allowed.text), 256)
+        for invalid in (0, -1, True, 8 * 1024 * 1024 + 1):
+            with self.subTest(invalid=invalid), self.assertRaisesRegex(
+                ValueError, "invalid_metadata_response_size_cap"
+            ):
+                Guard(FakeSession(routes), max_body_bytes=invalid)
 
     def test_only_documented_readonly_api_endpoint_used(self):
         self.assertTrue(FACET_QUERY.startswith(API_ROOT + "?"))
