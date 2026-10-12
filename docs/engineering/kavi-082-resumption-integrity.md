@@ -27,6 +27,8 @@ Até a confirmação explícita de `resumption_verified=true` em nova evidência
 5. Apresentar contagens de `film_candidate` versus outros vídeos e de formatos `0/Video/` não confirmados nos registros da amostra. Esses números são diagnósticos; não equivalem à promoção de fichas individuais.
 6. Gerar SHA-256 da sequência observada de IDs, sem publicá-los. Não disponibilizar links diretos de mídia, tokens de retomada ou conteúdo integral das páginas de resposta.
 
+O ensaio vivo aplica uma pausa explícita de **1 segundo entre os dois lotes**, inclusive quando `stage_metadata` é chamada duas vezes com `max_pages=1`, pois o throttling interno só funciona dentro da mesma invocação. O intervalo é injetável em testes e não altera a sequência de tokens nem os controles de acesso.
+
 ## Condições para continuação da análise nº 82
 
 - Se o segundo lote falhar, preservar o gate de staging parcial e classificar a causa. Nunca contornar `robots.txt`, alterar o cursor arbitrariamente ou pular páginas.
