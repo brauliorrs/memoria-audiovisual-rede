@@ -223,5 +223,57 @@ class FinnaBoundedBatchTests(unittest.TestCase):
         self.assertEqual(err.exception.code, 2)
 
 
+    def test_within_batch_cursor_expires_before_second_fetch(self):
+        source = FakeSource(expires="2020-01-01T00:00:00Z")
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(StageRejected, "expired_or_too_close"):
+                run(source, folder, max_pages=2, sleep_fn=lambda _: None)
+            # The first page is saved, but an expired continuation is never used.
+            self.assertEqual(source.fetches, [None])
+            stored = json.loads((Path(folder) / "checkpoint.json").read_text())
+            self.assertEqual(stored["record_count"], 2)
+            self.assertEqual(stored["status"], "partial")
+
+    def test_within_batch_cursor_mismatch_never_fetched(self):
+        source = FakeSource(source_token="wrong-response-cursor")
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(StageRejected, "source_cursor_mismatch"):
+                run(source, folder, max_pages=2, sleep_fn=lambda _: None)
+            self.assertEqual(source.fetches, [None])
+
+    def test_cursor_rechecked_after_resume_throttle_with_current_clock(self):
+        source = FakeSource(expires="2026-10-12T08:01:00Z")
+        with tempfile.TemporaryDirectory() as folder:
+            run(source, folder)
+            clocks = iter([NOW, datetime(2026, 10, 12, 8, 0, 40, tzinfo=timezone.utc)])
+            with self.assertRaisesRegex(StageRejected, "expired_or_too_close"):
+                execute_verified_batch(
+                    source, folder, resume=True, expected_total=3,
+                    now_fn=lambda: next(clocks), sleep_fn=lambda _: None,
+                )
+            self.assertEqual(source.fetches, [None])
+
+    def test_changed_checkpoint_during_resume_pause_is_restored_under_lock(self):
+        source = FakeSource()
+        other = FakeSource()
+        with tempfile.TemporaryDirectory() as folder:
+            run(source, folder)
+
+            def another_writer_during_pause(_seconds):
+                # Deterministically simulate another cooperative process
+                # completing the checkpoint while this runner is paused.
+                from memoria_audiovisual.metadata_staging import stage_metadata
+                stage_metadata(other, folder, resume=True, max_pages=1)
+
+            result = run(
+                source, folder, resume=True, expected_total=3,
+                sleep_fn=another_writer_during_pause,
+            )
+            self.assertEqual(result["status"], "complete")
+            self.assertEqual(source.fetches, [None])
+            self.assertEqual(other.fetches, ["secret-next-token"])
+
+
+
 if __name__ == "__main__":
     unittest.main()
