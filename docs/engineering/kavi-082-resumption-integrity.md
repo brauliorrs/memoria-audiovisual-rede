@@ -16,7 +16,19 @@ A sonda de duas páginas foi iniciada, mas **não chegou à segunda página** na
 
 Ajuste limitado ao adaptador KAVI/Finna: `Guard(session, max_body_bytes=8 * 1024 * 1024)`, com streaming e interrupção acima de **8 MiB**, mantendo **2 MB** como teto padrão dos probes institucionais. Regressões comprovam o limite e impedem configuração ilimitada. Não foram removidos os controles de MIME, `robots.txt`, escopo, cursor, direitos ou IDs.
 
-Até a confirmação explícita de `resumption_verified=true` em nova evidência CI, a continuação real permanece **não comprovada** e nenhum merge ou incorporação de metadados desta etapa está autorizado.
+A confirmação ocorreu na execução viva descrita abaixo. A incorporação de metadados ao corpus principal permanece **não autorizada**, porque a enumeração integral e o gate humano ainda não foram concluídos.
+
+## Evidência viva — continuação real de duas páginas
+
+- GitHub Actions **Quality Checks #38189112168**, HEAD validado `cff46e3f05def11accc81c6e3c69f027d1a920c9`.
+- Artefato público `kavi-finna-two-page-public-probe`, id **11720539255**, ZIP SHA-256 `f25911987133fb50820b0e6072f9d15985892d78ca3535e1082937248d854356`.
+- A API retornou contagem de escopo `expected_total=138379` para os filtros KAVI/Kuvi × vídeo; esta contagem é uma fotografia temporal, não uma afirmação de patrimônio sob custódia.
+- Primeira página: **200** registros, `status=partial`. Segunda chamada usando o token retornado: **400** registros acumulados, `page_count=2`, `resumption_verified=true`, `status=partial`.
+- Auditoria: **399** IDs de `film_candidate`, **1** outro vídeo, **0** registros sem formato `0/Video/` confirmado, **0** registros com custódia estabelecida e **0** com direitos de mídia verificados.
+- SHA-256 da sequência das 400 identificações (sem divulgar IDs): `8f96abb10a17c8f78c47a00af9f29016b4316c923cdfad37b38f94cd220107ea`.
+- Nenhum token, registro bruto ou URL de mídia está no artefato público. `promotion_authorized=false` e `media_downloaded=false`. O diretório de staging do job foi descartado ao final da execução.
+
+**Gate alcançado:** validação real de continuação e replay de duas páginas, com integridade e proveniência metodológica; **não é** enumeração integral dos 138.379 registros nem verificação de custódia/direitos individuais.
 
 ## Gates reforçados
 
