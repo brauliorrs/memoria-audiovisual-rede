@@ -417,24 +417,12 @@ jobs:
             tests/test_kavi_finna_three_batch_resume.py
           python -m unittest discover -s tests -p 'test_kavi_finna_three_batch_resume.py' -v
 
-      # Explicit branch gate: three pages maximum, one per resumed call.
-      # Raw metadata and opaque tokens are discarded with TemporaryDirectory.
-      - name: Probe live KAVI Finna three bounded checkpoint batches (no media)
-        if: github.event_name == 'pull_request' && github.head_ref == 'corpus/kavi-finna-three-batch-resume-v1'
-        run: |
-          mkdir -p data/output
-          python scripts/probe_kavi_finna_three_batch_resume.py \
-            --evidence-sha256 466006cb7a499efff354e7f4425aface044440218bdb9a20a1550a3fe079e049 \
-            --execute > data/output/kavi_finna_three_batch_public.json
-          python -m json.tool data/output/kavi_finna_three_batch_public.json
-
-      - name: Upload redacted KAVI Finna three-batch checkpoint report
-        if: always() && github.event_name == 'pull_request' && github.head_ref == 'corpus/kavi-finna-three-batch-resume-v1'
-        uses: actions/upload-artifact@v4
-        with:
-          name: kavi-finna-three-batch-redacted-probe
-          path: data/output/kavi_finna_three_batch_public.json
-          if-no-files-found: warn
+      # KAVI #82 HOLD (2026-10-12): no live three-batch probe on PR updates.
+      # The public API currently emits an expires datetime without timezone;
+      # authoritative timezone semantics have not been confirmed. Do NOT
+      # re-enable --execute here until the provider confirms interpretation,
+      # regression tests are added, and the live gate is re-authorized.
+      # Offline tests above remain active in CI.
 
       - name: Validate KAVI Finna metadata staging and shared primitives
         run: |
