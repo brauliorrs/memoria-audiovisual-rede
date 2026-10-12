@@ -103,6 +103,35 @@ class MetadataStagingTests(unittest.TestCase):
             with self.assertRaisesRegex(StageRejected, "scope_payload_tampered"):
                 stage_metadata(source, root, resume=True)
 
+    def test_checkpoint_safety_flags_must_remain_false(self):
+        for key, expected in (
+            ("promotion_authorized", "checkpoint_promotion_gate_tampered"),
+            ("media_downloaded", "checkpoint_media_download_gate_tampered"),
+        ):
+            with self.subTest(key=key):
+                source = FakeSource({None: page(["a"], 2, "next")}, total=2)
+                with tempfile.TemporaryDirectory() as root:
+                    stage_metadata(source, root)
+                    path = Path(root) / "checkpoint.json"
+                    payload = json.loads(path.read_text(encoding="utf-8"))
+                    payload[key] = True
+                    path.write_text(json.dumps(payload), encoding="utf-8")
+                    with self.assertRaisesRegex(StageRejected, expected):
+                        stage_metadata(source, root, resume=True)
+
+    def test_each_page_next_cursor_hash_is_rechecked_on_resume(self):
+        source = FakeSource({None: page(["a"], 2, "next")}, total=2)
+        with tempfile.TemporaryDirectory() as root:
+            stage_metadata(source, root)
+            path = Path(root) / "checkpoint.json"
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            payload["pages"][0]["next_cursor_sha256"] = "f" * 64
+            path.write_text(json.dumps(payload), encoding="utf-8")
+            with self.assertRaisesRegex(
+                StageRejected, "checkpoint_page_next_cursor_hash_mismatch"
+            ):
+                stage_metadata(source, root, resume=True)
+
     def test_missing_checkpoint_cannot_claim_resume(self):
         with tempfile.TemporaryDirectory() as root:
             with self.assertRaisesRegex(StageRejected, "checkpoint_missing"):

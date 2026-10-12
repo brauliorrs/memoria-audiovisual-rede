@@ -101,6 +101,10 @@ def _restore(
         raise StageRejected("checkpoint_scope_payload_tampered")
     if payload.get("expected_total") != total:
         raise StageRejected("checkpoint_total_drift")
+    if payload.get("promotion_authorized") is not False:
+        raise StageRejected("checkpoint_promotion_gate_tampered")
+    if payload.get("media_downloaded") is not False:
+        raise StageRejected("checkpoint_media_download_gate_tampered")
     pages = payload.get("pages")
     if not isinstance(pages, list):
         raise StageRejected("checkpoint_pages_invalid")
@@ -139,6 +143,9 @@ def _restore(
         input_hash = _digest(token if token is not None else "*")
         if input_hash != entry.get("input_cursor_sha256"):
             raise StageRejected("checkpoint_cursor_chain_mismatch")
+        next_cursor_hash = _digest(next_token) if next_token is not None else None
+        if entry.get("next_cursor_sha256") != next_cursor_hash:
+            raise StageRejected("checkpoint_page_next_cursor_hash_mismatch")
         if seen.intersection(ids):
             raise StageRejected("checkpoint_duplicate_cross_page")
         seen.update(ids)

@@ -67,8 +67,17 @@ class Fetch:
 
 
 class Guard:
-    def __init__(self, session: requests.Session):
+    def __init__(
+        self, session: requests.Session, *, max_body_bytes: int = LIMIT_BYTES,
+    ):
+        if (
+            isinstance(max_body_bytes, bool)
+            or not isinstance(max_body_bytes, int)
+            or not 1 <= max_body_bytes <= 8 * 1024 * 1024
+        ):
+            raise ValueError("invalid_metadata_response_size_cap")
         self.session = session
+        self.max_body_bytes = max_body_bytes
         self.evidence: dict[str, dict[str, Any]] = {}
         self.rules: dict[str, str] = {}
 
@@ -140,7 +149,7 @@ class Guard:
                                  "non_success_http_status")
                 mime = r.headers.get("content-type", "")
                 length = r.headers.get("content-length")
-                if length and length.isdigit() and int(length) > LIMIT_BYTES:
+                if length and length.isdigit() and int(length) > self.max_body_bytes:
                     return Fetch(requested, url, status, "",
                                  "body_size_limit", mime)
                 # Stream just enough bytes; no unbounded download.
@@ -148,7 +157,7 @@ class Guard:
                 try:
                     for chunk in r.iter_content(65536):
                         body.extend(chunk)
-                        if len(body) > LIMIT_BYTES:
+                        if len(body) > self.max_body_bytes:
                             return Fetch(requested, url, status, "",
                                          "body_size_limit", mime)
                 except (requests.RequestException, OSError, EOFError) as ex:

@@ -81,7 +81,10 @@ class FinnaMetadataSource:
     """Public metadata only; no media fetch and no downstream publication."""
 
     def __init__(self, session: requests.Session, scope: FinnaScope):
-        self.guard = Guard(session)
+        # Finna's 200-record metadata pages can exceed the introductory
+        # HTML probe's 2 MB limit. Cap JSON streaming at 8 MiB per request;
+        # only the adapter opts in, and no video/image URLs are fetched.
+        self.guard = Guard(session, max_body_bytes=8 * 1024 * 1024)
         self._scope = scope
         self._total: int | None = None
 
@@ -91,8 +94,27 @@ class FinnaMetadataSource:
 
     def _json(self, url: str) -> dict[str, Any]:
         response = self.guard.get(url)
-        if response.error or response.status != 200:
-            raise StageRejected("finna_http_or_robots_unverifiable")
+        if response.error == "robots_or_origin_block":
+            raise StageRejected("finna_robots_or_origin_block")
+        if response.status != 200:
+            code = response.status if isinstance(response.status, int) else "unknown"
+            raise StageRejected(f"finna_http_status_{code}")
+        if response.error:
+            # Finna cursors are URL query parameters. Do not expose the full
+            # Fetch.error value, since requests exceptions can contain URLs.
+            error = response.error
+            if error == "body_size_limit":
+                code = "body_size_limit"
+            elif error.startswith("stream_read_failed"):
+                code = "stream_read_failed"
+            elif error in {
+                "redirect_cycle", "redirect_outside_https_scope",
+                "redirect_budget_exceeded",
+            }:
+                code = error
+            else:
+                code = "transport_unverifiable"
+            raise StageRejected(f"finna_guard_{code}")
         if "json" not in response.mime.lower():
             raise StageRejected("finna_unexpected_content_type")
         try:
