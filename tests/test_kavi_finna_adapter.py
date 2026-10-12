@@ -170,9 +170,23 @@ class FinnaAdapterTests(unittest.TestCase):
         )
         s = Session(r)
         with tempfile.TemporaryDirectory() as root:
-            with self.assertRaisesRegex(StageRejected, "robots_unverifiable"):
+            with self.assertRaisesRegex(StageRejected, "finna_robots_or_origin_block"):
                 stage_metadata(FinnaMetadataSource(s, scope()), root)
         self.assertNotIn(FACET_QUERY, s.urls)
+
+    def test_api_http_status_is_classified_without_leaking_cursor(self):
+        for status in (403, 429, 503):
+            with self.subTest(status=status):
+                routes_map = routes()
+                adapter = FinnaMetadataSource(Session(routes_map), scope())
+                routes_map[adapter._verified_query()] = Response(status=status)
+                with tempfile.TemporaryDirectory() as root:
+                    with self.assertRaisesRegex(
+                        StageRejected, f"finna_http_status_{status}"
+                    ) as captured:
+                        stage_metadata(adapter, root)
+                    self.assertNotIn("resumptionToken", str(captured.exception))
+                    self.assertFalse((Path(root) / "checkpoint.json").exists())
 
     def test_building_drift_blocks_batch(self):
         r = routes()
