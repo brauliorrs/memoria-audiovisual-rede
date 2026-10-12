@@ -93,6 +93,22 @@ class KaviResumeProbeTests(unittest.TestCase):
         self.assertFalse(result["media_downloaded"])
         self.assertNotIn("next-opaque", str(result))
 
+    def test_resumption_boundary_enforces_explicit_throttle(self):
+        calls = []
+        with tempfile.TemporaryDirectory() as tmp:
+            verify_two_pages(
+                Source(), Path(tmp),
+                resume_delay_seconds=1.0,
+                sleep_fn=calls.append,
+            )
+        self.assertEqual(calls, [1.0])
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError, "invalid_resume_delay"):
+                verify_two_pages(
+                    Source(), Path(tmp),
+                    resume_delay_seconds=-1,
+                )
+
     def test_rights_claim_from_unapproved_source_is_rejected(self):
         source = Source(
             second_override=page(
