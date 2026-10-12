@@ -234,5 +234,26 @@ class MetadataStagingTests(unittest.TestCase):
             self.assertEqual(report["status"], "complete")
 
 
+    def test_optional_before_fetch_runs_inside_lock_for_each_continuation(self):
+        source = FakeSource({
+            None: page(["a"], 2, "t"),
+            "t": page(["b"], 2, None),
+        }, total=2)
+        observed = []
+        with tempfile.TemporaryDirectory() as root:
+            def verify(token):
+                self.assertTrue((Path(root) / "run.lock").is_file())
+                observed.append(token)
+
+            report = stage_metadata(
+                source, root, max_pages=2,
+                before_fetch=verify,
+            )
+            self.assertEqual(report["status"], "complete")
+            self.assertEqual(observed, ["t"])
+            self.assertEqual(source.requests, [None, "t"])
+
+
+
 if __name__ == "__main__":
     unittest.main()
