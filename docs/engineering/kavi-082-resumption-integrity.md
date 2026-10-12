@@ -10,6 +10,14 @@ Comprovar que `resumptionToken` funciona também na **continuação entre págin
 
 Não é um job de ingestão integral de 138 mil resultados. Não existe autoagendamento ou loop de captura de mídia. Os registros brutos, IDs e tokens opacos não são publicados no artefato do CI; o relatório resume apenas contagens, integridade criptográfica e classificação metodológica.
 
+## Diagnóstico da primeira execução viva do PR #62
+
+A sonda de duas páginas foi iniciada, mas **não chegou à segunda página** nas primeiras execuções de CI. O preflight passou e a API respondeu à consulta inicial de metadados; o `Guard.get` rejeitou o conteúdo com `body_size_limit`. Portanto, o problema não era `resumptionToken` nem bloqueio HTTP — o teto de **2 MB**, adequado à descoberta HTML, era pequeno para um lote de 200 fichas filmográficas completas.
+
+Ajuste limitado ao adaptador KAVI/Finna: `Guard(session, max_body_bytes=8 * 1024 * 1024)`, com streaming e interrupção acima de **8 MiB**, mantendo **2 MB** como teto padrão dos probes institucionais. Regressões comprovam o limite e impedem configuração ilimitada. Não foram removidos os controles de MIME, `robots.txt`, escopo, cursor, direitos ou IDs.
+
+Até a confirmação explícita de `resumption_verified=true` em nova evidência CI, a continuação real permanece **não comprovada** e nenhum merge ou incorporação de metadados desta etapa está autorizado.
+
 ## Gates reforçados
 
 1. Recalcular cada hash de `next_cursor_sha256` presente nas páginas do checkpoint, em vez de verificar apenas hash do token de entrada e token final.
