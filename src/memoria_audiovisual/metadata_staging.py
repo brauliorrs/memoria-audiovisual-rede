@@ -12,7 +12,7 @@ import os
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Any, Callable, Protocol
 
 from .digital_infrastructure.locking import FileWriteLock
 from .digital_infrastructure.raw_artifacts import RawArtifactStore, canonical_json_bytes
@@ -180,11 +180,14 @@ def stage_metadata(
     resume: bool = False,
     request_delay_seconds: float = 0.0,
     sleep_fn=time.sleep,
+    before_fetch: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
     """Stage bounded pages; never publish, merge into MAR, or download media.
 
     Run lock is held across preflight/fetch/checkpoint. Partial checkpoints are
     resumable only after replaying and verifying every immutable raw artifact.
+    Optional before_fetch runs under the same write lock, immediately before
+    every continuation request, including across the resume boundary.
     """
     if not isinstance(max_pages, int) or isinstance(max_pages, bool) or max_pages < 1:
         raise ValueError("max_pages_must_be_positive")
@@ -229,6 +232,8 @@ def stage_metadata(
             if page_index and request_delay_seconds:
                 sleep_fn(request_delay_seconds)
             incoming = token
+            if token is not None and before_fetch is not None:
+                before_fetch(token)
             page = source.fetch_page(token)
             new_ids = _valid_page(page, expected_total)
             if ids.intersection(new_ids):
