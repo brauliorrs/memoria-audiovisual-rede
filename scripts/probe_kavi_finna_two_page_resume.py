@@ -10,6 +10,7 @@ import hashlib
 import json
 import sys
 import tempfile
+import time
 from pathlib import Path
 from typing import Any
 
@@ -101,11 +102,21 @@ def _audit_normalized_rows(
 
 
 def verify_two_pages(
-    source: MetadataPageSource, directory: Path,
+    source: MetadataPageSource,
+    directory: Path,
+    *,
+    resume_delay_seconds: float = 0.0,
+    sleep_fn=time.sleep,
 ) -> dict[str, Any]:
+    if not 0 <= resume_delay_seconds <= 60:
+        raise ValueError("invalid_resume_delay")
     first = stage_metadata(source, directory, max_pages=1)
     if first["status"] != "partial" or len(first["pages"]) != 1:
         raise StageRejected("two_page_probe_first_page_not_partial")
+    # Each stage_metadata invocation has only one page, so its *internal*
+    # between-page throttle cannot fire. Throttle this resume boundary.
+    if resume_delay_seconds:
+        sleep_fn(resume_delay_seconds)
     second = stage_metadata(source, directory, max_pages=1, resume=True)
     if (
         len(second["pages"]) != 2
@@ -150,7 +161,9 @@ def main(argv: list[str] | None = None) -> int:
             "Accept": "application/json",
         })
         report = verify_two_pages(
-            FinnaMetadataSource(session, scope), Path(folder),
+            FinnaMetadataSource(session, scope),
+            Path(folder),
+            resume_delay_seconds=1.0,
         )
     print(json.dumps(report, indent=2, sort_keys=True, ensure_ascii=False))
     return 0
