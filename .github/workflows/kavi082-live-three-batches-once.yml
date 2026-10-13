@@ -5,6 +5,7 @@ name: KAVI 082 One-Off Live Three-Page Probe
 on:
   pull_request:
     types: [opened]
+  workflow_call:
 
 permissions:
   contents: read
