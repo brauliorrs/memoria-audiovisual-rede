@@ -38,6 +38,9 @@ Cada `FailureAssessment` contém `token_expiration_confirmed=false`, `restart_au
 - O PR #66 já integrou o armazenamento por epochs; **este classificador não chama** `restart_after_confirmed_expiry`, nem cria diretórios ou altera seus marcadores.
 - O PR #65 segue Draft/HOLD até evidência oficial do timezone e uma política explícita para continuação (não deduzir UTC nem `Europe/Helsinki` como fuso autoritativo).
 
+- Respostas sem status HTTP e com erro de transporte do Guard são classificadas **antes** de HTTP desconhecido; o texto da exceção é redigido para evitar vazamento de token. Com um status HTTP numérico, a classe HTTP permanece explícita.
+- Os códigos estáveis existentes de corrupção de checkpoint (`checkpoint_scope_payload_tampered`, `checkpoint_ids_hash_mismatch`, `checkpoint_page_sequence_invalid`, `checkpoint_record_count_mismatch`, `checkpoint_total_records_mismatch` etc.) mantêm seus códigos próprios, para não perder diagnóstico na CLI.
+
 ## Gates antes de reconhecer expiração de token
 
 1. Obter assinatura de erro de expiração comprovada pelo mantenedor ou pela implementação oficial relevante ao **mesmo endpoint/versão**; registrar documentação, versão, esquema HTTP/status/código estável e SHA-256 do contrato.
