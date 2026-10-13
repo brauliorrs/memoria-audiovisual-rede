@@ -768,14 +768,186 @@ jobs:
           git push origin HEAD:${{ github.head_ref }}
 
   kavi-082-live-once:
-    # Sole PR synchronize on the dedicated one-off branch. No fork, cron,
-    # pushes, or other PR can trigger KAVI source requests here.
     if: >-
-      github.event_name == 'pull_request' &&
       github.event.action == 'synchronize' &&
-      github.head_ref == 'corpus/kavi-082-live-three-pages-once-20261013' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event.pull_request.head.ref == 'corpus/kavi-082-live-three-pages-once-20261013' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.base.ref == 'main'
     needs: quality
-    permissions:
-      contents: read
-    uses: ./.github/workflows/kavi082-live-three-batches-once.yml
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/src
+      PROBE_DIR: ${{ runner.temp }}/kavi-082-three-batch-checkpoint
+      REPORT_DIR: ${{ runner.temp }}/kavi-082-public
+      PUBLIC_ENCRYPTION_KEY: "KpWeiRX6RbSGZHX4j4OIiFQ7EuLSqrtZNY6fCY8bCFY="
+
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+
+      - name: Install minimal probe and encryption dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            "requests==2.33.0" "beautifulsoup4==4.14.3" "cryptography==46.0.4"
+
+      - name: Offline gate before any live API call
+        run: |
+          python -m unittest discover -s tests -p 'test_seal_kavi082_checkpoint.py' -v
+          python -m unittest discover -s tests -p 'test_kavi_finna_three_batch_resume.py' -v
+          python -m unittest discover -s tests -p 'test_kavi_finna_batch_gate.py' -v
+          python -m unittest discover -s tests -p 'test_finna_response_classifier.py' -v
+
+      - name: Execute exactly one bounded live three-page probe
+        id: probe
+        shell: bash
+        run: |
+          mkdir -p "$REPORT_DIR"
+          set +e
+          python scripts/probe_kavi_finna_three_batch_resume.py \
+            --evidence-sha256 466006cb7a499efff354e7f4425aface044440218bdb9a20a1550a3fe079e049 \
+            --execute --directory "$PROBE_DIR" \
+            > "$RUNNER_TEMP/kavi_082_stdout_private.json" \
+            2> "$RUNNER_TEMP/kavi_082_stderr_private.txt"
+          result=$?
+          set -e
+          echo "exit_code=$result" >> "$GITHUB_OUTPUT"
+          echo "Bounded metadata probe finished with exit code $result; no raw output logged."
+          # Deliberately do not fail here: archive the checkpoint first.
+
+      - name: Seal checkpoint before it leaves runner
+        id: seal
+        if: always() && steps.probe.outcome == 'success'
+        shell: bash
+        run: |
+          mkdir -p "$REPORT_DIR"
+          test -d "$PROBE_DIR"
+          python scripts/seal_kavi082_checkpoint.py \
+            --directory "$PROBE_DIR" \
+            --output "$REPORT_DIR/kavi082-checkpoint-encrypted.json" \
+            --public-key-b64 "$PUBLIC_ENCRYPTION_KEY"
+          test -s "$REPORT_DIR/kavi082-checkpoint-encrypted.json"
+          echo "Encrypted archive prepared; no checkpoint files uploaded in plaintext."
+
+      - name: Create strictly redacted public status
+        if: always() && steps.probe.outcome == 'success'
+        shell: bash
+        env:
+          PROBE_EXIT: ${{ steps.probe.outputs.exit_code }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          run = Path(os.environ["RUNNER_TEMP"])
+          report_dir = Path(os.environ["REPORT_DIR"])
+          src = run / "kavi_082_stdout_private.json"
+          sealed = report_dir / "kavi082-checkpoint-encrypted.json"
+          try:
+              data = json.loads(src.read_text(encoding="utf-8"))
+          except (OSError, ValueError):
+              data = {}
+          safe = {
+              "experiment": "KAVI-082-single-live-three-page-probe",
+              "probe_exit_code": os.environ.get("PROBE_EXIT", "unavailable"),
+              "probe_status": "HOLD",
+              "checkpoint_encrypted": sealed.is_file(),
+              "checkpoint_encrypted_sha256": (
+                  hashlib.sha256(sealed.read_bytes()).hexdigest()
+                  if sealed.is_file() else None
+              ),
+              "promotion_authorized": False,
+              "media_downloaded": False,
+              "full_enumeration_verified": False,
+              "inter_run_persistence_verified": False,
+          }
+          # Never echo unexpected or untrusted keys, error messages, or tokens.
+          if data.get("probe") == "kavi_finna_three_bounded_batches":
+              if data.get("verified_page_count") == 3 and data.get(
+                  "resumption_verified_across_batches"
+              ) is True and data.get("media_downloaded") is False and data.get(
+                  "promotion_authorized"
+              ) is False:
+                  safe.update({
+                      "probe_status": "SUCCESS_LIMITED",
+                      "verified_page_count": 3,
+                      "record_count": data.get("final_record_count"),
+                      "expected_total": data.get("expected_total"),
+                      "film_id_candidates": data.get("film_id_candidates"),
+                      "other_video_records": data.get("other_video_records"),
+                      "video_format_unconfirmed_records": data.get(
+                          "video_format_unconfirmed_records"
+                      ),
+                      "record_id_sequence_sha256": data.get(
+                          "record_id_sequence_sha256"
+                      ),
+                      "per_batch_page_counts": [
+                          x.get("page_count") for x in data.get(
+                              "batch_summaries", []
+                          )[:3]
+                      ],
+                      "per_batch_record_counts": [
+                          x.get("record_count") for x in data.get(
+                              "batch_summaries", []
+                          )[:3]
+                      ],
+                  })
+              else:
+                  from memoria_audiovisual.finna_response_classifier import (
+                      classify_stage_rejection,
+                  )
+                  safe["reason"] = classify_stage_rejection(
+                      data.get("reason")
+                  ).reason
+                  safe["failure_category"] = classify_stage_rejection(
+                      data.get("reason")
+                  ).category
+          (report_dir / "kavi082-probe-public-report.json").write_text(
+              json.dumps(safe, indent=2, sort_keys=True), encoding="utf-8"
+          )
+          print(json.dumps(safe, sort_keys=True))
+          PY
+
+      - name: Upload ONLY encrypted checkpoint archive
+        if: always() && steps.seal.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: kavi082-oneoff-encrypted-checkpoint
+          path: ${{ runner.temp }}/kavi-082-public/kavi082-checkpoint-encrypted.json
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Upload redacted public probe report
+        if: always() && steps.probe.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: kavi082-oneoff-redacted-report
+          path: ${{ runner.temp }}/kavi-082-public/kavi082-probe-public-report.json
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Enforce probe result only after encrypted preservation
+        if: always() && steps.probe.outcome == 'success'
+        shell: bash
+        env:
+          PROBE_EXIT: ${{ steps.probe.outputs.exit_code }}
+          SEAL_STATUS: ${{ steps.seal.outcome }}
+        run: |
+          if [ "$SEAL_STATUS" != "success" ]; then
+            echo "HOLD: encrypted evidence preservation failed."
+            exit 2
+          fi
+          if [ "$PROBE_EXIT" != "0" ]; then
+            echo "HOLD: live probe not verified; encrypted checkpoint preserved."
+            exit 2
+          fi
+          echo "Only three metadata pages proved; no corpus admission."
