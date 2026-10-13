@@ -17,6 +17,7 @@ from memoria_audiovisual.config import HEADERS
 from memoria_audiovisual.kavi_elonet_probe import USER_AGENT
 from memoria_audiovisual.kavi_finna_adapter import FinnaMetadataSource, FinnaScope
 from memoria_audiovisual.metadata_staging import StageRejected
+from memoria_audiovisual.finna_response_classifier import classify_stage_rejection
 from scripts.kavi_finna_batch_gate import execute_verified_batch
 
 
@@ -79,12 +80,12 @@ def main(argv: list[str] | None = None) -> int:
                 expiry_margin_seconds=args.expiry_margin_seconds,
             )
         except (StageRejected, ValueError) as exc:
-            # All rejection messages are stable codes, never raw cursors/URLs.
+            assessment = classify_stage_rejection(str(exc))
+            # A future provider reply may embed an opaque token/URL in a
+            # rejection. Only publish allowlisted, locally authored codes.
             print(json.dumps({
                 "audit_status": "rejected",
-                "reason": str(exc),
-                "promotion_authorized": False,
-                "media_downloaded": False,
+                **assessment.public_dict(),
             }, ensure_ascii=False, sort_keys=True))
             return 2
     print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
