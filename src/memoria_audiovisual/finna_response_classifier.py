@@ -1,14 +1,17 @@
 """Conservative Finna REST API failure classification — no expiration inference.
 
-This module classifies safe structural evidence only. No documented machine
-signature for an expired Finna REST search resumptionToken is currently pinned,
-so EVERY classification keeps expiration and restart authorization false.
+This module classifies safe structural evidence only. The upstream
+implementation pins HTTP 400 plus the exact JSON statusMessage
+"Invalid or expired token" for a missing/expired cursor. This is inherently
+ambiguous and NEVER proves expiry alone. All classes keep restart prohibited.
 
-A future verified signature must be approved separately, never inferred from
-HTTP 400/404, a free-text message, the client's clock or a transport error.
+Source: NatLibFi/NDL-VuFind2, dev: SearchApiController.php,
+ApiException.php, ApiTrait.php and ResumptionTokenTrait.php. The provider
+combines invalid and expired tokens by design.
 """
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass
 from typing import Any
@@ -60,6 +63,48 @@ def classify_http_status(status: object) -> FailureAssessment | None:
     if status >= 300:
         return _failure("unexpected_redirect", reason)
     return _failure("unexpected_http_status", reason)
+
+
+# Exact text emitted by upstream ApiException::INVALID_OR_EXPIRED_TOKEN.
+# Same error is produced for missing, invalid AND expired token rows.
+_AMBIGUOUS_TOKEN_ERROR = "Invalid or expired token"
+_MAX_PROVIDER_ERROR_BYTES = 8192
+
+
+def classify_provider_token_response(
+    *,
+    http_status: object,
+    mime: object,
+    body: object,
+    continuation: bool,
+) -> FailureAssessment | None:
+    """Recognize an exact upstream ambiguous token rejection; never expiry.
+
+    Check HTTP 400 AND JSON status=ERROR AND exact statusMessage, only for
+    a continuation request. A substring, a 400 alone, or malformed body
+    cannot authorize a restart. No body or token is returned to the caller.
+    """
+    if http_status != 400 or type(http_status) is not int or continuation is not True:
+        return None
+    if not isinstance(mime, str) or "application/json" not in mime.lower():
+        return None
+    if not isinstance(body, str):
+        return None
+    if len(body.encode("utf-8")) > _MAX_PROVIDER_ERROR_BYTES:
+        return None
+    try:
+        payload = json.loads(body)
+    except (ValueError, TypeError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+    if (payload.get("status") == "ERROR"
+        and payload.get("statusMessage") == _AMBIGUOUS_TOKEN_ERROR):
+        return _failure(
+            "token_invalid_or_expired_unresolved",
+            "finna_token_invalid_or_expired_unresolved",
+        )
+    return None
 
 
 def classify_api_payload(payload: object) -> FailureAssessment | None:
@@ -216,6 +261,8 @@ def classify_stage_rejection(code: object) -> FailureAssessment:
         return classify_http_status(int(matched.group(1))) or _failure(
             "unknown_rejection", "finna_unclassified_failure"
         )
+    if code == "finna_token_invalid_or_expired_unresolved":
+        return _failure("token_invalid_or_expired_unresolved", code)
     if code == "finna_http_status_unknown":
         return _failure("unknown_http_status", code)
     if code in _SNAPSHOT:

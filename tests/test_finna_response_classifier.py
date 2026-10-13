@@ -11,6 +11,7 @@ import requests
 
 from memoria_audiovisual.finna_response_classifier import (
     classify_api_payload, classify_http_status, classify_stage_rejection,
+    classify_provider_token_response,
 )
 from memoria_audiovisual.kavi_finna_adapter import FinnaMetadataSource, FinnaScope
 from memoria_audiovisual.metadata_staging import StageRejected
@@ -70,6 +71,51 @@ class FailureClassificationTests(unittest.TestCase):
                 self.assertNotIn("expired", report["reason"])
         self.assertIsNone(classify_api_payload({"status": "OK"}))
         self.assertIsNone(classify_api_payload({"status": "ok"}))
+
+    def test_upstream_invalid_or_expired_signature_is_ambiguous(self):
+        exact = json.dumps({
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        })
+        result = classify_provider_token_response(
+            http_status=400, mime="application/json; charset=utf-8",
+            body=exact, continuation=True,
+        )
+        self.assertIsNotNone(result)
+        summary = fail_closed(result)
+        self.assertEqual(
+            summary["failure_category"], "token_invalid_or_expired_unresolved"
+        )
+        self.assertEqual(
+            summary["reason"], "finna_token_invalid_or_expired_unresolved"
+        )
+        self.assertEqual(
+            fail_closed(classify_stage_rejection(summary["reason"])),
+            summary,
+        )
+
+    def test_upstream_signature_requires_exact_request_and_body(self):
+        exact = json.dumps({
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        })
+        negative = (
+            (200, "application/json", exact, True),
+            (429, "application/json", exact, True),
+            (503, "application/json", exact, True),
+            (400, "text/html", exact, True),
+            (400, "application/json", exact, False),
+            (400, "application/json", '{"status":"ERROR","statusMessage":"expired"}', True),
+            (400, "application/json", '{"status":"ERROR","statusMessage":"Invalid or expired token!"}', True),
+            (400, "application/json", '{"status":"OK","statusMessage":"Invalid or expired token"}', True),
+            (400, "application/json", '{"statusMessage":"Invalid or expired token"}', True),
+            (400, "application/json", "not-json", True),
+            (400, "application/json", " " * 8193, True),
+        )
+        for status, mime, body, continuation in negative:
+            with self.subTest(status=status, mime=mime, body=body[:40]):
+                self.assertIsNone(classify_provider_token_response(
+                    http_status=status, mime=mime,
+                    body=body, continuation=continuation,
+                ))
 
     def test_local_expiry_flags_are_not_provider_confirmation(self):
         for code in (
@@ -236,6 +282,25 @@ class FinnaAdapterFailureTests(unittest.TestCase):
             report["failure_category"], "transport_or_response_unverifiable",
         )
 
+    def test_real_upstream_400_is_recognized_only_on_continuation(self):
+        payload = {
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        }
+        self.mock_reply(status=400, payload=payload)
+        with self.assertRaisesRegex(
+            StageRejected, "^finna_token_invalid_or_expired_unresolved$"
+        ):
+            self.source._json(self.target, continuation=True)
+        with self.assertRaisesRegex(StageRejected, "^finna_http_status_400$"):
+            self.source._json(self.target, continuation=False)
+
+    def test_ambiguous_token_text_on_503_stays_upstream_failure(self):
+        self.mock_reply(status=503, payload={
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        })
+        with self.assertRaisesRegex(StageRejected, "^finna_http_status_503$"):
+            self.source._json(self.target, continuation=True)
+
     def test_400_expired_text_does_not_authorize_restart(self):
         self.mock_reply(
             status=400, payload={"status": "ERROR", "statusMessage": "expired opaque"}
@@ -276,6 +341,98 @@ class FinnaAdapterFailureTests(unittest.TestCase):
     def test_success_is_unchanged(self):
         self.mock_reply(payload={"status": "OK", "resultCount": 0, "records": []})
         self.assertEqual(self.source._json(self.target)["status"], "OK")
+
+
+
+class BoundedHTTP400CaptureTests(unittest.TestCase):
+    """Exercise actual Guard stream capture (no network)."""
+
+    class Response:
+        def __init__(self, *, status, content, mime="application/json"):
+            self.status_code = status
+            self.headers = {"content-type": mime}
+            self.text = content.decode("utf-8", errors="replace")
+            self.encoding = "utf-8"
+            self._content = content
+            self.closed = False
+
+        def iter_content(self, block_size):
+            for start in range(0, len(self._content), block_size):
+                yield self._content[start:start + block_size]
+
+        def close(self):
+            self.closed = True
+
+    class Session:
+        def __init__(self, response):
+            self.reply = response
+            self.urls = []
+
+        def get(self, url, **kwargs):
+            self.urls.append(url)
+            if url == "https://api.finna.fi/robots.txt":
+                return BoundedHTTP400CaptureTests.Response(
+                    status=200, content=b"User-agent: *\\nAllow: /\\n",
+                    mime="text/plain",
+                )
+            return self.reply
+
+    def test_opt_in_400_json_capture_is_bounded_and_not_logged(self):
+        from memoria_audiovisual.kavi_elonet_probe import Guard
+        msg = json.dumps({
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        }).encode()
+        response = self.Response(status=400, content=msg)
+        session = self.Session(response)
+        url = "https://api.finna.fi/v1/search?resumptionToken=opaque-secret"
+        guarded = Guard(session, capture_error_400_json=True)
+        result = guarded.get(url)
+        self.assertEqual(result.status, 400)
+        self.assertEqual(result.text, msg.decode())
+        self.assertEqual(result.error, "non_success_http_status")
+        self.assertTrue(response.closed)
+        self.assertEqual(session.urls[-1], url)
+
+        # Default guard never downloads or parses error content.
+        fallback = Guard(self.Session(self.Response(status=400, content=msg)))
+        result = fallback.get(url)
+        self.assertEqual(result.text, "")
+        self.assertEqual(result.status, 400)
+
+    def test_non_json_or_oversized_errors_are_not_recognized(self):
+        from memoria_audiovisual.kavi_elonet_probe import Guard
+        url = "https://api.finna.fi/v1/search?resumptionToken=opaque-secret"
+        for body, mime in [
+            (b"<html>Invalid or expired token</html>", "text/html"),
+            (b" " * 8200, "application/json"),
+        ]:
+            with self.subTest(mime=mime, size=len(body)):
+                guard = Guard(
+                    self.Session(self.Response(status=400, content=body, mime=mime)),
+                    capture_error_400_json=True,
+                )
+                found = guard.get(url)
+                self.assertEqual(found.text, "")
+                self.assertEqual(found.status, 400)
+
+    def test_adapter_with_real_guard_recognizes_exact_400(self):
+        msg = json.dumps({
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        }).encode()
+        session = self.Session(self.Response(status=400, content=msg))
+        source = FinnaMetadataSource(
+            session, FinnaScope("0/KAVI/", "0/Video/", "a" * 64),
+        )
+        url = "https://api.finna.fi/v1/search?resumptionToken=opaque-secret"
+        with self.assertRaisesRegex(
+            StageRejected, "^finna_token_invalid_or_expired_unresolved$"
+        ):
+            source._json(url, continuation=True)
+        self.assertNotIn("opaque-secret", str(
+            classify_stage_rejection("finna_token_invalid_or_expired_unresolved")
+        ))
+
+
 
 
 if __name__ == "__main__":
