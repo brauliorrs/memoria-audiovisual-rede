@@ -164,6 +164,11 @@ def restart_after_confirmed_expiry(
         following = _epoch_dir(root, state["active_epoch"] + 1)
         if following.exists():
             raise StageRejected("epoch_successor_already_exists")
+        checkpoint = old / "checkpoint.json"
+        try:
+            checkpoint_digest = _sha(checkpoint.read_bytes())
+        except OSError as exc:
+            raise StageRejected("epoch_checkpoint_missing") from exc
         # Replay immutable raw pages and source-normalized parity FIRST.
         audit = audit_finna_staging(
             old, evidence_sha256=evidence_sha256,
@@ -171,8 +176,8 @@ def restart_after_confirmed_expiry(
         )
         if audit["status"] != "partial" or audit["page_count"] < 1:
             raise StageRejected("epoch_cannot_restart_complete_or_empty")
-        checkpoint = old / "checkpoint.json"
-        checkpoint_digest = _sha(checkpoint.read_bytes())
+        # Recheck under the same lock that protects the writer; do not accept
+        # a checkpoint changed between initial anchor and successful replay.
         # Lock again and compare actual checkpoint digest to the audited state.
         # This rules out a cooperating writer changing it during adjudication.
         with FileWriteLock(old / "run", timeout=10):
