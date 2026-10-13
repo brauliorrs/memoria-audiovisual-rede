@@ -182,6 +182,23 @@ class ThreeBatchProbeTests(unittest.TestCase):
                 self.probe(source, folder)
             self.assertEqual(source.requests, [None, "opaque-1"])
 
+    def test_execute_refuses_without_explicit_persistent_directory(self):
+        with contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit) as err:
+                main(["--evidence-sha256", "a" * 64, "--execute"])
+        self.assertEqual(err.exception.code, 2)
+
+    def test_execute_refuses_existing_workspace_before_any_network(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit) as err:
+                    main([
+                        "--evidence-sha256", "a" * 64, "--execute",
+                        "--directory", folder,
+                    ])
+            self.assertEqual(err.exception.code, 2)
+            self.assertEqual(list(Path(folder).iterdir()), [])
+
     def test_dry_run_does_not_fetch(self):
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
