@@ -196,6 +196,10 @@ def stage_metadata(
     directory = Path(root)
     directory.mkdir(parents=True, exist_ok=True)
     with FileWriteLock(directory / "run", timeout=10):
+        # Recovery controller freezes an abandoned epoch under this very lock.
+        # Never issue a new preflight/fetch against its old checkpoint.
+        if (directory / "epoch-aborted.json").exists():
+            raise StageRejected("staging_epoch_aborted")
         expected_total = source.preflight()
         if (not isinstance(expected_total, int) or isinstance(expected_total, bool)
             or expected_total < 0):
