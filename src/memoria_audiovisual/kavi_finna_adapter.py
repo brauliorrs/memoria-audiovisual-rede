@@ -17,6 +17,9 @@ from .kavi_elonet_probe import (
     API_ROOT, FACET_QUERY, Guard, _kavi_building_candidates,
 )
 from .metadata_staging import MetadataPage, StageRejected
+from .finna_response_classifier import (
+    classify_api_payload, classify_http_status,
+)
 
 FORMAT_FACET_URL = API_ROOT + "?" + urlencode([
     ("lookfor", ""), ("limit", "0"), ("facet[]", "format"),
@@ -92,37 +95,45 @@ class FinnaMetadataSource:
     def scope(self) -> dict[str, str]:
         return self._scope.to_dict()
 
+    @staticmethod
+    def _safe_guard_error_code(error: str) -> str:
+        """Redact requests exception text; never return URLs or cursors."""
+        if error == "body_size_limit":
+            code = "body_size_limit"
+        elif error.startswith("stream_read_failed"):
+            code = "stream_read_failed"
+        elif error in {
+            "redirect_cycle", "redirect_outside_https_scope",
+            "redirect_budget_exceeded",
+        }:
+            code = error
+        else:
+            code = "transport_unverifiable"
+        return f"finna_guard_{code}"
+
     def _json(self, url: str) -> dict[str, Any]:
         response = self.guard.get(url)
         if response.error == "robots_or_origin_block":
             raise StageRejected("finna_robots_or_origin_block")
-        if response.status != 200:
-            code = response.status if isinstance(response.status, int) else "unknown"
-            raise StageRejected(f"finna_http_status_{code}")
+        # A connection failure from Guard.get() has status=None and an
+        # exception string that may contain an opaque cursor in the URL.
+        # Classify this as transport failure BEFORE unknown HTTP status.
+        if response.error and response.status is None:
+            raise StageRejected(self._safe_guard_error_code(response.error))
+        http_failure = classify_http_status(response.status)
+        if http_failure is not None:
+            raise StageRejected(http_failure.reason)
         if response.error:
-            # Finna cursors are URL query parameters. Do not expose the full
-            # Fetch.error value, since requests exceptions can contain URLs.
-            error = response.error
-            if error == "body_size_limit":
-                code = "body_size_limit"
-            elif error.startswith("stream_read_failed"):
-                code = "stream_read_failed"
-            elif error in {
-                "redirect_cycle", "redirect_outside_https_scope",
-                "redirect_budget_exceeded",
-            }:
-                code = error
-            else:
-                code = "transport_unverifiable"
-            raise StageRejected(f"finna_guard_{code}")
+            raise StageRejected(self._safe_guard_error_code(response.error))
         if "json" not in response.mime.lower():
             raise StageRejected("finna_unexpected_content_type")
         try:
             data = json.loads(response.text)
         except (TypeError, ValueError) as ex:
             raise StageRejected("finna_invalid_json") from ex
-        if not isinstance(data, dict) or data.get("status") not in ("OK", "ok"):
-            raise StageRejected("finna_api_status_invalid")
+        api_failure = classify_api_payload(data)
+        if api_failure is not None:
+            raise StageRejected(api_failure.reason)
         return data
 
     @staticmethod
