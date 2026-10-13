@@ -153,6 +153,84 @@ class FinnaBoundedBatchTests(unittest.TestCase):
                         run(source, folder, resume=True, expected_total=3)
                     self.assertEqual(source.fetches, [None])
 
+    def test_opt_in_naive_expiry_allows_server_authoritative_resume(self):
+        source = FakeSource(expires="2030-01-01T00:00:00")
+        with tempfile.TemporaryDirectory() as folder:
+            run(source, folder, max_pages=1)
+            result = run(
+                source, folder, max_pages=1, resume=True, expected_total=3,
+                allow_naive_server_validation=True, sleep_fn=lambda _: None,
+            )
+            self.assertEqual(result["status"], "complete")
+            self.assertEqual(source.fetches, [None, "secret-next-token"])
+            self.assertFalse(result["promotion_authorized"])
+            self.assertFalse(result["media_downloaded"])
+
+    def test_default_remains_strict_for_naive_expiry(self):
+        source = FakeSource(expires="2030-01-01T00:00:00")
+        with tempfile.TemporaryDirectory() as folder:
+            run(source, folder)
+            with self.assertRaisesRegex(
+                StageRejected, "resume_cursor_expiration_timezone_missing"
+            ):
+                run(source, folder, resume=True, expected_total=3)
+            self.assertEqual(source.fetches, [None])
+
+    def test_opt_in_never_bypasses_known_expired_offset(self):
+        source = FakeSource(expires="2020-01-01T00:00:00+00:00")
+        with tempfile.TemporaryDirectory() as folder:
+            run(source, folder)
+            with self.assertRaisesRegex(
+                StageRejected, "resume_cursor_expired_or_too_close"
+            ):
+                run(
+                    source, folder, resume=True, expected_total=3,
+                    allow_naive_server_validation=True,
+                )
+            self.assertEqual(source.fetches, [None])
+
+    def test_opt_in_rejects_missing_and_malformed_expirations(self):
+        for expires, expected in (
+            (None, "resume_cursor_expiration_missing"),
+            ("not-a-datetime", "resume_cursor_expiration_invalid"),
+        ):
+            with self.subTest(expires=expires):
+                source = FakeSource(expires=expires)
+                with tempfile.TemporaryDirectory() as folder:
+                    run(source, folder)
+                    with self.assertRaisesRegex(StageRejected, expected):
+                        run(
+                            source, folder, resume=True, expected_total=3,
+                            allow_naive_server_validation=True,
+                        )
+                    self.assertEqual(source.fetches, [None])
+
+    def test_opt_in_requires_one_page_batch(self):
+        source = FakeSource()
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(
+                ValueError, "naive_server_validation_requires_one_page"
+            ):
+                run(
+                    source, folder, max_pages=2,
+                    allow_naive_server_validation=True,
+                )
+            self.assertEqual(source.preflights, 0)
+            self.assertEqual(source.fetches, [])
+
+    def test_opt_in_still_checks_cursor_integrity(self):
+        source = FakeSource(
+            expires="2030-01-01T00:00:00", source_token="different"
+        )
+        with tempfile.TemporaryDirectory() as folder:
+            run(source, folder)
+            with self.assertRaisesRegex(StageRejected, "source_cursor_mismatch"):
+                run(
+                    source, folder, resume=True, expected_total=3,
+                    allow_naive_server_validation=True,
+                )
+            self.assertEqual(source.fetches, [None])
+
     def test_response_cursor_must_match_normalized_cursor(self):
         source = FakeSource(source_token="substituted-value")
         with tempfile.TemporaryDirectory() as folder:
