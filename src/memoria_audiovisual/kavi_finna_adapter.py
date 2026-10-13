@@ -17,6 +17,9 @@ from .kavi_elonet_probe import (
     API_ROOT, FACET_QUERY, Guard, _kavi_building_candidates,
 )
 from .metadata_staging import MetadataPage, StageRejected
+from .finna_response_classifier import (
+    classify_api_payload, classify_http_status,
+)
 
 FORMAT_FACET_URL = API_ROOT + "?" + urlencode([
     ("lookfor", ""), ("limit", "0"), ("facet[]", "format"),
@@ -96,9 +99,9 @@ class FinnaMetadataSource:
         response = self.guard.get(url)
         if response.error == "robots_or_origin_block":
             raise StageRejected("finna_robots_or_origin_block")
-        if response.status != 200:
-            code = response.status if isinstance(response.status, int) else "unknown"
-            raise StageRejected(f"finna_http_status_{code}")
+        http_failure = classify_http_status(response.status)
+        if http_failure is not None:
+            raise StageRejected(http_failure.reason)
         if response.error:
             # Finna cursors are URL query parameters. Do not expose the full
             # Fetch.error value, since requests exceptions can contain URLs.
@@ -121,8 +124,9 @@ class FinnaMetadataSource:
             data = json.loads(response.text)
         except (TypeError, ValueError) as ex:
             raise StageRejected("finna_invalid_json") from ex
-        if not isinstance(data, dict) or data.get("status") not in ("OK", "ok"):
-            raise StageRejected("finna_api_status_invalid")
+        api_failure = classify_api_payload(data)
+        if api_failure is not None:
+            raise StageRejected(api_failure.reason)
         return data
 
     @staticmethod
