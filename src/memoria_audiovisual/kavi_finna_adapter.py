@@ -18,7 +18,7 @@ from .kavi_elonet_probe import (
 )
 from .metadata_staging import MetadataPage, StageRejected
 from .finna_response_classifier import (
-    classify_api_payload, classify_http_status,
+    classify_api_payload, classify_http_status, classify_provider_token_response,
 )
 
 FORMAT_FACET_URL = API_ROOT + "?" + urlencode([
@@ -87,7 +87,10 @@ class FinnaMetadataSource:
         # Finna's 200-record metadata pages can exceed the introductory
         # HTML probe's 2 MB limit. Cap JSON streaming at 8 MiB per request;
         # only the adapter opts in, and no video/image URLs are fetched.
-        self.guard = Guard(session, max_body_bytes=8 * 1024 * 1024)
+        self.guard = Guard(
+            session, max_body_bytes=8 * 1024 * 1024,
+            capture_error_400_json=True,
+        )
         self._scope = scope
         self._total: int | None = None
 
@@ -111,7 +114,9 @@ class FinnaMetadataSource:
             code = "transport_unverifiable"
         return f"finna_guard_{code}"
 
-    def _json(self, url: str) -> dict[str, Any]:
+    def _json(
+        self, url: str, *, continuation: bool = False,
+    ) -> dict[str, Any]:
         response = self.guard.get(url)
         if response.error == "robots_or_origin_block":
             raise StageRejected("finna_robots_or_origin_block")
@@ -120,9 +125,18 @@ class FinnaMetadataSource:
         # Classify this as transport failure BEFORE unknown HTTP status.
         if response.error and response.status is None:
             raise StageRejected(self._safe_guard_error_code(response.error))
+        if response.error and response.error not in ("non_success_http_status",):
+            raise StageRejected(self._safe_guard_error_code(response.error))
         http_failure = classify_http_status(response.status)
         if http_failure is not None:
-            raise StageRejected(http_failure.reason)
+            provider_failure = classify_provider_token_response(
+                http_status=response.status, mime=response.mime,
+                body=response.text, continuation=continuation,
+            )
+            raise StageRejected(
+                provider_failure.reason if provider_failure
+                else http_failure.reason
+            )
         if response.error:
             raise StageRejected(self._safe_guard_error_code(response.error))
         if "json" not in response.mime.lower():
@@ -188,7 +202,9 @@ class FinnaMetadataSource:
     def fetch_page(self, token: str | None) -> MetadataPage:
         if self._total is None:
             raise StageRejected("preflight_required")
-        data = self._json(self._verified_query(token=token))
+        data = self._json(
+            self._verified_query(token=token), continuation=token is not None,
+        )
         count = self._count(data)
         records = data.get("records")
         if not isinstance(records, list):
