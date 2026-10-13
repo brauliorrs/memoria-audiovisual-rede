@@ -69,6 +69,7 @@ class Fetch:
 class Guard:
     def __init__(
         self, session: requests.Session, *, max_body_bytes: int = LIMIT_BYTES,
+        capture_error_400_json: bool = False,
     ):
         if (
             isinstance(max_body_bytes, bool)
@@ -77,7 +78,10 @@ class Guard:
         ):
             raise ValueError("invalid_metadata_response_size_cap")
         self.session = session
+        if not isinstance(capture_error_400_json, bool):
+            raise ValueError("invalid_error_capture_switch")
         self.max_body_bytes = max_body_bytes
+        self.capture_error_400_json = capture_error_400_json
         self.evidence: dict[str, dict[str, Any]] = {}
         self.rules: dict[str, str] = {}
 
@@ -145,8 +149,33 @@ class Guard:
                     url = target
                     continue
                 if status != 200:
+                    # Opt-in ONLY for the Finna metadata adapter. Bound
+                    # HTTP-400 JSON error capture to 8 KiB, independently of
+                    # the 8 MiB successful metadata-page cap.
+                    mime = r.headers.get("content-type", "")
+                    if (status == 400 and self.capture_error_400_json
+                        and "application/json" in mime.lower()):
+                        body = bytearray()
+                        try:
+                            for chunk in r.iter_content(4096):
+                                body.extend(chunk)
+                                if len(body) > 8192:
+                                    return Fetch(
+                                        requested, url, status, "",
+                                        "non_success_http_status", mime,
+                                    )
+                        except (requests.RequestException, OSError, EOFError):
+                            return Fetch(
+                                requested, url, status, "",
+                                "stream_read_failed", mime,
+                            )
+                        return Fetch(
+                            requested, url, status,
+                            bytes(body).decode("utf-8", errors="replace"),
+                            "non_success_http_status", mime,
+                        )
                     return Fetch(requested, url, status, "",
-                                 "non_success_http_status")
+                                 "non_success_http_status", mime)
                 mime = r.headers.get("content-type", "")
                 length = r.headers.get("content-length")
                 if length and length.isdigit() and int(length) > self.max_body_bytes:
