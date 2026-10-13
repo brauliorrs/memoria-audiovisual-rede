@@ -1,8 +1,10 @@
 """Finna REST failure taxonomy: offline and explicitly NOT an expiry oracle."""
 from __future__ import annotations
 
+import ast
 import json
 import unittest
+from pathlib import Path
 from types import SimpleNamespace
 
 import requests
@@ -113,6 +115,58 @@ class FailureClassificationTests(unittest.TestCase):
                 report = fail_closed(classify_stage_rejection(code))
                 self.assertEqual(report["failure_category"], "integrity_failure")
                 self.assertEqual(report["reason"], code)
+
+    def test_offline_audit_and_resume_codes_preserve_diagnostics(self):
+        codes = [
+            "offline_checkpoint_missing",
+            "offline_checkpoint_invalid",
+            "offline_checkpoint_not_object",
+            "audit_source_to_normalized_ids_mismatch",
+            "audit_provenance_or_rights_violation",
+            "audit_record_count_mismatch",
+            "resume_checkpoint_unreadable",
+            "resume_source_cursor_unverifiable",
+            "resume_invalid_artifact_sha256",
+            "resume_raw_artifact_tampered",
+            "batch_audit_record_count_mismatch",
+        ]
+        for code in codes:
+            with self.subTest(code=code):
+                report = fail_closed(classify_stage_rejection(code))
+                self.assertEqual(report["failure_category"], "integrity_failure")
+                self.assertEqual(report["reason"], code)
+
+    def test_all_static_rejections_in_relevant_executors_are_classified(self):
+        # Contract coverage: adding a new stable local StageRejected code
+        # requires explicit categorization rather than silently erasing it.
+        root = Path(__file__).resolve().parents[1]
+        paths = (
+            "src/memoria_audiovisual/metadata_staging.py",
+            "src/memoria_audiovisual/kavi_finna_adapter.py",
+            "scripts/audit_kavi_finna_staging.py",
+            "scripts/probe_kavi_finna_two_page_resume.py",
+            "scripts/kavi_finna_batch_gate.py",
+        )
+        missing = []
+        for path in paths:
+            tree = ast.parse((root / path).read_text(encoding="utf-8"))
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.Raise):
+                    continue
+                exc = node.exc
+                if (
+                    isinstance(exc, ast.Call)
+                    and isinstance(exc.func, ast.Name)
+                    and exc.func.id == "StageRejected"
+                    and exc.args
+                    and isinstance(exc.args[0], ast.Constant)
+                    and isinstance(exc.args[0].value, str)
+                ):
+                    code = exc.args[0].value
+                    result = classify_stage_rejection(code)
+                    if result.reason != code:
+                        missing.append((path, code))
+        self.assertEqual(missing, [])
 
     def test_unknown_rejections_are_redacted_not_echoed(self):
         for reason in (
