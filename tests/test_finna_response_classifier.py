@@ -96,6 +96,24 @@ class FailureClassificationTests(unittest.TestCase):
                 report = fail_closed(classify_stage_rejection(code))
                 self.assertEqual(report["failure_category"], cat)
 
+    def test_existing_checkpoint_corruption_is_not_undifferentiated(self):
+        codes = (
+            "checkpoint_scope_payload_tampered",
+            "checkpoint_ids_hash_mismatch",
+            "checkpoint_page_sequence_invalid",
+            "checkpoint_record_count_mismatch",
+            "checkpoint_total_records_mismatch",
+            "checkpoint_false_complete",
+            "checkpoint_next_cursor_mismatch",
+            "checkpoint_raw_artifact_missing",
+            "checkpoint_promotion_gate_tampered",
+        )
+        for code in codes:
+            with self.subTest(code=code):
+                report = fail_closed(classify_stage_rejection(code))
+                self.assertEqual(report["failure_category"], "integrity_failure")
+                self.assertEqual(report["reason"], code)
+
     def test_unknown_rejections_are_redacted_not_echoed(self):
         for reason in (
             "token expired opaque-123",
@@ -131,6 +149,38 @@ class FinnaAdapterFailureTests(unittest.TestCase):
             text=raw if raw is not None else json.dumps(payload),
         )
         self.source.guard = SimpleNamespace(get=lambda url: response)
+
+    def test_transport_exception_without_status_is_not_http_unknown(self):
+        self.mock_reply(
+            status=None, error="ConnectionError: https://api.finna.fi/v1/search?"
+                               "resumptionToken=opaque",
+            raw="",
+        )
+        with self.assertRaisesRegex(
+            StageRejected, "^finna_guard_transport_unverifiable$"
+        ) as ctx:
+            self.source._json(self.target)
+        report = fail_closed(classify_stage_rejection(str(ctx.exception)))
+        self.assertEqual(
+            report["failure_category"], "transport_or_response_unverifiable",
+        )
+        self.assertNotIn("opaque", json.dumps(report))
+
+    def test_stream_read_error_without_status_is_redacted(self):
+        self.mock_reply(
+            status=None,
+            error="stream_read_failed: https://api.finna.fi/"
+                  "v1/search?resumptionToken=opaque",
+            raw="",
+        )
+        with self.assertRaisesRegex(
+            StageRejected, "^finna_guard_stream_read_failed$"
+        ) as ctx:
+            self.source._json(self.target)
+        report = fail_closed(classify_stage_rejection(str(ctx.exception)))
+        self.assertEqual(
+            report["failure_category"], "transport_or_response_unverifiable",
+        )
 
     def test_400_expired_text_does_not_authorize_restart(self):
         self.mock_reply(
