@@ -410,6 +410,13 @@ jobs:
           path: data/output/kavi_finna_two_page_public.json
           if-no-files-found: warn
 
+      - name: Compare Finna UTC and Helsinki expiry hypotheses (offline only)
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            scripts/finna_expiry_hypotheses.py \
+            tests/test_finna_expiry_hypotheses.py
+          python -m unittest discover -s tests -p 'test_finna_expiry_hypotheses.py' -v
+
       - name: Validate KAVI Finna three-batch continuation probe (offline)
         run: |
           ruff check --select E9,F63,F7,F82 \
