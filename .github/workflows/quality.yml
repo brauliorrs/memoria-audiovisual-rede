@@ -766,3 +766,16 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Regenerate Europe queue after Jean Vigo #80 HOLD"
           git push origin HEAD:${{ github.head_ref }}
+
+  kavi-082-live-once:
+    # Sole PR synchronize on the dedicated one-off branch. No fork, cron,
+    # pushes, or other PR can trigger KAVI source requests here.
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.action == 'synchronize' &&
+      github.head_ref == 'corpus/kavi-082-live-three-pages-once-20261013' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    needs: quality
+    permissions:
+      contents: read
+    uses: ./.github/workflows/kavi082-live-three-batches-once.yml
