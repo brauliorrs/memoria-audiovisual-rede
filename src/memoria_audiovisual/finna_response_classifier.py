@@ -77,6 +77,8 @@ _SNAPSHOT = frozenset({
     "result_total_drift",
     "terminal_total_mismatch",
     "records_exceed_preflight_total",
+    "audit_page_total_mismatch",
+    "batch_expected_total_mismatch",
 })
 _ACCESS = frozenset({
     "finna_robots_or_origin_block",
@@ -108,6 +110,7 @@ _SOURCE_SHAPE = frozenset({
     "video_format_facet_drift",
     "record_without_title",
     "record_formats_invalid",
+    "preflight_required",
 })
 _LOCAL_EXPIRY_AMBIGUOUS = frozenset({
     "resume_cursor_expiration_timezone_missing",
@@ -153,6 +156,50 @@ _INTEGRITY = frozenset({
     "checkpoint_exists_resume_required",
     "checkpoint_missing_on_resume",
     "invalid_preflight_total",
+    # Existing offline checkpoint and source/normalized replay audit.
+    "offline_checkpoint_missing",
+    "offline_checkpoint_invalid",
+    "offline_checkpoint_not_object",
+    "audit_invalid_artifact_digest",
+    "audit_artifact_integrity_failure",
+    "audit_source_to_normalized_ids_mismatch",
+    "audit_duplicate_record_id",
+    "audit_provenance_or_rights_violation",
+    "audit_film_classification_mismatch",
+    "audit_unverified_classification_mismatch",
+    "audit_record_count_mismatch",
+    # Runtime resume validation and checkpoint replay.
+    "resume_checkpoint_unreadable",
+    "resume_checkpoint_invalid",
+    "resume_checkpoint_not_partial",
+    "resume_pages_missing",
+    "resume_invalid_artifact_sha256",
+    "resume_raw_artifact_missing",
+    "resume_raw_artifact_tampered",
+    "resume_source_cursor_unverifiable",
+    "batch_audit_record_count_mismatch",
+    # Legacy bounded probe contracts.
+    "two_page_probe_first_page_not_partial",
+    "two_page_probe_continuation_invalid",
+    "two_page_probe_promotion_not_blocked",
+    "two_page_probe_media_flag_invalid",
+})
+
+
+_PRECONDITION = frozenset({
+    "invalid_resume_delay",
+    "invalid_cursor_expiry_margin",
+    "cursor_clock_must_be_timezone_aware",
+    "batch_pages_must_be_between_1_and_25",
+    "batch_delay_must_be_between_0_5_and_30",
+    "expected_total_must_be_nonnegative_integer",
+    "unapproved_finna_batch_scope",
+    "invalid_scope_evidence_sha256",
+    "external_expected_total_required_on_resume",
+    "max_pages_must_be_positive",
+    "invalid_request_delay",
+    "unapproved_finna_scope",
+    "scope_evidence_sha256_required",
 })
 
 
@@ -183,4 +230,6 @@ def classify_stage_rejection(code: object) -> FailureAssessment:
         return _failure("local_expiry_unverified", code)
     if code in _INTEGRITY:
         return _failure("integrity_failure", code)
+    if code in _PRECONDITION:
+        return _failure("precondition_rejected", code)
     return _failure("unknown_rejection", "finna_unclassified_failure")
