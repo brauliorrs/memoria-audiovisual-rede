@@ -1,9 +1,10 @@
 """Three explicitly bounded KAVI/Finna metadata-only resume batches.
 
 Each of three stage executions requests at most one page. The checkpoint
-survives between calls but lives only in a disposable local directory. An
-explicit opt-in permits a single continuation per timezone-naive token,
-with the server as authority; no automatic retry or reset.
+survives between calls. With --execute, the operator must supply a NEW,
+persistent local directory so an unsuccessful server rejection does not
+delete checkpoint evidence. An explicit opt-in permits a single continuation
+per timezone-naive token; no automatic retry or reset.
 Never publishes raw metadata, opaque cursors, individual IDs, or media URLs.
 """
 from __future__ import annotations
@@ -11,7 +12,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-import tempfile
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -130,14 +130,21 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--evidence-sha256", required=True)
     parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--directory", type=Path)
+
     args = parser.parse_args(argv)
     scope = FinnaScope("0/KAVI/", "0/Video/", args.evidence_sha256)
     if not args.execute:
         print("DRY RUN: exactly three one-page metadata staging batches; no HTTP or media.")
         return 0
-    with requests.Session() as session, tempfile.TemporaryDirectory(
-        prefix="kavi-three-batch-"
-    ) as folder:
+    if args.directory is None:
+        parser.error("--execute requires a new persistent --directory")
+    folder = args.directory
+    if folder.is_symlink() or folder.exists():
+        parser.error("--directory must not already exist")
+    # Never overwrite or delete a prior real probe/checkpoint.
+    folder.mkdir(parents=True, exist_ok=False)
+    with requests.Session() as session:
         session.headers.update({
             **HEADERS,
             "User-Agent": f"{USER_AGENT}/1.0 (+metadata-only-three-batch-probe)",
@@ -146,11 +153,15 @@ def main(argv: list[str] | None = None) -> int:
         try:
             report = verify_three_batches(FinnaMetadataSource(session, scope), folder)
         except (StageRejected, ValueError) as exc:
-            # Stable rejection codes only: no opaque token, record ID or URL.
+            # Explicit known stable codes only: never echo an untrusted
+            # exception that could contain an opaque Finna token or URL.
+            from memoria_audiovisual.finna_response_classifier import classify_stage_rejection
+            assessment = classify_stage_rejection(str(exc))
             print(json.dumps({
                 "probe": "kavi_finna_three_bounded_batches",
                 "status": "HOLD",
-                "reason": str(exc),
+                "reason": assessment.reason,
+                "failure_category": assessment.category,
                 "promotion_authorized": False,
                 "media_downloaded": False,
             }, sort_keys=True))
