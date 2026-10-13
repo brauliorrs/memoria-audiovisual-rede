@@ -27,13 +27,18 @@ def verify_resume_expiration(
     now: datetime | None = None,
     safety_margin_seconds: float = 30.0,
     expected_token: str | None = None,
+    allow_naive_server_validation: bool = False,
 ) -> datetime | None:
     """Check the *source-provided* expiration of a checkpoint's next cursor.
 
     Returns None for a completed checkpoint (no cursor). Missing/unrecognised
     expiration is a HOLD, not permission to try an unbounded continuation.
+    A timezone-naive expiration may be left to the server ONLY when a
+    bounded, explicit one-page probe opts in. This is not proof of validity.
     Raw cursor values must never escape this function or its error messages.
     """
+    if not isinstance(allow_naive_server_validation, bool):
+        raise ValueError("invalid_naive_server_validation_setting")
     if not 0 <= safety_margin_seconds <= 3600:
         raise ValueError("invalid_cursor_expiry_margin")
     if now is None:
@@ -86,6 +91,11 @@ def verify_resume_expiration(
     except ValueError as exc:
         raise StageRejected("resume_cursor_expiration_invalid") from exc
     if expiry.tzinfo is None or expiry.utcoffset() is None:
+        if allow_naive_server_validation:
+            # Verified raw artifact/cursor remains unchanged. One continuation
+            # may be submitted to the server as an *authority check*. Never
+            # infer UTC/Helsinki or infer expiry from a server-side HTTP 400.
+            return None
         raise StageRejected("resume_cursor_expiration_timezone_missing")
     remaining = (expiry - now).total_seconds()
     if remaining <= safety_margin_seconds:
@@ -104,12 +114,19 @@ def execute_verified_batch(
     expiry_margin_seconds: float = 30.0,
     sleep_fn: Callable[[float], None] = time.sleep,
     now_fn: Callable[[], datetime] = lambda: datetime.now(timezone.utc),
+    allow_naive_server_validation: bool = False,
 ) -> dict:
     """Stage an explicit batch, then independently replay all local artifacts.
 
     No automatic retries or epoch resets. On resume, an operator-provided
-    external total is mandatory; a cursor near expiry fails *before* API I/O.
+    external total is mandatory; explicit-offset expired cursors fail before
+    API I/O. Naive-clock server validation requires one-page batches; the
+    same token is never retried after a provider rejection.
     """
+    if not isinstance(allow_naive_server_validation, bool):
+        raise ValueError("invalid_naive_server_validation_setting")
+    if allow_naive_server_validation and max_pages != 1:
+        raise ValueError("naive_server_validation_requires_one_page")
     if not isinstance(max_pages, int) or isinstance(max_pages, bool) or not 1 <= max_pages <= 25:
         raise ValueError("batch_pages_must_be_between_1_and_25")
     if not isinstance(delay_seconds, (float, int)) or isinstance(delay_seconds, bool) or not 0.5 <= delay_seconds <= 30:
@@ -144,6 +161,7 @@ def execute_verified_batch(
         verify_resume_expiration(
             directory, now=now_fn(),
             safety_margin_seconds=expiry_margin_seconds,
+            allow_naive_server_validation=allow_naive_server_validation,
         )
         # stage_metadata() only delays after the first page *within a call*.
         # Retained explicitly for the first page of every resume invocation.
@@ -157,6 +175,7 @@ def execute_verified_batch(
         before_fetch=lambda token: verify_resume_expiration(
             directory, expected_token=token, now=now_fn(),
             safety_margin_seconds=expiry_margin_seconds,
+            allow_naive_server_validation=allow_naive_server_validation,
         ),
     )
     if expected_total is not None and staged["expected_total"] != expected_total:
