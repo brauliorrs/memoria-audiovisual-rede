@@ -11,6 +11,7 @@ import requests
 
 from memoria_audiovisual.finna_response_classifier import (
     classify_api_payload, classify_http_status, classify_stage_rejection,
+    classify_provider_token_response,
 )
 from memoria_audiovisual.kavi_finna_adapter import FinnaMetadataSource, FinnaScope
 from memoria_audiovisual.metadata_staging import StageRejected
@@ -70,6 +71,51 @@ class FailureClassificationTests(unittest.TestCase):
                 self.assertNotIn("expired", report["reason"])
         self.assertIsNone(classify_api_payload({"status": "OK"}))
         self.assertIsNone(classify_api_payload({"status": "ok"}))
+
+    def test_upstream_invalid_or_expired_signature_is_ambiguous(self):
+        exact = json.dumps({
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        })
+        result = classify_provider_token_response(
+            http_status=400, mime="application/json; charset=utf-8",
+            body=exact, continuation=True,
+        )
+        self.assertIsNotNone(result)
+        summary = fail_closed(result)
+        self.assertEqual(
+            summary["failure_category"], "token_invalid_or_expired_unresolved"
+        )
+        self.assertEqual(
+            summary["reason"], "finna_token_invalid_or_expired_unresolved"
+        )
+        self.assertEqual(
+            fail_closed(classify_stage_rejection(summary["reason"])),
+            summary,
+        )
+
+    def test_upstream_signature_requires_exact_request_and_body(self):
+        exact = json.dumps({
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        })
+        negative = (
+            (200, "application/json", exact, True),
+            (429, "application/json", exact, True),
+            (503, "application/json", exact, True),
+            (400, "text/html", exact, True),
+            (400, "application/json", exact, False),
+            (400, "application/json", '{"status":"ERROR","statusMessage":"expired"}', True),
+            (400, "application/json", '{"status":"ERROR","statusMessage":"Invalid or expired token!"}', True),
+            (400, "application/json", '{"status":"OK","statusMessage":"Invalid or expired token"}', True),
+            (400, "application/json", '{"statusMessage":"Invalid or expired token"}', True),
+            (400, "application/json", "not-json", True),
+            (400, "application/json", " " * 8193, True),
+        )
+        for status, mime, body, continuation in negative:
+            with self.subTest(status=status, mime=mime, body=body[:40]):
+                self.assertIsNone(classify_provider_token_response(
+                    http_status=status, mime=mime,
+                    body=body, continuation=continuation,
+                ))
 
     def test_local_expiry_flags_are_not_provider_confirmation(self):
         for code in (
@@ -235,6 +281,25 @@ class FinnaAdapterFailureTests(unittest.TestCase):
         self.assertEqual(
             report["failure_category"], "transport_or_response_unverifiable",
         )
+
+    def test_real_upstream_400_is_recognized_only_on_continuation(self):
+        payload = {
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        }
+        self.mock_reply(status=400, payload=payload)
+        with self.assertRaisesRegex(
+            StageRejected, "^finna_token_invalid_or_expired_unresolved$"
+        ):
+            self.source._json(self.target, continuation=True)
+        with self.assertRaisesRegex(StageRejected, "^finna_http_status_400$"):
+            self.source._json(self.target, continuation=False)
+
+    def test_ambiguous_token_text_on_503_stays_upstream_failure(self):
+        self.mock_reply(status=503, payload={
+            "status": "ERROR", "statusMessage": "Invalid or expired token",
+        })
+        with self.assertRaisesRegex(StageRejected, "^finna_http_status_503$"):
+            self.source._json(self.target, continuation=True)
 
     def test_400_expired_text_does_not_authorize_restart(self):
         self.mock_reply(
