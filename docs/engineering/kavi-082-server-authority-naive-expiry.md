@@ -26,13 +26,13 @@ Em erro HTTP 400 com a assinatura oficial, `finna_token_invalid_or_expired_unres
 
 ## Escopo concreto de teste
 
-O script `scripts/probe_kavi_finna_three_batch_resume.py` reutiliza o mesmo coletor e realiza até **três invocações independentes**, cada uma limitada a **uma página**, num diretório temporário do mesmo processo:
+O script `scripts/probe_kavi_finna_three_batch_resume.py` reutiliza o mesmo coletor e realiza até **três invocações independentes**, cada uma limitada a **uma página**, num **diretório local persistente, novo e explicitamente fornecido** pelo operador quando usar `--execute`:
 
 - 1ª: novo índice/cursor oficial, sem token enviado na retomada.
 - 2ª: uma continuação por token, com auditoria anterior e posterior.
 - 3ª: uma nova continuação, usando o novo token e novo preflight.
 
-**Não há execução automática viva no CI.** Sem `--execute`, o script realiza apenas dry-run. Os testes de unidade usam fonte sintética, sem requests reais. Uma eventual sonda viva deverá ser explicitamente limitada e executada apenas depois de CI, revisão Codex e aprovação do protocolo; não entrar no cron ou em gatilho de toda PR.
+**Não há execução automática viva no CI.** Sem `--execute`, o script realiza apenas dry-run. Com `--execute`, exige também `--directory data/staging/<diretorio_novo_para_o_ensaio>` e recusa reutilizar qualquer diretório existente. Esse diretório **não é apagado** após sucesso ou falha, permitindo revisão forense do checkpoint parcial e de seus hashes. Não é gerado arquivo do corpus principal. Os testes de unidade usam diretórios sintéticos descartáveis e não fazem requests reais. A sonda viva deverá ser explicitamente limitada e executada apenas depois de CI, revisão Codex e aprovação do protocolo; não entrar no cron ou em gatilho de toda PR.
 
 ## Evidência negativa exigida
 
