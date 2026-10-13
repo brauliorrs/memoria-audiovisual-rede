@@ -95,29 +95,36 @@ class FinnaMetadataSource:
     def scope(self) -> dict[str, str]:
         return self._scope.to_dict()
 
+    @staticmethod
+    def _safe_guard_error_code(error: str) -> str:
+        """Redact requests exception text; never return URLs or cursors."""
+        if error == "body_size_limit":
+            code = "body_size_limit"
+        elif error.startswith("stream_read_failed"):
+            code = "stream_read_failed"
+        elif error in {
+            "redirect_cycle", "redirect_outside_https_scope",
+            "redirect_budget_exceeded",
+        }:
+            code = error
+        else:
+            code = "transport_unverifiable"
+        return f"finna_guard_{code}"
+
     def _json(self, url: str) -> dict[str, Any]:
         response = self.guard.get(url)
         if response.error == "robots_or_origin_block":
             raise StageRejected("finna_robots_or_origin_block")
+        # A connection failure from Guard.get() has status=None and an
+        # exception string that may contain an opaque cursor in the URL.
+        # Classify this as transport failure BEFORE unknown HTTP status.
+        if response.error and response.status is None:
+            raise StageRejected(self._safe_guard_error_code(response.error))
         http_failure = classify_http_status(response.status)
         if http_failure is not None:
             raise StageRejected(http_failure.reason)
         if response.error:
-            # Finna cursors are URL query parameters. Do not expose the full
-            # Fetch.error value, since requests exceptions can contain URLs.
-            error = response.error
-            if error == "body_size_limit":
-                code = "body_size_limit"
-            elif error.startswith("stream_read_failed"):
-                code = "stream_read_failed"
-            elif error in {
-                "redirect_cycle", "redirect_outside_https_scope",
-                "redirect_budget_exceeded",
-            }:
-                code = error
-            else:
-                code = "transport_unverifiable"
-            raise StageRejected(f"finna_guard_{code}")
+            raise StageRejected(self._safe_guard_error_code(response.error))
         if "json" not in response.mime.lower():
             raise StageRejected("finna_unexpected_content_type")
         try:
