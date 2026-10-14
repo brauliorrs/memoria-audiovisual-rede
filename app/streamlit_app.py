@@ -3704,10 +3704,12 @@ def render_sites_tab(corpus_def, context):
                 st.write(f"Plataformas detectadas: {row['platforms_detectadas']}")
             if pd.notna(row.get("warning")) and str(row.get("warning")).strip():
                 st.warning(str(row["warning"]))
-            if pd.notna(row.get(detail_url_field)) and str(row.get(detail_url_field)).strip():
-                st.markdown(f"[Abrir {detail_url_label}]({row[detail_url_field]})")
-            if pd.notna(row.get("final_url")) and str(row.get("final_url")).strip():
-                st.markdown(f"[Abrir site institucional]({row['final_url']})")
+            detail_url = public_external_url(row.get(detail_url_field))
+            if detail_url:
+                st.link_button(f"Abrir {detail_url_label}", detail_url)
+            institution_url = public_external_url(row.get("final_url"))
+            if institution_url:
+                st.link_button("Abrir site institucional", institution_url)
 
 
 def render_videos_tab(corpus_def, context, selected_theme):
@@ -4464,10 +4466,24 @@ def render_institution_tab(corpus_def, context, selected_slug):
             )
             st.dataframe(source_links, use_container_width=True, hide_index=True)
 
-            if pd.notna(selected_summary.get(detail_url_field)) and str(selected_summary.get(detail_url_field)).strip():
-                st.link_button(f"Abrir {corpus_def['detail_url_label']}", selected_summary[detail_url_field], use_container_width=True)
-            if pd.notna(selected_summary.get("final_url")) and str(selected_summary.get("final_url")).strip():
-                st.link_button("Abrir site institucional verificado", selected_summary["final_url"], use_container_width=True)
+            institution_catalog = public_external_url(
+                selected_summary.get(detail_url_field)
+            )
+            if institution_catalog:
+                st.link_button(
+                    f"Abrir {corpus_def['detail_url_label']}",
+                    institution_catalog,
+                    use_container_width=True,
+                )
+            verified_institution = public_external_url(
+                selected_summary.get("final_url")
+            )
+            if verified_institution:
+                st.link_button(
+                    "Abrir site institucional verificado",
+                    verified_institution,
+                    use_container_width=True,
+                )
 
     with institution_tab_videos:
         st.subheader("Vídeos localizados na instituição")
