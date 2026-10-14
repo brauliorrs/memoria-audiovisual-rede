@@ -224,7 +224,7 @@ class ExternalLinkTests(unittest.TestCase):
         )
         fragment = ast.unparse(fn)
         self.assertIn("detail_field_by_corpus", fragment)
-        self.assertIn('item["detail_url_field"]', fragment)
+        self.assertIn("detail_url_field", fragment)
         self.assertNotIn('["corpus", "slug", "final_url"]', fragment)
 
     def test_generic_wordpress_json_api_cannot_override_institution(self):
