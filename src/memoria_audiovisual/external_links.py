@@ -24,6 +24,40 @@ _MEDIA_QUERY_KEYS = frozenset({
     "video", "video_url", "src", "source", "download", "asset", "path",
 })
 
+def _is_known_visitor_page(url: str) -> bool:
+    """Fail-closed recognition of established public watch/record URL forms.
+
+    An unfamiliar extensionless URL is NOT presumed safe: it may be a video
+    delivery endpoint. The operator should discover a record-page route and
+    prove its semantics before widening this list.
+    """
+    parsed = urlsplit(url)
+    host = (parsed.hostname or "").casefold()
+    path = parsed.path.casefold()
+    if host in ("youtube.com", "www.youtube.com", "m.youtube.com"):
+        if path == "/watch":
+            return any(k == "v" and bool(v) for k, v in parse_qsl(parsed.query))
+        return path.startswith(("/shorts/", "/live/"))
+    if host in ("youtu.be", "www.youtu.be"):
+        return bool(path.strip("/")) and path.strip("/").count("/") == 0
+    if host in ("vimeo.com", "www.vimeo.com"):
+        segments = [x for x in path.split("/") if x]
+        return bool(segments) and segments[-1].isdigit()
+    if host in ("dailymotion.com", "www.dailymotion.com"):
+        return path.startswith("/video/")
+    if host == "dai.ly":
+        return bool(path.strip("/"))
+    if host in ("archive.org", "www.archive.org"):
+        return path.startswith("/details/")
+    if host in ("finna.fi", "www.finna.fi", "elonet.finna.fi"):
+        return path.startswith(("/record/", "/search/"))
+    if host in ("www.europeana.eu", "europeana.eu"):
+        return path.startswith("/en/item/")
+    if host in ("www.ina.fr", "ina.fr"):
+        return path.startswith("/ina-eclaire-actu/video/")
+    return _is_known_item_record_page(url)
+
+
 def _is_known_item_record_page(url: str) -> bool:
     """Only declare an item-specific page when its route is evidenced."""
     parsed = urlsplit(url)
@@ -81,6 +115,11 @@ def is_direct_media_asset(url: object, media_type: object = None) -> bool:
     if parsed.hostname and parsed.hostname.casefold() == "prod.media.memobase.ch":
         if path.startswith("/memo/"):
             return True
+    # Infomaniak's single-item VOD URLs are delivery routes (Autrefois
+    # corpus), not ordinary institutional item records.
+    if parsed.hostname and parsed.hostname.casefold() == "play.vod2.infomaniak.com":
+        if path.startswith("/single/"):
+            return True
     # Legacy media URLs often place the filename in a query parameter,
     # e.g. wwwopac.ashx?value=AV015929.mp4. Inspect VALUES, not a bare
     # query substring, to avoid false positives from normal search URLs.
@@ -101,13 +140,18 @@ def choose_origin_destination(
 ) -> OriginDestination:
     """Favor an origin record/platform page, never a raw media stream.
 
-    When the only item link is a raw file, fall back to the institution's
-    public landing/catalog page, accurately labeled as a general page.
+    An unfamiliar technical-looking URL is not treated as a public
+    watch page merely because it lacks a file extension. Prefer item-record
+    evidence, then a source catalog landing page with an explicit disclaimer.
     No HTTP requests, ownership inferences or URL rewriting of the stored
     source evidence occur.
     """
     candidate = public_external_url(discovered_url)
-    if candidate is not None and not is_direct_media_asset(candidate, media_type):
+    if (
+        candidate is not None
+        and not is_direct_media_asset(candidate, media_type)
+        and _is_known_visitor_page(candidate)
+    ):
         return OriginDestination(candidate, "record_or_platform")
     # The collector may already provide an item-specific *record* as its
     # partner_site. Prefer it to the unit-wide catalog landing page.
