@@ -3742,6 +3742,7 @@ def render_videos_tab(corpus_def, context, selected_theme):
         return choose_origin_destination(
             row.get("video_link"),
             institution_pages.get(row.get("slug")),
+            record_page_url=row.get("partner_site"),
         )
 
     st.subheader("Vídeos e temas")
@@ -4536,10 +4537,13 @@ def render_institution_tab(corpus_def, context, selected_slug):
             empty_title_mask = video_table_df["titulo_display"] == ""
             video_table_df.loc[empty_title_mask, "titulo_display"] = video_table_df.loc[empty_title_mask, "video_link"]
 
-            video_table_df["origin_link"] = video_table_df["video_link"].apply(
-                lambda url: choose_origin_destination(
-                    url, selected_summary.get(detail_url_field)
-                ).url or ""
+            video_table_df["origin_link"] = video_table_df.apply(
+                lambda row: choose_origin_destination(
+                    row.get("video_link"),
+                    selected_summary.get(detail_url_field),
+                    record_page_url=row.get("partner_site"),
+                ).url or "",
+                axis=1,
             )
             st.dataframe(
                 video_table_df[
@@ -4579,7 +4583,9 @@ def render_institution_tab(corpus_def, context, selected_slug):
                     # MAR is an external-access observatory: never load video
                     # playback or third-party iframe resources inside the app.
                     destination = choose_origin_destination(
-                        row["video_link"], selected_summary.get(detail_url_field)
+                        row["video_link"],
+                        selected_summary.get(detail_url_field),
+                        record_page_url=row.get("partner_site"),
                     )
                     if destination.url:
                         st.link_button(
