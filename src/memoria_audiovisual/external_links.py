@@ -17,6 +17,13 @@ _MEDIA_SUFFIXES = (
     ".mp3", ".wav", ".m4a", ".ogg",
 )
 
+# Only actual media-delivery query keys are considered; catalog searches
+# with a lookfor=movie.mp4 term must continue to open the search page.
+_MEDIA_QUERY_KEYS = frozenset({
+    "value", "file", "filename", "media", "media_url", "mediaurl",
+    "video", "video_url", "src", "source", "download", "asset", "path",
+})
+
 
 @dataclass(frozen=True)
 class OriginDestination:
@@ -56,7 +63,9 @@ def is_direct_media_asset(url: object, media_type: object = None) -> bool:
     # Legacy media URLs often place the filename in a query parameter,
     # e.g. wwwopac.ashx?value=AV015929.mp4. Inspect VALUES, not a bare
     # query substring, to avoid false positives from normal search URLs.
-    for _, value in parse_qsl(parsed.query, keep_blank_values=True):
+    for key, value in parse_qsl(parsed.query, keep_blank_values=True):
+        if key.casefold() not in _MEDIA_QUERY_KEYS:
+            continue
         if unquote(value).split("?", 1)[0].casefold().endswith(_MEDIA_SUFFIXES):
             return True
     return False
