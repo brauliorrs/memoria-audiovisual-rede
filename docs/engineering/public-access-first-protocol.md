@@ -43,6 +43,12 @@ Em G1, visitar deliberadamente **todos** os tipos de superfície listados no reg
 - **NO_PUBLIC_ACCESS_VERIFIED:** somente em escopo muito delimitado e após inspeção independente de rotas; nunca por falha de uma API ou do DNS local. Evitar afirmar indisponibilidade global.
 - **PROCEED_NEXT:** permitir que a fila avance com um HOLD **provisório** protocolado, mesmo sem corpus admitido, desde que declare as superfícies examinadas, as não examinadas, seus motivos e a natureza não definitiva da conclusão. `environment_limited` em qualquer superfície, catálogo identificado mas não observado ou `human_public_access=unverified` proíbem marcar `investigation_complete=true` ou `hold_documented` final. Não chamar esse HOLD de ausência de acesso.
 
+### Validade documental das evidências
+
+O inventário registra rotas **externamente examináveis**. URLs de `localhost`, loopback, IP privado, nomes locais ou host malformado não comprovam acesso público e são rejeitadas pelo validador. Endereços HTTP de catálogos legados permanecem aceitos como **evidência de navegação**, sem autorizar coleta automatizada. O validador não usa DNS: um nome público válido ainda depende de inspeção humana.
+
+As datas de observação de qualquer superfície e das provas de automação não podem ser posteriores a `survey_date`. As quatro dimensões técnicas são necessárias para assinalar `machine_collection=verified_in_scope`, mas **não** autorizam `CORPUS_ADMITTED`; a promoção requer seu protocolo específico.
+
 ### Prevenção de viés de confirmação
 
 Antes de decidir, responder e registrar as quatro perguntas de contraste:
