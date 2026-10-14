@@ -60,6 +60,46 @@ class ExternalLinkTests(unittest.TestCase):
                 self.assertIsNone(no_fallback.url)
                 self.assertEqual(no_fallback.kind, "unavailable")
 
+    def test_cna_delivery_endpoints_without_extension_are_not_record_pages(self):
+        # Regression for real CNA output rows reviewed in PR #75.
+        examples = (
+            "https://cna.kiss.lu/getMedium/d18fac130ee9f74d2c035d491b946467",
+            "https://cnasearch.public.lu/wwwopac.ashx?value=AV015929.mp4",
+            "https://cnasearch.public.lu/wwwopac.ashx?value=AV015929%2Emp4",
+            "https://cnasearch.public.lu/wwwopac.ashx?value=AV015929.mp4&lang=fr",
+        )
+        source_catalog = "https://cnasearch.public.lu/searchprofiles/run/4/film"
+        for url in examples:
+            with self.subTest(url=url):
+                self.assertTrue(is_direct_media_asset(url))
+                destination = choose_origin_destination(url, source_catalog)
+                self.assertEqual(destination.url, source_catalog)
+                self.assertEqual(destination.kind, "institution_home")
+                self.assertIsNone(choose_origin_destination(url).url)
+
+    def test_explicit_mime_evidence_blocks_extensionless_unknown_host(self):
+        streaming_endpoint = "https://media.example.org/stream/opaque-id"
+        institution_page = "https://archive.example.org/catalog"
+        self.assertFalse(is_direct_media_asset(streaming_endpoint))
+        self.assertTrue(is_direct_media_asset(streaming_endpoint, "video/mp4"))
+        self.assertTrue(is_direct_media_asset(streaming_endpoint, "video/mp4; charset=binary"))
+        self.assertTrue(is_direct_media_asset(streaming_endpoint, "application/dash+xml"))
+        result = choose_origin_destination(
+            streaming_endpoint,
+            institution_page,
+            media_type="video/mp4",
+        )
+        self.assertEqual(result.url, institution_page)
+        self.assertEqual(result.kind, "institution_home")
+
+    def test_search_queries_containing_media_text_are_not_always_files(self):
+        link = "https://elonet.finna.fi/Search/Results?lookfor=example.mp4&type=AllFields"
+        # A conservative fallback is acceptable when a query parameter is
+        # indistinguishable from a media filename, but it must not replace the
+        # original raw source URL in evidence.
+        result = choose_origin_destination(link, "https://elonet.finna.fi/")
+        self.assertEqual(result.url, "https://elonet.finna.fi/")
+
     def test_preserve_real_platform_watch_and_record_pages(self):
         values = (
             "https://www.youtube.com/watch?v=sample",
