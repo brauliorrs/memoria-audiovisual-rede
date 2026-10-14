@@ -99,6 +99,30 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertEqual(result.url, link)
         self.assertEqual(result.kind, "record_or_platform")
 
+    def test_infomaniak_extensionless_vod_is_not_public_item_page(self):
+        raw = "https://play.vod2.infomaniak.com/single/abcdef0123456"
+        home = "https://autrefois.example.org/catalogue"
+        self.assertTrue(is_direct_media_asset(raw))
+        dest = choose_origin_destination(raw, home)
+        self.assertEqual(dest.url, home)
+        self.assertEqual(dest.kind, "institution_home")
+
+    def test_unrecognized_extensionless_urls_fail_closed(self):
+        raw = "https://video.unknown.example.org/stream/opaque-token"
+        fallback = "https://archive.example.org/catalog"
+        self.assertFalse(is_direct_media_asset(raw))
+        result = choose_origin_destination(raw, fallback)
+        self.assertEqual(result.url, fallback)
+        self.assertEqual(result.kind, "institution_home")
+        self.assertIsNone(choose_origin_destination(raw).url)
+
+    def test_unknown_record_path_does_not_masquerade_as_verified_web_item(self):
+        raw = "https://streaming.example.org/record/opaque-media-id"
+        fallback = "https://archive.example.org/catalog"
+        self.assertEqual(
+            choose_origin_destination(raw, fallback).url, fallback
+        )
+
     def test_memobase_digital_object_redirects_to_original_record(self):
         # Cinémathèque suisse: a technical digitalObject is not the public
         # media page; the row's partner_site is a record URL on Memobase.
@@ -221,6 +245,8 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertNotIn("get_vimeo_embed_url", source)
         self.assertIn("choose_origin_destination(", source)
         self.assertIn('record_page_url=row.get("partner_site")', source)
+        self.assertIn('"partner_site",', source)
+        self.assertIn('if "partner_site" not in selected_links.columns:', source)
         self.assertIn('st.column_config.LinkColumn(localize_ui("Acessar na origem"))', source)
         self.assertNotIn('st.markdown(f"[Abrir vídeo]', source)
         self.assertIn("st.link_button(", source)
