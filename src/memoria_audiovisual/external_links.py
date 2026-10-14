@@ -184,11 +184,11 @@ def _is_known_item_record_page(url: str) -> bool:
     if host in ("www.bbc.co.uk", "bbc.co.uk"):
         match = re.fullmatch(r"/videos/([a-z0-9_-]+)/?", path)
         return match is not None and match.group(1) not in technical_leaf
-    # DR DRTV: dr.py::_item_to_record uses item.path as a public
-    # program page, not as a media delivery endpoint.
+    # DR DRTV: dr.py::_item_to_record accepts program AND episode item.path
+    # routes as public visitor pages, not media delivery endpoints.
     if host in ("www.dr.dk", "dr.dk"):
         match = re.fullmatch(
-            r"/drtv/program/([a-z0-9_%~-]+(?:/[a-z0-9_%~-]+)*)/?",
+            r"/drtv/(?:program|episode)/([a-z0-9_%~-]+(?:/[a-z0-9_%~-]+)*)/?",
             path,
         )
         return (
