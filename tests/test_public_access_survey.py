@@ -5,6 +5,7 @@ import copy
 import json
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts.validate_public_access_survey import (
     KINDS, check_survey, validate_survey,
@@ -149,10 +150,8 @@ class PublicAccessFirstGateTests(unittest.TestCase):
         )
 
     def test_no_network_or_auto_admission_is_ever_performed(self):
-        self.assertNotIn("requests", Path(
-            ROOT / "scripts" / "validate_public_access_survey.py"
-        ).read_text(encoding="utf-8"))
-        ready, _ = validate_survey(completed())
+        with patch("socket.socket", side_effect=AssertionError("network banned")):
+            ready, _ = validate_survey(completed())
         self.assertTrue(ready)
         # Human review remains required, including for synthetically valid data.
         self.assertEqual(completed()["conclusion"]["decision"], "hold_documented")
