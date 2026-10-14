@@ -197,6 +197,7 @@ class ExternalLinkTests(unittest.TestCase):
             "https://www.bbc.co.uk/videos/c1dpg5z05l3o",
             "https://www.dr.dk/drtv/program/danmarkshistorien_123456",
             "https://www.dr.dk/drtv/program/gensyn/some-program",
+            "https://www.dr.dk/drtv/episode/monopolets-helte_-gorm-og-gregers_505183",
             "https://filmo.platfo.es/content/documental-1945",
         )
         for page in pages:
@@ -216,6 +217,9 @@ class ExternalLinkTests(unittest.TestCase):
             "https://www.bbc.co.uk/videos/clip.mp4",
             "https://www.dr.dk/drtv/program/",
             "https://www.dr.dk/drtv/program/sample/stream",
+            "https://www.dr.dk/drtv/episode/stream",
+            "https://www.dr.dk/drtv/episode/sample/download",
+            "https://www.dr.dk/drtv/episode/clip.mp4",
             "https://www.dr.dk/drtv/program/show/master.m3u8",
             "https://www.dr.dk/drtv/api/program/film",
             "https://filmo.platfo.es/content/",
