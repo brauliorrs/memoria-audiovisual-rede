@@ -366,6 +366,47 @@ class ExternalLinkTests(unittest.TestCase):
                 self.assertEqual(result.url, fallback)
                 self.assertEqual(result.kind, "institution_home")
 
+    def test_fina_bfi_and_ifi_public_film_pages_are_preserved(self):
+        cases = (
+            (
+                "https://ninateka.pl/movies,1/film-dokumentalny",
+                "https://ninateka.pl/ogladaj",
+            ),
+            (
+                "https://replay.bfi.org.uk/video/12345678-aaaa-4bcd-8000-1234567890ab",
+                "https://replay.bfi.org.uk/",
+            ),
+            (
+                "https://ifiarchiveplayer.ie/irish-film-reel-1952/",
+                "https://ifiarchiveplayer.ie/browse/",
+            ),
+        )
+        for page, home in cases:
+            with self.subTest(page=page):
+                result = choose_origin_destination(page, home)
+                self.assertEqual(result.url, page)
+                self.assertEqual(result.kind, "record_or_platform")
+
+    def test_fina_bfi_and_ifi_reject_technical_or_navigation_pages(self):
+        home = "https://archive.example/catalogue"
+        rejected = (
+            "https://ninateka.pl/api/products/vods",
+            "https://ninateka.pl/movies,1/",
+            "https://ninateka.pl/movies,1/test/video.mp4",
+            "https://replay.bfi.org.uk/video/not-a-uuid",
+            "https://replay.bfi.org.uk/video/12345678-aaaa-4bcd-8000-1234567890ab/master.m3u8",
+            "https://ifiarchiveplayer.ie/wp-json/wp/v2/posts",
+            "https://ifiarchiveplayer.ie/browse/",
+            "https://ifiarchiveplayer.ie/post-sitemap.xml",
+            "https://ifiarchiveplayer.ie/category-films/",
+        )
+        for url in rejected:
+            with self.subTest(url=url):
+                self.assertEqual(
+                    choose_origin_destination(url, home).url,
+                    home,
+                )
+
     def test_aqshf_and_efg_collector_item_pages_are_preserved(self):
         examples = (
             (
