@@ -191,6 +191,45 @@ class ExternalLinkTests(unittest.TestCase):
                 self.assertEqual(result.url, source)
                 self.assertEqual(result.kind, "record_or_platform")
 
+    def test_eye_filmarchiv_and_duesseldorf_item_pages_remain_specific(self):
+        # Examples are based on archived metadata from each active collector.
+        pages = (
+            "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/als-het-verleden",
+            "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/and-a-table",
+            "https://filmdatabase.eyefilm.nl/en/node/12345",
+            "https://www.filmarchiv.at/de/filmarchiv-on/video/f_0302R9oBXXu9uujZBKJCmq",
+            "https://emuseum.duesseldorf.de/objects/383018/besuch-einer-dusseldorfer-delegation-bei-der-steubenparade",
+        )
+        for item in pages:
+            with self.subTest(item=item):
+                self.assertEqual(
+                    choose_origin_destination(
+                        item, "https://institution.example.org/collection"
+                    ).url,
+                    item,
+                )
+                self.assertEqual(
+                    choose_origin_destination(item).kind,
+                    "record_or_platform",
+                )
+
+    def test_eye_filmarchiv_and_duesseldorf_technical_routes_stay_blocked(self):
+        invalid = (
+            "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all",
+            "https://filmdatabase.eyefilm.nl/en/node/1234/stream",
+            "https://filmdatabase.eyefilm.nl/api/records/123",
+            "https://www.filmarchiv.at/de/filmarchiv-on/video/f_0302R9oBXXu9uujZBKJCmq/stream",
+            "https://www.filmarchiv.at/de/filmarchiv-on/video/master.m3u8",
+            "https://emuseum.duesseldorf.de/objects/383018/stream",
+            "https://emuseum.duesseldorf.de/objects/383018/besuch-einer-delegation/download",
+        )
+        fallback = "https://institution.example.org/collection"
+        for raw in invalid:
+            with self.subTest(raw=raw):
+                selection = choose_origin_destination(raw, fallback)
+                self.assertEqual(selection.url, fallback)
+                self.assertEqual(selection.kind, "institution_home")
+
     def test_cinemateca_portuguesa_public_ficha_preserved(self):
         ficha = (
             "https://www.cinemateca.pt/Cinemateca-Digital/"
