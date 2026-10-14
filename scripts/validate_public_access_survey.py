@@ -85,7 +85,7 @@ def check_survey(doc: object) -> list[str]:
             errors.append(f"survey_{kind}_invalid")
             continue
         status = surface.get("status")
-        if status not in STATUSES:
+        if not isinstance(status, str) or status not in STATUSES:
             errors.append(f"survey_{kind}_status_invalid")
             continue
         evidence = surface.get("evidence")
@@ -138,7 +138,9 @@ def check_survey(doc: object) -> list[str]:
     if decision in ("hold_documented", "admitted") or completed is True:
         not_assessed = any(
             not isinstance(surfaces.get(k), dict)
-            or surfaces[k].get("status") == "not_assessed"
+            or surfaces[k].get("status") in (
+                "not_assessed", "route_identified_unverified"
+            )
             for k in KINDS
         )
         if not_assessed:
