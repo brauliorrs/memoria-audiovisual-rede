@@ -3265,19 +3265,23 @@ def render_category_tab(category_def):
                     filtered_video_df["access_surface"] == selected_access_surface
                 ]
 
+            # final_url is a crawl outcome and can be a JSON/API endpoint.
+            # Use the canonical *catalog* field registered for each corpus.
+            detail_field_by_corpus = {
+                item["short_label"]: item["detail_url_field"]
+                for item in corpora_in_category
+            }
             institution_pages = {}
             if (
                 not combined_summary_df.empty
-                and {"corpus", "slug", "final_url"}.issubset(
-                    combined_summary_df.columns
-                )
+                and {"corpus", "slug"}.issubset(combined_summary_df.columns)
             ):
-                institution_pages = {
-                    (row["corpus"], row["slug"]): row["final_url"]
-                    for _, row in combined_summary_df[
-                        ["corpus", "slug", "final_url"]
-                    ].drop_duplicates(["corpus", "slug"]).iterrows()
-                }
+                for _, row in combined_summary_df.drop_duplicates(
+                    ["corpus", "slug"]
+                ).iterrows():
+                    field = detail_field_by_corpus.get(row["corpus"])
+                    if field and field in combined_summary_df.columns:
+                        institution_pages[(row["corpus"], row["slug"])] = row.get(field)
             st.dataframe(
                 build_category_video_display_df(
                     filtered_video_df,
