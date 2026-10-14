@@ -35,6 +35,12 @@ HUMAN_KINDS = frozenset({
     "institutional_site", "specialized_catalog", "public_search",
     "individual_item_pages", "aggregator_portal",
 })
+MACHINE_EVIDENCE_KEYS = (
+    "authorization_evidence",
+    "bounded_enumeration_evidence",
+    "replay_integrity_evidence",
+    "provenance_evidence",
+)
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 UNIT_ID = re.compile(r"^[a-z0-9][a-z0-9._-]{2,80}$")
 
@@ -135,11 +141,37 @@ def check_survey(doc: object) -> list[str]:
         machine_surface = surfaces.get("machine_interfaces")
         if not isinstance(machine_surface, dict) or machine_surface.get("status") != "observed_public":
             errors.append("survey_machine_claim_unsubstantiated")
+
+    # A reachable machine endpoint is NOT a validated collector. An explicit
+    # authorization/rights context, bounded enumeration, replay integrity
+    # and per-record provenance all require independently reviewable evidence.
+    if machine == "verified_in_scope":
+        validation = conclusion.get("machine_validation")
+        if not isinstance(validation, dict):
+            errors.append("survey_machine_validation_missing")
+        else:
+            for key in MACHINE_EVIDENCE_KEYS:
+                proof = validation.get(key)
+                if (not isinstance(proof, list) or not proof
+                    or any(
+                        not isinstance(item, dict)
+                        or not _public_url(item.get("url"))
+                        or not _date_is_valid(item.get("observed_on"))
+                        or not isinstance(item.get("observation"), str)
+                        or not item["observation"].strip()
+                        for item in proof
+                    )):
+                    errors.append(f"survey_machine_{key}_invalid")
+    if decision == "admitted":
+        # Corpus inclusion requires a separate controlled admission protocol,
+        # not a declaration embedded in the public-discovery inventory.
+        errors.append("survey_admission_requires_separate_protocol")
     if decision in ("hold_documented", "admitted") or completed is True:
         not_assessed = any(
             not isinstance(surfaces.get(k), dict)
             or surfaces[k].get("status") in (
-                "not_assessed", "route_identified_unverified"
+                "not_assessed", "route_identified_unverified",
+                "environment_limited"
             )
             for k in KINDS
         )
@@ -147,6 +179,8 @@ def check_survey(doc: object) -> list[str]:
             errors.append("survey_discovery_not_completed")
         if completed is not True:
             errors.append("survey_final_decision_without_complete_flag")
+        if access == "unverified":
+            errors.append("survey_human_access_unresolved")
         # Unknown, route-identified or environment-limited surfaces must be
         # explicitly retained as limitations, not recast as no access.
         if access == "not_confirmed_in_scope" and any(
@@ -158,8 +192,7 @@ def check_survey(doc: object) -> list[str]:
             errors.append("survey_absence_claim_overreaches_evidence")
     if decision == "pending" and completed is True:
         errors.append("survey_complete_but_decision_pending")
-    if decision == "admitted" and machine != "verified_in_scope":
-        errors.append("survey_admission_without_machine_verification")
+
     return errors
 
 
