@@ -14,7 +14,10 @@ def public_external_url(value: object) -> str | None:
         return None
     if len(value) > 4096 or any(ord(char) < 32 or ord(char) == 127 for char in value):
         return None
-    if any(char.isspace() for char in value):
+    # Historical cinema snapshots contain legitimate unencoded spaces in
+    # paths (FAR, BArch, Ciné-Archives, CNC-AFF). Encode spaces for navigation
+    # without mutating the preserved source URL in the corpus.
+    if any(char.isspace() and char != " " for char in value):
         return None
     try:
         parsed = urlsplit(value)
@@ -23,9 +26,12 @@ def public_external_url(value: object) -> str | None:
         return None
     if parsed.scheme.lower() not in ("http", "https"):
         return None
+    if " " in parsed.netloc or "\\" in value:
+        return None
     if not parsed.hostname or parsed.username is not None or parsed.password is not None:
         return None
     if port is not None and not 1 <= port <= 65535:
         return None
-    # Do not silently correct or rewrite source identifiers.
-    return value
+    # The link destination is a derived navigation URL, not a replacement
+    # for the original source identifier recorded in the MAR snapshot.
+    return value.replace(" ", "%20")
