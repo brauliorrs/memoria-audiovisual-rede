@@ -73,7 +73,7 @@ def _is_known_item_record_page(url: str) -> bool:
     # Image'Est publishes individual documentary fiche pages in its
     # robots-declared sitemap. Preserve the exact public item link.
     if host in ("image-est.fr", "www.image-est.fr"):
-        return re.fullmatch(r"/fiche-documentaire-[^/?#]+\\.html", path) is not None
+        return re.fullmatch(r"/fiche-documentaire-[^/?#]+\.html", path) is not None
     if host in ("memobase.ch", "www.memobase.ch"):
         return path.startswith("/object/") and bool(path[len("/object/"):].strip("/"))
     # Collector-vetted ECPAD public Arkothèque item detail URL.
