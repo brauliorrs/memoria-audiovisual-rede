@@ -15,6 +15,7 @@ A [metodologia científica de referência](docs/methodology/mar-scientific-metho
 A expansão do corpus e o desenvolvimento de instrumentos passam a operar em trilhas independentes. A fila de inclusão continua avançando mesmo quando classificadores experimentais estão em validação. Um instrumento novo só entra no executor de produção depois de validação de eficácia, limites documentados e admissão no [registro de instrumentos](docs/methodology/analysis-instrument-registry.json).
 
 - [Política operacional e ciclo de promoção](docs/engineering/production-analysis-lifecycle.md)
+- [Protocolo de descoberta do acesso público antes de escolher API ou coletor](docs/engineering/public-access-first-protocol.md)
 - [Instrumentos atualmente admitidos e evidência de eficácia](docs/methodology/validated-analysis-instruments.md)
 
 Próximos itens da fila, sem incorporação automática:
