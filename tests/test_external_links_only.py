@@ -377,11 +377,11 @@ class ExternalLinkTests(unittest.TestCase):
                 "https://aqshf.gov.al/",
             ),
             (
-                "https://www.europeanfilmgateway.eu/detail/EFG123456",
+                "https://www.europeanfilmgateway.eu/detail/film%20archive%20document/barch::425b123456",
                 "https://www.europeanfilmgateway.eu/",
             ),
             (
-                "https://www.europeanfilmgateway.eu/detail/12345?lang=en",
+                "https://www.europeanfilmgateway.eu/detail/silent-film/bnfa::3821?lang=en",
                 "https://www.europeanfilmgateway.eu/",
             ),
         )
@@ -401,6 +401,10 @@ class ExternalLinkTests(unittest.TestCase):
             "https://www.europeanfilmgateway.eu/api/record/12",
             "https://www.europeanfilmgateway.eu/detail/12/stream",
             "https://www.europeanfilmgateway.eu/detail/video.mp4",
+            "https://www.europeanfilmgateway.eu/detail/EFG123456",
+            "https://www.europeanfilmgateway.eu/detail/film/unknown-provider",
+            "https://www.europeanfilmgateway.eu/detail/film/barch::",
+            "https://www.europeanfilmgateway.eu/detail/film/stream.m3u8",
         )
         for page in rejected:
             with self.subTest(page=page):
