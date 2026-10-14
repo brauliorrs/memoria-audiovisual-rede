@@ -169,9 +169,50 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertNotIn("streamlit.components.v1", source)
         self.assertNotIn("get_vimeo_embed_url", source)
         self.assertIn("choose_origin_destination(", source)
-        self.assertIn('st.column_config.LinkColumn("Acessar na origem")', source)
+        self.assertIn('st.column_config.LinkColumn(localize_ui("Acessar na origem"))', source)
         self.assertNotIn('st.markdown(f"[Abrir vídeo]', source)
         self.assertIn("st.link_button(", source)
+
+    def test_dataframe_link_column_config_uses_translated_header(self):
+        # Execute only the pure adapter AST node, not the Streamlit app.
+        # A translated DataFrame column needs the same translated config key.
+        tree = ast.parse(APP.read_text(encoding="utf-8-sig"))
+        function = next(
+            node for node in tree.body
+            if isinstance(node, ast.FunctionDef)
+            and node.name == "localize_dataframe_arguments"
+        )
+        isolated = ast.fix_missing_locations(
+            ast.Module(body=[function], type_ignores=[])
+        )
+        for lang, display_name in (
+            ("es", "Abrir en la plataforma de origen"),
+            ("en", "Open at source"),
+        ):
+            with self.subTest(language=lang):
+                label = "Acessar na origem"
+                env = {
+                    "APP_LANGUAGE": lang,
+                    "DEFAULT_LANGUAGE": "pt",
+                    "localize_ui": lambda text: (
+                        display_name if text == label else text
+                    ),
+                    "localize_dataframe_columns": lambda frame: {
+                        (display_name if key == label else key): value
+                        for key, value in frame.items()
+                    },
+                }
+                exec(compile(isolated, str(APP), "exec"), env)
+                original = {label: ["https://example.org/record"]}
+                marker = object()
+                args, kwargs = env["localize_dataframe_arguments"](
+                    (original,),
+                    {"column_config": {label: marker}},
+                )
+                self.assertIn(display_name, args[0])
+                self.assertIn(display_name, kwargs["column_config"])
+                self.assertIs(kwargs["column_config"][display_name], marker)
+                self.assertIn(label, original)  # Never mutate source metadata
 
     def test_external_navigation_translated_into_supported_languages(self):
         phrases = {
