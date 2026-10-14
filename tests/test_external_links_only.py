@@ -133,11 +133,30 @@ class ExternalLinkTests(unittest.TestCase):
         result = choose_origin_destination(
             raw, collection, record_page_url=record
         )
-        self.assertEqual(result.url, record)
-        self.assertEqual(result.kind, "record_or_platform")
         self.assertEqual(
-            choose_origin_destination(raw, collection).kind, "institution_home"
+            result.url, "https://memobase.ch/object/csa-001-1000012550"
         )
+        self.assertEqual(result.kind, "record_or_platform")
+        # JSON API recordSet is not a visitor-facing catalog page.
+        self.assertEqual(
+            choose_origin_destination(raw, collection).kind, "unavailable"
+        )
+
+    def test_memobase_mapping_is_strictly_limited_to_documented_record_ids(self):
+        raw = "https://prod.media.memobase.ch/memo/opaque-video-locator"
+        catalog = "https://institution.example.org/catalog"
+        rejected = (
+            "https://api.memobase.ch/record/search?q=hello",
+            "https://api.memobase.ch/recordSet/csa-001?format=Json",
+            "https://evil.example.org/record/csa-001-123",
+        )
+        for technical in rejected:
+            with self.subTest(technical=technical):
+                destination = choose_origin_destination(
+                    raw, catalog, record_page_url=technical
+                )
+                self.assertEqual(destination.url, catalog)
+                self.assertEqual(destination.kind, "institution_home")
 
     def test_cinememoire_item_notice_takes_precedence_over_collection_page(self):
         raw = "https://cinememoire.net/streaming/cinememoire/sequences/001-011-Streaming.mp4"
