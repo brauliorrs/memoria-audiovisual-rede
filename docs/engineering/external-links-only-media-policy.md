@@ -40,7 +40,7 @@ A ficha institucional deixa de chamar `st.video` e `components.iframe`. Em vez d
 
 ## Aperfeiçoamento de encaminhamento institucional
 
-O contrato `choose_origin_destination` define `record_or_platform` para ficha/página de vídeo pública segura, `institution_home` quando há apenas arquivo de mídia e existe endereço institucional de fallback, e `unavailable` quando não é possível apontar um destino de consulta confiável. O estado `institution_home` **não significa que a obra esteja disponível naquele catálogo**. O próprio painel sinaliza a ausência de ficha específica.
+O contrato `choose_origin_destination` define `record_or_platform` para ficha/página de vídeo pública segura, `institution_home` quando há apenas arquivo de mídia e existe endereço institucional de fallback, e `unavailable` quando não é possível apontar um destino de consulta confiável. A identificação de mídia direta inclui extensões no caminho, nomes de arquivo em parâmetros de consulta, a rota específica `cna.kiss.lu/getMedium/<hash>` e um campo MIME explícito quando disponível. **Não inferir MIME de descrições textuais livres**, pois podem apenas citar o formato de um audiovisual que tem ficha pública. O estado `institution_home` **não significa que a obra esteja disponível naquele catálogo**. O próprio painel sinaliza a ausência de ficha específica.
 
 Os modos de consulta por tema e por instituição usam links derivados (páginas da plataforma ou catálogo institucional); o CSV/JSON e o registro científico preservam o campo original de descoberta separado da experiência de clique. Assim, o visitante não é encaminhado a um arquivo MP4 isolado, e o histórico bruto de evidência não é apagado.
 
