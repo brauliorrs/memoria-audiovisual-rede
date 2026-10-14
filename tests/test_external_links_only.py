@@ -366,6 +366,48 @@ class ExternalLinkTests(unittest.TestCase):
                 self.assertEqual(result.url, fallback)
                 self.assertEqual(result.kind, "institution_home")
 
+    def test_aqshf_and_efg_collector_item_pages_are_preserved(self):
+        examples = (
+            (
+                "https://aqshf.gov.al/motion_picture/filmi-historik/",
+                "https://aqshf.gov.al/en/motion-pictures-listing/",
+            ),
+            (
+                "https://aqshf.gov.al/motion_picture/23241/",
+                "https://aqshf.gov.al/",
+            ),
+            (
+                "https://www.europeanfilmgateway.eu/detail/EFG123456",
+                "https://www.europeanfilmgateway.eu/",
+            ),
+            (
+                "https://www.europeanfilmgateway.eu/detail/12345?lang=en",
+                "https://www.europeanfilmgateway.eu/",
+            ),
+        )
+        for page, home in examples:
+            with self.subTest(page=page):
+                chosen = choose_origin_destination(page, home)
+                self.assertEqual(chosen.url, page)
+                self.assertEqual(chosen.kind, "record_or_platform")
+
+    def test_aqshf_and_efg_technical_urls_are_not_item_pages(self):
+        home = "https://archive.example/catalogue"
+        rejected = (
+            "https://aqshf.gov.al/wp-json/wp/v2/motion_picture",
+            "https://aqshf.gov.al/motion_picture/",
+            "https://aqshf.gov.al/motion_picture/sample/file.mp4",
+            "https://www.europeanfilmgateway.eu/detail/",
+            "https://www.europeanfilmgateway.eu/api/record/12",
+            "https://www.europeanfilmgateway.eu/detail/12/stream",
+            "https://www.europeanfilmgateway.eu/detail/video.mp4",
+        )
+        for page in rejected:
+            with self.subTest(page=page):
+                chosen = choose_origin_destination(page, home)
+                self.assertEqual(chosen.url, home)
+                self.assertEqual(chosen.kind, "institution_home")
+
     def test_ert_wordpress_public_posts_preserve_item_permalink(self):
         # ERT collector stores WordPress 'link' as a human-facing item page.
         home = "https://archive.ert.gr/"
