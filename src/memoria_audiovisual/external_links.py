@@ -66,6 +66,9 @@ def _is_known_item_record_page(url: str) -> bool:
     parsed = urlsplit(url)
     host = (parsed.hostname or "").casefold()
     path = parsed.path.casefold()
+    # Technical action slugs must not masquerade as source fiches in
+    # host-vetted item routes, even when the path has the expected depth.
+    technical_leaf = {"stream", "download", "api", "embed", "manifest"}
     # Eye Filmmuseum: the collector emits specific public film-history
     # fiches on filmdatabase.eyefilm.nl. The search aggregation URL
     # /film/all/all is NOT an individual work and must not be labeled one.
@@ -85,9 +88,10 @@ def _is_known_item_record_page(url: str) -> bool:
     # Düsseldorf's d:kult eMuseum object fiche. An /objects/<id>/<slug>
     # is metadata, not an AV stream; other /objects/ subroutes remain HOLD.
     if host == "emuseum.duesseldorf.de":
-        return re.fullmatch(
-            r"/objects/[0-9]+/[a-z0-9_%\\-]+/?", path,
-        ) is not None
+        match = re.fullmatch(
+            r"/objects/[0-9]+/([a-z0-9_%\\-]+)/?", path,
+        )
+        return match is not None and match.group(1) not in technical_leaf
     # FINA's Ninateka product webUrl is a *public watch page* with the
     # collector-evidenced /movies,1/<slug> shape, not a media stream.
     if host in ("ninateka.pl", "www.ninateka.pl"):
