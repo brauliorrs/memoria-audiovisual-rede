@@ -66,6 +66,21 @@ def _is_known_item_record_page(url: str) -> bool:
     parsed = urlsplit(url)
     host = (parsed.hostname or "").casefold()
     path = parsed.path.casefold()
+    # ERT's WordPress API posts carry a public single-segment permalink
+    # in the collected 'link' and 'page_url' fields; these are *not* the
+    # video's stream. Keep WP APIs, admin paths and asset folders excluded.
+    if host == "archive.ert.gr":
+        segment = path.strip("/")
+        return (
+            bool(segment)
+            and "/" not in segment
+            and not segment.startswith(("wp-", "."))
+            and segment not in (
+                "feed", "category", "tag", "author", "search",
+                "page", "api", "graphql", "sitemap",
+            )
+            and re.fullmatch(r"[a-z0-9_%-]+", segment) is not None
+        )
     # The Murnau-Stiftung collector constructs /movie/<numeric-id> pages
     # as public film metadata permalinks (not media delivery URLs).
     if host in ("murnau-stiftung.de", "www.murnau-stiftung.de"):
