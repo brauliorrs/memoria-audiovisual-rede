@@ -7,6 +7,7 @@ Legacy spaces in URL paths/queries are percent-encoded only for navigation.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import re
 from urllib.parse import parse_qsl, unquote, urlsplit
 
 # Media streams are not permanent record pages. Opening them can produce
@@ -65,8 +66,8 @@ def _is_known_item_record_page(url: str) -> bool:
     parsed = urlsplit(url)
     host = (parsed.hostname or "").casefold()
     path = parsed.path.casefold()
-    if host == "api.memobase.ch" and path.startswith("/record/"):
-        return True
+    if host in ("memobase.ch", "www.memobase.ch"):
+        return path.startswith("/object/") and bool(path[len("/object/"):].strip("/"))
     if host in ("gosfilmofond.ru", "www.gosfilmofond.ru"):
         return path.startswith("/films/") and bool(path[len("/films/"):].strip("/"))
     if host == "film.iwmcollections.org.uk":
@@ -79,6 +80,41 @@ def _is_known_item_record_page(url: str) -> bool:
     # A generic /record/ path is not authoritative evidence of a catalog:
     # on unreviewed hosts it may itself be an opaque media-delivery route.
     return False
+
+
+def _memobase_record_public_page(value: object) -> str | None:
+    """Resolve the provider-documented API record ID to its visitor page.
+
+    Memobase's own API documentation specifies that /record/<id> identifiers
+    map to https://memobase.ch/object/<id>. Never use this mapping for
+    arbitrary hosts or opaque relative paths, and do not mutate stored URLs.
+    """
+    candidate = public_external_url(value)
+    if candidate is None:
+        return None
+    parsed = urlsplit(candidate)
+    if (parsed.hostname or "").casefold() != "api.memobase.ch":
+        return None
+    match = re.fullmatch(r"/record/([A-Za-z0-9_-]+)", parsed.path)
+    if match is None:
+        return None
+    return f"https://memobase.ch/object/{match.group(1)}"
+
+
+def _is_nontechnical_landing_page(value: object) -> bool:
+    """Avoid sending a visitor to a metadata API or raw asset fallback."""
+    safe = public_external_url(value)
+    if safe is None or is_direct_media_asset(safe):
+        return False
+    parsed = urlsplit(safe)
+    host = (parsed.hostname or "").casefold()
+    path = parsed.path.casefold()
+    return (
+        not host.startswith(("api.", "data."))
+        and "/wp-json/" not in path
+        and not path.startswith(("/api/", "/graphql/"))
+        and not path.endswith((".json", ".jsonld", ".xml", ".csv"))
+    )
 
 
 @dataclass(frozen=True)
@@ -161,10 +197,14 @@ def choose_origin_destination(
         return OriginDestination(candidate, "record_or_platform")
     # The collector may already provide an item-specific *record* as its
     # partner_site. Prefer it to the unit-wide catalog landing page.
-    item_page = public_external_url(record_page_url)
+    # Prefer the documented human-facing Memobase page over its JSON API.
+    item_page = (
+        _memobase_record_public_page(record_page_url)
+        or public_external_url(record_page_url)
+    )
     if (
         item_page is not None
-        and not is_direct_media_asset(item_page)
+        and _is_nontechnical_landing_page(item_page)
         and _is_known_visitor_page(item_page)
     ):
         return OriginDestination(
@@ -173,7 +213,7 @@ def choose_origin_destination(
             else "institution_home",
         )
     fallback = public_external_url(institution_page_url)
-    if fallback is not None and not is_direct_media_asset(fallback):
+    if fallback is not None and _is_nontechnical_landing_page(fallback):
         return OriginDestination(fallback, "institution_home")
     return OriginDestination(None, "unavailable")
 
