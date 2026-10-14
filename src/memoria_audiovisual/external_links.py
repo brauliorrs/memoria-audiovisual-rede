@@ -68,6 +68,9 @@ def _is_known_item_record_page(url: str) -> bool:
     path = parsed.path.casefold()
     if host in ("memobase.ch", "www.memobase.ch"):
         return path.startswith("/object/") and bool(path[len("/object/"):].strip("/"))
+    if host in ("www.cinemateca.pt", "cinemateca.pt") and path.endswith("/ficha.aspx"):
+        values = dict((key.casefold(), value.casefold()) for key, value in parse_qsl(parsed.query))
+        return values.get("obraid", "").isdigit() and values.get("type") == "video"
     if host in ("gosfilmofond.ru", "www.gosfilmofond.ru"):
         return path.startswith("/films/") and bool(path[len("/films/"):].strip("/"))
     if host == "film.iwmcollections.org.uk":
