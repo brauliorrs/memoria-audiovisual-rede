@@ -207,6 +207,56 @@ class PublicAccessFirstGateTests(unittest.TestCase):
         )
         self.assertIn("survey_public_search_evidence_invalid", check_survey(survey))
 
+    def test_local_and_malformed_hostnames_cannot_prove_public_access(self):
+        blocked = (
+            "http://localhost/item",
+            "https://127.0.0.1/item",
+            "https://192.168.1.7/item",
+            "http://10.0.0.1/item",
+            "https://[::1]/item",
+            "https://./item",
+            "https://a.local/item",
+            "https://example.internal/item",
+            "https://example.test/item",
+            "http://intranet/item",
+            "https://example.org:bad/item",
+        )
+        for url in blocked:
+            with self.subTest(url=url):
+                survey = completed()
+                survey["surfaces"]["individual_item_pages"]["evidence"][0]["url"] = url
+                self.assertIn(
+                    "survey_individual_item_pages_evidence_invalid",
+                    check_survey(survey),
+                )
+
+    def test_future_observations_cannot_precede_survey_date(self):
+        survey = completed()
+        survey["surfaces"]["public_search"]["evidence"][0]["observed_on"] = (
+            "2026-10-14"
+        )
+        self.assertIn(
+            "survey_public_search_evidence_after_survey_date",
+            check_survey(survey),
+        )
+        survey = completed()
+        survey["conclusion"]["machine_collection"] = "verified_in_scope"
+        survey["conclusion"]["machine_validation"] = {
+            key: evidence() for key in (
+                "authorization_evidence",
+                "bounded_enumeration_evidence",
+                "replay_integrity_evidence",
+                "provenance_evidence",
+            )
+        }
+        survey["conclusion"]["machine_validation"]["authorization_evidence"][0][
+            "observed_on"
+        ] = "2026-10-14"
+        self.assertIn(
+            "survey_machine_authorization_evidence_after_survey_date",
+            check_survey(survey),
+        )
+
     def test_http_only_catalog_is_discoverable_without_approving_scrape(self):
         survey = completed()
         survey["surfaces"]["specialized_catalog"]["evidence"][0]["url"] = (
