@@ -39,7 +39,7 @@ def completed():
         "decision": "hold_documented",
         "investigation_complete": True,
         "human_public_access": "confirmed",
-        "machine_collection": "verified_in_scope",
+        "machine_collection": "partially_verified",
     }
     return r
 
@@ -118,7 +118,74 @@ class PublicAccessFirstGateTests(unittest.TestCase):
         self.assertEqual(check_survey(survey), [])
         survey["conclusion"]["decision"] = "admitted"
         self.assertIn(
-            "survey_admission_without_machine_verification",
+            "survey_admission_requires_separate_protocol",
+            check_survey(survey),
+        )
+
+    def test_machine_reachability_does_not_verify_authorized_collection(self):
+        survey = completed()
+        survey["conclusion"]["machine_collection"] = "verified_in_scope"
+        self.assertIn(
+            "survey_machine_validation_missing",
+            check_survey(survey),
+        )
+        survey["conclusion"]["machine_validation"] = {
+            "authorization_evidence": evidence(),
+        }
+        self.assertIn(
+            "survey_machine_bounded_enumeration_evidence_invalid",
+            check_survey(survey),
+        )
+        self.assertIn(
+            "survey_machine_replay_integrity_evidence_invalid",
+            check_survey(survey),
+        )
+        self.assertIn(
+            "survey_machine_provenance_evidence_invalid",
+            check_survey(survey),
+        )
+
+    def test_machine_verified_requires_all_four_independent_claims(self):
+        survey = completed()
+        survey["conclusion"]["machine_collection"] = "verified_in_scope"
+        survey["conclusion"]["machine_validation"] = {
+            key: evidence() for key in (
+                "authorization_evidence",
+                "bounded_enumeration_evidence",
+                "replay_integrity_evidence",
+                "provenance_evidence",
+            )
+        }
+        self.assertEqual(check_survey(survey), [])
+        ready, errors = validate_survey(survey)
+        self.assertTrue(ready)
+        self.assertEqual(errors, [])
+        # Even complete evidence requires a separate corpus admission.
+        survey["conclusion"]["decision"] = "admitted"
+        self.assertIn(
+            "survey_admission_requires_separate_protocol",
+            check_survey(survey),
+        )
+
+    def test_any_environment_limited_surface_blocks_final_closure(self):
+        for kind in KINDS:
+            survey = completed()
+            survey["surfaces"][kind] = {
+                "status": "environment_limited",
+                "finding": "Research runner DNS was unavailable",
+                "evidence": evidence(),
+            }
+            with self.subTest(kind=kind):
+                self.assertIn(
+                    "survey_discovery_not_completed",
+                    check_survey(survey),
+                )
+
+    def test_final_human_access_cannot_remain_unverified(self):
+        survey = completed()
+        survey["conclusion"]["human_public_access"] = "unverified"
+        self.assertIn(
+            "survey_human_access_unresolved",
             check_survey(survey),
         )
 
