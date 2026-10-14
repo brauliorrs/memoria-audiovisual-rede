@@ -37,10 +37,11 @@ Em G1, visitar deliberadamente **todos** os tipos de superfície listados no reg
 
 - **PUBLIC_ACCESS_OBSERVED:** ao menos uma superfície humana pública comprovada e sua evidência. Admissibilidade ao corpus é **decisão separada**.
 - **AUTOMATION_VERIFIED:** descoberta, permissão e ensaio limitado de um método de coleta com replay/contagem/proveniência pertinentes.
-- **CORPUS_ADMITTED:** protocolo de inclusão próprio aprovado; não decorre de `PUBLIC_ACCESS_OBSERVED` e não é exigido para documentar existência de acesso público.
+- **CORPUS_ADMITTED:** protocolo de inclusão próprio aprovado **fora deste inventário**; não decorre de `PUBLIC_ACCESS_OBSERVED`. O validador deste levantamento **rejeita** `decision=admitted`; a admissão é uma decisão controlada, independente.
+- **AUTOMATION_VERIFIED requer evidências de quatro dimensões:** autorização de acesso/uso do endpoint (`authorization_evidence`), enumeração delimitada (`bounded_enumeration_evidence`), auditoria/replay independente (`replay_integrity_evidence`) e proveniência (`provenance_evidence`). Cada dimensão cita URL, data e observação revisáveis por humano. Endpoint publicamente alcançável **não** basta para declarar coletor verificado.
 - **HOLD_INGESTION:** corpus não elegível neste momento; a investigação de superfícies pode seguir pendente com `investigation_complete=false`.
 - **NO_PUBLIC_ACCESS_VERIFIED:** somente em escopo muito delimitado e após inspeção independente de rotas; nunca por falha de uma API ou do DNS local. Evitar afirmar indisponibilidade global.
-- **PROCEED_NEXT:** permitir que a fila avance com um HOLD protocolado, mesmo sem corpus admitido, **desde que o relatório declare as superfícies examinadas, as não examinadas, seus motivos e a natureza provisória da conclusão**. Não chamar esse HOLD de ausência de acesso.
+- **PROCEED_NEXT:** permitir que a fila avance com um HOLD **provisório** protocolado, mesmo sem corpus admitido, desde que declare as superfícies examinadas, as não examinadas, seus motivos e a natureza não definitiva da conclusão. `environment_limited` em qualquer superfície, catálogo identificado mas não observado ou `human_public_access=unverified` proíbem marcar `investigation_complete=true` ou `hold_documented` final. Não chamar esse HOLD de ausência de acesso.
 
 ### Prevenção de viés de confirmação
 
