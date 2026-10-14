@@ -4506,6 +4506,10 @@ def render_institution_tab(corpus_def, context, selected_slug):
                 st.info("Nenhum vídeo permaneceu no recorte curatorial após a filtragem de ruído fora de escopo.")
             selected_links["modalidade_acesso"] = selected_links.apply(analysis_utils.classify_access_surface, axis=1)
             selected_links["data_publicacao"] = selected_links["video_published_at"].apply(format_video_date)
+            if "partner_site" not in selected_links.columns:
+                # Older versioned snapshots may not carry an item-level
+                # origin URL. Their display must stay fail-closed.
+                selected_links["partner_site"] = ""
 
             video_overview_cols = st.columns(4)
             video_overview_cols[0].metric("Vídeos curatoriais", len(selected_links))
