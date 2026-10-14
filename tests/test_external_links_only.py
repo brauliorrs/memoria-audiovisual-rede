@@ -5,7 +5,11 @@ import ast
 import unittest
 from pathlib import Path
 
-from memoria_audiovisual.external_links import public_external_url
+from memoria_audiovisual.external_links import (
+    choose_origin_destination,
+    is_direct_media_asset,
+    public_external_url,
+)
 from memoria_audiovisual.i18n import translate_ui_text
 
 APP = Path(__file__).resolve().parents[1] / "app" / "streamlit_app.py"
@@ -37,6 +41,57 @@ class ExternalLinkTests(unittest.TestCase):
                 # Source metadata has not been mutated, just a derived link.
                 self.assertIn(" ", original)
                 self.assertNotIn(" ", destination)
+
+    def test_raw_media_urls_are_not_visitor_destinations(self):
+        media = (
+            "https://video.archive.example/film/record%20A.mp4",
+            "https://video.archive.example/stream/master.m3u8?token=abc",
+            "https://video.archive.example/a.MKV",
+            "https://video.archive.example/clip.webm?quality=high",
+        )
+        home = "https://catalog.archive.example/collection"
+        for raw in media:
+            with self.subTest(raw=raw):
+                self.assertTrue(is_direct_media_asset(raw))
+                result = choose_origin_destination(raw, home)
+                self.assertEqual(result.url, home)
+                self.assertEqual(result.kind, "institution_home")
+                no_fallback = choose_origin_destination(raw)
+                self.assertIsNone(no_fallback.url)
+                self.assertEqual(no_fallback.kind, "unavailable")
+
+    def test_preserve_real_platform_watch_and_record_pages(self):
+        values = (
+            "https://www.youtube.com/watch?v=sample",
+            "https://vimeo.com/1234567",
+            "https://elonet.finna.fi/Record/kavi.elonet_elokuva_1611548",
+        )
+        for value in values:
+            with self.subTest(value=value):
+                result = choose_origin_destination(
+                    value, "https://institution.example.org/"
+                )
+                self.assertEqual(result.url, value)
+                self.assertEqual(result.kind, "record_or_platform")
+
+    def test_legacy_raw_media_with_spaces_keeps_evidence_not_download_link(self):
+        raw = "https://videos.far-asso.fr/film/CREAV_02_F_01 Bis.mp4"
+        normalized = public_external_url(raw)
+        self.assertEqual(normalized, raw.replace(" ", "%20"))
+        selected = choose_origin_destination(
+            raw, "https://far-asso.fr/catalogue"
+        )
+        self.assertEqual(selected.url, "https://far-asso.fr/catalogue")
+        self.assertEqual(selected.kind, "institution_home")
+        self.assertIn(" Bis.mp4", raw)
+
+    def test_invalid_fallback_cannot_be_used_to_promote_media_url(self):
+        result = choose_origin_destination(
+            "https://example.com/media/film.mp4",
+            "javascript:alert(1)",
+        )
+        self.assertIsNone(result.url)
+        self.assertEqual(result.kind, "unavailable")
 
     def test_reject_code_execution_local_files_or_dangerous_urls(self):
         urls = (
@@ -74,7 +129,9 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertEqual(invocations, [])
         self.assertNotIn("streamlit.components.v1", source)
         self.assertNotIn("get_vimeo_embed_url", source)
-        self.assertIn("public_external_url(row[\"video_link\"])", source)
+        self.assertIn("choose_origin_destination(", source)
+        self.assertIn('st.column_config.LinkColumn("Acessar na origem")', source)
+        self.assertNotIn('st.markdown(f"[Abrir vídeo]', source)
         self.assertIn("st.link_button(", source)
 
     def test_external_navigation_translated_into_supported_languages(self):
@@ -86,6 +143,22 @@ class ExternalLinkTests(unittest.TestCase):
             "O acesso ocorre na plataforma externa, conforme suas condições de disponibilidade e direitos.": (
                 "El acceso se realiza en la plataforma externa, sujeto a sus condiciones de disponibilidad y derechos.",
                 "Access takes place on the external platform, subject to its availability and rights conditions.",
+            ),
+            "Acessar na origem": (
+                "Abrir en la plataforma de origen",
+                "Open at source",
+            ),
+            "Visitar catálogo da instituição ↗": (
+                "Visitar el catálogo de la institución ↗",
+                "Visit the institution's catalog ↗",
+            ),
+            "Abrir a obra na plataforma de origem ↗": (
+                "Abrir la obra en la plataforma de origen ↗",
+                "Open the work on the source platform ↗",
+            ),
+            "Ficha específica da obra não identificada; o link leva ao catálogo da instituição.": (
+                "No se ha identificado la ficha de esta obra; el enlace lleva al catálogo de la institución.",
+                "An item-specific record has not been identified; the link opens the institution's catalog.",
             ),
         }
         for source, (spanish, english) in phrases.items():
