@@ -1,7 +1,6 @@
 """The discovery gate must not let an API-only investigation stand for public access."""
 from __future__ import annotations
 
-import copy
 import json
 import unittest
 from pathlib import Path
