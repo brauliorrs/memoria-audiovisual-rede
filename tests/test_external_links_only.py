@@ -92,13 +92,12 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertEqual(result.url, institution_page)
         self.assertEqual(result.kind, "institution_home")
 
-    def test_search_queries_containing_media_text_are_not_always_files(self):
+    def test_search_queries_containing_media_text_are_not_files(self):
         link = "https://elonet.finna.fi/Search/Results?lookfor=example.mp4&type=AllFields"
-        # A conservative fallback is acceptable when a query parameter is
-        # indistinguishable from a media filename, but it must not replace the
-        # original raw source URL in evidence.
+        self.assertFalse(is_direct_media_asset(link))
         result = choose_origin_destination(link, "https://elonet.finna.fi/")
-        self.assertEqual(result.url, "https://elonet.finna.fi/")
+        self.assertEqual(result.url, link)
+        self.assertEqual(result.kind, "record_or_platform")
 
     def test_preserve_real_platform_watch_and_record_pages(self):
         values = (
