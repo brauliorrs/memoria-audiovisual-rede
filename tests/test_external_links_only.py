@@ -191,6 +191,42 @@ class ExternalLinkTests(unittest.TestCase):
                 self.assertEqual(result.url, source)
                 self.assertEqual(result.kind, "record_or_platform")
 
+    def test_cinemateca_portuguesa_public_ficha_preserved(self):
+        ficha = (
+            "https://www.cinemateca.pt/Cinemateca-Digital/"
+            "Ficha.aspx?obraid=12345&type=Video"
+        )
+        for link in (ficha, ficha.replace("www.cinemateca.pt", "cinemateca.pt")):
+            with self.subTest(link=link):
+                item = choose_origin_destination(
+                    link, "https://www.cinemateca.pt/Cinemateca-Digital/video.aspx"
+                )
+                self.assertEqual(item.url, link)
+                self.assertEqual(item.kind, "record_or_platform")
+
+    def test_cinemateca_ficha_only_if_real_video_id_is_present(self):
+        fallback = "https://www.cinemateca.pt/Cinemateca-Digital/video.aspx"
+        for link in (
+            "https://www.cinemateca.pt/Cinemateca-Digital/Ficha.aspx?obraid=abc&type=Video",
+            "https://www.cinemateca.pt/Cinemateca-Digital/Ficha.aspx?obraid=123&type=Foto",
+            "https://www.cinemateca.pt/Cinemateca-Digital/Ficha.aspx?type=Video",
+        ):
+            with self.subTest(link=link):
+                result = choose_origin_destination(link, fallback)
+                self.assertEqual(result.url, fallback)
+                self.assertEqual(result.kind, "institution_home")
+
+    def test_category_catalog_fallback_never_uses_final_crawl_url(self):
+        tree = ast.parse(APP.read_text(encoding="utf-8-sig"))
+        fn = next(
+            n for n in tree.body
+            if isinstance(n, ast.FunctionDef) and n.name == "render_category_tab"
+        )
+        fragment = ast.unparse(fn)
+        self.assertIn("detail_field_by_corpus", fragment)
+        self.assertIn('item["detail_url_field"]', fragment)
+        self.assertNotIn('["corpus", "slug", "final_url"]', fragment)
+
     def test_generic_wordpress_json_api_cannot_override_institution(self):
         raw = "https://play.vod2.infomaniak.com/single/abcdef0123456"
         api = "https://www.autrefoisgeneve.ch/wp-json/wp/v2/aiovg_videos"
