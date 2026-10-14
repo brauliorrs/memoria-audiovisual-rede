@@ -1227,13 +1227,40 @@ def build_category_summary_display_df(dataframe):
     )
 
 
-def build_category_video_display_df(dataframe):
+def build_visitor_origin_column(frame, *, institution_pages=None):
+    """Derived *visitor* destinations; source URLs remain in raw metadata.
+
+    No URL probes or media downloads. The column is link-safe for Streamlit.
+    Entries without a verified visitor-facing URL get an empty link.
+    """
+    if frame is None or frame.empty:
+        return pd.Series(dtype=str)
+    institution_pages = institution_pages or {}
+
+    def destination(row):
+        fallback = row.get("source_page_url")
+        if not public_external_url(fallback):
+            fallback = institution_pages.get((row.get("corpus"), row.get("slug")))
+        return choose_origin_destination(
+            row.get("video_link"),
+            fallback,
+            record_page_url=row.get("partner_site"),
+        ).url or ""
+
+    return frame.apply(destination, axis=1)
+
+
+def build_category_video_display_df(dataframe, *, visitor_facing=False, institution_pages=None):
     if dataframe is None or dataframe.empty:
         return pd.DataFrame()
 
     display_df = dataframe.copy()
     if "continent" in display_df.columns:
         display_df["continent"] = display_df["continent"].fillna("Não classificado").replace("", "Não classificado")
+    if visitor_facing:
+        display_df["origin_link"] = build_visitor_origin_column(
+            display_df, institution_pages=institution_pages
+        )
 
     preferred_columns = [
         "corpus",
@@ -1246,7 +1273,7 @@ def build_category_video_display_df(dataframe):
         "video_theme",
         "video_title_display",
         "video_date_display",
-        "video_link",
+        "origin_link" if visitor_facing else "video_link",
     ]
     available_columns = [column for column in preferred_columns if column in display_df.columns]
 
@@ -1263,6 +1290,7 @@ def build_category_video_display_df(dataframe):
             "video_title_display": "título do vídeo",
             "video_date_display": "data do vídeo",
             "video_link": "link do vídeo",
+            "origin_link": "Acessar na origem",
         }
     )
 
@@ -1277,6 +1305,7 @@ def build_research_video_catalog_frame():
         "continent",
         "platform",
         "video_link",
+        "partner_site",
         "video_title_display",
         "video_date_display",
         "video_theme",
@@ -1300,18 +1329,28 @@ def build_research_video_catalog_frame():
 
         summary_path = OUTPUT_DIR / output_files["analytic_summary"]
         if summary_path.exists():
+            detail_field = corpus_def["detail_url_field"]
+            source_columns = {"slug", "institution", "access_regime", detail_field}
             regime_df = pd.read_csv(
                 summary_path,
-                usecols=lambda column: column in {"slug", "institution", "access_regime"},
+                usecols=lambda column: column in source_columns,
                 dtype=str,
                 keep_default_na=False,
             )
             join_key = "slug" if "slug" in catalog_df.columns and "slug" in regime_df.columns else "institution"
-            if join_key in catalog_df.columns and join_key in regime_df.columns and "access_regime" in regime_df.columns:
+            if join_key in catalog_df.columns and join_key in regime_df.columns:
+                columns = [join_key]
+                if "access_regime" in regime_df.columns:
+                    columns.append("access_regime")
+                if detail_field in regime_df.columns and detail_field != join_key:
+                    columns.append(detail_field)
+                source_df = regime_df[columns].drop_duplicates(join_key)
+                if detail_field in source_df.columns and detail_field != join_key:
+                    source_df = source_df.rename(
+                        columns={detail_field: "source_page_url"}
+                    )
                 catalog_df = catalog_df.merge(
-                    regime_df[[join_key, "access_regime"]].drop_duplicates(join_key),
-                    on=join_key,
-                    how="left",
+                    source_df, on=join_key, how="left",
                 )
 
         category_def = CORPUS_CATEGORIES[corpus_def["category_code"]]
@@ -1414,9 +1453,12 @@ def filter_research_catalog(
     return filtered_df
 
 
-def build_research_video_display_df(dataframe):
+def build_research_video_display_df(dataframe, *, visitor_facing=False):
     if dataframe is None or dataframe.empty:
         return pd.DataFrame()
+    display_df = dataframe.copy()
+    if visitor_facing:
+        display_df["origin_link"] = build_visitor_origin_column(display_df)
     preferred_columns = [
         "categoria_analitica",
         "corpus",
@@ -1432,10 +1474,10 @@ def build_research_video_display_df(dataframe):
         "access_regime",
         "video_subject",
         "video_description",
-        "video_link",
+        "origin_link" if visitor_facing else "video_link",
     ]
-    available_columns = [column for column in preferred_columns if column in dataframe.columns]
-    return dataframe[available_columns].rename(
+    available_columns = [column for column in preferred_columns if column in display_df.columns]
+    return display_df[available_columns].rename(
         columns={
             "categoria_analitica": "categoria analítica",
             "corpus": "unidade documental",
@@ -1452,6 +1494,7 @@ def build_research_video_display_df(dataframe):
             "video_subject": "assunto do vídeo",
             "video_description": "descrição do vídeo",
             "video_link": "link do vídeo",
+            "origin_link": "Acessar na origem",
         }
     )
 
@@ -1590,7 +1633,10 @@ def render_research_tab(initial_search_term="", show_search_input=True):
 
     if result_mode == "Tabela":
         st.dataframe(
-            build_research_video_display_df(preview_df),
+            build_research_video_display_df(preview_df, visitor_facing=True),
+            column_config={
+                "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+            },
             use_container_width=True,
             hide_index=True,
         )
@@ -1607,7 +1653,10 @@ def render_research_tab(initial_search_term="", show_search_input=True):
             )
             with st.expander(f"{group_name} ({len(group_df)})", expanded=False):
                 st.dataframe(
-                    build_research_video_display_df(group_df),
+                    build_research_video_display_df(group_df, visitor_facing=True),
+                    column_config={
+                        "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+                    },
                     use_container_width=True,
                     hide_index=True,
                 )
@@ -3216,8 +3265,28 @@ def render_category_tab(category_def):
                     filtered_video_df["access_surface"] == selected_access_surface
                 ]
 
+            institution_pages = {}
+            if (
+                not combined_summary_df.empty
+                and {"corpus", "slug", "final_url"}.issubset(
+                    combined_summary_df.columns
+                )
+            ):
+                institution_pages = {
+                    (row["corpus"], row["slug"]): row["final_url"]
+                    for _, row in combined_summary_df[
+                        ["corpus", "slug", "final_url"]
+                    ].drop_duplicates(["corpus", "slug"]).iterrows()
+                }
             st.dataframe(
-                build_category_video_display_df(filtered_video_df),
+                build_category_video_display_df(
+                    filtered_video_df,
+                    visitor_facing=True,
+                    institution_pages=institution_pages,
+                ),
+                column_config={
+                    "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+                },
                 use_container_width=True,
                 hide_index=True,
             )
