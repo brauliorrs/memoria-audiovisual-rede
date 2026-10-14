@@ -68,6 +68,18 @@ def _is_known_item_record_page(url: str) -> bool:
     path = parsed.path.casefold()
     if host in ("memobase.ch", "www.memobase.ch"):
         return path.startswith("/object/") and bool(path[len("/object/"):].strip("/"))
+    # Collector-vetted ECPAD public Arkothèque item detail URL.
+    if host == "archives.ecpad.fr" and path == "/archives/consulter-les-archives-en-ligne":
+        return any(
+            key.casefold() == "detail" and value.isdigit()
+            for key, value in parse_qsl(parsed.query)
+        )
+    # Arkaader collector creates this public film/broadcast landing page;
+    # /embed/ and /api/ routes must not be used as visitor destinations.
+    if host in ("arkaader.ee", "www.arkaader.ee"):
+        return bool(
+            re.fullmatch(r"/landing/bc/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+", parsed.path)
+        )
     if host in ("www.cinemateca.pt", "cinemateca.pt") and path.endswith("/ficha.aspx"):
         values = dict((key.casefold(), value.casefold()) for key, value in parse_qsl(parsed.query))
         return values.get("obraid", "").isdigit() and values.get("type") == "video"
