@@ -66,6 +66,31 @@ def _is_known_item_record_page(url: str) -> bool:
     parsed = urlsplit(url)
     host = (parsed.hostname or "").casefold()
     path = parsed.path.casefold()
+    # FINA's Ninateka product webUrl is a *public watch page* with the
+    # collector-evidenced /movies,1/<slug> shape, not a media stream.
+    if host in ("ninateka.pl", "www.ninateka.pl"):
+        return re.fullmatch(r"/movies,1/[^/?#]+/?", path) is not None
+    # BFI Replay collector constructs /video/<workUuid> as a human-facing
+    # work page. Restrict to UUIDs rather than generic video-delivery paths.
+    if host == "replay.bfi.org.uk":
+        return re.fullmatch(r"/video/[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}/?", path) is not None
+    # IFI Archive Player sitemap collector explicitly enumerates single-
+    # segment film post permalinks, excluding these navigation/technical roots.
+    if host == "ifiarchiveplayer.ie":
+        segment = path.strip("/")
+        excluded = {
+            "about", "app", "browse", "collections", "contact", "donate",
+            "legal", "privacy-policy", "terms-conditions",
+            "cookie-information", "ifi-platforms", "virtual-exhibitions",
+            "wp-admin", "wp-json", "feed",
+        }
+        return (
+            bool(segment) and "/" not in segment
+            and segment not in excluded
+            and not segment.startswith(("category", "tag", "author", "wp-"))
+            and not segment.endswith((".xml", ".json"))
+            and re.fullmatch(r"[a-z0-9_%\\-]+", segment) is not None
+        )
     # AQSHF collector uses the public WordPress post link from its
     # motion_picture item endpoint, not the binary film asset.
     if host in ("aqshf.gov.al", "www.aqshf.gov.al"):
