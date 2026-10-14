@@ -1,7 +1,8 @@
 """Conservative external navigation links for MAR's metadata-only UI.
 
 Never fetch or embed the linked resource. Untrusted non-HTTP(S) schemes,
-credentials, control characters and URL whitespace are rejected.
+credentials, control characters and invalid host whitespace are rejected.
+Legacy spaces in URL paths/queries are percent-encoded only for navigation.
 """
 from __future__ import annotations
 
