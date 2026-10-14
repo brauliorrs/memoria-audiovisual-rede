@@ -2,6 +2,20 @@
 
 **Decisão de arquitetura, 13/10/2026:** MAR é um observatório e índice de metadados e rotas públicas, **não** uma plataforma de hospedagem, espelhamento ou distribuição de arquivos audiovisuais.
 
+## Finalidade científica e relação com as instituições
+
+**Decisão explícita da coordenação:** o MAR é uma plataforma de **estudo, descoberta, integração intelectual, contextualização e análise comparativa** de acervos audiovisuais dispersos. A instituição ou a plataforma responsável pelo conteúdo deve receber **a visita, o acesso e a visualização**. Não é objetivo do MAR atrair ou contabilizar visualizações que caberiam aos portais de origem, centralizar players, agregar audiências ou se apresentar como titular das obras.
+
+### Política de encaminhamento do visitante
+
+- Sempre que houver ficha estável da **obra** na instituição, preferi-la ao arquivo de mídia ou a um agregador intermediário. A ficha de origem deve exibir o contexto, os créditos e as condições de acesso.
+- Quando houver uma página própria de vídeo no canal oficial da instituição (por exemplo, YouTube/Vimeo), o botão pode abrir **aquela página externa**, sem iframe ou reprodução incorporada ao MAR.
+- Quando o único campo capturado for um endereço direto de arquivo/stream (MP4, WebM, HLS/M3U8, DASH/MPD etc.), **não usar esse arquivo como botão de visualização**. Se existir uma página institucional verificável, oferecer "Visitar catálogo da instituição" e declarar que a ficha específica ainda não foi identificada. Se não houver destino institucional confiável, não inventar URL ou afirmar que há vídeo acessível.
+- O link direto para o arquivo pode continuar **preservado como evidência técnica no conjunto de metadados sujeito a controles de acesso e direitos**, mas deve ser distinguido de `record_page_url` e do destino público de navegação. A transformação HTTP/HTTPS (por exemplo, codificar espaços) afeta apenas o destino derivado, jamais altera a URL-fonte no registro científico.
+- Atribuir instituição, plataforma, proveniência e data da última observação. O MAR não reivindica direitos sobre obras indexadas e não altera as condições estabelecidas pelos titulares.
+- Links externos reduzem questões de hospedagem e redistribuição, **mas não eliminam automaticamente todas as obrigações de direitos autorais, licenciamento de metadados e privacidade**. Cada fonte continua sujeita ao respectivo protocolo.
+- O MAR pode estudar e contar **registros, links e indicadores científicos**, sem confundir tais métricas com visualizações de vídeo. Não fazer proxy, embeds, redirects com tracking obrigatório nem fetch de mídia para medir audiência.
+
 ## Princípio operacional
 
 1. **Coletar:** páginas, metadados descritivos, URLs, identificadores, informações de acesso, hashes e evidências técnicas limitadas, conforme escopo autorizado/robots/termos. Quando permitido e necessário para auditoria, snapshots de respostas **textuais** podem ser preservados sob acesso restrito; não são arquivos audiovisuais.
@@ -23,6 +37,12 @@
 ## Alteração deste PR
 
 A ficha institucional deixa de chamar `st.video` e `components.iframe`. Em vez disso, abre um link externo validado (HTTP/HTTPS), com indicação de que o destino pode exigir autenticação ou ter condições de direito próprias. O restante da coleta e as métricas permanecem intocados. `tests/test_external_links_only.py` proíbe novos players e testes de URL impedem esquemas inseguros. A exportação CSV/JSON de metadados é preservada.
+
+## Aperfeiçoamento de encaminhamento institucional
+
+O contrato `choose_origin_destination` define `record_or_platform` para ficha/página de vídeo pública segura, `institution_home` quando há apenas arquivo de mídia e existe endereço institucional de fallback, e `unavailable` quando não é possível apontar um destino de consulta confiável. O estado `institution_home` **não significa que a obra esteja disponível naquele catálogo**. O próprio painel sinaliza a ausência de ficha específica.
+
+Os modos de consulta por tema e por instituição usam links derivados (páginas da plataforma ou catálogo institucional); o CSV/JSON e o registro científico preservam o campo original de descoberta separado da experiência de clique. Assim, o visitante não é encaminhado a um arquivo MP4 isolado, e o histórico bruto de evidência não é apagado.
 
 ## Melhorias incrementais posteriores (não incluídas neste PR)
 
