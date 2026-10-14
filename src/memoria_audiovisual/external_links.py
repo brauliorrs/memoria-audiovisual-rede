@@ -24,6 +24,22 @@ _MEDIA_QUERY_KEYS = frozenset({
     "video", "video_url", "src", "source", "download", "asset", "path",
 })
 
+def _is_known_item_record_page(url: str) -> bool:
+    """Only declare an item-specific page when its route is evidenced."""
+    parsed = urlsplit(url)
+    host = (parsed.hostname or "").casefold()
+    path = parsed.path.casefold()
+    if host == "api.memobase.ch" and path.startswith("/record/"):
+        return True
+    if host in ("cinememoire.net", "www.cinememoire.net") and path == "/notice":
+        return any(
+            key.casefold() == "num_seq" and value.isdigit()
+            for key, value in parse_qsl(parsed.query)
+        )
+    if path.startswith(("/record/", "/records/", "/item/", "/items/")):
+        return True
+    return False
+
 
 @dataclass(frozen=True)
 class OriginDestination:
@@ -60,6 +76,11 @@ def is_direct_media_asset(url: object, media_type: object = None) -> bool:
     if parsed.hostname and parsed.hostname.casefold() == "cna.kiss.lu":
         if path.startswith("/getmedium/"):
             return True
+    # Memobase LOD digitalObject locators are technical media routes rather
+    # than playable public record pages, even without file extensions.
+    if parsed.hostname and parsed.hostname.casefold() == "prod.media.memobase.ch":
+        if path.startswith("/memo/"):
+            return True
     # Legacy media URLs often place the filename in a query parameter,
     # e.g. wwwopac.ashx?value=AV015929.mp4. Inspect VALUES, not a bare
     # query substring, to avoid false positives from normal search URLs.
@@ -75,6 +96,7 @@ def choose_origin_destination(
     discovered_url: object,
     institution_page_url: object = None,
     *,
+    record_page_url: object = None,
     media_type: object = None,
 ) -> OriginDestination:
     """Favor an origin record/platform page, never a raw media stream.
@@ -87,6 +109,15 @@ def choose_origin_destination(
     candidate = public_external_url(discovered_url)
     if candidate is not None and not is_direct_media_asset(candidate, media_type):
         return OriginDestination(candidate, "record_or_platform")
+    # The collector may already provide an item-specific *record* as its
+    # partner_site. Prefer it to the unit-wide catalog landing page.
+    item_page = public_external_url(record_page_url)
+    if item_page is not None and not is_direct_media_asset(item_page):
+        return OriginDestination(
+            item_page,
+            "record_or_platform" if _is_known_item_record_page(item_page)
+            else "institution_home",
+        )
     fallback = public_external_url(institution_page_url)
     if fallback is not None and not is_direct_media_asset(fallback):
         return OriginDestination(fallback, "institution_home")
