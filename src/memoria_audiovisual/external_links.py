@@ -55,6 +55,8 @@ def _is_known_visitor_page(url: str) -> bool:
         return path.startswith("/en/item/")
     if host in ("www.ina.fr", "ina.fr"):
         return path.startswith("/ina-eclaire-actu/video/")
+    if host == "cnasearch.public.lu":
+        return path.startswith("/searchprofiles/run/")
     return _is_known_item_record_page(url)
 
 
@@ -65,6 +67,10 @@ def _is_known_item_record_page(url: str) -> bool:
     path = parsed.path.casefold()
     if host == "api.memobase.ch" and path.startswith("/record/"):
         return True
+    if host in ("gosfilmofond.ru", "www.gosfilmofond.ru"):
+        return path.startswith("/films/") and bool(path[len("/films/"):].strip("/"))
+    if host == "film.iwmcollections.org.uk":
+        return path.startswith("/record/") and bool(path[len("/record/"):].strip("/"))
     if host in ("cinememoire.net", "www.cinememoire.net") and path == "/notice":
         return any(
             key.casefold() == "num_seq" and value.isdigit()
@@ -156,7 +162,11 @@ def choose_origin_destination(
     # The collector may already provide an item-specific *record* as its
     # partner_site. Prefer it to the unit-wide catalog landing page.
     item_page = public_external_url(record_page_url)
-    if item_page is not None and not is_direct_media_asset(item_page):
+    if (
+        item_page is not None
+        and not is_direct_media_asset(item_page)
+        and _is_known_visitor_page(item_page)
+    ):
         return OriginDestination(
             item_page,
             "record_or_platform" if _is_known_item_record_page(item_page)
