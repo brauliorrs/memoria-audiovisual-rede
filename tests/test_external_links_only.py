@@ -99,6 +99,57 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertEqual(result.url, link)
         self.assertEqual(result.kind, "record_or_platform")
 
+    def test_memobase_digital_object_redirects_to_original_record(self):
+        # Cinémathèque suisse: a technical digitalObject is not the public
+        # media page; the row's partner_site is a record URL on Memobase.
+        raw = "https://prod.media.memobase.ch/memo/csa-001-1000012550-1"
+        record = "https://api.memobase.ch/record/csa-001-1000012550?format=Json"
+        collection = "https://api.memobase.ch/recordSet/csa-001?format=Json"
+        self.assertTrue(is_direct_media_asset(raw))
+        result = choose_origin_destination(
+            raw, collection, record_page_url=record
+        )
+        self.assertEqual(result.url, record)
+        self.assertEqual(result.kind, "record_or_platform")
+        self.assertEqual(
+            choose_origin_destination(raw, collection).kind, "institution_home"
+        )
+
+    def test_cinememoire_item_notice_takes_precedence_over_collection_page(self):
+        raw = "https://cinememoire.net/streaming/cinememoire/sequences/001-011-Streaming.mp4"
+        item = "https://cinememoire.net/notice?num_seq=2883"
+        catalog = "https://cinememoire.net/archives-cinememoire-ligne/archives-cinememoire-ligne"
+        result = choose_origin_destination(
+            raw, catalog, record_page_url=item
+        )
+        self.assertEqual(result.url, item)
+        self.assertEqual(result.kind, "record_or_platform")
+
+    def test_generic_partner_search_page_is_not_misrepresented_as_item(self):
+        raw = "https://cna.kiss.lu/getMedium/d18fac130ee9f74d2c035d491b946467"
+        search = "https://cnasearch.public.lu/searchprofiles/run/4/film"
+        collection = "https://cna.public.lu/en.html"
+        result = choose_origin_destination(
+            raw, collection, record_page_url=search
+        )
+        self.assertEqual(result.url, search)
+        self.assertEqual(result.kind, "institution_home")
+
+    def test_untrusted_partner_record_does_not_override_safe_catalog(self):
+        raw = "https://prod.media.memobase.ch/memo/csa-001-test-1"
+        fallback = "https://institution.example.org/catalog"
+        for partner in (
+            "javascript:alert(1)",
+            "https://cdn.example.org/file.mp4",
+            "https://prod.media.memobase.ch/memo/another-hash",
+        ):
+            with self.subTest(partner=partner):
+                result = choose_origin_destination(
+                    raw, fallback, record_page_url=partner
+                )
+                self.assertEqual(result.url, fallback)
+                self.assertEqual(result.kind, "institution_home")
+
     def test_preserve_real_platform_watch_and_record_pages(self):
         values = (
             "https://www.youtube.com/watch?v=sample",
@@ -169,6 +220,7 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertNotIn("streamlit.components.v1", source)
         self.assertNotIn("get_vimeo_embed_url", source)
         self.assertIn("choose_origin_destination(", source)
+        self.assertIn('record_page_url=row.get("partner_site")', source)
         self.assertIn('st.column_config.LinkColumn(localize_ui("Acessar na origem"))', source)
         self.assertNotIn('st.markdown(f"[Abrir vídeo]', source)
         self.assertIn("st.link_button(", source)
