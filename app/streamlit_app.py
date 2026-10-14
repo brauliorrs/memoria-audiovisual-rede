@@ -152,6 +152,14 @@ def localize_dataframe_arguments(args, kwargs):
         args[0] = localize_dataframe_columns(args[0])
     elif "data" in kwargs:
         kwargs["data"] = localize_dataframe_columns(kwargs["data"])
+    # Data columns are translated above. Streamlit column_config keys must
+    # address those translated names as well, or LinkColumn stops being
+    # clickable in the Spanish/English interface.
+    if APP_LANGUAGE != DEFAULT_LANGUAGE and isinstance(kwargs.get("column_config"), dict):
+        kwargs["column_config"] = {
+            localize_ui(key) if isinstance(key, str) else key: value
+            for key, value in kwargs["column_config"].items()
+        }
     return args, kwargs
 
 
@@ -3846,7 +3854,7 @@ def render_videos_tab(corpus_def, context, selected_theme):
                 }
             ),
             column_config={
-                "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+                "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
             },
             use_container_width=True,
             hide_index=True,
@@ -4547,7 +4555,7 @@ def render_institution_tab(corpus_def, context, selected_slug):
                     }
                 ),
                 column_config={
-                    "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+                    "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
                 },
                 use_container_width=True,
                 hide_index=True,
