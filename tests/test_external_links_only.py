@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from memoria_audiovisual.external_links import public_external_url
+from memoria_audiovisual.i18n import translate_ui_text
 
 APP = Path(__file__).resolve().parents[1] / "app" / "streamlit_app.py"
 
@@ -61,6 +62,22 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertNotIn("get_vimeo_embed_url", source)
         self.assertIn("public_external_url(row[\"video_link\"])", source)
         self.assertIn("st.link_button(", source)
+
+    def test_external_navigation_translated_into_supported_languages(self):
+        phrases = {
+            "Abrir registro ou vídeo na plataforma de origem ↗": (
+                "Abrir ficha o video en la plataforma de origen ↗",
+                "Open record or video on the source platform ↗",
+            ),
+            "O acesso ocorre na plataforma externa, conforme suas condições de disponibilidade e direitos.": (
+                "El acceso se realiza en la plataforma externa, sujeto a sus condiciones de disponibilidad y derechos.",
+                "Access takes place on the external platform, subject to its availability and rights conditions.",
+            ),
+        }
+        for source, (spanish, english) in phrases.items():
+            with self.subTest(source=source):
+                self.assertEqual(translate_ui_text(source, "es"), spanish)
+                self.assertEqual(translate_ui_text(source, "en"), english)
 
     def test_csv_json_downloads_remain_metadata_exports_only(self):
         source = APP.read_text(encoding="utf-8-sig")
