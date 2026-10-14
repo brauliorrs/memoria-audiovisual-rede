@@ -159,6 +159,116 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertEqual(result.url, search)
         self.assertEqual(result.kind, "institution_home")
 
+    def test_stable_gosfilmofond_and_iwm_item_permalink(self):
+        sources = (
+            "https://gosfilmofond.ru/films/12345/",
+            "https://film.iwmcollections.org.uk/record/12345",
+        )
+        for source in sources:
+            with self.subTest(source=source):
+                result = choose_origin_destination(
+                    source, "https://institution.example.org/catalogue"
+                )
+                self.assertEqual(result.url, source)
+                self.assertEqual(result.kind, "record_or_platform")
+
+    def test_generic_wordpress_json_api_cannot_override_institution(self):
+        raw = "https://play.vod2.infomaniak.com/single/abcdef0123456"
+        api = "https://www.autrefoisgeneve.ch/wp-json/wp/v2/aiovg_videos"
+        catalog = "https://www.autrefoisgeneve.ch/"
+        result = choose_origin_destination(
+            raw, catalog, record_page_url=api
+        )
+        self.assertEqual(result.url, catalog)
+        self.assertEqual(result.kind, "institution_home")
+
+    def test_known_cna_search_page_is_labeled_catalog_not_item(self):
+        raw = "https://cna.kiss.lu/getMedium/d18fac130ee9f74d2c035d491b946467"
+        search = "https://cnasearch.public.lu/searchprofiles/run/4/film"
+        home = "https://cna.public.lu/en.html"
+        result = choose_origin_destination(
+            raw, home, record_page_url=search
+        )
+        self.assertEqual(result.url, search)
+        self.assertEqual(result.kind, "institution_home")
+
+    def test_visitor_video_views_derive_origin_but_exports_preserve_raw(self):
+        # Exercise pure display builders separately from Streamlit boot.
+        import pandas as pd
+
+        tree = ast.parse(APP.read_text(encoding="utf-8-sig"))
+        functions = (
+            "build_visitor_origin_column",
+            "build_category_video_display_df",
+            "build_research_video_display_df",
+        )
+        picked = [
+            node for node in tree.body
+            if isinstance(node, ast.FunctionDef) and node.name in functions
+        ]
+        self.assertEqual(len(picked), len(functions))
+        isolated = ast.fix_missing_locations(
+            ast.Module(body=picked, type_ignores=[])
+        )
+        env = {
+            "pd": pd,
+            "choose_origin_destination": choose_origin_destination,
+            "public_external_url": public_external_url,
+        }
+        exec(compile(isolated, str(APP), "exec"), env)
+        raw_media = "https://cna.kiss.lu/getMedium/d18fac130ee9f74d2c035d491b946467"
+        search = "https://cnasearch.public.lu/searchprofiles/run/4/film"
+        rows = pd.DataFrame([{
+            "corpus": "CNA", "slug": "cna-luxembourg",
+            "institution": "CNA", "partner_site": search,
+            "video_link": raw_media, "source_page_url": "https://cna.public.lu/en.html",
+            "video_title_display": "Film A", "country": "Luxembourg",
+            "continent": "Europa",
+        }])
+        for fun in ("build_category_video_display_df",
+                    "build_research_video_display_df"):
+            with self.subTest(function=fun):
+                fn = env[fun]
+                public = fn(rows, visitor_facing=True)
+                exported = fn(rows)
+                self.assertEqual(public["Acessar na origem"].iloc[0], search)
+                self.assertNotIn("link do vídeo", public.columns)
+                self.assertEqual(exported["link do vídeo"].iloc[0], raw_media)
+                self.assertNotIn("Acessar na origem", exported.columns)
+
+    def test_all_video_result_tables_are_visitor_safe(self):
+        # Category and cross-corpus views must explicitly request derived
+        # safe URLs; the default raw view exists for metadata CSV export.
+        tree = ast.parse(APP.read_text(encoding="utf-8-sig"))
+        for function_name, builder in (
+            ("render_category_tab", "build_category_video_display_df"),
+            ("render_research_tab", "build_research_video_display_df"),
+        ):
+            fn = next(
+                node for node in tree.body
+                if isinstance(node, ast.FunctionDef)
+                and node.name == function_name
+            )
+            calls = [
+                node for node in ast.walk(fn)
+                if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                and node.func.id == builder
+            ]
+            self.assertGreaterEqual(len(calls), 2)
+            visitor_calls = [
+                call for call in calls
+                if any(
+                    arg.arg == "visitor_facing" and isinstance(arg.value, ast.Constant)
+                    and arg.value.value is True
+                    for arg in call.keywords
+                )
+            ]
+            self.assertGreaterEqual(
+                len(visitor_calls), 1 if function_name == "render_category_tab" else 2
+            )
+        source = APP.read_text(encoding="utf-8-sig")
+        self.assertIn('st.column_config.LinkColumn("Acessar na origem")', source)
+
     def test_untrusted_partner_record_does_not_override_safe_catalog(self):
         raw = "https://prod.media.memobase.ch/memo/csa-001-test-1"
         fallback = "https://institution.example.org/catalog"
