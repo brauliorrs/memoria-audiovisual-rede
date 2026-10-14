@@ -14,7 +14,10 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from memoria_audiovisual import analysis as analysis_utils
-from memoria_audiovisual.external_links import public_external_url
+from memoria_audiovisual.external_links import (
+    choose_origin_destination,
+    public_external_url,
+)
 from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
 from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
@@ -3713,6 +3716,24 @@ def render_videos_tab(corpus_def, context, selected_theme):
     access_surface_counts = context["access_surface_counts"]
     curatorial_video_total = context["curatorial_video_total"]
 
+    # Surface-specific institutional landing pages, not per-film proof of
+    # custody or availability. No media URLs are dereferenced by the MAR.
+    summary_df = context["available_df"]
+    detail_field = corpus_def["detail_url_field"]
+    institution_pages = (
+        summary_df.dropna(subset=["slug"])
+        .drop_duplicates(subset=["slug"])
+        .set_index("slug")[detail_field].to_dict()
+        if "slug" in summary_df.columns and detail_field in summary_df.columns
+        else {}
+    )
+
+    def origin_for_video(row):
+        return choose_origin_destination(
+            row.get("video_link"),
+            institution_pages.get(row.get("slug")),
+        )
+
     st.subheader("Vídeos e temas")
     if video_catalog_df.empty:
         st.info(f"Nenhum link de vídeo foi localizado ainda no recorte {corpus_def['short_label']}.")
@@ -3792,8 +3813,12 @@ def render_videos_tab(corpus_def, context, selected_theme):
     )
 
     if video_view_mode == "Tabela":
+        table_for_visitors = filtered_videos.copy()
+        table_for_visitors["origin_link"] = table_for_visitors.apply(
+            lambda row: origin_for_video(row).url or "", axis=1
+        )
         st.dataframe(
-            filtered_videos[
+            table_for_visitors[
                 [
                     "institution",
                     "platform",
@@ -3803,7 +3828,7 @@ def render_videos_tab(corpus_def, context, selected_theme):
                     "video_date_display",
                     "country",
                     "continent",
-                    "video_link",
+                    "origin_link",
                 ]
             ].rename(
                 columns={
@@ -3815,9 +3840,12 @@ def render_videos_tab(corpus_def, context, selected_theme):
                     "platform": "plataforma",
                     "country": "país",
                     "continent": "continente",
-                    "video_link": "link",
+                    "origin_link": "Acessar na origem",
                 }
             ),
+            column_config={
+                "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+            },
             use_container_width=True,
             hide_index=True,
         )
@@ -3846,8 +3874,21 @@ def render_videos_tab(corpus_def, context, selected_theme):
                             f"{normalize_text(row['country'])} | {normalize_text(row['video_date_display'])}"
                         )
                         st.caption(f"Modalidade de acesso: {normalize_text(row['access_surface'])}")
-                        st.markdown(f"[Abrir vídeo]({row['video_link']})")
-                        st.code(row["video_link"], language=None)
+                        destination = origin_for_video(row)
+                        if destination.url:
+                            st.link_button(
+                                "Visitar catálogo da instituição ↗"
+                                if destination.kind == "institution_home"
+                                else "Abrir a obra na plataforma de origem ↗",
+                                destination.url,
+                            )
+                            if destination.kind == "institution_home":
+                                st.caption(
+                                    "Ficha específica da obra não identificada; "
+                                    "o link leva ao catálogo da instituição."
+                                )
+                        else:
+                            st.caption("Link de consulta na origem não identificado.")
 
     with st.expander("Ver sínteses do catálogo de vídeos", expanded=False):
         expander_cols = st.columns(2)
@@ -4471,9 +4512,14 @@ def render_institution_tab(corpus_def, context, selected_slug):
             empty_title_mask = video_table_df["titulo_display"] == ""
             video_table_df.loc[empty_title_mask, "titulo_display"] = video_table_df.loc[empty_title_mask, "video_link"]
 
+            video_table_df["origin_link"] = video_table_df["video_link"].apply(
+                lambda url: choose_origin_destination(
+                    url, selected_summary.get(detail_url_field)
+                ).url or ""
+            )
             st.dataframe(
                 video_table_df[
-                    ["platform", "modalidade_acesso", "tema_sugerido", "titulo_display", "data_publicacao", "video_link"]
+                    ["platform", "modalidade_acesso", "tema_sugerido", "titulo_display", "data_publicacao", "origin_link"]
                 ].rename(
                     columns={
                         "platform": "plataforma",
@@ -4481,9 +4527,12 @@ def render_institution_tab(corpus_def, context, selected_slug):
                         "tema_sugerido": "tema sugerido",
                         "titulo_display": "título",
                         "data_publicacao": "data de publicação",
-                        "video_link": "link do vídeo",
+                        "origin_link": "Acessar na origem",
                     }
                 ),
+                column_config={
+                    "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+                },
                 use_container_width=True,
                 hide_index=True,
             )
@@ -4505,19 +4554,28 @@ def render_institution_tab(corpus_def, context, selected_slug):
                         st.write(description)
                     # MAR is an external-access observatory: never load video
                     # playback or third-party iframe resources inside the app.
-                    external_url = public_external_url(row["video_link"])
-                    if external_url:
+                    destination = choose_origin_destination(
+                        row["video_link"], selected_summary.get(detail_url_field)
+                    )
+                    if destination.url:
                         st.link_button(
-                            "Abrir registro ou vídeo na plataforma de origem ↗",
-                            external_url,
+                            "Visitar catálogo da instituição ↗"
+                            if destination.kind == "institution_home"
+                            else "Abrir a obra na plataforma de origem ↗",
+                            destination.url,
                         )
                         st.caption(
                             "O acesso ocorre na plataforma externa, conforme "
                             "suas condições de disponibilidade e direitos."
                         )
-                        st.code(external_url, language=None)
+                        if destination.kind == "institution_home":
+                            st.caption(
+                                "Ficha específica da obra não identificada; "
+                                "o link leva ao catálogo da instituição."
+                            )
+                        st.code(destination.url, language=None)
                     else:
-                        st.caption("Endereço externo inválido ou não verificável.")
+                        st.caption("Link de consulta na origem não identificado.")
 
     with institution_tab_internal:
         st.subheader("Páginas analisadas")
