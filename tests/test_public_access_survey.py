@@ -211,6 +211,11 @@ class PublicAccessFirstGateTests(unittest.TestCase):
         blocked = (
             "http://localhost/item",
             "https://127.0.0.1/item",
+            "https://127.1/item",
+            "https://0177.0.0.1/item",
+            "https://0x7f.1/item",
+            "https://224.0.0.1/item",
+            "https://[ff02::1]/item",
             "https://192.168.1.7/item",
             "http://10.0.0.1/item",
             "https://[::1]/item",
