@@ -6,6 +6,7 @@ are true; reviewers must independently check evidence before a final decision.
 from __future__ import annotations
 
 import argparse
+import ipaddress
 import json
 import re
 from datetime import date
@@ -56,16 +57,57 @@ def _date_is_valid(value: object) -> bool:
 
 
 def _public_url(value: object) -> bool:
-    if not isinstance(value, str):
+    """Check syntax of externally reviewable URLs without DNS/network calls.
+
+    This excludes obvious local/private/loopback destinations; it cannot
+    guarantee that a public hostname currently resolves or is accessible.
+    """
+    if not isinstance(value, str) or len(value) > 4096:
+        return False
+    if any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in value):
         return False
     try:
         parsed = urlsplit(value)
+        host = parsed.hostname
+        _ = parsed.port
     except ValueError:
         return False
+    if (
+        parsed.scheme not in ("http", "https")
+        or not host
+        or parsed.username is not None
+        or parsed.password is not None
+    ):
+        return False
+    try:
+        ip = ipaddress.ip_address(host)
+    except ValueError:
+        try:
+            ascii_host = host.rstrip(".").encode("idna").decode("ascii").lower()
+        except UnicodeError:
+            return False
+        if not ascii_host or len(ascii_host) > 253:
+            return False
+        labels = ascii_host.split(".")
+        if len(labels) < 2 or any(
+            not label or len(label) > 63
+            or not re.fullmatch(r"[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", label)
+            for label in labels
+        ):
+            return False
+        if labels[-1] in ("local", "localhost", "internal", "test", "invalid"):
+            return False
+        return True
+    else:
+        return ip.is_global
+
+
+def _evidence_after_survey(item: object, survey_date: object) -> bool:
     return (
-        parsed.scheme in ("http", "https") and bool(parsed.netloc)
-        and parsed.username is None and parsed.password is None
-        and not any(c.isspace() for c in value)
+        isinstance(item, dict)
+        and _date_is_valid(survey_date)
+        and _date_is_valid(item.get("observed_on"))
+        and item["observed_on"] > survey_date
     )
 
 
@@ -111,6 +153,8 @@ def check_survey(doc: object) -> list[str]:
                     or not item["observation"].strip()):
                     errors.append(f"survey_{kind}_evidence_invalid")
                     break
+                if _evidence_after_survey(item, doc.get("survey_date")):
+                    errors.append(f"survey_{kind}_evidence_after_survey_date")
         elif evidence:
             errors.append(f"survey_{kind}_unassessed_has_evidence")
     conclusion = doc.get("conclusion")
@@ -162,6 +206,11 @@ def check_survey(doc: object) -> list[str]:
                         for item in proof
                     )):
                     errors.append(f"survey_machine_{key}_invalid")
+                elif any(
+                    _evidence_after_survey(item, doc.get("survey_date"))
+                    for item in proof
+                ):
+                    errors.append(f"survey_machine_{key}_after_survey_date")
     if decision == "admitted":
         # Corpus inclusion requires a separate controlled admission protocol,
         # not a declaration embedded in the public-discovery inventory.
