@@ -24,6 +24,20 @@ class ExternalLinkTests(unittest.TestCase):
             with self.subTest(url=url):
                 self.assertEqual(public_external_url(url), url)
 
+    def test_legacy_urls_with_spaces_are_encoded_for_navigation_only(self):
+        examples = (
+            "https://videos.far-asso.fr/film/CREAV_02_F_01 Bis.mp4",
+            "https://example.org/films/a film?lang=pt&title=meu filme",
+        )
+        for original in examples:
+            with self.subTest(original=original):
+                destination = public_external_url(original)
+                self.assertIsNotNone(destination)
+                self.assertEqual(destination, original.replace(" ", "%20"))
+                # Source metadata has not been mutated, just a derived link.
+                self.assertIn(" ", original)
+                self.assertNotIn(" ", destination)
+
     def test_reject_code_execution_local_files_or_dangerous_urls(self):
         urls = (
             None, 23, "", "  ", "javascript:alert(1)",
@@ -31,7 +45,7 @@ class ExternalLinkTests(unittest.TestCase):
             "file:///etc/passwd", "/relative/video", "//example.org/video",
             "https://user:password@example.org/video",
             "https://example.org:bad/video",
-            "https://example.org/with whitespace",
+            "https://exam ple.org/path",
             "https://example.org/path\nHeader: secret",
             "https://example.org/" + "x" * 5000,
         )
