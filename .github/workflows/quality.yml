@@ -445,6 +445,13 @@ jobs:
             tests/test_finna_response_classifier.py
           python -m unittest discover -s tests -p 'test_finna_response_classifier.py' -v
 
+      - name: Validate public-access-first discovery gate (offline)
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            scripts/validate_public_access_survey.py \
+            tests/test_public_access_survey.py
+          python -m unittest discover -s tests -p 'test_public_access_survey.py' -v
+
       - name: Validate KAVI Finna metadata staging and shared primitives
         run: |
           ruff check --select E9,F63,F7,F82 \
