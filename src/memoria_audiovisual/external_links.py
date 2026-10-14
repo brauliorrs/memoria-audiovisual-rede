@@ -70,8 +70,8 @@ def _is_known_item_record_page(url: str) -> bool:
             key.casefold() == "num_seq" and value.isdigit()
             for key, value in parse_qsl(parsed.query)
         )
-    if path.startswith(("/record/", "/records/", "/item/", "/items/")):
-        return True
+    # A generic /record/ path is not authoritative evidence of a catalog:
+    # on unreviewed hosts it may itself be an opaque media-delivery route.
     return False
 
 
