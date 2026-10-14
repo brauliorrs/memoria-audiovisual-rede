@@ -66,6 +66,28 @@ def _is_known_item_record_page(url: str) -> bool:
     parsed = urlsplit(url)
     host = (parsed.hostname or "").casefold()
     path = parsed.path.casefold()
+    # Eye Filmmuseum: the collector emits specific public film-history
+    # fiches on filmdatabase.eyefilm.nl. The search aggregation URL
+    # /film/all/all is NOT an individual work and must not be labeled one.
+    if host == "filmdatabase.eyefilm.nl":
+        if re.fullmatch(
+            r"/en/collection/film-history/film/(?!all(?:/|$))[a-z0-9_%\\-]+/?",
+            path,
+        ):
+            return True
+        return re.fullmatch(r"/en/node/[0-9]+/?", path) is not None
+    # Filmarchiv ON individual viewing/film pages, as emitted by its
+    # collector: the /video/<id> path is a page, not a media binary.
+    if host in ("filmarchiv.at", "www.filmarchiv.at"):
+        return re.fullmatch(
+            r"/de/filmarchiv-on/video/[a-z0-9_-]+/?", path,
+        ) is not None
+    # Düsseldorf's d:kult eMuseum object fiche. An /objects/<id>/<slug>
+    # is metadata, not an AV stream; other /objects/ subroutes remain HOLD.
+    if host == "emuseum.duesseldorf.de":
+        return re.fullmatch(
+            r"/objects/[0-9]+/[a-z0-9_%\\-]+/?", path,
+        ) is not None
     # FINA's Ninateka product webUrl is a *public watch page* with the
     # collector-evidenced /movies,1/<slug> shape, not a media stream.
     if host in ("ninateka.pl", "www.ninateka.pl"):
