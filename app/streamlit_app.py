@@ -1635,7 +1635,7 @@ def render_research_tab(initial_search_term="", show_search_input=True):
         st.dataframe(
             build_research_video_display_df(preview_df, visitor_facing=True),
             column_config={
-                "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+                "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
             },
             use_container_width=True,
             hide_index=True,
@@ -1655,7 +1655,7 @@ def render_research_tab(initial_search_term="", show_search_input=True):
                 st.dataframe(
                     build_research_video_display_df(group_df, visitor_facing=True),
                     column_config={
-                        "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+                        "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
                     },
                     use_container_width=True,
                     hide_index=True,
@@ -3289,7 +3289,7 @@ def render_category_tab(category_def):
                     institution_pages=institution_pages,
                 ),
                 column_config={
-                    "Acessar na origem": st.column_config.LinkColumn("Acessar na origem"),
+                    "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
                 },
                 use_container_width=True,
                 hide_index=True,
