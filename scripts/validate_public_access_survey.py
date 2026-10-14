@@ -97,9 +97,23 @@ def _public_url(value: object) -> bool:
             return False
         if labels[-1] in ("local", "localhost", "internal", "test", "invalid"):
             return False
+        # Numeric aliases (127.1, 0177.0.0.1, 0x7f.1) may resolve to
+        # loopback through libc/browser parsers despite invalid ipaddress syntax.
+        # Public DNS TLDs cannot consist solely of digits.
+        if not any("a" <= char <= "z" for char in labels[-1]):
+            return False
         return True
     else:
-        return ip.is_global
+        # ipaddress.is_global includes multicast on some Python releases.
+        # Evidence requires an externally reviewable *unicast* destination.
+        return (
+            ip.is_global
+            and not ip.is_multicast
+            and not ip.is_reserved
+            and not ip.is_unspecified
+            and not ip.is_loopback
+            and not ip.is_link_local
+        )
 
 
 def _evidence_after_survey(item: object, survey_date: object) -> bool:
