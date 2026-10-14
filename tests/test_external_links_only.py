@@ -227,6 +227,33 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertIn("detail_url_field", fragment)
         self.assertNotIn('["corpus", "slug", "final_url"]', fragment)
 
+    def test_ecpad_and_arkaader_public_item_pages_survive_redirect_policy(self):
+        item_pages = (
+            "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne?detail=123456",
+            "https://arkaader.ee/landing/bc/rHczO7kKnl/abcdef1234",
+        )
+        for item_url in item_pages:
+            with self.subTest(item_url=item_url):
+                result = choose_origin_destination(
+                    item_url, "https://institution.example.org/catalog"
+                )
+                self.assertEqual(result.url, item_url)
+                self.assertEqual(result.kind, "record_or_platform")
+
+    def test_ecpad_query_and_arkaader_embed_are_not_item_pages(self):
+        fallback = "https://institution.example.org/catalog"
+        unknown = (
+            "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne?detail=abc",
+            "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne",
+            "https://arkaader.ee/embed/opaque-token",
+            "https://arkaader.ee/api/broadcasts",
+        )
+        for url in unknown:
+            with self.subTest(url=url):
+                destination = choose_origin_destination(url, fallback)
+                self.assertEqual(destination.url, fallback)
+                self.assertEqual(destination.kind, "institution_home")
+
     def test_generic_wordpress_json_api_cannot_override_institution(self):
         raw = "https://play.vod2.infomaniak.com/single/abcdef0123456"
         api = "https://www.autrefoisgeneve.ch/wp-json/wp/v2/aiovg_videos"
@@ -322,7 +349,7 @@ class ExternalLinkTests(unittest.TestCase):
                 len(visitor_calls), 1 if function_name == "render_category_tab" else 2
             )
         source = APP.read_text(encoding="utf-8-sig")
-        self.assertIn('st.column_config.LinkColumn("Acessar na origem")', source)
+        self.assertIn('st.column_config.LinkColumn(localize_ui("Acessar na origem"))', source)
 
     def test_untrusted_partner_record_does_not_override_safe_catalog(self):
         raw = "https://prod.media.memobase.ch/memo/csa-001-test-1"
