@@ -2,11 +2,9 @@
 import json
 from importlib.util import find_spec
 from pathlib import Path
-from urllib.parse import urlparse
 
 import pandas as pd
 import streamlit as st
-import streamlit.components.v1 as components
 from streamlit.delta_generator import DeltaGenerator
 
 
@@ -16,6 +14,7 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from memoria_audiovisual import analysis as analysis_utils
+from memoria_audiovisual.external_links import public_external_url
 from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
 from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
@@ -383,16 +382,6 @@ def render_integrity_badge(value):
         """,
         unsafe_allow_html=True,
     )
-
-
-def get_vimeo_embed_url(url):
-    parsed = urlparse(url)
-    if parsed.netloc.lower().startswith("player.vimeo.com") and "/video/" in parsed.path:
-        return url
-    path_parts = [part for part in parsed.path.split("/") if part]
-    if parsed.netloc.lower().endswith("vimeo.com") and path_parts and path_parts[-1].isdigit():
-        return f"https://player.vimeo.com/video/{path_parts[-1]}"
-    return None
 
 
 def prepare_matrix_display(matrix_df):
@@ -4514,14 +4503,21 @@ def render_institution_tab(corpus_def, context, selected_slug):
                     description = normalize_optional_text(row.get("video_description"))
                     if description:
                         st.write(description)
-                    st.markdown(f"[Abrir vídeo]({row['video_link']})")
-                    if "youtube.com" in row["video_link"] or "youtu.be" in row["video_link"]:
-                        st.video(row["video_link"])
+                    # MAR is an external-access observatory: never load video
+                    # playback or third-party iframe resources inside the app.
+                    external_url = public_external_url(row["video_link"])
+                    if external_url:
+                        st.link_button(
+                            "Abrir registro ou vídeo na plataforma de origem ↗",
+                            external_url,
+                        )
+                        st.caption(
+                            "O acesso ocorre na plataforma externa, conforme "
+                            "suas condições de disponibilidade e direitos."
+                        )
+                        st.code(external_url, language=None)
                     else:
-                        vimeo_embed = get_vimeo_embed_url(row["video_link"])
-                        if vimeo_embed:
-                            components.iframe(vimeo_embed, height=360)
-                    st.code(row["video_link"], language=None)
+                        st.caption("Endereço externo inválido ou não verificável.")
 
     with institution_tab_internal:
         st.subheader("Páginas analisadas")
