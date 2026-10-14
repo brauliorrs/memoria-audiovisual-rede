@@ -191,6 +191,45 @@ class ExternalLinkTests(unittest.TestCase):
                 self.assertEqual(result.url, source)
                 self.assertEqual(result.kind, "record_or_platform")
 
+    def test_bbc_dr_and_filmoteca_espanola_collector_item_links_survive(self):
+        # Collector-defined public visitor routes, not direct media files.
+        pages = (
+            "https://www.bbc.co.uk/videos/c1dpg5z05l3o",
+            "https://www.dr.dk/drtv/program/danmarkshistorien_123456",
+            "https://www.dr.dk/drtv/program/gensyn/some-program",
+            "https://filmo.platfo.es/content/documental-1945",
+        )
+        for page in pages:
+            with self.subTest(page=page):
+                selected = choose_origin_destination(
+                    page, "https://institution.example.org/catalog"
+                )
+                self.assertEqual(selected.url, page)
+                self.assertEqual(selected.kind, "record_or_platform")
+                self.assertEqual(choose_origin_destination(page).url, page)
+
+    def test_bbc_dr_filmoteca_media_and_technical_paths_stay_blocked(self):
+        routes = (
+            "https://www.bbc.co.uk/videos/",
+            "https://www.bbc.co.uk/videos/c1dpg5z05l3o/stream",
+            "https://www.bbc.co.uk/videos/download",
+            "https://www.bbc.co.uk/videos/clip.mp4",
+            "https://www.dr.dk/drtv/program/",
+            "https://www.dr.dk/drtv/program/sample/stream",
+            "https://www.dr.dk/drtv/program/show/master.m3u8",
+            "https://www.dr.dk/drtv/api/program/film",
+            "https://filmo.platfo.es/content/",
+            "https://filmo.platfo.es/content/stream",
+            "https://filmo.platfo.es/content/movie.mp4",
+            "https://filmo.platfo.es/api/v2/video/1234",
+        )
+        institution = "https://institution.example.org/catalog"
+        for raw in routes:
+            with self.subTest(raw=raw):
+                result = choose_origin_destination(raw, institution)
+                self.assertEqual(result.url, institution)
+                self.assertEqual(result.kind, "institution_home")
+
     def test_eye_filmarchiv_and_duesseldorf_item_pages_remain_specific(self):
         # Examples are based on archived metadata from each active collector.
         pages = (
