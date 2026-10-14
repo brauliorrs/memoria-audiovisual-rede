@@ -130,15 +130,25 @@ class PublicAccessFirstGateTests(unittest.TestCase):
             check_survey(survey),
         )
 
-    def test_malformed_status_and_non_https_evidence_are_rejected(self):
+    def test_malformed_status_and_non_http_evidence_are_rejected(self):
         survey = completed()
         survey["surfaces"]["public_search"]["status"] = ["observed_public"]
         self.assertIn("survey_public_search_status_invalid", check_survey(survey))
         survey = completed()
         survey["surfaces"]["public_search"]["evidence"][0]["url"] = (
-            "http://example.org/item"
+            "ftp://example.org/item"
         )
         self.assertIn("survey_public_search_evidence_invalid", check_survey(survey))
+
+    def test_http_only_catalog_is_discoverable_without_approving_scrape(self):
+        survey = completed()
+        survey["surfaces"]["specialized_catalog"]["evidence"][0]["url"] = (
+            "http://legacy-catalog.example.org/"
+        )
+        self.assertEqual(check_survey(survey), [])
+        # The survey documents observed access only; permission to automate
+        # belongs to the separate robots/access/replay admission protocol.
+        self.assertEqual(survey["conclusion"]["decision"], "hold_documented")
 
     def test_unsupported_surfaces_do_not_silently_pass(self):
         survey = completed()
