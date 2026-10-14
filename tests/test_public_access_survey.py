@@ -214,6 +214,8 @@ class PublicAccessFirstGateTests(unittest.TestCase):
             "https://127.1/item",
             "https://0177.0.0.1/item",
             "https://0x7f.1/item",
+            "https://0x7f.0x1/item",
+            "https://0xe0.0x1/item",
             "https://224.0.0.1/item",
             "https://[ff02::1]/item",
             "https://192.168.1.7/item",
