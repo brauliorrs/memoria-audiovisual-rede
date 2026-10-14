@@ -366,6 +366,34 @@ class ExternalLinkTests(unittest.TestCase):
                 self.assertEqual(result.url, fallback)
                 self.assertEqual(result.kind, "institution_home")
 
+    def test_ert_wordpress_public_posts_preserve_item_permalink(self):
+        # ERT collector stores WordPress 'link' as a human-facing item page.
+        home = "https://archive.ert.gr/"
+        for url in (
+            "https://archive.ert.gr/ert-archive-12345/",
+            "https://archive.ert.gr/28843/",
+            "https://archive.ert.gr/%ce%b1%cf%81%cf%87%ce%b5%ce%b9%ce%bf/",
+        ):
+            with self.subTest(url=url):
+                result = choose_origin_destination(url, home)
+                self.assertEqual(result.url, url)
+                self.assertEqual(result.kind, "record_or_platform")
+
+    def test_ert_technical_paths_are_not_misidentified_as_public_posts(self):
+        home = "https://archive.ert.gr/"
+        for url in (
+            "https://archive.ert.gr/wp-json/wp/v2/posts",
+            "https://archive.ert.gr/wp-content/uploads/video.mp4",
+            "https://archive.ert.gr/wp-admin/",
+            "https://archive.ert.gr/category/",
+            "https://archive.ert.gr/feed/",
+            "https://archive.ert.gr/a/b/",
+        ):
+            with self.subTest(url=url):
+                result = choose_origin_destination(url, home)
+                self.assertEqual(result.url, home)
+                self.assertEqual(result.kind, "institution_home")
+
     def test_murnau_and_image_est_public_fiches_are_never_downgraded(self):
         # These forms are explicitly produced by the two archive collectors,
         # where video_link means a metadata permalink, NOT a media file.
