@@ -49,7 +49,7 @@ def _date_is_valid(value: object) -> bool:
     return True
 
 
-def _https_url(value: object) -> bool:
+def _public_url(value: object) -> bool:
     if not isinstance(value, str):
         return False
     try:
@@ -57,7 +57,7 @@ def _https_url(value: object) -> bool:
     except ValueError:
         return False
     return (
-        parsed.scheme == "https" and bool(parsed.netloc)
+        parsed.scheme in ("http", "https") and bool(parsed.netloc)
         and parsed.username is None and parsed.password is None
         and not any(c.isspace() for c in value)
     )
@@ -99,7 +99,7 @@ def check_survey(doc: object) -> list[str]:
                 errors.append(f"survey_{kind}_evidence_missing")
             for item in evidence:
                 if (not isinstance(item, dict)
-                    or not _https_url(item.get("url"))
+                    or not _public_url(item.get("url"))
                     or not _date_is_valid(item.get("observed_on"))
                     or not isinstance(item.get("observation"), str)
                     or not item["observation"].strip()):
