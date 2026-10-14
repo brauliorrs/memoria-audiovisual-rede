@@ -1,0 +1,89 @@
+{
+  "schema_version": "mar-public-access-survey-1.0",
+  "unit_id": "fiaf-kavi",
+  "survey_date": "2026-10-13",
+  "surfaces": {
+    "institutional_site": {
+      "status": "route_identified_unverified",
+      "finding": "kavi.fi identificado como site institucional; navegação pública não auditada de forma conclusiva na análise #82.",
+      "evidence": [
+        {
+          "url": "https://www.kavi.fi/",
+          "observation": "Rota institucional identificada; sem declaração sobre acessibilidade atual.",
+          "observed_on": "2026-10-13"
+        }
+      ]
+    },
+    "specialized_catalog": {
+      "status": "route_identified_unverified",
+      "finding": "Elonet (elonet.finna.fi) identificado como catálogo especializado vinculado ao KAVI; busca, listagem, paginação e ficha não foram auditadas sob protocolo de descoberta humana.",
+      "evidence": [
+        {
+          "url": "https://elonet.finna.fi/",
+          "observation": "Rota de catálogo identificada; conteúdo e paginação não validados no navegador.",
+          "observed_on": "2026-10-13"
+        }
+      ]
+    },
+    "public_search": {
+      "status": "route_identified_unverified",
+      "finding": "A busca pública é descrita na documentação Finna; fluxo humano de pesquisa e filtros não foi amostrado separadamente nesta análise.",
+      "evidence": [
+        {
+          "url": "https://www.finna.fi/",
+          "observation": "Portal de pesquisa identificado; observação interativa humana pendente.",
+          "observed_on": "2026-10-13"
+        }
+      ]
+    },
+    "individual_item_pages": {
+      "status": "route_identified_unverified",
+      "finding": "Padrão de ficha pública Finna identificado; resposta efetiva, vínculo custodial, riqueza do metadado e navegação a partir da lista permanecem não verificados por navegador.",
+      "evidence": [
+        {
+          "url": "https://www.finna.fi/Record/kavi.elonet_elokuva_1611548",
+          "observation": "Exemplo de URL de ficha identificado na pesquisa; sua acessibilidade atual não foi confirmada nesta auditoria.",
+          "observed_on": "2026-10-13"
+        }
+      ]
+    },
+    "aggregator_portal": {
+      "status": "route_identified_unverified",
+      "finding": "Finna é um agregador e deve ser examinado como rota distinta do catálogo custodial; não equiparar indexação à custódia.",
+      "evidence": [
+        {
+          "url": "https://www.finna.fi/",
+          "observation": "Agregador público identificado; ausência de auditoria humana específica.",
+          "observed_on": "2026-10-13"
+        }
+      ]
+    },
+    "machine_interfaces": {
+      "status": "observed_public",
+      "finding": "PR #62 documentou sonda real anterior com duas páginas, total de 400 metadados no recorte KAVI; não prova enumeração integral nem acessibilidade atual do endpoint.",
+      "evidence": [
+        {
+          "url": "https://github.com/brauliorrs/memoria-audiovisual-rede/pull/62",
+          "observation": "Evidência histórica de duas páginas reais e respectivos testes, sem mídias.",
+          "observed_on": "2026-10-12"
+        },
+        {
+          "url": "https://api.finna.fi/",
+          "observation": "Interface programática documentada; execução mais recente não comprovada.",
+          "observed_on": "2026-10-13"
+        }
+      ]
+    },
+    "media_interfaces": {
+      "status": "not_assessed",
+      "finding": "",
+      "evidence": []
+    }
+  },
+  "conclusion": {
+    "decision": "hold_provisional",
+    "investigation_complete": false,
+    "human_public_access": "unverified",
+    "machine_collection": "partially_verified"
+  }
+}
