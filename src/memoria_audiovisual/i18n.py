@@ -194,6 +194,12 @@ TRANSLATIONS = {
 PHRASE_TRANSLATIONS = {
     "es": {
         "Visão geral": "Visión general",
+        "Abrir registro ou vídeo na plataforma de origem ↗": "Abrir ficha o video en la plataforma de origen ↗",
+        "O acesso ocorre na plataforma externa, conforme suas condições de disponibilidade e direitos.": (
+            "El acceso se realiza en la plataforma externa, sujeto a sus condiciones "
+            "de disponibilidad y derechos."
+        ),
+        "Endereço externo inválido ou não verificável.": "Enlace externo no válido o no verificable.",
         "Agregadores": "Agregadores",
         "Arquivos": "Archivos",
         "Agregadores arquivísticos": "Agregadores archivísticos",
@@ -1066,6 +1072,12 @@ PHRASE_TRANSLATIONS = {
     },
     "en": {
         "Visão geral": "Overview",
+        "Abrir registro ou vídeo na plataforma de origem ↗": "Open record or video on the source platform ↗",
+        "O acesso ocorre na plataforma externa, conforme suas condições de disponibilidade e direitos.": (
+            "Access takes place on the external platform, subject to its "
+            "availability and rights conditions."
+        ),
+        "Endereço externo inválido ou não verificável.": "Invalid or unverifiable external link.",
         "Agregadores": "Aggregators",
         "Arquivos": "Archives",
         "Agregadores arquivísticos": "Archival Aggregators",
