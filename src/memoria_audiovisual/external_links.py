@@ -66,6 +66,14 @@ def _is_known_item_record_page(url: str) -> bool:
     parsed = urlsplit(url)
     host = (parsed.hostname or "").casefold()
     path = parsed.path.casefold()
+    # The Murnau-Stiftung collector constructs /movie/<numeric-id> pages
+    # as public film metadata permalinks (not media delivery URLs).
+    if host in ("murnau-stiftung.de", "www.murnau-stiftung.de"):
+        return re.fullmatch(r"/movie/[0-9]+/?", path) is not None
+    # Image'Est publishes individual documentary fiche pages in its
+    # robots-declared sitemap. Preserve the exact public item link.
+    if host in ("image-est.fr", "www.image-est.fr"):
+        return re.fullmatch(r"/fiche-documentaire-[^/?#]+\\.html", path) is not None
     if host in ("memobase.ch", "www.memobase.ch"):
         return path.startswith("/object/") and bool(path[len("/object/"):].strip("/"))
     # Collector-vetted ECPAD public Arkothèque item detail URL.
