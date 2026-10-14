@@ -99,8 +99,15 @@ def _memobase_record_public_page(value: object) -> str | None:
     if (parsed.hostname or "").casefold() != "api.memobase.ch":
         return None
     match = re.fullmatch(r"/record/([A-Za-z0-9_-]+)", parsed.path)
-    if match is None:
+    if match is None or match.group(1).casefold() in ("search",):
         return None
+    # A search endpoint may have /record/search?q=...; an item link
+    # can only carry the documented representation selector.
+    for key, value in parse_qsl(parsed.query, keep_blank_values=True):
+        if key.casefold() != "format" or value.casefold() not in (
+            "json", "jsonld", "html",
+        ):
+            return None
     return f"https://memobase.ch/object/{match.group(1)}"
 
 
