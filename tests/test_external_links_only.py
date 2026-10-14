@@ -366,6 +366,49 @@ class ExternalLinkTests(unittest.TestCase):
                 self.assertEqual(result.url, fallback)
                 self.assertEqual(result.kind, "institution_home")
 
+    def test_murnau_and_image_est_public_fiches_are_never_downgraded(self):
+        # These forms are explicitly produced by the two archive collectors,
+        # where video_link means a metadata permalink, NOT a media file.
+        cases = (
+            (
+                "https://www.murnau-stiftung.de/movie/7321",
+                "https://www.murnau-stiftung.de/",
+            ),
+            (
+                "https://www.murnau-stiftung.de/movie/32/",
+                "https://www.murnau-stiftung.de/",
+            ),
+            (
+                "https://www.image-est.fr/fiche-documentaire-mon-film-1284-3-123-0.html",
+                "https://www.image-est.fr/",
+            ),
+            (
+                "https://www.image-est.fr/fiche-documentaire-memoire-1284-1-17-0.html?lang=fr",
+                "https://www.image-est.fr/",
+            ),
+        )
+        for record, homepage in cases:
+            with self.subTest(record=record):
+                self.assertFalse(is_direct_media_asset(record))
+                dest = choose_origin_destination(record, homepage)
+                self.assertEqual(dest.url, record)
+                self.assertEqual(dest.kind, "record_or_platform")
+
+    def test_murnau_image_est_patterns_are_host_bound_and_fail_closed(self):
+        cases = (
+            "https://unknown.example/movie/7321",
+            "https://www.murnau-stiftung.de/movie/not-a-number",
+            "https://www.murnau-stiftung.de/movie/7321.mp4",
+            "https://www.image-est.fr/fiche-documentaire-invalid.html.mp4",
+            "https://unknown.example/fiche-documentaire-sample.html",
+        )
+        fallback = "https://archive.example/catalogue"
+        for record in cases:
+            with self.subTest(record=record):
+                dest = choose_origin_destination(record, fallback)
+                self.assertEqual(dest.url, fallback)
+                self.assertEqual(dest.kind, "institution_home")
+
     def test_preserve_real_platform_watch_and_record_pages(self):
         values = (
             "https://www.youtube.com/watch?v=sample",
