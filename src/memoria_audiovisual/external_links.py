@@ -66,6 +66,14 @@ def _is_known_item_record_page(url: str) -> bool:
     parsed = urlsplit(url)
     host = (parsed.hostname or "").casefold()
     path = parsed.path.casefold()
+    # AQSHF collector uses the public WordPress post link from its
+    # motion_picture item endpoint, not the binary film asset.
+    if host in ("aqshf.gov.al", "www.aqshf.gov.al"):
+        return re.fullmatch(r"/motion_picture/[^/?#]+/?", path) is not None
+    # European Film Gateway's video-item anchors point to /detail/<id>.
+    # Retain these public descriptive records without allowing API/media paths.
+    if host in ("europeanfilmgateway.eu", "www.europeanfilmgateway.eu"):
+        return re.fullmatch(r"/detail/[^/?#]+/?", path) is not None
     # ERT's WordPress API posts carry a public single-segment permalink
     # in the collected 'link' and 'page_url' fields; these are *not* the
     # video's stream. Keep WP APIs, admin paths and asset folders excluded.
