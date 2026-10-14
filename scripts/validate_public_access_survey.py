@@ -100,7 +100,9 @@ def _public_url(value: object) -> bool:
         # Numeric aliases (127.1, 0177.0.0.1, 0x7f.1) may resolve to
         # loopback through libc/browser parsers despite invalid ipaddress syntax.
         # Public DNS TLDs cannot consist solely of digits.
-        if not any("a" <= char <= "z" for char in labels[-1]):
+        if not re.fullmatch(r"[a-z][a-z0-9-]{1,62}", labels[-1]):
+            # Public DNS top-level labels are alphabetic at the beginning;
+            # numeric, octal and 0x... aliases may resolve to local IPs.
             return False
         return True
     else:
