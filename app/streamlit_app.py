@@ -4525,6 +4525,7 @@ def render_institution_tab(corpus_def, context, selected_slug):
                     "video_subject",
                     "data_publicacao",
                     "video_link",
+                    "partner_site",
                 ]
             ].copy()
             video_table_df["titulo_display"] = (
