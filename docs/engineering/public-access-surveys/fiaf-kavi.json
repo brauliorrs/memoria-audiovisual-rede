@@ -73,7 +73,7 @@
     },
     "individual_item_pages": {
       "status": "observed_public",
-      "finding": "Duas fichas de obra abertas a partir de hyperlinks publicados pelo próprio Elokuvapolku (Vaimoke e Mieheke); título, ID institucional e direitos de imagens demonstrados. Outra ficha Finna individual previamente identificada recebeu 403 direto: não extrapolar falha local. Player não foi testado.",
+      "finding": "Duas fichas de obra abertas a partir de hyperlinks publicados pelo próprio Elokuvapolku (Vaimoke e Mieheke); título, ID institucional e direitos de imagens demonstrados. Outra ficha Finna individual previamente identificada recebeu 403 direto: não extrapolar falha local. Player não foi testado. Usuario confirmou acesso e reprodução da ficha kavi.elonet_elokuva_157199 após confirmação humana; verificação direta pela ferramenta não concluída.",
       "evidence": [
         {
           "url": "https://www.finna.fi/Record/kavi.elonet_elokuva_1611548",
@@ -88,6 +88,11 @@
         {
           "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_118019",
           "observation": "Mieheke (1936): ficha de obra Elonet aberta a partir do mesmo percurso; ID institucional kavi.elonet_elokuva_118019.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_157199",
+          "observation": "Relato direto de visitante: ficha acessada e filme reproduzido após confirmação humana em 2026-10-15; não é confirmação independente da ferramenta.",
           "observed_on": "2026-10-15"
         }
       ]
@@ -125,8 +130,8 @@
       ]
     },
     "media_interfaces": {
-      "status": "route_identified_unverified",
-      "finding": "Elonet documenta video-on-demand de parte das obras e possui ficha publicada; Elokuvapolku contém filmes/trechos com requisitos de senha conforme item; Ritva tem consulta restrita a pontos institucionais. A reprodução concreta do player Elonet não foi testada.",
+      "status": "observed_public",
+      "finding": "Acesso humano à reprodução de pelo menos uma obra Elonet confirmado por relato direto de visitante em 2026-10-15: registro kavi.elonet_elokuva_157199 reproduziu depois de um desafio de confirmação humana antes do site. O ambiente automatizado desta auditoria não conseguiu abrir diretamente esse registro (DisabledError); a fonte institucional confirma serviço de VOD em geral, mas essa reprodução foi observada pelo usuário, não independentemente pela ferramenta. Acesso humano não implica acesso automático ou autorização para contornar challenge. Elokuvapolku possui restrições específicas de senha em algumas obras e Ritva limita reprodução a pontos de consulta.",
       "evidence": [
         {
           "url": "https://kavi.fi/en/film/",
@@ -146,6 +151,11 @@
         {
           "url": "https://kavi.fi/radio-ja-televisioarkisto/ohjelmien-katselu-ja-kuuntelu/",
           "observation": "Fonte pública informa busca online de metadados no Ritva, porém programas completos somente nos pontos de consulta; não classificá-los como vídeos online.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_157199",
+          "observation": "EVIDENCIA TESTEMUNHAL DO USUARIO (2026-10-15): o visitante acessou a ficha, completou uma verificacao 'se e humano' exigida antes da pagina e assistiu ao filme. Nao foi observado nem reproduzido pela ferramenta automatizada (DisabledError). Registrar reproducao humana, nao acesso programatico ou licenca para download.",
           "observed_on": "2026-10-15"
         }
       ]
