@@ -38,6 +38,17 @@ A navegação institucional possui **Radio and Television Archive (RTVA)** como 
 
 **Decisão:** manter `hold_provisional`; não promover `elavamuisti_video_2236` ao corpus, não contar vídeos, não inferir indisponibilidade a partir do HTTP 403. Para a próxima conferência, priorizar **navegação humana a partir da página oficial Elävä muisti** em browser compatível; testar apenas um vídeo com permalink visível e registrar estado do player. Se houver barreira legítima, classificar como limitação e encerrar a tentativa, sem contorno.
 
+## Confirmação de reprodução humana no Elonet (2026-10-15)
+
+- **Ficha apontada pelo visitante:** https://elonet.finna.fi/Record/kavi.elonet_elokuva_157199
+- **Evidência direta relatada:** um usuário conseguiu acessar o site e **assistir ao filme**, mas primeiro precisou passar pela tela de confirmação de que era humano.
+- **Evidência institucional independente:** a FAQ do Elonet, https://elonet.finna.fi/Content/faq?lng=en-gb , descreve o portal como catálogo e serviço VOD, com filmes que podem ser vistos online e outros com apenas dados filmográficos.
+- **Limite do exame automatizado:** a tentativa de abrir a ficha específica neste ambiente retornou `DisabledError`. A reprodução **não foi validada de forma independente pela ferramenta**; o registro é classificado como testemunho de reprodução humana.
+- **Interpretação:** bloqueio/challenge para robôs é uma propriedade do **controle de acesso automatizado**. Não constitui evidência de indisponibilidade do filme para pessoas. Não contornar desafios, cookies, autenticação ou demais controles por automação.
+- **No MAR:** preservar o link para a ficha específica no portal de origem, com audiência e reprodução no Elonet. O testemunho **não comprova** enumeração integral do acervo, licença de captura, direitos de reutilização ou permissão para um coletor automatizado.
+
+**Decisão:** `human_public_access=confirmed` e `media_interfaces=observed_public` **com evidência explicitamente atribuída ao visitante**, mantendo `machine_collection=partially_verified`, `hold_provisional` e `investigation_complete=false`. É suficiente para corrigir a hipótese de ausência de reprodução pública, mas insuficiente para promover o corpus.
+
 ## Normalização a aplicar no MAR
 
 1. `institution`: Kuvi (histórico KAVI, registro da investigação #82); `service`: Elonet, Elävä muisti, Elokuvapolku, Ritva etc.; `collection/fonds`: somente quando demonstrado; `item`: obra/programa com identificador.
