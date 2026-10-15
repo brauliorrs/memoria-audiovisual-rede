@@ -97,11 +97,12 @@ def _is_known_item_record_page(url: str) -> bool:
     # IDs distinguish the single item page from /videos/<id>/stream paths.
     if host in ("bbc.co.uk", "www.bbc.co.uk"):
         return re.fullmatch(r"/videos/[a-z0-9]{12}/?", path) is not None
-    # DR Gensyn's collector returns program pages with slug_<numeric-id>,
-    # not streaming endpoints. Keep the exact single item route.
+    # DR Gensyn's collector produces work pages for both programs and
+    # episodes. Each ends in slug_<numeric-id>; no technical subroutes pass.
     if host in ("dr.dk", "www.dr.dk"):
         return re.fullmatch(
-            r"/drtv/program/[a-z0-9][a-z0-9_%-]*_[0-9]+/?", path,
+            r"/drtv/(?:program|episode)/[a-z0-9][a-z0-9_%-]*_[0-9]+/?",
+            path,
         ) is not None
     # PLATFO FILMO Filmoteca Española exposes work pages at /content/<slug>.
     # The media is registration-gated: preserve its specific public fiche.
