@@ -178,6 +178,72 @@ class ExternalLinkTests(unittest.TestCase):
         self.assertEqual(result.url, search)
         self.assertEqual(result.kind, "institution_home")
 
+    def test_bbc_dr_and_filmoteca_item_pages_from_real_corpora(self):
+        # These URLs are copied from the repository's catalogued item rows,
+        # not invented generic /video/<id> examples.
+        cases = (
+            ("https://www.bbc.co.uk/videos/c39rz1jv9jpo",
+             "https://www.bbc.co.uk/archive"),
+            ("https://www.dr.dk/drtv/program/de-udstillede_593691",
+             "https://www.dr.dk/drtv/gensyn"),
+            ("https://filmo.platfo.es/content/apuntes-para-una-tesis-doctoral",
+             "https://filmo.platfo.es/pages/home"),
+        )
+        for item, fallback in cases:
+            with self.subTest(item=item):
+                chosen = choose_origin_destination(item, fallback)
+                self.assertEqual(chosen.url, item)
+                self.assertEqual(chosen.kind, "record_or_platform")
+                self.assertFalse(is_direct_media_asset(item))
+
+    def test_collector_specific_paths_not_generalized_to_media_routes(self):
+        cases = (
+            ("https://www.bbc.co.uk/videos/c39rz1jv9jpo/stream",
+             "https://www.bbc.co.uk/archive"),
+            ("https://www.bbc.co.uk/videos/download",
+             "https://www.bbc.co.uk/archive"),
+            ("https://www.dr.dk/drtv/program/de-udstillede_593691/embed",
+             "https://www.dr.dk/drtv/gensyn"),
+            ("https://www.dr.dk/drtv/program/download",
+             "https://www.dr.dk/drtv/gensyn"),
+            ("https://filmo.platfo.es/content/download",
+             "https://filmo.platfo.es/pages/home"),
+            ("https://filmo.platfo.es/content/a-film/stream",
+             "https://filmo.platfo.es/pages/home"),
+            ("https://evil.example.org/videos/c39rz1jv9jpo",
+             "https://www.bbc.co.uk/archive"),
+        )
+        for item, fallback in cases:
+            with self.subTest(item=item):
+                chosen = choose_origin_destination(item, fallback)
+                self.assertEqual(chosen.kind, "institution_home")
+                self.assertEqual(chosen.url, fallback)
+
+    def test_all_saved_bbc_dr_and_filmo_work_urls_remain_visitor_pages(self):
+        import csv
+
+        examples = (
+            "bbc_links_video.csv",
+            "dr_links_video.csv",
+            "filmoteca_espanola_links_video.csv",
+        )
+        root = APP.parents[0] / "data" / "output"
+        for filename in examples:
+            with self.subTest(corpus=filename):
+                with (root / filename).open(encoding="utf-8-sig", newline="") as fh:
+                    rows = list(csv.DictReader(fh))
+                self.assertGreater(len(rows), 0)
+                for row in rows:
+                    url = row["video_link"]
+                    chosen = choose_origin_destination(
+                        url, row.get("partner_site")
+                    )
+                    self.assertEqual(
+                        (chosen.url, chosen.kind),
+                        (public_external_url(url), "record_or_platform"),
+                        msg=f"permalink rejected for corpus {filename}",
+                    )
+
     def test_stable_gosfilmofond_and_iwm_item_permalink(self):
         sources = (
             "https://gosfilmofond.ru/films/12345/",
