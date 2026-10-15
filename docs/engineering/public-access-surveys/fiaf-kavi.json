@@ -1,60 +1,65 @@
 {
   "schema_version": "mar-public-access-survey-1.0",
   "unit_id": "fiaf-kavi",
-  "survey_date": "2026-10-13",
+  "survey_date": "2026-10-15",
   "surfaces": {
     "institutional_site": {
-      "status": "route_identified_unverified",
-      "finding": "kavi.fi identificado como site institucional; navegação pública não auditada de forma conclusiva na análise #82.",
+      "status": "observed_public",
+      "finding": "Pagina institucional de arquivo filmico acessada publicamente; KAVI e seu predecessor SEA sao apresentados como historicos e a Finnish Arts and Culture Agency (Kuvi) como continuadora das atribuicoes. A pagina aponta para Elonet e descreve o servico publico. Isto nao comprova que uma ficha ou player foi acessado nesta sessao.",
       "evidence": [
         {
-          "url": "https://www.kavi.fi/",
-          "observation": "Rota institucional identificada; sem declaração sobre acessibilidade atual.",
-          "observed_on": "2026-10-13"
+          "url": "https://kavi.fi/en/film/",
+          "observation": "Pagina institucional observada diretamente, com links Elonet, descricao do acervo filmico, acesso gratuito para uso privado/cultural/educacional e atualizacao do custodiante institucional para Kuvi.",
+          "observed_on": "2026-10-15"
         }
       ]
     },
     "specialized_catalog": {
       "status": "route_identified_unverified",
-      "finding": "Elonet (elonet.finna.fi) identificado como catálogo especializado vinculado ao KAVI; busca, listagem, paginação e ficha não foram auditadas sob protocolo de descoberta humana.",
+      "finding": "O catalogo Elonet e oficialmente vinculado a Kuvi/KAVI e oferece informacoes filmograficas e visualizacao de algumas obras. A FAQ foi identificada em indice publico; acesso direto a esta URL pela ferramenta recebeu HTTP 403, portanto listagens e fichas internas nao foram operadas.",
       "evidence": [
         {
-          "url": "https://elonet.finna.fi/",
-          "observation": "Rota de catálogo identificada; conteúdo e paginação não validados no navegador.",
-          "observed_on": "2026-10-13"
+          "url": "https://kavi.fi/en/film/",
+          "observation": "Fonte institucional confirma Elonet como servico de consulta de filmes e acervo, mas nao constitui teste direto do catalogo.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Content/faq?lng=en-gb",
+          "observation": "FAQ indexada descreve servico de video sob demanda e restricoes por direitos; requisicao direta devolveu HTTP 403 neste ambiente.",
+          "observed_on": "2026-10-15"
         }
       ]
     },
     "public_search": {
       "status": "route_identified_unverified",
-      "finding": "A busca pública é descrita na documentação Finna; fluxo humano de pesquisa e filtros não foi amostrado separadamente nesta análise.",
+      "finding": "A FAQ do Elonet documenta o filtro 'Available online'; a busca e sua paginacao nao foram operadas diretamente.",
       "evidence": [
         {
-          "url": "https://www.finna.fi/",
-          "observation": "Portal de pesquisa identificado; observação interativa humana pendente.",
-          "observed_on": "2026-10-13"
+          "url": "https://elonet.finna.fi/Content/faq?lng=en-gb",
+          "observation": "FAQ indexada documenta pesquisa pelos filmes disponiveis para visualizacao online; teste de uso da busca nao concluido.",
+          "observed_on": "2026-10-15"
         }
       ]
     },
     "individual_item_pages": {
       "status": "route_identified_unverified",
-      "finding": "Padrão de ficha pública Finna identificado; resposta efetiva, vínculo custodial, riqueza do metadado e navegação a partir da lista permanecem não verificados por navegador.",
+      "finding": "Ficha individual do agregado Finna identificada publicamente, sem inspeção direta da pagina ou navegacao de resultados: ferramenta recebeu HTTP 403. Nenhuma custodia individual verificada.",
       "evidence": [
         {
           "url": "https://www.finna.fi/Record/kavi.elonet_elokuva_1611548",
-          "observation": "Exemplo de URL de ficha identificado na pesquisa; sua acessibilidade atual não foi confirmada nesta auditoria.",
-          "observed_on": "2026-10-13"
+          "observation": "URL de ficha indexada em pesquisa publica; tentativa de leitura direta recebeu HTTP 403 nesta ferramenta, sem inferencia de indisponibilidade global.",
+          "observed_on": "2026-10-15"
         }
       ]
     },
     "aggregator_portal": {
       "status": "route_identified_unverified",
-      "finding": "Finna é um agregador e deve ser examinado como rota distinta do catálogo custodial; não equiparar indexação à custódia.",
+      "finding": "Finna e plataforma nacional de colecoes associada ao Elonet; a pagina institucional confirma migracao do banco Elonet ao Finna em 2019. A interface agregadora de pesquisa nao foi navegada interativamente nesta sessao.",
       "evidence": [
         {
-          "url": "https://www.finna.fi/",
-          "observation": "Agregador público identificado; ausência de auditoria humana específica.",
-          "observed_on": "2026-10-13"
+          "url": "https://kavi.fi/en/film/",
+          "observation": "Pagina oficial confirma migracao e associacao de Elonet a plataforma Finna; isso nao prova custodia de cada item.",
+          "observed_on": "2026-10-15"
         }
       ]
     },
@@ -75,9 +80,20 @@
       ]
     },
     "media_interfaces": {
-      "status": "not_assessed",
-      "finding": "",
-      "evidence": []
+      "status": "route_identified_unverified",
+      "finding": "Elonet e documentado oficialmente como servico gratuito de visualizacao de filmes; o player de uma obra especifica nao foi inspecionado ou executado nesta sessao e nao ha permissao geral para redistribuir midia.",
+      "evidence": [
+        {
+          "url": "https://kavi.fi/en/film/",
+          "observation": "Pagina oficial descreve filmes de longa e curta metragem, documentarios e comerciais disponibilizados no Elonet e restricao a uso nao comercial.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Content/faq?lng=en-gb",
+          "observation": "FAQ indexada diferencia fichas filmograficas de obras com visualizacao online, segundo os direitos; player nao foi executado.",
+          "observed_on": "2026-10-15"
+        }
+      ]
     }
   },
   "conclusion": {
