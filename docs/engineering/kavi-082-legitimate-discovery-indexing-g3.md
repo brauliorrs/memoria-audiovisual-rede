@@ -54,6 +54,10 @@ A prova de continuação [KAVI-082 resumption integrity](kavi-082-resumption-int
 
 ## 5. Próxima ação mínima — não iniciar outro loop
 
+**Plano operacional do ensaio (sem autorizar sua execução nesta sessão):** [KAVI-082 — gate prévio e ensaio de uma página](kavi-082-one-page-preflight-runbook.md). Em 2026-10-15 a leitura de `https://api.finna.fi/robots.txt` falhou nesta ferramenta e tentativa restrita a essa URL em ambiente separado apresentou `NameResolutionError`; logo `LIVE_ROBOTS=ENVIRONMENT_LIMITED`, `LIVE_ONE_PAGE=NOT_EXECUTED`. O plano especifica 1 lote real precedido por até 3 GETs de preflight e consulta robots, sem retry nem continuação. A licença de metadados não elimina esse gate.
+
+
+
 1. **Gate de autorização, sem coleta:** validar novamente os `robots` do host de API, política de uso do serviço, identidade pública do cliente e intervalo de requests; se não verificado, parar em `environment_limited` e preservar as provas anteriores.
 2. **Escopo identificável:** reutilizar o filtro **observado** de `building × format`; num único ensaio permitido e auditado, confirmar que o conjunto retornado corresponde a vídeos atribuídos ao provedor e registrar percentuais de classes (`film_candidate`, outros), sem declarar que tudo é filme sob custódia.
 3. **Prova de completa enumeração somente em protocolo separado e aprovado:** a API documenta `resumptionToken`, mas os testes atuais não provam >100 mil registros sem falhas; qualquer tentativa de fecho deve prever expiração/cursor, corte em caso de erro, proibição de reinícios ilimitados, divergência de total, deduplicação e direito de interrupção por limite/carga.
