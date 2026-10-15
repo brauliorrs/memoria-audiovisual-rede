@@ -24,6 +24,20 @@ A URL institucional [Film Archive](https://kavi.fi/en/elokuva-arkisto-2-2/) apre
 
 A navegação institucional possui **Radio and Television Archive (RTVA)** como **outra área** (https://kavi.fi/en/radio-and-television-archive/). A base pública [Ritva](https://rtva.kavi.fi/) permite pesquisa de dados de programas, canais e acervos. O próprio órgão esclarece que as gravações completas podem ser ouvidas/assistidas em **pontos de consulta autorizados**, não em reprodução doméstica pela internet: https://kavi.fi/radio-ja-televisioarkisto/ohjelmien-katselu-ja-kuuntelu/ . Assim, `Ritva: metadados pesquisáveis` **não equivale** a `vídeo online livre`. Acessos atuais/termos de consulta e a enumeração deverão ser auditados antes de qualquer coletor.
 
+## Sonda limitada do Elävä muisti: obra, editorial e player (2026-10-15)
+
+**Pesquisa efetuada apenas nas superfícies públicas, sem API ou download.**
+
+| Exemplo | URL que permite conferência | Evidência efetiva | Acesso classificado |
+|---|---|---|---|
+| **Yleislakko 1956** (greve geral) | https://kavi.finna.fi/elavamuisti/Content/vuosikymmenet?p=%2F1950-luku%2Fyleislakko-1956 | Página temática indexada publicamente, com contextualização e referência a **Finlandia-katsaus 290**. A tentativa de abrir diretamente o documento retornou **HTTP 403** neste ambiente. | `editorial_indexed`, não `item_page_verified` nem `video_playable` |
+| **Varhaisia kaupunkikuvia** (primeiras imagens urbanas) | https://kavi.finna.fi/elavamuisti/Content/vinkit-kouluille?p=%2Fkohti-itsenaisyytta%2Fvarhaisia-kaupunkikuvia | Página educacional indexada com descrições de imagens preservadas da cidade de Helsinque. Acesso direto ao documento retornou **HTTP 403** aqui. | `editorial_indexed`, sem prova de link/ID de reprodução |
+| **Uudet hyökkäysvaunut Hämeenlinnassa** (possível ficha histórica) | https://kavi.finna.fi/elavamuisti/Record/elavamuisti.elavamuisti_video_2236 | **URL divulgada por terceiro** em um blog de 2024/2026, identificador com prefixo `elavamuisti.elavamuisti_video_`; a URL não pôde ser aberta com esta ferramenta, e a autoria/título do registro não foram corroborados na fonte institucional. | `external_reference_unverified`, apenas pista de investigação |
+
+**Resultado:** a documentação institucional confirma que Elävä muisti é um serviço audiovisual distinto do Elonet e opera na infraestrutura Finna. A pesquisa encontrou temas e possível permalink de vídeo, mas **não conseguiu confirmar uma ficha de item nem executar o player** nesta sessão. A existência de um ID citado externamente não comprova publicação atual, reprodução, direitos, integridade ou autorização de automação.
+
+**Decisão:** manter `hold_provisional`; não promover `elavamuisti_video_2236` ao corpus, não contar vídeos, não inferir indisponibilidade a partir do HTTP 403. Para a próxima conferência, priorizar **navegação humana a partir da página oficial Elävä muisti** em browser compatível; testar apenas um vídeo com permalink visível e registrar estado do player. Se houver barreira legítima, classificar como limitação e encerrar a tentativa, sem contorno.
+
 ## Normalização a aplicar no MAR
 
 1. `institution`: Kuvi (histórico KAVI, registro da investigação #82); `service`: Elonet, Elävä muisti, Elokuvapolku, Ritva etc.; `collection/fonds`: somente quando demonstrado; `item`: obra/programa com identificador.
