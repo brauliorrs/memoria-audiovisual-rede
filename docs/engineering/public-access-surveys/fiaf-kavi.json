@@ -1,0 +1,170 @@
+{
+  "schema_version": "mar-public-access-survey-1.0",
+  "unit_id": "fiaf-kavi",
+  "survey_date": "2026-10-15",
+  "surfaces": {
+    "institutional_site": {
+      "status": "observed_public",
+      "finding": "Menu Film Archive do KAVI/Kuvi consultado publicamente e descrito em docs/engineering/kavi-082-subservices-access-map.md: sete serviços de navegação, não sete corpora custodiais. Página institucional pública atesta continuidade institucional KAVI -> Kuvi.",
+      "evidence": [
+        {
+          "url": "https://kavi.fi/en/film/",
+          "observation": "Pagina institucional observada diretamente, com links Elonet, descricao do acervo filmico, acesso gratuito para uso privado/cultural/educacional e atualizacao do custodiante institucional para Kuvi.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://kavi.fi/en/elokuva-arkisto-2-2/",
+          "observation": "Menu público do Film Archive contém Elonet, Elävä muisti, Kino Regina, Bio Valentin, Regional Film Series, Film Education e Elokuvapolku; distinção funcional documentada no mapa de serviços.",
+          "observed_on": "2026-10-15"
+        }
+      ]
+    },
+    "specialized_catalog": {
+      "status": "observed_public",
+      "finding": "Elonet é serviço de catálogo/streaming documentado; duas fichas reais Vaimoke e Mieheke foram lidas publicamente ao seguir links de Elokuvapolku -> Elonet. Alguns acessos diretos à raiz/URLs independentes retornaram HTTP 403 nesta ferramenta. Acesso a fichas não equivale a direito de exibição nem enumeração automatizada.",
+      "evidence": [
+        {
+          "url": "https://kavi.fi/en/film/",
+          "observation": "Fonte institucional confirma Elonet como servico de consulta de filmes e acervo, mas nao constitui teste direto do catalogo.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Content/faq?lng=en-gb",
+          "observation": "FAQ indexada descreve servico de video sob demanda e restricoes por direitos; requisicao direta devolveu HTTP 403 neste ambiente.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://kavi.finna.fi/elavamuisti/Content/faq",
+          "observation": "FAQ indexada informa que Elävä muisti oferece material histórico audiovisual e migrou para infraestrutura Finna em 2021. Leitura direta deste endpoint recebeu 403 no ambiente da auditoria.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elokuvapolku.kavi.fi/katso-elokuvia/",
+          "observation": "Página pública consultada diretamente: listas por clássicos, curtas, documentários e publicidade; parte das obras exige credenciais educativas.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_117938",
+          "observation": "Ficha Vaimoke (1936) aberta a partir de link da página temática Pääosassa moderni nainen no Elokuvapolku; acesso HTML público confirmado, sem reproduzir mídia.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elokuvapolku.kavi.fi/katso-elokuvia/elokuvasarjoja-kotimaisista-klassikoista/paaosassa-moderni-nainen/",
+          "observation": "Página temática Elokuvapolku consultada; publica links 'Katso elokuva Elonetistä' que abrem registros de filmes Elonet específicos.",
+          "observed_on": "2026-10-15"
+        }
+      ]
+    },
+    "public_search": {
+      "status": "route_identified_unverified",
+      "finding": "Busca Elonet/Finna não foi operada diretamente. O Ritva (RTVA), fora das sete subdivisões de Film Archive, expõe interface pública de busca de metadados, com reprodução de programas limitada a pontos de consulta.",
+      "evidence": [
+        {
+          "url": "https://elonet.finna.fi/Content/faq?lng=en-gb",
+          "observation": "FAQ indexada documenta pesquisa pelos filmes disponiveis para visualizacao online; teste de uso da busca nao concluido.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://rtva.kavi.fi/",
+          "observation": "Página pública de Ritva acessada; oferece pesquisa de programas, séries, pessoas e emissoras. O site não demonstra streaming doméstico.",
+          "observed_on": "2026-10-15"
+        }
+      ]
+    },
+    "individual_item_pages": {
+      "status": "observed_public",
+      "finding": "Duas fichas de obra abertas a partir de hyperlinks publicados pelo próprio Elokuvapolku (Vaimoke e Mieheke); título, ID institucional e direitos de imagens demonstrados. Outra ficha Finna individual previamente identificada recebeu 403 direto: não extrapolar falha local. Player não foi testado. Usuario confirmou acesso e reprodução da ficha kavi.elonet_elokuva_157199 após confirmação humana; verificação direta pela ferramenta não concluída.",
+      "evidence": [
+        {
+          "url": "https://www.finna.fi/Record/kavi.elonet_elokuva_1611548",
+          "observation": "URL de ficha indexada em pesquisa publica; tentativa de leitura direta recebeu HTTP 403 nesta ferramenta, sem inferencia de indisponibilidade global.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_117938",
+          "observation": "Vaimoke (1936): ficha de obra Elonet aberta a partir de link curatorial de Elokuvapolku; ID institucional kavi.elonet_elokuva_117938 e informações de imagens/direitos observados.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_118019",
+          "observation": "Mieheke (1936): ficha de obra Elonet aberta a partir do mesmo percurso; ID institucional kavi.elonet_elokuva_118019.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_157199",
+          "observation": "Relato direto de visitante: ficha acessada e filme reproduzido após confirmação humana em 2026-10-15; não é confirmação independente da ferramenta.",
+          "observed_on": "2026-10-15"
+        }
+      ]
+    },
+    "aggregator_portal": {
+      "status": "route_identified_unverified",
+      "finding": "Finna recebe os serviços Elonet e Elävä muisti em superfícies relacionadas; Elävä muisti foi migrado à plataforma em dezembro de 2021. A indexação não demonstra custódia nem autoriza dupla contagem de obras.",
+      "evidence": [
+        {
+          "url": "https://kavi.fi/en/film/",
+          "observation": "Pagina oficial confirma migracao e associacao de Elonet a plataforma Finna; isso nao prova custodia de cada item.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://kavi.finna.fi/elavamuisti/Content/faq",
+          "observation": "FAQ pública indexada comprova migração do Elävä muisti ao Finna; inspeção de registros/IDs de obras ainda pendente.",
+          "observed_on": "2026-10-15"
+        }
+      ]
+    },
+    "machine_interfaces": {
+      "status": "observed_public",
+      "finding": "PR #62 documentou sonda real anterior com duas páginas, total de 400 metadados no recorte KAVI; não prova enumeração integral nem acessibilidade atual do endpoint.",
+      "evidence": [
+        {
+          "url": "https://github.com/brauliorrs/memoria-audiovisual-rede/pull/62",
+          "observation": "Evidência histórica de duas páginas reais e respectivos testes, sem mídias.",
+          "observed_on": "2026-10-12"
+        },
+        {
+          "url": "https://api.finna.fi/",
+          "observation": "Interface programática documentada; execução mais recente não comprovada.",
+          "observed_on": "2026-10-13"
+        }
+      ]
+    },
+    "media_interfaces": {
+      "status": "observed_public",
+      "finding": "Acesso humano à reprodução de pelo menos uma obra Elonet confirmado por relato direto de visitante em 2026-10-15: registro kavi.elonet_elokuva_157199 reproduziu depois de um desafio de confirmação humana antes do site. O ambiente automatizado desta auditoria não conseguiu abrir diretamente esse registro (DisabledError); a fonte institucional confirma serviço de VOD em geral, mas essa reprodução foi observada pelo usuário, não independentemente pela ferramenta. Acesso humano não implica acesso automático ou autorização para contornar challenge. Elokuvapolku possui restrições específicas de senha em algumas obras e Ritva limita reprodução a pontos de consulta.",
+      "evidence": [
+        {
+          "url": "https://kavi.fi/en/film/",
+          "observation": "Pagina oficial descreve filmes de longa e curta metragem, documentarios e comerciais disponibilizados no Elonet e restricao a uso nao comercial.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Content/faq?lng=en-gb",
+          "observation": "FAQ indexada diferencia fichas filmograficas de obras com visualizacao online, segundo os direitos; player nao foi executado.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elokuvapolku.kavi.fi/katso-elokuvia/",
+          "observation": "Página pública acessível com filmes/trechos educativos e nota de credenciais exigidas para obras específicas; reprodução efetiva não testada.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://kavi.fi/radio-ja-televisioarkisto/ohjelmien-katselu-ja-kuuntelu/",
+          "observation": "Fonte pública informa busca online de metadados no Ritva, porém programas completos somente nos pontos de consulta; não classificá-los como vídeos online.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_157199",
+          "observation": "EVIDENCIA TESTEMUNHAL DO USUARIO (2026-10-15): o visitante acessou a ficha, completou uma verificacao 'se e humano' exigida antes da pagina e assistiu ao filme. Nao foi observado nem reproduzido pela ferramenta automatizada (DisabledError). Registrar reproducao humana, nao acesso programatico ou licenca para download.",
+          "observed_on": "2026-10-15"
+        }
+      ]
+    }
+  },
+  "conclusion": {
+    "decision": "hold_provisional",
+    "investigation_complete": false,
+    "human_public_access": "confirmed",
+    "machine_collection": "partially_verified"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "mar-public-access-survey-1.0",
+  "unit_id": "template-institution",
+  "survey_date": "2026-10-13",
+  "surfaces": {
+    "institutional_site": {
+      "status": "not_assessed",
+      "finding": "",
+      "evidence": []
+    },
+    "specialized_catalog": {
+      "status": "not_assessed",
+      "finding": "",
+      "evidence": []
+    },
+    "public_search": {
+      "status": "not_assessed",
+      "finding": "",
+      "evidence": []
+    },
+    "individual_item_pages": {
+      "status": "not_assessed",
+      "finding": "",
+      "evidence": []
+    },
+    "aggregator_portal": {
+      "status": "not_assessed",
+      "finding": "",
+      "evidence": []
+    },
+    "machine_interfaces": {
+      "status": "not_assessed",
+      "finding": "",
+      "evidence": []
+    },
+    "media_interfaces": {
+      "status": "not_assessed",
+      "finding": "",
+      "evidence": []
+    }
+  },
+  "conclusion": {
+    "decision": "pending",
+    "investigation_complete": false,
+    "human_public_access": "unverified",
+    "machine_collection": "unverified"
+  }
+}
