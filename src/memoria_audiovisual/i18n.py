@@ -194,6 +194,19 @@ TRANSLATIONS = {
 PHRASE_TRANSLATIONS = {
     "es": {
         "Visão geral": "Visión general",
+        "Abrir registro ou vídeo na plataforma de origem ↗": "Abrir ficha o video en la plataforma de origen ↗",
+        "Acessar na origem": "Abrir en la plataforma de origen",
+        "Visitar catálogo da instituição ↗": "Visitar el catálogo de la institución ↗",
+        "Abrir a obra na plataforma de origem ↗": "Abrir la obra en la plataforma de origen ↗",
+        "Ficha específica da obra não identificada; o link leva ao catálogo da instituição.": (
+            "No se ha identificado la ficha de esta obra; el enlace lleva al catálogo de la institución."
+        ),
+        "Link de consulta na origem não identificado.": "No se identificó un enlace para consultar la obra en origen.",
+        "O acesso ocorre na plataforma externa, conforme suas condições de disponibilidade e direitos.": (
+            "El acceso se realiza en la plataforma externa, sujeto a sus condiciones "
+            "de disponibilidad y derechos."
+        ),
+        "Endereço externo inválido ou não verificável.": "Enlace externo no válido o no verificable.",
         "Agregadores": "Agregadores",
         "Arquivos": "Archivos",
         "Agregadores arquivísticos": "Agregadores archivísticos",
@@ -1066,6 +1079,19 @@ PHRASE_TRANSLATIONS = {
     },
     "en": {
         "Visão geral": "Overview",
+        "Abrir registro ou vídeo na plataforma de origem ↗": "Open record or video on the source platform ↗",
+        "Acessar na origem": "Open at source",
+        "Visitar catálogo da instituição ↗": "Visit the institution's catalog ↗",
+        "Abrir a obra na plataforma de origem ↗": "Open the work on the source platform ↗",
+        "Ficha específica da obra não identificada; o link leva ao catálogo da instituição.": (
+            "An item-specific record has not been identified; the link opens the institution's catalog."
+        ),
+        "Link de consulta na origem não identificado.": "No link to consult the item at source was identified.",
+        "O acesso ocorre na plataforma externa, conforme suas condições de disponibilidade e direitos.": (
+            "Access takes place on the external platform, subject to its "
+            "availability and rights conditions."
+        ),
+        "Endereço externo inválido ou não verificável.": "Invalid or unverifiable external link.",
         "Agregadores": "Aggregators",
         "Arquivos": "Archives",
         "Agregadores arquivísticos": "Archival Aggregators",

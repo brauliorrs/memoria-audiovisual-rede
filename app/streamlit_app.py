@@ -2,11 +2,9 @@
 import json
 from importlib.util import find_spec
 from pathlib import Path
-from urllib.parse import urlparse
 
 import pandas as pd
 import streamlit as st
-import streamlit.components.v1 as components
 from streamlit.delta_generator import DeltaGenerator
 
 
@@ -16,6 +14,10 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from memoria_audiovisual import analysis as analysis_utils
+from memoria_audiovisual.external_links import (
+    choose_origin_destination,
+    public_external_url,
+)
 from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
 from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
@@ -150,6 +152,14 @@ def localize_dataframe_arguments(args, kwargs):
         args[0] = localize_dataframe_columns(args[0])
     elif "data" in kwargs:
         kwargs["data"] = localize_dataframe_columns(kwargs["data"])
+    # Data columns are translated above. Streamlit column_config keys must
+    # address those translated names as well, or LinkColumn stops being
+    # clickable in the Spanish/English interface.
+    if APP_LANGUAGE != DEFAULT_LANGUAGE and isinstance(kwargs.get("column_config"), dict):
+        kwargs["column_config"] = {
+            localize_ui(key) if isinstance(key, str) else key: value
+            for key, value in kwargs["column_config"].items()
+        }
     return args, kwargs
 
 
@@ -383,16 +393,6 @@ def render_integrity_badge(value):
         """,
         unsafe_allow_html=True,
     )
-
-
-def get_vimeo_embed_url(url):
-    parsed = urlparse(url)
-    if parsed.netloc.lower().startswith("player.vimeo.com") and "/video/" in parsed.path:
-        return url
-    path_parts = [part for part in parsed.path.split("/") if part]
-    if parsed.netloc.lower().endswith("vimeo.com") and path_parts and path_parts[-1].isdigit():
-        return f"https://player.vimeo.com/video/{path_parts[-1]}"
-    return None
 
 
 def prepare_matrix_display(matrix_df):
@@ -1227,13 +1227,40 @@ def build_category_summary_display_df(dataframe):
     )
 
 
-def build_category_video_display_df(dataframe):
+def build_visitor_origin_column(frame, *, institution_pages=None):
+    """Derived *visitor* destinations; source URLs remain in raw metadata.
+
+    No URL probes or media downloads. The column is link-safe for Streamlit.
+    Entries without a verified visitor-facing URL get an empty link.
+    """
+    if frame is None or frame.empty:
+        return pd.Series(dtype=str)
+    institution_pages = institution_pages or {}
+
+    def destination(row):
+        fallback = row.get("source_page_url")
+        if not public_external_url(fallback):
+            fallback = institution_pages.get((row.get("corpus"), row.get("slug")))
+        return choose_origin_destination(
+            row.get("video_link"),
+            fallback,
+            record_page_url=row.get("partner_site"),
+        ).url or ""
+
+    return frame.apply(destination, axis=1)
+
+
+def build_category_video_display_df(dataframe, *, visitor_facing=False, institution_pages=None):
     if dataframe is None or dataframe.empty:
         return pd.DataFrame()
 
     display_df = dataframe.copy()
     if "continent" in display_df.columns:
         display_df["continent"] = display_df["continent"].fillna("Não classificado").replace("", "Não classificado")
+    if visitor_facing:
+        display_df["origin_link"] = build_visitor_origin_column(
+            display_df, institution_pages=institution_pages
+        )
 
     preferred_columns = [
         "corpus",
@@ -1246,7 +1273,7 @@ def build_category_video_display_df(dataframe):
         "video_theme",
         "video_title_display",
         "video_date_display",
-        "video_link",
+        "origin_link" if visitor_facing else "video_link",
     ]
     available_columns = [column for column in preferred_columns if column in display_df.columns]
 
@@ -1263,6 +1290,7 @@ def build_category_video_display_df(dataframe):
             "video_title_display": "título do vídeo",
             "video_date_display": "data do vídeo",
             "video_link": "link do vídeo",
+            "origin_link": "Acessar na origem",
         }
     )
 
@@ -1277,6 +1305,7 @@ def build_research_video_catalog_frame():
         "continent",
         "platform",
         "video_link",
+        "partner_site",
         "video_title_display",
         "video_date_display",
         "video_theme",
@@ -1300,18 +1329,28 @@ def build_research_video_catalog_frame():
 
         summary_path = OUTPUT_DIR / output_files["analytic_summary"]
         if summary_path.exists():
+            detail_field = corpus_def["detail_url_field"]
+            source_columns = {"slug", "institution", "access_regime", detail_field}
             regime_df = pd.read_csv(
                 summary_path,
-                usecols=lambda column: column in {"slug", "institution", "access_regime"},
+                usecols=lambda column: column in source_columns,
                 dtype=str,
                 keep_default_na=False,
             )
             join_key = "slug" if "slug" in catalog_df.columns and "slug" in regime_df.columns else "institution"
-            if join_key in catalog_df.columns and join_key in regime_df.columns and "access_regime" in regime_df.columns:
+            if join_key in catalog_df.columns and join_key in regime_df.columns:
+                columns = [join_key]
+                if "access_regime" in regime_df.columns:
+                    columns.append("access_regime")
+                if detail_field in regime_df.columns and detail_field != join_key:
+                    columns.append(detail_field)
+                source_df = regime_df[columns].drop_duplicates(join_key)
+                if detail_field in source_df.columns and detail_field != join_key:
+                    source_df = source_df.rename(
+                        columns={detail_field: "source_page_url"}
+                    )
                 catalog_df = catalog_df.merge(
-                    regime_df[[join_key, "access_regime"]].drop_duplicates(join_key),
-                    on=join_key,
-                    how="left",
+                    source_df, on=join_key, how="left",
                 )
 
         category_def = CORPUS_CATEGORIES[corpus_def["category_code"]]
@@ -1414,9 +1453,12 @@ def filter_research_catalog(
     return filtered_df
 
 
-def build_research_video_display_df(dataframe):
+def build_research_video_display_df(dataframe, *, visitor_facing=False):
     if dataframe is None or dataframe.empty:
         return pd.DataFrame()
+    display_df = dataframe.copy()
+    if visitor_facing:
+        display_df["origin_link"] = build_visitor_origin_column(display_df)
     preferred_columns = [
         "categoria_analitica",
         "corpus",
@@ -1432,10 +1474,10 @@ def build_research_video_display_df(dataframe):
         "access_regime",
         "video_subject",
         "video_description",
-        "video_link",
+        "origin_link" if visitor_facing else "video_link",
     ]
-    available_columns = [column for column in preferred_columns if column in dataframe.columns]
-    return dataframe[available_columns].rename(
+    available_columns = [column for column in preferred_columns if column in display_df.columns]
+    return display_df[available_columns].rename(
         columns={
             "categoria_analitica": "categoria analítica",
             "corpus": "unidade documental",
@@ -1452,6 +1494,7 @@ def build_research_video_display_df(dataframe):
             "video_subject": "assunto do vídeo",
             "video_description": "descrição do vídeo",
             "video_link": "link do vídeo",
+            "origin_link": "Acessar na origem",
         }
     )
 
@@ -1590,7 +1633,10 @@ def render_research_tab(initial_search_term="", show_search_input=True):
 
     if result_mode == "Tabela":
         st.dataframe(
-            build_research_video_display_df(preview_df),
+            build_research_video_display_df(preview_df, visitor_facing=True),
+            column_config={
+                "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
+            },
             use_container_width=True,
             hide_index=True,
         )
@@ -1607,7 +1653,10 @@ def render_research_tab(initial_search_term="", show_search_input=True):
             )
             with st.expander(f"{group_name} ({len(group_df)})", expanded=False):
                 st.dataframe(
-                    build_research_video_display_df(group_df),
+                    build_research_video_display_df(group_df, visitor_facing=True),
+                    column_config={
+                        "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
+                    },
                     use_container_width=True,
                     hide_index=True,
                 )
@@ -3216,8 +3265,32 @@ def render_category_tab(category_def):
                     filtered_video_df["access_surface"] == selected_access_surface
                 ]
 
+            # final_url is a crawl outcome and can be a JSON/API endpoint.
+            # Use the canonical *catalog* field registered for each corpus.
+            detail_field_by_corpus = {
+                item["short_label"]: item["detail_url_field"]
+                for item in corpora_in_category
+            }
+            institution_pages = {}
+            if (
+                not combined_summary_df.empty
+                and {"corpus", "slug"}.issubset(combined_summary_df.columns)
+            ):
+                for _, row in combined_summary_df.drop_duplicates(
+                    ["corpus", "slug"]
+                ).iterrows():
+                    field = detail_field_by_corpus.get(row["corpus"])
+                    if field and field in combined_summary_df.columns:
+                        institution_pages[(row["corpus"], row["slug"])] = row.get(field)
             st.dataframe(
-                build_category_video_display_df(filtered_video_df),
+                build_category_video_display_df(
+                    filtered_video_df,
+                    visitor_facing=True,
+                    institution_pages=institution_pages,
+                ),
+                column_config={
+                    "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
+                },
                 use_container_width=True,
                 hide_index=True,
             )
@@ -3712,10 +3785,12 @@ def render_sites_tab(corpus_def, context):
                 st.write(f"Plataformas detectadas: {row['platforms_detectadas']}")
             if pd.notna(row.get("warning")) and str(row.get("warning")).strip():
                 st.warning(str(row["warning"]))
-            if pd.notna(row.get(detail_url_field)) and str(row.get(detail_url_field)).strip():
-                st.markdown(f"[Abrir {detail_url_label}]({row[detail_url_field]})")
-            if pd.notna(row.get("final_url")) and str(row.get("final_url")).strip():
-                st.markdown(f"[Abrir site institucional]({row['final_url']})")
+            detail_url = public_external_url(row.get(detail_url_field))
+            if detail_url:
+                st.link_button(f"Abrir {detail_url_label}", detail_url)
+            institution_url = public_external_url(row.get("final_url"))
+            if institution_url:
+                st.link_button("Abrir site institucional", institution_url)
 
 
 def render_videos_tab(corpus_def, context, selected_theme):
@@ -3723,6 +3798,25 @@ def render_videos_tab(corpus_def, context, selected_theme):
     theme_counts = context["theme_counts"]
     access_surface_counts = context["access_surface_counts"]
     curatorial_video_total = context["curatorial_video_total"]
+
+    # Surface-specific institutional landing pages, not per-film proof of
+    # custody or availability. No media URLs are dereferenced by the MAR.
+    summary_df = context["available_df"]
+    detail_field = corpus_def["detail_url_field"]
+    institution_pages = (
+        summary_df.dropna(subset=["slug"])
+        .drop_duplicates(subset=["slug"])
+        .set_index("slug")[detail_field].to_dict()
+        if "slug" in summary_df.columns and detail_field in summary_df.columns
+        else {}
+    )
+
+    def origin_for_video(row):
+        return choose_origin_destination(
+            row.get("video_link"),
+            institution_pages.get(row.get("slug")),
+            record_page_url=row.get("partner_site"),
+        )
 
     st.subheader("Vídeos e temas")
     if video_catalog_df.empty:
@@ -3803,8 +3897,12 @@ def render_videos_tab(corpus_def, context, selected_theme):
     )
 
     if video_view_mode == "Tabela":
+        table_for_visitors = filtered_videos.copy()
+        table_for_visitors["origin_link"] = table_for_visitors.apply(
+            lambda row: origin_for_video(row).url or "", axis=1
+        )
         st.dataframe(
-            filtered_videos[
+            table_for_visitors[
                 [
                     "institution",
                     "platform",
@@ -3814,7 +3912,7 @@ def render_videos_tab(corpus_def, context, selected_theme):
                     "video_date_display",
                     "country",
                     "continent",
-                    "video_link",
+                    "origin_link",
                 ]
             ].rename(
                 columns={
@@ -3826,9 +3924,12 @@ def render_videos_tab(corpus_def, context, selected_theme):
                     "platform": "plataforma",
                     "country": "país",
                     "continent": "continente",
-                    "video_link": "link",
+                    "origin_link": "Acessar na origem",
                 }
             ),
+            column_config={
+                "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
+            },
             use_container_width=True,
             hide_index=True,
         )
@@ -3857,8 +3958,21 @@ def render_videos_tab(corpus_def, context, selected_theme):
                             f"{normalize_text(row['country'])} | {normalize_text(row['video_date_display'])}"
                         )
                         st.caption(f"Modalidade de acesso: {normalize_text(row['access_surface'])}")
-                        st.markdown(f"[Abrir vídeo]({row['video_link']})")
-                        st.code(row["video_link"], language=None)
+                        destination = origin_for_video(row)
+                        if destination.url:
+                            st.link_button(
+                                "Visitar catálogo da instituição ↗"
+                                if destination.kind == "institution_home"
+                                else "Abrir a obra na plataforma de origem ↗",
+                                destination.url,
+                            )
+                            if destination.kind == "institution_home":
+                                st.caption(
+                                    "Ficha específica da obra não identificada; "
+                                    "o link leva ao catálogo da instituição."
+                                )
+                        else:
+                            st.caption("Link de consulta na origem não identificado.")
 
     with st.expander("Ver sínteses do catálogo de vídeos", expanded=False):
         expander_cols = st.columns(2)
@@ -4434,10 +4548,24 @@ def render_institution_tab(corpus_def, context, selected_slug):
             )
             st.dataframe(source_links, use_container_width=True, hide_index=True)
 
-            if pd.notna(selected_summary.get(detail_url_field)) and str(selected_summary.get(detail_url_field)).strip():
-                st.link_button(f"Abrir {corpus_def['detail_url_label']}", selected_summary[detail_url_field], use_container_width=True)
-            if pd.notna(selected_summary.get("final_url")) and str(selected_summary.get("final_url")).strip():
-                st.link_button("Abrir site institucional verificado", selected_summary["final_url"], use_container_width=True)
+            institution_catalog = public_external_url(
+                selected_summary.get(detail_url_field)
+            )
+            if institution_catalog:
+                st.link_button(
+                    f"Abrir {corpus_def['detail_url_label']}",
+                    institution_catalog,
+                    use_container_width=True,
+                )
+            verified_institution = public_external_url(
+                selected_summary.get("final_url")
+            )
+            if verified_institution:
+                st.link_button(
+                    "Abrir site institucional verificado",
+                    verified_institution,
+                    use_container_width=True,
+                )
 
     with institution_tab_videos:
         st.subheader("Vídeos localizados na instituição")
@@ -4451,6 +4579,10 @@ def render_institution_tab(corpus_def, context, selected_slug):
                 st.info("Nenhum vídeo permaneceu no recorte curatorial após a filtragem de ruído fora de escopo.")
             selected_links["modalidade_acesso"] = selected_links.apply(analysis_utils.classify_access_surface, axis=1)
             selected_links["data_publicacao"] = selected_links["video_published_at"].apply(format_video_date)
+            if "partner_site" not in selected_links.columns:
+                # Older versioned snapshots may not carry an item-level
+                # origin URL. Their display must stay fail-closed.
+                selected_links["partner_site"] = ""
 
             video_overview_cols = st.columns(4)
             video_overview_cols[0].metric("Vídeos curatoriais", len(selected_links))
@@ -4470,6 +4602,7 @@ def render_institution_tab(corpus_def, context, selected_slug):
                     "video_subject",
                     "data_publicacao",
                     "video_link",
+                    "partner_site",
                 ]
             ].copy()
             video_table_df["titulo_display"] = (
@@ -4482,9 +4615,17 @@ def render_institution_tab(corpus_def, context, selected_slug):
             empty_title_mask = video_table_df["titulo_display"] == ""
             video_table_df.loc[empty_title_mask, "titulo_display"] = video_table_df.loc[empty_title_mask, "video_link"]
 
+            video_table_df["origin_link"] = video_table_df.apply(
+                lambda row: choose_origin_destination(
+                    row.get("video_link"),
+                    selected_summary.get(detail_url_field),
+                    record_page_url=row.get("partner_site"),
+                ).url or "",
+                axis=1,
+            )
             st.dataframe(
                 video_table_df[
-                    ["platform", "modalidade_acesso", "tema_sugerido", "titulo_display", "data_publicacao", "video_link"]
+                    ["platform", "modalidade_acesso", "tema_sugerido", "titulo_display", "data_publicacao", "origin_link"]
                 ].rename(
                     columns={
                         "platform": "plataforma",
@@ -4492,9 +4633,12 @@ def render_institution_tab(corpus_def, context, selected_slug):
                         "tema_sugerido": "tema sugerido",
                         "titulo_display": "título",
                         "data_publicacao": "data de publicação",
-                        "video_link": "link do vídeo",
+                        "origin_link": "Acessar na origem",
                     }
                 ),
+                column_config={
+                    "Acessar na origem": st.column_config.LinkColumn(localize_ui("Acessar na origem")),
+                },
                 use_container_width=True,
                 hide_index=True,
             )
@@ -4514,14 +4658,32 @@ def render_institution_tab(corpus_def, context, selected_slug):
                     description = normalize_optional_text(row.get("video_description"))
                     if description:
                         st.write(description)
-                    st.markdown(f"[Abrir vídeo]({row['video_link']})")
-                    if "youtube.com" in row["video_link"] or "youtu.be" in row["video_link"]:
-                        st.video(row["video_link"])
+                    # MAR is an external-access observatory: never load video
+                    # playback or third-party iframe resources inside the app.
+                    destination = choose_origin_destination(
+                        row["video_link"],
+                        selected_summary.get(detail_url_field),
+                        record_page_url=row.get("partner_site"),
+                    )
+                    if destination.url:
+                        st.link_button(
+                            "Visitar catálogo da instituição ↗"
+                            if destination.kind == "institution_home"
+                            else "Abrir a obra na plataforma de origem ↗",
+                            destination.url,
+                        )
+                        st.caption(
+                            "O acesso ocorre na plataforma externa, conforme "
+                            "suas condições de disponibilidade e direitos."
+                        )
+                        if destination.kind == "institution_home":
+                            st.caption(
+                                "Ficha específica da obra não identificada; "
+                                "o link leva ao catálogo da instituição."
+                            )
+                        st.code(destination.url, language=None)
                     else:
-                        vimeo_embed = get_vimeo_embed_url(row["video_link"])
-                        if vimeo_embed:
-                            components.iframe(vimeo_embed, height=360)
-                    st.code(row["video_link"], language=None)
+                        st.caption("Link de consulta na origem não identificado.")
 
     with institution_tab_internal:
         st.subheader("Páginas analisadas")

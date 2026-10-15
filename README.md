@@ -4,6 +4,8 @@
 
 O projeto combina coleta automatizada, curadoria metodológica, indicadores comparáveis e visualização em Streamlit para estudar como a memória audiovisual circula, aparece, desaparece, torna-se restrita ou permanece pouco visível em ambientes digitais.
 
+**O MAR concentra estudo e descoberta, não visualizações audiovisuais.** Visitantes são encaminhados à plataforma ou instituição de origem para consultar a ficha e, quando oferecido ali, assistir à obra. O observatório não baixa, hospeda, incorpora players ou redistribui arquivos de vídeo; o acervo e a audiência permanecem na origem. Arquivos de metadados e links são preservados para análise científica, observadas as licenças e a proveniência. [Política de encaminhamento e respeito à plataforma de origem](docs/engineering/external-links-only-media-policy.md).
+
 A plataforma permanece uma plataforma pública, com usos variados: pesquisa, ensino, pós-doutorado, artigos, relatórios, propostas competitivas e estudos comparativos sobre acervos audiovisuais. Para sustentar esses usos, cada unidade observada precisa preservar rotas, limites, completude, regimes de acesso, sinais de visibilidade, histórico de observação e evidências metodológicas auditáveis.
 
 ## Metodologia científica do observatório
