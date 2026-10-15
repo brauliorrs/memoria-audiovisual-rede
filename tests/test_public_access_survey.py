@@ -60,7 +60,7 @@ class PublicAccessFirstGateTests(unittest.TestCase):
         )
         self.assertEqual(
             kavi["surfaces"]["specialized_catalog"]["status"],
-            "route_identified_unverified",
+            "observed_public",
         )
         self.assertEqual(
             kavi["surfaces"]["institutional_site"]["status"], "observed_public"
@@ -69,6 +69,8 @@ class PublicAccessFirstGateTests(unittest.TestCase):
             kavi["surfaces"]["media_interfaces"]["status"],
             "route_identified_unverified",
         )
+        self.assertEqual(kavi["surfaces"]["individual_item_pages"]["status"], "observed_public")
+        self.assertEqual(kavi["conclusion"]["human_public_access"], "confirmed")
         self.assertEqual(kavi["conclusion"]["investigation_complete"], False)
         self.assertEqual(kavi["conclusion"]["human_public_access"], "unverified")
 
