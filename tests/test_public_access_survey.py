@@ -71,8 +71,8 @@ class PublicAccessFirstGateTests(unittest.TestCase):
         )
         self.assertEqual(kavi["surfaces"]["individual_item_pages"]["status"], "observed_public")
         self.assertEqual(kavi["conclusion"]["human_public_access"], "confirmed")
-        self.assertEqual(kavi["conclusion"]["investigation_complete"], False)
-        self.assertEqual(kavi["conclusion"]["human_public_access"], "unverified")
+        self.assertIs(kavi["conclusion"]["investigation_complete"], False)
+        self.assertEqual(kavi["conclusion"]["decision"], "hold_provisional")
 
     def test_completed_multichannel_survey_is_ready_for_human_review_only(self):
         ready, reasons = validate_survey(completed())
