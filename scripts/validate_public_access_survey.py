@@ -82,8 +82,11 @@ def _public_url(value: object) -> bool:
     try:
         ip = ipaddress.ip_address(host)
     except ValueError:
+        # DNS permits at most one terminal root dot, not empty trailing labels.
+        if host.endswith(".."):
+            return False
         try:
-            ascii_host = host.rstrip(".").encode("idna").decode("ascii").lower()
+            ascii_host = host.removesuffix(".").encode("idna").decode("ascii").lower()
         except UnicodeError:
             return False
         if not ascii_host or len(ascii_host) > 253:
