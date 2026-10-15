@@ -69,6 +69,22 @@ def _is_known_item_record_page(url: str) -> bool:
     # Technical action slugs must not masquerade as source fiches in
     # host-vetted item routes, even when the path has the expected depth.
     technical_leaf = {"stream", "download", "api", "embed", "manifest"}
+    # BBC Archive: bbc.py::parse_bbc_video_promo stores the public
+    # /videos/<BBC-id> page, not a media binary. E.g. /videos/c39rz1jv9jpo.
+    if host in ("bbc.co.uk", "www.bbc.co.uk"):
+        return re.fullmatch(r"/videos/[a-z0-9]{8,20}/?", path) is not None
+    # DR Gensyn: dr.py::_item_to_record emits BOTH /drtv/program/
+    # and /drtv/episode/ item pages, as documented in dr_links_video.csv.
+    # Neither form is a binary media-delivery endpoint.
+    if host in ("dr.dk", "www.dr.dk"):
+        return re.fullmatch(
+            r"/drtv/(?:program|episode)/[a-z0-9_-]+_[0-9]+/?", path
+        ) is not None
+    # Filmoteca Española PLATFO: collector builds /content/<work-slug>
+    # as the catalog/work page, not an /api/video endpoint.
+    if host == "filmo.platfo.es":
+        match = re.fullmatch(r"/content/([a-z0-9_-]+)/?", path)
+        return match is not None and match.group(1) not in technical_leaf
     # Eye Filmmuseum: the collector emits specific public film-history
     # fiches on filmdatabase.eyefilm.nl. The search aggregation URL
     # /film/all/all is NOT an individual work and must not be labeled one.
