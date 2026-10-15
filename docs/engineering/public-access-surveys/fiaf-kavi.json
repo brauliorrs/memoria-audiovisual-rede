@@ -115,7 +115,7 @@
     },
     "machine_interfaces": {
       "status": "observed_public",
-      "finding": "PR #62 documentou sonda real anterior com duas páginas, total de 400 metadados no recorte KAVI; não prova enumeração integral nem acessibilidade atual do endpoint.",
+      "finding": "Documentacao oficial de 2024/2026 afirma que metadados EFETIVAMENTE fornecidos pela API Finna estao sob CC0 1.0 (nao inclui imagens/videos/recursos vinculados nem metadados ausentes da API). Evidencia viva anterior PR #62 observou 400 metadados em duas paginas; filtros building 0/KAVI/ e format 0/Video/ documentados em probes e reportam aproximadamente 138 mil registros de video no indice, NAO filmes assistiveis/custodiados. Staging metadata-only ja implementado, sem promocao. Nesta revisao nao houve teste vivo novo nem robots atual verificado; descoberta automatizada e cobertura permanecem parciais. G3 detalhado em docs/engineering/kavi-082-legitimate-discovery-indexing-g3.md.",
       "evidence": [
         {
           "url": "https://github.com/brauliorrs/memoria-audiovisual-rede/pull/62",
@@ -126,6 +126,21 @@
           "url": "https://api.finna.fi/",
           "observation": "Interface programática documentada; execução mais recente não comprovada.",
           "observed_on": "2026-10-13"
+        },
+        {
+          "url": "https://www.kiwi.fi/spaces/Finna/pages/53839699/Finna%2BAPI%2BTerms%2Bof%2BUse",
+          "observation": "Termos oficiais: metadados expostos pela API sob CC0 1.0; recursos associados em urls/onlineUrls/images nao cobertos e uso condicionado a direitos; dados indisponiveis na API fora do CC0. Pagina identificada por indice publico, abertura direta bloqueada por HTTP 403 nesta ferramenta.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://www.kiwi.fi/spaces/Finna/pages/53839221/Finna%2BAPI%2Bin%2BEnglish",
+          "observation": "Documentacao oficial: filtros search, limit 0-100, pagina comum limitada a 100000 resultados e resumptionToken para lotes maiores; nao implica viabilidade de fechamento total ou direito a filmes. Pagina indexada, abertura direta HTTP 403 nesta ferramenta.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://www.kiwi.fi/pages/viewpage.action?pageId=301990412",
+          "observation": "Interface OAI-PMH de harvesting de metadados Finna documentada. Seleciona apenas sets definidos pelo provedor, nao permite filtro livre, e nao sinaliza exclusoes; set KAVI×Video nao demonstrado, manter exploratoria.",
+          "observed_on": "2026-10-15"
         }
       ]
     },
