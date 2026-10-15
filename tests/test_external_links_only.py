@@ -227,7 +227,7 @@ class ExternalLinkTests(unittest.TestCase):
             "dr_links_video.csv",
             "filmoteca_espanola_links_video.csv",
         )
-        root = APP.parents[0] / "data" / "output"
+        root = APP.parents[1] / "data" / "output"
         for filename in examples:
             with self.subTest(corpus=filename):
                 with (root / filename).open(encoding="utf-8-sig", newline="") as fh:
