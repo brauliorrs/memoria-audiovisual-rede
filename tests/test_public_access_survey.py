@@ -67,7 +67,10 @@ class PublicAccessFirstGateTests(unittest.TestCase):
         )
         self.assertEqual(
             kavi["surfaces"]["media_interfaces"]["status"],
-            "route_identified_unverified",
+            "observed_public",
+        )
+        self.assertTrue(
+            any(e["url"].endswith("kavi.elonet_elokuva_157199") for e in kavi["surfaces"]["media_interfaces"]["evidence"])
         )
         self.assertEqual(kavi["surfaces"]["individual_item_pages"]["status"], "observed_public")
         self.assertEqual(kavi["conclusion"]["human_public_access"], "confirmed")
