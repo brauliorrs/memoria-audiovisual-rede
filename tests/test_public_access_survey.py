@@ -226,6 +226,8 @@ class PublicAccessFirstGateTests(unittest.TestCase):
             "https://example.internal/item",
             "https://example.test/item",
             "http://intranet/item",
+            "https://example.org../item",
+            "https://example.org.../item",
             "https://example.org:bad/item",
         )
         for url in blocked:
@@ -236,6 +238,13 @@ class PublicAccessFirstGateTests(unittest.TestCase):
                     "survey_individual_item_pages_evidence_invalid",
                     check_survey(survey),
                 )
+
+    def test_single_root_dot_is_permitted_in_public_domain_evidence(self):
+        survey = completed()
+        survey["surfaces"]["individual_item_pages"]["evidence"][0]["url"] = (
+            "https://example.org./item"
+        )
+        self.assertEqual(check_survey(survey), [])
 
     def test_future_observations_cannot_precede_survey_date(self):
         survey = completed()
