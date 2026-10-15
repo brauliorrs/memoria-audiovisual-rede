@@ -186,6 +186,8 @@ class ExternalLinkTests(unittest.TestCase):
              "https://www.bbc.co.uk/archive"),
             ("https://www.dr.dk/drtv/program/de-udstillede_593691",
              "https://www.dr.dk/drtv/gensyn"),
+            ("https://www.dr.dk/drtv/episode/monopolets-helte_-gorm-og-gregers_505183",
+             "https://www.dr.dk/drtv/gensyn"),
             ("https://filmo.platfo.es/content/apuntes-para-una-tesis-doctoral",
              "https://filmo.platfo.es/pages/home"),
         )
@@ -205,6 +207,8 @@ class ExternalLinkTests(unittest.TestCase):
             ("https://www.dr.dk/drtv/program/de-udstillede_593691/embed",
              "https://www.dr.dk/drtv/gensyn"),
             ("https://www.dr.dk/drtv/program/download",
+             "https://www.dr.dk/drtv/gensyn"),
+            ("https://www.dr.dk/drtv/episode/monopolets-helte_-gorm-og-gregers_505183/stream",
              "https://www.dr.dk/drtv/gensyn"),
             ("https://filmo.platfo.es/content/download",
              "https://filmo.platfo.es/pages/home"),
