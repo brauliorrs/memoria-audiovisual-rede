@@ -20,8 +20,8 @@
       ]
     },
     "specialized_catalog": {
-      "status": "route_identified_unverified",
-      "finding": "Elonet é catálogo/streaming de filmes e Elävä muisti serviço curatorial de memória audiovisual com migração ao Finna em 2021; ambos documentados institucionalmente. Elokuvapolku disponibiliza listas educativas de filmes/trechos. Elonet/Elävä não tiveram fichas diretamente verificadas nesta sessão: bloqueio 403 local não significa falta de acesso público.",
+      "status": "observed_public",
+      "finding": "Elonet é serviço de catálogo/streaming documentado; duas fichas reais Vaimoke e Mieheke foram lidas publicamente ao seguir links de Elokuvapolku -> Elonet. Alguns acessos diretos à raiz/URLs independentes retornaram HTTP 403 nesta ferramenta. Acesso a fichas não equivale a direito de exibição nem enumeração automatizada.",
       "evidence": [
         {
           "url": "https://kavi.fi/en/film/",
@@ -41,6 +41,16 @@
         {
           "url": "https://elokuvapolku.kavi.fi/katso-elokuvia/",
           "observation": "Página pública consultada diretamente: listas por clássicos, curtas, documentários e publicidade; parte das obras exige credenciais educativas.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_117938",
+          "observation": "Ficha Vaimoke (1936) aberta a partir de link da página temática Pääosassa moderni nainen no Elokuvapolku; acesso HTML público confirmado, sem reproduzir mídia.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elokuvapolku.kavi.fi/katso-elokuvia/elokuvasarjoja-kotimaisista-klassikoista/paaosassa-moderni-nainen/",
+          "observation": "Página temática Elokuvapolku consultada; publica links 'Katso elokuva Elonetistä' que abrem registros de filmes Elonet específicos.",
           "observed_on": "2026-10-15"
         }
       ]
@@ -62,12 +72,22 @@
       ]
     },
     "individual_item_pages": {
-      "status": "route_identified_unverified",
-      "finding": "Ficha individual do agregado Finna identificada publicamente, sem inspeção direta da pagina ou navegacao de resultados: ferramenta recebeu HTTP 403. Nenhuma custodia individual verificada.",
+      "status": "observed_public",
+      "finding": "Duas fichas de obra abertas a partir de hyperlinks publicados pelo próprio Elokuvapolku (Vaimoke e Mieheke); título, ID institucional e direitos de imagens demonstrados. Outra ficha Finna individual previamente identificada recebeu 403 direto: não extrapolar falha local. Player não foi testado.",
       "evidence": [
         {
           "url": "https://www.finna.fi/Record/kavi.elonet_elokuva_1611548",
           "observation": "URL de ficha indexada em pesquisa publica; tentativa de leitura direta recebeu HTTP 403 nesta ferramenta, sem inferencia de indisponibilidade global.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_117938",
+          "observation": "Vaimoke (1936): ficha de obra Elonet aberta a partir de link curatorial de Elokuvapolku; ID institucional kavi.elonet_elokuva_117938 e informações de imagens/direitos observados.",
+          "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://elonet.finna.fi/Record/kavi.elonet_elokuva_118019",
+          "observation": "Mieheke (1936): ficha de obra Elonet aberta a partir do mesmo percurso; ID institucional kavi.elonet_elokuva_118019.",
           "observed_on": "2026-10-15"
         }
       ]
@@ -106,7 +126,7 @@
     },
     "media_interfaces": {
       "status": "route_identified_unverified",
-      "finding": "Elonet dispõe de video-on-demand; Elävä muisti de obras históricas; Elokuvapolku de filmes e trechos educativos, alguns com credencial. O Ritva informa reprodução apenas em pontos institucionais. Não foi executado um player de item específico nem comprovadas licenças item a item.",
+      "finding": "Elonet documenta video-on-demand de parte das obras e possui ficha publicada; Elokuvapolku contém filmes/trechos com requisitos de senha conforme item; Ritva tem consulta restrita a pontos institucionais. A reprodução concreta do player Elonet não foi testada.",
       "evidence": [
         {
           "url": "https://kavi.fi/en/film/",
@@ -134,7 +154,7 @@
   "conclusion": {
     "decision": "hold_provisional",
     "investigation_complete": false,
-    "human_public_access": "unverified",
+    "human_public_access": "confirmed",
     "machine_collection": "partially_verified"
   }
 }
