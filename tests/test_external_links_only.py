@@ -405,6 +405,61 @@ class ExternalLinkTests(unittest.TestCase):
                 self.assertEqual(result.url, fallback)
                 self.assertEqual(result.kind, "institution_home")
 
+    def test_bbc_dr_and_filmoteca_public_pages_survive_origin_selection(self):
+        # Exact routes sampled from checked-in data/output CSV files and
+        # explicitly emitted by bbc.py, dr.py and filmoteca_espanola.py.
+        cases = (
+            (
+                "https://www.bbc.co.uk/videos/c39rz1jv9jpo",
+                "https://www.bbc.co.uk/archive",
+            ),
+            (
+                "https://www.dr.dk/drtv/program/de-udstillede_593691",
+                "https://www.dr.dk/drtv/gensyn",
+            ),
+            (
+                "https://www.dr.dk/drtv/program/superchancen-_-de-bedste-oejeblikke_575117",
+                "https://www.dr.dk/drtv/gensyn",
+            ),
+            (
+                "https://filmo.platfo.es/content/apuntes-para-una-tesis-doctoral",
+                "https://filmo.platfo.es/pages/home",
+            ),
+            (
+                "https://filmo.platfo.es/content/y-el-resto-es-sueno",
+                "https://filmo.platfo.es/pages/home",
+            ),
+        )
+        for item_url, catalog in cases:
+            with self.subTest(item_url=item_url):
+                self.assertFalse(is_direct_media_asset(item_url))
+                actual = choose_origin_destination(item_url, catalog)
+                self.assertEqual(actual.url, item_url)
+                self.assertEqual(actual.kind, "record_or_platform")
+
+    def test_bbc_dr_filmo_unverified_routes_do_not_bypass_fallback(self):
+        catalog = "https://institution.example.org/catalog"
+        rejected = (
+            "https://www.bbc.co.uk/videos/",
+            "https://www.bbc.co.uk/videos/c39rz1jv9jpo/stream",
+            "https://www.bbc.co.uk/videos/c39rz1jv9jpo.mp4",
+            "https://untrusted.example/videos/c39rz1jv9jpo",
+            "https://www.dr.dk/drtv/program/",
+            "https://www.dr.dk/drtv/program/de-udstillede_593691/stream",
+            "https://www.dr.dk/drtv/program/de-udstillede.mp4",
+            "https://www.dr.dk/drtv/asset/de-udstillede_593691",
+            "https://filmo.platfo.es/content/",
+            "https://filmo.platfo.es/content/stream",
+            "https://filmo.platfo.es/content/obra.mp4",
+            "https://filmo.platfo.es/api/video/INV0002821",
+            "https://untrusted.example/content/apuntes-para-una-tesis-doctoral",
+        )
+        for item_url in rejected:
+            with self.subTest(item_url=item_url):
+                chosen = choose_origin_destination(item_url, catalog)
+                self.assertEqual(chosen.url, catalog)
+                self.assertEqual(chosen.kind, "institution_home")
+
     def test_fina_bfi_and_ifi_public_film_pages_are_preserved(self):
         cases = (
             (
