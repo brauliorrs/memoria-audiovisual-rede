@@ -422,6 +422,10 @@ class ExternalLinkTests(unittest.TestCase):
                 "https://www.dr.dk/drtv/gensyn",
             ),
             (
+                "https://www.dr.dk/drtv/episode/monopolets-helte_-gorm-og-gregers_505183",
+                "https://www.dr.dk/drtv/gensyn",
+            ),
+            (
                 "https://filmo.platfo.es/content/apuntes-para-una-tesis-doctoral",
                 "https://filmo.platfo.es/pages/home",
             ),
@@ -446,6 +450,9 @@ class ExternalLinkTests(unittest.TestCase):
             "https://untrusted.example/videos/c39rz1jv9jpo",
             "https://www.dr.dk/drtv/program/",
             "https://www.dr.dk/drtv/program/de-udstillede_593691/stream",
+            "https://www.dr.dk/drtv/episode/monopolets-helte_-gorm-og-gregers_505183/stream",
+            "https://www.dr.dk/drtv/episode/unknown-not-an-id",
+            "https://www.dr.dk/drtv/episode/promo.m3u8",
             "https://www.dr.dk/drtv/program/de-udstillede.mp4",
             "https://www.dr.dk/drtv/asset/de-udstillede_593691",
             "https://filmo.platfo.es/content/",
