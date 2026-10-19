@@ -1,0 +1,153 @@
+name: KAVI 082 - One-shot API robots gate
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  kavi-082-one-shot:
+    if: github.head_ref == 'analysis/kavi-082-one-shot-g3-20261019'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout existing MAR code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+
+      - name: Install existing project dependencies
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pip install -e '.[dev]'
+
+      - name: Verify live robots before any metadata request
+        id: robots
+        env:
+          PYTHONPATH: src
+        run: |
+          mkdir -p data/output
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import requests
+
+          from memoria_audiovisual.config import HEADERS
+          from memoria_audiovisual.kavi_elonet_probe import FACET_QUERY, Guard, USER_AGENT
+          from memoria_audiovisual.kavi_finna_adapter import (
+              FORMAT_FACET_URL, FinnaMetadataSource, FinnaScope,
+          )
+
+          report = {
+              "probe": "kavi-082-g3-one-shot-20261019",
+              "host": "api.finna.fi",
+              "stage_executed": False,
+              "media_downloaded": False,
+              "promotion_authorized": False,
+              "result": "STOP_UNVERIFIED",
+          }
+          try:
+              with requests.Session() as session:
+                  session.headers.update({
+                      **HEADERS,
+                      "User-Agent": f"{USER_AGENT}/1.0 (+metadata-only-staging)",
+                      "Accept": "application/json",
+                  })
+                  guard = Guard(session)
+                  robots = guard.robots("api.finna.fi")
+                  report["robots_http_status"] = robots.get("status")
+                  report["robots_mode"] = robots.get("mode")
+                  rule_text = guard.rules.get("api.finna.fi")
+                  if rule_text is not None:
+                      report["robots_sha256"] = hashlib.sha256(
+                          rule_text.encode("utf-8")
+                      ).hexdigest()
+                  if robots.get("mode") == "evaluated" and robots.get("status") == 200:
+                      scope = FinnaScope(
+                          building_code="0/KAVI/",
+                          format_code="0/Video/",
+                          evidence_sha256="466006cb7a499efff354e7f4425aface044440218bdb9a20a1550a3fe079e049",
+                      )
+                      source = FinnaMetadataSource(session, scope)
+                      queries = (
+                          ("building_facet", FACET_QUERY),
+                          ("format_facet", FORMAT_FACET_URL),
+                          ("scope_count", source._verified_query(count_only=True)),
+                          ("one_page_start", source._verified_query()),
+                      )
+                      perms = {name: guard.permitted(url) for name, url in queries}
+                      report["path_permissions"] = perms
+                      report["result"] = (
+                          "ALLOW_ONE_PAGE" if all(perms.values()) else "STOP_ROBOTS_PATH"
+                      )
+                  else:
+                      report["result"] = "STOP_ROBOTS_UNVERIFIABLE"
+          except Exception as exc:
+              report["result"] = "STOP_TRANSPORT_OR_PRECHECK"
+              report["error_class"] = type(exc).__name__
+
+          Path("data/output/kavi_082_robots_gate.json").write_text(
+              json.dumps(report, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(report, sort_keys=True))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(
+                  "allowed=" + ("true" if report["result"] == "ALLOW_ONE_PAGE" else "false") + "\n"
+              )
+          PY
+
+      - name: One page only with existing staged collector
+        if: steps.robots.outputs.allowed == 'true'
+        env:
+          PYTHONPATH: src
+        run: |
+          PRIVATE_DIR="$(mktemp -d "$RUNNER_TEMP/kavi-082-XXXXXX")"
+          trap 'rm -rf "$PRIVATE_DIR"' EXIT
+          python scripts/run_kavi_finna_metadata_staging.py \
+            --evidence-sha256 466006cb7a499efff354e7f4425aface044440218bdb9a20a1550a3fe079e049 \
+            --directory "$PRIVATE_DIR" \
+            --max-pages 1 --delay-seconds 1.0 --execute \
+            > data/output/kavi_082_one_page_public_summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          record = json.loads(
+              Path("data/output/kavi_082_one_page_public_summary.json").read_text()
+          )
+          if record.get("promotion_authorized") is not False:
+              raise SystemExit("unsafe_summary_promotion_field")
+          if record.get("media_downloaded") is not False:
+              raise SystemExit("unsafe_summary_media_field")
+          if record.get("status") != "partial":
+              raise SystemExit("unexpected_one_page_result")
+          if record.get("page_count") != 1:
+              raise SystemExit("unexpected_page_count")
+          print(json.dumps({
+              "status": record.get("status"),
+              "page_count": record.get("page_count"),
+              "record_count": record.get("record_count"),
+              "expected_total": record.get("expected_total"),
+              "media_downloaded": False,
+              "promotion_authorized": False,
+          }, sort_keys=True))
+          PY
+
+      - name: Publish redacted gate decision and optional one-page summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kavi-082-g3-20261019-public-gate
+          path: |
+            data/output/kavi_082_robots_gate.json
+            data/output/kavi_082_one_page_public_summary.json
+          if-no-files-found: error
+          retention-days: 15
