@@ -40,7 +40,7 @@ def _public_url(value: object) -> bool:
     # of loopback, private, multicast, numeric aliases and malformed hosts.
     if not isinstance(value, str) or len(value) > 2048:
         return False
-    return urlsplit(value).scheme == "https" and _reviewable_url(value)
+    return _reviewable_url(value) and urlsplit(value).scheme == "https"
 
 
 def _date(value: object) -> bool:
