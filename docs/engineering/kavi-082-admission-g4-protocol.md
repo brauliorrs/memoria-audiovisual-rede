@@ -34,7 +34,7 @@ Diferenciar sempre: **provedor indexador**, **custodiante do objeto**, **titular
 **Reprodução offline:**
 
 ```bash
-python scripts/validate_kavi_082_admission.py \
+python -m scripts.validate_kavi_082_admission \
   docs/engineering/kavi-082-admission-evidence.json
 # HOLD_PROVISIONAL, promotion_authorized=false
 python -m unittest discover -s tests -p 'test_kavi_082_admission.py' -v
