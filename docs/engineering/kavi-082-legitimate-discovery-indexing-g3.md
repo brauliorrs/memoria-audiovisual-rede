@@ -4,6 +4,12 @@
 **Decisão:** **HOLD provisório de admissão ao corpus** com caminho de indexação de metadados **identificado e documentalmente autorizado no escopo CC0 da API Finna**. `investigation_complete=false`; não afirmar coletor de produção validado.  
 **Base:** [issue #59](https://github.com/brauliorrs/memoria-audiovisual-rede/issues/59), [protocolo público G0–G4](public-access-first-protocol.md), [mapa de serviços](kavi-082-subservices-access-map.md) e ensaios versionados `kavi-082-probe.md`, `kavi-082-resumption-integrity.md`, `kavi-082-metadata-staging.md`, `kavi-082-upstream-token-error-contract.md`.
 
+## Atualização pós-protocolo — 19/10/2026
+
+O ensaio único de acesso automatizado foi **executado e aprovado**, conforme [runbook atualizado](kavi-082-one-page-preflight-runbook.md) e [CI #39290009804](https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/39290009804): `robots.txt` de `api.finna.fi` HTTP 200, com as quatro rotas do coletor permitidas; **uma página de 200 registros** retornada e auditada (`expected_total=138393`, `status=partial`). O acesso à API foi validado **naquelas rotas, naquele instante e naquele runner**; não se converte em autorização ampla para contornar desafios web.
+
+O texto da análise abaixo mantém a situação **pré-ensaio** registrada em 15/10/2026 para preservar a cronologia. A decisão atual segue **HOLD provisório de inclusão**, pois não há enumeração completa, custódia e direitos individualizados nem aprovação científica. Nenhum vídeo foi baixado. **Não repetir a sonda de uma página já concluída.**
+
 ## 1. Escopo correto: descoberta humana primeiro
 
 - **Instituição:** Finnish Arts and Culture Agency (Kuvi; antigo KAVI). Não criar duas instituições/coleções só por alteração administrativa.
