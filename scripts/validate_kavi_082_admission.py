@@ -9,9 +9,15 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from datetime import date
 from pathlib import Path
 from urllib.parse import urlsplit
+
+# Make the shared survey URL validator importable when invoked as a CLI path.
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from scripts.validate_public_access_survey import _public_url as _reviewable_url
 
