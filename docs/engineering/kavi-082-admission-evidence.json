@@ -1,0 +1,47 @@
+{
+  "schema_version": "mar-kavi-admission-evidence-1.0",
+  "unit_id": "fiaf-kavi",
+  "declared_state": "hold_provisional",
+  "scope": {
+    "provider_code": "0/KAVI/",
+    "format_code": "0/Video/",
+    "scope_definition": "provider_video_index",
+    "metadata_license": "CC0-1.0",
+    "media_policy": "origin_link_only",
+    "api_endpoint": "https://api.finna.fi/v1/search"
+  },
+  "snapshot": {
+    "evidence_url": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/39290009804",
+    "observed_on": "2026-10-19",
+    "scope_sha256": "a8e1bc2890a2df2a49ec9f50bc021e65ad5a0d3c23006ca0ce012c1a87104922",
+    "record_id_sequence_sha256": "a43ac284b7cd9587576e205a0348508ee967c7fab4001972d5c96f9b54239479",
+    "artifact_sha256": "958ae76f19208a3df169125761c5cf5435daac64b3f4dfecd3349fa20f2e5178",
+    "expected_total": 138393,
+    "distinct_record_count": 200,
+    "page_count": 1,
+    "duplicate_ids": 0,
+    "missing_records": 0,
+    "completeness": "partial",
+    "terminal_cursor_exhausted": false,
+    "offline_integrity_verified": true,
+    "snapshot_freshness_verified": false
+  },
+  "source_quality": {
+    "film_id_candidates": 200,
+    "other_video_records": 0,
+    "human_film_classification_reviewed": 0,
+    "provenance_labeled_records": 0,
+    "custody_labeled_records": 0,
+    "media_access_labeled_records": 0,
+    "sampling_plan_url": null,
+    "curatorial_review_evidence_url": null,
+    "per_record_audit_evidence_url": null,
+    "per_record_audit_sha256": null
+  },
+  "governance": {
+    "independent_reviewers": [],
+    "review_document_url": null,
+    "review_status": "not_started",
+    "corpus_activation": false
+  }
+}
