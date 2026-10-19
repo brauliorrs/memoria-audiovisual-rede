@@ -13,6 +13,8 @@ from datetime import date
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from scripts.validate_public_access_survey import _public_url as _reviewable_url
+
 VERSION = "mar-kavi-admission-evidence-1.0"
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 APPROVED_STATES = {"hold_provisional", "ready_for_human_review"}
@@ -34,15 +36,11 @@ def _integer(value: object) -> bool:
 
 
 def _public_url(value: object) -> bool:
-    if not isinstance(value, str) or not value or len(value) > 2048:
+    # Reuse the project's hardened public-host validation, including refusal
+    # of loopback, private, multicast, numeric aliases and malformed hosts.
+    if not isinstance(value, str) or len(value) > 2048:
         return False
-    try:
-        url = urlsplit(value)
-        if url.scheme != "https" or not url.hostname or url.username or url.password:
-            return False
-        return url.port in (None, 443) and "." in url.hostname
-    except ValueError:
-        return False
+    return urlsplit(value).scheme == "https" and _reviewable_url(value)
 
 
 def _date(value: object) -> bool:
