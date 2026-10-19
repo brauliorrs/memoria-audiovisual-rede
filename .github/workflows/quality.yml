@@ -452,6 +452,14 @@ jobs:
             tests/test_public_access_survey.py
           python -m unittest discover -s tests -p 'test_public_access_survey.py' -v
 
+      - name: Validate KAVI link-only MAR metadata projection (offline)
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/kavi_finna_mar_index.py \
+            scripts/project_kavi_finna_mar_index.py \
+            tests/test_kavi_finna_mar_index.py
+          python -m unittest discover -s tests -p 'test_kavi_finna_mar_index.py' -v
+
       - name: Validate KAVI G4 admissibility dossier (offline, HOLD only)
         run: |
           ruff check --select E9,F63,F7,F82 \

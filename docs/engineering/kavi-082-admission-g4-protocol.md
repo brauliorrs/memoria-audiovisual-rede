@@ -4,6 +4,8 @@
 **Estado:** HOLD provisório, não há incorporação de corpus nem coleta de mídia.  
 **Referências:** [protocolo G0–G4](public-access-first-protocol.md), [G3 e licença](kavi-082-legitimate-discovery-indexing-g3.md), [prova de uma página](kavi-082-one-page-preflight-runbook.md), [método científico MAR](../methodology/mar-scientific-methodology.md).
 
+> **Esclarecimento de escopo, 19/10/2026:** o G4 abaixo governa a afirmação de **cobertura científica integral e admissão conclusiva**. A diretriz de integração do MAR é indexar **progressivamente os metadados de todas as fichas audiovisuais legítimas**, com link de acesso na origem, mesmo que a enumeração esteja parcial, desde que exista gate de publicação específico por lote. Esse novo modelo está em [integração progressiva com links](kavi-082-mar-link-only-ingestion.md). Os requisitos de direitos **de mídia** não são pré-condição para catalogar **metadados CC0**; a disponibilidade audiovisual permanece classificada independentemente. O gate G4 desta versão segue bloqueando autopromoção e não altera a lista de corpora ativos.
+
 ## 1. Unidade científica delimitada
 
 O candidato **não** é o conjunto de filmes preservados por KAVI/Kuvi: é o **subconjunto de registros de vídeo fornecidos pelo provedor de metadados** na API Finna, com `building:"0/KAVI/"` × `format:"0/Video/"`. A contagem de **138.393** observada em 19/10/2026 é total declarado naquele momento para o filtro, **não** total de filmes disponíveis para assistir, custodiais ou licenciados. A primeira página contém 200 registros classificados por **prefixo de ID** como `film_id_candidates`; isso não equivale a 200 obras validadas curatorialmente.
