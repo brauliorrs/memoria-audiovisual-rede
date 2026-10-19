@@ -1,5 +1,20 @@
 # KAVI/Kuvi nº 82 — pré-validação de acesso e ensaio de **uma página** (G3)
 
+## Marco verificado posteriormente — execução única de 19/10/2026
+
+**Este resultado substitui o estado operacional "não executado" que constava no pré-registro de 15/10/2026; as instruções abaixo são o protocolo histórico prévio, não uma autorização para repetir o ensaio.**
+
+- **Prova viva:** [GitHub Actions run #39290009804](https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/39290009804), ramo instrumental `analysis/kavi-082-one-shot-g3-20261019`, HEAD `20eb6f2f25fdbd09fa7e9c657817aa577c28097a`. Run e job `kavi-082-one-shot`: **success**.
+- **Robots do próprio host API:** `https://api.finna.fi/robots.txt`, HTTP **200**, `mode=evaluated`, SHA-256 do conteúdo `c16fa7433f3c2395b6435c835f4085346aa4c5c98bbfaad347eefad3bac67294`. O Guard do MAR devolveu `true` para cada rota necessária: `building_facet`, `format_facet`, `scope_count`, `one_page_start`. Resultado do gate: `ALLOW_ONE_PAGE` naquele runner e naquela data.
+- **Ensaio real:** `run_kavi_finna_metadata_staging.py --max-pages 1 --execute`, SHA da evidência institucional `466006cb7a499efff354e7f4425aface044440218bdb9a20a1550a3fe079e049`; o preflight teve os 3 GETs previstos e o lote inicial mais 1 GET. Resumo de CI, validado pelo próprio job: `expected_total=138393`, `page_count=1`, `record_count=200`, `status=partial`, `media_downloaded=false`, `promotion_authorized=false`.
+- **Artefato público (redigido):** `kavi-082-g3-20261019-public-gate`, ID **12203723866**, ZIP SHA-256 `958ae76f19208a3df169125761c5cf5435daac64b3f4dfecd3349fa20f2e5178`. Não se publicaram registros brutos, imagens, vídeos, cookies nem `resumptionToken`. Diretório privado de staging removido ao final do job.
+- **Interpretação:** o endpoint de metadados estava acessível mediante `robots` naquele instante e houve acesso e auditoria técnica de **uma página**. **138.393** é total anunciado de **registros de vídeo no índice sob o filtro institucional**, não total de filmes reproduzíveis, custodiados ou já capturados. A diferença em relação aos totais históricos não é prova de crescimento sem controlar os snapshots.
+- **Estado posterior:** `LIVE_ROBOTS=VERIFIED_FOR_ROUTES_AT_2026-10-19`; `LIVE_ONE_PAGE=VERIFIED_PARTIAL`; `MACHINE_COLLECTION=PARTIALLY_VERIFIED`; `CORPUS_ADMISSION=HOLD_PROVISIONAL`; `INVESTIGATION_COMPLETE=false`.
+- **Não repetir por rotina:** o teste concluiu o gate solicitado. A próxima ação é análise de admissibilidade/escopo, custódia, cobertura e direitos por registro, não refazer sondas ou tentar enumeração massiva. O PR instrumental da execução não deve ser incorporado à `main`.
+
+Evidência e decisão arquivadas na [issue #59](https://github.com/brauliorrs/memoria-audiovisual-rede/issues/59#issuecomment-6272633816).
+
+
 **Data:** 2026-10-15  
 **Status da autorização:** **documentação/licença confirmada; acesso técnico atual ainda não validado** (robôs do host `api.finna.fi` não puderam ser consultados por este ambiente).  
 **Autorização operacional deste documento:** **NÃO EXECUTAR ENQUANTO O GATE DE ROBOTS NÃO PASSAR**. Não há agendamento e nenhum request de metadados é autorizado por este documento isoladamente.  

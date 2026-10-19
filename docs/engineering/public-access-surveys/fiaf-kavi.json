@@ -1,7 +1,7 @@
 {
   "schema_version": "mar-public-access-survey-1.0",
   "unit_id": "fiaf-kavi",
-  "survey_date": "2026-10-15",
+  "survey_date": "2026-10-19",
   "surfaces": {
     "institutional_site": {
       "status": "observed_public",
@@ -115,7 +115,7 @@
     },
     "machine_interfaces": {
       "status": "observed_public",
-      "finding": "Documentacao oficial de 2024/2026 afirma que metadados EFETIVAMENTE fornecidos pela API Finna estao sob CC0 1.0 (nao inclui imagens/videos/recursos vinculados nem metadados ausentes da API). Evidencia viva anterior PR #62 observou 400 metadados em duas paginas; filtros building 0/KAVI/ e format 0/Video/ documentados em probes e reportam aproximadamente 138 mil registros de video no indice, NAO filmes assistiveis/custodiados. Staging metadata-only ja implementado, sem promocao. Nesta revisao nao houve teste vivo novo nem robots atual verificado; descoberta automatizada e cobertura permanecem parciais. G3 detalhado em docs/engineering/kavi-082-legitimate-discovery-indexing-g3.md.",
+      "finding": "API Finna: metadados efetivamente fornecidos sob CC0 (não mídia). Filtragem KAVI/Kuvi × Video previamente observada. Em 2026-10-19, workflow único #39290009804 verificou robots API HTTP 200 e permissão das 4 rotas via Guard e executou exatamente uma página de metadados pelo staged existente: 200 registros, total declarado 138393, status partial, media_downloaded=false, promotion_authorized=false. Auditoria histórica PR #62 com 400 registros em duas páginas. Acesso técnico delimitado confirmado, mas enumeração integral, custódia e direitos individualizados não; não repetir sonda nem promover.",
       "evidence": [
         {
           "url": "https://github.com/brauliorrs/memoria-audiovisual-rede/pull/62",
@@ -141,6 +141,11 @@
           "url": "https://www.kiwi.fi/pages/viewpage.action?pageId=301990412",
           "observation": "Interface OAI-PMH de harvesting de metadados Finna documentada. Seleciona apenas sets definidos pelo provedor, nao permite filtro livre, e nao sinaliza exclusoes; set KAVI×Video nao demonstrado, manter exploratoria.",
           "observed_on": "2026-10-15"
+        },
+        {
+          "url": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/39290009804",
+          "observed_on": "2026-10-19",
+          "observation": "CI de sonda única (job success) no PR #81: api.finna.fi/robots.txt HTTP 200 (sha256 c16fa7433f3c2395b6435c835f4085346aa4c5c98bbfaad347eefad3bac67294) e 4 rotas permitidas; staged existente preflight+1 lote, expected_total=138393, page_count=1, record_count=200, status=partial, media_downloaded=false, promotion_authorized=false. Artefato público ID 12203723866 / sha256 958ae76f19208a3df169125761c5cf5435daac64b3f4dfecd3349fa20f2e5178; checkpoint privado removido."
         }
       ]
     },
