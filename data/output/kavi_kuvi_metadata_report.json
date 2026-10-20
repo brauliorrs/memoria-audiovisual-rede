@@ -5,7 +5,7 @@
       "field": "video_title",
       "meaning": "field_filled_not_factually_verified",
       "missing": 0,
-      "percent_present": 100,
+      "percent_present": 100.0,
       "present": 200
     },
     {
@@ -13,7 +13,7 @@
       "field": "year",
       "meaning": "field_filled_not_factually_verified",
       "missing": 2,
-      "percent_present": 99,
+      "percent_present": 99.0,
       "present": 198
     },
     {
@@ -21,7 +21,7 @@
       "field": "authors",
       "meaning": "field_filled_not_factually_verified",
       "missing": 16,
-      "percent_present": 92,
+      "percent_present": 92.0,
       "present": 184
     },
     {
@@ -45,7 +45,7 @@
       "field": "languages",
       "meaning": "field_filled_not_factually_verified",
       "missing": 176,
-      "percent_present": 12,
+      "percent_present": 12.0,
       "present": 24
     },
     {
