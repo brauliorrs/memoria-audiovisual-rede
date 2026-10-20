@@ -326,8 +326,13 @@ def _unpack(archive: bytes, target: Path, expected_checkpoint_sha256: str) -> No
                 raise BackupRejected("p0_archive_raw_digest_mismatch")
     for name, data in content.items():
         path = target / name
-        path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
-        path.parent.chmod(0o700)
+        # Secure EVERY nested component, not only the leaf parent:
+        # Path.mkdir(parents=True) otherwise creates raw/ with umask 0755.
+        parent = target
+        for part in Path(name).parts[:-1]:
+            parent = parent / part
+            parent.mkdir(mode=0o700, exist_ok=True)
+            parent.chmod(0o700)
         fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
         with os.fdopen(fd, "wb") as handle:
             handle.write(data)
