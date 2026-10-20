@@ -23,6 +23,8 @@ def example_row():
         "corpus": "fiaf-kavi", "source_record_id": ID, "video_title": "Film",
         "video_link": URL, "source_record_url": URL,
         "metadata_provider": "0/KAVI/",
+        "source_service": "finna_api",
+        "media_access_status": "unverified",
         "metadata_license": "CC0-1.0_API_metadata_only",
         "media_rights_status": "not_verified",
         "custody_status": "not_established",
@@ -115,6 +117,14 @@ class KaviPublicationTests(unittest.TestCase):
                 write_published(folder, row=row)
                 with self.assertRaises(PublicationRejected):
                     load_published_kavi_rows(folder)
+
+    def test_reject_playback_claim_without_evidence(self):
+        with tempfile.TemporaryDirectory() as folder:
+            row = example_row()
+            row["media_access_status"] = "verified_public_playback"
+            write_published(folder, row=row)
+            with self.assertRaises(PublicationRejected):
+                load_published_kavi_rows(folder)
 
     def test_no_false_rights_or_custody(self):
         for key,val in (("media_rights_status","public_domain"),
