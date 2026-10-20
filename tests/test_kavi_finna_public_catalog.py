@@ -1,7 +1,6 @@
 """Published metadata index gate: only approved, hash-verified record links."""
 from __future__ import annotations
 
-import copy
 import csv
 import hashlib
 import json
