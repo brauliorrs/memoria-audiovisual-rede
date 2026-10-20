@@ -116,7 +116,7 @@ def _validate_evidence(
 def _validate_rows(rows: list[dict], expected_scope: str) -> None:
     seen: set[str] = set()
     for row in rows:
-        if not isinstance(row, dict) or set(row) - set(INDEX_FIELDS):
+        if not isinstance(row, dict) or set(row) != set(INDEX_FIELDS):
             raise PlanRejected("candidate_unprojected_or_private_fields")
         identity = row.get("source_record_id")
         if (
@@ -135,6 +135,23 @@ def _validate_rows(rows: list[dict], expected_scope: str) -> None:
             or row.get("film_semantics") not in (
                 "film_candidate", "unverified_audiovisual_record"
             )
+            or row.get("film_semantics") != (
+                "film_candidate"
+                if identity.startswith("kavi.elonet_elokuva_")
+                else "unverified_audiovisual_record"
+            )
+            or row.get("institution") != "Kuvi (KAVI historical provider)"
+            or row.get("country") != "Finland"
+            or row.get("continent") != "Europe"
+            or row.get("platform") != "Finna / Elonet"
+            or row.get("custodian") != "unknown"
+            or row.get("format") != "0/Video/"
+            or row.get("rights_status") != "media_rights_unverified"
+            or row.get("video_subject") != row.get("subjects")
+            or row.get("video_published_at") != row.get("year")
+            or row.get("online_url_metadata_present") not in (
+                True, False, "True", "False"
+            )
             or not isinstance(row.get("video_title"), str)
             or not row["video_title"].strip()
         ):
@@ -145,11 +162,12 @@ def _validate_rows(rows: list[dict], expected_scope: str) -> None:
             if (
                 not isinstance(url, str) or not url
                 or row.get("video_link") != url
+                or row.get("partner_site") != url
                 or _safe_record_link(url, identity) != url
             ):
                 raise PlanRejected("candidate_record_link_invalid")
         elif status == "missing_source_item_link":
-            if url or row.get("video_link"):
+            if url or row.get("video_link") or row.get("partner_site"):
                 raise PlanRejected("candidate_missing_link_inconsistent")
         else:
             raise PlanRejected("candidate_link_status_invalid")
