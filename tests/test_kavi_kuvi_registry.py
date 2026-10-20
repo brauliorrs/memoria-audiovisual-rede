@@ -1,7 +1,6 @@
 """Registration, offline metadata counts and no-playback safety regressions."""
 from __future__ import annotations
 
-import json
 import shutil
 import tempfile
 import unittest
@@ -11,6 +10,11 @@ from memoria_audiovisual.corpora import (
     CORPORA, get_corpus_definition, list_active_corpora,
     list_corpora_by_category,
 )
+from memoria_audiovisual.europe_research import (
+    analyzed_corpus_codes, build_europe_research_queue,
+    build_europe_research_registry,
+)
+from memoria_audiovisual.inclusion_queue import select_inclusion_candidates
 from memoria_audiovisual.kavi_finna_public_catalog import (
     CATALOG_FILENAME, MANIFEST_FILENAME, PublicationRejected,
     load_published_kavi_rows,
@@ -38,6 +42,18 @@ class KaviKuviRegistryTests(unittest.TestCase):
         self.assertEqual(definition["metadata_api"], "https://api.finna.fi/v1/search")
         self.assertTrue(definition["metadata_item_links_not_playback"])
         self.assertEqual(definition["media_policy"], "origin_record_link_only_no_player_or_download")
+
+    def test_registration_does_not_skip_number_82_in_analysis_queue(self):
+        self.assertFalse(CORPORA["kavi_kuvi"]["counts_as_analyzed_corpus"])
+        registry = build_europe_research_registry()
+        corpus_codes = analyzed_corpus_codes(registry)
+        self.assertNotIn("kavi_kuvi", corpus_codes)
+        queue = build_europe_research_queue(registry)
+        candidates = select_inclusion_candidates(
+            queue.to_dict(orient="records"), limit=1,
+        )
+        self.assertEqual(candidates[0].unit_code, "fiaf-kavi")
+        self.assertEqual(candidates[0].rank, 82)
 
     def test_index_published_but_no_automatic_media_corpus_activation(self):
         definition = CORPORA["kavi_kuvi"]
