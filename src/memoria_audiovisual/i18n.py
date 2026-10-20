@@ -193,6 +193,20 @@ TRANSLATIONS = {
 
 PHRASE_TRANSLATIONS = {
     "es": {
+        "Completude dos metadados documentais": "Completitud de los metadatos documentales",
+        "Ano informado": "Año informado",
+        "Assunto informado": "Tema informado",
+        "Idioma informado": "Idioma informado",
+        "Contagens de campos preenchidos, não de informações verificadas curatorialmente. Tipos de obra permanecem candidatos não revisados.": (
+            "Recuento de campos cumplimentados, no de información verificada por curadores. "
+            "Los tipos de obra siguen siendo candidatos sin revisar."
+        ),
+        "Registros candidatos por prefixo:": "Registros candidatos por prefijo:",
+        "; sem revisão curatorial e sem comprovação de reprodução ou direitos da mídia.": (
+            "; sin revisión curatorial ni prueba de reproducción o derechos sobre el contenido."
+        ),
+        "Exportar resumo documental (CSV)": "Exportar resumen documental (CSV)",
+        "Exportar completude de metadados (CSV)": "Exportar completitud de metadatos (CSV)",
         "Visão geral": "Visión general",
         "Abrir registro ou vídeo na plataforma de origem ↗": "Abrir ficha o video en la plataforma de origen ↗",
         "Acessar na origem": "Abrir en la plataforma de origen",
@@ -1078,6 +1092,20 @@ PHRASE_TRANSLATIONS = {
         "Nenhuma": "Ninguna",
     },
     "en": {
+        "Completude dos metadados documentais": "Documentary Metadata Completeness",
+        "Ano informado": "Year Provided",
+        "Assunto informado": "Subject Provided",
+        "Idioma informado": "Language Provided",
+        "Contagens de campos preenchidos, não de informações verificadas curatorialmente. Tipos de obra permanecem candidatos não revisados.": (
+            "Counts of filled fields, not curatorially verified facts. "
+            "Work classifications remain unreviewed candidates."
+        ),
+        "Registros candidatos por prefixo:": "Prefix-based candidate records:",
+        "; sem revisão curatorial e sem comprovação de reprodução ou direitos da mídia.": (
+            "; without curatorial review or evidence of playback or media rights."
+        ),
+        "Exportar resumo documental (CSV)": "Export Documentary Summary (CSV)",
+        "Exportar completude de metadados (CSV)": "Export Metadata Completeness (CSV)",
         "Visão geral": "Overview",
         "Abrir registro ou vídeo na plataforma de origem ↗": "Open record or video on the source platform ↗",
         "Acessar na origem": "Open at source",
