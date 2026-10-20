@@ -3902,6 +3902,9 @@ CORPORA = {
         "code": "kavi_kuvi",
         "source_unit_id": "fiaf-kavi",
         "analysis_number": 82,
+        # Metadata-index registration is not closure of analysis #82 or a
+        # new numbered inclusion. Do not advance candidate ranking yet.
+        "counts_as_analyzed_corpus": False,
         "label": "Kansallinen audiovisuaalinen instituutti / Kuvi — arquivo audiovisual da Finlândia",
         "short_label": "KAVI / Kuvi",
         "category_code": "institution",
