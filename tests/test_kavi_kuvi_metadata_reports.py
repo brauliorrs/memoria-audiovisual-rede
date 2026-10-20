@@ -166,6 +166,17 @@ class KaviDocumentaryReportTests(unittest.TestCase):
                 write_kavi_metadata_reports(source, other)
             self.assertFalse(other.exists())
 
+    def test_a3_missing_or_invalid_observation_date_rejected(self):
+        for value in (None, "", "yesterday", "2026-02-31", "2026-10-19T00:00"):
+            with self.subTest(value=value):
+                m = toy_manifest()
+                if value is None:
+                    del m["observed_on"]
+                else:
+                    m["observed_on"] = value
+                with self.assertRaises(PublicationRejected):
+                    build_kavi_metadata_reports(toy_rows(), m)
+
     def test_a4_unsafe_record_rejected_by_existing_publication_gate(self):
         # Verify that the builder entrypoint cannot bypass the source check:
         # even an apparently plausible record with an extra identity fails.
