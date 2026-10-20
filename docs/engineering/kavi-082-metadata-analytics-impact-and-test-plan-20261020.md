@@ -65,4 +65,12 @@
 - **R4 — HOLD conhecido fora do escopo:** paginação com `resumptionToken` e atualizações persistentes; não realizar scraping nem tocar no ciclo agendado; A13.
 - **R5 — verificação externa pendente:** deploy Streamlit não comprovado por CI; registro distinto, sem alegar que está publicado online.
 
+## 6. Adendo pós-implementação — regressão de i18n capturada pelo CI
+
+**Registro honesto de uma lacuna do plano inicial (não é risco novo de Finna):** a primeira execução do CI integral detectou que dois textos acrescentados à aba KAVI não estavam traduzidos em inglês/espanhol em `src/memoria_audiovisual/i18n.py`. A auditoria preliminar mencionava interface, mas não incluiu nominalmente `tests/test_i18n.py` como teste de regressão de interface; esse acoplamento é verificável no código e deveria ter sido mapeado.
+
+**A14 — contrato permanente para alterações na UI:** qualquer texto visível novo no Streamlit exige mapeamento para `PHRASE_TRANSLATIONS['es']` e `['en']`, com teste de tradução e verificador `test_streamlit_visible_portuguese_fragments_are_covered` executados em etapa específica antes da suíte geral. Foi adicionado um teste exato para rótulos da aba KAVI e à etapa KAVI no Quality Checks, sem enfraquecer as regras de tradução. Classificação: **REGRESSÃO INTRODUZIDA NO PR, CORRIGIDA ANTES DO MERGE**, nunca limitação histórica do Finna.
+
+**Adendo de qualidade A3:** revisão P2 encontrou que a geração de relatórios exigia `observed_on` sem checar a presença desse campo. Incluiu-se validação ISO YYYY-MM-DD e teste negativo para ausência/formato inválido. Mantém rejeição fail-closed e evita traceback ao usuário. O contrato do relatório fica mais estrito; o CSV de 200 fichas e o manifesto não foram modificados.
+
 **Sequência de execução autorizada por esta auditoria:** commit deste documento **primeiro** → função pura e testes A1–A9 → interface documental e A10–A13 → CI integral → revisão → eventual merge. Nenhuma nova API Finna será consultada nesta tarefa.
