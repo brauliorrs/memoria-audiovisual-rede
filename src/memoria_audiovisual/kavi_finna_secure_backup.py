@@ -8,6 +8,8 @@ no new cursor, no publishing and no retry/restart of the source API.
 from __future__ import annotations
 
 import base64
+import ctypes
+import errno
 import hashlib
 import io
 import json
@@ -16,6 +18,7 @@ import re
 import secrets
 import shutil
 import stat
+import sys
 import struct
 import tempfile
 import zipfile
@@ -108,7 +111,8 @@ def _source_files(root: Path, *, evidence_sha256: str, expected_total: int):
         state = json.loads(raw_checkpoint)
     except (OSError, ValueError, TypeError) as exc:
         raise BackupRejected("p0_checkpoint_invalid") from exc
-    if not isinstance(state, dict) or not 1 <= len(state.get("pages", [])) <= MAX_PAGES:
+    pages = state.get("pages") if isinstance(state, dict) else None
+    if not isinstance(pages, list) or not 1 <= len(pages) <= MAX_PAGES:
         raise BackupRejected("p0_page_budget_invalid")
     scope = FinnaScope("0/KAVI/", "0/Video/", evidence_sha256).to_dict()
     try:
@@ -164,6 +168,36 @@ def _fsync_directory(folder: Path) -> None:
         os.close(fd)
 
 
+
+def _publish_no_replace(source: Path, destination: Path) -> None:
+    """Atomic directory installation; never replace a competing empty epoch.
+
+    Linux renameat2(RENAME_NOREPLACE) is required because os.rename may
+    replace an empty directory. Do not silently emulate with check+rename.
+    """
+    if not sys.platform.startswith("linux"):
+        raise BackupRejected("p0_atomic_noreplace_linux_required")
+    try:
+        libc = ctypes.CDLL(None, use_errno=True)
+        renameat2 = libc.renameat2
+    except (AttributeError, OSError) as exc:
+        raise BackupRejected("p0_atomic_noreplace_unavailable") from exc
+    renameat2.argtypes = (
+        ctypes.c_int, ctypes.c_char_p,
+        ctypes.c_int, ctypes.c_char_p, ctypes.c_uint,
+    )
+    renameat2.restype = ctypes.c_int
+    # AT_FDCWD=-100, RENAME_NOREPLACE=1 (Linux uapi renameat2).
+    code = renameat2(
+        -100, os.fsencode(source), -100, os.fsencode(destination), 1,
+    )
+    if code != 0:
+        err = ctypes.get_errno()
+        if err in (errno.EEXIST, errno.ENOTEMPTY):
+            raise BackupRejected("p0_restore_target_already_exists")
+        raise BackupRejected("p0_restore_atomic_noreplace_failed")
+
+
 def backup_verified_epoch(
     source_dir: str | Path, backup_file: str | Path, *,
     evidence_sha256: str, expected_total: int,
@@ -176,7 +210,10 @@ def backup_verified_epoch(
     source, target = Path(source_dir), Path(backup_file)
     _private(source)
     _private(target.parent)
-    if target.exists() or target.is_symlink() or source.resolve() in target.parent.resolve().parents:
+    source_abs, backup_parent = source.resolve(), target.parent.resolve()
+    if (target.exists() or target.is_symlink()
+            or source_abs == backup_parent
+            or source_abs in backup_parent.parents):
         raise BackupRejected("p0_backup_target_unsafe_or_exists")
     before = _sha((source / "checkpoint.json").read_bytes())
     # Audit source-normalized IDs and rights separately from the payload's
@@ -381,7 +418,12 @@ def restore_verified_epoch(
             raise BackupRejected("p0_restored_stage_counts_mismatch")
         if final.exists() or final.is_symlink():
             raise BackupRejected("p0_restore_target_already_exists")
-        os.rename(stage, final)
+        # fsync every newly created directory bottom-up BEFORE publishing
+        # its name. File fsync alone does not persist directory entries.
+        folders = [stage] + [p for p in stage.rglob("*") if p.is_dir()]
+        for folder in sorted(folders, key=lambda p: len(p.parts), reverse=True):
+            _fsync_directory(folder)
+        _publish_no_replace(stage, final)
         _fsync_directory(final.parent)
     except (BackupRejected, OSError) as exc:
         if isinstance(exc, BackupRejected):
