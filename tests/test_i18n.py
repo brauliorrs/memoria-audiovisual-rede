@@ -221,6 +221,26 @@ class I18nTests(unittest.TestCase):
             english,
         )
 
+    def test_kavi_documentary_report_labels_are_translated(self):
+        phrases = {
+            "Exportar resumo documental (CSV)": {
+                "es": "Exportar resumen documental (CSV)",
+                "en": "Export Documentary Summary (CSV)",
+            },
+            "Completude dos metadados documentais": {
+                "es": "Completitud de los metadatos documentales",
+                "en": "Documentary Metadata Completeness",
+            },
+            "; sem revisão curatorial e sem comprovação de reprodução ou direitos da mídia.": {
+                "es": "; sin revisión curatorial ni prueba de reproducción o derechos sobre el contenido.",
+                "en": "; without curatorial review or evidence of playback or media rights.",
+            },
+        }
+        for original, expected in phrases.items():
+            for language, translated in expected.items():
+                with self.subTest(original=original, language=language):
+                    self.assertEqual(translate_ui_text(original, language), translated)
+
     def test_streamlit_visible_portuguese_fragments_are_covered(self):
         for language in ["es", "en"]:
             with self.subTest(language=language):
