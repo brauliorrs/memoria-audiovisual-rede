@@ -459,6 +459,7 @@ jobs:
             scripts/build_kavi_kuvi_metadata_reports.py \
             tests/test_kavi_kuvi_metadata_reports.py
           python -m unittest discover -s tests -p 'test_kavi_kuvi_metadata_reports.py' -v
+          python -m unittest discover -s tests -p 'test_i18n.py' -v
           python -m scripts.build_kavi_kuvi_metadata_reports --check
           python -m py_compile app/streamlit_app.py
 
