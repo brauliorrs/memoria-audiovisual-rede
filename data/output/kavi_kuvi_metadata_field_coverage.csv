@@ -1,0 +1,8 @@
+field,present,missing,denominator,percent_present,meaning
+video_title,200,0,200,100,field_filled_not_factually_verified
+year,198,2,200,99,field_filled_not_factually_verified
+authors,184,16,200,92,field_filled_not_factually_verified
+genres,199,1,200,99.5,field_filled_not_factually_verified
+subjects,51,149,200,25.5,field_filled_not_factually_verified
+languages,24,176,200,12,field_filled_not_factually_verified
+video_description,71,129,200,35.5,field_filled_not_factually_verified
