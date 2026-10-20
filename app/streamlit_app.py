@@ -3178,7 +3178,22 @@ def render_category_tab(category_def):
     )
 
     total_corpora = len(corpora_in_category)
-    total_institutions = len(combined_summary_df)
+    # Registered metadata-only institutions can have a validated index
+    # before the conventional analytical summary file exists. Include the
+    # institution once, without counting record pages as playable videos.
+    metadata_only_institutions = sum(
+        int(pd.to_numeric(
+            overview_df.loc[
+                overview_df["corpus"] == definition["short_label"],
+                "institutions",
+            ],
+            errors="coerce",
+        ).fillna(0).sum())
+        for definition in corpora_in_category
+        if definition.get("published_index_active")
+        and not (OUTPUT_DIR / definition["output_files"]["summary"]).exists()
+    )
+    total_institutions = len(combined_summary_df) + metadata_only_institutions
     total_with_video_links = int(category_video_count_series.gt(0).sum()) if not category_video_count_series.empty else 0
     total_video_links = int(category_video_count_series.sum()) if not category_video_count_series.empty else 0
     filtered_curatorial_videos_df = (
@@ -4861,7 +4876,7 @@ def render_kavi_kuvi_metadata_tab(corpus_def):
         "video_link": "Acessar ficha na origem",
     }
     st.dataframe(
-        frame[list(visible)].rename(columns=visible),
+        frame[[column for column in visible if column in frame.columns]].rename(columns=visible),
         use_container_width=True,
         hide_index=True,
         column_config={
