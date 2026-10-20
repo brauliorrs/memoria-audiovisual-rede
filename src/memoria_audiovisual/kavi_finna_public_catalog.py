@@ -76,6 +76,7 @@ def load_published_kavi_rows(output_dir: str | Path) -> tuple[list[dict], dict]:
         needed = {
             "corpus", "source_record_id", "video_title", "video_link",
             "source_record_url", "metadata_provider", "metadata_license",
+            "source_service", "media_access_status",
             "media_rights_status", "custody_status", "film_semantics",
             "scope_sha256", "link_status", "record_review_status",
         }
@@ -93,6 +94,8 @@ def load_published_kavi_rows(output_dir: str | Path) -> tuple[list[dict], dict]:
         if (not rid or rid in seen
                 or row["corpus"] != "fiaf-kavi"
                 or row["metadata_provider"] != "0/KAVI/"
+                or row["source_service"] != "finna_api"
+                or row["media_access_status"] != "unverified"
                 or row["metadata_license"] != "CC0-1.0_API_metadata_only"
                 or row["media_rights_status"] != "not_verified"
                 or row["custody_status"] != "not_established"
