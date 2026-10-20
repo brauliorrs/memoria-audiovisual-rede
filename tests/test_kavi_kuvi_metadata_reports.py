@@ -46,11 +46,13 @@ def toy_rows():
     }
     one = dict(basis, source_record_id="kavi.elonet_elokuva_101",
                video_title="First film", video_link="https://www.finna.fi/Record/kavi.elonet_elokuva_101",
+               source_record_url="https://www.finna.fi/Record/kavi.elonet_elokuva_101",
                film_semantics="film_candidate", year="1936", subjects="Cinema",
                authors="Writer", genres="", languages="fi",
                video_description="Metadata only", online_url_metadata_present="True")
     two = dict(basis, source_record_id="kavi.video_202",
                video_title="Another video", video_link="https://www.finna.fi/Record/kavi.video_202",
+               source_record_url="https://www.finna.fi/Record/kavi.video_202",
                film_semantics="unverified_audiovisual_record", year="",
                subjects="", online_url_metadata_present="False")
     return [one, two]
