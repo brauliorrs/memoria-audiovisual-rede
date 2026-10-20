@@ -8,6 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from memoria_audiovisual.kavi_finna_adapter import VERSION as KAVI_FINNA_ADAPTER_VERSION
 from memoria_audiovisual.metadata_staging import MetadataPage, StageRejected, stage_metadata
 from scripts.audit_kavi_finna_staging import audit_finna_staging, main
 
@@ -56,7 +57,7 @@ class OfflineSource:
             "evidence_sha256": EVIDENCE,
             "institution_code": "fiaf-kavi",
             "schema_version": "1.0.0",
-            "adapter_version": "kavi-finna-adapter-1.0.0",
+            "adapter_version": KAVI_FINNA_ADAPTER_VERSION,
         }
         self.pages = {
             None: first_override or page([
