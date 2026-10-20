@@ -127,7 +127,9 @@ class EuropeResearchTests(unittest.TestCase):
         self.assertNotIn("fiat-european-commission-av-service", priority_by_code)
         self.assertGreater(priority_by_code["ace-members"], priority_by_code["fiat-rtp"])
         self.assertLess(priority_by_code["fiat-rtp"], priority_by_code["german-digital-library"])
-        self.assertEqual(len(CORPORA), 63)
+        self.assertEqual(len(CORPORA), 64)
+        # KAVI is catalogued but analysis #82 is not formally closed.
+        self.assertFalse(CORPORA["kavi_kuvi"]["counts_as_analyzed_corpus"])
         self.assertEqual(queue_df.iloc[0]["definitive_queue_rank"], "")
         iwm_row = registry_df.loc[registry_df["unit_code"] == "iwm_film"].iloc[0]
         self.assertEqual(iwm_row["organism_status"], "ativo")

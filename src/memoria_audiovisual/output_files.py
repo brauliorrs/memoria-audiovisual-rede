@@ -143,6 +143,10 @@ ESTONIAN_FILM_ARCHIVE_OUTPUT_FILES = build_output_files(ESTONIAN_FILM_ARCHIVE_OU
 FAR_OUTPUT_FILES = build_output_files(FAR_OUTPUT_PREFIX)
 HOME_MOVIES_OUTPUT_FILES = build_output_files(HOME_MOVIES_OUTPUT_PREFIX)
 FINA_OUTPUT_FILES = build_output_files(FINA_OUTPUT_PREFIX)
+# Finnish KAVI/Kuvi is unrelated to Polish FINA/Ninateka.
+# These conventional outputs are reserved for future verified analytics;
+# the existing index source remains kavi_mar_metadata_links.csv.
+KAVI_KUVI_OUTPUT_FILES = build_output_files("kavi_kuvi")
 CSC_CINETECA_OUTPUT_FILES = build_output_files(CSC_CINETECA_OUTPUT_PREFIX)
 FILMARCHIV_AUSTRIA_OUTPUT_FILES = build_output_files(FILMARCHIV_AUSTRIA_OUTPUT_PREFIX)
 MURNAU_STIFTUNG_OUTPUT_FILES = build_output_files(MURNAU_STIFTUNG_OUTPUT_PREFIX)
@@ -285,6 +289,10 @@ def list_far_output_filenames():
 
 def list_home_movies_output_filenames():
     return list_output_filenames(HOME_MOVIES_OUTPUT_FILES)
+
+
+def list_kavi_kuvi_output_filenames():
+    return list_output_filenames(KAVI_KUVI_OUTPUT_FILES)
 
 
 def list_fina_output_filenames():
@@ -562,4 +570,6 @@ __all__ = [
     "list_ppa_output_filenames",
     "list_sfa_output_filenames",
     "list_output_filenames",
+    "KAVI_KUVI_OUTPUT_FILES",
+    "list_kavi_kuvi_output_filenames",
 ]
