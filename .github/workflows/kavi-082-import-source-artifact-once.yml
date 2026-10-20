@@ -1,0 +1,115 @@
+name: KAVI 082 - import previously verified metadata only
+
+on:
+  pull_request:
+    types: [synchronize]
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  kavi-import-once:
+    if: github.head_ref == 'feature/kavi-082-first-live-metadata-records-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+
+      - name: Download precisely identified earlier no-media CI artifact
+        if: hashFiles('data/output/kavi_mar_metadata_links.csv') == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/kavi-from-authorized-source"
+          gh run download 39346643735 \
+            --repo brauliorrs/memoria-audiovisual-rede \
+            --name kavi-082-first-link-index-20261019 \
+            --dir "$RUNNER_TEMP/kavi-from-authorized-source"
+
+      - name: Validate and commit an explicitly partial MAR metadata index
+        if: hashFiles('data/output/kavi_mar_metadata_links.csv') == ''
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          import csv
+          import hashlib
+          import json
+          import os
+          import shutil
+          from pathlib import Path
+          from memoria_audiovisual.kavi_finna_public_catalog import (
+              load_published_kavi_rows, CATALOG_FILENAME, MANIFEST_FILENAME, VERSION,
+          )
+          from memoria_audiovisual.kavi_finna_mar_index import _safe_record_link
+
+          source = Path(os.environ["RUNNER_TEMP"]) / "kavi-from-authorized-source"
+          gate = json.loads((source / "kavi_first_index_gate.json").read_text())
+          origin = json.loads((source / "kavi_first_index_summary.json").read_text())
+          csv_file = source / "kavi-first-index-preview/kavi_mar_metadata_links_PREVIEW.csv"
+          data = csv_file.read_bytes()
+          assert hashlib.sha256(data).hexdigest() == "2458484980094c10db9e9f990b6ca2236e8abcfdb09d3cafc886d0e0e9b22a31"
+          assert gate["result"] == "ALLOW" and gate["robots_http_status"] == 200
+          assert len(gate["paths_allowed"]) == 4 and all(gate["paths_allowed"].values())
+          assert origin["record_count"] == 200 and origin["item_links_present"] == 200
+          assert origin["expected_total_api_index"] == 138399
+          assert origin["status"] == "review_preview_only"
+          assert origin["promotion_authorized"] is False
+          assert origin["media_downloaded"] is False
+          assert origin["coverage_status"] == "partial"
+
+          target = Path("data/output")
+          target.mkdir(parents=True, exist_ok=True)
+          shutil.copyfile(csv_file, target / CATALOG_FILENAME)
+          manifest = {
+              "schema_version": VERSION,
+              "unit_id": "fiaf-kavi",
+              "status": "published_partial_metadata",
+              "coverage_status": "partial",
+              "metadata_license": "CC0-1.0_API_metadata_only",
+              "metadata_publication_approved": True,
+              "corpus_activation": False,
+              "media_downloaded": False,
+              "viewing_at_origin_only": True,
+              "source_run_url": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/39346643735",
+              "source_artifact_sha256": "ed4a549724db160610e78ecea6e84e8cb5db8b7b7e9476c1fe6d8c086e470e59",
+              "catalog_sha256": hashlib.sha256(data).hexdigest(),
+              "source_scope_sha256": origin["source_scope_sha256"],
+              "observed_on": "2026-10-19",
+              "expected_total_api_index": origin["expected_total_api_index"],
+              "record_count": origin["record_count"],
+              "item_links_present": origin["item_links_present"],
+              "item_links_missing": origin["item_links_missing"],
+              "record_review_status": "unreviewed",
+              "custody_and_media_rights_status": "unverified",
+          }
+          (target / MANIFEST_FILENAME).write_text(
+              json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8"
+          )
+          rows, verified = load_published_kavi_rows(target)
+          assert len(rows) == 200 and verified["corpus_activation"] is False
+          print(json.dumps({
+              "records_indexed": len(rows),
+              "approved_record_page_links": sum(bool(r["video_link"]) for r in rows),
+              "media_downloaded": False,
+              "corpus_activation": False,
+              "coverage_status": "partial",
+          }, sort_keys=True))
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/output/kavi_mar_metadata_links.csv data/output/kavi_mar_metadata_links_manifest.json
+          git diff --cached --quiet && exit 0
+          git commit -m "data(kavi): publish first 200 Finna record metadata links as partial MAR index"
+          git push origin HEAD:"$GITHUB_HEAD_REF"
