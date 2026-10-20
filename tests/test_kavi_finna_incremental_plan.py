@@ -162,6 +162,31 @@ class OfflineReconciliationTests(unittest.TestCase):
         with self.assertRaises(PlanRejected):
             plan_incremental_proposal(BASELINE, unexpected, evidence(unexpected))
 
+    def test_i8_projected_catalog_requires_all_fields_and_consistent_links(self):
+        original = sample_records(1)
+        for field, value in (
+            ("partner_site", "https://media.example/stream.mp4"),
+            ("rights_status", "public_domain"),
+            ("format", "0/Audio/"),
+            ("video_subject", "Forged topic"),
+            ("video_published_at", "1800"),
+            ("country", "Elsewhere"),
+            ("custodian", "confirmed_owner"),
+            ("film_semantics", "unverified_audiovisual_record"),
+            ("online_url_metadata_present", "https://media.example/stream.mp4"),
+        ):
+            with self.subTest(field=field):
+                rows = copy.deepcopy(original)
+                rows[0][field] = value
+                with self.assertRaises(PlanRejected):
+                    plan_incremental_proposal(BASELINE, rows, evidence(rows))
+        for missing in ("partner_site", "format", "rights_status", "languages"):
+            with self.subTest(missing=missing):
+                rows = copy.deepcopy(original)
+                del rows[0][missing]
+                with self.assertRaises(PlanRejected):
+                    plan_incremental_proposal(BASELINE, rows, evidence(rows))
+
     def test_i9_cross_scope_provider_status_and_old_epoch_rejected(self):
         rows = sample_records(1)
         bad_evidence = (
