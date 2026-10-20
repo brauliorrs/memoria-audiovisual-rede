@@ -18,7 +18,7 @@ from memoria_audiovisual.kavi_finna_adapter import FinnaScope
 from memoria_audiovisual.metadata_staging import MetadataPage, stage_metadata
 from memoria_audiovisual.kavi_finna_secure_backup import (
     BackupRejected, backup_verified_epoch, restore_verified_epoch,
-    load_backup_key_from_environment,
+    load_backup_key_from_environment, _publish_no_replace, _fsync_directory,
 )
 from scripts.audit_kavi_finna_staging import audit_finna_staging
 
@@ -254,6 +254,46 @@ class SecureCheckpointBackupTests(unittest.TestCase):
             self.backup(expected_total=-1)
         self.assertFalse(self.archive.exists())
         self.assertFalse(list(self.archive_home.glob("*.tmp")))
+
+    def test_p04_malformed_pages_does_not_escape_as_typeerror(self):
+        checkpoint = self.source / "checkpoint.json"
+        state = json.loads(checkpoint.read_text())
+        state["pages"] = None
+        checkpoint.write_text(json.dumps(state))
+        with self.assertRaises(BackupRejected):
+            self.backup()
+        self.assertFalse(self.archive.exists())
+
+    def test_p07_backup_directly_inside_source_is_refused(self):
+        inside = self.source / "backup.kavienc"
+        with self.assertRaises(BackupRejected):
+            backup_verified_epoch(
+                self.source, inside, evidence_sha256=EVIDENCE,
+                expected_total=3, epoch_id="epoch-0001", key=KEY,
+            )
+        self.assertFalse(inside.exists())
+
+    def test_p08_atomic_publisher_cannot_replace_existing_empty_directory(self):
+        stage = self.restore_home / ".stage-test"
+        stage.mkdir(mode=0o700)
+        destination = self.restore_home / "epoch-raced"
+        destination.mkdir(mode=0o700)
+        with self.assertRaises(BackupRejected):
+            _publish_no_replace(stage, destination)
+        self.assertTrue(stage.exists())
+        self.assertTrue(destination.is_dir())
+
+    def test_p10_all_restored_directories_are_synced_before_publish(self):
+        self.backup()
+        with patch(
+            "memoria_audiovisual.kavi_finna_secure_backup._fsync_directory",
+            wraps=_fsync_directory,
+        ) as synced:
+            self.restore()
+        paths = [Path(call.args[0]) for call in synced.call_args_list]
+        self.assertIn(self.restore_home, paths)
+        self.assertTrue(any(p.name == "raw" for p in paths))
+        self.assertTrue(any(p.name.startswith(".kavi-restore-") for p in paths))
 
     def test_p11_p12_source_invariant_and_no_video_export(self):
         self.backup()
