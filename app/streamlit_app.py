@@ -22,6 +22,9 @@ from memoria_audiovisual.kavi_finna_public_catalog import (
     PublicationRejected, load_published_kavi_rows,
 )
 from memoria_audiovisual.kavi_finna_registry import load_kavi_metadata_index_summary
+from memoria_audiovisual.kavi_finna_metadata_reports import (
+    REPORT_FILES, build_kavi_metadata_reports, serialize_kavi_metadata_reports,
+)
 from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
 from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
@@ -4848,6 +4851,50 @@ def render_kavi_kuvi_metadata_tab(corpus_def):
         "(Finna/Elonet). Acesso ao filme, direitos de mídia e custódia individual "
         "não foram verificados. A reprodução permanece exclusivamente na origem."
     )
+    # Independent documentary indicators: record-page links are not
+    # playable media, and filling a field does not validate its accuracy.
+    documentary = build_kavi_metadata_reports(rows, manifest)
+    fields = {item["field"]: item for item in documentary["field_coverage"]}
+    st.subheader("Completude dos metadados documentais")
+    field_metrics = st.columns(3)
+    field_metrics[0].metric("Ano informado", fields["year"]["present"])
+    field_metrics[1].metric("Assunto informado", fields["subjects"]["present"])
+    field_metrics[2].metric("Idioma informado", fields["languages"]["present"])
+    st.caption(
+        "Contagens de campos preenchidos, não de informações verificadas "
+        "curatorialmente. Tipos de obra permanecem candidatos não revisados."
+    )
+    completeness = pd.DataFrame(documentary["field_coverage"])
+    st.dataframe(
+        completeness.rename(columns={
+            "field": "Campo", "present": "Preenchidos",
+            "missing": "Não preenchidos", "denominator": "Total de fichas",
+            "percent_present": "% preenchido",
+            "meaning": "Critério",
+        }),
+        use_container_width=True, hide_index=True,
+    )
+    st.caption(
+        f"Registros candidatos por prefixo: "
+        f"{documentary['summary']['film_candidate_records']}; "
+        "sem revisão curatorial e sem comprovação de reprodução ou direitos da mídia."
+    )
+    serialized_report = serialize_kavi_metadata_reports(documentary)
+    st.download_button(
+        "Exportar resumo documental (CSV)",
+        data=serialized_report[REPORT_FILES["summary"]],
+        file_name=REPORT_FILES["summary"],
+        mime="text/csv",
+        key="kavi-kuvi-documentary-summary-download",
+    )
+    st.download_button(
+        "Exportar completude de metadados (CSV)",
+        data=serialized_report[REPORT_FILES["field_coverage"]],
+        file_name=REPORT_FILES["field_coverage"],
+        mime="text/csv",
+        key="kavi-kuvi-documentary-fields-download",
+    )
+
     query = st.text_input(
         "Buscar fichas KAVI por título, ano, autor ou assunto",
         key="kavi-kuvi-metadata-query",
