@@ -21,6 +21,7 @@ from memoria_audiovisual.external_links import (
 from memoria_audiovisual.kavi_finna_public_catalog import (
     PublicationRejected, load_published_kavi_rows,
 )
+from memoria_audiovisual.kavi_finna_registry import load_kavi_metadata_index_summary
 from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
 from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
@@ -995,6 +996,37 @@ def build_corpus_runtime(corpus_def):
 
 
 def build_corpus_overview_record(corpus_def):
+    if corpus_def["code"] == "kavi_kuvi":
+        # KAVI is a registered *metadata index*, not verified public video
+        # playback. These counts must not enter playback-only global totals.
+        try:
+            summary = load_kavi_metadata_index_summary(OUTPUT_DIR)
+        except PublicationRejected:
+            summary = {}
+        indexed = summary.get("indexed_metadata_records", 0)
+        category = CORPUS_CATEGORIES[corpus_def["category_code"]]
+        return {
+            "corpus": corpus_def["short_label"],
+            "label": corpus_def["label"],
+            "category": category["label"],
+            "coverage_level": corpus_def["coverage_level"],
+            "expansion_stage": category["expansion_stage_label"],
+            "entity_level": corpus_def["entity_level"],
+            "scope": corpus_def["scope"],
+            "collection_completeness": corpus_def["collection_completeness"],
+            "selection_limit": corpus_def["selection_limit"],
+            "source_status_date": summary.get("reference_observed_on", "-"),
+            "updated_at": "-",
+            "institutions": 1 if indexed else 0,
+            "institutions_with_video_links": 0,
+            "video_links_total": 0,
+            "videos_in_curatorial_catalog": 0,
+            "detected_visibility": 0,
+            "status": (
+                f"índice documental parcial: {indexed} fichas com links de origem"
+                if indexed else "índice documental indisponível ou inválido"
+            ),
+        }
     category_def = CORPUS_CATEGORIES[corpus_def["category_code"]]
     runtime = build_corpus_runtime(corpus_def)
     snapshot_metadata = runtime["snapshot_metadata"] or {}
@@ -1371,10 +1403,13 @@ def build_research_video_catalog_frame():
         kavi_rows, kavi_manifest = [], {}
     if kavi_rows:
         kavi_df = pd.DataFrame(kavi_rows)
-        kavi_df["corpus"] = "KAVI / Kuvi (índice parcial)"
-        kavi_df["unidade"] = "Finna / Elonet — fichas indexadas"
-        kavi_df["categoria_analitica"] = "Arquivo audiovisual · metadados"
-        kavi_df["slug"] = "fiaf-kavi"
+        kavi_def = CORPORA["kavi_kuvi"]
+        kavi_df["corpus"] = f"{kavi_def['short_label']} (índice parcial)"
+        kavi_df["unidade"] = kavi_def["label"]
+        kavi_df["categoria_analitica"] = (
+            f"{CORPUS_CATEGORIES[kavi_def['category_code']]['label']} · metadados"
+        )
+        kavi_df["slug"] = kavi_def["source_unit_id"]
         kavi_df["video_title_display"] = kavi_df["video_title"]
         kavi_df["video_date_display"] = kavi_df["year"]
         kavi_df["video_theme"] = kavi_df["genres"].where(
@@ -4767,7 +4802,83 @@ def render_institution_tab(corpus_def, context, selected_slug):
             )
 
 
+def render_kavi_kuvi_metadata_tab(corpus_def):
+    """Display the already audited KAVI records, never media URLs or players."""
+    st.markdown(f"## {corpus_def['short_label']} — fichas de metadados")
+    try:
+        rows, manifest = load_published_kavi_rows(OUTPUT_DIR)
+        summary = load_kavi_metadata_index_summary(OUTPUT_DIR)
+    except PublicationRejected:
+        st.error("O índice de metadados do KAVI não passou na validação de integridade.")
+        return
+    if not rows:
+        st.info("Ainda não há fichas KAVI aprovadas para consulta.")
+        return
+
+    cols = st.columns(3)
+    cols[0].metric("Fichas indexadas", summary["indexed_metadata_records"])
+    cols[1].metric("Links de ficha na origem", summary["source_record_links"])
+    cols[2].metric(
+        "Referência declarada pela API",
+        summary["reference_total_api_video_index"],
+    )
+    st.caption(
+        f"Índice PARCIAL observado em {summary['reference_observed_on']}; "
+        f"{summary['coverage_percent_of_api_snapshot']:.4f}% dos registros "
+        "indicados pela API naquele instante. A referência não é contagem de "
+        "filmes custodiados ou de vídeos reproduzíveis."
+    )
+    st.info(
+        "O MAR apresenta somente metadados e links para a ficha institucional "
+        "(Finna/Elonet). Acesso ao filme, direitos de mídia e custódia individual "
+        "não foram verificados. A reprodução permanece exclusivamente na origem."
+    )
+    query = st.text_input(
+        "Buscar fichas KAVI por título, ano, autor ou assunto",
+        key="kavi-kuvi-metadata-query",
+    ).strip()
+    frame = pd.DataFrame(rows)
+    if query:
+        match_columns = [
+            "video_title", "year", "authors", "genres", "subjects", "languages",
+        ]
+        mask = pd.Series(False, index=frame.index)
+        for field in match_columns:
+            if field in frame.columns:
+                mask |= frame[field].fillna("").astype(str).str.contains(
+                    query, case=False, regex=False
+                )
+        frame = frame.loc[mask].copy()
+
+    st.caption(f"Fichas encontradas: {len(frame)}")
+    visible = {
+        "video_title": "Título",
+        "year": "Ano",
+        "authors": "Créditos",
+        "genres": "Gêneros",
+        "subjects": "Temas",
+        "languages": "Idiomas",
+        "video_link": "Acessar ficha na origem",
+    }
+    st.dataframe(
+        frame[list(visible)].rename(columns=visible),
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "Acessar ficha na origem": st.column_config.LinkColumn(
+                "Acessar ficha na origem", display_text="Abrir ficha"
+            ),
+        },
+    )
+    st.caption(
+        f"Fonte do lote: {manifest['source_run_url']}. "
+        "Atualização mensal automática ainda não habilitada."
+    )
+
+
 def render_corpus_tab(corpus_def):
+    if corpus_def["code"] == "kavi_kuvi":
+        return render_kavi_kuvi_metadata_tab(corpus_def)
     category_def = CORPUS_CATEGORIES[corpus_def["category_code"]]
     runtime = build_corpus_runtime(corpus_def)
     dashboard_sources = runtime["dashboard_sources"]
