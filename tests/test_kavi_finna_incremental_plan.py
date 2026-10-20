@@ -98,6 +98,9 @@ class OfflineReconciliationTests(unittest.TestCase):
         rows = sample_records(1)
         rows[0]["video_title"] = "Título atualizado no mesmo registro"
         rows[0]["subjects"] = "Assunto atualizado"
+        # The Finna projection emits video_subject from subjects; both
+        # fields must change together in an internally consistent preview.
+        rows[0]["video_subject"] = rows[0]["subjects"]
         plan = plan_incremental_proposal(BASELINE, rows, evidence(rows))
         self.assertEqual(plan["changed"], 1)
         self.assertEqual(plan["added"], 0)
