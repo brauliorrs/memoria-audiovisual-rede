@@ -91,6 +91,7 @@ from .output_files import (
     CSC_CINETECA_OUTPUT_FILES,
     FAR_OUTPUT_FILES,
     FINA_OUTPUT_FILES,
+    KAVI_KUVI_OUTPUT_FILES,
     HOME_MOVIES_OUTPUT_FILES,
     FILMARCHIV_AUSTRIA_OUTPUT_FILES,
     MURNAU_STIFTUNG_OUTPUT_FILES,
@@ -155,6 +156,7 @@ from .output_files import (
     list_csc_cineteca_output_filenames,
     list_far_output_filenames,
     list_fina_output_filenames,
+    list_kavi_kuvi_output_filenames,
     list_home_movies_output_filenames,
     list_filmarchiv_austria_output_filenames,
     list_murnau_stiftung_output_filenames,
@@ -3895,6 +3897,79 @@ CORPORA = {
         "check_script_path": "scripts/check_aapb_outputs.py",
         "organism_active": True,
         "monthly_refresh_enabled": True,
+    },
+    "kavi_kuvi": {
+        "code": "kavi_kuvi",
+        "source_unit_id": "fiaf-kavi",
+        "analysis_number": 82,
+        "label": "Kansallinen audiovisuaalinen instituutti / Kuvi — arquivo audiovisual da Finlândia",
+        "short_label": "KAVI / Kuvi",
+        "category_code": "institution",
+        "expansion_priority": 82,
+        "entity_level": "instituição audiovisual; registros mediados por agregador",
+        "coverage_level": "instituição individual europeia; subconjunto público de metadados Finna",
+        "scope": "registros de vídeo identificados no índice Finna pela faceta KAVI/Kuvi; outros serviços exigem revisão autônoma",
+        "methodological_unit": "fichas públicas da API Finna filtradas por building 0/KAVI/ e format 0/Video/",
+        "ape_relationship": (
+            "instituição europeia individual descoberta também via metadados agregados do Finna; "
+            "não confundir o portal provedor com instituição custodiante comprovada de cada filme"
+        ),
+        "expansion_rationale": (
+            "Análise nº 82 validou acesso legal e técnico à API, com 200 fichas reais e links de origem "
+            "incorporados ao índice documental progressivo do MAR; não há download de mídia."
+        ),
+        "observatory_role": "corpus institucional de fichas audiovisuais com links na origem e cobertura rastreável",
+        "audiovisual_scope_note": (
+            "O filtro da API 0/Video/ e prefixos de ID identificam candidatos a obra, "
+            "não comprovam semântica filmográfica, custódia, direitos ou reprodução pública por item."
+        ),
+        "zero_result_policy": (
+            "Ausência de fichas indica mudança de acesso, metadados, filtros ou integridade; "
+            "não é ausência demonstrada do acervo audiovisual finlandês."
+        ),
+        "collection_completeness": "Índice de metadados parcialmente publicado (200 fichas na primeira rodada)",
+        "selection_criterion": (
+            "API Finna com facetas institucionais e audiovisuais e campo recordPage de ficha fornecido "
+            "pelo provedor; cada registro preserva ID, descritores, direitos não comprovados e link externo."
+        ),
+        "selection_limit": (
+            "Primeiro lote de 200 fichas auditadas; incremento somente por protocolo de checkpoint e "
+            "paginação legítima, sem coletar ou incorporar vídeos."
+        ),
+        "completeness_note": (
+            "200 registros indexados de 138399 declarados pela API em 19/10/2026; "
+            "total não significa filmes reproduzíveis nem universo total custodiado pelo Kuvi. "
+            "Declaração G4 de cobertura integral continua não demonstrada."
+        ),
+        "source_url": "https://www.finna.fi/",
+        "institutional_source_url": "https://elonet.finna.fi/",
+        "metadata_api": "https://api.finna.fi/v1/search",
+        "metadata_index_files": {
+            "records": "kavi_mar_metadata_links.csv",
+            "manifest": "kavi_mar_metadata_links_manifest.json",
+        },
+        "metadata_publication_status": "published_partial_metadata",
+        "published_index_active": True,
+        "metadata_license": "CC0-1.0_API_metadata_only",
+        "media_policy": "origin_record_link_only_no_player_or_download",
+        "metadata_item_links_not_playback": True,
+        "output_files": KAVI_KUVI_OUTPUT_FILES,
+        "list_output_filenames": list_kavi_kuvi_output_filenames,
+        "detail_url_field": "source_record_url",
+        "content_flag_field": "media_access_status",
+        "detail_url_label": "ficha pública na plataforma de origem (Finna/Elonet)",
+        "content_flag_label": "metadados de vídeo; reprodução não verificada",
+        "website_label": "Finna / Elonet",
+        "run_script": "python scripts/run_kavi_finna_metadata_staging.py --help",
+        "build_script": "python scripts/project_kavi_finna_mar_index.py --help",
+        "check_script": "python scripts/check_kavi_kuvi_index.py",
+        "run_script_path": "scripts/run_kavi_finna_metadata_staging.py",
+        "build_script_path": "scripts/project_kavi_finna_mar_index.py",
+        "check_script_path": "scripts/check_kavi_kuvi_index.py",
+        # Do not enroll KAVI in automatic organism runs until standard
+        # analytical outputs and safe incremental refresh are implemented.
+        "organism_active": False,
+        "monthly_refresh_enabled": False,
     },
 }
 
