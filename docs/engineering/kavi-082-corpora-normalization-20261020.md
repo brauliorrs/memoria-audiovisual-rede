@@ -16,6 +16,7 @@ Este incremento normaliza o cadastro em `src/memoria_audiovisual/corpora.py` com
 - O overview institucional assinala **índice documental parcial** em vez de somar `recordPage` como `video_links_total`, `videos_in_curatorial_catalog` ou evidência de streaming. A fase científica G4 para declarar universo completo ou custódia continua em HOLD.
 - `scripts/check_kavi_kuvi_index.py` fornece verificação local apenas, sem requisição de rede, consumo de token ou alteração dos 200 registros.
 - **`published_index_active=true`** significa que os metadados aprovados podem ser consultados; **`organism_active=false`** e **`monthly_refresh_enabled=false`** mantêm KAVI fora do executor periódico enquanto faltam saídas analíticas e rotina incremental de atualização totalmente validada. Isso não apaga fichas nem representa decisão de não estudar o corpus.
+- **`counts_as_analyzed_corpus=false`** evita deslocar a ordem científica: a análise **nº 82** permanece em aberto e o cadastro de metadados não é uma decisão final de inclusão ou HOLD do corpus. O mecanismo `analyzed_corpus_codes()` respeita a flag explícita, mantendo intactas as unidades já concluídas e a próxima posição nº 82. O teste de regressão de Murnau detectou essa necessidade quando uma contagem ingênua produziu o rank 83.
 
 ## Base factual do snapshot
 
