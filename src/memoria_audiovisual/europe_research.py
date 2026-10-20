@@ -1061,6 +1061,7 @@ def analyzed_corpus_codes(registry_df=None):
         str(corpus_def["code"]).strip()
         for corpus_def in CORPORA.values()
         if str(corpus_def.get("code", "")).strip()
+        and corpus_def.get("counts_as_analyzed_corpus", True)
     }
     protocolled_codes = {
         aliases.get(str(code).strip(), str(code).strip())
