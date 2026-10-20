@@ -18,6 +18,9 @@ from memoria_audiovisual.external_links import (
     choose_origin_destination,
     public_external_url,
 )
+from memoria_audiovisual.kavi_finna_public_catalog import (
+    PublicationRejected, load_published_kavi_rows,
+)
 from memoria_audiovisual.adlibitum_protocol import ADLIBITUM_PROTOCOL_FILENAME
 from memoria_audiovisual.arsenal_protocol import ARSENAL_PROTOCOL_FILENAME
 from memoria_audiovisual.archivegrid_protocol import ARCHIVEGRID_PROTOCOL_FILENAME
@@ -1358,6 +1361,31 @@ def build_research_video_catalog_frame():
         catalog_df["unidade"] = corpus_def["label"]
         catalog_df["categoria_analitica"] = category_def["label"]
         frames.append(catalog_df)
+
+    # Metadata-only KAVI/Kuvi index: an explicitly approved *partial*
+    # group of Finna API record pages, not a completed custodial corpus.
+    # No player/media resources are fetched or embedded in this view.
+    try:
+        kavi_rows, kavi_manifest = load_published_kavi_rows(OUTPUT_DIR)
+    except PublicationRejected:
+        kavi_rows, kavi_manifest = [], {}
+    if kavi_rows:
+        kavi_df = pd.DataFrame(kavi_rows)
+        kavi_df["corpus"] = "KAVI / Kuvi (índice parcial)"
+        kavi_df["unidade"] = "Finna / Elonet — fichas indexadas"
+        kavi_df["categoria_analitica"] = "Arquivo audiovisual · metadados"
+        kavi_df["slug"] = "fiaf-kavi"
+        kavi_df["video_title_display"] = kavi_df["video_title"]
+        kavi_df["video_date_display"] = kavi_df["year"]
+        kavi_df["video_theme"] = kavi_df["genres"].where(
+            kavi_df["genres"].ne(""), kavi_df["subjects"]
+        )
+        kavi_df["access_surface"] = "Ficha externa; reprodução não verificada"
+        kavi_df["access_regime"] = "metadados públicos; mídia não avaliada"
+        kavi_df["source_page_url"] = kavi_df["source_record_url"]
+        kavi_df["catalog_coverage"] = kavi_manifest["coverage_status"]
+        kavi_df["catalog_observed_on"] = kavi_manifest["observed_on"]
+        frames.append(kavi_df)
 
     if not frames:
         return pd.DataFrame()
