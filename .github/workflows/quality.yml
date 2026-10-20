@@ -452,6 +452,25 @@ jobs:
             tests/test_public_access_survey.py
           python -m unittest discover -s tests -p 'test_public_access_survey.py' -v
 
+      - name: Validate published KAVI metadata index integrity and safety (offline)
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/kavi_finna_public_catalog.py \
+            tests/test_kavi_finna_public_catalog.py
+          python -m unittest discover -s tests -p 'test_kavi_finna_public_catalog.py' -v
+          python - <<'PY'
+          from pathlib import Path
+          from memoria_audiovisual.kavi_finna_public_catalog import load_published_kavi_rows
+          root = Path("data/output")
+          rows, metadata = load_published_kavi_rows(root)
+          if (root / "kavi_mar_metadata_links.csv").exists() and not rows:
+              raise SystemExit("kavi_metadata_index_present_but_empty")
+          if rows:
+              print("KAVI metadata index verified:", len(rows))
+              if metadata["corpus_activation"] is not False:
+                  raise SystemExit("unexpected_corpus_activation")
+          PY
+
       - name: Validate KAVI link-only MAR metadata projection (offline)
         run: |
           ruff check --select E9,F63,F7,F82 \

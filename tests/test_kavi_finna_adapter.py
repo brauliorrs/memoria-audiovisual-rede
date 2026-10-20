@@ -113,6 +113,12 @@ class FinnaAdapterTests(unittest.TestCase):
                 len(parse_qs(urlparse(first_url).query)["filter[]"]), 2
             )
             self.assertNotIn("limit", parse_qs(urlparse(first_url).query))
+            requested = parse_qs(urlparse(first_url).query)["field[]"]
+            self.assertIn("recordPage", requested)
+            self.assertIn("title", requested)
+            self.assertIn("subjects", requested)
+            self.assertNotIn("fullRecord", requested)
+            self.assertNotIn("images", requested)
             next_url = adapter._verified_query(token="opaque-next")
             self.assertEqual(
                 parse_qs(urlparse(next_url).query), {"resumptionToken": ["opaque-next"]}

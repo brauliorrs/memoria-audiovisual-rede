@@ -1,0 +1,22 @@
+{
+  "catalog_sha256": "2458484980094c10db9e9f990b6ca2236e8abcfdb09d3cafc886d0e0e9b22a31",
+  "corpus_activation": false,
+  "coverage_status": "partial",
+  "custody_and_media_rights_status": "unverified",
+  "expected_total_api_index": 138399,
+  "item_links_missing": 0,
+  "item_links_present": 200,
+  "media_downloaded": false,
+  "metadata_license": "CC0-1.0_API_metadata_only",
+  "metadata_publication_approved": true,
+  "observed_on": "2026-10-19",
+  "record_count": 200,
+  "record_review_status": "unreviewed",
+  "schema_version": "kavi-mar-metadata-publication-1.0",
+  "source_artifact_sha256": "ed4a549724db160610e78ecea6e84e8cb5db8b7b7e9476c1fe6d8c086e470e59",
+  "source_run_url": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/39346643735",
+  "source_scope_sha256": "4fbd25edd209c3ba1650da068d77f3c428ab8516821f44726751f81ea97d24a2",
+  "status": "published_partial_metadata",
+  "unit_id": "fiaf-kavi",
+  "viewing_at_origin_only": true
+}

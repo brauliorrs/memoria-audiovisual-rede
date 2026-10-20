@@ -9,6 +9,7 @@ import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 
+from memoria_audiovisual.kavi_finna_adapter import VERSION as KAVI_FINNA_ADAPTER_VERSION
 from memoria_audiovisual.metadata_staging import MetadataPage, StageRejected
 from scripts.probe_kavi_finna_three_batch_resume import main, verify_three_batches
 
@@ -50,7 +51,7 @@ class FakeSource:
             "building_code": "0/KAVI/", "format_code": "0/Video/",
             "institution_code": "fiaf-kavi",
             "schema_version": "1.0.0",
-            "adapter_version": "kavi-finna-adapter-1.0.0",
+            "adapter_version": KAVI_FINNA_ADAPTER_VERSION,
             "evidence_sha256": "a" * 64,
         }
         self.responses = {

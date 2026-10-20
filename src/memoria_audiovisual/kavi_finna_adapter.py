@@ -24,7 +24,17 @@ from .finna_response_classifier import (
 FORMAT_FACET_URL = API_ROOT + "?" + urlencode([
     ("lookfor", ""), ("limit", "0"), ("facet[]", "format"),
 ])
-VERSION = "kavi-finna-adapter-1.0.0"
+VERSION = "kavi-finna-adapter-1.1.0"
+
+# Explicit Finna API projection. Some fields are optional per record, but
+# recordPage is necessary to expose a clickable *record*, never a media file.
+# Do not request fullRecord, rawData, images or any binary resource.
+MAR_RECORD_FIELDS = (
+    "id", "title", "formats", "institutions", "recordPage", "year",
+    "publicationDate", "originalPublicationDate", "primaryAuthors",
+    "authors", "subjects", "genres", "languages", "summary",
+    "description", "onlineUrls",
+)
 
 
 def _facet_values(entries: Any) -> set[str]:
@@ -171,8 +181,10 @@ class FinnaMetadataSource:
         if count_only:
             params.append(("limit", "0"))
         else:
-            # Initial '*' request preserves filters; no page/limit/facet allowed.
+            # Initial '*' request preserves filters and explicit field set;
+            # continuation MUST pass only the opaque provider token.
             params.append(("resumptionToken", "*"))
+            params.extend(("field[]", field) for field in MAR_RECORD_FIELDS)
         return API_ROOT + "?" + urlencode(params)
 
     def preflight(self) -> int:
