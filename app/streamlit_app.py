@@ -1451,7 +1451,18 @@ def filter_research_catalog(
         filtered_df = _apply_single_choice_filter(filtered_df, column, selected, all_label)
 
     if public_video_only and "video_link" in filtered_df.columns:
-        filtered_df = filtered_df.loc[filtered_df["video_link"].fillna("").astype(str).str.strip() != ""].copy()
+        has_record_link = filtered_df["video_link"].fillna("").astype(str).str.strip() != ""
+        # A verified catalog *record page* is not evidence that the film
+        # is publicly playable. Preserve all KAVI fiches in ordinary search,
+        # but do not claim they satisfy the "public videos only" filter.
+        if "source_service" in filtered_df.columns:
+            kavi_metadata = filtered_df["source_service"].eq("finna_api")
+            explicitly_playable = filtered_df.get(
+                "media_access_status",
+                pd.Series("", index=filtered_df.index),
+            ).eq("verified_public_playback")
+            has_record_link = has_record_link & (~kavi_metadata | explicitly_playable)
+        filtered_df = filtered_df.loc[has_record_link].copy()
 
     search_term = search_term.strip()
     if search_term:
