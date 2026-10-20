@@ -12,6 +12,7 @@ import json
 import os
 import tempfile
 from collections import Counter
+from datetime import date
 from pathlib import Path
 
 from .kavi_finna_public_catalog import (
@@ -62,8 +63,17 @@ def build_kavi_metadata_reports(rows: list[dict], manifest: dict) -> dict:
     if not isinstance(rows, list) or not rows or not isinstance(manifest, dict):
         raise PublicationRejected("metadata_report_input_missing")
     count = len(rows)
+    observed = manifest.get("observed_on")
+    try:
+        observed_valid = (
+            isinstance(observed, str)
+            and date.fromisoformat(observed).isoformat() == observed
+        )
+    except (ValueError, TypeError):
+        observed_valid = False
     expected = manifest.get("expected_total_api_index")
-    if (manifest.get("unit_id") != "fiaf-kavi"
+    if (not observed_valid
+            or manifest.get("unit_id") != "fiaf-kavi"
             or manifest.get("status") != "published_partial_metadata"
             or manifest.get("coverage_status") != "partial"
             or manifest.get("corpus_activation") is not False
