@@ -108,6 +108,23 @@ def _is_known_item_record_page(url: str) -> bool:
             r"/objects/[0-9]+/([a-z0-9_%\\-]+)/?", path,
         )
         return match is not None and match.group(1) not in technical_leaf
+    # BBC Archive collector uses actual BBC work/video permalinks,
+    # e.g. https://www.bbc.co.uk/videos/c39rz1jv9jpo. BBC's 12-character
+    # IDs distinguish the single item page from /videos/<id>/stream paths.
+    if host in ("bbc.co.uk", "www.bbc.co.uk"):
+        return re.fullmatch(r"/videos/[a-z0-9]{12}/?", path) is not None
+    # DR Gensyn's collector produces work pages for both programs and
+    # episodes. Each ends in slug_<numeric-id>; no technical subroutes pass.
+    if host in ("dr.dk", "www.dr.dk"):
+        return re.fullmatch(
+            r"/drtv/(?:program|episode)/[a-z0-9][a-z0-9_%-]*_[0-9]+/?",
+            path,
+        ) is not None
+    # PLATFO FILMO Filmoteca Española exposes work pages at /content/<slug>.
+    # The media is registration-gated: preserve its specific public fiche.
+    if host == "filmo.platfo.es":
+        match = re.fullmatch(r"/content/([a-z0-9][a-z0-9_%-]*)/?", path)
+        return match is not None and match.group(1) not in technical_leaf
     # FINA's Ninateka product webUrl is a *public watch page* with the
     # collector-evidenced /movies,1/<slug> shape, not a media stream.
     if host in ("ninateka.pl", "www.ninateka.pl"):
