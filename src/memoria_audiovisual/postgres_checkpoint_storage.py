@@ -168,7 +168,11 @@ class PostgresCheckpointStore:
     ) -> int:
         if not isinstance(run_key, str) or not 1 <= len(run_key) <= 200:
             raise PersistenceRejected("run_key_invalid")
-        new = _local_snapshot(Path(directory))
+        staging_root = Path(directory)
+        # Share the original staging lock: never snapshot a partially written
+        # checkpoint while stage_metadata is appending another page.
+        with FileWriteLock(staging_root / "run", timeout=10):
+            new = _local_snapshot(staging_root)
         # Connection context commits on success and rolls back any exception.
         with self._connect() as conn:
             old = _fetch(conn, run_key, lock=True)
