@@ -57,6 +57,8 @@ jobs:
           MAR_P0_CLOUD_RUN_ALLOWED: ${{ vars.MAR_P0_CLOUD_RUN_ALLOWED }}
           MAR_P0_CLOUD_ENVIRONMENT: mar-p0-neon-isolated
           MAR_P0_CLOUD_PR_NUMBER: "90"
+          GITHUB_EVENT_ACTION: labeled
+          MAR_P0_TRIGGER_LABEL: mar-p0-cloud-run
           GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: python scripts/run_mar_p0_neon_cloud.py
 
