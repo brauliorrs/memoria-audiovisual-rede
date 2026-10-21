@@ -64,12 +64,32 @@ class NeonLiveIntegrationTests(unittest.TestCase):
             or settings.get("hostaddr")
             or settings.get("service")
             or settings.get("dbname") != "neondb"
+            or settings.get("user") != "mar_p0_limited"
             or settings.get("sslmode") not in {"require", "verify-ca", "verify-full"}
+            or any(os.environ.get(k) for k in (
+                "PGHOSTADDR", "PGSERVICE", "PGSERVICEFILE", "PGOPTIONS"
+            ))
         ):
             raise RuntimeError("p0_isolated_branch_connection_guard_failed")
         cls.psycopg = psycopg
         cls.dsn = dsn
         cls.store = PostgresCheckpointStore(lambda: psycopg.connect(dsn))
+
+    def test_sql_native_role_is_restricted(self) -> None:
+        with self.psycopg.connect(self.dsn) as conn:
+            row = conn.execute(
+                "SELECT current_user, "
+                "has_table_privilege(current_user, 'mar_p0.checkpoints', "
+                "'SELECT,INSERT,UPDATE'), "
+                "has_schema_privilege(current_user, 'neon_auth', 'USAGE'), "
+                "has_database_privilege(current_user, current_database(), 'CREATE'), "
+                "has_schema_privilege(current_user, 'public', 'CREATE'), "
+                "(SELECT rolcreaterole OR rolcreatedb OR rolbypassrls "
+                "FROM pg_roles WHERE rolname=current_user)"
+            ).fetchone()
+        self.assertEqual(
+            row, ("mar_p0_limited", True, False, False, False, False)
+        )
 
     def test_save_recover_resume_and_sql_integrity(self) -> None:
         key = "p0-psycopg-live-" + uuid.uuid4().hex
