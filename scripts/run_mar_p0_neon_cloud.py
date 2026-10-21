@@ -95,7 +95,7 @@ def main() -> int:
         result = unittest.TextTestRunner(
             stream=output, verbosity=0, buffer=True
         ).run(suite)
-        if not result.wasSuccessful() or result.testsRun < 3:
+        if not result.wasSuccessful() or result.testsRun < 3 or result.skipped:
             print(
                 f"Gate P0 CLOUD FAIL: tests={result.testsRun}, "
                 f"failures={len(result.failures)}, errors={len(result.errors)}, "
