@@ -14,6 +14,49 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Disabled by default; guard exact reviewed SHA and PR identity.
+  # Require protected environment approval before exposing secrets.
+  mar-p0-neon-cloud:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.number == 90 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      vars.MAR_P0_CLOUD_RUN_ALLOWED == 'reviewed' &&
+      vars.MAR_P0_APPROVED_SHA != '' &&
+      vars.MAR_P0_APPROVED_SHA == github.event.pull_request.head.sha
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    environment: mar-p0-neon-isolated
+    steps:
+      - name: Checkout exact approved PR head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Set up isolated Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+
+      - name: Install only the adapter and PostgreSQL driver
+        run: |
+          python -m pip install --no-deps -e .
+          python -m pip install "psycopg[binary]>=3.2,<4"
+
+      - name: Verify synthetic checkpoint persistence with isolated Neon
+        env:
+          MAR_P0_TEST_PASSWORD: ${{ secrets.MAR_P0_TEST_PASSWORD }}
+          MAR_P0_APPROVED_SHA: ${{ vars.MAR_P0_APPROVED_SHA }}
+          MAR_P0_CLOUD_RUN_ALLOWED: ${{ vars.MAR_P0_CLOUD_RUN_ALLOWED }}
+          MAR_P0_CLOUD_ENVIRONMENT: mar-p0-neon-isolated
+          MAR_P0_CLOUD_PR_NUMBER: "90"
+          GITHUB_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: python scripts/run_mar_p0_neon_cloud.py
+
   quality:
     runs-on: ubuntu-latest
 
@@ -760,6 +803,10 @@ jobs:
             tests/test_neon_checkpoint_live.py
           python -m py_compile scripts/run_mar_p0_neon_live.py tests/test_neon_checkpoint_live.py
           python -m unittest discover -s tests -p 'test_neon_checkpoint_live.py' -v
+          ruff check --select E9,F63,F7,F82 \
+            scripts/run_mar_p0_neon_cloud.py \
+            tests/test_mar_p0_neon_cloud_runner.py
+          python -m unittest discover -s tests -p 'test_mar_p0_neon_cloud_runner.py' -v
 
       - name: Run unittest suite
         run: python -m unittest discover -s tests -v
