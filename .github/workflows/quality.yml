@@ -2,6 +2,7 @@ name: Quality Checks
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize, labeled]
   push:
     branches:
       - main
@@ -19,6 +20,8 @@ jobs:
   mar-p0-neon-cloud:
     if: >-
       github.event_name == 'pull_request' &&
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mar-p0-cloud-run' &&
       github.event.pull_request.number == 90 &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       vars.MAR_P0_CLOUD_RUN_ALLOWED == 'reviewed' &&
