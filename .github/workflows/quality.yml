@@ -749,6 +749,13 @@ jobs:
           python scripts/review_val009_methodology.py --historical-root ../mar-val009-historical
           git worktree remove ../mar-val009-historical
 
+      - name: Validate isolated Neon P0 adapter (offline)
+        run: |
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/postgres_checkpoint_storage.py \
+            tests/test_postgres_checkpoint_storage.py
+          python -m unittest discover -s tests -p 'test_postgres_checkpoint_storage.py' -v
+
       - name: Run unittest suite
         run: python -m unittest discover -s tests -v
 
