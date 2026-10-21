@@ -14,7 +14,7 @@ Existing contracts must remain unchanged:
 - Finna continuation tokens can be sensitive; only hashes belong in published checkpoint summaries. Raw staged pages are access-restricted.
 - `scripts/run_observatory_cycle.py`, public `data/output`, `app/streamlit_app.py`, and all scientific instrument registries are **out of scope**.
 
-**Impact of this PR:** adds only the pilot SQL schema, a rollback-only SQL smoke test, and documentation. No application imports, dependencies, schedulers, collectors, public corpus, production branch or published results change.
+**Impact of this PR:** adds the pilot SQL schema, an opt-in Python storage adapter, deterministic tests, an optional driver dependency, and documentation. No collection scheduler, existing collector, public corpus, default Neon branch, Streamlit view or scientific instrument is modified.
 
 ## Actual infrastructure observed
 
@@ -36,7 +36,7 @@ Apply `sql/migrations/001_mar_p0_checkpoint.sql` **once** on a disposable valida
 | `mar_p0.checkpoints` | Serialized checkpoint, scope, CAS revision, status | SHA-256 validation; no promotion/media flags |
 | `mar_p0.checkpoint_pages` | Ordered page-to-artifact references and cursor/ID hashes | Foreign keys, unique sequence and artifact per run |
 
-A future adapter must preserve **append-only page history** and use one SQL transaction to atomically persist artifact bytes + compare-and-swap checkpoint revision + page references. Data retrieved from the database must be replayed through the current stage validation algorithm (including record ID and cursor chain checks); database constraints alone do not implement all of those validations.
+The opt-in Python adapter must preserve **append-only page history** and use one SQL transaction to atomically persist artifact bytes + compare-and-swap checkpoint revision + page references. Data retrieved from the database must be replayed through the current stage validation algorithm (including record ID and cursor chain checks); database constraints alone do not implement all of those validations.
 
 No media, thumbnails, audiovisual binaries, public viewer or derived research metric belong in this pilot.
 
@@ -64,7 +64,7 @@ The clone proves branch-level recovery in the same provider. **It is not an inde
 
 ## Release gates still required
 
-1. Implement a standalone Python storage adapter (no change to the Finna source adapter), with an explicit API for save/load and optimistic revision checking. Add deterministic unit and integration tests preserving the existing `_restore` validation contract.
+1. **IMPLEMENTED FOR TEST:** standalone `PostgresCheckpointStore` with transactional `save`, scoped `restore`, strict CAS revisions, immutability, byte-perfect checks and replay through `_restore`. Offline tests are in `tests/test_postgres_checkpoint_storage.py`. The adapter is not wired into the collector or default scheduler. **LIVE end-to-end Python↔Neon integration and full CI verdict remain pending.**
 2. Define a dedicated least-privilege SQL role and secret handling outside source control. Use SSL/TLS, preferably with pooling suitable for short-lived Python workers. Never log credentials or provider cursor contents.
 3. Produce an encrypted independent backup of artifact bytes and checkpoint metadata, including hashes, and **restore it into a fresh independent target**. Document tested RPO/RTO and retention.
 4. Test missing/tampered artifacts, scope drift, duplicate IDs between pages, cursor cycles, crash before/after transaction commit, concurrent writers and refusal to promote.
@@ -76,3 +76,49 @@ The clone proves branch-level recovery in the same provider. **It is not an inde
 The migration file contains the exact DDL used in the isolated branch. `tests/integration/p0_neon_contract.sql` is a disposable **ROLLBACK-only** smoke test; it requires a test branch and `psql -v ON_ERROR_STOP=1`. It tests SQL constraints, not the Python source adapter or production recovery.
 
 **Decision: P0 remains HOLD for production.** The Neon resource itself is available and the basic database storage experiment succeeded, but protected durable persistence, verified backup and real collector integration are not yet approved.
+
+## Python adapter added in the isolated PR
+
+Install the optional PostgreSQL driver **only on an authorized test executor**:
+
+```bash
+python -m pip install -e '.[postgres]'
+```
+
+Usage from controlled Python code with an explicit connection factory (do not embed any secret in source, CI output or logs):
+
+```python
+import os
+import psycopg
+from memoria_audiovisual.postgres_checkpoint_storage import PostgresCheckpointStore
+
+dsn = os.environ["MAR_P0_TEST_DATABASE_URL"]  # restricted isolated Neon branch
+store = PostgresCheckpointStore(lambda: psycopg.connect(dsn))
+
+# After an existing, bounded offline stage has produced a complete or partial
+# verified checkpoint directory. No fetch happens inside the storage adapter:
+revision = store.save("/protected/staging/kavi-test", "kavi-offline-p0")
+
+# Recovery always requires the original approved scope and preflight total.
+# Destination must NOT exist: prevents silent overwrite of ongoing local work.
+store.restore(
+    "/protected/staging/kavi-recovered", "kavi-offline-p0",
+    expected_scope=approved_scope, expected_total=approved_total,
+)
+```
+
+The connection factory is injected to allow deterministic offline tests. Production credentials are **not** automatically loaded from a default `DATABASE_URL`, since that could belong to a different application. The application must use a dedicated least-privilege role, TLS-enforced external connection configuration, and an explicit test-branch binding before enabling writes.
+
+**Persistence semantics:** `save` reads the canonical existing `checkpoint.json` and every content-addressed JSON artefact, replays the existing MAR contract, and stores them in one database transaction. The caller must pass `expected_revision` for every update; stale writers are rejected. Identical retries are idempotent. `restore` loads and verifies all original bytes, hashes, scope, expected count, page/cursor chain and record-ID uniqueness, and moves a complete temporary directory into place without modifying an existing target. All database writes use bound query parameters.
+
+**Boundaries:** these operations do not call `stage_metadata`, start any network collection, promote records, alter the Streamlit app or schedule background work. The unchanged original `stage_metadata(..., resume=True)` must still run its preflight and verification upon continuation.
+
+Run deterministic checks with:
+
+```bash
+python -m unittest discover -s tests -p 'test_postgres_checkpoint_storage.py' -v
+python -m unittest discover -s tests -p 'test_metadata_staging.py' -v
+ruff check --select E9,F63,F7,F82 src/memoria_audiovisual/postgres_checkpoint_storage.py tests/test_postgres_checkpoint_storage.py
+```
+
+**Remaining P0 blockers:** independent encrypted off-provider backup and fresh-database restore; dedicated restricted database role and credential rotation; tests with a real Psycopg connection and two simultaneous writers, explicit fail-before/fail-after commit, and actual quota measurement. Branch cloning is not equivalent to an independent backup. Production remains HOLD.
