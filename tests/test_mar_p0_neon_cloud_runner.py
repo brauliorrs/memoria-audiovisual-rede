@@ -17,6 +17,8 @@ def allowed():
         "MAR_P0_CLOUD_ENVIRONMENT": "mar-p0-neon-isolated",
         "MAR_P0_CLOUD_RUN_ALLOWED": "reviewed",
         "MAR_P0_CLOUD_PR_NUMBER": "90",
+        "GITHUB_EVENT_ACTION": "labeled",
+        "MAR_P0_TRIGGER_LABEL": "mar-p0-cloud-run",
         "GITHUB_HEAD_SHA": APPROVED,
         "MAR_P0_APPROVED_SHA": APPROVED,
         "MAR_P0_TEST_PASSWORD": "fake-test-value-never-used",
@@ -33,7 +35,8 @@ class CloudP0GuardTests(unittest.TestCase):
         for key in (
             "GITHUB_ACTIONS", "GITHUB_EVENT_NAME", "GITHUB_REPOSITORY",
             "MAR_P0_CLOUD_ENVIRONMENT", "MAR_P0_CLOUD_RUN_ALLOWED",
-            "MAR_P0_CLOUD_PR_NUMBER", "GITHUB_HEAD_SHA",
+            "MAR_P0_CLOUD_PR_NUMBER", "GITHUB_EVENT_ACTION",
+            "MAR_P0_TRIGGER_LABEL", "GITHUB_HEAD_SHA",
             "MAR_P0_APPROVED_SHA", "MAR_P0_TEST_PASSWORD",
         ):
             with self.subTest(key=key):
@@ -48,6 +51,8 @@ class CloudP0GuardTests(unittest.TestCase):
             ("GITHUB_REPOSITORY", "untrusted/fork"),
             ("MAR_P0_CLOUD_RUN_ALLOWED", "true"),
             ("MAR_P0_CLOUD_PR_NUMBER", "91"),
+            ("GITHUB_EVENT_ACTION", "synchronize"),
+            ("MAR_P0_TRIGGER_LABEL", "unapproved-label"),
             ("GITHUB_HEAD_SHA", "b" * 40),
             ("GITHUB_HEAD_SHA", "../other"),
             ("MAR_P0_APPROVED_SHA", "b" * 40),
