@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import tempfile
 import unittest
 from pathlib import Path
 
+from memoria_audiovisual.digital_infrastructure.raw_artifacts import canonical_json_bytes
 from memoria_audiovisual.metadata_staging import MetadataPage, StageRejected, stage_metadata
 from memoria_audiovisual.postgres_checkpoint_storage import (
     PersistenceRejected, PostgresCheckpointStore,
@@ -230,6 +232,40 @@ class PostgresCheckpointStorageTests(unittest.TestCase):
             with self.assertRaisesRegex(PersistenceRejected, "digest_invalid"):
                 self.store.restore(root / "recover", "r",
                                    expected_scope=source.scope, expected_total=2)
+
+    def test_forged_valid_hashes_cannot_hide_cross_page_duplicate_ids(self):
+        """Verify actual MAR replay catches a semantic forgery, not only SHA."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = _Source()
+            stage_metadata(source, root / "stage", max_pages=2)
+            self.store.save(root / "stage", "r")
+            second_page = list(self.db.pages["r"][1])
+            raw = json.loads(self.db.artifacts[second_page[1]])
+            raw["page"]["records"][0]["id"] = "synthetic-001"
+            forged = canonical_json_bytes(raw)
+            new_sha = hashlib.sha256(forged).hexdigest()
+            ids_sha = hashlib.sha256(
+                canonical_json_bytes(["synthetic-001"])
+            ).hexdigest()
+            self.db.artifacts[new_sha] = forged
+            second_page[1], second_page[3] = new_sha, ids_sha
+            self.db.pages["r"][1] = tuple(second_page)
+
+            checkpoint = list(self.db.checkpoints["r"])
+            manifest = json.loads(checkpoint[3])
+            manifest["pages"][1]["artifact_sha256"] = new_sha
+            manifest["pages"][1]["ids_sha256"] = ids_sha
+            encoded = canonical_json_bytes(manifest) + b"\n"
+            checkpoint[3] = encoded
+            checkpoint[4] = hashlib.sha256(encoded).hexdigest()
+            self.db.checkpoints["r"] = tuple(checkpoint)
+            with self.assertRaisesRegex(StageRejected, "duplicate_cross_page"):
+                self.store.restore(
+                    root / "recover", "r",
+                    expected_scope=source.scope, expected_total=2,
+                )
+            self.assertFalse((root / "recover").exists())
 
     def test_restore_never_overwrites_existing_directory(self):
         with tempfile.TemporaryDirectory() as directory:
