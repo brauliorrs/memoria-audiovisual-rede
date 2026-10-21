@@ -194,6 +194,29 @@ def _is_known_item_record_page(url: str) -> bool:
             key.casefold() == "num_seq" and value.isdigit()
             for key, value in parse_qsl(parsed.query)
         )
+    # BBC Archive: bbc.py::parse_bbc_video_promo builds genuine visitor
+    # pages with urljoin(BBC_ARCHIVE_HOME_URL, "/videos/<id>").
+    # An HTTP /videos/ page is not a stream asset for this vetted host.
+    if host in ("www.bbc.co.uk", "bbc.co.uk"):
+        match = re.fullmatch(r"/videos/([a-z0-9_-]+)/?", path)
+        return match is not None and match.group(1) not in technical_leaf
+    # DR DRTV: dr.py::_item_to_record accepts program AND episode item.path
+    # routes as public visitor pages, not media delivery endpoints.
+    if host in ("www.dr.dk", "dr.dk"):
+        match = re.fullmatch(
+            r"/drtv/(?:program|episode)/([a-z0-9_%~-]+(?:/[a-z0-9_%~-]+)*)/?",
+            path,
+        )
+        return (
+            match is not None
+            and all(part not in technical_leaf for part in match.group(1).split("/"))
+        )
+    # Filmoteca Española: filmoteca_espanola.py composes a public PLATFO
+    # content URL from each item's canonical slug; its /api/v2/video
+    # fallback is *not* a visitor page.
+    if host == "filmo.platfo.es":
+        match = re.fullmatch(r"/content/([a-z0-9_%~-]+)/?", path)
+        return match is not None and match.group(1) not in technical_leaf
     # A generic /record/ path is not authoritative evidence of a catalog:
     # on unreviewed hosts it may itself be an opaque media-delivery route.
     return False
