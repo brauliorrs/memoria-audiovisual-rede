@@ -65,7 +65,9 @@ class NeonLiveIntegrationTests(unittest.TestCase):
             or settings.get("service")
             or settings.get("dbname") != "neondb"
             or settings.get("user") != "mar_p0_limited"
-            or settings.get("sslmode") not in {"require", "verify-ca", "verify-full"}
+            or settings.get("sslmode") != "verify-full"
+            or settings.get("channel_binding") != "require"
+            or settings.get("sslrootcert") != "system"
             or any(os.environ.get(k) for k in (
                 "PGHOSTADDR", "PGSERVICE", "PGSERVICEFILE", "PGOPTIONS"
             ))
