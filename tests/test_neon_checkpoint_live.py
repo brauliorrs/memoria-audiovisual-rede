@@ -5,7 +5,6 @@ Use MAR_P0_TEST_LIVE=1 + MAR_P0_TEST_DATABASE_URL on a trusted runner.
 """
 from __future__ import annotations
 
-import json
 import os
 import tempfile
 import unittest
@@ -62,6 +61,8 @@ class NeonLiveIntegrationTests(unittest.TestCase):
         # Hard stop before opening even one connection to a mistaken database.
         if (
             settings.get("host") != TEST_ENDPOINT
+            or settings.get("hostaddr")
+            or settings.get("service")
             or settings.get("dbname") != "neondb"
             or settings.get("sslmode") not in {"require", "verify-ca", "verify-full"}
         ):
