@@ -193,3 +193,28 @@ python scripts/run_mar_p0_neon_live.py
 The live test class verifies the exact branch endpoint, user `mar_p0_limited`, database `neondb`, `sslmode=verify-full`, trusted system roots and SCRAM channel binding, and absence of libpq host/service overrides before opening a connection. It tests the restricted role, two-stage PostgreSQL checkpoint persistence, byte-for-byte recovery into a fresh directory, original MAR resumption and database transaction rollback.
 
 **Not yet demonstrated**: a successful Psycopg connection with the SQL-native limited login, driver-level concurrency under real workloads, independent encrypted backups and restoration. P0 remains **HOLD**. Do not merge, publish or schedule collections solely on the basis of the SQL-side results.
+
+## Gate P0: protected cloud executor — GitHub Actions (2026-10-21)
+
+**Design selected:** reuse the existing GitHub-hosted Linux runner for the MAR repository. Do **not** create another Vercel app, deploy an endpoint, publish metadata or issue API fetches. The `main` branch of GitHub and Neon remains untouched.
+
+Added:
+- `scripts/run_mar_p0_neon_cloud.py`: no interactive console, builds a branch-specific DSN from a **single** environment secret (`MAR_P0_TEST_PASSWORD`), uses TLS `verify-full`, system root certificates and `channel_binding=require`. It fails before connecting unless the approved SHA, PR identity, trigger label and environment identifier match. Generic `DATABASE_URL` is ignored and libpq overrides are rejected.
+- `tests/test_mar_p0_neon_cloud_runner.py`: offline deterministic tests for denial of unapproved SHA, branches, PR, missing secret and environment overrides.
+- A `mar-p0-neon-cloud` job in the **existing** `.github/workflows/quality.yml`: only for **PR #90**, exact reviewed commit, explicit `mar-p0-cloud-run` label, same repository, and after `quality` passes. The job is **disabled by default** through two GitHub repository variables and an environment approval.
+- Uses GitHub environment `mar-p0-neon-isolated`, read-only checkout of the exact PR HEAD, ephemeral `ubuntu-latest` runner, and no write permissions. The environment secret is passed only to the test step, never to the dependency installation step. The test prints only pass/fail counts (no Python exception tracebacks, passwords or DSNs).
+
+### Activation checklist — only after PR reviewed and all offline CI checks pass
+
+These are one-time setup actions using secure platform UI; **never share credentials via chat**:
+
+1. **GitHub** `brauliorrs/memoria-audiovisual-rede` → Settings → Environments → New environment: `mar-p0-neon-isolated`. Add **Required reviewers** and review access; configure deployment branch restrictions for the feature branch / PR as supported. If approvals cannot be configured, **do not** attach any database credentials to the job.
+2. **Neon** → project `neon-erin-field`, branch **`mar-p0-validation-20261021`**, SQL Editor: initialize the already existing SQL-native `mar_p0_limited` login credential using the Neon-supported SQL command `ALTER ROLE mar_p0_limited PASSWORD '<NEW_STRONG_PRIVATE_PASSWORD>';`. This **only** affects the isolated test branch. Avoid sharing credentials or copying them into source. Because SQL editor history may retain the literal SQL, prefer a private interactive `psql \password mar_p0_limited` in a trusted cloud shell if available; when using the SQL Editor, treat the credential as test-only and rotate it after validation. Neon **Reset password** was observed to fail for this passwordless SQL-native role; do not try to replace it with an API-created role, which would inherit `neon_superuser`.
+3. **GitHub** → Settings → Environments → `mar-p0-neon-isolated` → Environment secrets: create `MAR_P0_TEST_PASSWORD` with the same limited-role secret set in Neon. Do **not** create a repository-wide password secret and do not store the owner role credential.
+4. After a code review, copy the current **exact 40-character SHA** of PR #90. GitHub → Settings → Secrets and variables → Actions → Variables: add `MAR_P0_APPROVED_SHA` with that SHA and `MAR_P0_CLOUD_RUN_ALLOWED` with the value `reviewed`. Any new code commit intentionally invalidates the gate until re-reviewed and re-approved.
+5. In PR #90's Labels add `mar-p0-cloud-run` to emit the explicit `pull_request.labeled` event. Do not enable any scheduled runs or automatic execution on push. A protected environment approval should be required after Quality Checks succeed.
+6. Inspect the separate `mar-p0-neon-cloud` job and verify whether it reports `Gate P0 CLOUD PASS` or `FAIL` (without tracebacks/secrets); if a credential leaks, immediately revoke and rotate it.
+
+**Do not** grant the Neon owner password, broad `DATABASE_URL`, GitHub write token, Vercel project secret, production Neon branch or institution API tokens to this job. The run's metadata are synthetic: two records, no actual archive source and no audiovisual bytes. Changes to the PR commit require new approval.
+
+**Current truth:** this stage makes a deployable and guarded cloud integration runner, but does **not** imply a real Python–Neon live connection has passed. It cannot run until the limited-role password, GitHub protected environment and approved SHA are supplied through the relevant secure platform UIs. The **Gate P0 is HOLD** until the cloud test actually passes, and off-provider encrypted backup and independent restore are proven. Do not merge #90 solely because offline tests pass.
