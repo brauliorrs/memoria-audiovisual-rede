@@ -179,6 +179,12 @@ class PostgresCheckpointStore:
                 new_pages = new.pages
             else:
                 _validate(old)
+                # Safe to repeat a committed write whose ACK was lost.
+                if (
+                    old.manifest_bytes == new.manifest_bytes
+                    and old.pages == new.pages
+                ):
+                    return old.revision
                 if expected_revision != old.revision:
                     raise PersistenceRejected("checkpoint_write_conflict")
                 if (
@@ -188,8 +194,6 @@ class PostgresCheckpointStore:
                     or new.pages[:len(old.pages)] != old.pages
                 ):
                     raise PersistenceRejected("checkpoint_not_append_only")
-                if new.manifest_bytes == old.manifest_bytes:
-                    return old.revision
                 if len(new.pages) == len(old.pages) or old.status == "complete":
                     raise PersistenceRejected("checkpoint_not_append_only")
                 revision = old.revision + 1
