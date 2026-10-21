@@ -35,6 +35,8 @@ def validate_cloud_context(env: Mapping[str, str]) -> str:
         or env.get("MAR_P0_CLOUD_ENVIRONMENT") != REQUIRED_CONTEXT
         or env.get("MAR_P0_CLOUD_RUN_ALLOWED") != "reviewed"
         or env.get("MAR_P0_CLOUD_PR_NUMBER") != "90"
+        or env.get("GITHUB_EVENT_ACTION") != "labeled"
+        or env.get("MAR_P0_TRIGGER_LABEL") != "mar-p0-cloud-run"
     ):
         raise CloudGateRejected("untrusted_cloud_execution_context")
     sha = env.get("GITHUB_HEAD_SHA", "")
