@@ -48,7 +48,9 @@ def main() -> int:
             dbname="neondb",
             user="mar_p0_limited",
             password=secret,
-            sslmode="require",
+            sslmode="verify-full",
+            sslrootcert="system",
+            channel_binding="require",
             connect_timeout=10,
             application_name="mar-gate-p0-live-check",
         )
