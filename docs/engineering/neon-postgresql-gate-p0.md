@@ -122,3 +122,36 @@ ruff check --select E9,F63,F7,F82 src/memoria_audiovisual/postgres_checkpoint_st
 ```
 
 **Remaining P0 blockers:** independent encrypted off-provider backup and fresh-database restore; dedicated restricted database role and credential rotation; tests with a real Psycopg connection and two simultaneous writers, explicit fail-before/fail-after commit, and actual quota measurement. Branch cloning is not equivalent to an independent backup. Production remains HOLD.
+
+## Live database contract checks on isolated Neon branch (2026-10-21)
+
+**Proven execution through Neon SQL connections** (not Python/Psycopg):
+- Data remained only on \`mar-p0-validation-20261021\`. Production \`main\` has no \`mar_p0\` schema.
+- Transaction with a synthetically inserted checkpoint followed by an invalid SHA-256 artifact **failed**, and an independent read confirmed **zero orphan rows** for the failed checkpoint.
+- Two competing compare-and-swap updates against the same synthetic revision were submitted concurrently: **one** returned revision 2, **one** returned zero updated rows, and the database finished at revision 2 with both pages intact.
+- Creating a role through the Neon API yielded overly broad built-in \`neon_superuser\` membership, \`CREATEDB\` and \`CREATEROLE\`. The attempted privilege reduction was denied. The newly created unsafe test role was **deleted**. Do not use Neon API-created default-privileged roles for MAR application credentials.
+- A separate **NOLOGIN** role was created explicitly by SQL: \`mar_p0_limited NOLOGIN NOCREATEDB NOCREATEROLE NOINHERIT\`. Explicit grants enable MAR's three pilot tables. Under \`SET LOCAL ROLE mar_p0_limited\`, a synthetic checkpoint and page references were inserted successfully; attempts to query \`neon_auth.user\` failed with a permission-denied error. The role cannot create database objects or objects in \`public\`. This verifies least-privilege SQL grants only; an authenticated external LOGIN role is not yet configured.
+- Raw content remained metadata-only; no source API was called.
+
+**Psycopg driver ↔ Neon execution: STILL NOT VERIFIED.** The connector's SQL operations cannot establish that the Python driver successfully connected, executed its transaction context manager, or recovered a local staging directory across a process boundary. Never upgrade these SQL-only results to a successful Python integration claim.
+
+### Guarded Python integration harness
+
+\`tests/test_neon_checkpoint_live.py\` is a concrete opt-in integration test. It uses only synthetic \`MetadataPage\` fixtures, exercises \`PostgresCheckpointStore.save/restore\`, resumes the original \`stage_metadata\` contract, verifies exact checkpoint bytes, SQL hashes and counts, CAS conflicts and a failing driver transaction that must roll back.
+
+It is skipped in ordinary CI and requires **both** an explicit opt-in and a private connection string whose host is the exact test branch compute endpoint. This prevents accidental connection to the Neon default/production branch.
+
+On an individually controlled trusted runner, after creating an SQL-native, **least-privileged LOGIN role** and loading the password from a secure store (do not use the Neon default owner), run:
+
+\`\`\`bash
+python -m pip install -e '.[postgres]'
+export MAR_P0_TEST_LIVE=1
+# MAR_P0_TEST_DATABASE_URL must be sourced from a secret manager, not committed.
+# Required host: ep-damp-term-b8wqhmz0.c-14.us-east-1.aws.neon.tech
+# Required database: neondb; sslmode=require or stricter.
+python -m unittest discover -s tests -p 'test_neon_checkpoint_live.py' -v
+\`\`\`
+
+**Never** put a Neon DSN into a GitHub issue, pull-request description, source file or untrusted PR CI job. Do not enable live tests simply by adding a broad repository secret to a public pull-request workflow. Verify the role and branch allowlist first, and use a manually controlled test executor with isolated credentials.
+
+**Remaining blockers:** genuine Psycopg↔Neon integration verdict, SQL-native least-privileged LOGIN credentials and secure secret injection, encrypted **off-provider** backups with a tested restore into a fresh independent database, resilience against worker crash and credential rotation. P0 remains HOLD for operational use.
