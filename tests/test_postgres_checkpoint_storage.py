@@ -146,6 +146,8 @@ class PostgresCheckpointStorageTests(unittest.TestCase):
             source = self._partial(staged)
             original = (staged / "checkpoint.json").read_bytes()
             self.assertEqual(self.store.save(staged, "synthetic-run"), 1)
+            # Retry is harmless if the first commit succeeded but ACK was lost.
+            self.assertEqual(self.store.save(staged, "synthetic-run"), 1)
             self.assertEqual(
                 self.store.restore(
                     restored, "synthetic-run",
