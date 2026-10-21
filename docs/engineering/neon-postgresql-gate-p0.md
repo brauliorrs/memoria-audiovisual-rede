@@ -180,7 +180,7 @@ The public repository now has `scripts/run_mar_p0_neon_live.py`, a **manual trus
 
 1. Open the **Neon Console** for `neon-erin-field`, select **`mar-p0-validation-20261021`**, and open **Roles**.
 2. Select the existing SQL-native `mar_p0_limited` role. If **Reset password** is supported for this role, use the Neon password reset UI and keep the generated password privately. **Do not create a new Console/API role** because such roles inherit `neon_superuser`.
-3. If resetting this SQL role is not available in the UI, use a trusted local `psql` session as the owner connected to the exact test branch, with **`\\password mar_p0_limited`**; this interactive command avoids putting the password in the SQL command history. Do not paste the password into the Git repository, PR description, ChatGPT or CI logs.
+3. If resetting this SQL role is not available in the UI, use a trusted local `psql` session as the owner connected to the exact test branch, with **`\password mar_p0_limited`**; this interactive command avoids putting the password in the SQL command history. Do not paste the password into the Git repository, PR description, ChatGPT or CI logs.
 4. On the trusted Windows/Linux/macOS workstation with the PR branch checked out:
 
 ```bash
