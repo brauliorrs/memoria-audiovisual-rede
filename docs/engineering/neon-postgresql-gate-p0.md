@@ -155,3 +155,41 @@ python -m unittest discover -s tests -p 'test_neon_checkpoint_live.py' -v
 **Never** put a Neon DSN into a GitHub issue, pull-request description, source file or untrusted PR CI job. Do not enable live tests simply by adding a broad repository secret to a public pull-request workflow. Verify the role and branch allowlist first, and use a manually controlled test executor with isolated credentials.
 
 **Remaining blockers:** genuine Psycopg↔Neon integration verdict, SQL-native least-privileged LOGIN credentials and secure secret injection, encrypted **off-provider** backups with a tested restore into a fresh independent database, resilience against worker crash and credential rotation. P0 remains HOLD for operational use.
+
+## Restricted login and trusted Python executor (2026-10-21)
+
+**Prepared and verified, but password authentication has not yet been attempted.**
+
+The existing SQL-native role `mar_p0_limited` on **only** Neon branch `mar-p0-validation-20261021` was changed to `LOGIN PASSWORD NULL NOCREATEDB NOCREATEROLE NOINHERIT`. This explicitly enables login capability while leaving it **unusable until a secret is activated privately**.
+
+Read-only verification returned:
+- `rolcanlogin=true`, `rolcreatedb=false`, `rolcreaterole=false`, `rolbypassrls=false`;
+- zero role memberships (in particular, no membership in `neon_superuser`);
+- `neon_auth` schema inaccessible; MAR pilot schema accessible.
+
+`sql/migrations/002_mar_p0_restricted_role.sql` provides the role setup **for a NEW test branch only** (do not apply on the existing branch because this role already exists). This is separate from the application's schema migration.
+
+The public repository now has `scripts/run_mar_p0_neon_live.py`, a **manual trusted-workstation executor**. It:
+1. Refuses an existing generic `MAR_P0_TEST_DATABASE_URL` or conflicting libpq settings.
+2. Prompts for the role password interactively using Python `getpass`, with no echo.
+3. Constructs an in-memory connection string with explicit branch endpoint, database, restricted username and SSL.
+4. Runs `tests/test_neon_checkpoint_live.py` and scrubs the process environment at exit.
+5. Never initiates Finna requests or downloads any audiovisual media.
+
+### User-side activation (do not share passwords in chat)
+
+1. Open the **Neon Console** for `neon-erin-field`, select **`mar-p0-validation-20261021`**, and open **Roles**.
+2. Select the existing SQL-native `mar_p0_limited` role. If **Reset password** is supported for this role, use the Neon password reset UI and keep the generated password privately. **Do not create a new Console/API role** because such roles inherit `neon_superuser`.
+3. If resetting this SQL role is not available in the UI, use a trusted local `psql` session as the owner connected to the exact test branch, with **`\\password mar_p0_limited`**; this interactive command avoids putting the password in the SQL command history. Do not paste the password into the Git repository, PR description, ChatGPT or CI logs.
+4. On the trusted Windows/Linux/macOS workstation with the PR branch checked out:
+
+```bash
+python -m pip install -e ".[postgres]"
+python scripts/run_mar_p0_neon_live.py
+```
+
+5. Enter the private role password only when the local program prompts. Record the final test verdict, without logging the DSN/password/provider tokens.
+
+The live test class verifies the exact branch endpoint, user `mar_p0_limited`, database `neondb`, encrypted connection, and absence of libpq host/service overrides before opening a connection. It tests the restricted role, two-stage PostgreSQL checkpoint persistence, byte-for-byte recovery into a fresh directory, original MAR resumption and database transaction rollback.
+
+**Not yet demonstrated**: a successful Psycopg connection with the SQL-native limited login, driver-level concurrency under real workloads, independent encrypted backups and restoration. P0 remains **HOLD**. Do not merge, publish or schedule collections solely on the basis of the SQL-side results.
