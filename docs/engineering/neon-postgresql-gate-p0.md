@@ -139,7 +139,7 @@ ruff check --select E9,F63,F7,F82 src/memoria_audiovisual/postgres_checkpoint_st
 
 `tests/test_neon_checkpoint_live.py` is a concrete opt-in integration test. It uses only synthetic `MetadataPage` fixtures, exercises `PostgresCheckpointStore.save/restore`, resumes the original `stage_metadata` contract, verifies exact checkpoint bytes, SQL hashes and counts, CAS conflicts and a failing driver transaction that must roll back.
 
-It is skipped in ordinary CI and requires **both** an explicit opt-in and a private connection string whose host is the exact test branch compute endpoint. This prevents accidental connection to the Neon default/production branch.
+It is skipped in ordinary CI and requires **both** an explicit opt-in and a private connection string whose host is the exact test branch compute endpoint. This prevents accidental connection to the Neon default/production branch. The interactive runner additionally enforces `sslmode=verify-full`, `sslrootcert=system` (requires a compatible libpq and system trust store) and `channel_binding=require`. A failed certificate verification MUST abort the test, not downgrade TLS.
 
 On an individually controlled trusted runner, after creating an SQL-native, **least-privileged LOGIN role** and loading the password from a secure store (do not use the Neon default owner), run:
 
@@ -172,7 +172,7 @@ Read-only verification returned:
 The public repository now has `scripts/run_mar_p0_neon_live.py`, a **manual trusted-workstation executor**. It:
 1. Refuses an existing generic `MAR_P0_TEST_DATABASE_URL` or conflicting libpq settings.
 2. Prompts for the role password interactively using Python `getpass`, with no echo.
-3. Constructs an in-memory connection string with explicit branch endpoint, database, restricted username and SSL.
+3. Constructs an in-memory connection string with explicit branch endpoint, database, restricted username, verified TLS hostname and SCRAM channel binding.
 4. Runs `tests/test_neon_checkpoint_live.py` and scrubs the process environment at exit.
 5. Never initiates Finna requests or downloads any audiovisual media.
 
@@ -190,6 +190,6 @@ python scripts/run_mar_p0_neon_live.py
 
 5. Enter the private role password only when the local program prompts. Record the final test verdict, without logging the DSN/password/provider tokens.
 
-The live test class verifies the exact branch endpoint, user `mar_p0_limited`, database `neondb`, encrypted connection, and absence of libpq host/service overrides before opening a connection. It tests the restricted role, two-stage PostgreSQL checkpoint persistence, byte-for-byte recovery into a fresh directory, original MAR resumption and database transaction rollback.
+The live test class verifies the exact branch endpoint, user `mar_p0_limited`, database `neondb`, `sslmode=verify-full`, trusted system roots and SCRAM channel binding, and absence of libpq host/service overrides before opening a connection. It tests the restricted role, two-stage PostgreSQL checkpoint persistence, byte-for-byte recovery into a fresh directory, original MAR resumption and database transaction rollback.
 
 **Not yet demonstrated**: a successful Psycopg connection with the SQL-native limited login, driver-level concurrency under real workloads, independent encrypted backups and restoration. P0 remains **HOLD**. Do not merge, publish or schedule collections solely on the basis of the SQL-side results.
