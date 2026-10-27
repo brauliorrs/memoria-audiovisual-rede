@@ -812,6 +812,10 @@ jobs:
             scripts/run_mar_p0_neon_cloud.py \
             tests/test_mar_p0_neon_cloud_runner.py
           python -m unittest discover -s tests -p 'test_mar_p0_neon_cloud_runner.py' -v
+          ruff check --select E9,F63,F7,F82 \
+            src/memoria_audiovisual/p0_encrypted_backup.py \
+            tests/test_p0_encrypted_backup.py
+          python -m unittest discover -s tests -p 'test_p0_encrypted_backup.py' -v
 
       - name: Run unittest suite
         run: python -m unittest discover -s tests -v
