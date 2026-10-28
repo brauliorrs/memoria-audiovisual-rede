@@ -22,6 +22,38 @@ FORBIDDEN_ENV = (
 )
 
 
+# Classify sensitive driver tracebacks without ever returning message text.
+# psycopg/libpq exceptions may include a connection string or server details,
+# so only emit a strict fixed vocabulary of categories.
+def classify_live_error(traceback_text: str) -> str:
+    text = traceback_text.lower()
+    if "password authentication failed" in text or "authentication failed" in text:
+        return "authentication_failed"
+    if "certificate verify failed" in text or "sslrootcert" in text:
+        return "tls_certificate"
+    if "ssl connection has been closed" in text or "ssl syscall error" in text:
+        return "tls_connection"
+    if "could not translate host name" in text or "name or service not known" in text:
+        return "dns_resolution"
+    if "connection timed out" in text or "timeout expired" in text:
+        return "connection_timeout"
+    if "connection refused" in text:
+        return "connection_refused"
+    if "no pg_hba.conf entry" in text:
+        return "postgres_access_rule"
+    if "permission denied" in text or "insufficientprivilege" in text:
+        return "insufficient_privilege"
+    if "undefinedtable" in text or "undefinedschema" in text:
+        return "missing_schema_or_table"
+    if "modulenotfounderror" in text or "importerror" in text:
+        return "import_unavailable"
+    if "operationalerror" in text:
+        return "postgres_operational_error_other"
+    if "programmingerror" in text:
+        return "postgres_programming_error_other"
+    return "other_suppressed_error"
+
+
 class CloudGateRejected(ValueError):
     """A cloud test must never fall back to a production database."""
 
@@ -96,11 +128,16 @@ def main() -> int:
             stream=output, verbosity=0, buffer=True
         ).run(suite)
         if not result.wasSuccessful() or result.testsRun < 3 or result.skipped:
+            # Do not print traceback, exception object, SQL parameters or DSN.
+            categories = sorted(set(classify_live_error(trace) for _, trace
+                                    in result.errors))
             print(
                 f"Gate P0 CLOUD FAIL: tests={result.testsRun}, "
                 f"failures={len(result.failures)}, errors={len(result.errors)}, "
                 f"skipped={len(result.skipped)}"
             )
+            for category in categories:
+                print(f"Gate P0 CLOUD CATEGORY: {category}")
             return 1
         print(
             f"Gate P0 CLOUD PASS: tests={result.testsRun}, "
