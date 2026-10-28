@@ -1,0 +1,269 @@
+# Gate P0 — Neon PostgreSQL: pilot schema and controlled validation
+
+**Date:** 2026-10-21. **Status:** isolated proof of concept **PASS for basic SQL integrity and branch-copy recovery**; **P0 for production NOT APPROVED**.
+
+## Scope and impact audit (before changing collectors)
+
+The source of truth for current metadata staging is `src/memoria_audiovisual/metadata_staging.py`; its baseline is `tests/test_metadata_staging.py`, with Finna semantics covered by `src/memoria_audiovisual/kavi_finna_adapter.py` and `tests/test_kavi_finna_adapter.py`.
+
+Existing contracts must remain unchanged:
+- `STAGING_SCHEMA = "1.0.0"`, source `scope_sha256` and preflight count bind resume to the approved source.
+- Immutable JSON bytes from `digital_infrastructure.raw_artifacts.canonical_json_bytes` are identified by SHA-256; the checkpoint's on-disk JSON includes one trailing LF. **PostgreSQL JSONB must not substitute for the preserved original bytes.**
+- `_restore` replays every artifact, validates hashes, page order, cursor hash chain, cross-page record-ID uniqueness, count, and rejects tampering.
+- `promotion_authorized` and `media_downloaded` remain `false`.
+- Finna continuation tokens can be sensitive; only hashes belong in published checkpoint summaries. Raw staged pages are access-restricted.
+- `scripts/run_observatory_cycle.py`, public `data/output`, `app/streamlit_app.py`, and all scientific instrument registries are **out of scope**.
+
+**Impact of this PR:** adds the pilot SQL schema, an opt-in Python storage adapter, deterministic tests, an optional driver dependency, and documentation. No collection scheduler, existing collector, public corpus, default Neon branch, Streamlit view or scientific instrument is modified.
+
+## Actual infrastructure observed
+
+- Provider resource: `neon-erin-field`, managed by Vercel; separate from the unrelated `submeta-ai-db`.
+- Project identifier: `holy-bread-70461948`; PostgreSQL **18.6**, region `aws-us-east-1`.
+- Production/default branch `main` (`br-raspy-river-b8qx9oo9`) was **not changed**.
+- Test branch `mar-p0-validation-20261021` (`br-lingering-smoke-b8hjdnzb`).
+- Recovery-copy branch `mar-p0-recovery-20261021` (`br-holy-dawn-b8z9t6yh`).
+- Actual project API currently shows a **512 MiB branch logical size limit**, notwithstanding a newer marketing announcement of 1 GB for Free. Capacity approval must use the enforced project limit until it is verified otherwise.
+- Restorable-history setting observed: **6 hours**. This does **not** satisfy independent backup retention.
+
+## Relational pilot design
+
+Apply `sql/migrations/001_mar_p0_checkpoint.sql` **once** on a disposable validation branch, not on `main`.
+
+| Relation | Purpose | Key invariant |
+|---|---|---|
+| `mar_p0.raw_artifacts` | Original content-addressed JSON bytes | SQL check recomputes SHA-256 over `bytea` |
+| `mar_p0.checkpoints` | Serialized checkpoint, scope, CAS revision, status | SHA-256 validation; no promotion/media flags |
+| `mar_p0.checkpoint_pages` | Ordered page-to-artifact references and cursor/ID hashes | Foreign keys, unique sequence and artifact per run |
+
+The opt-in Python adapter must preserve **append-only page history** and use one SQL transaction to atomically persist artifact bytes + compare-and-swap checkpoint revision + page references. Data retrieved from the database must be replayed through the current stage validation algorithm (including record ID and cursor chain checks); database constraints alone do not implement all of those validations.
+
+No media, thumbnails, audiovisual binaries, public viewer or derived research metric belong in this pilot.
+
+## Live synthetic results (2026-10-21)
+
+Only two synthetic metadata records, `synthetic-001` and `synthetic-002`, were used. No request was made to Finna or any other source.
+
+| Test | Observed result |
+|---|---|
+| Insert content-addressed artifact + partial checkpoint | PASS, both SHA-256 checks true |
+| Insert corrupted bytes with an asserted hash | PASS, DB rejected `artifact_hash_matches` |
+| Insert duplicate sequence of a checkpoint page | PASS, DB rejected `checkpoint_pages_pkey` |
+| Simulate stale compare-and-swap revision | PASS, updated zero rows |
+| Transition 1 page / 1 record into 2 pages / 2 records | PASS, revision advanced 1 → 2, complete |
+| Validate both artifact hashes and manifest hash | PASS |
+| Clone testing branch and read back original manifest/checkpoint | PASS, manifest SHA-256 identical |
+| Snapshot through Neon snapshot API | NOT AVAILABLE: non-root branches cannot be snapshotted with this integration |
+| Independent off-provider export, backup retention, disaster recovery | NOT TESTED; mandatory P0 blocker |
+| Restricted database role, authentication rotation and application adapter | NOT IMPLEMENTED; mandatory P0 blocker |
+| Simultaneous writers, disconnect during commit, source-level full replay | NOT TESTED; mandatory P0 blocker |
+
+Recovered synthetic manifest SHA-256: `c78a286ad7f92fb9baacfe66904c3147742a99e4ba160209213859909d6b1aa2`. The two test branches have identical record count, page count, revision and manifest checksum.
+
+The clone proves branch-level recovery in the same provider. **It is not an independent backup or a tested restore following provider loss.**
+
+## Release gates still required
+
+1. **IMPLEMENTED FOR TEST:** standalone `PostgresCheckpointStore` with transactional `save`, scoped `restore`, strict CAS revisions, immutability, byte-perfect checks and replay through `_restore`. Offline tests are in `tests/test_postgres_checkpoint_storage.py`. The adapter is not wired into the collector or default scheduler. **LIVE end-to-end Python↔Neon integration and full CI verdict remain pending.**
+2. Define a dedicated least-privilege SQL role and secret handling outside source control. Use SSL/TLS, preferably with pooling suitable for short-lived Python workers. Never log credentials or provider cursor contents.
+3. Produce an encrypted independent backup of artifact bytes and checkpoint metadata, including hashes, and **restore it into a fresh independent target**. Document tested RPO/RTO and retention.
+4. Test missing/tampered artifacts, scope drift, duplicate IDs between pages, cursor cycles, crash before/after transaction commit, concurrent writers and refusal to promote.
+5. Measure actual corpus payload sizes, index overhead, expected daily writes, queries and Neon CU-hours; validate practical headroom against the **observed 512 MiB**, not an advertised ceiling.
+6. Run CI and obtain human review. Only after all checks pass can the schema be proposed for controlled production activation; no mass ingestion is authorized by this pilot.
+
+## Reproducibility
+
+The migration file contains the exact DDL used in the isolated branch. `tests/integration/p0_neon_contract.sql` is a disposable **ROLLBACK-only** smoke test; it requires a test branch and `psql -v ON_ERROR_STOP=1`. It tests SQL constraints, not the Python source adapter or production recovery.
+
+**Decision: P0 remains HOLD for production.** The Neon resource itself is available and the basic database storage experiment succeeded, but protected durable persistence, verified backup and real collector integration are not yet approved.
+
+## Python adapter added in the isolated PR
+
+Install the optional PostgreSQL driver **only on an authorized test executor**:
+
+```bash
+python -m pip install -e '.[postgres]'
+```
+
+Usage from controlled Python code with an explicit connection factory (do not embed any secret in source, CI output or logs):
+
+```python
+import os
+import psycopg
+from memoria_audiovisual.postgres_checkpoint_storage import PostgresCheckpointStore
+
+dsn = os.environ["MAR_P0_TEST_DATABASE_URL"]  # restricted isolated Neon branch
+store = PostgresCheckpointStore(lambda: psycopg.connect(dsn))
+
+# After an existing, bounded offline stage has produced a complete or partial
+# verified checkpoint directory. No fetch happens inside the storage adapter:
+revision = store.save("/protected/staging/kavi-test", "kavi-offline-p0")
+
+# Recovery always requires the original approved scope and preflight total.
+# Destination must NOT exist: prevents silent overwrite of ongoing local work.
+store.restore(
+    "/protected/staging/kavi-recovered", "kavi-offline-p0",
+    expected_scope=approved_scope, expected_total=approved_total,
+)
+```
+
+The connection factory is injected to allow deterministic offline tests. Production credentials are **not** automatically loaded from a default `DATABASE_URL`, since that could belong to a different application. The application must use a dedicated least-privilege role, TLS-enforced external connection configuration, and an explicit test-branch binding before enabling writes.
+
+**Persistence semantics:** `save` reads the canonical existing `checkpoint.json` and every content-addressed JSON artefact, replays the existing MAR contract, and stores them in one database transaction. The caller must pass `expected_revision` for every update; stale writers are rejected. Identical retries are idempotent. `restore` loads and verifies all original bytes, hashes, scope, expected count, page/cursor chain and record-ID uniqueness, and moves a complete temporary directory into place without modifying an existing target. All database writes use bound query parameters.
+
+**Boundaries:** these operations do not call `stage_metadata`, start any network collection, promote records, alter the Streamlit app or schedule background work. The unchanged original `stage_metadata(..., resume=True)` must still run its preflight and verification upon continuation.
+
+Run deterministic checks with:
+
+```bash
+python -m unittest discover -s tests -p 'test_postgres_checkpoint_storage.py' -v
+python -m unittest discover -s tests -p 'test_metadata_staging.py' -v
+ruff check --select E9,F63,F7,F82 src/memoria_audiovisual/postgres_checkpoint_storage.py tests/test_postgres_checkpoint_storage.py
+```
+
+**Remaining P0 blockers:** independent encrypted off-provider backup and fresh-database restore; dedicated restricted database role and credential rotation; tests with a real Psycopg connection and two simultaneous writers, explicit fail-before/fail-after commit, and actual quota measurement. Branch cloning is not equivalent to an independent backup. Production remains HOLD.
+
+## Live database contract checks on isolated Neon branch (2026-10-21)
+
+**Proven execution through Neon SQL connections** (not Python/Psycopg):
+- Data remained only on `mar-p0-validation-20261021`. Production `main` has no `mar_p0` schema.
+- Transaction with a synthetically inserted checkpoint followed by an invalid SHA-256 artifact **failed**, and an independent read confirmed **zero orphan rows** for the failed checkpoint.
+- Two competing compare-and-swap updates against the same synthetic revision were submitted concurrently: **one** returned revision 2, **one** returned zero updated rows, and the database finished at revision 2 with both pages intact.
+- Creating a role through the Neon API yielded overly broad built-in `neon_superuser` membership, `CREATEDB` and `CREATEROLE`. The attempted privilege reduction was denied. The newly created unsafe test role was **deleted**. Do not use Neon API-created default-privileged roles for MAR application credentials.
+- A separate **NOLOGIN** role was created explicitly by SQL: `mar_p0_limited NOLOGIN NOCREATEDB NOCREATEROLE NOINHERIT`. Explicit grants enable MAR's three pilot tables. Under `SET LOCAL ROLE mar_p0_limited`, a synthetic checkpoint and page references were inserted successfully; attempts to query `neon_auth.user` failed with a permission-denied error. The role cannot create database objects or objects in `public`. This verifies least-privilege SQL grants only; an authenticated external LOGIN role is not yet configured.
+- Raw content remained metadata-only; no source API was called.
+
+**Psycopg driver ↔ Neon execution: STILL NOT VERIFIED.** The connector's SQL operations cannot establish that the Python driver successfully connected, executed its transaction context manager, or recovered a local staging directory across a process boundary. Never upgrade these SQL-only results to a successful Python integration claim.
+
+### Guarded Python integration harness
+
+`tests/test_neon_checkpoint_live.py` is a concrete opt-in integration test. It uses only synthetic `MetadataPage` fixtures, exercises `PostgresCheckpointStore.save/restore`, resumes the original `stage_metadata` contract, verifies exact checkpoint bytes, SQL hashes and counts, CAS conflicts and a failing driver transaction that must roll back.
+
+It is skipped in ordinary CI and requires **both** an explicit opt-in and a private connection string whose host is the exact test branch compute endpoint. This prevents accidental connection to the Neon default/production branch. The interactive runner additionally enforces `sslmode=verify-full`, `sslrootcert=system` (requires a compatible libpq and system trust store) and `channel_binding=require`. A failed certificate verification MUST abort the test, not downgrade TLS.
+
+On an individually controlled trusted runner, after creating an SQL-native, **least-privileged LOGIN role** and loading the password from a secure store (do not use the Neon default owner), run:
+
+```bash
+python -m pip install -e '.[postgres]'
+export MAR_P0_TEST_LIVE=1
+# MAR_P0_TEST_DATABASE_URL must be sourced from a secret manager, not committed.
+# Required host: ep-damp-term-b8wqhmz0.c-14.us-east-1.aws.neon.tech
+# Required database: neondb; sslmode=require or stricter.
+python -m unittest discover -s tests -p 'test_neon_checkpoint_live.py' -v
+```
+
+**Never** put a Neon DSN into a GitHub issue, pull-request description, source file or untrusted PR CI job. Do not enable live tests simply by adding a broad repository secret to a public pull-request workflow. Verify the role and branch allowlist first, and use a manually controlled test executor with isolated credentials.
+
+**Remaining blockers:** genuine Psycopg↔Neon integration verdict, SQL-native least-privileged LOGIN credentials and secure secret injection, encrypted **off-provider** backups with a tested restore into a fresh independent database, resilience against worker crash and credential rotation. P0 remains HOLD for operational use.
+
+## Restricted login and trusted Python executor (2026-10-21)
+
+**Prepared and verified, but password authentication has not yet been attempted.**
+
+The existing SQL-native role `mar_p0_limited` on **only** Neon branch `mar-p0-validation-20261021` was changed to `LOGIN PASSWORD NULL NOCREATEDB NOCREATEROLE NOINHERIT`. This explicitly enables login capability while leaving it **unusable until a secret is activated privately**.
+
+Read-only verification returned:
+- `rolcanlogin=true`, `rolcreatedb=false`, `rolcreaterole=false`, `rolbypassrls=false`;
+- zero role memberships (in particular, no membership in `neon_superuser`);
+- `neon_auth` schema inaccessible; MAR pilot schema accessible.
+
+`sql/migrations/002_mar_p0_restricted_role.sql` provides the role setup **for a NEW test branch only** (do not apply on the existing branch because this role already exists). This is separate from the application's schema migration.
+
+The public repository now has `scripts/run_mar_p0_neon_live.py`, a **manual trusted-workstation executor**. It:
+1. Refuses an existing generic `MAR_P0_TEST_DATABASE_URL` or conflicting libpq settings.
+2. Prompts for the role password interactively using Python `getpass`, with no echo.
+3. Constructs an in-memory connection string with explicit branch endpoint, database, restricted username, verified TLS hostname and SCRAM channel binding.
+4. Runs `tests/test_neon_checkpoint_live.py` and scrubs the process environment at exit.
+5. Never initiates Finna requests or downloads any audiovisual media.
+
+### User-side activation (do not share passwords in chat)
+
+1. Open the **Neon Console** for `neon-erin-field`, select **`mar-p0-validation-20261021`**, and open **Roles**.
+2. Select the existing SQL-native `mar_p0_limited` role. If **Reset password** is supported for this role, use the Neon password reset UI and keep the generated password privately. **Do not create a new Console/API role** because such roles inherit `neon_superuser`.
+3. If resetting this SQL role is not available in the UI, use a trusted local `psql` session as the owner connected to the exact test branch, with **`\password mar_p0_limited`**; this interactive command avoids putting the password in the SQL command history. Do not paste the password into the Git repository, PR description, ChatGPT or CI logs.
+4. On the trusted Windows/Linux/macOS workstation with the PR branch checked out:
+
+```bash
+python -m pip install -e ".[postgres]"
+python scripts/run_mar_p0_neon_live.py
+```
+
+5. Enter the private role password only when the local program prompts. Record the final test verdict, without logging the DSN/password/provider tokens.
+
+The live test class verifies the exact branch endpoint, user `mar_p0_limited`, database `neondb`, `sslmode=verify-full`, trusted system roots and SCRAM channel binding, and absence of libpq host/service overrides before opening a connection. It tests the restricted role, two-stage PostgreSQL checkpoint persistence, byte-for-byte recovery into a fresh directory, original MAR resumption and database transaction rollback.
+
+**Not yet demonstrated**: a successful Psycopg connection with the SQL-native limited login, driver-level concurrency under real workloads, independent encrypted backups and restoration. P0 remains **HOLD**. Do not merge, publish or schedule collections solely on the basis of the SQL-side results.
+
+## Gate P0: protected cloud executor — GitHub Actions (2026-10-21)
+
+**Design selected:** reuse the existing GitHub-hosted Linux runner for the MAR repository. Do **not** create another Vercel app, deploy an endpoint, publish metadata or issue API fetches. The `main` branch of GitHub and Neon remains untouched.
+
+Added:
+- `scripts/run_mar_p0_neon_cloud.py`: no interactive console, builds a branch-specific DSN from a **single** environment secret (`MAR_P0_TEST_PASSWORD`), uses TLS `verify-full`, system root certificates and `channel_binding=require`. It fails before connecting unless the approved SHA, PR identity, trigger label and environment identifier match. Generic `DATABASE_URL` is ignored and libpq overrides are rejected.
+- `tests/test_mar_p0_neon_cloud_runner.py`: offline deterministic tests for denial of unapproved SHA, branches, PR, missing secret and environment overrides.
+- A `mar-p0-neon-cloud` job in the **existing** `.github/workflows/quality.yml`: only for **PR #90**, exact reviewed commit, explicit `mar-p0-cloud-run` label, same repository, and after `quality` passes. The job is **disabled by default** through two GitHub repository variables and an environment approval.
+- Uses GitHub environment `mar-p0-neon-isolated`, read-only checkout of the exact PR HEAD, ephemeral `ubuntu-latest` runner, and no write permissions. The environment secret is passed only to the test step, never to the dependency installation step. The test prints only pass/fail counts (no Python exception tracebacks, passwords or DSNs).
+
+### Activation checklist — only after PR reviewed and all offline CI checks pass
+
+These are one-time setup actions using secure platform UI; **never share credentials via chat**:
+
+1. **GitHub** `brauliorrs/memoria-audiovisual-rede` → Settings → Environments → New environment: `mar-p0-neon-isolated`. Add **Required reviewers** and review access; configure deployment branch restrictions for the feature branch / PR as supported. If approvals cannot be configured, **do not** attach any database credentials to the job.
+2. **Neon** → project `neon-erin-field`, branch **`mar-p0-validation-20261021`**, SQL Editor: initialize the already existing SQL-native `mar_p0_limited` login credential using the Neon-supported SQL command `ALTER ROLE mar_p0_limited PASSWORD '<NEW_STRONG_PRIVATE_PASSWORD>';`. This **only** affects the isolated test branch. Avoid sharing credentials or copying them into source. Because SQL editor history may retain the literal SQL, prefer a private interactive `psql \password mar_p0_limited` in a trusted cloud shell if available; when using the SQL Editor, treat the credential as test-only and rotate it after validation. Neon **Reset password** was observed to fail for this passwordless SQL-native role; do not try to replace it with an API-created role, which would inherit `neon_superuser`.
+3. **GitHub** → Settings → Environments → `mar-p0-neon-isolated` → Environment secrets: create `MAR_P0_TEST_PASSWORD` with the same limited-role secret set in Neon. Do **not** create a repository-wide password secret and do not store the owner role credential.
+4. After a code review, copy the current **exact 40-character SHA** of PR #90. GitHub → Settings → Secrets and variables → Actions → Variables: add `MAR_P0_APPROVED_SHA` with that SHA and `MAR_P0_CLOUD_RUN_ALLOWED` with the value `reviewed`. Any new code commit intentionally invalidates the gate until re-reviewed and re-approved.
+5. In PR #90's Labels add `mar-p0-cloud-run` to emit the explicit `pull_request.labeled` event. Do not enable any scheduled runs or automatic execution on push. A protected environment approval should be required after Quality Checks succeed.
+6. Inspect the separate `mar-p0-neon-cloud` job and verify whether it reports `Gate P0 CLOUD PASS` or `FAIL` (without tracebacks/secrets); if a credential leaks, immediately revoke and rotate it.
+
+**Do not** grant the Neon owner password, broad `DATABASE_URL`, GitHub write token, Vercel project secret, production Neon branch or institution API tokens to this job. The run's metadata are synthetic: two records, no actual archive source and no audiovisual bytes. Changes to the PR commit require new approval.
+
+**Current truth:** this stage makes a deployable and guarded cloud integration runner, but does **not** imply a real Python–Neon live connection has passed. It cannot run until the limited-role password, GitHub protected environment and approved SHA are supplied through the relevant secure platform UIs. The **Gate P0 is HOLD** until the cloud test actually passes, and off-provider encrypted backup and independent restore are proven. Do not merge #90 solely because offline tests pass.
+
+## HOLD de aprovação do ambiente GitHub — 2026-10-28
+
+A execução disparada por `mar-p0-cloud-run` iniciou o job `mar-p0-neon-cloud` sem uma aprovação registrada no endpoint de aprovações do workflow. A existência de um environment não comprova, sozinha, a configuração de Required reviewers. Por segurança, o novo commit invalida `MAR_P0_APPROVED_SHA` e a concorrência do Quality Checks deve cancelar a execução anterior. Não reaprovar este SHA até confirmar no GitHub Settings > Environments > mar-p0-neon-isolated que Required reviewers contém uma conta elegível, Prevent self-review está ativo e o bypass administrativo está desativado. Nenhuma credencial deve ser disponibilizada fora desse ambiente.
+
+
+## Revisão manual pelo mantenedor único — 2026-10-28 (sem liberação do Neon)
+
+A conta proprietária `brauliorrs` foi cadastrada pelo mantenedor como revisora em
+`mar-p0-neon-isolated`. A interface do GitHub foi atualizada; ainda não existe
+evidência de uma aprovação real do novo fluxo. Para esse modo de operação, o
+mantenedor deve deixar **Required reviewers ativo**, **Prevent self-review
+desativado** e **Allow administrators to bypass configured protection rules
+desativado**, salvando as regras. O ambiente não deve ter configuração que
+dispense essa revisão.
+
+O risco residual é explícito: uma pessoa revisando o próprio trabalho não
+fornece independência de auditoria. Mitigações adicionais implementadas na
+feature branch:
+
+- O job só pode ser solicitado pelo ator `brauliorrs`, no evento
+  `pull_request.labeled` do PR #90, com HEAD na branch exata
+  `feature/mar-p0-neon-storage-20261021`, `github.run_attempt == 1`,
+  dependência da suíte de qualidade, e dois controles de variável de repositório
+  (flag `reviewed` e SHA exato).
+- Antes do passo que recebe o segredo, o job consulta
+  `GET /actions/runs/{run_id}/approvals` usando somente permissão
+  `actions: read`; exige uma entrada `state=approved` por usuário humano
+  `brauliorrs` para o próprio ambiente. A ausência da entrada, um bypass,
+  a falha de consulta ou qualquer contexto divergente bloqueia a execução.
+- A senha é repassada somente ao passo do teste sintético; não é passada ao
+  checkout, à instalação de dependências nem à verificação de aprovação.
+- Nunca reexecutar o job com re-run; a validação exige `GITHUB_RUN_ATTEMPT=1`.
+  Para uma nova tentativa após falha, será necessário novo SHA, nova revisão
+  de código e novo evento de etiqueta, após auditoria.
+- **Importante:** verificar o job em `Waiting` e a ação explícita
+  `Review deployments > Approve and deploy`. Ausência de espera
+  indica falha de proteção: cancelar, não continuar.
+- Ao terminar uma única execução validada, desativar
+  `MAR_P0_CLOUD_RUN_ALLOWED` ou remover `MAR_P0_APPROVED_SHA` antes de
+  qualquer nova operação.
+
+O SHA de aprovação anteriormente configurado já ficou obsoleto após estas
+alterações. A etiqueta `mar-p0-cloud-run` permanece removida e não haverá
+teste autenticado automático nesta etapa.
+
+**Gate P0 segue HOLD:** os testes de restauração remota independente e
+armazenamento externo criptografado continuam pendentes. Não confundir os
+testes offline com a certificação do banco real.

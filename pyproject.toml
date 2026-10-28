@@ -17,6 +17,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+postgres = [
+  "psycopg[binary]>=3.2,<4",
+]
 dev = [
   "coverage==7.16.1",
   "mypy==2.3.1",
