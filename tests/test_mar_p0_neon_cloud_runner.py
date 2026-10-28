@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import unittest
 
-from scripts.run_mar_p0_neon_cloud import CloudGateRejected, validate_cloud_context
+from scripts.run_mar_p0_neon_cloud import (\n    CloudGateRejected, classify_live_error, validate_cloud_context,\n)
 
 
 APPROVED = "a" * 40
@@ -77,6 +77,34 @@ class CloudP0GuardTests(unittest.TestCase):
                     CloudGateRejected, "unapproved_postgres_configuration"
                 ):
                     validate_cloud_context(env)
+
+
+class CloudErrorRedactionTests(unittest.TestCase):
+    def test_fixed_categories_from_driver_diagnostics(self):
+        for detail, expected in (
+            ("psycopg.OperationalError: password authentication failed for user",
+             "authentication_failed"),
+            ("OperationalError: connection timed out", "connection_timeout"),
+            ("OperationalError: certificate verify failed", "tls_certificate"),
+            ("OperationalError: could not translate host name", "dns_resolution"),
+            ("OperationalError: connection refused", "connection_refused"),
+            ("InsufficientPrivilege: permission denied", "insufficient_privilege"),
+            ("UndefinedTable: relation does not exist", "missing_schema_or_table"),
+            ("OperationalError: unrelated driver failure",
+             "postgres_operational_error_other"),
+            ("ValueError: synthetic", "other_suppressed_error"),
+        ):
+            with self.subTest(expected=expected):
+                self.assertEqual(classify_live_error(detail), expected)
+
+    def test_never_echo_password_url_or_exception_message(self):
+        sensitive = ("psycopg.OperationalError: password authentication failed "
+                     "password=SECRET-DO-NOT-PRINT "
+                     "host=private.example.internal")
+        category = classify_live_error(sensitive)
+        self.assertEqual(category, "authentication_failed")
+        self.assertNotIn("SECRET", category)
+        self.assertNotIn("private.example.internal", category)
 
 
 if __name__ == "__main__":
