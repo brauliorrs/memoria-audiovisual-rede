@@ -1,7 +1,9 @@
-"""Verify GitHub's recorded independent deployment approval before Neon secrets.
+"""Fail closed unless GitHub records an explicit manual P0 environment approval.
 
-Runs in the protected environment job *before* the secret-bearing integration
-step. It never reads the Neon credential, only GitHub's approval history.
+Solo-maintainer mode: only the repository owner may both trigger and approve
+this narrowly scoped, SHA-pinned, synthetic-only workflow. GitHub must hold the
+job until manual review; a bypass or missing review is never sufficient.
+No Neon credential is loaded by this script.
 """
 from __future__ import annotations
 
@@ -13,22 +15,26 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 REPOSITORY = "brauliorrs/memoria-audiovisual-rede"
+OWNER = "brauliorrs"
 ENVIRONMENT = "mar-p0-neon-isolated"
+HEAD_REF = "feature/mar-p0-neon-storage-20261021"
 
 
-def valid_independent_approval(
+def valid_owner_approval(
     records: Sequence[Mapping[str, object]], *, actor: str
 ) -> bool:
-    """Require an explicit approved review for our environment by another human."""
+    """Require an approved deployment record, by owner, for this environment."""
+    if actor.casefold() != OWNER:
+        return False
     for record in records:
-        if record.get("state") != "approved":
+        if not isinstance(record, dict) or record.get("state") != "approved":
             continue
         user = record.get("user")
         if (
             not isinstance(user, dict)
             or user.get("type") != "User"
             or not isinstance(user.get("login"), str)
-            or user["login"].casefold() != "brauliorrs"
+            or user["login"].casefold() != OWNER
         ):
             continue
         environments = record.get("environments")
@@ -50,8 +56,12 @@ def main() -> int:
     if (
         os.environ.get("GITHUB_ACTIONS") != "true"
         or os.environ.get("GITHUB_REPOSITORY") != REPOSITORY
+        or os.environ.get("GITHUB_RUN_ATTEMPT") != "1"
+        or os.environ.get("GITHUB_EVENT_NAME") != "pull_request"
+        or os.environ.get("GITHUB_REF") != "refs/pull/90/merge"
+        or os.environ.get("GITHUB_HEAD_REF") != HEAD_REF
+        or actor.casefold() != OWNER
         or not run_id.isdecimal()
-        or not actor
         or not token
     ):
         print("Gate P0 HOLD: approval_check_context_invalid", file=sys.stderr)
@@ -71,7 +81,7 @@ def main() -> int:
     except (HTTPError, URLError, ValueError, TimeoutError, OSError):
         print("Gate P0 HOLD: approval_history_unavailable", file=sys.stderr)
         return 2
-    if not isinstance(records, list) or not valid_independent_approval(
+    if not isinstance(records, list) or not valid_owner_approval(
         records, actor=actor
     ):
         print("Gate P0 HOLD: explicit_owner_environment_approval_missing",
