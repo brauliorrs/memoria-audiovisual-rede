@@ -222,3 +222,48 @@ These are one-time setup actions using secure platform UI; **never share credent
 ## HOLD de aprovação do ambiente GitHub — 2026-10-28
 
 A execução disparada por `mar-p0-cloud-run` iniciou o job `mar-p0-neon-cloud` sem uma aprovação registrada no endpoint de aprovações do workflow. A existência de um environment não comprova, sozinha, a configuração de Required reviewers. Por segurança, o novo commit invalida `MAR_P0_APPROVED_SHA` e a concorrência do Quality Checks deve cancelar a execução anterior. Não reaprovar este SHA até confirmar no GitHub Settings > Environments > mar-p0-neon-isolated que Required reviewers contém uma conta elegível, Prevent self-review está ativo e o bypass administrativo está desativado. Nenhuma credencial deve ser disponibilizada fora desse ambiente.
+
+
+## Revisão manual pelo mantenedor único — 2026-10-28 (sem liberação do Neon)
+
+A conta proprietária `brauliorrs` foi cadastrada pelo mantenedor como revisora em
+`mar-p0-neon-isolated`. A interface do GitHub foi atualizada; ainda não existe
+evidência de uma aprovação real do novo fluxo. Para esse modo de operação, o
+mantenedor deve deixar **Required reviewers ativo**, **Prevent self-review
+desativado** e **Allow administrators to bypass configured protection rules
+desativado**, salvando as regras. O ambiente não deve ter configuração que
+dispense essa revisão.
+
+O risco residual é explícito: uma pessoa revisando o próprio trabalho não
+fornece independência de auditoria. Mitigações adicionais implementadas na
+feature branch:
+
+- O job só pode ser solicitado pelo ator `brauliorrs`, no evento
+  `pull_request.labeled` do PR #90, com HEAD na branch exata
+  `feature/mar-p0-neon-storage-20261021`, `github.run_attempt == 1`,
+  dependência da suíte de qualidade, e dois controles de variável de repositório
+  (flag `reviewed` e SHA exato).
+- Antes do passo que recebe o segredo, o job consulta
+  `GET /actions/runs/{run_id}/approvals` usando somente permissão
+  `actions: read`; exige uma entrada `state=approved` por usuário humano
+  `brauliorrs` para o próprio ambiente. A ausência da entrada, um bypass,
+  a falha de consulta ou qualquer contexto divergente bloqueia a execução.
+- A senha é repassada somente ao passo do teste sintético; não é passada ao
+  checkout, à instalação de dependências nem à verificação de aprovação.
+- Nunca reexecutar o job com re-run; a validação exige `GITHUB_RUN_ATTEMPT=1`.
+  Para uma nova tentativa após falha, será necessário novo SHA, nova revisão
+  de código e novo evento de etiqueta, após auditoria.
+- **Importante:** verificar o job em `Waiting` e a ação explícita
+  `Review deployments > Approve and deploy`. Ausência de espera
+  indica falha de proteção: cancelar, não continuar.
+- Ao terminar uma única execução validada, desativar
+  `MAR_P0_CLOUD_RUN_ALLOWED` ou remover `MAR_P0_APPROVED_SHA` antes de
+  qualquer nova operação.
+
+O SHA de aprovação anteriormente configurado já ficou obsoleto após estas
+alterações. A etiqueta `mar-p0-cloud-run` permanece removida e não haverá
+teste autenticado automático nesta etapa.
+
+**Gate P0 segue HOLD:** os testes de restauração remota independente e
+armazenamento externo criptografado continuam pendentes. Não confundir os
+testes offline com a certificação do banco real.
