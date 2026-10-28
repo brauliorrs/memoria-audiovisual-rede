@@ -23,6 +23,9 @@ jobs:
       github.event.action == 'labeled' &&
       github.event.label.name == 'mar-p0-cloud-run' &&
       github.event.pull_request.number == 90 &&
+      github.actor == 'brauliorrs' &&
+      github.run_attempt == 1 &&
+      github.event.pull_request.head.ref == 'feature/mar-p0-neon-storage-20261021' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       vars.MAR_P0_CLOUD_RUN_ALLOWED == 'reviewed' &&
       vars.MAR_P0_APPROVED_SHA != '' &&
@@ -51,7 +54,7 @@ jobs:
           python -m pip install -e ".[postgres]"
           python -c "from memoria_audiovisual.metadata_staging import stage_metadata; from memoria_audiovisual.postgres_checkpoint_storage import PostgresCheckpointStore"
 
-      - name: Require documented independent human approval
+      - name: Require recorded manual solo-maintainer approval
         env:
           GH_TOKEN: ${{ github.token }}
         run: python scripts/check_mar_p0_environment_approval.py
