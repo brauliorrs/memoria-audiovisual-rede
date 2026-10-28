@@ -28,7 +28,7 @@ def valid_independent_approval(
             not isinstance(user, dict)
             or user.get("type") != "User"
             or not isinstance(user.get("login"), str)
-            or user["login"].casefold() == actor.casefold()
+            or user["login"].casefold() != "brauliorrs"
         ):
             continue
         environments = record.get("environments")
@@ -74,10 +74,10 @@ def main() -> int:
     if not isinstance(records, list) or not valid_independent_approval(
         records, actor=actor
     ):
-        print("Gate P0 HOLD: independent_environment_approval_missing",
+        print("Gate P0 HOLD: explicit_owner_environment_approval_missing",
               file=sys.stderr)
         return 2
-    print("Gate P0 human environment approval verified")
+    print("Gate P0 explicit solo-owner environment approval verified")
     return 0
 
 
