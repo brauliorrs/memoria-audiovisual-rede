@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import unittest
 
-from scripts.run_mar_p0_neon_cloud import (\n    CloudGateRejected, classify_live_error, validate_cloud_context,\n)
+from scripts.run_mar_p0_neon_cloud import (
+    CloudGateRejected, classify_live_error, validate_cloud_context,
+)
 
 
 APPROVED = "a" * 40
