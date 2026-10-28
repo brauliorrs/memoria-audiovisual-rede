@@ -32,6 +32,7 @@ jobs:
     timeout-minutes: 12
     permissions:
       contents: read
+      actions: read
     environment: mar-p0-neon-isolated
     steps:
       - name: Checkout exact approved PR head
@@ -45,10 +46,15 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install only the adapter and PostgreSQL driver
+      - name: Install application dependencies and PostgreSQL driver
         run: |
-          python -m pip install --no-deps -e .
-          python -m pip install "psycopg[binary]>=3.2,<4"
+          python -m pip install -e ".[postgres]"
+          python -c "from memoria_audiovisual.metadata_staging import stage_metadata; from memoria_audiovisual.postgres_checkpoint_storage import PostgresCheckpointStore"
+
+      - name: Require documented independent human approval
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/check_mar_p0_environment_approval.py
 
       - name: Verify synthetic checkpoint persistence with isolated Neon
         env:
@@ -812,6 +818,10 @@ jobs:
             scripts/run_mar_p0_neon_cloud.py \
             tests/test_mar_p0_neon_cloud_runner.py
           python -m unittest discover -s tests -p 'test_mar_p0_neon_cloud_runner.py' -v
+          ruff check --select E9,F63,F7,F82 \
+            scripts/check_mar_p0_environment_approval.py \
+            tests/test_mar_p0_environment_approval.py
+          python -m unittest discover -s tests -p 'test_mar_p0_environment_approval.py' -v
           ruff check --select E9,F63,F7,F82 \
             src/memoria_audiovisual/p0_encrypted_backup.py \
             tests/test_p0_encrypted_backup.py
