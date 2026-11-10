@@ -38,3 +38,30 @@ jobs:
           MAR_SOURCE_PROBE_APPROVED: "yes"
         run: |
           python -B scripts/probe_monthly_sources.py --source "$SOURCE" --execute
+
+  bounded-structure-probe:
+    if: >-
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mar-source-structure-approved' &&
+      github.event.pull_request.number == 91 &&
+      github.actor == 'brauliorrs' &&
+      github.run_attempt == 1 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'fix/monthly-cycle-evidence-20261110'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        source: [eye, czech_tv]
+    steps:
+      - name: Checkout reviewed PR
+        uses: actions/checkout@v4
+
+      - name: Inspect one public HTML index only (no media, robots first)
+        env:
+          SOURCE: ${{ matrix.source }}
+          MAR_SOURCE_PROBE_APPROVED: "yes"
+        run: |
+          python -B -m scripts.probe_monthly_structure --source "$SOURCE" --execute
