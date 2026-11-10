@@ -115,7 +115,7 @@ def parse_czech_television_catalog_page(html, category_label=""):
         seen_slugs = set()
         for anchor in soup.select("a[href]"):
             href = anchor.get("href", "").split("?", 1)[0]
-            match = re.search(r"(?:^|/)porady/(\\d{4,}-[a-z0-9-]+)/?$", href, re.I)
+            match = re.search(r"(?:^|/)porady/(\d{4,}-[a-z0-9-]+)/?$", href, re.I)
             if not match:
                 continue
             slug = match.group(1)
