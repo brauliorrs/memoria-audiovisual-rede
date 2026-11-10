@@ -67,7 +67,7 @@ class NeonLiveIntegrationTests(unittest.TestCase):
             or settings.get("user") != "mar_p0_limited"
             or settings.get("sslmode") != "verify-full"
             or settings.get("channel_binding") != "require"
-            or settings.get("sslrootcert") != "system"
+            or settings.get("sslrootcert") != "/etc/ssl/certs/ca-certificates.crt"
             or any(os.environ.get(k) for k in (
                 "PGHOSTADDR", "PGSERVICE", "PGSERVICEFILE", "PGOPTIONS"
             ))
