@@ -106,6 +106,35 @@ def parse_czech_television_catalog_page(html, category_label=""):
                 "is_playable": bool(item.get("isPlayable")),
             }
         )
+    # Current public catalogue pages may render programme cards in HTML
+    # without the former __NEXT_DATA__/programmeFind structure. These are
+    # discovery candidates only, not video evidence. The collector still
+    # requires a separate playable mediaMeta episode before materializing.
+    if not records:
+        soup = BeautifulSoup(html or "", "html.parser")
+        seen_slugs = set()
+        for anchor in soup.select("a[href]"):
+            href = anchor.get("href", "").split("?", 1)[0]
+            match = re.search(r"(?:^|/)porady/(\\d{4,}-[a-z0-9-]+)/?$", href, re.I)
+            if not match:
+                continue
+            slug = match.group(1)
+            title = _clean_text(anchor.get_text(" ", strip=True), limit=300)
+            if slug in seen_slugs or not title:
+                continue
+            seen_slugs.add(slug)
+            records.append({
+                "show_id": slug.split("-", 1)[0],
+                "show_slug": slug,
+                "show_title": title,
+                "category_label": _clean_text(category_label),
+                "genres": [],
+                "show_url": urljoin(CZECH_TELEVISION_HOME_URL, f"/porady/{slug}/"),
+                "is_playable": False,
+                "discovery_only": True,
+            })
+            if len(records) >= CZECH_TELEVISION_MAX_SHOWS:
+                break
     return records
 
 
