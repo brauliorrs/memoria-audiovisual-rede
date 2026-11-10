@@ -1,0 +1,40 @@
+name: MAR Public Source Probes (manual PR label)
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mar-source-probes-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  bounded-public-probe:
+    if: >-
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mar-source-probes-approved' &&
+      github.event.pull_request.number == 91 &&
+      github.actor == 'brauliorrs' &&
+      github.run_attempt == 1 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'fix/monthly-cycle-evidence-20261110'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        source: [ape, asim, barch, bnfa, ciclic, czech_tv, eye]
+    steps:
+      - name: Checkout reviewed PR
+        uses: actions/checkout@v4
+
+      - name: Probe one source (robots, then one HTML GET if permitted)
+        env:
+          SOURCE: ${{ matrix.source }}
+          MAR_SOURCE_PROBE_APPROVED: "yes"
+        run: |
+          python -B scripts/probe_monthly_sources.py --source "$SOURCE" --execute
