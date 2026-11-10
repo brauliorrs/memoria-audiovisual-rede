@@ -1,6 +1,8 @@
 import unittest
 
 from memoria_audiovisual.eye import (
+    EyeListPage,
+    collect_eye_dataset,
     extract_eye_declared_fragment_total,
     extract_eye_max_page,
     parse_eye_fragment_list_page,
@@ -69,6 +71,29 @@ class EyeCollectionTests(unittest.TestCase):
         self.assertIn("fragmento de filme", records[0]["description"])
         self.assertEqual(records[2]["record_id"], "node-123470")
 
+
+    def test_filter_unavailable_does_not_claim_old_630_fragment_total(self):
+        html = """
+          <html><h1>All Films</h1><p>1 - 10 of 3047 results</p>
+            <div class="view-content">
+              <li class="packery-item">
+                <h2><a href="/en/collection/film-history/film/unverified">
+                  Unfiltered film listing
+                </a></h2>
+              </li>
+            </div>
+          </html>
+        """
+        def fake_fetch(url):
+            return EyeListPage(url, 200, html)
+
+        _, summary, videos, _ = collect_eye_dataset(
+            fetcher=fake_fetch, sleep_seconds=0
+        )
+        self.assertEqual(len(videos), 1)  # candidate, not verified fragment
+        self.assertNotEqual(summary[0]["integrity_status"], "integro")
+        self.assertIn("filter_not_confirmed", summary[0]["error"])
+        self.assertTrue(summary[0]["priority_review"])
 
 if __name__ == "__main__":
     unittest.main()
