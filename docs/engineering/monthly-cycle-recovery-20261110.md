@@ -133,3 +133,20 @@ Evidências públicas consultadas:
 **Decisão:** manter o refresh automático com estado de falha quando o
 verificador reprovar; não substituir registros que faltam por amostras
 artificiais, não converter erros em sucesso e não autorizar coleta massiva.
+
+
+## 10/11/2026 — estágio incremental de Eye e Czech TV
+
+Após [sondas estruturais #42885575326](https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/42885575326) e [sondas do parser #42886797652](https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/42886797652), ambas limitadas e verificadas, foi implementado o **estágio experimental** em `scripts/probe_staged_eye_czech.py`, com workflow `staged-eye-czech-probe` protegido pela etiqueta **`mar-staged-eye-czech-approved`** no PR #91. Sem etiqueta, não existe operação viva. Apenas `brauliorrs`, branch exata, PR #91 e primeira tentativa podem disparar o job. Usa Ubuntu 24.04, sem segredos, sem Neon.
+
+**Eye Filmmuseum:** uma consulta ao `robots.txt`; acesso no máximo às páginas 0, 1 e 2 do filtro oficial de fragmentos (duas páginas adicionais à amostra inicial). A cada página, exige HTTP 200, HTML limitado a 512 KiB, o mesmo total declarado de fragmentos e entre 1 e 20 fichas com URL HTTPS da instituição. Os identificadores são deduplicados entre páginas e os estados cumulativos ficam em checkpoints JSON após cada etapa, com SHA-256 da resposta e cadeia de hashes. O resultado `STAGED_PASS` **não** certifica as 630 fichas ou seu player.
+
+**Czech Television:** uma consulta ao `robots.txt`, um índice público de cultura, exatamente um programa escolhido entre os candidatos reconhecidos, e exatamente um episódio indicado na página desse programa. Só uma ficha com `mediaMeta.isPlayable=True` e ID no HTML do episódio confirma a disponibilidade declarada **nos metadados públicos**. Não abre, reproduz ou baixa o stream; não tenta outros programas nem episódios após uma falha. A amostra do catálogo pode ser truncada, mas as páginas do programa e do episódio não podem ser. O resultado `STAGED_PASS` **não** confirma direitos de reprodução em todas as regiões.
+
+As duas sondas observam o `robots.txt` antes das consultas, aplicam intervalo mínimo de 1 segundo ou o `Crawl-delay` publicado (até 30 s; acima disso: HOLD), não seguem redirecionamentos e não aceitam URLs de outro domínio ou mídia. Qualquer erro leva a `HOLD`, sem nova tentativa automática. Não são produzidas planilhas ou fichas de produção.
+
+**Checkpoints e recuperação:** cada job salva `data/probe-staged/{eye,czech_tv}.json` ao iniciar e após cada passo; o GitHub Actions publica esses arquivos com `always()` mesmo se o estágio for HOLD, em artifacts com retenção de **30 dias**. O arquivo contém proveniência mínima, hash dos fragmentos HTML (não os conteúdos brutos), IDs públicos e deduplicação. Isso permite auditoria e comparação, mas **não** é um checkpoint de armazenamento externo durável, nem implementa retomada automática após os 30 dias. Não substitui o Gate P0 para Postgres (backup externo independente e restauração).
+
+**Testes planejados e critérios de saída:** `tests/test_staged_eye_czech_probe.py` cobre limite de três páginas Eye, deduplicação, cadeia de integridade e falhas de filtro/403; para Czech TV cobre exatamente um programa e um episódio, sinal `isPlayable` e HOLD sem fallback. Validar o Quality Checks do commit final antes de aplicar a etiqueta. Depois executar no máximo um estágio autorizado; auditar logs e artifacts. **Validação completa dos corpora continua pendente** mesmo com estágio bem-sucedido.
+
+**Escopo de HOLD:** APE, ASIM, Bundesarchiv, BNFA e CICLIC continuam bloqueados conforme evidências anteriores. O estágio não aciona o ciclo mensal nem altera a `main` ou Neon.
