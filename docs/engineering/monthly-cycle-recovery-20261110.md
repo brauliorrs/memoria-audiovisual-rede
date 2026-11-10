@@ -98,14 +98,21 @@ origens receberam análise individual, controles e testes isolados.
 fonte por chamada (`ape`, `asim`, `barch`, `bnfa`, `ciclic`,
 `czech_tv` ou `eye`). Por padrão só imprime um plano sem rede. A sonda
 *live*, quando autorizada, exige `--execute` e a variável temporária
-`MAR_SOURCE_PROBE_APPROVED=yes`. Utiliza apenas um GET HTTPS do índice
-público, não segue redirecionamentos, limita a amostra a 128 KiB de HTML,
-não baixa mídia/PDF e não armazena o HTML; emite somente status,
-categoria, tamanho, hash do fragmento e marca da página. **HTTP 200 não
-equivale à confirmação do corpus.** As respostas 403/429 preservam o
-bloqueio. Antes de executar cada sonda, o operador deve conferir os termos e o
-robots.txt da origem; a sonda em si não faz descoberta automática dessas
-regras. Qualquer restrição observada implica HOLD.
+`MAR_SOURCE_PROBE_APPROVED=yes`. Primeiro consulta uma única vez o
+`robots.txt` do host com limite de 64 KiB. Só acessa o índice público quando
+as regras permitem; ausência, erro ou bloqueio de robots gera HOLD sem tocar
+no catálogo. Em seguida realiza no máximo um GET HTTPS (até 128 KiB de HTML),
+sem redirecionamentos, mídia/PDF ou armazenamento de HTML. Emite somente
+status, categoria, tamanho, hash da amostra e marca textual. **HTTP 200 não
+equivale à confirmação do corpus.** As respostas 403/429 preservam o bloqueio.
+O operador deve observar adicionalmente os termos de uso da origem.
+
+Workflow isolado `.github/workflows/monthly-source-probes.yml`: somente PR #91,
+etiqueta explícita `mar-source-probes-approved`, por `brauliorrs`, branch
+exata, primeira tentativa, sem segredos, Ubuntu 24.04 e sete jobs sequenciais
+(`max-parallel: 1`); cada job trata uma fonte e não realiza validação de
+corpus nem modifica produção. Não executar a etiqueta antes de Quality Checks
+aprovado para o commit revisado.
 
 Testes offline adicionados:
 `test_monthly_source_probes.py`,
