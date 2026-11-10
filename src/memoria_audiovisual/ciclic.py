@@ -1,6 +1,6 @@
 import re
 import time
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -153,12 +153,15 @@ def parse_ciclic_list_page(html_text, page_number=0):
     soup = BeautifulSoup(html_text or "", "html.parser")
     records = []
     seen = set()
-    for item in soup.select("#afficher_pluscic_memoire_liste_films .block-item, #afficher_plusciclic_memoire_liste_films .block-item, .node-liste .block-item, .view-content .block-item, .view-content .views-row"):
+    for item in soup.select("#afficher_plusciclic_memoire_liste_films .block-item, .node-liste .block-item, .view-content .block-item, .view-content .views-row"):
         link = item.find("a", href=True)
         if not link:
             continue
         page_url = _absolute_url(link.get("href"))
-        match = re.search(r"/(\d+)-", page_url)
+        parsed_url = urlparse(page_url)
+        if parsed_url.scheme != "https" or parsed_url.hostname != "memoire.ciclic.fr":
+            continue
+        match = re.search(r"/(\d+)-", parsed_url.path)
         if not match:
             continue
         record_id = match.group(1)
