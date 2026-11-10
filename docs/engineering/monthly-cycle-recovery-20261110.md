@@ -103,8 +103,9 @@ público, não segue redirecionamentos, limita a amostra a 128 KiB de HTML,
 não baixa mídia/PDF e não armazena o HTML; emite somente status,
 categoria, tamanho, hash do fragmento e marca da página. **HTTP 200 não
 equivale à confirmação do corpus.** As respostas 403/429 preservam o
-bloqueio. A política de sondas respeita os termos/robots da fonte e
-qualquer restrição observada.
+bloqueio. Antes de executar cada sonda, o operador deve conferir os termos e o
+robots.txt da origem; a sonda em si não faz descoberta automática dessas
+regras. Qualquer restrição observada implica HOLD.
 
 Testes offline adicionados:
 `test_monthly_source_probes.py`,
