@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 import time
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -115,6 +115,9 @@ def parse_czech_television_catalog_page(html, category_label=""):
         seen_slugs = set()
         for anchor in soup.select("a[href]"):
             href = anchor.get("href", "").split("?", 1)[0]
+            parsed = urlparse(urljoin(CZECH_TELEVISION_HOME_URL, href))
+            if parsed.scheme != "https" or parsed.hostname != "www.ceskatelevize.cz":
+                continue
             match = re.search(r"(?:^|/)porady/(\d{2,}-[a-z0-9-]+)/?$", href, re.I)
             if not match:
                 continue
