@@ -124,6 +124,7 @@ jobs:
         env:
           SOURCE: ${{ matrix.source }}
           MAR_SOURCE_STAGED_APPROVED: "yes"
+          MAR_PROBE_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           python -B -m scripts.probe_staged_eye_czech --source "$SOURCE" --execute
 
