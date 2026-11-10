@@ -90,7 +90,7 @@ class EyeCollectionTests(unittest.TestCase):
         _, summary, videos, _ = collect_eye_dataset(
             fetcher=fake_fetch, sleep_seconds=0
         )
-        self.assertEqual(len(videos), 1)  # candidate, not verified fragment
+        self.assertEqual(videos, [])  # unfiltered catalogue never becomes fragments
         self.assertNotEqual(summary[0]["integrity_status"], "integro")
         self.assertIn("filter_not_confirmed", summary[0]["error"])
         self.assertTrue(summary[0]["priority_review"])
