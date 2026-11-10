@@ -6,9 +6,10 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 from urllib.error import HTTPError
 
-from scripts.probe_staged_eye_czech import _canonical, _digest, run
+from scripts.probe_staged_eye_czech import Checkpoints, _canonical, _digest, run
 
 
 class Reply:
@@ -65,6 +66,16 @@ class StagedEyeCzechTests(unittest.TestCase):
             passed = run(source, folder, opener=opener, sleep_fn=sleeps.append)
             document = json.loads((Path(folder) / (source + ".json")).read_text())
         return passed, document, sleeps
+
+    def test_checkpoint_records_reviewed_pr_head_separately_from_merge_sha(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.dict("os.environ", {
+                "MAR_PROBE_HEAD_SHA": "reviewed-commit-123",
+                "GITHUB_SHA": "synthetic-merge-456",
+            }):
+                state = Checkpoints("eye", folder)
+        self.assertEqual(state.value["head_sha"], "reviewed-commit-123")
+        self.assertEqual(state.value["workflow_sha"], "synthetic-merge-456")
 
     def test_eye_fetches_exact_three_pages_and_deduplicates_with_checkpoints(self):
         opener = SequentialOpener(
