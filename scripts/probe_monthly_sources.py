@@ -1,6 +1,6 @@
-"""Opt-in, one-source, one-request public metadata availability probe.
+"""Opt-in, one-source public metadata availability probe (robots + one page).
 
-Not a collector: no pagination, videos, downloads or API authentication.
+Not a collector: no pagination, videos, downloads or API authentication.\nInspect robots.txt first; inaccessible or disallowing robots fail closed.
 No default live network operation. Diagnostic findings are not corpus success.
 """
 from __future__ import annotations
@@ -11,7 +11,8 @@ import json
 import os
 import ssl
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlunparse
+from urllib.robotparser import RobotFileParser
 from urllib.request import (
     HTTPRedirectHandler,
     HTTPSHandler,
@@ -20,6 +21,8 @@ from urllib.request import (
 )
 
 MAX_BYTES = 131_072
+ROBOTS_MAX_BYTES = 65_536
+USER_AGENT = 'MAR-Research-AvailabilityProbe/1.0'
 SOURCES = {
     "ape": (
         "https://www.archivesportaleurope.net/find-an-institution/",
@@ -69,6 +72,33 @@ def classify_http(status: int) -> str:
     return "http_ok_not_proof_of_corpus"
 
 
+def robots_preflight(url: str, *, opener) -> str:
+    """Use one bounded same-origin robots.txt request, fail closed on ambiguity.
+
+    An inaccessible robots.txt never authorizes a catalogue probe. No redirects
+    or further links are followed; this preflight is only a safety signal.
+    """
+    parsed = urlparse(url)
+    robots_url = urlunparse((parsed.scheme, parsed.netloc, "/robots.txt", "", "", ""))
+    request = Request(
+        robots_url,
+        headers={"User-Agent": USER_AGENT, "Accept": "text/plain"},
+    )
+    try:
+        with opener.open(request, timeout=12) as response:
+            if response.status != 200:
+                return "robots_unavailable"
+            sample = response.read(ROBOTS_MAX_BYTES + 1)
+            if len(sample) > ROBOTS_MAX_BYTES or b"\\x00" in sample:
+                return "robots_unusable"
+            # Parse only a bounded text response, never execute fetched content.
+            rules = RobotFileParser()
+            rules.parse(sample.decode("utf-8", errors="replace").splitlines())
+            return "robots_allowed" if rules.can_fetch(USER_AGENT, url) else "robots_disallowed"
+    except (HTTPError, URLError, TimeoutError, OSError):
+        return "robots_unavailable"
+
+
 def probe_one(code: str, *, opener=None) -> dict[str, object]:
     if code not in SOURCES:
         raise ValueError("source_not_allowlisted")
@@ -85,15 +115,20 @@ def probe_one(code: str, *, opener=None) -> dict[str, object]:
         "bytes_sampled": 0,
         "sample_sha256": "",
         "corpus_validated": False,
+        "robots_status": "unverified",
     }
     opener = opener or build_opener(
         NoRedirect(), HTTPSHandler(context=ssl.create_default_context())
     )
+    answer["robots_status"] = robots_preflight(url, opener=opener)
+    if answer["robots_status"] != "robots_allowed":
+        answer["result"] = answer["robots_status"]
+        return answer
     request = Request(
         url,
         headers={
             "Accept": "text/html,application/xhtml+xml",
-            "User-Agent": "MAR-Research-AvailabilityProbe/1.0 (+public metadata only)",
+            "User-Agent": USER_AGENT,
         },
     )
     try:
@@ -118,7 +153,7 @@ def probe_one(code: str, *, opener=None) -> dict[str, object]:
     except HTTPError as error:
         answer["http_code"] = error.code
         answer["result"] = classify_http(error.code)
-    except (URLError, OSError, TimeoutError) as error:
+    except (URLError, OSError, TimeoutError):
         # Never print exception details (network URLs/credentials).
         answer["result"] = "public_network_unavailable"
     return answer
