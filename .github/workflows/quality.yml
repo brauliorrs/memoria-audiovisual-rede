@@ -54,6 +54,10 @@ jobs:
           python -m pip install -e ".[postgres]"
           python -c "from memoria_audiovisual.metadata_staging import stage_metadata; from memoria_audiovisual.postgres_checkpoint_storage import PostgresCheckpointStore"
 
+      - name: Validate pinned root-owned system CA bundle (offline)
+        run: |
+          python -c "from scripts.run_mar_p0_neon_cloud import TRUSTED_CA_BUNDLE, validate_trusted_ca_file; validate_trusted_ca_file(TRUSTED_CA_BUNDLE)"
+
       - name: Require recorded manual solo-maintainer approval
         env:
           GH_TOKEN: ${{ github.token }}
