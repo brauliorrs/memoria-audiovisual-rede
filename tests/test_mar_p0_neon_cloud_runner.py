@@ -1,10 +1,18 @@
 """Offline fail-closed checks for Gate P0 GitHub cloud executor."""
 from __future__ import annotations
 
+import stat
 import unittest
+from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from scripts.run_mar_p0_neon_cloud import (
-    CloudGateRejected, classify_live_error, validate_cloud_context,
+    CloudGateRejected,
+    TRUSTED_CA_BUNDLE,
+    classify_live_error,
+    validate_cloud_context,
+    validate_trusted_ca_file,
 )
 
 
@@ -79,6 +87,47 @@ class CloudP0GuardTests(unittest.TestCase):
                     CloudGateRejected, "unapproved_postgres_configuration"
                 ):
                     validate_cloud_context(env)
+
+
+class TrustedTlsRootsTests(unittest.TestCase):
+    def test_root_owned_system_bundle_is_accepted(self):
+        info = SimpleNamespace(st_mode=stat.S_IFREG | 0o644, st_uid=0,
+                               st_size=250_000)
+        with patch.object(Path, "is_symlink", return_value=False), patch.object(
+            Path, "stat", return_value=info
+        ):
+            self.assertEqual(
+                validate_trusted_ca_file(TRUSTED_CA_BUNDLE),
+                "/etc/ssl/certs/ca-certificates.crt",
+            )
+
+    def test_missing_untrusted_and_unsafe_ca_rejected(self):
+        trusted = SimpleNamespace(st_mode=stat.S_IFREG | 0o644, st_uid=0,
+                                  st_size=250_000)
+        cases = (
+            (TRUSTED_CA_BUNDLE, True, trusted, None),
+            (TRUSTED_CA_BUNDLE, False, trusted, FileNotFoundError()),
+            (TRUSTED_CA_BUNDLE, False,
+             SimpleNamespace(st_mode=stat.S_IFREG | 0o644, st_uid=1000,
+                             st_size=250_000), None),
+            (TRUSTED_CA_BUNDLE, False,
+             SimpleNamespace(st_mode=stat.S_IFREG | 0o666, st_uid=0,
+                             st_size=250_000), None),
+            (TRUSTED_CA_BUNDLE, False,
+             SimpleNamespace(st_mode=stat.S_IFDIR | 0o755, st_uid=0,
+                             st_size=250_000), None),
+            (TRUSTED_CA_BUNDLE, False,
+             SimpleNamespace(st_mode=stat.S_IFREG | 0o644, st_uid=0,
+                             st_size=0), None),
+            (Path("/tmp/untrusted-ca.pem"), False, trusted, None),
+        )
+        for path, is_link, info, failure in cases:
+            with self.subTest(path=str(path), symlink=is_link, error=failure):
+                with patch.object(Path, "is_symlink", return_value=is_link):
+                    with patch.object(Path, "stat", side_effect=failure,
+                                      return_value=info):
+                        with self.assertRaises(CloudGateRejected):
+                            validate_trusted_ca_file(path)
 
 
 class CloudErrorRedactionTests(unittest.TestCase):
