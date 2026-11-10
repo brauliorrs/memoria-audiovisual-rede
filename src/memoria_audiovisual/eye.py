@@ -228,7 +228,14 @@ def collect_eye_dataset(fetcher=_fetch, sleep_seconds=EYE_PAGE_DELAY_SECONDS):
         page = first_page if page_index == 0 else fetcher(_list_url(page_index))
         if page_index and sleep_seconds:
             time.sleep(sleep_seconds)
-        records = parse_eye_fragment_list_page(page.html_text, page.url) if page.status_code == 200 else []
+        if page_index and page.status_code != 200:
+            errors.append(f"eye_list_page_{page_index}_unavailable")
+        # Never include ordinary catalogue films in the public-fragment
+        # corpus when the expected filter cannot be verified.
+        records = (
+            parse_eye_fragment_list_page(page.html_text, page.url)
+            if page.status_code == 200 and declared_total > 0 else []
+        )
         for record in records:
             records_by_id[record["record_id"]] = record
         rows_internal_pages.append(
