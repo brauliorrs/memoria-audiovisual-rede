@@ -267,3 +267,16 @@ teste autenticado automático nesta etapa.
 **Gate P0 segue HOLD:** os testes de restauração remota independente e
 armazenamento externo criptografado continuam pendentes. Não confundir os
 testes offline com a certificação do banco real.
+
+
+## 2026-11-10 — falha de confiança TLS e correção fail-closed
+
+**Evidência:** a execução aprovada [#42864956411](https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/42864956411) passou no Quality Checks e na aprovação manual de `brauliorrs`, mas o teste Psycopg falhou com 3 erros classificados como `tls_certificate`. O log não permite afirmar se a mensagem subjacente foi certificado inválido, CA não encontrada ou opção `sslrootcert`. Nenhuma alteração de senha, papel, esquema ou migração está indicada por esse diagnóstico.
+
+**Hipótese técnica principal:** `psycopg[binary]` traz OpenSSL próprio e pode não encontrar automaticamente as raízes confiáveis do runner quando `sslrootcert=system`. Isso é um problema de descoberta de CA do lado cliente, não uma justificativa para `sslmode=require` ou desativar a validação TLS. Referências: https://www.postgresql.org/docs/current/libpq-connect.html e https://neon.com/blog/avoid-mitm-attacks-with-psql-postgres-16.
+
+**Impacto auditado e alteração mínima:** somente o executor protegido `scripts/run_mar_p0_neon_cloud.py`, a asserção TLS do teste vivo, os testes unitários do gate e o job `mar-p0-neon-cloud` em `quality.yml`. O executor agora usa `sslmode=verify-full`, `channel_binding=require` e `sslrootcert=/etc/ssl/certs/ca-certificates.crt` explicitamente, validando previamente que o bundle do Ubuntu existe, é regular, contém dados, pertence a root e não é gravável por grupo/outros; jamais aceita uma CA passada pelo ambiente ou pelo PR. Um passo offline confirma a disponibilidade do bundle antes do teste. Continua proibido redirecionar o host, mudar para outra branch, desativar TLS ou apresentar certificados externos.
+
+**Testes previstos:** aceitação de bundle root-owned; rejeição de arquivo ausente, simbólico, não regular, vazio, manipulável ou caminho alternativo; rejeição de DSN que não use exatamente o certificado aprovado; testes existentes de contexto GitHub, aprovação manual, revisão de SHA, não divulgação de credenciais e integridade do staging. O próximo teste *live* é separado e requer novo SHA de revisão + novo evento de etiqueta + aprovação do environment. **Nunca rodar automaticamente e nunca substituir a credencial existente apenas por este erro de TLS.**
+
+**Gate P0 continua HOLD** até comprovação da conexão autenticada, persistência e recuperação de metadados sintéticos, e backup criptografado externo com restauração independente.
