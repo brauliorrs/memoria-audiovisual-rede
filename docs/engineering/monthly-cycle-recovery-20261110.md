@@ -76,3 +76,52 @@ Uma fonte só volta a `success` após evidências recentes de acesso
 permitido, extração válida, contagem coerente, links/proveniência
 preservados e aprovação do verificador de corpus, sem ampliar a coleta
 sem autorização.
+
+
+## 10/11/2026 — tratamento individual dos sete corpora ainda falhos (PR #91)
+
+Além da preservação de evidências e da Filmoteca Valenciana, as sete
+origens receberam análise individual, controles e testes isolados.
+**Nenhuma está classificada como recuperada no ciclo mensal real.**
+
+| Fonte | Alteração concreta | Prova que falta |
+| --- | --- | --- |
+| APE | `ape.py`: HTTP 403 e 429 do PDF oficial viram `ApePublicAccessHold` com erro não sensível; nunca simula PDF nem tenta acesso alternativo não autorizado. `test_ape_access_hold.py` verifica. | Volta de acesso público permitido ao documento, ou rota oficial equivalente documentada e autorizada |
+| ASIM | Parser passou a usar `parse_efg_search_page`: decodifica identificadores `asim%3A%3A`, deduplica e rejeita links fora do domínio EFG. | EFG devolver fichas válidas e o verificador do ASIM confirmar registros reais |
+| Bundesarchiv | Mesmo parser compartilhado para `barch::`, com restrição HTTPS/domínio; a página oficial do Bundesarchiv confirma o Digitaler Lesesaal como catálogo contextual, **não** como substituição automática do EFG. | Prova de páginas públicas com itens fílmicos e respectiva disponibilidade, sem afirmar streaming universal |
+| BNFA | Mesmo parser para `bnfa%3A%3A`; o EFG ainda indexa uma coleção de vídeos, mas links indexados não são prova de acesso na hora da coleta. | Retorno real do EFG, análise dos status HTTP e das fichas, sem uso de espelho |
+| CICLIC | `ciclic.py`: quando a resposta AJAX retorna sem fichas na primeira página, uma única consulta adicional ao índice público HTML pode descobrir fichas `/NNN-slug`; HTTPS e domínio institucional obrigatórios; parser deduplica. | Observar HTML real, verificar fichas, controle de paginação e validação do corpus |
+| Czech Television | `czech_television.py`: se `__NEXT_DATA__` não trouxer programas, extrai poucos links públicos de `/porady/{id-slug}/` como **candidatos**, sem alegar `isPlayable`. Somente episódios cuja ficha `mediaMeta.isPlayable` seja verdadeira entram no catálogo. | Confirmar fichas e reprodução disponíveis com base em resposta atual; não colher conteúdo não autorizado |
+| Eye Filmmuseum | `eye.py`: filtro antigo `with film fragment` sem total declarado gera `eye_film_fragment_filter_not_confirmed`; dados gerais do catálogo não podem ser marcados `integro` como se fossem 630 fragmentos. | Encontrar recorte oficial contemporâneo para fragmentos efetivamente visíveis, com contagem e páginas verificadas |
+
+**Sonda pontual opt-in:** `scripts/probe_monthly_sources.py` aceita uma
+fonte por chamada (`ape`, `asim`, `barch`, `bnfa`, `ciclic`,
+`czech_tv` ou `eye`). Por padrão só imprime um plano sem rede. A sonda
+*live*, quando autorizada, exige `--execute` e a variável temporária
+`MAR_SOURCE_PROBE_APPROVED=yes`. Utiliza apenas um GET HTTPS do índice
+público, não segue redirecionamentos, limita a amostra a 128 KiB de HTML,
+não baixa mídia/PDF e não armazena o HTML; emite somente status,
+categoria, tamanho, hash do fragmento e marca da página. **HTTP 200 não
+equivale à confirmação do corpus.** As respostas 403/429 preservam o
+bloqueio. A política de sondas respeita os termos/robots da fonte e
+qualquer restrição observada.
+
+Testes offline adicionados:
+`test_monthly_source_probes.py`,
+`test_monthly_efg_provider_links.py`,
+`test_ape_access_hold.py`, novos testes de Czech Television,
+CICLIC e Eye. Nenhuma sonda live foi acionada, nem o ciclo dos 60
+corpora. Sem alteração no PR #90, no Neon de produção ou na `main`.
+
+Evidências públicas consultadas:
+- APE: https://www.archivesportaleurope.net/find-an-institution/
+- ASIM: https://www.europeanfilmgateway.eu/content/Arxiu%20del%20So%20i%20de%20la%20Imatge%20de%20Mallorca%20%28Palma%29
+- Bundesarchiv: https://www.bundesarchiv.de/en/research-our-records/research-by-media-type/films/
+- BNFA (índice EFG): https://www.europeanfilmgateway.eu/search-efg/bnfa
+- CICLIC: https://memoire.ciclic.fr/films-d-archives
+- Czech TV: https://www.ceskatelevize.cz/ivysilani/kategorie/4029-kultura/katalog/
+- Eye: https://filmdatabase.eyefilm.nl/en/collection/film-history/film
+
+**Decisão:** manter o refresh automático com estado de falha quando o
+verificador reprovar; não substituir registros que faltam por amostras
+artificiais, não converter erros em sucesso e não autorizar coleta massiva.
