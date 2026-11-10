@@ -90,7 +90,7 @@ def structure_one(code: str, *, opener=None) -> dict[str, object]:
     markup = data.decode("utf-8", errors="replace")
     parser = PageTextAndLinks()
     parser.feed(markup)
-    text = re.sub(r"\\s+", " ", " ".join(parser.text))
+    text = re.sub(r"\s+", " ", " ".join(parser.text))
 
     allowed_links = set()
     for link in parser.hrefs:
@@ -101,17 +101,17 @@ def structure_one(code: str, *, opener=None) -> dict[str, object]:
         if code == "eye":
             if "/collection/film-history/film/" in path and not path.endswith("/all/all"):
                 allowed_links.add(dest.geturl())
-        elif re.match(r"^/porady/\\d{2,}-[a-z0-9-]+/?$", path, flags=re.I):
+        elif re.match(r"^/porady/\d{2,}-[a-z0-9-]+/?$", path, flags=re.I):
             allowed_links.add(dest.geturl())
     answer["index_detail_candidates"] = len(allowed_links)
     if code == "eye":
         match = re.search(
-            r"with\\s+film\\s+fragment\\s*([0-9][0-9,.]*)",
+            r"with\s+film\s+fragment\s*([0-9][0-9,.]*)",
             text, re.I,
         )
         if match:
             answer["filter_declared_total"] = int(
-                re.sub(r"\\D", "", match.group(1)) or "0"
+                re.sub(r"\D", "", match.group(1)) or "0"
             )
         answer["result"] = (
             "fragment_index_candidates_only"
