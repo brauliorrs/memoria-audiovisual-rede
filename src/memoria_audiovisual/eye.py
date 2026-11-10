@@ -217,6 +217,10 @@ def collect_eye_dataset(fetcher=_fetch, sleep_seconds=EYE_PAGE_DELAY_SECONDS):
     if first_page.status_code == 200:
         declared_total = extract_eye_declared_fragment_total(first_page.html_text)
         max_page = extract_eye_max_page(first_page.html_text)
+        if not declared_total:
+            # The old filter can silently return the unfiltered catalogue.
+            # Never turn a successful HTTP response into verified film fragments.
+            errors.append("eye_film_fragment_filter_not_confirmed")
     else:
         errors.append(first_page.error or f"HTTP {first_page.status_code}")
 
@@ -245,7 +249,9 @@ def collect_eye_dataset(fetcher=_fetch, sleep_seconds=EYE_PAGE_DELAY_SECONDS):
     ]
     total_records = len(rows_video_links)
     expected_total = declared_total or EYE_EXPECTED_FRAGMENT_TOTAL
-    complete = total_records == expected_total
+    complete = (
+        total_records == expected_total and declared_total > 0 and not errors
+    )
     rows_summary = [
         {
             **_base_row(institution),
