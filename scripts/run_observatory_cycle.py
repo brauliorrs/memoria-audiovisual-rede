@@ -132,9 +132,12 @@ def main():
 
     for corpus_def in active_corpora:
         refresh_started_at = utcnow_iso()
+        failure_stage = "collection"
         try:
             run_python_script(corpus_def["run_script_path"])
+            failure_stage = "validation"
             run_python_script(corpus_def["check_script_path"])
+            failure_stage = "snapshot"
             snapshot_metadata = load_snapshot_metadata(corpus_def, OUTPUT_DIR)
             cycle_results.append(
                 {
@@ -144,6 +147,7 @@ def main():
                     "category_code": corpus_def["category_code"],
                     "coverage_level": corpus_def["coverage_level"],
                     "status": "success",
+                    "failure_stage": "",
                     "refresh_started_at": refresh_started_at,
                     "refresh_finished_at": utcnow_iso(),
                     "snapshot_generated_at": snapshot_metadata.get("generated_at", ""),
@@ -168,6 +172,7 @@ def main():
                     "category_code": corpus_def["category_code"],
                     "coverage_level": corpus_def["coverage_level"],
                     "status": "failed",
+                    "failure_stage": failure_stage,
                     "refresh_started_at": refresh_started_at,
                     "refresh_finished_at": utcnow_iso(),
                     "snapshot_generated_at": "",
