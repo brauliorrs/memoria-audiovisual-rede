@@ -170,6 +170,40 @@ class CzechTelevisionCollectionTests(unittest.TestCase):
         self.assertEqual(summary[0]["video_links_found_total"], 1)
         self.assertTrue(any(page["embedded_signals"] == 1 for page in internal_pages))
 
+    def test_html_catalog_fallback_only_discovers_candidates(self):
+        html = """
+        <main>
+          <a href="/porady/151-kultura/">Cultural archive</a>
+          <a href="/porady/151-kultura/">Duplicate</a>
+          <a href="/porady/261-filmovy-archiv/">Film archive</a>
+          <a href="https://external.example/other">External</a>
+          <a href="/porady/not-valid/">Invalid</a>
+        </main>
+        """
+        candidates = parse_czech_television_catalog_page(html, "Cultura")
+        self.assertEqual(len(candidates), 2)
+        self.assertEqual(candidates[0]["show_slug"], "151-kultura")
+        self.assertEqual(candidates[1]["show_slug"], "261-filmovy-archiv")
+        self.assertTrue(all(not c["is_playable"] for c in candidates))
+        self.assertTrue(all(c["discovery_only"] for c in candidates))
+
+    def test_catalog_fallback_does_not_materialize_unverified_video(self):
+        html = '<a href="/porady/151-kultura/">Cultura</a>'
+
+        def fake_fetch(url):
+            if "/kategorie/" in url:
+                return Mock(status_code=200, url=url, text=html)
+            if url.endswith("/151-kultura/"):
+                return Mock(status_code=200, url=url,
+                            text='<a href="/porady/151-kultura/226411033400703/">Episode</a>')
+            # mediaMeta.isPlayable must be explicitly true; plain HTML is not enough
+            return Mock(status_code=200, url=url, text="<main>Unverified episode</main>")
+
+        with patch("memoria_audiovisual.czech_television._fetch", side_effect=fake_fetch):
+            _, summary, video_links, _ = collect_czech_television_dataset()
+        self.assertEqual(video_links, [])
+        self.assertEqual(summary[0]["integrity_status"], "instavel")
+
     def test_platform_theme_and_access_are_classified(self):
         url = "https://www.ceskatelevize.cz/porady/151-kultura/226411033400703/"
         row = {"platform": "Česká televize iVysílání", "video_link": url, "video_subject": "Kultura; Festival"}
