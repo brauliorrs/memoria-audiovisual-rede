@@ -7,13 +7,18 @@ from __future__ import annotations
 
 import io
 import os
+import stat
 import sys
 import unittest
 from collections.abc import Mapping
+from pathlib import Path
 
 TEST_ENDPOINT = "ep-damp-term-b8wqhmz0.c-14.us-east-1.aws.neon.tech"
 TEST_ROLE = "mar_p0_limited"
 REQUIRED_CONTEXT = "mar-p0-neon-isolated"
+# Explicit trusted OS bundle avoids psycopg[binary]'s own OpenSSL trust-store
+# discovery. Never fall back to sslmode=require / verify-ca / no verification.
+TRUSTED_CA_BUNDLE = Path("/etc/ssl/certs/ca-certificates.crt")
 FORBIDDEN_ENV = (
     "MAR_P0_TEST_DATABASE_URL",
     "PGHOST", "PGHOSTADDR", "PGPORT", "PGDATABASE", "PGUSER",
@@ -58,6 +63,25 @@ class CloudGateRejected(ValueError):
     """A cloud test must never fall back to a production database."""
 
 
+def validate_trusted_ca_file(path: Path) -> str:
+    """Require the trusted, root-owned Ubuntu CA bundle; no user-supplied CA."""
+    if path != TRUSTED_CA_BUNDLE or path.is_symlink():
+        raise CloudGateRejected("trusted_ca_bundle_invalid")
+    try:
+        info = path.stat()
+    except OSError as exc:
+        raise CloudGateRejected("trusted_ca_bundle_unavailable") from exc
+    if (
+        not stat.S_ISREG(info.st_mode)
+        or info.st_uid != 0
+        or (info.st_mode & 0o022)
+        or info.st_size < 1024
+    ):
+        raise CloudGateRejected("trusted_ca_bundle_invalid")
+    return str(TRUSTED_CA_BUNDLE)
+
+
+
 def validate_cloud_context(env: Mapping[str, str]) -> str:
     """Fail before imports/network if any cloud execution precondition is unmet."""
     if (
@@ -93,6 +117,12 @@ def main() -> int:
         return 2
 
     try:
+        root_cert = validate_trusted_ca_file(TRUSTED_CA_BUNDLE)
+    except CloudGateRejected as exc:
+        print(f"Gate P0 CLOUD HOLD: {exc}", file=sys.stderr)
+        return 2
+
+    try:
         from psycopg.conninfo import make_conninfo
     except ImportError:
         print("Gate P0 CLOUD HOLD: psycopg_unavailable", file=sys.stderr)
@@ -107,7 +137,7 @@ def main() -> int:
         user=TEST_ROLE,
         password=password,
         sslmode="verify-full",
-        sslrootcert="system",
+        sslrootcert=root_cert,
         channel_binding="require",
         connect_timeout=12,
         application_name="mar-gate-p0-synthetic-cloud",
