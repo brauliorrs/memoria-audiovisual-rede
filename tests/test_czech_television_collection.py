@@ -176,7 +176,7 @@ class CzechTelevisionCollectionTests(unittest.TestCase):
           <a href="/porady/151-kultura/">Cultural archive</a>
           <a href="/porady/151-kultura/">Duplicate</a>
           <a href="/porady/261-filmovy-archiv/">Film archive</a>
-          <a href="https://external.example/other">External</a>
+          <a href="https://external.example/porady/1234-foreign">External</a>
           <a href="/porady/not-valid/">Invalid</a>
         </main>
         """
