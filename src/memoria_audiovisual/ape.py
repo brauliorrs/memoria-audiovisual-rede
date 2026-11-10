@@ -31,16 +31,29 @@ def get_soup(url):
     return BeautifulSoup(response.text, "html.parser")
 
 
+class ApePublicAccessHold(RuntimeError):
+    """Official APE document unavailable; do not bypass source restrictions."""
+
+
+def require_ape_pdf_access(response):
+    """Turn known access failures into explicit HOLD categories, not empty corpora."""
+    if response.status_code == 403:
+        raise ApePublicAccessHold("ape_official_pdf_access_denied_403")
+    if response.status_code == 429:
+        raise ApePublicAccessHold("ape_official_pdf_rate_limited_429")
+    response.raise_for_status()
+
+
 def fetch_pdf_text(url):
     response = SESSION.get(url, timeout=60, allow_redirects=True)
-    response.raise_for_status()
+    require_ape_pdf_access(response)
     reader = PdfReader(BytesIO(response.content))
     return "\n".join(page.extract_text() or "" for page in reader.pages)
 
 
 def fetch_pdf_reader(url):
     response = SESSION.get(url, timeout=60, allow_redirects=True)
-    response.raise_for_status()
+    require_ape_pdf_access(response)
     return PdfReader(BytesIO(response.content))
 
 
