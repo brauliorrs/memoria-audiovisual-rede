@@ -119,7 +119,10 @@ class Checkpoints:
         self.value = {
             "source": source,
             "run_id": os.environ.get("GITHUB_RUN_ID", "offline-test"),
-            # PR workflows set GITHUB_SHA to the synthetic merge commit.\n            # Record the reviewed PR head separately from the runner checkout.\n            "head_sha": os.environ.get("MAR_PROBE_HEAD_SHA", os.environ.get("GITHUB_SHA", "offline-test")),\n            "workflow_sha": os.environ.get("GITHUB_SHA", "offline-test"),
+            # PR workflows set GITHUB_SHA to the synthetic merge commit.
+            # Record the reviewed PR head separately from the runner checkout.
+            "head_sha": os.environ.get("MAR_PROBE_HEAD_SHA", os.environ.get("GITHUB_SHA", "offline-test")),
+            "workflow_sha": os.environ.get("GITHUB_SHA", "offline-test"),
             "started_at_utc": datetime.now(timezone.utc).isoformat(),
             "purpose": "bounded_synthetic_free_metadata_probe",
             "media_downloaded": False,
