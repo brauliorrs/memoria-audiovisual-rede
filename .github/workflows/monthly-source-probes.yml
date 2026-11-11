@@ -111,7 +111,9 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        source: [eye, czech_tv]
+        # Eye's approved 3-page staged test is not rerun.
+        # This label authorizes one tightly scoped Czech-only metadata check.
+        source: [czech_tv]
     steps:
       - name: Checkout reviewed PR
         uses: actions/checkout@v4
@@ -119,7 +121,7 @@ jobs:
       - name: Install parser dependencies
         run: python -m pip install -e .
 
-      - name: Run strictly bounded staged source probe
+      - name: Diagnose one Czech programme and episode (no media)
         id: staged
         env:
           SOURCE: ${{ matrix.source }}
