@@ -124,6 +124,18 @@ class CzechV2OfflineEvidenceTests(unittest.TestCase):
         self.assertIn("pagination_link_broken", result["reasons"])
         self.assertIn("missing_or_reordered_page", result["reasons"])
 
+    def test_repeated_official_page_url_cannot_prove_full_pagination(self):
+        manifest, pages, outputs = fixture()
+        second = copy.deepcopy(pages[1])
+        second["page_url"] = pages[0]["page_url"]
+        second.pop("previous_chain_sha256")
+        second.pop("chain_sha256")
+        pages[1] = checkpoint(second, pages[0]["chain_sha256"])
+        manifest["checkpoint_chain_sha256"] = pages[-1]["chain_sha256"]
+        result = verified(manifest, pages, outputs)
+        self.assertFalse(result["structural_pass"])
+        self.assertIn("duplicate_page_url", result["reasons"])
+
     def test_duplicate_episode_record_in_same_page_fails(self):
         manifest, pages, outputs = fixture()
         last = copy.deepcopy(pages[1])
