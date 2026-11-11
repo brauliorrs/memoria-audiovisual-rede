@@ -318,13 +318,13 @@ def _run_czech(state, opener, sleep_fn):
     if episode_truncated:
         raise ProbeHold("czech_episode_page_oversize")
     diagnosis = classify_czech_episode_metadata(episode_html)
-    record = parse_czech_television_episode_page(
-        episode_html, episode_url, show
-    )
-    playable = (
-        diagnosis["classification"] == "czech_public_metadata_playable_with_id"
-        and bool(record and record.get("record_id"))
-    )
+    if diagnosis["classification"] == "czech_public_metadata_playable_with_id":
+        record = parse_czech_television_episode_page(
+            episode_html, episode_url, show
+        )
+    else:
+        record = {}
+    playable = bool(record and record.get("record_id"))
     state.stage("czech_episode", html_sha256=episode_digest,
                 episode_id=record.get("record_id", "") if record else "",
                 media_meta_is_playable=playable,
