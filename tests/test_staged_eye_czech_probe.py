@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 from urllib.error import HTTPError
 
-from scripts.probe_staged_eye_czech import Checkpoints, _canonical, _digest, run
+from scripts.probe_staged_eye_czech import Checkpoints, _canonical, _digest, classify_czech_episode_metadata, run
 
 
 class Reply:
@@ -130,8 +130,8 @@ class StagedEyeCzechTests(unittest.TestCase):
         self.assertEqual(len(opener.urls), 3)
 
     def test_czech_checks_one_programme_and_one_playable_episode(self):
-        catalog = '<a href="/porady/151-kultura/">Kultura</a><a href="/porady/222-other/">Other</a>'
-        show = '<a href="/porady/151-kultura/226411033400703/">Episode</a>'
+        catalog = '<a href="/porady/12701251153-kultura/">Kultura</a><a href="/porady/222-other/">Other</a>'
+        show = '<a href="/porady/12701251153-kultura/226411033400703/">Episode</a>'
         episode = next_data({"mediaMeta": {
             "isPlayable": True, "id": "ep-123", "title": "Archive episode",
             "show": {"title": "Kultura"},
@@ -143,20 +143,62 @@ class StagedEyeCzechTests(unittest.TestCase):
         self.assertFalse(doc["corpus_validated"])
         self.assertEqual(len(opener.urls), 4)
         self.assertEqual(sleeps, [2, 2])
-        self.assertIn("/porady/151-kultura/", opener.urls[2])
+        self.assertIn("/porady/12701251153-kultura/", opener.urls[2])
         self.assertIn("226411033400703", opener.urls[3])
         self.assertEqual(doc["stages"][-1]["media_meta_is_playable"], True)
         self.assertEqual(doc["stages"][-1]["actual_stream_playback_verified"], False)
 
     def test_czech_unplayable_episode_stays_hold_without_other_attempts(self):
-        catalog = '<a href="/porady/151-kultura/">Kultura</a>'
-        show = '<a href="/porady/151-kultura/226411033400703/">Episode</a>'
+        catalog = '<a href="/porady/12701251153-kultura/">Kultura</a>'
+        show = '<a href="/porady/12701251153-kultura/226411033400703/">Episode</a>'
         episode = next_data({"mediaMeta": {"id": "ep", "isPlayable": False}})
         opener = SequentialOpener(robots(), Reply(catalog), Reply(show), Reply(episode))
         passed, doc, _ = self.run_in_dir("czech_tv", opener)
         self.assertFalse(passed)
-        self.assertEqual(doc["reason"], "czech_episode_not_playable_in_public_metadata")
+        self.assertEqual(doc["reason"], "czech_is_playable_explicit_false")
+        self.assertEqual(doc["stages"][-1]["playability_claim"], "false")
+        self.assertTrue(doc["stages"][-1]["is_playable_field_present"])
         self.assertEqual(len(opener.urls), 4)
+
+    def test_czech_metadata_classifier_distinguishes_missing_and_false(self):
+        cases = [
+            ("<html>mediaMeta</html>", "czech_next_data_absent", False),
+            ('<script id="__NEXT_DATA__">{bad</script>', "czech_next_data_invalid", False),
+            (next_data({}), "czech_media_meta_missing_at_expected_path", False),
+            (next_data({"mediaMeta": {"id": "record"}}), "czech_is_playable_absent", False),
+            (next_data({"mediaMeta": {"id": "record", "isPlayable": False}}),
+             "czech_is_playable_explicit_false", False),
+            (next_data({"mediaMeta": {"id": "record", "isPlayable": True}}),
+             "czech_public_metadata_playable_with_id", True),
+            (next_data({"mediaMeta": {"isPlayable": True}}),
+             "czech_playable_without_episode_id", False),
+        ]
+        for html, classification, playable in cases:
+            with self.subTest(classification=classification):
+                result = classify_czech_episode_metadata(html)
+                self.assertEqual(result["classification"], classification)
+                self.assertEqual(
+                    result["classification"] == "czech_public_metadata_playable_with_id",
+                    playable
+                )
+
+    def test_czech_missing_next_data_is_hold_without_fallback(self):
+        catalog = '<a href="/porady/12701251153-kultura/">Kultura</a>'
+        show = '<a href="/porady/12701251153-kultura/226411033400703/">Episode</a>'
+        opener = SequentialOpener(robots(), Reply(catalog), Reply(show), Reply("<html>video metadata unavailable</html>"))
+        passed, doc, _ = self.run_in_dir("czech_tv", opener)
+        self.assertFalse(passed)
+        self.assertEqual(doc["reason"], "czech_next_data_absent")
+        self.assertEqual(doc["stages"][-1]["next_data_present"], False)
+        self.assertEqual(len(opener.urls), 4)
+
+    def test_czech_cannot_switch_to_new_programme_silently(self):
+        catalog = '<a href="/porady/9999-new-show/">New programme</a>'
+        opener = SequentialOpener(robots(), Reply(catalog))
+        passed, doc, _ = self.run_in_dir("czech_tv", opener)
+        self.assertFalse(passed)
+        self.assertEqual(doc["reason"], "czech_previously_sampled_programme_not_in_catalogue")
+        self.assertEqual(len(opener.urls), 2)
 
     def test_robots_disallow_blocks_all_catalogue_requests(self):
         opener = SequentialOpener(Reply("User-agent: *\nDisallow: /\n", "text/plain"))
