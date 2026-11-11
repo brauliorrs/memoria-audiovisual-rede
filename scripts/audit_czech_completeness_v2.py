@@ -142,6 +142,7 @@ def audit(manifest, pages, *, trusted_manifest_sha256=None, output_urls=None):
 
     previous = GENESIS
     observed = set()
+    observed_page_urls = set()
     duplicates = 0
     valid_chain = True
     valid_pagination = True
@@ -169,6 +170,11 @@ def audit(manifest, pages, *, trusted_manifest_sha256=None, output_urls=None):
         if not official_url(page["page_url"]):
             reasons.append("page_url_not_official")
             valid_pagination = False
+        elif page["page_url"] in observed_page_urls:
+            reasons.append("duplicate_page_url")
+            valid_pagination = False
+        else:
+            observed_page_urls.add(page["page_url"])
         if not digest_ok(page["response_sha256"]):
             reasons.append("page_response_digest_invalid")
             valid_pagination = False
@@ -247,6 +253,8 @@ def main():
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--pages", type=Path, required=True)
     parser.add_argument("--trusted-sha256", default=None)
+    parser.add_argument("--offline-only", action="store_true",
+                        help="Return 0 for consistent offline evidence only; never production admission")
     parser.add_argument("--output-urls", type=Path, default=None,
                         help="JSON list of public episode URLs, not stream URLs")
     args = parser.parse_args()
@@ -260,7 +268,12 @@ def main():
         result = {"production_gate": "HOLD", "structural_pass": False,
                   "reasons": ["evidence_unreadable_" + type(error).__name__]}
     print(canonical(result))
-    return 0 if result.get("structural_pass") and result.get("external_digest_match") and result.get("output_reconciled") else 2
+    # Default command is a production-facing HOLD. Offline verification must
+    # be explicitly requested and must never change production_gate.
+    return 0 if (
+        args.offline_only and result.get("structural_pass")
+        and result.get("external_digest_match") and result.get("output_reconciled")
+    ) else 2
 
 
 if __name__ == "__main__":
