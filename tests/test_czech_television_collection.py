@@ -221,6 +221,40 @@ class CzechTelevisionCollectionTests(unittest.TestCase):
         self.assertEqual(summary[0]["video_links_found_total"], 1)
         self.assertTrue(any(page["embedded_signals"] == 1 for page in internal_pages))
 
+    def test_collect_dataset_with_current_public_episode_shape(self):
+        catalogue = '<a href="/porady/12701251153-kultura/">Kultura</a>'
+        show_page = '<a href="/porady/12701251153-kultura/226411033400703/">Episódio</a>'
+        episode_html = next_data_html({
+            "props": {"pageProps": {"data": {
+                "episode": {
+                    "id": "episode-public-id",
+                    "idec": "226411033400703",
+                    "title": "Kulturní archiv",
+                    "isPlayable": True,
+                    "show": {"title": "Kultura"},
+                }
+            }}}
+        })
+
+        def fake_fetch(url):
+            if "/kategorie/" in url:
+                return Mock(status_code=200, url=url, text=catalogue)
+            if url.endswith("/12701251153-kultura/"):
+                return Mock(status_code=200, url=url, text=show_page)
+            if url.endswith("/226411033400703/"):
+                return Mock(status_code=200, url=url, text=episode_html)
+            return Mock(status_code=200, url=url, text="<html></html>")
+
+        with patch("memoria_audiovisual.czech_television._fetch", side_effect=fake_fetch):
+            _, _, links, pages = collect_czech_television_dataset()
+        self.assertEqual(len(links), 1)
+        self.assertEqual(
+            links[0]["video_link"],
+            "https://www.ceskatelevize.cz/porady/12701251153-kultura/226411033400703/",
+        )
+        self.assertIn("episode.isPlayable=True", links[0]["video_description"])
+        self.assertTrue(any(p["embedded_signals"] == 1 for p in pages))
+
     def test_html_catalog_fallback_only_discovers_candidates(self):
         html = """
         <main>
