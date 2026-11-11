@@ -214,3 +214,27 @@ Checkpoint [#13873039680](https://github.com/brauliorrs/memoria-audiovisual-rede
 **Testes determinísticos offline** em `tests/test_czech_television_completeness.py`: um e dez registros acessíveis continuam HOLD; snapshot legado bloqueado; amostra com SHA não verificado não vira validada; snapshot com alegação de total integral forjado não passa; duplicata falha; builder do snapshot não importa automaticamente evidência externa. Teste preexistente do coletor ajustado para não esperar `integro` numa amostra de um episódio.
 
 **Restrição operacional:** não rodar o pipeline mensal das 60 fontes, nenhum lote maior Czech TV, nenhum download audiovisual, nem escrita/merge em `main` ou Neon. O Gate P0 de checkpoints duráveis continua independente. Eye já tinha contagem integral nominal de 630 em seu checker e mantém **somente** STAGED_PASS de 30 fichas, sem ampliar sua amostra automaticamente. Critérios de saída futuros: fonte autorizar varredura delimitada, demonstrar enumeração/total oficial, armazenar manifesto protegido com digest verificável, repetir auditoria independente e só então propor contrato v2 e decisão de promoção.
+
+
+## 11/11/2026 — contrato v2: auditor independente, SOMENTE offline
+
+Após o contrato v1 que força HOLD de corpus integral, implementamos em `scripts/audit_czech_completeness_v2.py` uma **camada de auditoria estrutural totalmente desconectada da rede**. Seu propósito é ensaiar verificações de futuras evidências, **não** autorizar nem executar uma varredura pública. `tests/test_czech_completeness_v2.py` produz somente páginas sintéticas e exercita os casos adversos.
+
+### Modelo mínimo de evidência
+
+O manifesto JSON `schema=mar.czech.completeness.v2` identifica a fonte oficial, um **universo definido** (`scope.kind`: `bounded_public_selection` ou `full_public_catalogue`), seu índice, definição textual, um total **alegado como observado** e digest da resposta de onde teria vindo esse total. Também declara páginas, total de IDs únicos, observações duplicadas, falhas, digest da lista deduplicada, raiz da cadeia de checkpoints e ausência de download/escrita em produção.
+
+Cada checkpoint de página contém índice consecutivo a partir de zero, URL HTTPS oficial, SHA-256 da resposta, total declarado, IDs de episódios, HTTP 200, erro nulo, ponteiro para a próxima página e indicação explícita de finalização. A cadeia usa `SHA256(previous_sha256 + JSON_canônico(payload))`, onde cada payload contém os identificadores/controles **e não HTML bruto**; o auditor recalcula a cadeia e reconcilia a raiz do manifesto. Duplicatas entre páginas são deduplicadas e contabilizadas, mas duplicatas dentro da mesma página, reconsulta da mesma URL, saltos e páginas perdidas geram erro. O total alegado pela fonte deve reconciliar com os IDs exclusivos e os URLs exportados do corpus, quando fornecidos.
+
+### Separação necessária entre integridade e procedência
+
+1. `structural_pass=true` significa apenas **consistência matemática interna**, verificando cadeia, paginação declarada, contagens, identidade e reconciliação dos links. **Não prova** que a fonte oficial retornou aqueles dados.
+2. `external_digest_match=true` requer SHA-256 do manifesto fornecido **fora do próprio documento**, e comprova igualdade contra essa âncora. Não autentica quem forneceu a âncora ou quem capturou a resposta.
+3. `output_reconciled=true` exige que a lista independente de links públicos contenha exatamente os identificadores de episódios deduplicados, sem links externos ou duplicados.
+4. `source_attestation_verified=false`, `corpus_complete=false`, `production_gate=HOLD` **sempre**, até que um protocolo futuro verifique a captura da origem e o esgotamento real do universo oficial, com armazenamento P0 aprovado e revisão metodológica.
+
+Por padrão, o comando `python -m scripts.audit_czech_completeness_v2 --manifest FILE --pages FILE` sai com código 2 (HOLD), inclusive se a evidência for coerente. Para **testar apenas a consistência offline**, há `--offline-only --trusted-sha256 HASH --output-urls FILE`, que pode sair 0; **esse retorno NÃO autoriza promoção**, e o JSON ainda registra `production_gate=HOLD`. Não integrar o retorno da auditoria offline ao sucesso do verificador mensal. O `check_czech_television_outputs.py` v1 continua bloqueando publicação integral.
+
+**Cobertura de regressão:** manifesto sintético de duas páginas com três IDs e uma duplicata entre páginas; página ausente; salto de índice/ponteiro; mesma URL reiterada; conteúdo adulterado; marcador terminal inválido com cadeia recalculada e âncora divergente; contagem oficial incorreta; duplicata intra-página; exportação com link duplicado ou domínio externo; erro de coleta; ausência de âncora externa; campos booleanos em contagens; falsa alegação de universo integral. Nenhuma consulta à Czech TV, nenhum download, nenhum refresh dos 60 corpora e nenhuma modificação de `main` ou Neon.
+
+**Gate metodológico seguinte:** definir para cada fonte o universo realmente enumerável e um sinal terminal oficial, coletar apenas sondas autorizadas que preservem evidência pública suficiente para auditoria independente, estabelecer armazenamento durável protegido e restaurável, e somente então desenhar uma etapa v3 que possa comprovar captura oficial; **não confundir um recorte completo com o catálogo inteiro do organismo**.
