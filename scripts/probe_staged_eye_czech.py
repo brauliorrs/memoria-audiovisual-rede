@@ -206,6 +206,62 @@ def _run_eye(state, opener, sleep_fn):
     state.finish("STAGED_PASS", "three_limited_index_pages_with_dedup_only")
 
 
+def classify_czech_episode_metadata(html):
+    """Classify public HTML metadata only; never infer actual playback."""
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html or "", "html.parser")
+    script = soup.find("script", id="__NEXT_DATA__")
+    evidence = {
+        "next_data_present": script is not None,
+        "next_data_json_valid": False,
+        "media_meta_present": False,
+        "is_playable_field_present": False,
+        "playability_claim": "not_observed",
+        "episode_id_present": False,
+        "media_meta_token_in_html": "mediaMeta" in (html or ""),
+    }
+    if script is None:
+        evidence["classification"] = "czech_next_data_absent"
+        return evidence
+    try:
+        payload = json.loads(script.string or script.get_text("", strip=True) or "")
+    except (json.JSONDecodeError, TypeError, ValueError):
+        evidence["classification"] = "czech_next_data_invalid"
+        return evidence
+    if not isinstance(payload, dict):
+        evidence["classification"] = "czech_next_data_unexpected_shape"
+        return evidence
+    evidence["next_data_json_valid"] = True
+    props = payload.get("props")
+    page_props = props.get("pageProps") if isinstance(props, dict) else None
+    data = page_props.get("data") if isinstance(page_props, dict) else None
+    media = data.get("mediaMeta") if isinstance(data, dict) else None
+    if not isinstance(media, dict):
+        evidence["classification"] = "czech_media_meta_missing_at_expected_path"
+        return evidence
+    evidence["media_meta_present"] = True
+    evidence["episode_id_present"] = bool(media.get("id") or media.get("idec"))
+    if "isPlayable" not in media:
+        evidence["classification"] = "czech_is_playable_absent"
+        return evidence
+    evidence["is_playable_field_present"] = True
+    flag = media["isPlayable"]
+    if flag is False:
+        evidence["playability_claim"] = "false"
+        evidence["classification"] = "czech_is_playable_explicit_false"
+    elif flag is True:
+        evidence["playability_claim"] = "true"
+        evidence["classification"] = (
+            "czech_public_metadata_playable_with_id"
+            if evidence["episode_id_present"] else "czech_playable_without_episode_id"
+        )
+    else:
+        evidence["playability_claim"] = "unexpected_type"
+        evidence["classification"] = "czech_is_playable_unexpected_type"
+    return evidence
+
+
 def _run_czech(state, opener, sleep_fn):
     source_url = SOURCES["czech_tv"][0]
     host = urlparse(source_url).hostname
@@ -224,7 +280,14 @@ def _run_czech(state, opener, sleep_fn):
                 truncated=truncated, programme_candidates=len(candidates))
     if not candidates:
         raise ProbeHold("czech_no_public_programme_candidates")
-    show = candidates[0]  # exactly one, never try another automatically
+    # Re-check only the programme already sampled in run #42890273211.
+    # A changed catalogue cannot silently move the audit to another show.
+    show = next(
+        (row for row in candidates if row.get("show_id") == "12701251153"),
+        None,
+    )
+    if show is None:
+        raise ProbeHold("czech_previously_sampled_programme_not_in_catalogue")
     sleep_fn(pause)
     show_url = show["show_url"]
     show_html, show_digest, show_truncated = _html(
@@ -254,16 +317,24 @@ def _run_czech(state, opener, sleep_fn):
     )
     if episode_truncated:
         raise ProbeHold("czech_episode_page_oversize")
+    diagnosis = classify_czech_episode_metadata(episode_html)
     record = parse_czech_television_episode_page(
         episode_html, episode_url, show
     )
-    playable = bool(record and record.get("record_id"))
+    playable = (
+        diagnosis["classification"] == "czech_public_metadata_playable_with_id"
+        and bool(record and record.get("record_id"))
+    )
     state.stage("czech_episode", html_sha256=episode_digest,
                 episode_id=record.get("record_id", "") if record else "",
                 media_meta_is_playable=playable,
-                actual_stream_playback_verified=False)
+                actual_stream_playback_verified=False,
+                **diagnosis)
     if not playable:
-        raise ProbeHold("czech_episode_not_playable_in_public_metadata")
+        raise ProbeHold(
+            diagnosis["classification"] if not diagnosis["classification"].endswith("_with_id")
+            else "czech_parser_did_not_materialize_record"
+        )
     state.finish("STAGED_PASS", "one_episode_media_meta_playable_only")
 
 
