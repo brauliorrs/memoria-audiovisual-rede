@@ -394,12 +394,20 @@ def collect_czech_television_dataset():
             "partner_domain": normalize_domain(CZECH_TELEVISION_IVYSILANI_URL),
             "status": "ok" if video_links else "erro",
             "http_code": 200 if video_links else "",
-            "integrity_status": "integro" if video_links else "instavel",
+            # A bounded MVP can prove accessible records, never complete coverage.
+            # A non-empty sample must not be published as a complete corpus.
+            "integrity_status": "instavel",
+            "coverage_scope": "bounded_mvp",
+            "accessible_records_count": len(video_links),
+            "validated_sample_count": 0,
+            "corpus_complete": False,
+            "enumeration_complete": False,
+            "expected_corpus_total": "",
             "final_url": CZECH_TELEVISION_KULTURA_CATALOG_URL,
             "video_links_found_total": len(video_links),
             "embedded_video_signals_total": sum(1 for record in records if record.get("embedded")),
             "candidate_internal_pages": len(internal_pages),
-            "priority_review": False,
+            "priority_review": True,
             "warning": (
                 "Corpus institucional incorporado por rota pública do iVysílání. A fonte identificadora "
                 "na fila é o EUscreen, mas a unidade analítica aqui é a Czech Television como arquivo "
