@@ -206,6 +206,118 @@ def _run_eye(state, opener, sleep_fn):
     state.finish("STAGED_PASS", "three_limited_index_pages_with_dedup_only")
 
 
+def map_czech_public_metadata_structure(html):
+    """Summarize public schema names only, never HTML, values or media URLs.
+
+    Limits are deliberate: unknown keys can signal a changed schema without
+    leaking personal data, tokens or embedded player configuration.
+    """
+    from bs4 import BeautifulSoup
+    from collections import deque
+
+    soup = BeautifulSoup(html or "", "html.parser")
+    script = soup.find("script", id="__NEXT_DATA__")
+    blocked = re.compile(
+        r"token|secret|auth|session|cookie|passw|email|user|credential|jwt|"
+        r"api.?key|access.?key|private|signed|signature", re.I
+    )
+    relevant = re.compile(
+        r"episode|media|video|playab|availab|programme|program|player|"
+        r"content|stream|metadata|asset|broadcast", re.I
+    )
+
+    def safe_keys(obj):
+        if not isinstance(obj, dict):
+            return []
+        return sorted(
+            key for key in obj
+            if isinstance(key, str)
+            and re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]{0,47}", key)
+            and not blocked.search(key)
+        )[:32]
+
+    data = {}
+    if script is not None:
+        try:
+            candidate = json.loads(script.string or script.get_text("", strip=True) or "")
+            if isinstance(candidate, dict):
+                data = candidate
+        except (json.JSONDecodeError, ValueError, TypeError):
+            pass
+    props = data.get("props") if isinstance(data.get("props"), dict) else {}
+    page_props = (
+        props.get("pageProps") if isinstance(props.get("pageProps"), dict) else {}
+    )
+    page_data = (
+        page_props.get("data") if isinstance(page_props.get("data"), dict) else {}
+    )
+
+    queue = deque([("$", data, 0)])
+    candidates = []
+    visited = 0
+    while queue and visited < 180:
+        path, node, depth = queue.popleft()
+        visited += 1
+        if depth >= 7:
+            continue
+        if isinstance(node, list):
+            # Inspect at most the first element; never list records or values.
+            if node and isinstance(node[0], (dict, list)):
+                queue.append((path + "[]", node[0], depth + 1))
+            continue
+        if not isinstance(node, dict):
+            continue
+        for key in safe_keys(node):
+            next_path = path + "." + key
+            if relevant.search(key) and len(candidates) < 36:
+                candidates.append(next_path)
+            value = node[key]
+            if isinstance(value, (dict, list)):
+                queue.append((next_path, value, depth + 1))
+
+    allowed_meta = frozenset((
+        "description", "og:title", "og:description", "og:type", "og:video",
+        "og:video:url", "twitter:player", "twitter:title",
+        "twitter:description", "video:duration",
+    ))
+    meta_names = sorted({
+        name for tag in soup.select("meta[name],meta[property]")
+        if (name := str(tag.get("property") or tag.get("name") or "").lower()) in allowed_meta
+    })
+    jsonld_scripts = soup.select('script[type="application/ld+json"]')
+    ld_types = set()
+    allowed_types = frozenset((
+        "VideoObject", "TVEpisode", "TVSeries", "CreativeWork",
+        "BroadcastEvent", "Movie", "Episode",
+    ))
+    for item in jsonld_scripts[:4]:
+        try:
+            payload = json.loads(item.string or item.get_text("", strip=True) or "")
+        except (ValueError, TypeError):
+            continue
+        items = payload if isinstance(payload, list) else [payload]
+        for obj in items[:5]:
+            if not isinstance(obj, dict):
+                continue
+            typ = obj.get("@type")
+            types = typ if isinstance(typ, list) else [typ]
+            ld_types.update(t for t in types if isinstance(t, str) and t in allowed_types)
+
+    return {
+        "next_data_top_keys": safe_keys(data),
+        "next_data_props_keys": safe_keys(props),
+        "next_data_page_props_keys": safe_keys(page_props),
+        "next_data_page_data_keys": safe_keys(page_data),
+        "candidate_key_paths": candidates,
+        "schema_scan_nodes": visited,
+        "schema_scan_incomplete": bool(queue),
+        "public_meta_names": meta_names,
+        "jsonld_script_count_capped": min(len(jsonld_scripts), 4),
+        "jsonld_public_types": sorted(ld_types),
+        "stream_playback_verified": False,
+    }
+
+
 def classify_czech_episode_metadata(html):
     """Classify public HTML metadata only; never infer actual playback."""
     from bs4 import BeautifulSoup
@@ -318,6 +430,9 @@ def _run_czech(state, opener, sleep_fn):
     if episode_truncated:
         raise ProbeHold("czech_episode_page_oversize")
     diagnosis = classify_czech_episode_metadata(episode_html)
+    state.stage("czech_public_metadata_schema",
+                html_sha256=episode_digest,
+                **map_czech_public_metadata_structure(episode_html))
     if diagnosis["classification"] == "czech_public_metadata_playable_with_id":
         record = parse_czech_television_episode_page(
             episode_html, episode_url, show
