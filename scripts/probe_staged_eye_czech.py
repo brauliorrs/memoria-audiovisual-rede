@@ -251,6 +251,21 @@ def map_czech_public_metadata_structure(html):
     page_data = (
         page_props.get("data") if isinstance(page_props.get("data"), dict) else {}
     )
+    episode = page_data.get("episode") if isinstance(page_data.get("episode"), dict) else {}
+    playable_flag = episode.get("isPlayable")
+    if "isPlayable" not in episode:
+        episode_playability = "not_observed"
+    elif playable_flag is True:
+        episode_playability = "true"
+    elif playable_flag is False:
+        episode_playability = "false"
+    else:
+        episode_playability = "unexpected_type"
+    id_keys_present = sorted(
+        key for key in ("id", "idec", "episodeId", "globalId", "videoId")
+        if key in episode and isinstance(episode[key], (str, int))
+        and not isinstance(episode[key], bool) and bool(episode[key])
+    )
 
     queue = deque([("$", data, 0)])
     candidates = []
@@ -308,6 +323,11 @@ def map_czech_public_metadata_structure(html):
         "next_data_props_keys": safe_keys(props),
         "next_data_page_props_keys": safe_keys(page_props),
         "next_data_page_data_keys": safe_keys(page_data),
+        "next_data_episode_keys": safe_keys(episode),
+        "episode_playability_claim": episode_playability,
+        "episode_id_field_names_present": id_keys_present,
+        "episode_title_field_present": isinstance(episode.get("title"), str)
+            and bool(episode.get("title")),
         "candidate_key_paths": candidates,
         "schema_scan_nodes": visited,
         "schema_scan_incomplete": bool(queue),
