@@ -368,11 +368,27 @@ def classify_czech_episode_metadata(html):
     props = payload.get("props")
     page_props = props.get("pageProps") if isinstance(props, dict) else None
     data = page_props.get("data") if isinstance(page_props, dict) else None
-    media = data.get("mediaMeta") if isinstance(data, dict) else None
+    legacy = data.get("mediaMeta") if isinstance(data, dict) else None
+    current = data.get("episode") if isinstance(data, dict) else None
+    evidence["media_meta_present"] = isinstance(legacy, dict)
+    evidence["episode_object_present"] = isinstance(current, dict)
+    # Strictly prefer an explicit negative indication from either version.
+    if isinstance(legacy, dict) and legacy.get("isPlayable") is False:
+        media, metadata_path = legacy, "mediaMeta"
+    elif isinstance(current, dict) and current.get("isPlayable") is False:
+        media, metadata_path = current, "episode"
+    elif isinstance(legacy, dict) and legacy.get("isPlayable") is True:
+        media, metadata_path = legacy, "mediaMeta"
+    elif isinstance(current, dict) and current.get("isPlayable") is True:
+        media, metadata_path = current, "episode"
+    elif isinstance(legacy, dict):
+        media, metadata_path = legacy, "mediaMeta"
+    else:
+        media, metadata_path = current, "episode"
     if not isinstance(media, dict):
         evidence["classification"] = "czech_media_meta_missing_at_expected_path"
         return evidence
-    evidence["media_meta_present"] = True
+    evidence["metadata_path_used"] = metadata_path
     evidence["episode_id_present"] = bool(media.get("id") or media.get("idec"))
     if "isPlayable" not in media:
         evidence["classification"] = "czech_is_playable_absent"
