@@ -218,6 +218,7 @@ class StagedEyeCzechTests(unittest.TestCase):
         )
         mapped = map_czech_public_metadata_structure(doc)
         self.assertIn("episodeDetails", mapped["next_data_page_data_keys"])
+        self.assertEqual(mapped["episode_playability_claim"], "not_observed")
         self.assertIn("$.props.pageProps.data.episodeDetails", mapped["candidate_key_paths"])
         self.assertIn("og:video", mapped["public_meta_names"])
         self.assertEqual(mapped["jsonld_public_types"], ["VideoObject"])
@@ -228,6 +229,26 @@ class StagedEyeCzechTests(unittest.TestCase):
         self.assertNotIn("private@example.com", encoded)
         self.assertNotIn("userEmail", encoded)
         self.assertNotIn("accessToken", encoded)
+
+    def test_czech_public_episode_key_and_playability_probe(self):
+        data = next_data({"episode": {
+            "id": 12345,
+            "title": "Visible public title",
+            "isPlayable": True,
+            "show": {"title": "Show"},
+            "playabilityError": None,
+            "internalSecret": "Do not store this",
+        }})
+        result = map_czech_public_metadata_structure(data)
+        self.assertIn("isPlayable", result["next_data_episode_keys"])
+        self.assertEqual(result["episode_playability_claim"], "true")
+        self.assertEqual(result["episode_id_field_names_present"], ["id"])
+        self.assertTrue(result["episode_title_field_present"])
+        self.assertNotIn("Do not store this", json.dumps(result))
+        other = next_data({"episode": {"isPlayable": False}})
+        result_false = map_czech_public_metadata_structure(other)
+        self.assertEqual(result_false["episode_playability_claim"], "false")
+        self.assertEqual(result_false["episode_id_field_names_present"], [])
 
     def test_czech_schema_mapping_is_part_of_hold_checkpoint(self):
         catalog = '<a href="/porady/12701251153-kultura/">Kultura</a>'
