@@ -198,7 +198,7 @@ class StagedEyeCzechTests(unittest.TestCase):
         opener = SequentialOpener(robots(), Reply(catalog), Reply(show), Reply(current))
         passed, doc, _ = self.run_in_dir("czech_tv", opener)
         self.assertTrue(passed)
-        self.assertEqual(doc["reason"], "one_episode_media_meta_playable_only")
+        self.assertEqual(doc["reason"], "one_episode_public_metadata_playable_only")
         self.assertEqual(doc["stages"][-1]["metadata_path_used"], "episode")
         self.assertFalse(doc["stages"][-1]["media_meta_present"])
         self.assertTrue(doc["stages"][-1]["episode_object_present"])
