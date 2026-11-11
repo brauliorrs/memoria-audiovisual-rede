@@ -142,8 +142,44 @@ class CzechCompletenessContractTests(unittest.TestCase):
             self._write_snapshot(Path(folder), snapshot)
             valid, result = validate(Path(folder))
         self.assertFalse(valid)
-        self.assertEqual(result["validated_sample_records"], 1)
+        # A checkpoint reference that was not independently replayed is
+        # a claim, not a verified sample (even with a plausible SHA-256).
+        self.assertEqual(result["validated_sample_records"], 0)
+        self.assertTrue(any("auditado localmente" in msg for msg in result["reasons"]))
         self.assertFalse(result["corpus_complete"])
+
+    def test_matching_forged_full_evidence_is_still_blocked_in_contract_v1(self):
+        with tempfile.TemporaryDirectory() as folder:
+            summary, _, snapshot = self._fixture(folder, accessible=1)
+            summary["coverage_scope"] = ["full_public_catalogue"]
+            summary["integrity_status"] = ["integro"]
+            summary["corpus_complete"] = [True]
+            summary["enumeration_complete"] = [True]
+            summary.to_csv(
+                Path(folder) / CZECH_TELEVISION_OUTPUT_FILES["summary"], index=False
+            )
+            coverage = snapshot["coverage"]
+            coverage.update({
+                "scope": "full_public_catalogue",
+                "corpus_complete": True,
+                "completion_status": "verified_complete",
+                "source_declared_total": 1,
+                "enumerated_unique_records": 1,
+                "pagination_exhausted": True,
+                "failed_pages": 0,
+                "completion_evidence": {
+                    "source_url": CZECH_TELEVISION_IVYSILANI_URL,
+                    "method": "official_paginated_exhaustion",
+                    "audited_pages": 1,
+                    "checkpoint_chain_sha256": "b" * 64,
+                },
+            })
+            self._write_snapshot(Path(folder), snapshot)
+            valid, result = validate(Path(folder))
+        self.assertFalse(valid)
+        self.assertFalse(result["corpus_complete"])
+        self.assertEqual(result["eligibility"], "HOLD")
+        self.assertTrue(any("auditoria independente" in msg for msg in result["reasons"]))
 
     def test_duplicate_episode_links_are_rejected(self):
         with tempfile.TemporaryDirectory() as folder:
