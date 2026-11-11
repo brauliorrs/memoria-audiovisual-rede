@@ -217,7 +217,12 @@ class CzechTelevisionCollectionTests(unittest.TestCase):
 
         self.assertEqual(len(institutions), 1)
         self.assertEqual(len(video_links), 1)
-        self.assertEqual(summary[0]["integrity_status"], "integro")
+        self.assertEqual(summary[0]["integrity_status"], "instavel")
+        self.assertEqual(summary[0]["coverage_scope"], "bounded_mvp")
+        self.assertEqual(summary[0]["accessible_records_count"], 1)
+        self.assertEqual(summary[0]["validated_sample_count"], 0)
+        self.assertFalse(summary[0]["corpus_complete"])
+        self.assertFalse(summary[0]["enumeration_complete"])
         self.assertEqual(summary[0]["video_links_found_total"], 1)
         self.assertTrue(any(page["embedded_signals"] == 1 for page in internal_pages))
 
