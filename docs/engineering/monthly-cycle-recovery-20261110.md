@@ -238,3 +238,22 @@ Por padrão, o comando `python -m scripts.audit_czech_completeness_v2 --manifest
 **Cobertura de regressão:** manifesto sintético de duas páginas com três IDs e uma duplicata entre páginas; página ausente; salto de índice/ponteiro; mesma URL reiterada; conteúdo adulterado; marcador terminal inválido com cadeia recalculada e âncora divergente; contagem oficial incorreta; duplicata intra-página; exportação com link duplicado ou domínio externo; erro de coleta; ausência de âncora externa; campos booleanos em contagens; falsa alegação de universo integral. Nenhuma consulta à Czech TV, nenhum download, nenhum refresh dos 60 corpora e nenhuma modificação de `main` ou Neon.
 
 **Gate metodológico seguinte:** definir para cada fonte o universo realmente enumerável e um sinal terminal oficial, coletar apenas sondas autorizadas que preservem evidência pública suficiente para auditoria independente, estabelecer armazenamento durável protegido e restaurável, e somente então desenhar uma etapa v3 que possa comprovar captura oficial; **não confundir um recorte completo com o catálogo inteiro do organismo**.
+
+
+## 11/11/2026 — protocolo de recibos de captura (primeira fase isolada)
+
+**Novo módulo:** `scripts/czech_capture_receipts.py` implementa um contrato de evidência que recebe **bytes já fornecidos em memória** por um executor externo e retorna um recibo JSON estritamente limitado. Ele **não possui cliente HTTP, não acessa Czech Television, não baixa mídia, não persiste o corpo e não faz escritas de produção**. `tests/test_czech_capture_receipts.py` usa apenas HTML sintético para os testes.
+
+Um recibo identifica o esquema `mar.czech.capture-receipt.v1`, a revisão completa do código, carimbo UTC, a URL oficial solicitada e final (iguais; não permite redirecionamentos), o método GET, status 200, tipo `text/html` ou `application/json`, tamanho limitado a 512 KiB e SHA-256 dos **bytes recebidos**. Inclui somente identificadores públicos numéricos por página, total **declarado pela fonte conforme alegado pelo executor**, indicador terminal e índice da próxima página. O manifesto não armazena tokens, HTML, URLs de streams, cookies ou headers de autenticação; URLs de índices com parâmetros são restritas a controles numéricos de paginação conhecidos (`page`, `stranka`, `offset`). Adota identificadores únicos por página e no máximo 2.000 IDs.
+
+O auditor `audit_receipt` rejeita campos não esperados, mudanças posteriores ao hash externo, mudança de corpo quando os bytes são fornecidos novamente para replay, flags de certificação indevidas, URLs externas, consultas sensíveis, redirecionamentos declarados, timestamps inválidos, falhas HTTP e indicadores de paginação contraditórios. Ele distingue:
+- `receipt_integrity_ok`: estrutura interna válida;
+- `external_anchor_match`: hash do recibo coincide com uma âncora apresentada fora dele;
+- `body_digest_replayed`: os bytes oferecidos para revalidação correspondem ao SHA-256;
+- `source_attested=false`, `corpus_complete=false`, `production_gate=HOLD`: invariantes **mesmo quando as três verificações anteriores são positivas**.
+
+**Limitação científica:** o executor ainda declara quais IDs, totais e sinais de fim de paginação extraiu. O hash não demonstra que a resposta foi efetivamente servida pela Czech TV. Os bytes de uma sonda sintética não devem ser caracterizados como captura oficial. O auditor não faz replay sem que os bytes sejam apresentados novamente, e a preservação segura de evidências reais dependerá do Gate P0 (controle de acesso, backup externo criptografado e restauração). Mesmo um recibo consistente não atesta cobertura integral.
+
+**Integração planejada, ainda BLOQUEADA:** após testes de regressão e revisão metodológica, um adaptador isolado e explicitamente autorizado poderá alimentar o protocolo a partir de uma única resposta pública, fornecendo evidência verificável do transporte HTTP/TLS, limites de consultas, robots e origem, sem armazenar mídia. Um verificador distinto extrairá IDs e paginação dos bytes autorizados e reconciliará cada recibo com `scripts/audit_czech_completeness_v2.py`, sem converter a amostra em `COMPLETE_VERIFIED`. Não modificar o coletor mensal/produção antes dessa revisão.
+
+**Proteções atuais:** nenhuma integração com `run_czech_television_pipeline`, cron, workflow live, Neon, `main` ou validador mensal. Nenhum processamento integral foi liberado.
