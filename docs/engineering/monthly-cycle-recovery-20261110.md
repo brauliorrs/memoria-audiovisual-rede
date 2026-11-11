@@ -166,3 +166,18 @@ A cadeia de hashes foi **recalculada independentemente** a partir das etapas de 
 **Nota de proveniência corrigida após a execução:** os artefatos históricos contêm `head_sha=4523b4ab1536da887e7997d48072f08aa247127d`, que é o SHA sintético da execução `pull_request`, não o verdadeiro HEAD `3621f15f0db564061c592b61b7aa3307c7277c19`. A partir do commit subsequente, o workflow injeta `MAR_PROBE_HEAD_SHA` com o HEAD revisado e registra também `workflow_sha`. Os artefatos históricos permanecem imutáveis e são auditados segundo a revisão indicada no próprio GitHub Actions; não confundir os dois SHAs.
 
 **Gate:** Eye aprovado somente para o recorte 3 páginas / 30 registros; Czech permanece HOLD, sem nova tentativa automática. Nenhum corpus foi marcado como completo; não rodar os verificadores integrais antes da coleta autorizada/validada e não unir o PR #91 à `main` com base apenas neste teste. Próxima investigação Czech: determinar, com nova autorização e evidência pública pontual, se `mediaMeta` está ausente ou se informa `isPlayable=False`; só então revisar o parser ou selecionar uma nova amostra declarada. Os demais cinco corpora continuam HOLD.
+
+
+## 11/11/2026 — diagnóstico diferencial Czech TV autorizado como próximo estágio
+
+O Quality Checks [#42892094100](https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/42892094100) terminou em **success** no commit `c83410a3a0dda0d87415767837c633e77f1913c8`.
+
+Para resolver o HOLD da única amostra Czech TV sem mascarar indisponibilidade, o estágio `scripts/probe_staged_eye_czech.py` foi ampliado com `classify_czech_episode_metadata`, um classificador **somente de HTML público** que diferencia, antes do parser existente:
+- ausência de `__NEXT_DATA__`, JSON inválido ou estrutura inesperada;
+- ausência de `mediaMeta` no caminho esperado e ausência da chave `isPlayable`;
+- `isPlayable=False` explícito, sinal não booleano ou `True` sem identificador;
+- confirmação apenas de `isPlayable=True` com identificador explícito (ainda sem testar reprodução real).
+
+O checkpoint registra classificação, indicadores de presença, hash de HTML e cadeia SHA-256; **não armazena HTML bruto, mídia ou URLs de streaming**. Para não trocar a amostra silenciosamente, o único programa elegível é o ID `12701251153` observado na sonda anterior, e há no máximo um episódio candidato (o primeiro encontrado, que pode mudar se o índice mudar). HTTP, robots, crawl-delay, HTTPS/mesma origem e política de HOLD permanecem intactos. O workflow de etiqueta `mar-staged-eye-czech-approved` executa **apenas `czech_tv`** neste novo estágio; o Eye validado previamente não será reconsultado. Nenhum validador integral ou refresh mensal foi habilitado.
+
+A classificação diferencial melhora o diagnóstico, mas **não é prova de reprodução** nem libera o corpus. Qualquer teste live precisa ser executado somente após aprovação do Quality Checks do SHA alterado e deve conservar a mesma etiqueta opt-in. O PR #91 permanece draft.
