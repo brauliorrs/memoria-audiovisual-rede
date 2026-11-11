@@ -109,7 +109,7 @@ def parse_czech_television_catalog_page(html, category_label=""):
     # Current public catalogue pages may render programme cards in HTML
     # without the former __NEXT_DATA__/programmeFind structure. These are
     # discovery candidates only, not video evidence. The collector still
-    # requires a separate playable mediaMeta episode before materializing.
+    # requires a separate playable mediaMeta/episode record before materializing.
     if not records:
         soup = BeautifulSoup(html or "", "html.parser")
         seen_slugs = set()
@@ -167,8 +167,23 @@ def parse_czech_television_show_page(html, show_slug):
 
 
 def parse_czech_television_episode_page(html, page_url, show_context=None):
-    media = _page_data(html).get("mediaMeta", {})
-    if not isinstance(media, dict) or not media.get("isPlayable"):
+    data = _page_data(html)
+    if not isinstance(data, dict):
+        return {}
+    legacy = data.get("mediaMeta")
+    current = data.get("episode")
+    # If both shapes are present, an explicit negative signal must win.
+    for item in (legacy, current):
+        if isinstance(item, dict) and item.get("isPlayable") is False:
+            return {}
+    if isinstance(legacy, dict) and legacy.get("isPlayable") is True:
+        media, proof_path = legacy, "mediaMeta"
+    elif isinstance(current, dict) and current.get("isPlayable") is True:
+        media, proof_path = current, "episode"
+    else:
+        return {}
+    record_id = _clean_text(media.get("id") or media.get("idec"))
+    if not record_id:
         return {}
 
     show_context = show_context or {}
@@ -199,14 +214,14 @@ def parse_czech_television_episode_page(html, page_url, show_context=None):
                 f"duração: {duration}" if duration else "",
                 f"ano: {media.get('year')}" if media.get("year") else "",
                 f"país de origem: {', '.join(origin_countries)}" if origin_countries else "",
-                "ficha pública do iVysílání com mediaMeta.isPlayable=True; mídia não baixada",
+                f"ficha pública do iVysílání com {proof_path}.isPlayable=True; mídia não baixada",
             ]
             if value
         ),
         limit=1400,
     )
     return {
-        "record_id": _clean_text(media.get("id") or media.get("idec")),
+        "record_id": record_id,
         "show_title": show_title,
         "title": title,
         "subject": "; ".join(value for value in [show_title, *genres, show_context.get("category_label")] if value),
@@ -362,7 +377,7 @@ def collect_czech_television_dataset():
                         episode_response.status_code,
                         1 if record else 0,
                         1 if record.get("embedded") else 0,
-                        "Ficha de episódio iVysílání verificada por __NEXT_DATA__/mediaMeta.",
+                        "Ficha de episódio iVysílání verificada por __NEXT_DATA__/mediaMeta ou data.episode.",
                     )
                 )
             except Exception as error:
