@@ -168,16 +168,13 @@ def validate(output_dir=OUTPUT_DIR):
     if not _nonnegative_integer(sample) or sample > len(links):
         diagnosis["reasons"].append("contagem de amostra validada inválida")
     else:
-        diagnosis["validated_sample_records"] = sample
         if sample > 0:
-            proof = coverage.get("sample_checkpoint_reference")
-            if (
-                coverage.get("sample_validation_status") != "checkpoint_verified"
-                or not isinstance(proof, dict)
-                or not _positive_integer(proof.get("run_id"))
-                or not re.fullmatch(r"[0-9a-f]{64}", str(proof.get("chain_sha256") or ""))
-            ):
-                diagnosis["reasons"].append("amostra validada sem checkpoint independente")
+            # A SHA-shaped string does not prove that the corresponding
+            # checkpoint exists or that its stage chain is valid. The current
+            # checker has no independent staged-artifact verification.
+            diagnosis["reasons"].append(
+                "amostra declarada sem checkpoint independente auditado localmente"
+            )
         elif (
             coverage.get("sample_validation_status") != "not_attested_in_this_run"
             or coverage.get("sample_checkpoint_reference") is not None
@@ -211,11 +208,13 @@ def validate(output_dir=OUTPUT_DIR):
     if _row_value(summary, "enumeration_complete") not in ("True", "true"):
         diagnosis["reasons"].append("resumo não certifica paginação completa")
     diagnosis["reasons"].extend(_check_full_completion_evidence(coverage, len(links)))
-    if diagnosis["reasons"]:
-        return False, diagnosis
-    diagnosis["corpus_complete"] = True
-    diagnosis["eligibility"] = "COMPLETE_CORPUS_VERIFIED"
-    return True, diagnosis
+    # Contract version 1 has no separately replayed, immutable pagination
+    # manifest. It can never authorize a complete-corpus claim, even if
+    # someone manually edits the JSON fields to appear internally consistent.
+    diagnosis["reasons"].append(
+        "contrato v1: auditoria independente da enumeração integral ainda não implementada"
+    )
+    return False, diagnosis
 
 
 def main():
