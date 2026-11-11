@@ -17,6 +17,11 @@ PLATFORM = "Česká televize iVysílání"
 
 def _public_link(index):
     return {
+        "institution": "Czech Television",
+        "country": "Czech Republic",
+        "continent": "Europe",
+        "video_subject": "Kultura",
+        "video_published_at": "2026-11-11",
         "platform": PLATFORM,
         "video_link": (
             f"https://www.ceskatelevize.cz/porady/12701251153-kultura/"
