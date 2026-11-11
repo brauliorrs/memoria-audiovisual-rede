@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 from urllib.error import HTTPError
 
-from scripts.probe_staged_eye_czech import Checkpoints, _canonical, _digest, classify_czech_episode_metadata, run
+from scripts.probe_staged_eye_czech import Checkpoints, _canonical, _digest, classify_czech_episode_metadata, map_czech_public_metadata_structure, run
 
 
 class Reply:
@@ -199,6 +199,49 @@ class StagedEyeCzechTests(unittest.TestCase):
         self.assertFalse(passed)
         self.assertEqual(doc["reason"], "czech_previously_sampled_programme_not_in_catalogue")
         self.assertEqual(len(opener.urls), 2)
+
+    def test_czech_schema_map_records_key_names_without_values(self):
+        doc = next_data({
+            "episodeDetails": {"videoMetadata": {
+                "isPlayable": True, "accessToken": "PRIVATE_SAMPLE",
+                "videoUrl": "https://example.com/secret-stream",
+            }},
+            "assetList": [{"streamAvailability": {"enabled": True}}],
+            "userEmail": "private@example.com",
+        })
+        doc += (
+            '<meta property="og:video" content="https://example.com/secret-stream">'
+            '<meta name="description" content="description must not be stored">'
+            '<script type="application/ld+json">'
+            '{"@type":"VideoObject","name":"Should not be stored"}'
+            '</script>'
+        )
+        mapped = map_czech_public_metadata_structure(doc)
+        self.assertIn("episodeDetails", mapped["next_data_page_data_keys"])
+        self.assertIn("$.props.pageProps.data.episodeDetails", mapped["candidate_key_paths"])
+        self.assertIn("og:video", mapped["public_meta_names"])
+        self.assertEqual(mapped["jsonld_public_types"], ["VideoObject"])
+        self.assertFalse(mapped["stream_playback_verified"])
+        encoded = json.dumps(mapped)
+        self.assertNotIn("PRIVATE_SAMPLE", encoded)
+        self.assertNotIn("secret-stream", encoded)
+        self.assertNotIn("private@example.com", encoded)
+        self.assertNotIn("userEmail", encoded)
+        self.assertNotIn("accessToken", encoded)
+
+    def test_czech_schema_mapping_is_part_of_hold_checkpoint(self):
+        catalog = '<a href="/porady/12701251153-kultura/">Kultura</a>'
+        show = '<a href="/porady/12701251153-kultura/226411033400703/">Episode</a>'
+        html = next_data({"episode": {"details": {"title": "Ignored"}}})
+        opener = SequentialOpener(robots(), Reply(catalog), Reply(show), Reply(html))
+        passed, doc, _ = self.run_in_dir("czech_tv", opener)
+        self.assertFalse(passed)
+        self.assertEqual(doc["reason"], "czech_media_meta_missing_at_expected_path")
+        structure = [x for x in doc["stages"] if x["stage"] == "czech_public_metadata_schema"]
+        self.assertEqual(len(structure), 1)
+        self.assertIn("episode", structure[0]["next_data_page_data_keys"])
+        self.assertFalse(doc["corpus_validated"])
+        self.assertEqual(len(opener.urls), 4)
 
     def test_robots_disallow_blocks_all_catalogue_requests(self):
         opener = SequentialOpener(Reply("User-agent: *\nDisallow: /\n", "text/plain"))
