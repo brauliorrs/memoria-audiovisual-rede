@@ -486,7 +486,7 @@ def _run_czech(state, opener, sleep_fn):
             diagnosis["classification"] if not diagnosis["classification"].endswith("_with_id")
             else "czech_parser_did_not_materialize_record"
         )
-    state.finish("STAGED_PASS", "one_episode_media_meta_playable_only")
+    state.finish("STAGED_PASS", "one_episode_public_metadata_playable_only")
 
 
 def run(source, output_dir="data/probe-staged", *, opener=None, sleep_fn=time.sleep):
