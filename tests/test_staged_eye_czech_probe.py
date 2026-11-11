@@ -172,6 +172,12 @@ class StagedEyeCzechTests(unittest.TestCase):
              "czech_public_metadata_playable_with_id", True),
             (next_data({"mediaMeta": {"isPlayable": True}}),
              "czech_playable_without_episode_id", False),
+            (next_data({"episode": {"id": "ep-2026", "isPlayable": True}}),
+             "czech_public_metadata_playable_with_id", True),
+            (next_data({"episode": {"idec": "226411033400703", "isPlayable": False}}),
+             "czech_is_playable_explicit_false", False),
+            (next_data({"episode": {"isPlayable": True}}),
+             "czech_playable_without_episode_id", False),
         ]
         for html, classification, playable in cases:
             with self.subTest(classification=classification):
@@ -181,6 +187,25 @@ class StagedEyeCzechTests(unittest.TestCase):
                     result["classification"] == "czech_public_metadata_playable_with_id",
                     playable
                 )
+
+    def test_czech_current_episode_is_playable_in_bounded_staged_probe(self):
+        catalog = '<a href="/porady/12701251153-kultura/">Kultura</a>'
+        show = '<a href="/porady/12701251153-kultura/226411033400703/">Episode</a>'
+        current = next_data({"episode": {
+            "id": "ep-1", "idec": "226411033400703", "title": "Public programme",
+            "isPlayable": True, "show": {"title": "Kultura"},
+        }})
+        opener = SequentialOpener(robots(), Reply(catalog), Reply(show), Reply(current))
+        passed, doc, _ = self.run_in_dir("czech_tv", opener)
+        self.assertTrue(passed)
+        self.assertEqual(doc["reason"], "one_episode_media_meta_playable_only")
+        self.assertEqual(doc["stages"][-1]["metadata_path_used"], "episode")
+        self.assertFalse(doc["stages"][-1]["media_meta_present"])
+        self.assertTrue(doc["stages"][-1]["episode_object_present"])
+        self.assertTrue(doc["stages"][-1]["media_meta_is_playable"])
+        self.assertFalse(doc["stages"][-1]["actual_stream_playback_verified"])
+        self.assertFalse(doc["corpus_validated"])
+        self.assertEqual(len(opener.urls), 4)
 
     def test_czech_missing_next_data_is_hold_without_fallback(self):
         catalog = '<a href="/porady/12701251153-kultura/">Kultura</a>'
@@ -257,7 +282,7 @@ class StagedEyeCzechTests(unittest.TestCase):
         opener = SequentialOpener(robots(), Reply(catalog), Reply(show), Reply(html))
         passed, doc, _ = self.run_in_dir("czech_tv", opener)
         self.assertFalse(passed)
-        self.assertEqual(doc["reason"], "czech_media_meta_missing_at_expected_path")
+        self.assertEqual(doc["reason"], "czech_is_playable_absent")
         structure = [x for x in doc["stages"] if x["stage"] == "czech_public_metadata_schema"]
         self.assertEqual(len(structure), 1)
         self.assertIn("episode", structure[0]["next_data_page_data_keys"])
