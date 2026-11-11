@@ -104,6 +104,57 @@ class CzechTelevisionCollectionTests(unittest.TestCase):
         self.assertIn("mediaMeta.isPlayable=True", record["description"])
         self.assertTrue(record["embedded"])
 
+    def test_current_public_episode_schema_requires_true_and_identifier(self):
+        episode_url = "https://www.ceskatelevize.cz/porady/12701251153-kultura/226411033400703/"
+
+        def html_for(episode, legacy=None):
+            data = {"episode": episode}
+            if legacy is not None:
+                data["mediaMeta"] = legacy
+            return next_data_html({"props": {"pageProps": {"data": data}}})
+
+        observed = {
+            "id": "episode-2026",
+            "idec": "226411033400703",
+            "title": "Kulturní archiv",
+            "description": "Public description",
+            "year": "2026",
+            "uploadDate": "2026-11-11T10:00:00Z",
+            "durationText": "42 min",
+            "isPlayable": True,
+            "show": {"title": "Kultura"},
+        }
+        record = parse_czech_television_episode_page(
+            html_for(observed), episode_url, {"category_label": "Cultura"}
+        )
+        self.assertEqual(record["record_id"], "episode-2026")
+        self.assertEqual(record["title"], "Kulturní archiv")
+        self.assertEqual(record["date"], "2026-11-11")
+        self.assertEqual(record["page_url"], episode_url)
+        self.assertIn("episode.isPlayable=True", record["description"])
+        self.assertNotIn("mediaMeta.isPlayable=True", record["description"])
+
+        invalid = [
+            {**observed, "isPlayable": False},
+            {k: v for k, v in observed.items() if k != "isPlayable"},
+            {**observed, "isPlayable": "true"},
+            {**observed, "id": "", "idec": ""},
+        ]
+        for sample in invalid:
+            with self.subTest(episode=sample):
+                self.assertEqual(
+                    parse_czech_television_episode_page(html_for(sample), episode_url), {}
+                )
+
+        # Conflicting public availability signals must fail closed.
+        self.assertEqual(
+            parse_czech_television_episode_page(
+                html_for(observed, {"id": "legacy", "isPlayable": False}),
+                episode_url,
+            ),
+            {},
+        )
+
     def test_collect_dataset_with_mocked_fetch_materializes_episode(self):
         catalog_html = next_data_html(
             {
