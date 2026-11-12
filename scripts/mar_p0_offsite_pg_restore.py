@@ -81,7 +81,7 @@ def _postgres_env(variable, *, origin, env):
             raise RecoveryRejected("restore_target_must_be_local_isolated_postgres")
         if not database.startswith("mar_p0_restore_"):
             raise RecoveryRejected("restore_database_name_not_isolated")
-    safe = {k: v for k, v in env.items() if not k.startswith("PG")}
+    safe = {k: v for k, v in env.items() if not k.startswith(("PG", "MAR_P0_"))}
     safe.update({
         "PGHOST": hostname, "PGPORT": str(port), "PGUSER": username,
         "PGPASSWORD": password, "PGDATABASE": database,
