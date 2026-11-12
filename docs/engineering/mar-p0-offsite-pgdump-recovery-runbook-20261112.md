@@ -50,3 +50,20 @@ A CLI exige --execute; sem ele, é apenas dry-run. Nenhuma credencial, key, URI 
 **HOLD atual:** não existe comprovante de dump real ou restauração externa. Os novos testes sintéticos são apenas regressões do procedimento.
 
 Arquivos alterados nesta fase: scripts/mar_p0_offsite_pg_restore.py, tests/test_mar_p0_offsite_pg_restore.py e este runbook, exclusivamente no PR #91, nunca na main.
+
+
+## Gatilho protegido GitHub Actions — preparado em 12/11/2026
+
+Foi adicionado o workflow `.github/workflows/mar-p0-offsite-recovery-gated.yml` **somente na branch do PR #91**. Ele não usa cron nem roda por abertura/push comum de PR. A ativação depende de **label aplicado manualmente pelo usuário `brauliorrs`**: `mar-p0-offsite-restore-approved`, especificamente no PR #91, branch `fix/monthly-cycle-evidence-20261110`, mesma origem do repositório, primeira tentativa da execução. Os dois jobs exigem aprovação do environment GitHub `mar-p0-neon-isolated`, conforme as regras de revisão existentes. Não usa `pull_request_target` nem write token.
+
+**Ações do operador, sem enviar valores a esta conversa:**
+
+1. Abrir configurações do repositório GitHub → Environments → `mar-p0-neon-isolated` → Environment secrets. Configurar `MAR_P0_READONLY_DATABASE_URL` com URI **Direct/unpooled**, banco `neondb`, role `mar_p0_limited`, branch de validação `br-lingering-smoke-b8hjdnzb`, endpoint fixado `ep-damp-term-b8wqhmz0.c-14.us-east-1.aws.neon.tech` (e não `-pooler`). Nunca colar o valor no PR, Issues, logs ou chat.
+2. Configurar o segredo `MAR_P0_RESTORE_AES_KEY_HEX` no mesmo environment com 32 bytes aleatórios representados por 64 dígitos hexadecimais, gerados **pelo operador em ambiente protegido**. Guardar cópia de recuperação da chave fora do GitHub e do backup. Não copiar variáveis ou chaves criadas no laboratório Vercel por ChatGPT.
+3. Confirmar que o environment está protegido por revisão; criar, se necessário, o label `mar-p0-offsite-restore-approved` na página GitHub de Labels; aplicá-lo ao PR #91 com a conta `brauliorrs`. Aprovar explicitamente os jobs pelo environment ao receber a notificação.
+4. Revisar os dois jobs concluídos: `export-encrypted` (somente leitura Neon, AES-256-GCM, upload de ciphertext como GitHub artifact com retenção de 30 dias) e `restore-isolated` (outro runner, banco PostgreSQL 18 local novo, ciphertext obtido do artifact, autenticação GCM, SHA-256/counters/constraints do `mar_p0` conferidos).
+5. Arquivar no PR apenas URL do run, SHA-256 do ciphertext, 3 contagens, validação de estrutura e evidência de recuperação. **Nunca** publicar dump em claro nem chave, URI, senha ou credenciais.
+
+**Verificações de segurança do workflow:** limita disparo a um PR específico e usuário explicitamente autorizado; jobs em máquinas descartáveis diferentes; consulta Neon somente em `pg_dump`/SQL read-only, role de menor privilégio e endpoint fixo `Direct`; bloqueio no código para URL de banco remoto de restauração, prefixo de banco local, banco previamente populado, ciphertext adulterado, nonce/chave inválidos e inconsistência estrutural. O resultado nunca promove corpus Czech TV, não altera `main`, não modifica a branch de validação e mantém `production_gate=HOLD`.
+
+**Situação na criação do workflow:** o GitHub environment pode ter ainda segredos ausentes; isso **não** é configurado automaticamente pelos conectores, justamente para não repetir o bloqueio de transferência de credenciais. O workflow foi criado, mas **nenhum backup ou restore externo foi executado** nesta fase. Somente uma execução futura efetivamente aprovada, com todos os controles passando, poderá alterar o status da prova externa para PASS, respeitando o prazo de retenção do artefato de teste.
