@@ -179,7 +179,8 @@ def replay_receipts_to_v2(
     # The absence of a rel=next element DOES NOT prove terminal exhaustion;
     # the declared total likewise cannot be authenticated from this parser.
     # A source-specific independently proven pagination contract is pending.
-    if not isinstance(manifest, dict) or manifest.get("scope", {}).get("kind") != "bounded_public_selection":
+    scope = manifest.get("scope") if isinstance(manifest, dict) else None
+    if not isinstance(scope, dict) or scope.get("kind") != "bounded_public_selection":
         reasons.append("bridge_only_supports_bounded_selection")
         return result
     review = audit_v2(
