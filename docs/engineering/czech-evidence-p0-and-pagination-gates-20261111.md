@@ -31,14 +31,14 @@ Também deve passar a suíte geral de CI. Qualquer teste local com `durability_v
 
 Somente considerar o backup operacional aprovado quando **todos** os seguintes critérios forem comprovados com evidência independente:
 
-1. O proprietário do MAR escolhe/provisiona um backend de objetos ou volume **externo ao Neon e persistente entre executores**, com identidade de acesso de menor privilégio, controle de logs, proteção de exclusão e versionamento/retention policy.
+1. **Reutilizar o Neon/PostgreSQL existente** como armazenamento operacional de checkpoints e metadados; identificar uma **cópia de segurança independente do domínio de falha do Neon** (não um novo banco), ou demonstrar uma política de exportação/recuperação independente equivalente. Esse destino deve preservar somente ciphertext, com identidade de acesso de menor privilégio, logs, versionamento e retenção protegida.
 2. Chave **fora do Git e dos logs**, provida via secret manager, com procedimento de rotação, recuperação de desastre, política de acesso e sem armazenamento da chave junto ao único backup.
 3. Política sobre preservação de **HTML público limitado** ou representação canônica auditável: verificar dados sensíveis/identificadores de sessão embutidos, autorizações de uso, minimização e prazo de retenção. Nunca preservar stream, vídeo, cookies, credenciais ou URLs assinadas.
 4. Cifrar somente a evidência previamente auditada, subir **apenas ciphertext** e manifestos estritamente redigidos; confirmar SHA-256 no armazenamento remoto e âncora externa imutável.
 5. Em **outro executor/ambiente**, baixar o backup por identidade separada, verificar SHA do blob, descriptografar com chave autorizada, refazer os checks de recibos e cadeia e comparar contagens com as âncoras independentes.
 6. Medir retenção, isolamento de permissões, falha controlada e capacidade real de restauração; registrar relatório assinado/revisado sem segredos. Não aprovar P0 apenas porque um teste local passou.
 
-O Neon pode manter índices/checkpoints operacionais após decisão de arquitetura, mas **não é por si só o único cofre de backups externos**. O projeto KAVI já tinha P14 (prova remota entre ambientes) pendente; o presente trabalho não altera essa condição.
+O Neon **já mantém** índices/checkpoints operacionais no ambiente de validação do MAR. Seu uso está confirmado; ele não substitui, isoladamente, uma cópia recuperável fora do próprio serviço ou uma prova de restauração entre domínios de falha. O projeto KAVI já tinha P14 (prova remota entre ambientes) pendente; o presente trabalho não altera essa condição.
 
 ## 4. Prova de paginação oficial da Czech Television: problema aberto
 
@@ -56,6 +56,23 @@ Portanto, não adotar automaticamente `rel=next`, `?page=N` ou retorno vazio com
 
 ## 5. Critérios de conclusão
 
-**Entrega deste incremento:** protótipo de AES-GCM e restore em memória com testes sintéticos; análise documentada do marcador da API; *nenhum backend externo provisionado*.
+**Entrega deste incremento:** protótipo de AES-GCM e restore em memória com testes sintéticos; análise documentada do marcador da API; **Neon/PostgreSQL externo já provisionado e auditado posteriormente**, mas sem prova operacional de backup independente/restauração da evidência Czech.
 
-**BLOQUEADO:** prova operacional off-host, preservação de resposta real, proveniência de TLS/HTTP, catálogo completo, atualização automática, Neon, merge em main e habilitação da fonte. A futura decisão P0 e a autorização de coleta são duas aprovações distintas.
+**BLOQUEADO:** prova operacional de recuperação independente, preservação de resposta real, proveniência de TLS/HTTP, catálogo completo, atualização automática, **novas escritas ou alterações de esquema no Neon**, merge em main e habilitação da fonte. A futura decisão P0 e a autorização de coleta são duas aprovações distintas.
+
+
+## 6. Errata de infraestrutura — auditoria somente leitura em 11/11/2026
+
+Correção da premissa inicial deste documento, após confirmação do ambiente existente: **o MAR tem armazenamento externo PostgreSQL/Neon operacionalmente provisionado**. Não se deve adquirir ou criar outro PostgreSQL para satisfazer o P0. A distinção é entre **armazenamento remoto existente** e **backup criptografado com recuperação independente ainda não demonstrada**.
+
+Verificações read-only efetuadas no Neon conectado:
+- Projeto `neon-erin-field` (`holy-bread-70461948`), AWS `us-east-1`, PostgreSQL 18.
+- Branches `main` (`br-raspy-river-b8qx9oo9`), `mar-p0-validation-20261021` (`br-lingering-smoke-b8hjdnzb`) e `mar-p0-recovery-20261021` (`br-holy-dawn-b8z9t6yh`) encontram-se existentes, com estado `ready`.
+- A branch de validação possui as tabelas `mar_p0.checkpoints`, `mar_p0.checkpoint_pages` e `mar_p0.raw_artifacts`: respectivamente **4**, **8** e **4** linhas no momento da consulta (contagens apenas, sem ler conteúdo dos payloads).
+- As tabelas têm controles de SHA-256 no banco, foreign keys e constraints que proíbem `media_downloaded=true` e `promotion_authorized=true`; os dados operacionais têm portanto um destino externo já preparado.
+- Na branch `main` **não** foram identificadas tabelas `mar_p0` na listagem disponível, o que confirma isolamento de validação e não deve ser interpretado como migração produtiva.
+- Consulta à lista de snapshots do projeto retornou **nenhum snapshot listado**. A consulta aos calendários automáticos de snapshots das três branches retornou `schedule: []`. O indicador `history_retention_seconds=21600` nas configurações do projeto **não é substituto** de teste de restauração de backup externo.
+- Nenhum bucket de object storage do Neon foi listado na branch de validação. Isso não invalida o PostgreSQL como armazenamento persistente de metadados; sinaliza apenas que **não foi comprovado** um segundo cofre de artefatos.
+- Os metadados da branch `main` exibem restrições de operações marcadas `vercel production branch`, indicando associação com a Vercel no plano de controle Neon. O projeto MAR não foi identificado inequivocamente entre os projetos Vercel visíveis à conexão consultada; por isso **não afirmar** que algum projeto Vercel específico esteja armazenando ou recuperando evidências Czech.
+
+**Nova decisão:** adotar o Neon existente como destino principal dos checkpoints/metadados quando o contrato de acesso e a operação autorizada forem aprovados. Não implantar banco redundante. Auditar o mecanismo concreto de backup/exportação para destino independente e o restore em ambiente isolado, com hashes verificados. Até esses testes reais, **P0 de durabilidade/recuperação continua HOLD**, mas **infraestrutura PostgreSQL externa está CONFIRMADA**. Nenhuma escrita de banco, restauração real, configuração de snapshots, coleta ou produção foi executada nesta auditoria.
