@@ -43,8 +43,18 @@ jobs:
           source /etc/os-release
           test "$VERSION_ID" = "26.04" || { echo "Expected Ubuntu 26.04; got $VERSION_ID"; exit 1; }
           sudo apt-get update -qq
-          apt-cache policy postgresql-client-18 | grep -q 'Candidate: 18' || { echo "PostgreSQL client 18 is not available"; exit 1; }
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq postgresql-client-18
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ca-certificates curl gpg
+          sudo install -d -m 0755 /usr/share/postgresql-common/pgdg
+          sudo curl --fail --silent --show-error --location --retry 3 \
+            -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+            https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          pgdg_fingerprint="$(gpg --batch --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: '$1 == "fpr" { print $10; exit }')"
+          test "$pgdg_fingerprint" = "B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8" || { echo "Unrecognized official PostgreSQL repository signing key"; exit 1; }
+          printf 'Types: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: %s-pgdg\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n' "$VERSION_CODENAME" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null
+          sudo apt-get update -qq
+          apt-cache policy postgresql-client-18 | sed -n '1,9p'
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends postgresql-client-18
           python -m pip install --disable-pip-version-check 'cryptography==50.0.2'
           pg_dump --version
           psql --version
@@ -118,8 +128,18 @@ jobs:
           source /etc/os-release
           test "$VERSION_ID" = "26.04" || { echo "Expected Ubuntu 26.04; got $VERSION_ID"; exit 1; }
           sudo apt-get update -qq
-          apt-cache policy postgresql-client-18 | grep -q 'Candidate: 18' || { echo "PostgreSQL 18 packages are not available"; exit 1; }
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq postgresql-18 postgresql-client-18
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ca-certificates curl gpg
+          sudo install -d -m 0755 /usr/share/postgresql-common/pgdg
+          sudo curl --fail --silent --show-error --location --retry 3 \
+            -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+            https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          pgdg_fingerprint="$(gpg --batch --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: '$1 == "fpr" { print $10; exit }')"
+          test "$pgdg_fingerprint" = "B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8" || { echo "Unrecognized official PostgreSQL repository signing key"; exit 1; }
+          printf 'Types: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: %s-pgdg\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n' "$VERSION_CODENAME" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null
+          sudo apt-get update -qq
+          apt-cache policy postgresql-client-18 | sed -n '1,9p'
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends postgresql-18 postgresql-client-18
           python -m pip install --disable-pip-version-check 'cryptography==50.0.2'
           sudo service postgresql start
           pg_restore --version
