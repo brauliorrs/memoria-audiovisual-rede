@@ -35,6 +35,8 @@ MAX_FILE_BYTES = MAX_DUMP_BYTES + MAX_HEADER_BYTES + 512
 EXPECTED = ("checkpoints", "checkpoint_pages", "raw_artifacts")
 SOURCE_PROJECT = "holy-bread-70461948"
 SOURCE_BRANCH = "br-lingering-smoke-b8hjdnzb"
+# Direct (non-pooler) endpoint of the existing validation branch, pinned by audit.
+SOURCE_HOST = "ep-damp-term-b8wqhmz0.c-14.us-east-1.aws.neon.tech"
 
 
 class RecoveryRejected(ValueError):
@@ -73,7 +75,7 @@ def _postgres_env(variable, *, origin, env):
             not re.fullmatch(r"[A-Za-z0-9_]+", database)):
         raise RecoveryRejected("invalid_connection_url")
     if origin:
-        if (username != "mar_p0_limited" or not hostname.endswith(".neon.tech")
+        if (username != "mar_p0_limited" or hostname != SOURCE_HOST
                 or database != "neondb"):
             raise RecoveryRejected("source_must_be_limited_neon_validation_role")
     else:
