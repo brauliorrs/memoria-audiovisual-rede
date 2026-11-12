@@ -197,6 +197,14 @@ class CzechReceiptV2BridgeTests(unittest.TestCase):
         self.assertIn("bridge_only_supports_bounded_selection", result["reasons"])
         self.assertEqual(result["production_gate"], "HOLD")
 
+    def test_malformed_scope_fails_closed_without_exception(self):
+        manifest = source_fixture()[3]
+        manifest["scope"] = None
+        result = evaluate(manifest=manifest, manifest_pin=sha(manifest))
+        self.assertFalse(result["bridge_replay_consistent"])
+        self.assertIn("bridge_only_supports_bounded_selection", result["reasons"])
+        self.assertEqual(result["production_gate"], "HOLD")
+
     def test_no_episode_links_blocks_even_valid_receipt_and_pin(self):
         receipts, bodies, pins, manifest, manifest_pin, outputs = source_fixture()
         bodies[0] = b"<html><body><a href='/porady/12701251153-kultura/'>Show only</a></body></html>"
