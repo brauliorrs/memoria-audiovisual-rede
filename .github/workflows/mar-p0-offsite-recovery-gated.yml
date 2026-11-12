@@ -52,7 +52,7 @@ jobs:
         run: |
           test -n "$MAR_P0_READONLY_DATABASE_URL" || { echo "Missing protected read-only Neon credential"; exit 1; }
           test -n "$MAR_P0_RESTORE_AES_KEY_HEX" || { echo "Missing protected encryption key"; exit 1; }
-          test "$${#MAR_P0_RESTORE_AES_KEY_HEX}" -eq 64 || { echo "AES key must have 64 hex characters"; exit 1; }
+          test "${#MAR_P0_RESTORE_AES_KEY_HEX}" -eq 64 || { echo "AES key must have 64 hex characters"; exit 1; }
 
       - name: Export MAR P0 using read-only Neon role, encrypt before artifact upload
         id: backup
