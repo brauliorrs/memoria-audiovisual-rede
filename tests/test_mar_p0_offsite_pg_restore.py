@@ -13,7 +13,7 @@ from scripts.mar_p0_offsite_pg_restore import (
     _write_exclusive, export_backup, restore_backup, main,
 )
 
-SOURCE_URI = "postgresql://mar_p0_limited:synthetic-secret@ep-test.c-14.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
+SOURCE_URI = "postgresql://mar_p0_limited:synthetic-secret@ep-damp-term-b8wqhmz0.c-14.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
 TARGET_URI = "postgresql://operator:synthetic-secret@localhost/mar_p0_restore_synthetic"
 KEY = "ab" * 32
 TABLE_STATS = {name: {"count": count, "sha256": "a" * 64} for name, count in
@@ -32,6 +32,7 @@ class OffsiteEncryptedRecoveryTests(unittest.TestCase):
         for url in (
             "postgresql://neondb_owner:secret@ep-test.neon.tech/neondb",
             "postgresql://mar_p0_limited:secret@attacker.example/neondb",
+            "postgresql://mar_p0_limited:secret@ep-damp-term-b8wqhmz0-pooler.c-14.us-east-1.aws.neon.tech/neondb",
             "postgresql://mar_p0_limited:secret@ep-test.neon.tech/otherdb",
             "postgresql://mar_p0_limited:secret@ep-test.neon.tech:9999/neondb",
             "postgresql://mar_p0_limited:secret@ep-test.neon.tech/neondb#frag",
