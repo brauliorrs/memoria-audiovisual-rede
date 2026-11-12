@@ -21,7 +21,7 @@ jobs:
       github.run_attempt == 1 &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       github.event.pull_request.head.ref == 'fix/monthly-cycle-evidence-20261110'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     environment: mar-p0-neon-isolated
     outputs:
@@ -39,7 +39,11 @@ jobs:
 
       - name: Install PostgreSQL 18 client and cryptography
         run: |
+          set -euo pipefail
+          source /etc/os-release
+          test "$VERSION_ID" = "26.04" || { echo "Expected Ubuntu 26.04; got $VERSION_ID"; exit 1; }
           sudo apt-get update -qq
+          apt-cache policy postgresql-client-18 | grep -q 'Candidate: 18' || { echo "PostgreSQL client 18 is not available"; exit 1; }
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq postgresql-client-18
           python -m pip install --disable-pip-version-check 'cryptography==50.0.2'
           pg_dump --version
@@ -94,7 +98,7 @@ jobs:
   restore-isolated:
     needs: [export-encrypted]
     if: needs.export-encrypted.result == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     environment: mar-p0-neon-isolated
     steps:
@@ -110,7 +114,11 @@ jobs:
 
       - name: Install PostgreSQL 18 local server and cryptography
         run: |
+          set -euo pipefail
+          source /etc/os-release
+          test "$VERSION_ID" = "26.04" || { echo "Expected Ubuntu 26.04; got $VERSION_ID"; exit 1; }
           sudo apt-get update -qq
+          apt-cache policy postgresql-client-18 | grep -q 'Candidate: 18' || { echo "PostgreSQL 18 packages are not available"; exit 1; }
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq postgresql-18 postgresql-client-18
           python -m pip install --disable-pip-version-check 'cryptography==50.0.2'
           sudo service postgresql start
