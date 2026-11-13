@@ -1,0 +1,141 @@
+name: MAR P0 private Vercel live recovery proof (PR approval gated)
+
+# Not live until code is reviewed/merged to main and protected secrets exist.
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mar-p0-vercel-proof-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  export-to-private-blob:
+    if: >-
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mar-p0-offsite-restore-approved' &&
+      github.event.pull_request.number == 93 &&
+      github.actor == 'brauliorrs' &&
+      github.run_attempt == 1 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'feat/mar-p0-vercel-blob-backup-20261113'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 25
+    environment: mar-p0-neon-isolated
+    outputs:
+      pathname: ${{ steps.export.outputs.pathname }}
+      ciphertext_sha256: ${{ steps.export.outputs.ciphertext_sha256 }}
+    steps:
+      - name: Checkout reviewed main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Python 3.11
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: PostgreSQL 18, Vercel SDK, encryption
+        run: |
+          bash scripts/mar_p0_install_pg18_ci.sh client
+          python -m pip install --disable-pip-version-check 'vercel-blob==0.5.1' 'cryptography==50.0.2'
+      - name: Export encrypted checkpoint schema and confirm private Blob readback
+        id: export
+        env:
+          MAR_P0_READONLY_DATABASE_URL: ${{ secrets.MAR_P0_READONLY_DATABASE_URL }}
+          MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.MAR_P0_VERCEL_BLOB_READ_WRITE_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 0700 "$RUNNER_TEMP/mar-p0-private"
+          python -m scripts.mar_p0_offsite_pg_restore backup \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-private/checkpoints.aesgcm" --execute \
+            > "$RUNNER_TEMP/mar-p0-blob-export.json"
+          export CIPHER_SHA="$(python -c 'import json,os;print(json.load(open(os.environ["RUNNER_TEMP"]+"/mar-p0-blob-export.json"))["encrypted_sha256"])')"
+          python -m scripts.mar_p0_offsite_vercel upload \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-private/checkpoints.aesgcm" \
+            --expected-sha256 "$CIPHER_SHA" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" --execute \
+            > "$RUNNER_TEMP/mar-p0-blob-upload.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])
+          exp=json.loads((root/"mar-p0-blob-export.json").read_text())
+          saved=json.loads((root/"mar-p0-blob-upload.json").read_text())
+          assert exp["status"]=="encrypted_backup_exported"
+          assert saved["status"]=="private_ciphertext_uploaded_and_readback_verified"
+          assert exp["encrypted_sha256"]==saved["sha256"]
+          assert exp["production_gate"]==saved["production_gate"]=="HOLD"
+          with open(os.environ["GITHUB_OUTPUT"],"a",encoding="utf-8") as f:
+              f.write("pathname="+saved["pathname"]+"\n")
+              f.write("ciphertext_sha256="+saved["sha256"]+"\n")
+          print("PASS: cipher-only private Vercel Blob upload and authenticated readback.")
+          PY
+      - name: Purge temporary export
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/mar-p0-private" "$RUNNER_TEMP/mar-p0-blob-export.json" "$RUNNER_TEMP/mar-p0-blob-upload.json"
+
+  restore-private-blob:
+    needs: [export-to-private-blob]
+    if: needs.export-to-private-blob.result == 'success'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 25
+    environment: mar-p0-neon-isolated
+    steps:
+      - name: Checkout reviewed main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Python 3.11
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: PostgreSQL 18 local server and recovery SDK
+        run: |
+          bash scripts/mar_p0_install_pg18_ci.sh server
+          python -m pip install --disable-pip-version-check 'vercel-blob==0.5.1' 'cryptography==50.0.2'
+      - name: Recover private ciphertext in a different runner
+        env:
+          MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.MAR_P0_VERCEL_BLOB_READ_WRITE_TOKEN }}
+          EXPECTED_PATH: ${{ needs.export-to-private-blob.outputs.pathname }}
+          EXPECTED_SHA: ${{ needs.export-to-private-blob.outputs.ciphertext_sha256 }}
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 0700 "$RUNNER_TEMP/mar-p0-restored"
+          python -m scripts.mar_p0_offsite_vercel download \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-restored/checkpoints.aesgcm" \
+            --pathname "$EXPECTED_PATH" --expected-sha256 "$EXPECTED_SHA" --execute \
+            > "$RUNNER_TEMP/mar-p0-blob-downloaded.json"
+          RESTORE_PASSWORD="$(openssl rand -hex 24)"
+          RESTORE_DB="mar_p0_restore_$GITHUB_RUN_ID"
+          printf "CREATE ROLE mar_p0_restore LOGIN PASSWORD '%s';\n" "$RESTORE_PASSWORD" \
+            | sudo -u postgres psql -X -v ON_ERROR_STOP=1 postgres >/dev/null
+          sudo -u postgres createdb --owner=mar_p0_restore "$RESTORE_DB"
+          export MAR_P0_ISOLATED_RESTORE_DATABASE_URL="postgresql://mar_p0_restore:$RESTORE_PASSWORD@127.0.0.1/$RESTORE_DB"
+          unset RESTORE_PASSWORD
+          python -m scripts.mar_p0_offsite_pg_restore restore \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-restored/checkpoints.aesgcm" \
+            --expected-sha256 "$EXPECTED_SHA" --execute \
+            > "$RUNNER_TEMP/mar-p0-blob-restored.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])
+          dl=json.loads((root/"mar-p0-blob-downloaded.json").read_text())
+          rs=json.loads((root/"mar-p0-blob-restored.json").read_text())
+          assert dl["status"]=="private_ciphertext_download_verified"
+          assert rs["status"]=="offsite_restored_and_verified"
+          assert dl["sha256"]==rs["encrypted_sha256"]==os.environ["EXPECTED_SHA"]
+          assert rs["rows_and_schema_sha256_equal"] is True
+          assert rs["production_gate"]=="HOLD"
+          print("PASS: fresh local PostgreSQL restored Vercel ciphertext and all MAR P0 fingerprints.")
+          PY
+      - name: Purge temporary restored data
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/mar-p0-restored" "$RUNNER_TEMP/mar-p0-blob-downloaded.json" "$RUNNER_TEMP/mar-p0-blob-restored.json"
