@@ -110,6 +110,7 @@ def upload_file(client, bucket, source, expected_sha, run_id, attempt, now):
         Bucket=bucket, Key=key, Body=data,
         IfNoneMatch="*",  # never overwrite even if a run is replayed
         ContentType="application/octet-stream",
+        ChecksumAlgorithm="SHA256",
         ChecksumSHA256=digest_b64,
         Metadata={"ciphertext-sha256": expected_sha, "schema": "mar-p0"},
         ObjectLockMode="COMPLIANCE",
