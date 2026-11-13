@@ -1,0 +1,76 @@
+name: MAR P0 private Vercel weekly prior-snapshot recovery
+
+on:
+  schedule:
+    - cron: '17 6 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mar-p0-vercel-weekly
+  cancel-in-progress: false
+
+jobs:
+  recover-prior-private-blob:
+    if: >-
+      github.repository == 'brauliorrs/memoria-audiovisual-rede' &&
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-26.04
+    timeout-minutes: 25
+    environment: mar-p0-vercel-recovery
+    steps:
+      - name: Checkout reviewed main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Python 3.11
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: PostgreSQL 18 local server and Vercel SDK
+        run: |
+          bash scripts/mar_p0_install_pg18_ci.sh server
+          python -m pip install --disable-pip-version-check 'vercel-blob==0.5.1' 'cryptography==50.0.2'
+      - name: Select a private encrypted backup aged 24 to 192 hours and restore
+        env:
+          MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.MAR_P0_VERCEL_BLOB_READ_WRITE_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 0700 "$RUNNER_TEMP/mar-p0-weekly"
+          python -m scripts.mar_p0_offsite_vercel download \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-weekly/checkpoints.aesgcm" \
+            --min-age-hours 24 --max-age-hours 192 --execute \
+            > "$RUNNER_TEMP/mar-p0-weekly-download.json"
+          export EXPECTED_SHA="$(python -c 'import json,os;print(json.load(open(os.environ["RUNNER_TEMP"]+"/mar-p0-weekly-download.json"))["sha256"])')"
+          RESTORE_PASSWORD="$(openssl rand -hex 24)"
+          RESTORE_DB="mar_p0_restore_$GITHUB_RUN_ID"
+          printf "CREATE ROLE mar_p0_restore LOGIN PASSWORD '%s';\n" "$RESTORE_PASSWORD" \
+            | sudo -u postgres psql -X -v ON_ERROR_STOP=1 postgres >/dev/null
+          sudo -u postgres createdb --owner=mar_p0_restore "$RESTORE_DB"
+          export MAR_P0_ISOLATED_RESTORE_DATABASE_URL="postgresql://mar_p0_restore:$RESTORE_PASSWORD@127.0.0.1/$RESTORE_DB"
+          unset RESTORE_PASSWORD
+          python -m scripts.mar_p0_offsite_pg_restore restore \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-weekly/checkpoints.aesgcm" \
+            --expected-sha256 "$EXPECTED_SHA" --execute \
+            > "$RUNNER_TEMP/mar-p0-weekly-restored.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])
+          dl=json.loads((root/"mar-p0-weekly-download.json").read_text())
+          rs=json.loads((root/"mar-p0-weekly-restored.json").read_text())
+          assert dl["status"]=="private_ciphertext_download_verified"
+          assert rs["status"]=="offsite_restored_and_verified"
+          assert dl["sha256"]==rs["encrypted_sha256"]==os.environ["EXPECTED_SHA"]
+          assert rs["rows_and_schema_sha256_equal"] is True
+          assert rs["production_gate"]=="HOLD"
+          print("PASS: previous private Blob restored in independent local PostgreSQL.")
+          PY
+      - name: Purge local recovery data
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/mar-p0-weekly" "$RUNNER_TEMP/mar-p0-weekly-download.json" "$RUNNER_TEMP/mar-p0-weekly-restored.json"
