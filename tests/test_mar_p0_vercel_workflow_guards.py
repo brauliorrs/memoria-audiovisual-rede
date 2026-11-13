@@ -36,7 +36,9 @@ class ScheduledPrivateBlobTests(unittest.TestCase):
             self.assertNotIn("access: public", workflow)
             self.assertNotIn("AWS_ACCESS_KEY_ID", workflow)
         self.assertIn('access="private"', CLIENT)
-        self.assertIn("overwrite=False", CLIENT)
+        self.assertIn("vercel-blob==0.5.1", DAILY)
+        self.assertIn("BLOB_READ_WRITE_TOKEN: ${{ secrets.MAR_P0_VERCEL_BLOB_READ_WRITE_TOKEN }}", DAILY)
+        self.assertIn("allow_overwrite=False", CLIENT)
 
     def test_no_delete_api_or_artifact_short_retention(self):
         for workflow in (DAILY,WEEKLY):
@@ -54,7 +56,7 @@ class ScheduledPrivateBlobTests(unittest.TestCase):
             self.assertIn("@127.0.0.1/$RESTORE_DB", workflow)
 
     def test_vercel_is_not_misrepresented_as_immutable(self):
-        self.assertIn("Not WORM:", CLIENT)
+        self.assertIn("NOT WORM", CLIENT)
         self.assertIn('"provider_retention_enforced": False', CLIENT)
         self.assertIn('"production_gate": "HOLD"', CLIENT)
 
