@@ -10,22 +10,22 @@ from memoria_audiovisual.filmoteca_valenciana import (
 
 
 class FilmotecaValencianaCollectionTests(unittest.TestCase):
-    def test_parse_listing_keeps_spanish_restoration_film_links(self):
+    def test_parse_listing_keeps_official_spanish_film_details(self):
         html = """
         <nav>
-          <a href="/cine-valenciano/no-ficcion/fallas-de-valencia/">Fallas</a>
-          <a href="/cine-valencia-2/no-ficcio/fallas-de-valencia/">Falles</a>
-          <a href="/inicio/">Inicio</a>
+          <a href="/es/ficha/fallas-de-valencia/">Fallas</a>
+          <a href="/fitxa/fallas-de-valencia/">Falles</a>
+          <a href="/es/">Inicio</a>
         </nav>
         """
         links = parse_filmoteca_valenciana_listing_links(
             html,
-            "https://www.restauracionesfilmoteca.com/inicio/",
+            "https://restauracionsfilmoteca.ivc.gva.es/es/",
         )
 
         self.assertEqual(
             links,
-            ["https://www.restauracionesfilmoteca.com/cine-valenciano/no-ficcion/fallas-de-valencia/"],
+            ["https://restauracionsfilmoteca.ivc.gva.es/es/ficha/fallas-de-valencia/"],
         )
 
     def test_parse_detail_extracts_vimeo_catalog_url_and_scope_note(self):
@@ -41,7 +41,7 @@ class FilmotecaValencianaCollectionTests(unittest.TestCase):
           </div>
         </article>
         """
-        page_url = "https://www.restauracionesfilmoteca.com/cine-valenciano/no-ficcion/fallas-de-valencia/"
+        page_url = "https://restauracionsfilmoteca.ivc.gva.es/es/ficha/fallas-de-valencia/"
         records = parse_filmoteca_valenciana_detail_page(html, page_url)
 
         self.assertEqual(extract_filmoteca_valenciana_vimeo_ids(html), ["84018346"])
@@ -52,16 +52,16 @@ class FilmotecaValencianaCollectionTests(unittest.TestCase):
 
     def test_dataset_deduplicates_by_vimeo_id(self):
         pages = {
-            "https://www.restauracionesfilmoteca.com/inicio/": """
-              <a href="/cine-valenciano/no-ficcion/fallas-de-valencia/">Fallas</a>
-              <a href="/cine-valenciano/no-ficcion/fallas-duplicada/">Fallas duplicada</a>
+            "https://restauracionsfilmoteca.ivc.gva.es/es/": """
+              <a href="/es/ficha/fallas-de-valencia/">Fallas</a>
+              <a href="/es/ficha/fallas-duplicada/">Fallas duplicada</a>
             """,
-            "https://www.restauracionesfilmoteca.com/cine-valenciano/no-ficcion/fallas-de-valencia/": """
+            "https://restauracionsfilmoteca.ivc.gva.es/es/ficha/fallas-de-valencia/": """
               <div class="entry"><h1>Fallas</h1>
               <iframe src="https://player.vimeo.com/video/84018346"></iframe>
               <p>España, 1928. 13′</p></div>
             """,
-            "https://www.restauracionesfilmoteca.com/cine-valenciano/no-ficcion/fallas-duplicada/": """
+            "https://restauracionsfilmoteca.ivc.gva.es/es/ficha/fallas-duplicada/": """
               <div class="entry"><h1>Fallas duplicada</h1>
               <iframe src="https://player.vimeo.com/video/84018346"></iframe>
               <p>España, 1928. 13′</p></div>
@@ -76,13 +76,38 @@ class FilmotecaValencianaCollectionTests(unittest.TestCase):
                 self.error = ""
 
         def fetch(url):
-            return Page(url, pages[url])
+            return Page(url, pages.get(url, ""))
 
         _, summary, links, internal_pages = collect_filmoteca_valenciana_dataset(fetch)
 
         self.assertEqual(len(links), 1)
         self.assertEqual(summary[0]["video_links_found"], 1)
-        self.assertEqual(len(internal_pages), 3)
+        self.assertFalse(summary[0]["collection_complete"])
+        self.assertEqual(len(internal_pages), 9)
+
+    def test_unavailable_official_index_keeps_collection_incomplete(self):
+        class Page:
+            def __init__(self, url, status, html=""):
+                self.url, self.status, self.html, self.error = (
+                    url, status, html, "" if status == "200" else "HTTP 503"
+                )
+
+        def fetch(url):
+            if url.endswith("/es/"):
+                return Page(url, "200",
+                            '<a href="/es/ficha/test-film/">Test film</a>')
+            if "/es/ficha/" in url:
+                return Page(url, "200",
+                            '<h1>Test film</h1>'
+                            '<iframe src="https://player.vimeo.com/video/84018346"></iframe>')
+            return Page(url, "503")
+
+        _, summary, links, internal_pages = collect_filmoteca_valenciana_dataset(fetch)
+        self.assertEqual(len(links), 1)
+        self.assertFalse(summary[0]["collection_complete"])
+        self.assertEqual(summary[0]["integrity_status"], "instavel")
+        self.assertEqual(summary[0]["error"], "listing_pages_unavailable")
+        self.assertEqual(len(internal_pages), 8)
 
     def test_access_surface_is_external_video_platform(self):
         row = {

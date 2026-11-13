@@ -1,0 +1,54 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadBucketSafetyState",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketVersioning",
+        "s3:GetBucketObjectLockConfiguration",
+        "s3:GetBucketPublicAccessBlock",
+        "s3:GetEncryptionConfiguration"
+      ],
+      "Resource": "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET_NAME"
+    },
+    {
+      "Sid": "ListVersionsOnlyUnderMarP0Prefix",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucketVersions"
+      ],
+      "Resource": "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET_NAME",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "mar-p0/validation/*",
+            "mar-p0/validation/"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "ReadImmutableEncryptedVersionsOnly",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObjectVersion",
+        "s3:GetObject",
+        "s3:GetObjectRetention"
+      ],
+      "Resource": "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET_NAME/mar-p0/validation/*"
+    },
+    {
+      "Sid": "NoWriterOrDeleteCapability",
+      "Effect": "Deny",
+      "Action": [
+        "s3:PutObject",
+        "s3:PutObjectRetention",
+        "s3:DeleteObject",
+        "s3:DeleteObjectVersion",
+        "s3:BypassGovernanceRetention"
+      ],
+      "Resource": "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET_NAME/mar-p0/validation/*"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import json
 import re
 import time
 from dataclasses import dataclass, field
-from urllib.parse import quote, unquote, urljoin
+from urllib.parse import quote, unquote, urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -110,7 +110,17 @@ def parse_efg_search_page(html, page_url, detail_prefix):
     for anchor in soup.select("a[href]"):
         href = anchor.get("href", "").split(";jsessionid=", 1)[0]
         absolute_url = urljoin(page_url, href)
-        if "/detail/" in absolute_url and detail_prefix in absolute_url:
+        parsed = urlparse(absolute_url)
+        # EFG record identifiers may encode the namespace separator as %3A%3A.
+        # Reject unrelated domains; a search result is only a link candidate,
+        # not evidence that an item is accessible or streamable.
+        host = (parsed.hostname or "").lower()
+        if (
+            parsed.scheme == "https"
+            and (host == "europeanfilmgateway.eu" or host.endswith(".europeanfilmgateway.eu"))
+            and "/detail/" in unquote(parsed.path)
+            and detail_prefix in unquote(absolute_url)
+        ):
             detail_urls.append(absolute_url)
     return list(dict.fromkeys(detail_urls))
 

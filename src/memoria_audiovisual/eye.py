@@ -217,6 +217,10 @@ def collect_eye_dataset(fetcher=_fetch, sleep_seconds=EYE_PAGE_DELAY_SECONDS):
     if first_page.status_code == 200:
         declared_total = extract_eye_declared_fragment_total(first_page.html_text)
         max_page = extract_eye_max_page(first_page.html_text)
+        if not declared_total:
+            # The old filter can silently return the unfiltered catalogue.
+            # Never turn a successful HTTP response into verified film fragments.
+            errors.append("eye_film_fragment_filter_not_confirmed")
     else:
         errors.append(first_page.error or f"HTTP {first_page.status_code}")
 
@@ -224,7 +228,14 @@ def collect_eye_dataset(fetcher=_fetch, sleep_seconds=EYE_PAGE_DELAY_SECONDS):
         page = first_page if page_index == 0 else fetcher(_list_url(page_index))
         if page_index and sleep_seconds:
             time.sleep(sleep_seconds)
-        records = parse_eye_fragment_list_page(page.html_text, page.url) if page.status_code == 200 else []
+        if page_index and page.status_code != 200:
+            errors.append(f"eye_list_page_{page_index}_unavailable")
+        # Never include ordinary catalogue films in the public-fragment
+        # corpus when the expected filter cannot be verified.
+        records = (
+            parse_eye_fragment_list_page(page.html_text, page.url)
+            if page.status_code == 200 and declared_total > 0 else []
+        )
         for record in records:
             records_by_id[record["record_id"]] = record
         rows_internal_pages.append(
@@ -245,7 +256,9 @@ def collect_eye_dataset(fetcher=_fetch, sleep_seconds=EYE_PAGE_DELAY_SECONDS):
     ]
     total_records = len(rows_video_links)
     expected_total = declared_total or EYE_EXPECTED_FRAGMENT_TOTAL
-    complete = total_records == expected_total
+    complete = (
+        total_records == expected_total and declared_total > 0 and not errors
+    )
     rows_summary = [
         {
             **_base_row(institution),

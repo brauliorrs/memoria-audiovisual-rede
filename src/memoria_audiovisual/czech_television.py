@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 import time
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -106,6 +106,38 @@ def parse_czech_television_catalog_page(html, category_label=""):
                 "is_playable": bool(item.get("isPlayable")),
             }
         )
+    # Current public catalogue pages may render programme cards in HTML
+    # without the former __NEXT_DATA__/programmeFind structure. These are
+    # discovery candidates only, not video evidence. The collector still
+    # requires a separate playable mediaMeta/episode record before materializing.
+    if not records:
+        soup = BeautifulSoup(html or "", "html.parser")
+        seen_slugs = set()
+        for anchor in soup.select("a[href]"):
+            href = anchor.get("href", "").split("?", 1)[0]
+            parsed = urlparse(urljoin(CZECH_TELEVISION_HOME_URL, href))
+            if parsed.scheme != "https" or parsed.hostname != "www.ceskatelevize.cz":
+                continue
+            match = re.search(r"(?:^|/)porady/(\d{2,}-[a-z0-9-]+)/?$", href, re.I)
+            if not match:
+                continue
+            slug = match.group(1)
+            title = _clean_text(anchor.get_text(" ", strip=True), limit=300)
+            if slug in seen_slugs or not title:
+                continue
+            seen_slugs.add(slug)
+            records.append({
+                "show_id": slug.split("-", 1)[0],
+                "show_slug": slug,
+                "show_title": title,
+                "category_label": _clean_text(category_label),
+                "genres": [],
+                "show_url": urljoin(CZECH_TELEVISION_HOME_URL, f"/porady/{slug}/"),
+                "is_playable": False,
+                "discovery_only": True,
+            })
+            if len(records) >= CZECH_TELEVISION_MAX_SHOWS:
+                break
     return records
 
 
@@ -135,8 +167,23 @@ def parse_czech_television_show_page(html, show_slug):
 
 
 def parse_czech_television_episode_page(html, page_url, show_context=None):
-    media = _page_data(html).get("mediaMeta", {})
-    if not isinstance(media, dict) or not media.get("isPlayable"):
+    data = _page_data(html)
+    if not isinstance(data, dict):
+        return {}
+    legacy = data.get("mediaMeta")
+    current = data.get("episode")
+    # If both shapes are present, an explicit negative signal must win.
+    for item in (legacy, current):
+        if isinstance(item, dict) and item.get("isPlayable") is False:
+            return {}
+    if isinstance(legacy, dict) and legacy.get("isPlayable") is True:
+        media, proof_path = legacy, "mediaMeta"
+    elif isinstance(current, dict) and current.get("isPlayable") is True:
+        media, proof_path = current, "episode"
+    else:
+        return {}
+    record_id = _clean_text(media.get("id") or media.get("idec"))
+    if not record_id:
         return {}
 
     show_context = show_context or {}
@@ -167,14 +214,14 @@ def parse_czech_television_episode_page(html, page_url, show_context=None):
                 f"duração: {duration}" if duration else "",
                 f"ano: {media.get('year')}" if media.get("year") else "",
                 f"país de origem: {', '.join(origin_countries)}" if origin_countries else "",
-                "ficha pública do iVysílání com mediaMeta.isPlayable=True; mídia não baixada",
+                f"ficha pública do iVysílání com {proof_path}.isPlayable=True; mídia não baixada",
             ]
             if value
         ),
         limit=1400,
     )
     return {
-        "record_id": _clean_text(media.get("id") or media.get("idec")),
+        "record_id": record_id,
         "show_title": show_title,
         "title": title,
         "subject": "; ".join(value for value in [show_title, *genres, show_context.get("category_label")] if value),
@@ -330,7 +377,7 @@ def collect_czech_television_dataset():
                         episode_response.status_code,
                         1 if record else 0,
                         1 if record.get("embedded") else 0,
-                        "Ficha de episódio iVysílání verificada por __NEXT_DATA__/mediaMeta.",
+                        "Ficha de episódio iVysílání verificada por __NEXT_DATA__/mediaMeta ou data.episode.",
                     )
                 )
             except Exception as error:
@@ -347,12 +394,20 @@ def collect_czech_television_dataset():
             "partner_domain": normalize_domain(CZECH_TELEVISION_IVYSILANI_URL),
             "status": "ok" if video_links else "erro",
             "http_code": 200 if video_links else "",
-            "integrity_status": "integro" if video_links else "instavel",
+            # A bounded MVP can prove accessible records, never complete coverage.
+            # A non-empty sample must not be published as a complete corpus.
+            "integrity_status": "instavel",
+            "coverage_scope": "bounded_mvp",
+            "accessible_records_count": len(video_links),
+            "validated_sample_count": 0,
+            "corpus_complete": False,
+            "enumeration_complete": False,
+            "expected_corpus_total": "",
             "final_url": CZECH_TELEVISION_KULTURA_CATALOG_URL,
             "video_links_found_total": len(video_links),
             "embedded_video_signals_total": sum(1 for record in records if record.get("embedded")),
             "candidate_internal_pages": len(internal_pages),
-            "priority_review": False,
+            "priority_review": True,
             "warning": (
                 "Corpus institucional incorporado por rota pública do iVysílání. A fonte identificadora "
                 "na fila é o EUscreen, mas a unidade analítica aqui é a Czech Television como arquivo "

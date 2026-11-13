@@ -34,6 +34,19 @@ class CiclicCollectionTests(unittest.TestCase):
         self.assertEqual(records[0]["page_url"], "https://memoire.ciclic.fr/27298-histoire-d-otage-fiction")
         self.assertIn("Histoire", records[0]["list_text"])
 
+    def test_parse_public_index_view_content_only_accepts_real_film_urls(self):
+        html = """
+        <div class="view-content">
+          <div class="views-row"><a href="/27298-histoire-d-otage-fiction">Film A</a></div>
+          <div class="views-row"><a href="/27298-histoire-d-otage-fiction">Duplicate</a></div>
+          <div class="views-row"><a href="/films-d-archives">Index, not film</a></div>
+          <div class="views-row"><a href="https://external.example/9999-foreign">External</a></div>
+        </div>
+        """
+        records = parse_ciclic_list_page(html)
+        self.assertEqual([r["record_id"] for r in records], ["27298"])
+        self.assertEqual(records[0]["page_number"], 0)
+
     def test_parse_ciclic_film_page_extracts_embed_and_analytic_fields(self):
         html = """
         <article class="node-film">

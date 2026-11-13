@@ -661,7 +661,7 @@ def build_czech_television_snapshot_metadata(
     analysis_frames,
     generated_by,
 ):
-    return build_snapshot_metadata(
+    payload = build_snapshot_metadata(
         output_dir,
         dataset="czech-television",
         source_url=CZECH_TELEVISION_IVYSILANI_URL,
@@ -671,6 +671,27 @@ def build_czech_television_snapshot_metadata(
         analysis_frames=analysis_frames,
         generated_by=generated_by,
     )
+    # An ordinary Czech TV pipeline run is deliberately limited to six shows
+    # and two episode candidates per show. An independently validated staged
+    # probe is not automatically incorporated into this run's evidence.
+    # These are distinct assertions: available public records, independently
+    # validated samples, and proven complete source enumeration.
+    payload["coverage"] = {
+        "contract_version": 1,
+        "scope": "bounded_mvp",
+        "accessible_records": payload["counts"]["video_links_total"],
+        "validated_sample_records": 0,
+        "sample_validation_status": "not_attested_in_this_run",
+        "sample_checkpoint_reference": None,
+        "corpus_complete": False,
+        "completion_status": "not_demonstrated",
+        "source_declared_total": None,
+        "enumerated_unique_records": None,
+        "pagination_exhausted": False,
+        "failed_pages": None,
+        "completion_evidence": None,
+    }
+    return payload
 
 
 def build_dff_snapshot_metadata(

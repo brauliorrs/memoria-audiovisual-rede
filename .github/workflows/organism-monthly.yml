@@ -28,12 +28,27 @@ jobs:
         run: playwright install --with-deps chromium
 
       - name: Run monthly organism cycle
+        id: monthly_run
         run: python scripts/run_observatory_cycle.py
 
       - name: Validate monthly organism cycle
         run: python scripts/check_observatory_cycle.py
 
+      # Preserve evidence even if one corpus fails, without masking the failure.
+      - name: Upload monthly diagnostics (success or failure)
+        if: ${{ always() && steps.monthly_run.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: organismo-mensal-diagnostico
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            data/output/observatorio_ciclo_mensal.json
+            data/output/observatorio_resultados_ciclos.csv
+            data/output/observatorio_linha_do_tempo_ciclos.csv
+
       - name: Upload monthly organism artifacts
+        if: ${{ success() }}
         uses: actions/upload-artifact@v4
         with:
           name: organismo-mensal

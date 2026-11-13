@@ -18,6 +18,7 @@ from .config import (
     REQUEST_TIMEOUT,
 )
 from .crawler import normalize_domain, slugify
+from .efg_institutional import parse_efg_search_page
 from .geography import country_to_continent, normalize_country
 
 
@@ -125,14 +126,7 @@ def collect_asim_institutions():
 
 
 def parse_asim_search_page(html, page_url=ASIM_EFG_SEARCH_URL):
-    soup = BeautifulSoup(html or "", "html.parser")
-    detail_urls = []
-    for anchor in soup.select("a[href]"):
-        href = anchor.get("href", "").split(";jsessionid=", 1)[0]
-        absolute_url = urljoin(page_url, href)
-        if "/detail/" in absolute_url and "asim::" in absolute_url:
-            detail_urls.append(absolute_url)
-    return list(dict.fromkeys(detail_urls))
+    return parse_efg_search_page(html, page_url, "asim::")
 
 
 def _extract_record_id(url):

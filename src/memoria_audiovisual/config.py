@@ -553,5 +553,5 @@ FILMOTECA_ESPANOLA_HOME_URL = "https://www.cultura.gob.es/cultura/areas/cine/fil
 FILMOTECA_ESPANOLA_PLATFO_URL = "https://filmo.platfo.es/pages/home"
 FILMOTECA_ESPANOLA_API_URL = "https://galgo-filmoteca.galgo.tv"
 FILMOTECA_VALENCIANA_HOME_URL = "https://ivc.gva.es/es/audiovisuales/la-filmoteca-es"
-FILMOTECA_VALENCIANA_RESTORATIONS_URL = "https://www.restauracionesfilmoteca.com/"
+FILMOTECA_VALENCIANA_RESTORATIONS_URL = "https://restauracionsfilmoteca.ivc.gva.es/"
 FILMOTECA_VALENCIANA_CATALOG_URL = "http://arxiu.ivac-lafilmoteca.es:8080/IVAC/"

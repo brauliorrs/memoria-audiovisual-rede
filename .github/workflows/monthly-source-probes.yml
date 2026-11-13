@@ -1,0 +1,140 @@
+name: MAR Public Source Probes (manual PR label)
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mar-source-probes-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  bounded-public-probe:
+    if: >-
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mar-source-probes-approved' &&
+      github.event.pull_request.number == 91 &&
+      github.actor == 'brauliorrs' &&
+      github.run_attempt == 1 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'fix/monthly-cycle-evidence-20261110'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        source: [ape, asim, barch, bnfa, ciclic, czech_tv, eye]
+    steps:
+      - name: Checkout reviewed PR
+        uses: actions/checkout@v4
+
+      - name: Probe one source (robots, then one HTML GET if permitted)
+        env:
+          SOURCE: ${{ matrix.source }}
+          MAR_SOURCE_PROBE_APPROVED: "yes"
+        run: |
+          python -B scripts/probe_monthly_sources.py --source "$SOURCE" --execute
+
+  bounded-structure-probe:
+    if: >-
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mar-source-structure-approved' &&
+      github.event.pull_request.number == 91 &&
+      github.actor == 'brauliorrs' &&
+      github.run_attempt == 1 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'fix/monthly-cycle-evidence-20261110'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        source: [eye, czech_tv]
+    steps:
+      - name: Checkout reviewed PR
+        uses: actions/checkout@v4
+
+      - name: Inspect one public HTML index only (no media, robots first)
+        env:
+          SOURCE: ${{ matrix.source }}
+          MAR_SOURCE_PROBE_APPROVED: "yes"
+        run: |
+          python -B -m scripts.probe_monthly_structure --source "$SOURCE" --execute
+
+  bounded-parser-probe:
+    if: >-
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mar-source-parser-approved' &&
+      github.event.pull_request.number == 91 &&
+      github.actor == 'brauliorrs' &&
+      github.run_attempt == 1 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'fix/monthly-cycle-evidence-20261110'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        source: [eye, czech_tv]
+    steps:
+      - name: Checkout reviewed PR
+        uses: actions/checkout@v4
+
+      - name: Install only project parser dependencies
+        run: python -m pip install -e .
+
+      - name: Validate one public HTML page with existing source parser
+        env:
+          SOURCE: ${{ matrix.source }}
+          MAR_SOURCE_PROBE_APPROVED: "yes"
+        run: |
+          python -B -m scripts.probe_monthly_parser --source "$SOURCE" --execute
+
+  staged-eye-czech-probe:
+    if: >-
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mar-staged-eye-czech-approved' &&
+      github.event.pull_request.number == 91 &&
+      github.actor == 'brauliorrs' &&
+      github.run_attempt == 1 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'fix/monthly-cycle-evidence-20261110'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        # Eye's approved 3-page staged test is not rerun.
+        # This label authorizes one tightly scoped Czech-only metadata check.
+        source: [czech_tv]
+    steps:
+      - name: Checkout reviewed PR
+        uses: actions/checkout@v4
+
+      - name: Install parser dependencies
+        run: python -m pip install -e .
+
+      - name: Diagnose one Czech programme and episode (no media)
+        id: staged
+        env:
+          SOURCE: ${{ matrix.source }}
+          MAR_SOURCE_STAGED_APPROVED: "yes"
+          MAR_PROBE_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python -B -m scripts.probe_staged_eye_czech --source "$SOURCE" --execute
+
+      - name: Upload staged checkpoints even when HOLD
+        if: ${{ always() && steps.staged.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mar-staged-${{ matrix.source }}-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: data/probe-staged/${{ matrix.source }}.json

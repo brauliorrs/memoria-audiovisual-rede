@@ -1,6 +1,6 @@
 import re
 import time
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -153,12 +153,15 @@ def parse_ciclic_list_page(html_text, page_number=0):
     soup = BeautifulSoup(html_text or "", "html.parser")
     records = []
     seen = set()
-    for item in soup.select("#afficher_plusciclic_memoire_liste_films .block-item, .node-liste .block-item"):
+    for item in soup.select("#afficher_plusciclic_memoire_liste_films .block-item, .node-liste .block-item, .view-content .block-item, .view-content .views-row"):
         link = item.find("a", href=True)
         if not link:
             continue
         page_url = _absolute_url(link.get("href"))
-        match = re.search(r"/(\d+)-", page_url)
+        parsed_url = urlparse(page_url)
+        if parsed_url.scheme != "https" or parsed_url.hostname != "memoire.ciclic.fr":
+            continue
+        match = re.search(r"/(\d+)-", parsed_url.path)
         if not match:
             continue
         record_id = match.group(1)
@@ -322,6 +325,17 @@ def collect_ciclic_dataset():
             if page == 0:
                 declared_total = _parse_declared_total(page_html)
             listed_records = parse_ciclic_list_page(page_html, page)
+            # The Ajax view can return a successful HTTP response without
+            # film cards when a module/markup has changed. Make one bounded
+            # read of the institution's public HTML index, never a broad crawl.
+            if page == 0 and not listed_records:
+                public_index = _fetch(CICLIC_FILMS_ARCHIVES_URL)
+                public_index.raise_for_status()
+                listed_records = parse_ciclic_list_page(
+                    public_index.text, page_number=0
+                )
+                if listed_records:
+                    page_url, page_html = public_index.url, public_index.text
             internal_pages.append(
                 _internal_page_row(
                     institution,

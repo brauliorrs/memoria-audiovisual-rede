@@ -29,13 +29,19 @@ FILMOTECA_VALENCIANA_COUNTRY = normalize_country("Spain")
 FILMOTECA_VALENCIANA_PLATFORM_LABEL = "Vimeo / Restauraciones Filmoteca Valenciana"
 FILMOTECA_VALENCIANA_MIN_VIDEO_TOTAL = 60
 FILMOTECA_VALENCIANA_DETAIL_WORKERS = 8
-FILMOTECA_VALENCIANA_LISTING_URL = urljoin(FILMOTECA_VALENCIANA_RESTORATIONS_URL, "inicio/")
-FILMOTECA_VALENCIANA_FILM_PATH_MARKERS = (
-    "/cine-valenciano/",
-    "/cine-espanol/",
-    "/cine-extranjero/",
-    "/familiar-2/",
+# The official IVC site replaced the old restauracionesfilmoteca.com layout.
+# Fixed, reviewable listing pages: bounded to seven GETs before detail sampling.
+FILMOTECA_VALENCIANA_LISTING_URL = urljoin(FILMOTECA_VALENCIANA_RESTORATIONS_URL, "es/")
+FILMOTECA_VALENCIANA_LISTING_PAGES = (
+    FILMOTECA_VALENCIANA_LISTING_URL,
+    urljoin(FILMOTECA_VALENCIANA_LISTING_URL, "archivo/cine-valenciano/cine-valenciano-ficcion/"),
+    urljoin(FILMOTECA_VALENCIANA_LISTING_URL, "archivo/cine-valenciano/cine-valenciano-no-ficcion/"),
+    urljoin(FILMOTECA_VALENCIANA_LISTING_URL, "archivo/cine-espanol/cine-espanol-ficcion/"),
+    urljoin(FILMOTECA_VALENCIANA_LISTING_URL, "archivo/cine-espanol/cine-espanol-no-ficcion/"),
+    urljoin(FILMOTECA_VALENCIANA_LISTING_URL, "archivo/cine-extranjero/cine-extranjero-ficcion/"),
+    urljoin(FILMOTECA_VALENCIANA_LISTING_URL, "archivo/cine-extranjero/cine-extranjero-no-ficcion/"),
 )
+FILMOTECA_VALENCIANA_FILM_PATH_MARKERS = ("/es/ficha/",)
 
 
 @dataclass(frozen=True)
@@ -187,6 +193,10 @@ def _extract_duration(value):
 
 def _category_from_url(page_url):
     path = page_url.split(FILMOTECA_VALENCIANA_RESTORATIONS_URL, 1)[-1].strip("/")
+    # New IVC film detail permalinks contain only /es/ficha/{slug}/,
+    # not the category. Do not infer a category from a title or slug.
+    if path.startswith("es/ficha/"):
+        return ""
     parts = path.split("/")
     labels = {
         "cine-valenciano": "Cine valenciano",
@@ -266,23 +276,32 @@ def collect_filmoteca_valenciana_dataset(fetch_page=_fetch):
     institution = institutions[0]
     internal_pages = []
 
-    listing_page = fetch_page(FILMOTECA_VALENCIANA_LISTING_URL)
-    film_links = parse_filmoteca_valenciana_listing_links(listing_page.html, listing_page.url)
-    internal_pages.append(
-        _internal_page_row(
-            institution,
-            listing_page,
-            video_count=len(film_links),
-            warning=(
-                "Listagem pública em espanhol usada para evitar duplicação com a versão valenciana. "
-                "O catálogo geral do IVC em porta 8080 é citado como ficha, mas não é a rota primária de streaming."
-            ),
+    film_links = set()
+    listing_errors = []
+    for listing_url in FILMOTECA_VALENCIANA_LISTING_PAGES:
+        page = fetch_page(listing_url)
+        page_links = (
+            parse_filmoteca_valenciana_listing_links(page.html, page.url)
+            if page.status == "200" else []
         )
-    )
+        film_links.update(page_links)
+        if page.status != "200":
+            listing_errors.append(listing_url)
+        internal_pages.append(
+            _internal_page_row(
+                institution,
+                page,
+                video_count=len(page_links),
+                warning=(
+                    "Índice oficial espanhol do IVC. Só links /es/ficha/ "
+                    "são candidatos a registos; nenhuma mídia é descarregada."
+                ),
+            )
+        )
 
     records_by_id = {}
     with ThreadPoolExecutor(max_workers=FILMOTECA_VALENCIANA_DETAIL_WORKERS) as executor:
-        futures = {executor.submit(fetch_page, url): url for url in film_links}
+        futures = {executor.submit(fetch_page, url): url for url in sorted(film_links)}
         for future in as_completed(futures):
             page = future.result()
             records = parse_filmoteca_valenciana_detail_page(page.html, page.url) if page.status == "200" else []
@@ -308,17 +327,17 @@ def collect_filmoteca_valenciana_dataset(fetch_page=_fetch):
             "partner_site": FILMOTECA_VALENCIANA_RESTORATIONS_URL,
             "partner_domain": normalize_domain(FILMOTECA_VALENCIANA_RESTORATIONS_URL),
             "status": "ok" if total_records else "sem_video_publico_detectado",
-            "http_code": listing_page.status,
-            "final_url": listing_page.url,
+            "http_code": "200" if not listing_errors else "parcial",
+            "final_url": FILMOTECA_VALENCIANA_LISTING_URL,
             "video_links_found": total_records,
             "video_links_found_total": total_records,
             "internal_pages_checked": len(internal_pages),
             "candidate_internal_pages": len(internal_pages),
             "embedded_signals": total_records,
             "embedded_video_signals_total": total_records,
-            "integrity_status": "integro" if complete else "instavel",
+            "integrity_status": "integro" if complete and not listing_errors else "instavel",
             "priority_review": not complete,
-            "collection_complete": complete,
+            "collection_complete": complete and not listing_errors,
             "collection_completeness": (
                 "recorte público de restaurações com Vimeo completo no momento da coleta"
                 if complete
@@ -329,7 +348,7 @@ def collect_filmoteca_valenciana_dataset(fetch_page=_fetch):
                 "da Filmoteca Valenciana/IVC. O catálogo geral e pedidos de visionamento/cópia permanecem como "
                 "acesso institucional condicionado."
             ),
-            "error": listing_page.error,
+            "error": "listing_pages_unavailable" if listing_errors else "",
         }
     ]
     return institutions, summary, video_links, internal_pages

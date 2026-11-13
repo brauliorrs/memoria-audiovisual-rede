@@ -612,6 +612,13 @@ CZECH_TELEVISION_INSTITUTION_FIELDS = [
 ]
 CZECH_TELEVISION_SUMMARY_FIELDS = [
     field.replace("archipop_detail_url", "czech_tv_detail_url") for field in ARCHIPOP_SUMMARY_FIELDS
+] + [
+    "coverage_scope",
+    "accessible_records_count",
+    "validated_sample_count",
+    "corpus_complete",
+    "enumeration_complete",
+    "expected_corpus_total",
 ]
 CZECH_TELEVISION_VIDEO_LINK_FIELDS = [
     field.replace("archipop_detail_url", "czech_tv_detail_url") for field in ARCHIPOP_VIDEO_LINK_FIELDS

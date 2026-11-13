@@ -1,0 +1,185 @@
+name: MAR P0 encrypted offsite recovery (approval gated)
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mar-p0-offsite-proof-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  export-encrypted:
+    if: >-
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'mar-p0-offsite-restore-approved' &&
+      github.event.pull_request.number == 91 &&
+      github.actor == 'brauliorrs' &&
+      github.run_attempt == 1 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'fix/monthly-cycle-evidence-20261110'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 20
+    environment: mar-p0-neon-isolated
+    outputs:
+      encrypted_sha256: ${{ steps.backup.outputs.encrypted_sha256 }}
+    steps:
+      - name: Checkout reviewed PR
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+
+      - name: Install PostgreSQL 18 client and cryptography
+        run: |
+          set -euo pipefail
+          source /etc/os-release
+          test "$VERSION_ID" = "26.04" || { echo "Expected Ubuntu 26.04; got $VERSION_ID"; exit 1; }
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ca-certificates curl gpg
+          sudo install -d -m 0755 /usr/share/postgresql-common/pgdg
+          sudo curl --fail --silent --show-error --location --retry 3 \
+            -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+            https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          pgdg_fingerprint="$(gpg --batch --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: '$1 == "fpr" { print $10; exit }')"
+          test "$pgdg_fingerprint" = "B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8" || { echo "Unrecognized official PostgreSQL repository signing key"; exit 1; }
+          printf 'Types: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: %s-pgdg\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n' "$VERSION_CODENAME" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null
+          sudo apt-get update -qq
+          apt-cache policy postgresql-client-18 | sed -n '1,9p'
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends postgresql-client-18
+          python -m pip install --disable-pip-version-check 'cryptography==50.0.2'
+          pg_dump --version
+          psql --version
+
+      - name: Verify required protected environment secrets
+        env:
+          MAR_P0_READONLY_DATABASE_URL: ${{ secrets.MAR_P0_READONLY_DATABASE_URL }}
+          MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
+        run: |
+          test -n "$MAR_P0_READONLY_DATABASE_URL" || { echo "Missing protected read-only Neon credential"; exit 1; }
+          test -n "$MAR_P0_RESTORE_AES_KEY_HEX" || { echo "Missing protected encryption key"; exit 1; }
+          test "${#MAR_P0_RESTORE_AES_KEY_HEX}" -eq 64 || { echo "AES key must have 64 hex characters"; exit 1; }
+
+      - name: Export MAR P0 using read-only Neon role, encrypt before artifact upload
+        id: backup
+        env:
+          MAR_P0_READONLY_DATABASE_URL: ${{ secrets.MAR_P0_READONLY_DATABASE_URL }}
+          MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 0700 "$RUNNER_TEMP/mar-p0-offsite-private"
+          python -m scripts.mar_p0_offsite_pg_restore backup \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-offsite-private/checkpoints.pgcustom.aesgcm" \
+            --execute > "$RUNNER_TEMP/mar-p0-export-summary.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          summary = json.loads(Path(os.environ["RUNNER_TEMP"], "mar-p0-export-summary.json").read_text())
+          assert summary["status"] == "encrypted_backup_exported"
+          assert summary["production_gate"] == "HOLD"
+          assert summary["table_counts"] == {"checkpoints": 4, "checkpoint_pages": 8, "raw_artifacts": 4}
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write("encrypted_sha256=" + summary["encrypted_sha256"] + "\n")
+          print("Encrypted export ready; only ciphertext will be uploaded.")
+          PY
+
+      - name: Upload encrypted backup only
+        uses: actions/upload-artifact@v4
+        with:
+          name: mar-p0-neon-offsite-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/mar-p0-offsite-private/checkpoints.pgcustom.aesgcm
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 30
+
+      - name: Remove local export copy
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/mar-p0-offsite-private" "$RUNNER_TEMP/mar-p0-export-summary.json"
+
+  restore-isolated:
+    needs: [export-encrypted]
+    if: needs.export-encrypted.result == 'success'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 20
+    environment: mar-p0-neon-isolated
+    steps:
+      - name: Checkout reviewed PR
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+
+      - name: Install PostgreSQL 18 local server and cryptography
+        run: |
+          set -euo pipefail
+          source /etc/os-release
+          test "$VERSION_ID" = "26.04" || { echo "Expected Ubuntu 26.04; got $VERSION_ID"; exit 1; }
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ca-certificates curl gpg
+          sudo install -d -m 0755 /usr/share/postgresql-common/pgdg
+          sudo curl --fail --silent --show-error --location --retry 3 \
+            -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+            https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          pgdg_fingerprint="$(gpg --batch --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: '$1 == "fpr" { print $10; exit }')"
+          test "$pgdg_fingerprint" = "B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8" || { echo "Unrecognized official PostgreSQL repository signing key"; exit 1; }
+          printf 'Types: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: %s-pgdg\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n' "$VERSION_CODENAME" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null
+          sudo apt-get update -qq
+          apt-cache policy postgresql-client-18 | sed -n '1,9p'
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends postgresql-18 postgresql-client-18
+          python -m pip install --disable-pip-version-check 'cryptography==50.0.2'
+          sudo service postgresql start
+          pg_restore --version
+
+      - name: Download ciphertext from different runner
+        uses: actions/download-artifact@v4
+        with:
+          name: mar-p0-neon-offsite-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/mar-p0-restored-ciphertext
+
+      - name: Restore to new local database and independently compare SHA-256
+        env:
+          MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
+          EXPECTED_CIPHER_SHA256: ${{ needs.export-encrypted.outputs.encrypted_sha256 }}
+        run: |
+          set -euo pipefail
+          test -n "$MAR_P0_RESTORE_AES_KEY_HEX" || { echo "Missing protected decryption key"; exit 1; }
+          test -n "$EXPECTED_CIPHER_SHA256" || { echo "Missing independently pinned ciphertext SHA256"; exit 1; }
+          RESTORE_PASSWORD="$(openssl rand -hex 24)"
+          RESTORE_DB="mar_p0_restore_$GITHUB_RUN_ID"
+          printf "CREATE ROLE mar_p0_restore LOGIN PASSWORD '%s';\n" "$RESTORE_PASSWORD" \
+            | sudo -u postgres psql -X -v ON_ERROR_STOP=1 postgres > /dev/null
+          sudo -u postgres createdb --owner=mar_p0_restore "$RESTORE_DB"
+          export MAR_P0_ISOLATED_RESTORE_DATABASE_URL="postgresql://mar_p0_restore:$RESTORE_PASSWORD@127.0.0.1/$RESTORE_DB"
+          unset RESTORE_PASSWORD
+          python -m scripts.mar_p0_offsite_pg_restore restore \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-restored-ciphertext/checkpoints.pgcustom.aesgcm" \
+            --expected-sha256 "$EXPECTED_CIPHER_SHA256" \
+            --execute > "$RUNNER_TEMP/mar-p0-restore-summary.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          summary = json.loads(Path(os.environ["RUNNER_TEMP"], "mar-p0-restore-summary.json").read_text())
+          assert summary["status"] == "offsite_restored_and_verified"
+          assert summary["production_gate"] == "HOLD"
+          assert summary["rows_and_schema_sha256_equal"] is True
+          assert summary["table_counts"] == {"checkpoints": 4, "checkpoint_pages": 8, "raw_artifacts": 4}
+          print("PASS: offsite encrypted artifact recovered in a separate runner and all MAR P0 rows/schema SHA256 reconciled.")
+          PY
+
+      - name: Dispose of local restore data
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/mar-p0-restored-ciphertext" "$RUNNER_TEMP/mar-p0-restore-summary.json"
