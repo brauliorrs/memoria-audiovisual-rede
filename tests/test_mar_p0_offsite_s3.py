@@ -69,6 +69,7 @@ class FakeS3:
 
     def put_object(self, **kwargs):
         assert kwargs["IfNoneMatch"] == "*"
+        assert kwargs["ChecksumAlgorithm"] == "SHA256"
         assert kwargs["ObjectLockMode"] == "COMPLIANCE"
         assert kwargs["ObjectLockRetainUntilDate"] >= NOW + timedelta(days=90)
         self.last_put = kwargs
