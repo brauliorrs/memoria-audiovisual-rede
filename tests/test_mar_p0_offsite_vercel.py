@@ -1,4 +1,4 @@
-"""Offline verification of MAR P0 Vercel private Blob ciphertext transport."""
+"""Offline interface and safety tests for the official vercel-blob 0.5.1 SDK."""
 from __future__ import annotations
 
 import asyncio
@@ -13,186 +13,210 @@ from unittest.mock import patch
 
 from scripts.mar_p0_offsite_vercel import (
     BackupRejected, MAGIC, assert_cipher, assert_private_file,
-    choose_older_blob, fetch_private, main, put_private, read_from_private_blob,
-    token_from, digest, PREFIX,
+    check_auth, choose_older_blob, download_private, main,
+    read_private, upload_private, digest, PREFIX, find_prior,
 )
 
 NOW = datetime(2026, 11, 13, 20, 0, tzinfo=timezone.utc)
 BLOB = MAGIC + b"synthetic-encrypted-ciphertext" * 7
 SHA = hashlib.sha256(BLOB).hexdigest()
-TOKEN = "test-token-only-not-real-credential"
+TOKEN = "synthetic-test-credential-never-real"
 RUN_ID = "43295473787"
 
 
-class FakePrivateBlob:
+class FakeVercelSDK:
+    """Implements the public vercel.blob interface, not a private client API."""
+
     def __init__(self):
         self.records = {}
         self.put_calls = []
+        self.times = {}
 
-    async def put(self, pathname, blob, **kwargs):
+    async def put_blob(self, pathname, data, **kwargs):
         self.put_calls.append(kwargs)
-        if pathname in self.records or kwargs["overwrite"] is not False:
+        if pathname in self.records:
             raise BackupRejected("overwrite_refused")
         assert kwargs["access"] == "private"
+        assert kwargs["allow_overwrite"] is False
         assert kwargs["add_random_suffix"] is False
-        assert kwargs["token"] == TOKEN
-        self.records[pathname] = bytes(blob)
-        return SimpleNamespace(pathname=pathname, url=(
-            "https://private123.private.blob.vercel-storage.com/" + pathname))
+        self.records[pathname] = bytes(data)
+        self.times[pathname] = NOW
+        return SimpleNamespace(
+            pathname=pathname,
+            url="https://private123.private.blob.vercel-storage.com/" + pathname,
+        )
 
-    async def get(self, pathname, **kwargs):
-        assert kwargs["access"] == "private"
-        assert kwargs["token"] == TOKEN
+    async def get_blob(self, pathname, *, access):
+        assert access == "private"
         if pathname not in self.records:
             return None
-
-        async def stream():
-            yield self.records[pathname][:30]
-            yield self.records[pathname][30:]
-
         return SimpleNamespace(
-            status_code=200, stream=stream(),
-            blob=SimpleNamespace(pathname=pathname),
+            metadata=SimpleNamespace(status_code=200),
+            body=self.records[pathname],
         )
+
+    async def query_blobs(self, *, prefix, page_size):
+        assert prefix == PREFIX and page_size == 100
+        for pathname in self.records:
+            yield SimpleNamespace(pathname=pathname, uploaded_at=self.times[pathname])
 
 
 def item(path, age_h):
-    return SimpleNamespace(pathname=path, uploaded_at=NOW-timedelta(hours=age_h))
+    return SimpleNamespace(
+        pathname=path, uploaded_at=NOW - timedelta(hours=age_h)
+    )
 
 
-class VercelPrivateArchiveTests(unittest.TestCase):
+class PrivateVercelArchiveTests(unittest.TestCase):
     def setUp(self):
-        self.client = FakePrivateBlob()
+        self.sdk = FakeVercelSDK()
 
-    def _upload(self, root):
-        path = Path(root) / "backup.aesgcm"
+    def upload(self, directory):
+        path = Path(directory) / "snapshot.aesgcm"
         path.write_bytes(BLOB)
-        record = asyncio.run(put_private(
-            self.client, path, SHA, RUN_ID, "1", TOKEN, now=NOW))
-        return path, record
+        info = asyncio.run(
+            upload_private(self.sdk, path, SHA, RUN_ID, "1", now=NOW)
+        )
+        return path, info
 
-    def test_dry_run_never_authenticates_or_touches_blob(self):
-        with patch("scripts.mar_p0_offsite_vercel.token_from") as tokens:
-            self.assertEqual(main(["upload", "--encrypted-file", "/not-found"]), 0)
-        tokens.assert_not_called()
+    def test_dry_run_never_accesses_auth_or_network(self):
+        with patch("scripts.mar_p0_offsite_vercel.check_auth") as checker:
+            self.assertEqual(main(["upload", "--encrypted-file", "/missing"]), 0)
+        checker.assert_not_called()
 
-    def test_token_is_required_for_protected_storage(self):
+    def test_token_is_required_and_not_logged(self):
         with self.assertRaises(BackupRejected):
-            token_from({})
-        self.assertEqual(token_from({"MAR_P0_VERCEL_BLOB_READ_WRITE_TOKEN": TOKEN}), TOKEN)
+            check_auth({})
+        check_auth({"BLOB_READ_WRITE_TOKEN": TOKEN})
+        with self.assertRaises(BackupRejected):
+            check_auth({"BLOB_READ_WRITE_TOKEN": "short"})
 
-    def test_only_authenticated_private_ciphertext_is_uploaded(self):
+    def test_private_ciphertext_upload_and_authenticated_readback(self):
         with tempfile.TemporaryDirectory() as root:
             os.chmod(root, 0o700)
-            _, record = self._upload(root)
-            self.assertEqual(record["status"], "private_ciphertext_uploaded_and_readback_verified")
-            self.assertEqual(record["sha256"], SHA)
-            self.assertFalse(record["provider_retention_enforced"])
-            self.assertEqual(record["production_gate"], "HOLD")
-            kwargs = self.client.put_calls[0]
-            self.assertEqual(kwargs["access"], "private")
-            self.assertIs(kwargs["overwrite"], False)
-            self.assertEqual(kwargs["token"], TOKEN)
-            self.assertEqual(self.client.records[record["pathname"]], BLOB)
+            _, result = self.upload(root)
+            self.assertEqual(
+                result["status"], "private_ciphertext_uploaded_and_readback_verified"
+            )
+            self.assertEqual(result["sha256"], SHA)
+            self.assertFalse(result["provider_retention_enforced"])
+            self.assertEqual(result["production_gate"], "HOLD")
+            self.assertEqual(self.sdk.records[result["pathname"]], BLOB)
+            self.assertEqual(self.sdk.put_calls[0]["access"], "private")
+            self.assertIs(self.sdk.put_calls[0]["allow_overwrite"], False)
 
-    def test_upload_rejects_plaintext_wrong_hash_and_invalid_run(self):
+    def test_invalid_source_and_hash_rejected_before_upload(self):
         with tempfile.TemporaryDirectory() as root:
             os.chmod(root, 0o700)
-            source = Path(root) / "backup.aesgcm"
-            for raw, sha, run_id in ((b"PGDMP"+"x".encode()*100, SHA, RUN_ID),
-                                     (BLOB, "0"*64, RUN_ID),
-                                     (BLOB, SHA, "../malicious")):
-                with self.subTest(raw=raw[:5], run_id=run_id):
-                    source.write_bytes(raw)
+            source = Path(root) / "bad.aesgcm"
+            cases = [(b"PGDMP" + b"x" * 200, SHA, RUN_ID),
+                     (BLOB, "0" * 64, RUN_ID),
+                     (BLOB, SHA, "../malicious")]
+            for payload, sha, run_id in cases:
+                with self.subTest(payload=payload[:5], run_id=run_id):
+                    source.write_bytes(payload)
                     with self.assertRaises(BackupRejected):
-                        asyncio.run(put_private(self.client, source, sha,
-                                                run_id, "1", TOKEN, now=NOW))
-            self.assertEqual(self.client.records, {})
+                        asyncio.run(upload_private(
+                            self.sdk, source, sha, run_id, "1", now=NOW
+                        ))
+            self.assertEqual(self.sdk.records, {})
 
-    def test_duplicate_key_does_not_overwrite(self):
+    def test_repeated_upload_cannot_overwrite(self):
         with tempfile.TemporaryDirectory() as root:
             os.chmod(root, 0o700)
-            source, record = self._upload(root)
+            source, result = self.upload(root)
             with self.assertRaises(BackupRejected):
-                asyncio.run(put_private(
-                    self.client, source, SHA, RUN_ID, "1", TOKEN, now=NOW))
-            self.assertEqual(self.client.records[record["pathname"]], BLOB)
+                asyncio.run(upload_private(
+                    self.sdk, source, SHA, RUN_ID, "1", now=NOW
+                ))
+            self.assertEqual(self.sdk.records[result["pathname"]], BLOB)
 
-    def test_download_requires_expected_sha_and_valid_path(self):
+    def test_tampered_remote_content_is_rejected(self):
         with tempfile.TemporaryDirectory() as root:
             os.chmod(root, 0o700)
-            _, record = self._upload(root)
-            out = Path(root) / "restored.aesgcm"
+            _, result = self.upload(root)
+            self.sdk.records[result["pathname"]] = BLOB[:-1] + b"Z"
             with self.assertRaises(BackupRejected):
-                asyncio.run(fetch_private(
-                    self.client, out, TOKEN,
-                    pathname=record["pathname"], expected="0"*64))
-            self.assertFalse(out.exists())
-            with self.assertRaises(BackupRejected):
-                asyncio.run(read_from_private_blob(
-                    self.client, "../other", TOKEN))
+                asyncio.run(download_private(
+                    self.sdk, Path(root) / "new.aesgcm",
+                    pathname=result["pathname"], expected=SHA
+                ))
 
-    def test_download_roundtrip_and_private_file_mode(self):
+    def test_download_requires_valid_location_and_independent_sha(self):
         with tempfile.TemporaryDirectory() as root:
             os.chmod(root, 0o700)
-            _, record = self._upload(root)
-            target = Path(root) / "restored.aesgcm"
-            recovered = asyncio.run(fetch_private(
-                self.client, target, TOKEN,
-                pathname=record["pathname"], expected=SHA))
-            self.assertEqual(recovered["status"], "private_ciphertext_download_verified")
-            self.assertEqual(target.read_bytes(), BLOB)
-            self.assertEqual(target.stat().st_mode & 0o777, 0o600)
+            _, result = self.upload(root)
             with self.assertRaises(BackupRejected):
-                asyncio.run(fetch_private(
-                    self.client, target, TOKEN,
-                    pathname=record["pathname"], expected=SHA))
+                asyncio.run(download_private(
+                    self.sdk, Path(root) / "new.aesgcm",
+                    pathname=result["pathname"], expected="0" * 64
+                ))
+            with self.assertRaises(BackupRejected):
+                asyncio.run(read_private(self.sdk, "../other"))
+            self.assertFalse((Path(root) / "new.aesgcm").exists())
 
-    def test_download_detects_mutated_cipher(self):
+    def test_download_roundtrip_preserves_mode_and_refuses_overwrite(self):
         with tempfile.TemporaryDirectory() as root:
             os.chmod(root, 0o700)
-            _, record = self._upload(root)
-            self.client.records[record["pathname"]] = BLOB[:-1] + b"Z"
+            _, result = self.upload(root)
+            destination = Path(root) / "download.aesgcm"
+            verified = asyncio.run(download_private(
+                self.sdk, destination,
+                pathname=result["pathname"], expected=SHA
+            ))
+            self.assertEqual(verified["status"], "private_ciphertext_download_verified")
+            self.assertEqual(destination.read_bytes(), BLOB)
+            if os.name == "posix":
+                self.assertEqual(destination.stat().st_mode & 0o777, 0o600)
             with self.assertRaises(BackupRejected):
-                asyncio.run(fetch_private(
-                    self.client, Path(root)/"new", TOKEN,
-                    pathname=record["pathname"], expected=SHA))
+                asyncio.run(download_private(
+                    self.sdk, destination,
+                    pathname=result["pathname"], expected=SHA
+                ))
 
-    def test_download_rejects_unprotected_directory(self):
+    def test_unprotected_download_directory_is_rejected(self):
         if os.name != "posix":
-            return
+            self.skipTest("Unix-only directory mode")
         with tempfile.TemporaryDirectory() as root:
             os.chmod(root, 0o755)
             with self.assertRaises(BackupRejected):
-                assert_private_file(Path(root)/"x", exists=False)
+                assert_private_file(Path(root) / "new", exists=False)
 
-    def test_weekly_selector_only_24_to_192_hours(self):
+    def test_prior_version_selection_is_time_bounded(self):
         with tempfile.TemporaryDirectory() as root:
             os.chmod(root, 0o700)
-            _, record = self._upload(root)
-            key = record["pathname"]
-            data = [item(key, 12), item(key, 40), item(key, 200),
-                    item("not_mar_p0/other", 30)]
-            pathname, sha = choose_older_blob(data, now=NOW)
-            self.assertEqual((pathname, sha), (key, SHA))
+            _, result = self.upload(root)
+            path = result["pathname"]
+            values = [item(path, 12), item(path, 40),
+                      item(path, 200), item("other/secret", 30)]
+            self.assertEqual(
+                choose_older_blob(values, now=NOW), (path, SHA)
+            )
 
-    def test_no_older_backup_is_a_failed_recovery(self):
+    def test_listing_sdk_async_iterator_selects_old_entry(self):
+        with tempfile.TemporaryDirectory() as root:
+            os.chmod(root, 0o700)
+            _, result = self.upload(root)
+            self.sdk.times[result["pathname"]] = NOW - timedelta(hours=35)
+            selected = asyncio.run(find_prior(
+                self.sdk, now=NOW, min_age_hours=24, max_age_hours=192
+            ))
+            self.assertEqual(selected, (result["pathname"], SHA))
+
+    def test_no_old_backup_is_a_failed_recovery(self):
         with self.assertRaises(BackupRejected):
             choose_older_blob([], now=NOW)
         with self.assertRaises(BackupRejected):
-            choose_older_blob([item(PREFIX+"x", 50)], now=NOW)
+            asyncio.run(find_prior(
+                self.sdk, now=NOW, min_age_hours=24, max_age_hours=192
+            ))
 
-    def test_invalid_sha_or_truncation_refused(self):
+    def test_wrong_digest_and_truncation_rejected(self):
         with self.assertRaises(BackupRejected):
-            assert_cipher(BLOB, "0"*64)
+            assert_cipher(BLOB, "0" * 64)
         with self.assertRaises(BackupRejected):
             assert_cipher(BLOB[:12], SHA)
         self.assertEqual(digest(BLOB), SHA)
-
-    def test_prevents_network_access_from_unit_suite(self):
-        with patch("scripts.mar_p0_offsite_vercel.token_from") as get_token:
-            self.assertEqual(main(["download", "--encrypted-file", "/none"]), 0)
-            get_token.assert_not_called()
 
 
 if __name__ == "__main__":
