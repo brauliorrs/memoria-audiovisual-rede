@@ -1,0 +1,35 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyInsecureTransport",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET_NAME",
+        "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET_NAME/*"
+      ],
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    },
+    {
+      "Sid": "DenyScheduledAutomationDeletion",
+      "Effect": "Deny",
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::REPLACE_WITH_12_DIGIT_ACCOUNT_ID:role/REPLACE_WITH_UPLOAD_ROLE",
+          "arn:aws:iam::REPLACE_WITH_12_DIGIT_ACCOUNT_ID:role/REPLACE_WITH_RESTORE_ROLE"
+        ]
+      },
+      "Action": [
+        "s3:DeleteObject",
+        "s3:DeleteObjectVersion"
+      ],
+      "Resource": "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET_NAME/mar-p0/validation/*"
+    }
+  ]
+}
