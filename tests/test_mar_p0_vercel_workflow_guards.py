@@ -9,6 +9,17 @@ CLIENT=(ROOT/"scripts/mar_p0_offsite_vercel.py").read_text()
 
 
 class ScheduledPrivateBlobTests(unittest.TestCase):
+    def test_no_pr_label_secret_workflow(self):
+        # A PR can be edited after a label is applied. Never execute PR code with secrets.
+        workflow_dir = ROOT / ".github/workflows"
+        for workflow in workflow_dir.glob("mar-p0-vercel-*.yml"):
+            body = workflow.read_text()
+            self.assertNotIn("pull_request_target:", body, workflow.name)
+            self.assertNotIn("types: [labeled]", body, workflow.name)
+            if "secrets.MAR_P0_" in body:
+                self.assertNotIn("  pull_request:", body, workflow.name)
+        self.assertFalse((workflow_dir / "mar-p0-vercel-private-proof-gated.yml").exists())
+
     def test_only_reviewed_main_can_schedule_daily(self):
         self.assertIn("cron: '17 3 * * *'", DAILY)
         self.assertIn("github.ref == 'refs/heads/main'", DAILY)
@@ -29,6 +40,8 @@ class ScheduledPrivateBlobTests(unittest.TestCase):
         self.assertIn("secrets.MAR_P0_READONLY_DATABASE_URL", DAILY)
         self.assertNotIn("MAR_P0_READONLY_DATABASE_URL", DAILY.split("  restore-private-blob:",1)[1])
         self.assertNotIn("MAR_P0_READONLY_DATABASE_URL", WEEKLY)
+        # Recovery must never receive source database credentials.
+        self.assertNotIn("secrets.MAR_P0_READONLY_DATABASE_URL", DAILY.split("  restore-private-blob:",1)[1])
 
     def test_private_blob_token_and_no_public_endpoint(self):
         for workflow in (DAILY,WEEKLY):
