@@ -33,11 +33,11 @@ jobs:
       - name: PostgreSQL 18 local server and Vercel SDK
         run: |
           bash scripts/mar_p0_install_pg18_ci.sh server
-          python -m pip install --disable-pip-version-check 'vercel>=0.5.0,<1.0' 'cryptography==50.0.2'
+          python -m pip install --disable-pip-version-check 'vercel-blob==0.5.1' 'cryptography==50.0.2'
       - name: Select a private encrypted backup aged 24 to 192 hours and restore
         env:
           MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
-          MAR_P0_VERCEL_BLOB_READ_WRITE_TOKEN: ${{ secrets.MAR_P0_VERCEL_BLOB_READ_WRITE_TOKEN }}
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.MAR_P0_VERCEL_BLOB_READ_WRITE_TOKEN }}
         run: |
           set -euo pipefail
           umask 077
