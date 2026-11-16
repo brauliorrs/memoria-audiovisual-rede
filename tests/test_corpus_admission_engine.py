@@ -93,6 +93,13 @@ class UniversalConnectorTests(unittest.TestCase):
         self.assertFalse(result["scientific_corpus_validated"])
         self.assertEqual(len(review.history), 4)
 
+    def test_cannot_construct_advanced_state_without_audit_trail(self):
+        with self.assertRaises(ContractRejected):
+            SourceReview("eye", state=SourceState.ADMISSION_READY)
+        with self.assertRaises(ContractRejected):
+            SourceReview("eye", state=SourceState.EVIDENCE_VALIDATED,
+                         history=(("registered", "operator-1", "sha256:abc"),))
+
     def test_hold_blocks_until_explicit_reset(self):
         review = transition(SourceReview("eye"), SourceState.HOLD,
                             actor="safety-1", evidence_id="issue:99")
