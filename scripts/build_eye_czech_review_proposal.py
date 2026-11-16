@@ -147,7 +147,7 @@ def write_review_proposal(
     *, eye_catalog: Path = DEFAULT_EYE_CSV,
 ) -> dict:
     """Only write to a NEW explicit review directory outside active MAR data."""
-    active_data = (Path(__file__).resolve().parents[2] / "data").resolve()
+    active_data = (Path(__file__).resolve().parents[1] / "data").resolve()
     output = output_dir.resolve()
     if output == active_data or active_data in output.parents:
         raise ReconciliationRejected("cannot_write_to_active_catalog")
