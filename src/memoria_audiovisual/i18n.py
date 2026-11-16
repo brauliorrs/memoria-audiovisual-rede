@@ -193,7 +193,7 @@ TRANSLATIONS = {
 
 PHRASE_TRANSLATIONS = {
     "es": {
-        "Registros catalogados": "Registros catalogados",
+        "Registros catalogados": "Fichas del catálogo",
         "Lote adicional de fichas rejeitado na auditoria de publicação.": "Lote adicional de fichas rechazado en la auditoría de publicación.",
         "Completude dos metadados documentais": "Completitud de los metadatos documentales",
         "Ano informado": "Año informado",
