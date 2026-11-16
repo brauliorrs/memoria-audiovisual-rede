@@ -10,7 +10,7 @@ from pathlib import Path
 
 from memoria_audiovisual.approved_corpus_admission import (
     AdmissionRejected, FIELDS, VERSION, load_all_approved_corpora,
-    load_one_approved_corpus,
+    load_one_approved_corpus, load_admissions_with_individual_holds,
 )
 
 RUN = "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/12345"
@@ -130,6 +130,18 @@ class IndividualCorpusAdmissionTests(unittest.TestCase):
                 write_pair(root, row={**example_row(), key: value})
                 with self.assertRaises(AdmissionRejected):
                     load_one_approved_corpus(root, "eye")
+
+    def test_invalid_corpus_is_held_without_suppressing_healthy_corpora(self):
+        with tempfile.TemporaryDirectory() as root:
+            bad = write_pair(root, "eye")
+            write_pair(root, "czech-television")
+            bad.write_bytes(bad.read_bytes() + b"tampered")
+            admitted, holds = load_admissions_with_individual_holds(root)
+            self.assertEqual(admitted["eye"], [])
+            self.assertEqual(len(admitted["czech-television"]), 1)
+            self.assertIn("eye", holds)
+            self.assertNotIn("czech-television", holds)
+            self.assertEqual(admitted["asim"], [])
 
     def test_no_fallback_to_unvalidated_legacy_csv(self):
         with tempfile.TemporaryDirectory() as root:
