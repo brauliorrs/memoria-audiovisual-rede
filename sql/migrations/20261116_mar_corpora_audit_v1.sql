@@ -54,7 +54,7 @@ FROM mar_corpora.connector_registry AS c
 LEFT JOIN LATERAL (
     SELECT event_id, event_kind, actor_ref, evidence_sha256, recorded_at
     FROM mar_corpora.audit_events
-    WHERE corpus_code = c.corpus_code
+    WHERE corpus_code = c.corpus_code AND event_kind <> 'note'
     ORDER BY event_id DESC LIMIT 1
 ) AS e ON true;
 
