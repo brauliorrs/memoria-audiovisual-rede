@@ -148,6 +148,14 @@ class SourceReview:
         connector_for(self.corpus_code)
         if not isinstance(self.state, SourceState):
             raise ContractRejected("unknown_source_state")
+        # A manually constructed advanced snapshot without a matching audit
+        # trail is never treated as an operationally reviewed source.
+        if self.state != SourceState.REGISTERED and (
+            not self.history or self.history[-1][0] != self.state.value
+        ):
+            raise ContractRejected("review_state_requires_audit_trail")
+        if self.history and self.history[-1][0] != self.state.value:
+            raise ContractRejected("review_history_state_mismatch")
 
 
 def transition(
