@@ -12,21 +12,14 @@ import re
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from .corpus_admission_engine import COMMON_FIELDS, REGISTRY, ContractRejected, connector_for
+
 VERSION = "mar-approved-origin-fiches-v1"
 MAX_CATALOG_BYTES = 5 * 1024 * 1024
 MAX_RECORDS = 1000
-CORPUS_HOSTS = {
-    "eye": frozenset({"filmdatabase.eyefilm.nl", "www.eyefilm.nl"}),
-    "czech-television": frozenset({"www.ceskatelevize.cz", "ceskatelevize.cz"}),
-    "ciclic": frozenset({"memoire.ciclic.fr"}),
-    "asim": frozenset({"www.europeanfilmgateway.eu", "europeanfilmgateway.eu"}),
-    "bnfa": frozenset({"www.europeanfilmgateway.eu", "europeanfilmgateway.eu"}),
-}
-FIELDS = (
-    "source_record_id", "source_record_url", "video_title", "year",
-    "authors", "subjects", "languages", "genres", "video_description",
-    "media_access_status", "media_rights_status", "record_review_status",
-)
+# The vetted institutional hosts and common metadata fields have one source of truth.
+CORPUS_HOSTS = {code: spec.record_hosts for code, spec in REGISTRY.items()}
+FIELDS = COMMON_FIELDS
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 DATE = re.compile(r"20[0-9]{2}-[01][0-9]-[0-3][0-9]\Z")
 RUN = re.compile(
@@ -60,8 +53,10 @@ def _is_record_url(value: str, corpus: str) -> bool:
 
 def load_one_approved_corpus(root: str | Path, corpus: str) -> list[dict]:
     """Read one explicitly approved CSV+manifest pair; missing pair means HOLD/no rows."""
-    if corpus not in CORPUS_HOSTS:
-        raise AdmissionRejected("corpus_not_admitted")
+    try:
+        connector_for(corpus)
+    except ContractRejected as exc:
+        raise AdmissionRejected("corpus_not_admitted") from exc
     base = Path(root) / "mar_admitted"
     csv_file = base / (corpus + ".csv")
     manifest_file = base / (corpus + ".manifest.json")
@@ -148,4 +143,4 @@ def load_one_approved_corpus(root: str | Path, corpus: str) -> list[dict]:
 
 def load_all_approved_corpora(root: str | Path) -> dict[str, list[dict]]:
     """No fallback to existing raw CSV or scraping when approval is absent."""
-    return {code: load_one_approved_corpus(root, code) for code in CORPUS_HOSTS}
+    return {code: load_one_approved_corpus(root, code) for code in REGISTRY}
