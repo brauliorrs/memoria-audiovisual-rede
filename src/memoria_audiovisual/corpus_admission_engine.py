@@ -146,16 +146,55 @@ class SourceReview:
 
     def __post_init__(self) -> None:
         connector_for(self.corpus_code)
-        if not isinstance(self.state, SourceState):
+        if not isinstance(self.state, SourceState) or not isinstance(self.history, tuple):
             raise ContractRejected("unknown_source_state")
-        # A manually constructed advanced snapshot without a matching audit
-        # trail is never treated as an operationally reviewed source.
-        if self.state != SourceState.REGISTERED and (
-            not self.history or self.history[-1][0] != self.state.value
-        ):
-            raise ContractRejected("review_state_requires_audit_trail")
-        if self.history and self.history[-1][0] != self.state.value:
-            raise ContractRejected("review_history_state_mismatch")
+        # Recalculate the WHOLE provenance trail. Checking only its final
+        # entry allows forging an apparent admission_ready review.
+        stage = SourceState.REGISTERED
+        observer = evidence = curator = ""
+        for entry in self.history:
+            if (not isinstance(entry, tuple) or len(entry) != 3
+                    or not all(isinstance(v, str) for v in entry)):
+                raise ContractRejected("malformed_audit_history")
+            target_name, actor, proof = entry
+            try:
+                target = SourceState(target_name)
+            except ValueError as exc:
+                raise ContractRejected("unknown_audit_state") from exc
+            if not SAFE_TOKEN.fullmatch(actor):
+                raise ContractRejected("invalid_audit_actor")
+            if target == SourceState.HOLD:
+                if stage == SourceState.HOLD:
+                    raise ContractRejected("duplicate_hold_transition")
+                stage = target
+                continue
+            if stage == SourceState.HOLD:
+                if target != SourceState.REGISTERED or proof != "reopened":
+                    raise ContractRejected("invalid_hold_reopening")
+                stage = target
+                observer = evidence = curator = ""
+                continue
+            if stage not in STEPS:
+                raise ContractRejected("invalid_prior_audit_state")
+            idx = STEPS.index(stage)
+            if idx + 1 >= len(STEPS) or STEPS[idx + 1] != target:
+                raise ContractRejected("skipped_or_reversed_audit_transition")
+            if not SAFE_TOKEN.fullmatch(proof):
+                raise ContractRejected("missing_audit_evidence")
+            if target == SourceState.CURATOR_REVIEWED and actor == observer:
+                raise ContractRejected("curator_must_be_independent")
+            if target == SourceState.ADMISSION_READY and actor == curator:
+                raise ContractRejected("approval_must_be_independent")
+            if target == SourceState.PROBED:
+                observer = actor
+            if target == SourceState.EVIDENCE_VALIDATED:
+                evidence = proof
+            if target == SourceState.CURATOR_REVIEWED:
+                curator = actor
+            stage = target
+        if (stage != self.state or observer != self.observer
+                or evidence != self.evidence_id or curator != self.curator):
+            raise ContractRejected("audit_history_projection_mismatch")
 
 
 def transition(
