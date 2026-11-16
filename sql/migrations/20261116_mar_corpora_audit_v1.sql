@@ -36,6 +36,10 @@ CREATE TABLE IF NOT EXISTS mar_corpora.audit_events (
 CREATE UNIQUE INDEX IF NOT EXISTS mar_corpora_one_registration
     ON mar_corpora.audit_events (corpus_code) WHERE event_kind = 'registered';
 
+CREATE UNIQUE INDEX IF NOT EXISTS mar_corpora_one_probe_per_evidence
+    ON mar_corpora.audit_events (corpus_code, event_kind, evidence_sha256)
+    WHERE event_kind = 'probed';
+
 CREATE INDEX IF NOT EXISTS mar_corpora_audit_recent_by_corpus
     ON mar_corpora.audit_events (corpus_code, event_id DESC);
 
