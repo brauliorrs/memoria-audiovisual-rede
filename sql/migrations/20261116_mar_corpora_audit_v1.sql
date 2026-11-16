@@ -67,12 +67,10 @@ BEGIN
 END;
 $$;
 
-DROP TRIGGER IF EXISTS mar_corpora_registry_immutable ON mar_corpora.connector_registry;
 CREATE TRIGGER mar_corpora_registry_immutable
 BEFORE UPDATE OR DELETE OR TRUNCATE ON mar_corpora.connector_registry
 FOR EACH STATEMENT EXECUTE FUNCTION mar_corpora.reject_mutation();
 
-DROP TRIGGER IF EXISTS mar_corpora_audit_immutable ON mar_corpora.audit_events;
 CREATE TRIGGER mar_corpora_audit_immutable
 BEFORE UPDATE OR DELETE OR TRUNCATE ON mar_corpora.audit_events
 FOR EACH STATEMENT EXECUTE FUNCTION mar_corpora.reject_mutation();
