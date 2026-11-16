@@ -45,7 +45,7 @@ def sync_registered_connectors(conn: Any) -> dict[str, int]:
     with conn.transaction():
         with conn.cursor() as cursor:
             cursor.execute(
-                "SELECT pg_has_role(current_user, 'mar_corpora_ingester', 'member')"
+                "SELECT pg_has_role(current_user, 'mar_corpora_ingester', 'USAGE')"
             )
             proof = cursor.fetchone()
             if not proof or proof[0] is not True:
@@ -146,7 +146,7 @@ def read_only_role_assertion(conn: Any) -> None:
     """Fail closed unless connection uses reader role and not owner privileges."""
     with conn.cursor() as cursor:
         cursor.execute(
-            "SELECT pg_has_role(current_user, 'mar_corpora_reader', 'member'), "
+            "SELECT pg_has_role(current_user, 'mar_corpora_reader', 'USAGE'), "
             "has_table_privilege(current_user, 'mar_corpora.audit_events', 'INSERT'), "
             "has_table_privilege(current_user, 'mar_corpora.audit_events', 'UPDATE'), "
             "has_table_privilege(current_user, 'mar_corpora.audit_events', 'DELETE')"
@@ -193,7 +193,7 @@ def record_technical_observation(
     with conn.transaction():
         with conn.cursor() as cursor:
             cursor.execute(
-                "SELECT pg_has_role(current_user, 'mar_corpora_ingester', 'member')"
+                "SELECT pg_has_role(current_user, 'mar_corpora_ingester', 'USAGE')"
             )
             identity = cursor.fetchone()
             if not identity or identity[0] is not True:
