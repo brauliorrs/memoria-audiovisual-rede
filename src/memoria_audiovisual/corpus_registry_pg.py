@@ -9,7 +9,6 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from dataclasses import dataclass
 from typing import Any
 
 from .corpus_admission_engine import REGISTRY, ConnectorSpec
