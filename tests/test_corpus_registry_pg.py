@@ -6,7 +6,7 @@ from memoria_audiovisual.corpus_admission_engine import REGISTRY
 from memoria_audiovisual.corpus_registry_pg import (
     RegistryDrift, connector_digest, list_corpora,
     list_corpus_events, read_only_role_assertion,
-    sync_registered_connectors,
+    sync_registered_connectors, record_technical_observation,
 )
 
 
@@ -132,6 +132,89 @@ class RegistryPgTests(unittest.TestCase):
         read_only_role_assertion(DummyConnection(cursor))
         with self.assertRaises(PermissionError):
             read_only_role_assertion(DummyConnection(DummyCursor(readonly=False)))
+
+
+class ObservationCursor(DummyCursor):
+    def __init__(self, stage="registered", prior=None):
+        super().__init__(grant=True)
+        self.stage = stage
+        self.prior = prior
+
+    def execute(self, sql, params=()):
+        super().execute(sql, params)
+        if "SELECT last_reported_stage" in sql:
+            self.current = (self.stage,)
+        elif "SELECT event_id FROM mar_corpora.audit_events" in sql:
+            self.current = ((self.prior,) if self.prior is not None else None)
+        elif sql.startswith("INSERT INTO mar_corpora.audit_events") and "RETURNING" in sql:
+            self.current = (42,)
+
+
+class TechnicalObservationTests(unittest.TestCase):
+    def test_probe_requires_real_anchored_evidence_and_registered_stage(self):
+        cursor = ObservationCursor()
+        result = record_technical_observation(
+            DummyConnection(cursor), corpus_code="eye", event_kind="probed",
+            note="One bounded public page", evidence_sha256="a" * 64,
+            evidence_ref="https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/12345",
+        )
+        self.assertEqual(result["event_id"], 42)
+        self.assertFalse(result["publication_authorized"])
+        sqls = [sql for sql, _ in cursor.calls]
+        self.assertTrue(any("INSERT INTO mar_corpora.audit_events" in x for x in sqls))
+        self.assertFalse(any("curator_reviewed" in x for x in sqls))
+        self.assertFalse(any("approved_for_publication" in x for x in sqls))
+
+    def test_probe_repeat_does_not_append(self):
+        cursor = ObservationCursor(prior=14)
+        result = record_technical_observation(
+            DummyConnection(cursor), corpus_code="eye", event_kind="probed",
+            note="Same bounded page", evidence_sha256="b" * 64,
+            evidence_ref="https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/99",
+        )
+        self.assertEqual(result["event_id"], 14)
+        self.assertTrue(result["already_recorded"])
+        self.assertFalse(any(x.startswith("INSERT INTO mar_corpora.audit_events")
+                             for x, _ in cursor.calls))
+
+    def test_unregistered_or_hold_cannot_insert_probe(self):
+        for code, stage in (("ape", "registered"), ("eye", "HOLD")):
+            with self.subTest(code=code, stage=stage), self.assertRaises(ValueError):
+                record_technical_observation(
+                    DummyConnection(ObservationCursor(stage=stage)),
+                    corpus_code=code, event_kind="probed", note="test",
+                    evidence_sha256="c" * 64,
+                    evidence_ref="https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/123",
+                )
+
+    def test_advanced_stages_and_invalid_evidence_are_rejected(self):
+        for kind in ("curator_reviewed", "evidence_validated", "admission_ready"):
+            with self.assertRaises(ValueError):
+                record_technical_observation(
+                    DummyConnection(ObservationCursor()),
+                    corpus_code="eye", event_kind=kind, note="not allowed",
+                )
+        for ref in ("https://example.org/run/123",
+                    "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/123?fake=1",
+                    ""):
+            with self.subTest(ref=ref), self.assertRaises(ValueError):
+                record_technical_observation(
+                    DummyConnection(ObservationCursor()),
+                    corpus_code="eye", event_kind="probed", note="bounded probe",
+                    evidence_sha256="d" * 64, evidence_ref=ref,
+                )
+
+    def test_note_and_hold_use_db_generated_actor_not_client_identity(self):
+        cursor = ObservationCursor()
+        record_technical_observation(
+            DummyConnection(cursor), corpus_code="eye", event_kind="HOLD",
+            note="Origin terms need review",
+        )
+        inserts = [(sql, params) for sql, params in cursor.calls
+                   if sql.startswith("INSERT INTO mar_corpora.audit_events")]
+        self.assertEqual(len(inserts), 1)
+        self.assertIn("'sql-principal'", inserts[0][0])
+        self.assertNotIn("admin@example.com", inserts[0][1])
 
 
 if __name__ == "__main__":
