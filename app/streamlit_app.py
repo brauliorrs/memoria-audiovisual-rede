@@ -21,6 +21,9 @@ from memoria_audiovisual.external_links import (
 from memoria_audiovisual.kavi_finna_public_catalog import (
     PublicationRejected, load_published_kavi_rows,
 )
+from memoria_audiovisual.kavi_finna_catalog_navigation import (
+    CatalogNavigationRejected, available_facets, navigate_approved_records,
+)
 from memoria_audiovisual.kavi_finna_registry import load_kavi_metadata_index_summary
 from memoria_audiovisual.kavi_finna_metadata_reports import (
     REPORT_FILES, build_kavi_metadata_reports, serialize_kavi_metadata_reports,
@@ -4899,20 +4902,52 @@ def render_kavi_kuvi_metadata_tab(corpus_def):
         "Buscar fichas KAVI por título, ano, autor ou assunto",
         key="kavi-kuvi-metadata-query",
     ).strip()
-    frame = pd.DataFrame(rows)
-    if query:
-        match_columns = [
-            "video_title", "year", "authors", "genres", "subjects", "languages",
-        ]
-        mask = pd.Series(False, index=frame.index)
-        for field in match_columns:
-            if field in frame.columns:
-                mask |= frame[field].fillna("").astype(str).str.contains(
-                    query, case=False, regex=False
-                )
-        frame = frame.loc[mask].copy()
-
-    st.caption(f"Fichas encontradas: {len(frame)}")
+    facets = available_facets(rows)
+    filter_cols = st.columns(3)
+    selected_year = filter_cols[0].selectbox(
+        "Ano da ficha",
+        options=["Todos os anos"] + facets["years"],
+        key="kavi-kuvi-metadata-year",
+    )
+    selected_language = filter_cols[1].selectbox(
+        "Idioma da ficha",
+        options=["Todos os idiomas"] + facets["languages"],
+        key="kavi-kuvi-metadata-language",
+    )
+    class_labels = {
+        "": "Todas as classificações",
+        "film_candidate": "Candidato documental a filme",
+        "unverified_audiovisual_record": "Registro audiovisual não verificado",
+    }
+    selected_class = filter_cols[2].selectbox(
+        "Classificação documental",
+        options=[""] + facets["classifications"],
+        format_func=lambda value: class_labels[value],
+        key="kavi-kuvi-metadata-class",
+    )
+    filters = dict(
+        query=query,
+        year="" if selected_year == "Todos os anos" else selected_year,
+        language="" if selected_language == "Todos os idiomas" else selected_language,
+        classification=selected_class,
+    )
+    try:
+        selection = navigate_approved_records(rows, **filters)
+        selected_page = st.selectbox(
+            "Página dos resultados",
+            options=list(range(1, selection["pages"] + 1)),
+            key="kavi-kuvi-metadata-page",
+        )
+        selection = navigate_approved_records(rows, page=selected_page, **filters)
+    except CatalogNavigationRejected:
+        st.error("A navegação do catálogo foi rejeitada por inconsistência de dados.")
+        return
+    st.caption(
+        f"Fichas encontradas: {selection['total']}. "
+        f"Página {selection['page']} de {selection['pages']}. "
+        "As fichas não comprovam acesso ao filme."
+    )
+    frame = pd.DataFrame(selection["rows"])
     visible = {
         "video_title": "Título",
         "year": "Ano",
@@ -4923,7 +4958,7 @@ def render_kavi_kuvi_metadata_tab(corpus_def):
         "video_link": "Acessar ficha na origem",
     }
     st.dataframe(
-        frame[[column for column in visible if column in frame.columns]].rename(columns=visible),
+        frame.reindex(columns=list(visible)).rename(columns=visible),
         use_container_width=True,
         hide_index=True,
         column_config={
