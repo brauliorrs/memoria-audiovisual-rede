@@ -34,7 +34,7 @@ def authorized_admin(user: object, allowlist: str) -> bool:
         return False
     try:
         if isinstance(user, Mapping):
-            logged_in = user.get("is_logged_in")
+            logged_in = getattr(user, "is_logged_in", user.get("is_logged_in"))
             email_verified = user.get("email_verified")
             email = user.get("email")
         else:
