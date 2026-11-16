@@ -147,10 +147,10 @@ def write_review_proposal(
     *, eye_catalog: Path = DEFAULT_EYE_CSV,
 ) -> dict:
     """Only write to a NEW explicit review directory outside active MAR data."""
-    active_data = (Path(__file__).resolve().parents[1] / "data").resolve()
+    repository = Path(__file__).resolve().parents[1]
     output = output_dir.resolve()
-    if output == active_data or active_data in output.parents:
-        raise ReconciliationRejected("cannot_write_to_active_catalog")
+    if output == repository or repository in output.parents:
+        raise ReconciliationRejected("cannot_write_inside_repository")
     if output.exists() or output.is_symlink():
         raise ReconciliationRejected("review_output_must_not_preexist")
     csv_bytes, proposal = build_review_proposal(
