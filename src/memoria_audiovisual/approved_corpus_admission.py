@@ -43,12 +43,13 @@ def _is_record_url(value: str, corpus: str) -> bool:
         return False
     try:
         parsed = urlsplit(value)
+        hostname, port = parsed.hostname, parsed.port
     except ValueError:
         return False
     return (
         parsed.scheme == "https"
-        and parsed.hostname in CORPUS_HOSTS[corpus]
-        and parsed.port in (None, 443)
+        and hostname in CORPUS_HOSTS[corpus]
+        and port in (None, 443)
         and parsed.username is None and parsed.password is None
         and bool(parsed.path.strip("/"))
         and not parsed.query and not parsed.fragment
