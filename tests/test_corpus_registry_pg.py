@@ -1,6 +1,5 @@
 """Neon registry facade: safety, stable hashes, pagination and fail-closed roles."""
 import unittest
-from types import SimpleNamespace
 
 from memoria_audiovisual.corpus_admission_engine import REGISTRY
 from memoria_audiovisual.corpus_registry_pg import (
