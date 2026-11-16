@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from dataclasses import dataclass
 from typing import Any
 
@@ -154,3 +155,84 @@ def read_only_role_assertion(conn: Any) -> None:
         row = cursor.fetchone()
     if row is None or row[0] is not True or any(row[1:]):
         raise PermissionError("scoped_read_only_role_required")
+
+
+_PROBE_RUN = re.compile(
+    r"https://github\\.com/brauliorrs/memoria-audiovisual-rede/actions/runs/[1-9][0-9]*\\Z"
+)
+_HEX64 = re.compile(r"[a-f0-9]{64}\\Z")
+
+
+def record_technical_observation(
+    conn: Any, *, corpus_code: str, event_kind: str, note: str,
+    evidence_sha256: str = "", evidence_ref: str = "",
+) -> dict[str, Any]:
+    """Append a *technical* observation; never record scientific approval.
+
+    Only 'probed', 'HOLD' and 'note' can be submitted via this operator
+    interface. Evidence validation and curator reviews require separately
+    credentialed attestors and independent external approval evidence.
+    """
+    if corpus_code not in REGISTRY:
+        raise ValueError("unknown_or_blocked_corpus")
+    if event_kind not in {"probed", "HOLD", "note"}:
+        raise ValueError("advanced_reviews_require_independent_attestor")
+    if not isinstance(note, str) or not note.strip() or len(note) > 300:
+        raise ValueError("valid_short_note_required")
+    if event_kind == "probed" and (
+        not isinstance(evidence_sha256, str)
+        or not _HEX64.fullmatch(evidence_sha256)
+        or not isinstance(evidence_ref, str)
+        or not _PROBE_RUN.fullmatch(evidence_ref)
+    ):
+        raise ValueError("verified_probe_provenance_required")
+    if evidence_sha256 and not _HEX64.fullmatch(evidence_sha256):
+        raise ValueError("invalid_evidence_digest")
+    if evidence_ref and (not isinstance(evidence_ref, str) or len(evidence_ref) > 500):
+        raise ValueError("invalid_evidence_reference")
+
+    with conn.transaction():
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "SELECT pg_has_role(current_user, 'mar_corpora_ingester', 'member')"
+            )
+            identity = cursor.fetchone()
+            if not identity or identity[0] is not True:
+                raise PermissionError("dedicated_ingester_role_required")
+            cursor.execute(
+                "SELECT last_reported_stage FROM mar_corpora.current_status "
+                "WHERE corpus_code = %s",
+                (corpus_code,),
+            )
+            current = cursor.fetchone()
+            if current is None:
+                raise ValueError("registry_must_be_synced_first")
+            stage = current[0]
+            if event_kind == "probed" and stage not in ("registered", "probed"):
+                raise ValueError("source_hold_or_review_state_blocks_probe")
+            if event_kind == "probed":
+                cursor.execute(
+                    "SELECT event_id FROM mar_corpora.audit_events "
+                    "WHERE corpus_code = %s AND event_kind = 'probed' "
+                    "AND evidence_sha256 = %s",
+                    (corpus_code, evidence_sha256),
+                )
+                prior = cursor.fetchone()
+                if prior is not None:
+                    return {"event_id": prior[0], "already_recorded": True,
+                            "publication_authorized": False}
+            # The trigger replaces actor_ref and recorded_at using the DB
+            # principal and server clock. Never trust self-asserted identity.
+            cursor.execute(
+                "INSERT INTO mar_corpora.audit_events "
+                "(corpus_code, event_kind, actor_ref, evidence_sha256, "
+                "evidence_ref, note) VALUES (%s, %s, 'sql-principal', %s, %s, %s) "
+                "RETURNING event_id",
+                (corpus_code, event_kind, evidence_sha256 or None,
+                 evidence_ref or None, note),
+            )
+            new_id = cursor.fetchone()
+            if new_id is None:
+                raise RuntimeError("audit_insert_missing_id")
+            return {"event_id": new_id[0], "already_recorded": False,
+                    "publication_authorized": False}
