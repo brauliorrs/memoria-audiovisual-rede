@@ -10,7 +10,7 @@ import json
 import os
 
 from memoria_audiovisual.corpus_registry_pg import (
-    RegistryDrift, sync_registered_connectors,
+    sync_registered_connectors,
 )
 
 
@@ -36,7 +36,7 @@ def main(argv=None) -> int:
         import psycopg
         with psycopg.connect(dsn, connect_timeout=7) as connection:
             summary = sync_registered_connectors(connection)
-    except (ImportError, RegistryDrift, PermissionError, OSError, Exception):
+    except Exception:
         # Never echo credentials, driver details, SQL or hostnames to stdout.
         print(json.dumps({
             "status": "HOLD", "reason": "registry_sync_rejected",
