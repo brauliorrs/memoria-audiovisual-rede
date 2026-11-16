@@ -48,6 +48,10 @@ class CorpusDashboardSafetyTests(unittest.TestCase):
         self.assertIn("CREATE TRIGGER mar_corpora_audit_immutable", sql)
         self.assertIn("false AS publication_authorized", sql)
         self.assertIn("NOLOGIN", sql)
+        guard = (ROOT / "sql" / "migrations" /
+                 "20261116_mar_corpora_attestation_guard_v1.sql").read_text()
+        self.assertIn("'USAGE'", guard)
+        self.assertNotIn("'member'", guard)
         self.assertIn("REVOKE ALL ON ALL TABLES", sql)
         self.assertNotIn("DROP TABLE", sql)
         self.assertNotIn("neon_auth.", sql)
