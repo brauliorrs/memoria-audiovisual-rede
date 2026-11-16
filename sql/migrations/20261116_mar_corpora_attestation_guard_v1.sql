@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION mar_corpora.guard_audit_insert()
 RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
     IF NEW.event_kind IN ('evidence_validated','curator_reviewed','admission_ready')
-       AND NOT pg_has_role(current_user, 'mar_corpora_attestor', 'member') THEN
+       AND NOT pg_has_role(current_user, 'mar_corpora_attestor', 'USAGE') THEN
         RAISE EXCEPTION 'independent attestor role required for advanced corpus state';
     END IF;
     -- The DB principal and server timestamp, never self-asserted actor/date,
