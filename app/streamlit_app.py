@@ -22,6 +22,9 @@ from memoria_audiovisual.kavi_finna_public_catalog import (
     PublicationRejected, load_published_kavi_rows,
 )
 from memoria_audiovisual.kavi_finna_registry import load_kavi_metadata_index_summary
+from memoria_audiovisual.approved_corpus_admission import (
+    AdmissionRejected, load_all_approved_corpora,
+)
 from memoria_audiovisual.kavi_finna_metadata_reports import (
     REPORT_FILES, build_kavi_metadata_reports, serialize_kavi_metadata_reports,
 )
@@ -1425,6 +1428,56 @@ def build_research_video_catalog_frame():
         kavi_df["catalog_observed_on"] = kavi_manifest["observed_on"]
         frames.append(kavi_df)
 
+    # Add only human-approved *new* origin fiches. Legacy Eye/CICLIC/etc.
+    # already present above must not be duplicated by a new admission batch.
+    # These remain metadata-only even when a corpus has historic video outputs.
+    try:
+        admitted_by_corpus = load_all_approved_corpora(OUTPUT_DIR)
+    except AdmissionRejected:
+        admitted_by_corpus = {}
+        st.error("Lote adicional de fichas rejeitado na auditoria de publicação.")
+    country_by_code = {
+        "eye": "Netherlands",
+        "czech-television": "Czech Republic",
+        "ciclic": "France",
+        "asim": "Spain",
+        "bnfa": "Bulgaria",
+    }
+    existing_origin_links = {
+        (str(corpus), str(url))
+        for frame in frames
+        for corpus, url in zip(
+            frame.get("corpus", pd.Series("", index=frame.index)),
+            frame.get("video_link", pd.Series("", index=frame.index)),
+        )
+        if url
+    }
+    for code, approved_rows in admitted_by_corpus.items():
+        if not approved_rows:
+            continue
+        definition = CORPORA[code]
+        category = CORPUS_CATEGORIES[definition["category_code"]]
+        new_rows = []
+        for record in approved_rows:
+            identity = (definition["short_label"], record["video_link"])
+            if identity in existing_origin_links:
+                continue
+            existing_origin_links.add(identity)
+            new_rows.append(record)
+        if not new_rows:
+            continue
+        supplemental = pd.DataFrame(new_rows)
+        supplemental["institution"] = definition["label"]
+        supplemental["slug"] = code
+        supplemental["country"] = country_by_code[code]
+        supplemental["continent"] = "Europe"
+        supplemental["platform"] = definition["short_label"]
+        supplemental["corpus"] = definition["short_label"]
+        supplemental["unidade"] = definition["label"]
+        supplemental["categoria_analitica"] = category["label"] + " · metadados"
+        supplemental["source_page_url"] = supplemental["source_record_url"]
+        frames.append(supplemental)
+
     if not frames:
         return pd.DataFrame()
     catalog_df = pd.concat(frames, ignore_index=True)
@@ -1494,7 +1547,7 @@ def filter_research_catalog(
         # is publicly playable. Preserve all KAVI fiches in ordinary search,
         # but do not claim they satisfy the "public videos only" filter.
         if "source_service" in filtered_df.columns:
-            kavi_metadata = filtered_df["source_service"].eq("finna_api")
+            kavi_metadata = filtered_df["source_service"].isin({"finna_api", "mar_admitted_metadata"})
             explicitly_playable = filtered_df.get(
                 "media_access_status",
                 pd.Series("", index=filtered_df.index),
@@ -1594,7 +1647,7 @@ def render_research_tab(initial_search_term="", show_search_input=True):
 
     st.markdown("### Escopo indexado")
     metric_cols = st.columns(5)
-    metric_cols[0].metric("Vídeos indexados", len(catalog_df))
+    metric_cols[0].metric("Registros catalogados", len(catalog_df))
     metric_cols[1].metric("Unidades documentais", int(catalog_df["corpus"].nunique()))
     metric_cols[2].metric("Instituições", int(catalog_df["institution"].nunique()))
     metric_cols[3].metric("Países", int(catalog_df["country"].nunique()))
