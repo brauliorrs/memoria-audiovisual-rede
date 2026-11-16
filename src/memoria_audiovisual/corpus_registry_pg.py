@@ -158,9 +158,9 @@ def read_only_role_assertion(conn: Any) -> None:
 
 
 _PROBE_RUN = re.compile(
-    r"https://github\\.com/brauliorrs/memoria-audiovisual-rede/actions/runs/[1-9][0-9]*\\Z"
+    r"https://github\.com/brauliorrs/memoria-audiovisual-rede/actions/runs/[1-9][0-9]*\Z"
 )
-_HEX64 = re.compile(r"[a-f0-9]{64}\\Z")
+_HEX64 = re.compile(r"[a-f0-9]{64}\Z")
 
 
 def record_technical_observation(
