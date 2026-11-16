@@ -100,6 +100,37 @@ class UniversalConnectorTests(unittest.TestCase):
             SourceReview("eye", state=SourceState.EVIDENCE_VALIDATED,
                          history=(("registered", "operator-1", "sha256:abc"),))
 
+    def test_complete_history_required_to_claim_admission_ready(self):
+        with self.assertRaises(ContractRejected):
+            SourceReview(
+                "eye", state=SourceState.ADMISSION_READY,
+                history=(("admission_ready", "reviewer-4", "sha256:pretend"),),
+            )
+        with self.assertRaises(ContractRejected):
+            SourceReview(
+                "eye", state=SourceState.ADMISSION_READY,
+                history=(
+                    ("probed", "observer-1", "sha256:a111"),
+                    ("evidence_validated", "analyst-2", "sha256:b222"),
+                    ("curator_reviewed", "observer-1", "sha256:c333"),
+                    ("admission_ready", "reviewer-4", "sha256:d444"),
+                ),
+                observer="observer-1", evidence_id="sha256:b222",
+                curator="observer-1",
+            )
+
+    def test_replaying_valid_review_after_hold_and_reset(self):
+        review = SourceReview("eye")
+        review = transition(review, SourceState.PROBED,
+                            actor="observer-1", evidence_id="sha256:original")
+        review = transition(review, SourceState.HOLD,
+                            actor="safety-2", evidence_id="incident:issue")
+        review = transition(review, SourceState.REGISTERED,
+                            actor="admin-3", override_hold=True)
+        self.assertEqual(review.state, SourceState.REGISTERED)
+        self.assertEqual(review.observer, "")
+        self.assertEqual(len(review.history), 3)
+
     def test_hold_blocks_until_explicit_reset(self):
         review = transition(SourceReview("eye"), SourceState.HOLD,
                             actor="safety-1", evidence_id="issue:99")
