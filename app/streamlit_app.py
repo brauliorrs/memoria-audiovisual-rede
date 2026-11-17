@@ -22,7 +22,7 @@ from memoria_audiovisual.kavi_finna_public_catalog import (
     PublicationRejected, load_published_kavi_rows,
 )
 from memoria_audiovisual.research_catalog_projection import (
-    APPROVED_METADATA_STATUS, LEGACY_STATUS, KAVI_PARTIAL_STATUS,
+    APPROVED_METADATA_STATUS, LEGACY_STATUS,
     only_verified_public_playback, project_kavi_search_records,
 )
 from memoria_audiovisual.kavi_finna_registry import load_kavi_metadata_index_summary
@@ -1355,6 +1355,8 @@ def build_research_video_catalog_frame():
         "video_date_display",
         "video_theme",
         "access_surface",
+        "media_access_status",
+        "record_review_status",
         "video_subject",
     }
     for corpus_def in CORPORA.values():
