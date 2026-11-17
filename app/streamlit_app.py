@@ -25,6 +25,9 @@ from memoria_audiovisual.research_catalog_projection import (
     APPROVED_METADATA_STATUS, LEGACY_STATUS,
     only_verified_public_playback, project_kavi_search_records,
 )
+from memoria_audiovisual.kavi_direct_access import (
+    RELEASE_MARKER, read_kavi_direct_index, records_for_display,
+)
 from memoria_audiovisual.kavi_finna_registry import load_kavi_metadata_index_summary
 from memoria_audiovisual.approved_corpus_admission import (
     load_admissions_with_individual_holds,
@@ -5268,13 +5271,65 @@ def open_global_research():
     st.session_state["global-research-open"] = True
 
 
-# Catálogo central é a entrada principal; painéis históricos são secundários.
+def render_kavi_direct_view():
+    """Manifest-verified public metadata viewer, independent of other filters."""
+    st.header("KAVI / Finna — fichas documentais")
+    st.caption(
+        "Acesso direto ao índice parcial publicado de metadados. "
+        "Não representa acervo audiovisual concluído, reprodução pública "
+        "verificada ou direitos de mídia aprovados."
+    )
+    result = read_kavi_direct_index(OUTPUT_DIR)
+    if result.status != "published_partial_metadata":
+        if result.status == "missing_release_assets":
+            st.error(
+                "O índice KAVI/Finna não está presente nesta instância do MAR. "
+                "Os arquivos de fichas e manifesto precisam estar disponíveis "
+                "no deploy; nenhum dado não verificado será exibido."
+            )
+        else:
+            st.error(
+                "O índice KAVI/Finna foi bloqueado pela validação documental "
+                "nesta instância. Nenhuma ficha sem verificação será exibida."
+            )
+        st.caption(f"Diagnóstico do índice: {result.status}.")
+        return
+    st.metric("Fichas KAVI disponíveis", len(result.rows))
+    st.info(
+        "Cobertura parcial · registros individuais não revisados · "
+        "mídia e reprodução não verificadas. Os links abrem fichas na origem."
+    )
+    st.dataframe(
+        records_for_display(result),
+        column_config={
+            "Acessar ficha na origem": st.column_config.LinkColumn(
+                "Acessar ficha na origem",
+                display_text="Abrir na Finna",
+            ),
+        },
+        use_container_width=True,
+        hide_index=True,
+        height=540,
+    )
+
+
+# Após uma nova release, reabrir a pesquisa central uma única vez.
+if st.session_state.get("mar-catalog-release") != RELEASE_MARKER:
+    st.session_state["global-research-open"] = True
+    st.session_state["mar-catalog-release"] = RELEASE_MARKER
 st.session_state.setdefault("global-research-open", True)
 
 header_title_col, header_search_col = st.columns([5, 3], gap="large", vertical_alignment="center")
 with header_title_col:
     st.title(tr("app_title"))
     st.caption(tr("app_caption"))
+    st.caption(f"Versão da interface: {RELEASE_MARKER}")
+    if st.button(
+        "KAVI / Finna — abrir fichas",
+        key="open-kavi-direct-index",
+    ):
+        st.query_params["acervo"] = "kavi"
+        st.rerun()
 
 with header_search_col:
     search_field_col, search_button_col = st.columns([5, 2], gap="small", vertical_alignment="bottom")
@@ -5297,6 +5352,16 @@ if open_research:
     st.session_state["global-research-open"] = True
 if header_search_term.strip():
     st.session_state["global-research-open"] = True
+
+# The direct-link route is not gated by corpus dropdowns, filters or cache.
+# It never activates a crawler, playback service or the PostgreSQL registry.
+if st.query_params.get("acervo") == "kavi":
+    if st.button("Voltar à pesquisa central", key="back-from-kavi-direct"):
+        del st.query_params["acervo"]
+        st.session_state["global-research-open"] = True
+        st.rerun()
+    render_kavi_direct_view()
+    st.stop()
 
 if st.session_state.get("global-research-open", False):
     with st.container(border=True):
