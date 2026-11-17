@@ -48,3 +48,20 @@ O exemplo de sonda **não deve ser executado com hashes fictícios**; usar evid�
 5. PR #95 de admissão continua gate independente; nenhum evento administrativo publica fichas.
 
 Reversão: não excluir nenhuma branch ou dados sem aprovação específica. Para código, reverter este PR. Para schema isolado, descartar branch de laboratório somente após validação, autorização e backup aplicável. Em produção, preferir rollback aditivo/desabilitar acesso administrativo a apagar o histórico.
+
+
+## Homologação complementar — 17/11/2026, branch isolada
+
+**Credencial LOGIN criada no laboratório:** `mar_corpora_dashboard_lab` no Neon `br-small-rain-b8olypnn`, acesso `read_only` limitado ao database `neondb` e schema `mar_corpora`. Senha retornada pelo provedor apenas no ato da criação, não armazenada no repositório nem exibida em relatórios. Em produção será necessária outra credencial independente, criada após gate P0.
+
+**Validação feita por login real, não apenas `SET ROLE`:** usando o argumento `role_name=mar_corpora_dashboard_lab` em consultas de banco e `current_user` conferido, foram verdadeiros os **13 controles** da função `read_only_role_assertion`: USAGE do schema administrativo, ausência de CREATE, SELECT nas duas tabelas e view, ausência de INSERT/UPDATE/DELETE nas tabelas e ausência de USAGE nos schemas `neon_auth` e `mar_p0`. Tentativas reais de INSERT no ledger e SELECT em `neon_auth.user` falharam com SQLSTATE `42501`. A função da aplicação foi corrigida para testar os privilégios efetivos em vez de exigir participação no grupo `mar_corpora_reader`, que não é concedida automaticamente a LOGIN criado pelo Neon como `read_only` de schema. 
+
+**Segurança OIDC da aplicação:** `authorized_admin` continua exigindo `is_logged_in=true`, `email_verified=true` e lista de e-mails no servidor. Foi acrescentado o bloqueio para `exp` ausente ou vencido, pois a biblioteca Streamlit não revoga automaticamente a sessão quando o ID-token expira (o cookie pode durar mais). Instalar `Authlib` via `requirements-admin.txt`. O login OIDC real e o deploy **não foram executados**, porque o cliente de identidade, a URL HTTPS privada e os usuários aprovados ainda não foram fornecidos/configurados. Sem esses dados, a página deve bloquear consultas.
+
+### Preparação do OIDC para homologação privada (não inserir segredos no Git)
+
+Criar um aplicativo OIDC com provedor institucional autorizado, com retorno exato `https://DOMINIO-INTERNO/oauth2callback`. Configurar as variáveis `MAR_ADMIN_EMAIL_ALLOWLIST` (e-mail verificado de cada administrador) e `MAR_CORPORA_READONLY_DATABASE_URL` (LOGIN no **laboratório** durante testes). No secret manager do runtime Streamlit configurar `[auth]`: `redirect_uri`, `cookie_secret`, `client_id`, `client_secret`, `server_metadata_url`. A URL de produção não deve compartilhar a senha, o token ou a conexão com a branch de laboratório. Recomenda-se acesso privado com proteção de rede/reverse-proxy além do gate no Streamlit.
+
+Testar presencialmente ou no navegador autorizado: (1) anônimo bloqueado antes de executar SQL; (2) conta não autorizada bloqueada; (3) e-mail não verificado bloqueado; (4) ID-token expirado bloqueado; (5) conta explicitamente autorizada consegue consultar apenas as 5 fontes; (6) falha ou expiração do banco não revela segredos. Registrar logs com data, ator e resultado, sem credenciais. Somente depois o painel pode passar de HOLD de implantação para candidato a implantação interna.
+
+A aprovação independente do GitHub é diferente do login do painel: PRs #95 e #98 foram marcados *ready for review* em 17/11/2026 após CI aprovado, mas ainda aguardam revisor distinto do autor. Este laboratório **não autoriza** qualquer merge ou migração da branch Neon main.
