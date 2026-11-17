@@ -1418,6 +1418,10 @@ def build_research_video_catalog_frame():
         kavi_rows, kavi_manifest = load_published_kavi_rows(OUTPUT_DIR)
     except PublicationRejected:
         kavi_rows, kavi_manifest = [], {}
+        st.warning(
+            "O índice KAVI/Finna foi bloqueado por integridade documental; "
+            "nenhuma ficha não validada será exibida."
+        )
     if kavi_rows:
         kavi_def = CORPORA["kavi_kuvi"]
         category_label = CORPUS_CATEGORIES[kavi_def["category_code"]]["label"]
