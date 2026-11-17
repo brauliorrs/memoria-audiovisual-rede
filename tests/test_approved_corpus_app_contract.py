@@ -17,8 +17,9 @@ class AdmissionWiringTests(unittest.TestCase):
 
     def test_metadata_only_rows_are_excluded_from_public_video_filter(self):
         source = (ROOT / "app/streamlit_app.py").read_text(encoding="utf-8-sig")
-        self.assertIn('{"finna_api", "mar_admitted_metadata"}', source)
-        self.assertIn("~kavi_metadata | explicitly_playable", source)
+        self.assertIn("only_verified_public_playback(filtered_df)", source)
+        self.assertIn('"Somente vídeos com reprodução pública verificada"', source)
+        self.assertIn("value=False,", source)
         self.assertIn('metric("Registros catalogados", len(catalog_df))', source)
 
     def test_no_active_crawler_or_database_write_in_admission(self):
