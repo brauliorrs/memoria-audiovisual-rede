@@ -8,6 +8,7 @@ No approval, ingestion, modification, collection or publication action exists.
 from __future__ import annotations
 
 import os
+import time
 from collections.abc import Mapping
 
 import streamlit as st
@@ -29,23 +30,34 @@ COLS = (
 
 
 def authorized_admin(user: object, allowlist: str) -> bool:
-    """Require a trusted server-side OIDC identity, not a form/query parameter."""
+    """Require verified, unexpired OIDC identity and a server-side allowlist.
+
+    Streamlit authenticates the identity provider; our application checks
+    authorization. Missing or expired identity claims fail closed even if a
+    Streamlit login cookie remains valid.
+    """
     if not isinstance(allowlist, str) or not allowlist.strip():
         return False
     try:
         if isinstance(user, Mapping):
             logged_in = getattr(user, "is_logged_in", user.get("is_logged_in"))
-            email_verified = user.get("email_verified")
+            verified = user.get("email_verified")
             email = user.get("email")
+            expires_at = user.get("exp")
         else:
             logged_in = getattr(user, "is_logged_in", False)
-            email_verified = getattr(user, "email_verified", False)
-            email = getattr(user, "email", "")
+            verified = getattr(user, "email_verified", False)
+            email = getattr(user, "email", None)
+            expires_at = getattr(user, "exp", None)
     except (AttributeError, KeyError, TypeError):
+        return False
+    # Unlike Streamlit's 30-day cookie, the OIDC ID-token expiration must
+    # be honored for a privileged admin app.
+    if type(expires_at) not in (int, float) or expires_at <= time.time():
         return False
     allowed = {item.strip().casefold() for item in allowlist.split(",") if item.strip()}
     return (
-        logged_in is True and email_verified is True
+        logged_in is True and verified is True
         and isinstance(email, str) and email.casefold().strip() in allowed
     )
 
@@ -76,6 +88,8 @@ def main() -> None:
         if not getattr(st.user, "is_logged_in", False):
             if st.button("Entrar com provedor institucional"):
                 st.login()
+        elif st.button("Encerrar sessão e autenticar novamente"):
+            st.logout()
         st.stop()
     dsn = os.environ.get("MAR_CORPORA_READONLY_DATABASE_URL", "")
     if not dsn:
