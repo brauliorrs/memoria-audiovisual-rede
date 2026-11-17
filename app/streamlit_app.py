@@ -21,6 +21,10 @@ from memoria_audiovisual.external_links import (
 from memoria_audiovisual.kavi_finna_public_catalog import (
     PublicationRejected, load_published_kavi_rows,
 )
+from memoria_audiovisual.research_catalog_projection import (
+    APPROVED_METADATA_STATUS, LEGACY_STATUS,
+    only_verified_public_playback, project_kavi_search_records,
+)
 from memoria_audiovisual.kavi_finna_registry import load_kavi_metadata_index_summary
 from memoria_audiovisual.approved_corpus_admission import (
     load_admissions_with_individual_holds,
@@ -1351,9 +1355,15 @@ def build_research_video_catalog_frame():
         "video_date_display",
         "video_theme",
         "access_surface",
+        "media_access_status",
+        "record_review_status",
         "video_subject",
     }
     for corpus_def in CORPORA.values():
+        # KAVI is an approved *partial* metadata index. Never expose raw KAVI
+        # analytic CSVs that bypass its signed publication manifest.
+        if corpus_def["code"] == "kavi_kuvi":
+            continue
         output_files = corpus_def["output_files"]
         catalog_path = OUTPUT_DIR / output_files["analytic_video_catalog"]
         if not catalog_path.exists():
@@ -1398,6 +1408,7 @@ def build_research_video_catalog_frame():
         catalog_df["corpus"] = corpus_def["short_label"]
         catalog_df["unidade"] = corpus_def["label"]
         catalog_df["categoria_analitica"] = category_def["label"]
+        catalog_df["documentary_status"] = LEGACY_STATUS
         frames.append(catalog_df)
 
     # Metadata-only KAVI/Kuvi index: an explicitly approved *partial*
@@ -1407,26 +1418,23 @@ def build_research_video_catalog_frame():
         kavi_rows, kavi_manifest = load_published_kavi_rows(OUTPUT_DIR)
     except PublicationRejected:
         kavi_rows, kavi_manifest = [], {}
+        st.warning(
+            "O índice KAVI/Finna foi bloqueado por integridade documental; "
+            "nenhuma ficha não validada será exibida."
+        )
     if kavi_rows:
-        kavi_df = pd.DataFrame(kavi_rows)
         kavi_def = CORPORA["kavi_kuvi"]
-        kavi_df["corpus"] = f"{kavi_def['short_label']} (índice parcial)"
-        kavi_df["unidade"] = kavi_def["label"]
-        kavi_df["categoria_analitica"] = (
-            f"{CORPUS_CATEGORIES[kavi_def['category_code']]['label']} · metadados"
+        category_label = CORPUS_CATEGORIES[kavi_def["category_code"]]["label"]
+        kavi_projected = project_kavi_search_records(
+            kavi_rows, kavi_manifest,
+            corpus_label=kavi_def["short_label"],
+            institution_label=kavi_def["label"],
+            category_label=category_label,
         )
-        kavi_df["slug"] = kavi_def["source_unit_id"]
-        kavi_df["video_title_display"] = kavi_df["video_title"]
-        kavi_df["video_date_display"] = kavi_df["year"]
-        kavi_df["video_theme"] = kavi_df["genres"].where(
-            kavi_df["genres"].ne(""), kavi_df["subjects"]
-        )
-        kavi_df["access_surface"] = "Ficha externa; reprodução não verificada"
-        kavi_df["access_regime"] = "metadados públicos; mídia não avaliada"
-        kavi_df["source_page_url"] = kavi_df["source_record_url"]
-        kavi_df["catalog_coverage"] = kavi_manifest["coverage_status"]
-        kavi_df["catalog_observed_on"] = kavi_manifest["observed_on"]
-        frames.append(kavi_df)
+        if kavi_projected:
+            frames.append(pd.DataFrame(kavi_projected))
+        else:
+            st.warning("O lote KAVI não passou na projeção documental segura.")
 
     # Add only human-approved *new* origin fiches. Legacy Eye/CICLIC/etc.
     # already present above must not be duplicated by a new admission batch.
@@ -1478,6 +1486,7 @@ def build_research_video_catalog_frame():
         supplemental["unidade"] = definition["label"]
         supplemental["categoria_analitica"] = category["label"] + " · metadados"
         supplemental["source_page_url"] = supplemental["source_record_url"]
+        supplemental["documentary_status"] = APPROVED_METADATA_STATUS
         frames.append(supplemental)
 
     if not frames:
@@ -1494,6 +1503,7 @@ def build_research_video_catalog_frame():
         "access_surface",
         "access_regime",
         "video_theme",
+        "documentary_status",
     ]:
         if column not in catalog_df.columns:
             catalog_df[column] = ""
@@ -1528,6 +1538,8 @@ def filter_research_catalog(
     selected_access_surface,
     selected_access_regime,
     public_video_only,
+    selected_institution="Todas as instituições",
+    selected_documentary_status="Todas as situações",
 ):
     filtered_df = catalog_df.copy()
     filters = [
@@ -1539,23 +1551,14 @@ def filter_research_catalog(
         ("platform", selected_platform, "Todas as plataformas"),
         ("access_surface", selected_access_surface, "Todas as modalidades"),
         ("access_regime", selected_access_regime, "Todos os regimes"),
+        ("institution", selected_institution, "Todas as instituições"),
+        ("documentary_status", selected_documentary_status, "Todas as situações"),
     ]
     for column, selected, all_label in filters:
         filtered_df = _apply_single_choice_filter(filtered_df, column, selected, all_label)
 
-    if public_video_only and "video_link" in filtered_df.columns:
-        has_record_link = filtered_df["video_link"].fillna("").astype(str).str.strip() != ""
-        # A verified catalog *record page* is not evidence that the film
-        # is publicly playable. Preserve all KAVI fiches in ordinary search,
-        # but do not claim they satisfy the "public videos only" filter.
-        if "source_service" in filtered_df.columns:
-            kavi_metadata = filtered_df["source_service"].isin({"finna_api", "mar_admitted_metadata"})
-            explicitly_playable = filtered_df.get(
-                "media_access_status",
-                pd.Series("", index=filtered_df.index),
-            ).eq("verified_public_playback")
-            has_record_link = has_record_link & (~kavi_metadata | explicitly_playable)
-        filtered_df = filtered_df.loc[has_record_link].copy()
+    if public_video_only:
+        filtered_df = only_verified_public_playback(filtered_df)
 
     search_term = search_term.strip()
     if search_term:
@@ -1571,6 +1574,8 @@ def filter_research_catalog(
             "platform",
             "video_theme",
             "video_link",
+            "documentary_status",
+            "source_service",
         ]
         available_columns = [column for column in search_columns if column in filtered_df.columns]
         search_lower = search_term.lower()
@@ -1604,6 +1609,7 @@ def build_research_video_display_df(dataframe, *, visitor_facing=False):
         "platform",
         "access_surface",
         "access_regime",
+        "documentary_status",
         "video_subject",
         "video_description",
         "origin_link" if visitor_facing else "video_link",
@@ -1623,6 +1629,7 @@ def build_research_video_display_df(dataframe, *, visitor_facing=False):
             "platform": "plataforma",
             "access_surface": "modalidade de acesso",
             "access_regime": "regime de acesso audiovisual",
+            "documentary_status": "situação documental",
             "video_subject": "assunto do vídeo",
             "video_description": "descrição do vídeo",
             "video_link": "link do vídeo",
@@ -1638,14 +1645,25 @@ def render_research_tab(initial_search_term="", show_search_input=True):
         "de acesso no catálogo curatorial consolidado do observatório."
     )
     st.info(
-        "Esta ferramenta permite cruzar o conjunto do organismo sem apagar a separação metodológica: "
-        "cada resultado preserva categoria analítica, unidade documental e instituição de origem."
+        "Catálogo central de fichas e registros audiovisuais. Uma ficha pública não "
+        "comprova reprodução do vídeo, direitos de mídia ou custódia. "
+        "O estado documental acompanha cada resultado."
     )
 
     catalog_df = build_research_video_catalog_frame()
     if catalog_df.empty:
         st.info("Ainda não há vídeos curatoriais disponíveis para pesquisa transversal.")
         return
+
+    kavi_count = int(
+        catalog_df.get("source_service", pd.Series("", index=catalog_df.index))
+        .fillna("").eq("finna_api").sum()
+    )
+    if kavi_count:
+        st.success(
+            f"KAVI / Kuvi (Finna): {kavi_count} fichas de metadados publicadas "
+            "em índice parcial; revisão individual e reprodução NÃO verificadas."
+        )
 
     st.markdown("### Escopo indexado")
     metric_cols = st.columns(5)
@@ -1675,6 +1693,11 @@ def render_research_tab(initial_search_term="", show_search_input=True):
             "País",
             options=_select_filter_options(catalog_df, "country", "Todos os países"),
             key="global-research-country",
+        )
+        selected_institution = st.selectbox(
+            "Instituição",
+            options=_select_filter_options(catalog_df, "institution", "Todas as instituições"),
+            key="global-research-institution",
         )
     with filter_cols[1]:
         selected_corpus = st.selectbox(
@@ -1709,10 +1732,15 @@ def render_research_tab(initial_search_term="", show_search_input=True):
             options=_select_filter_options(catalog_df, "access_regime", "Todos os regimes"),
             key="global-research-access-regime",
         )
+        selected_documentary_status = st.selectbox(
+            "Situação documental",
+            options=_select_filter_options(catalog_df, "documentary_status", "Todas as situações"),
+            key="global-research-documentary-status",
+        )
 
     public_video_only = st.checkbox(
-        "Somente registros com link público de vídeo",
-        value=True,
+        "Somente vídeos com reprodução pública verificada",
+        value=False,
         key="global-research-public-video-only",
     )
 
@@ -1728,10 +1756,12 @@ def render_research_tab(initial_search_term="", show_search_input=True):
         selected_access_surface=selected_access_surface,
         selected_access_regime=selected_access_regime,
         public_video_only=public_video_only,
+        selected_institution=selected_institution,
+        selected_documentary_status=selected_documentary_status,
     )
 
     st.markdown("### Resultados da consulta")
-    st.caption(f"{len(filtered_df)} vídeos no recorte atual.")
+    st.caption(f"{len(filtered_df)} fichas ou registros documentais no recorte atual.")
     result_metric_cols = st.columns(5)
     result_metric_cols[0].metric("Resultados encontrados", len(filtered_df))
     result_metric_cols[1].metric("Unidades no recorte", int(filtered_df["corpus"].nunique()) if not filtered_df.empty else 0)
@@ -1750,7 +1780,7 @@ def render_research_tab(initial_search_term="", show_search_input=True):
     )
 
     if filtered_df.empty:
-        st.info("Nenhum vídeo corresponde aos filtros selecionados.")
+        st.info("Nenhuma ficha corresponde aos filtros. Desmarque reprodução verificada para incluir fichas KAVI/Finna.")
         return
 
     preview_df = filtered_df.head(RESEARCH_RESULT_PREVIEW_LIMIT)
@@ -5232,8 +5262,14 @@ def render_corpus_tab(corpus_def):
 def close_global_research():
     st.session_state["global-research-open"] = False
     st.session_state["header-global-research"] = ""
-    build_research_video_catalog_frame.clear()
 
+
+def open_global_research():
+    st.session_state["global-research-open"] = True
+
+
+# Catálogo central é a entrada principal; painéis históricos são secundários.
+st.session_state.setdefault("global-research-open", True)
 
 header_title_col, header_search_col = st.columns([5, 3], gap="large", vertical_alignment="center")
 with header_title_col:
@@ -5267,7 +5303,7 @@ if st.session_state.get("global-research-open", False):
         close_col = st.columns([7, 1], vertical_alignment="center")[1]
         with close_col:
             st.button(
-                "Fechar pesquisa",
+                "Explorar painéis e instituições",
                 use_container_width=True,
                 key="header-global-research-close",
                 on_click=close_global_research,
@@ -5275,31 +5311,49 @@ if st.session_state.get("global-research-open", False):
         render_research_tab(initial_search_term=header_search_term, show_search_input=False)
     st.stop()
 
-protocolled_excluded_units = load_protocolled_excluded_units()
-top_level_tabs = st.tabs(
-    [localize_ui("Visão geral")]
-    + [tr("category_tab", label=localize_ui(category_def["short_label"])) for category_def in CORPUS_CATEGORIES.values()]
-    + [tr("unit_tab", label=definition["short_label"]) for definition in CORPORA.values()]
-    + [tr("documented_case_tab", label=unit["unit_label"]) for unit in protocolled_excluded_units]
+st.button(
+    "Voltar ao catálogo central",
+    on_click=open_global_research,
+    key="return-to-central-catalog",
 )
 
-with top_level_tabs[0]:
+protocolled_excluded_units = load_protocolled_excluded_units()
+tab_overview, tab_categories, tab_units, tab_cases = st.tabs(
+    ["Visão geral", "Categorias", "Instituições e unidades", "Casos documentados"]
+)
+
+with tab_overview:
     render_observatory_overview_tab()
 
-category_start = 1
-category_tabs = top_level_tabs[category_start : category_start + len(CORPUS_CATEGORIES)]
-corpus_start = category_start + len(CORPUS_CATEGORIES)
-corpus_tabs = top_level_tabs[corpus_start : corpus_start + len(CORPORA)]
-protocolled_tabs = top_level_tabs[corpus_start + len(CORPORA) :]
+with tab_categories:
+    category_code = st.selectbox(
+        "Selecionar categoria",
+        options=list(CORPUS_CATEGORIES),
+        format_func=lambda code: CORPUS_CATEGORIES[code]["short_label"],
+        key="central-category-selector",
+    )
+    render_category_tab(CORPUS_CATEGORIES[category_code])
 
-for category_tab, category_def in zip(category_tabs, CORPUS_CATEGORIES.values()):
-    with category_tab:
-        render_category_tab(category_def)
+with tab_units:
+    unit_codes = list(CORPORA)
+    chosen_code = st.selectbox(
+        "Selecionar instituição ou unidade documental",
+        options=unit_codes,
+        index=unit_codes.index("kavi_kuvi") if "kavi_kuvi" in unit_codes else 0,
+        format_func=lambda code: CORPORA[code]["short_label"],
+        key="central-unit-selector",
+    )
+    render_corpus_tab(CORPORA[chosen_code])
 
-for corpus_tab, corpus_def in zip(corpus_tabs, CORPORA.values()):
-    with corpus_tab:
-        render_corpus_tab(corpus_def)
-
-for protocolled_tab, unit_record in zip(protocolled_tabs, protocolled_excluded_units):
-    with protocolled_tab:
-        render_protocolled_excluded_unit_tab(unit_record)
+with tab_cases:
+    if protocolled_excluded_units:
+        case_ids = list(range(len(protocolled_excluded_units)))
+        case_id = st.selectbox(
+            "Selecionar caso documentado",
+            options=case_ids,
+            format_func=lambda i: protocolled_excluded_units[i]["unit_label"],
+            key="central-case-selector",
+        )
+        render_protocolled_excluded_unit_tab(protocolled_excluded_units[case_id])
+    else:
+        st.info("Nenhum caso adicional documentado neste recorte.")
