@@ -8,7 +8,8 @@ ROOT = Path(__file__).resolve().parents[1]
 class AdmissionWiringTests(unittest.TestCase):
     def test_global_catalog_only_reads_approved_manifest_admissions(self):
         source = (ROOT / "app/streamlit_app.py").read_text(encoding="utf-8-sig")
-        self.assertIn("load_all_approved_corpora(OUTPUT_DIR)", source)
+        self.assertIn("load_admissions_with_individual_holds(OUTPUT_DIR)", source)
+        self.assertIn("held_corpora", source)
         self.assertIn("existing_origin_links", source)
         self.assertIn('identity = (definition["short_label"], record["video_link"])', source)
         self.assertIn('if identity in existing_origin_links:', source)

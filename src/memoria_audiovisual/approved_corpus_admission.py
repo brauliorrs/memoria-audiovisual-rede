@@ -144,3 +144,23 @@ def load_one_approved_corpus(root: str | Path, corpus: str) -> list[dict]:
 def load_all_approved_corpora(root: str | Path) -> dict[str, list[dict]]:
     """No fallback to existing raw CSV or scraping when approval is absent."""
     return {code: load_one_approved_corpus(root, code) for code in REGISTRY}
+
+
+def load_admissions_with_individual_holds(
+    root: str | Path,
+) -> tuple[dict[str, list[dict]], dict[str, str]]:
+    """Never let one failed source erase valid, independently admitted sources.
+
+    Each missing source contributes an empty list; corrupted or incomplete
+    published pairs are quarantined independently with a rejection reason.
+    This does not lower the gate on ANY corpus and is safe for the public UI.
+    """
+    admitted: dict[str, list[dict]] = {}
+    held: dict[str, str] = {}
+    for corpus in CORPUS_HOSTS:
+        try:
+            admitted[corpus] = load_one_approved_corpus(root, corpus)
+        except (AdmissionRejected, OSError, UnicodeError, ValueError) as exc:
+            admitted[corpus] = []
+            held[corpus] = str(exc) if isinstance(exc, AdmissionRejected) else "read_error"
+    return admitted, held

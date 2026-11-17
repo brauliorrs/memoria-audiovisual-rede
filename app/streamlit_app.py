@@ -23,7 +23,7 @@ from memoria_audiovisual.kavi_finna_public_catalog import (
 )
 from memoria_audiovisual.kavi_finna_registry import load_kavi_metadata_index_summary
 from memoria_audiovisual.approved_corpus_admission import (
-    AdmissionRejected, load_all_approved_corpora,
+    load_admissions_with_individual_holds,
 )
 from memoria_audiovisual.kavi_finna_metadata_reports import (
     REPORT_FILES, build_kavi_metadata_reports, serialize_kavi_metadata_reports,
@@ -1431,11 +1431,13 @@ def build_research_video_catalog_frame():
     # Add only human-approved *new* origin fiches. Legacy Eye/CICLIC/etc.
     # already present above must not be duplicated by a new admission batch.
     # These remain metadata-only even when a corpus has historic video outputs.
-    try:
-        admitted_by_corpus = load_all_approved_corpora(OUTPUT_DIR)
-    except AdmissionRejected:
-        admitted_by_corpus = {}
-        st.error("Lote adicional de fichas rejeitado na auditoria de publicação.")
+    admitted_by_corpus, held_corpora = load_admissions_with_individual_holds(OUTPUT_DIR)
+    if held_corpora:
+        st.error(
+            "Lotes adicionais rejeitados na auditoria de publicação: "
+            + ", ".join(sorted(held_corpora))
+            + ". As demais fontes aprovadas continuam acessíveis."
+        )
     country_by_code = {
         "eye": "Netherlands",
         "czech-television": "Czech Republic",
