@@ -1,5 +1,6 @@
 """Admin console is separate, OIDC-gated and never renders before auth."""
 import unittest
+import time
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -10,11 +11,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class CorpusDashboardSafetyTests(unittest.TestCase):
     def test_deny_missing_identity_provider_verification_or_allowlist(self):
+        future = time.time() + 300
         cases = [
-            ({"is_logged_in": False, "email_verified": True, "email": "admin@example.org"}, "admin@example.org"),
-            ({"is_logged_in": True, "email_verified": False, "email": "admin@example.org"}, "admin@example.org"),
-            ({"is_logged_in": True, "email_verified": True, "email": "other@example.org"}, "admin@example.org"),
-            ({"is_logged_in": True, "email_verified": True, "email": "admin@example.org"}, ""),
+            ({"is_logged_in": False, "email_verified": True, "email": "admin@example.org", "exp": future}, "admin@example.org"),
+            ({"is_logged_in": True, "email_verified": False, "email": "admin@example.org", "exp": future}, "admin@example.org"),
+            ({"is_logged_in": True, "email_verified": True, "email": "other@example.org", "exp": future}, "admin@example.org"),
+            ({"is_logged_in": True, "email_verified": True, "email": "admin@example.org", "exp": future}, ""),
+            ({"is_logged_in": True, "email_verified": True, "email": "admin@example.org", "exp": time.time() - 10}, "admin@example.org"),
+            ({"is_logged_in": True, "email_verified": True, "email": "admin@example.org"}, "admin@example.org"),
             ({}, "admin@example.org"),
         ]
         for user, allowlist in cases:
@@ -23,11 +27,11 @@ class CorpusDashboardSafetyTests(unittest.TestCase):
 
     def test_allow_explicit_verified_oidc_identity(self):
         self.assertTrue(authorized_admin(
-            {"is_logged_in": True, "email_verified": True, "email": "ADMIN@example.org"},
+            {"is_logged_in": True, "email_verified": True, "email": "ADMIN@example.org", "exp": time.time() + 300},
             "other@example.org,admin@example.org",
         ))
         user = SimpleNamespace(is_logged_in=True, email_verified=True,
-                               email="admin@example.org")
+                               email="admin@example.org", exp=time.time() + 300)
         self.assertTrue(authorized_admin(user, "admin@example.org"))
 
     def test_entrypoint_never_appears_in_public_app(self):
