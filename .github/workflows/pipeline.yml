@@ -1,16 +1,21 @@
 name: Pipeline APE
 
+# This pipeline performs network collection across institutional sources.
+# Never start collection implicitly from a catalog code merge.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+    inputs:
+      confirm_collection:
+        description: "Type RUN_AUTHORIZED only after verifying source permissions and scope"
+        required: true
+        type: string
 
 permissions:
   contents: read
 
 jobs:
   crawler-report:
+    if: ${{ github.event.inputs.confirm_collection == 'RUN_AUTHORIZED' }}
     runs-on: ubuntu-latest
 
     steps:
