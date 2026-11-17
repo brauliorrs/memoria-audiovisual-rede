@@ -193,6 +193,8 @@ TRANSLATIONS = {
 
 PHRASE_TRANSLATIONS = {
     "es": {
+        "Registros catalogados": "Fichas del catálogo",
+        "Lote adicional de fichas rejeitado na auditoria de publicação.": "Lote adicional de fichas rechazado en la auditoría de publicación.",
         "Completude dos metadados documentais": "Completitud de los metadatos documentales",
         "Ano informado": "Año informado",
         "Assunto informado": "Tema informado",
@@ -1092,6 +1094,8 @@ PHRASE_TRANSLATIONS = {
         "Nenhuma": "Ninguna",
     },
     "en": {
+        "Registros catalogados": "Cataloged records",
+        "Lote adicional de fichas rejeitado na auditoria de publicação.": "Additional record batch rejected by publication audit.",
         "Completude dos metadados documentais": "Documentary Metadata Completeness",
         "Ano informado": "Year Provided",
         "Assunto informado": "Subject Provided",
