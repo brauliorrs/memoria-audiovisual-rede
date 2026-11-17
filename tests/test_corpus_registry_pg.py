@@ -24,8 +24,11 @@ class DummyCursor:
     def execute(self, sql, params=()):
         self.last = sql
         self.calls.append((sql, params))
-        if "pg_has_role" in sql and "has_table_privilege" in sql:
-            self.current = (True, False, False, False) if self.readonly else (True, True, False, False)
+        if "has_schema_privilege" in sql and "mar_corpora.current_status" in sql:
+            self.current = (True,) * 13 if self.readonly else (
+                True, False, True, True, True, True, True,
+                True, False, True, True, True, True,
+            )
         elif "pg_has_role" in sql:
             self.current = (self.grant,)
         elif sql.startswith("SELECT spec_sha256"):
@@ -131,6 +134,11 @@ class RegistryPgTests(unittest.TestCase):
         read_only_role_assertion(DummyConnection(cursor))
         with self.assertRaises(PermissionError):
             read_only_role_assertion(DummyConnection(DummyCursor(readonly=False)))
+        # Effective grants decide access. Membership in a named group
+        # is not mandatory for a Neon read_only LOGIN with equivalent scope.
+        self.assertTrue(all(cursor.current))
+        self.assertIn("to_regnamespace('neon_auth')", cursor.last)
+        self.assertIn("to_regnamespace('mar_p0')", cursor.last)
 
 
 class ObservationCursor(DummyCursor):
