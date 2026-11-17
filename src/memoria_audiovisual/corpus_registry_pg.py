@@ -143,16 +143,32 @@ def list_corpus_events(conn: Any, corpus_code: str, *, limit: int = 30) -> list[
 
 
 def read_only_role_assertion(conn: Any) -> None:
-    """Fail closed unless connection uses reader role and not owner privileges."""
+    """Require effective least-privilege PostgreSQL grants, not a role name.
+
+    Neon scoped read_only LOGIN roles need not inherit mar_corpora_reader.
+    Validate the grants the connection REALLY has. Reject owner/write roles.
+    """
     with conn.cursor() as cursor:
         cursor.execute(
-            "SELECT pg_has_role(current_user, 'mar_corpora_reader', 'USAGE'), "
-            "has_table_privilege(current_user, 'mar_corpora.audit_events', 'INSERT'), "
-            "has_table_privilege(current_user, 'mar_corpora.audit_events', 'UPDATE'), "
-            "has_table_privilege(current_user, 'mar_corpora.audit_events', 'DELETE')"
+            "SELECT "
+            "has_schema_privilege(current_user, 'mar_corpora', 'USAGE'), "
+            "NOT has_schema_privilege(current_user, 'mar_corpora', 'CREATE'), "
+            "has_table_privilege(current_user, 'mar_corpora.connector_registry', 'SELECT'), "
+            "has_table_privilege(current_user, 'mar_corpora.audit_events', 'SELECT'), "
+            "has_table_privilege(current_user, 'mar_corpora.current_status', 'SELECT'), "
+            "NOT has_table_privilege(current_user, 'mar_corpora.connector_registry', 'INSERT'), "
+            "NOT has_table_privilege(current_user, 'mar_corpora.connector_registry', 'UPDATE'), "
+            "NOT has_table_privilege(current_user, 'mar_corpora.connector_registry', 'DELETE'), "
+            "NOT has_table_privilege(current_user, 'mar_corpora.audit_events', 'INSERT'), "
+            "NOT has_table_privilege(current_user, 'mar_corpora.audit_events', 'UPDATE'), "
+            "NOT has_table_privilege(current_user, 'mar_corpora.audit_events', 'DELETE'), "
+            "NOT COALESCE(has_schema_privilege(current_user, "
+            "to_regnamespace('neon_auth'), 'USAGE'), false), "
+            "NOT COALESCE(has_schema_privilege(current_user, "
+            "to_regnamespace('mar_p0'), 'USAGE'), false)"
         )
-        row = cursor.fetchone()
-    if row is None or row[0] is not True or any(row[1:]):
+        grants = cursor.fetchone()
+    if not grants or len(grants) != 13 or any(grant is not True for grant in grants):
         raise PermissionError("scoped_read_only_role_required")
 
 
