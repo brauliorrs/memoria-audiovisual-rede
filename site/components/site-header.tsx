@@ -10,6 +10,7 @@ export function SiteHeader(){
    <Link className="brand" href="/" aria-label="MAR — home"><span className="brand-mark" aria-hidden="true"><span className="brand-mark-center"/></span><span className="brand-name"><strong>MAR<span className="brand-dot">.</span></strong><small>{t("brand")}</small></span></Link>
    <nav aria-label="Navigation" className="main-nav">
     <Link href="/observatorio/">{t("navObservatory")}</Link>
+    <Link href="/comparar/">{locale==="pt"?"Comparar":locale==="es"?"Comparar":"Compare"}</Link>
     <Link href="/temas/">{t("navThemes")}</Link>
     <Link href="/series/">{t("navTimeline")}</Link>
     <Link href="/analises/">{t("navAnalyses")}</Link>
