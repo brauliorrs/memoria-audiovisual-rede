@@ -1,0 +1,863 @@
+{
+  "aamod": {
+    "source": "data/output/aamod_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "aamod:1",
+        "name": "Archivio Audiovisivo del movimento operaio e democratico",
+        "country": "Italy",
+        "continent": "Europe",
+        "type": "Institutional audiovisual archive",
+        "repositoryCode": "IT-AAMOD",
+        "originUrl": "https://aamod.it/"
+      }
+    ]
+  },
+  "aapb": {
+    "source": "data/output/aapb_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "aapb:1",
+        "name": "American Archive of Public Broadcasting",
+        "country": "United States",
+        "continent": "North America",
+        "type": "National audiovisual aggregator",
+        "repositoryCode": "US-AAPB",
+        "originUrl": "https://americanarchive.org/"
+      }
+    ]
+  },
+  "anf": {
+    "source": "data/output/anf_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "anf:1",
+        "name": "Arhiva Nationala de Filme - Cinemateca Romana",
+        "country": "Romania",
+        "continent": "Europe",
+        "type": "Institutional film archive",
+        "repositoryCode": "RO-ANF",
+        "originUrl": "https://eventbook.ro/program/cinemateca-online"
+      }
+    ]
+  },
+  "ape": {
+    "source": "data/output/ape_instituicoes.csv",
+    "sampled": true,
+    "rows": [
+      {
+        "id": "ape:1",
+        "name": "Benediktinerstift Altenburg",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Church and religious archives",
+        "repositoryCode": "AT-00000001218",
+        "originUrl": "http://www.stift-altenburg.at/"
+      },
+      {
+        "id": "ape:2",
+        "name": "Diözesanarchiv St. Pölten",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Church and religious archives",
+        "repositoryCode": "AT-DZSASTP",
+        "originUrl": "http://www.dasp.at/"
+      },
+      {
+        "id": "ape:3",
+        "name": "Kärntner Landesarchiv",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "AT-KLA",
+        "originUrl": "http://www.landesarchiv.ktn.gv.at/214172_DE-Landesarchiv."
+      },
+      {
+        "id": "ape:4",
+        "name": "Niederösterreichisches Landesarchiv",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "AT-NOeLA",
+        "originUrl": "http://www.noel.gv.at/Bildung/Landesarchiv-.html"
+      },
+      {
+        "id": "ape:5",
+        "name": "Oberösterreichisches Landesarchiv",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Regional archives",
+        "repositoryCode": "AT-00000001250",
+        "originUrl": "http://www.landesarchiv-ooe.at/"
+      },
+      {
+        "id": "ape:6",
+        "name": "Österreichisches Staatsarchiv",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "National archives",
+        "repositoryCode": "AT-OeStA",
+        "originUrl": "http://www.oesta.gv.at"
+      },
+      {
+        "id": "ape:7",
+        "name": "Salzburger Landesarchiv",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Regional archives",
+        "repositoryCode": "AT-SLA",
+        "originUrl": "http://www.salzburg.gv.at/themen/se/salzburg/archive.htm"
+      },
+      {
+        "id": "ape:8",
+        "name": "Stiftsarchiv Geras",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Church and religious archives",
+        "repositoryCode": "AT-00000001224",
+        "originUrl": "http://www.stiftgeras.at/"
+      },
+      {
+        "id": "ape:9",
+        "name": "Stiftsarchiv Göttweig",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Church and religious archives",
+        "repositoryCode": "AT-00000001225",
+        "originUrl": "http://www.stiftgoettweig.at/"
+      },
+      {
+        "id": "ape:10",
+        "name": "Stiftsarchiv Melk",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Church and religious archives",
+        "repositoryCode": "AT-00000001231",
+        "originUrl": "http://www.stiftmelk.at/"
+      },
+      {
+        "id": "ape:11",
+        "name": "Wiener Stadt- und Landesarchiv",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Regional archives Municipal archives",
+        "repositoryCode": "AT-WSTLA",
+        "originUrl": "http://www.wien.gv.at/kultur/archiv/"
+      },
+      {
+        "id": "ape:12",
+        "name": "Zisterzienserstift Schlierbach",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Church and religious archives",
+        "repositoryCode": "AT-00000001239",
+        "originUrl": "http://stift-schlierbach.at/"
+      },
+      {
+        "id": "ape:13",
+        "name": "Zisterzienserstift Stams",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "Church and religious archives",
+        "repositoryCode": "AT-00000001240",
+        "originUrl": "http://www.stiftstams.at"
+      },
+      {
+        "id": "ape:14",
+        "name": "Algemeen Rijksarchief - Archives générales du Royaume Archives générales du Royaume Algemeen Rijksarchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "National archives",
+        "repositoryCode": "BE-A0510",
+        "originUrl": "http://www.arch.be"
+      },
+      {
+        "id": "ape:15",
+        "name": "Algemeen Rijksarchief 2 - Archives générales du Royaume 2 (Joseph Cuvelier)",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0545",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-A0545"
+      },
+      {
+        "id": "ape:16",
+        "name": "Archief en Bibliotheek Stichting de Bethune te Marke",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-243884",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-243884"
+      },
+      {
+        "id": "ape:17",
+        "name": "Archief van het Koninklijk Paleis - Archives du Palais Royal",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0546",
+        "originUrl": "http://www.arch.be"
+      },
+      {
+        "id": "ape:18",
+        "name": "Archief- en Onderzoekscentrum voor Vrouwengeschiedenis (AVG-Carhif) - Centre d’Archives et de Recherches pour l’Histoire des Femmes (Carhif-AVG)",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-007502",
+        "originUrl": "http://www.avg-carhif.be"
+      },
+      {
+        "id": "ape:19",
+        "name": "Archives de l'État à Arlon",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0521",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-A0521"
+      },
+      {
+        "id": "ape:20",
+        "name": "Archives de l'Etat à Bruxelles / Rijksarchief te Brussel (Anderlecht)",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0541",
+        "originUrl": "http://www.arch.be"
+      },
+      {
+        "id": "ape:21",
+        "name": "Archives de l'État à Liège",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0522",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-A0522"
+      },
+      {
+        "id": "ape:22",
+        "name": "Archives de l'État à Louvain-la-Neuve",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0542",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-A0542"
+      },
+      {
+        "id": "ape:23",
+        "name": "Archives de l'État à Mons",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0524",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-A0524"
+      },
+      {
+        "id": "ape:24",
+        "name": "Archives de l'État à Namur",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0525",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-A0525"
+      },
+      {
+        "id": "ape:25",
+        "name": "Archives de l'État à Saint-Hubert",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-D497",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-D497"
+      },
+      {
+        "id": "ape:26",
+        "name": "Archives de l'État à Tournai",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0527",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-A0527"
+      },
+      {
+        "id": "ape:27",
+        "name": "Baldewijns Ria",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-376998",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-376998"
+      },
+      {
+        "id": "ape:28",
+        "name": "Beveren, gemeentearchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-799548",
+        "originUrl": "http://www.beveren.be/themas/433/default.aspx?_vs=0_N&id=1560"
+      },
+      {
+        "id": "ape:29",
+        "name": "Biljarclub BC De Deken te Ekeren",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-598966",
+        "originUrl": "http://www.bcdedeken.be/"
+      },
+      {
+        "id": "ape:30",
+        "name": "Broers Theo",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-411251",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-411251"
+      },
+      {
+        "id": "ape:31",
+        "name": "Brugge, stadsarchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-674353",
+        "originUrl": "http://www.brugge.be"
+      },
+      {
+        "id": "ape:32",
+        "name": "Buurtwerking Groot Redingenhof Leuven VZW",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-191244",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-191244"
+      },
+      {
+        "id": "ape:33",
+        "name": "Centrum voor Streekgeschiedenis Stad Zottegem CVS Zottegem",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-296019",
+        "originUrl": "http://www.zottegem.be/erfgoed-en-musea/centrum-voor-streekgeschiedenis.aspx"
+      },
+      {
+        "id": "ape:34",
+        "name": "De Klomp De Klinge VZW te Sint-Gillis-Waas",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-683035",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-683035"
+      },
+      {
+        "id": "ape:35",
+        "name": "Duffel, gemeentearchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-553002",
+        "originUrl": "http://www.duffel.be"
+      },
+      {
+        "id": "ape:36",
+        "name": "European Savings Bank Group",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-761897",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-761897"
+      },
+      {
+        "id": "ape:37",
+        "name": "Familiekunde Vlaanderen - Documentatie- en Studiecentrum voor Familiegeschiedenis te Merksem",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-739769",
+        "originUrl": "http://www.vvfnationaalcentrum.be/"
+      },
+      {
+        "id": "ape:38",
+        "name": "Familiekunde Vlaanderen - Regio Westkust VZW",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-169111",
+        "originUrl": "http://www.familiekunde-westkust.be/"
+      },
+      {
+        "id": "ape:39",
+        "name": "Figurentheater Propop te Turnhout",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-699707",
+        "originUrl": "http://www.propop.be/"
+      },
+      {
+        "id": "ape:40",
+        "name": "Fotomuseum te Antwerpen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-118815",
+        "originUrl": "http://www.fotomuseum.be"
+      },
+      {
+        "id": "ape:41",
+        "name": "Gent, stadsarchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-645936",
+        "originUrl": "https://www.beeldbankgent.be"
+      },
+      {
+        "id": "ape:42",
+        "name": "Geschied- en heemkundige kring Kinrooi VZW",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-881086",
+        "originUrl": "http://www.heemkringkinrooi.net/"
+      },
+      {
+        "id": "ape:43",
+        "name": "Guido Gezelle Archief van de Openbare Bibliotheek Brugge",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-188349",
+        "originUrl": "http://www.gezelle.be"
+      },
+      {
+        "id": "ape:44",
+        "name": "Heemkring Hoghescote VZW te Kapellen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-191408",
+        "originUrl": "http://www.heemkring-hoghescote.be/"
+      },
+      {
+        "id": "ape:45",
+        "name": "Heemkring Opwijk-Mazenzele te Opwijk",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-214427",
+        "originUrl": "http://www.heemkringopwijk.be"
+      },
+      {
+        "id": "ape:46",
+        "name": "Heemkunde Vlaanderen VZW - Huis De Zalm te Mechelen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-909973",
+        "originUrl": "http://www.heemkunde-vlaanderen.be"
+      },
+      {
+        "id": "ape:47",
+        "name": "Heemkundig Museum Tempelhof te Beerse",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-157519",
+        "originUrl": "http://www.devlierbes.be"
+      },
+      {
+        "id": "ape:48",
+        "name": "Heemkundige Kring De Kaeck te Wommelgem",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-648616",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-648616"
+      },
+      {
+        "id": "ape:49",
+        "name": "Heemkundige Kring De Poemp te Nijlen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-646149",
+        "originUrl": "http://www.depoemp.be"
+      },
+      {
+        "id": "ape:50",
+        "name": "Heemkundige Kring Kasterlee-Lichtaart-Tielen VZW",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-750489",
+        "originUrl": "http://heemkring.kasterlee.be"
+      },
+      {
+        "id": "ape:51",
+        "name": "Heemkundige Kring Moorslede",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-337637",
+        "originUrl": "http://www.heemkringmoorslede.be/"
+      },
+      {
+        "id": "ape:52",
+        "name": "Herentals, stadsarchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-00000028548",
+        "originUrl": "http://www.herentals.be"
+      },
+      {
+        "id": "ape:53",
+        "name": "Het Firmament te Mechelen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-771678",
+        "originUrl": "http://www.hetfirmament.be"
+      },
+      {
+        "id": "ape:54",
+        "name": "Ieper, stadarchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-134281",
+        "originUrl": "http://www.ieper.be"
+      },
+      {
+        "id": "ape:55",
+        "name": "Jenevermuseum te Hasselt",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-076993",
+        "originUrl": "http://www.jenevermuseum.be"
+      },
+      {
+        "id": "ape:56",
+        "name": "Jozef van Rompay-Davidsfonds-Genootschap VZW te Onze-Lieve-Vrouw-Waver",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-565700",
+        "originUrl": "http://users.telenet.be/DFOLVWAVER/genootschap.html"
+      },
+      {
+        "id": "ape:57",
+        "name": "K. Stade Leuven T.C.",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-001250",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-001250"
+      },
+      {
+        "id": "ape:58",
+        "name": "Keukeleire Ides",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-474256",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-474256"
+      },
+      {
+        "id": "ape:59",
+        "name": "Koninklijk Museum voor Midden-Afrika",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "University and research archives",
+        "repositoryCode": "BE-TEN00",
+        "originUrl": "https://archives.africamuseum.be/"
+      },
+      {
+        "id": "ape:60",
+        "name": "Koninklijke Belgische Korfbalbond, Vlaamse Liga KBKB",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-816330",
+        "originUrl": "http://www.korfbal.be"
+      },
+      {
+        "id": "ape:61",
+        "name": "Koninklijke Karabijnschuttersgilde Sint-Jan teThiewinkel (Lummen)",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-135110",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-135110"
+      },
+      {
+        "id": "ape:62",
+        "name": "Koninklijke Oudheidkundige Kring van het Land van Waas",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-414904",
+        "originUrl": "http://www.kokw.be/"
+      },
+      {
+        "id": "ape:63",
+        "name": "Koninklijke Postzegelkring - Studiekring Wereldoorlog I en II te Overijse",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-273668",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-273668"
+      },
+      {
+        "id": "ape:64",
+        "name": "Koninklijke Sint-Sebastiaansgilde te Merksplas",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-383665",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-383665"
+      },
+      {
+        "id": "ape:65",
+        "name": "Liberas - Centrum voor de geschiedenis van het vrije denken en handelen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "Private persons and family archives",
+        "repositoryCode": "BE-A4009",
+        "originUrl": "https://www.liberas.eu"
+      },
+      {
+        "id": "ape:66",
+        "name": "Lokeren, stadsarchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-038490",
+        "originUrl": "https://www.archivesportaleurope.net/advanced-search/search-in-institutions/results-%28institutions%29/?repositoryCode=BE-038490"
+      },
+      {
+        "id": "ape:67",
+        "name": "MATRIX - New Music Centre te Leuven",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-206481",
+        "originUrl": "http://www.matrix-new-music.be/"
+      },
+      {
+        "id": "ape:68",
+        "name": "Mechelen, stadsarchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-896772",
+        "originUrl": "http://www.stadsarchiefmechelen.be"
+      },
+      {
+        "id": "ape:69",
+        "name": "Modemuseum te Antwerpen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-549634",
+        "originUrl": "http://www.momu.be"
+      },
+      {
+        "id": "ape:70",
+        "name": "Museum Mayer van den Bergh te Antwerpen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-993930",
+        "originUrl": "http://www.museummayervandenbergh.be/men.net"
+      },
+      {
+        "id": "ape:71",
+        "name": "Oostende, stadsarchief",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-608530",
+        "originUrl": "http://www.oostende.be/Archief/1600/default.aspx?id=599"
+      },
+      {
+        "id": "ape:72",
+        "name": "Openbare Bibliotheek Brugge",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-929659",
+        "originUrl": "http://www.brugge.be"
+      },
+      {
+        "id": "ape:73",
+        "name": "Poesje van de Lange Wapper te Antwerpen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-496499",
+        "originUrl": "http://users.skynet.be/lange.wapper"
+      },
+      {
+        "id": "ape:74",
+        "name": "Poppentheater Ellebieke te Deerlijk",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-427463",
+        "originUrl": "http://www.ellebieke.be"
+      },
+      {
+        "id": "ape:75",
+        "name": "Provinciaal Archief West-Vlaanderen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-581930",
+        "originUrl": "http://www.west-vlaanderen.be/archiefdienst"
+      },
+      {
+        "id": "ape:76",
+        "name": "Rijksarchief te Antwerpen",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "National archives",
+        "repositoryCode": "BE-A0511",
+        "originUrl": "http://arch.arch.be/index.php?l=nl&m=praktische-info&r=onze-leeszalen&d=antwerpen"
+      },
+      {
+        "id": "ape:77",
+        "name": "Rijksarchief te Beveren",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "National archives",
+        "repositoryCode": "BE-A0512",
+        "originUrl": "http://arch.arch.be/index.php?l=nl&m=praktische-info&r=onze-leeszalen&d=beveren"
+      },
+      {
+        "id": "ape:78",
+        "name": "Rijksarchief te Brugge",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0513",
+        "originUrl": "http://arch.arch.be/index.php?l=nl&m=praktische-info&r=onze-leeszalen&d=brugge"
+      },
+      {
+        "id": "ape:79",
+        "name": "Rijksarchief te Gent",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0514",
+        "originUrl": "http://arch.arch.be/index.php?l=nl&m=praktische-info&r=onze-leeszalen&d=gent"
+      },
+      {
+        "id": "ape:80",
+        "name": "Rijksarchief te Hasselt",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "",
+        "repositoryCode": "BE-A0515",
+        "originUrl": "http://arch.arch.be/index.php?l=nl&m=praktische-info&r=onze-leeszalen&d=hasselt"
+      }
+    ]
+  },
+  "aqshf": {
+    "source": "data/output/aqshf_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "aqshf:1",
+        "name": "Arkivi Qendror Shtetëror i Filmit / The Albanian National Film Archive",
+        "country": "Albania",
+        "continent": "Europe",
+        "type": "Institutional film archive",
+        "repositoryCode": "AL-AQSHF",
+        "originUrl": "https://aqshf.gov.al/en/motion-pictures-listing/"
+      }
+    ]
+  },
+  "archipop": {
+    "source": "data/output/archipop_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "archipop:1",
+        "name": "ARCHIPOP",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Institutional audiovisual archive",
+        "repositoryCode": "FR-ARCHIPOP",
+        "originUrl": "https://lesfilms.archipop.org/"
+      }
+    ]
+  },
+  "asim": {
+    "source": "data/output/asim_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "asim:1",
+        "name": "Arxiu del So i de la Imatge de Mallorca",
+        "country": "Spain",
+        "continent": "Europe",
+        "type": "Institutional film and audiovisual archive",
+        "repositoryCode": "ES-ASIM",
+        "originUrl": "https://www.europeanfilmgateway.eu/search-efg/Arxiu%20del%20So%20i%20de%20la%20Imatge%20de%20Mallorca"
+      }
+    ]
+  },
+  "autrefois": {
+    "source": "data/output/autrefois_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "autrefois:1",
+        "name": "Fondation Autrefois Genève",
+        "country": "Switzerland",
+        "continent": "Europe",
+        "type": "Institutional audiovisual archive",
+        "repositoryCode": "CH-AUTREFOIS-GENEVE",
+        "originUrl": "https://www.autrefoisgeneve.ch/"
+      }
+    ]
+  },
+  "barch": {
+    "source": "data/output/barch_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "barch:1",
+        "name": "Bundesarchiv",
+        "country": "Germany",
+        "continent": "Europe",
+        "type": "Federal archive with film archive holdings",
+        "repositoryCode": "DE-BArch",
+        "originUrl": "https://www.europeanfilmgateway.eu/search-efg/bundesarchiv"
+      }
+    ]
+  },
+  "bbc": {
+    "source": "data/output/bbc_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "bbc:1",
+        "name": "BBC Archive",
+        "country": "United Kingdom",
+        "continent": "Europe",
+        "type": "Broadcast audiovisual archive",
+        "repositoryCode": "GB-BBC-ARCHIVE",
+        "originUrl": "https://www.bbc.co.uk/archive"
+      }
+    ]
+  }
+}
