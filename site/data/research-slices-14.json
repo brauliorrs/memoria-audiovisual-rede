@@ -1,0 +1,547 @@
+{
+  "luce": {
+    "tema_pais": {
+      "source": "data/output/luce_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Vida pública, política e história",
+          "pais": "Italy",
+          "total": "31"
+        },
+        {
+          "tema": "Território, cidade e patrimônio",
+          "pais": "Italy",
+          "total": "18"
+        },
+        {
+          "tema": "Registro audiovisual em arquivo fílmico",
+          "pais": "Italy",
+          "total": "4"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Italy",
+          "total": "3"
+        },
+        {
+          "tema": "Educação, ciência e natureza",
+          "pais": "Italy",
+          "total": "2"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Italy",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/luce_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Vida pública, política e história",
+          "plataforma": "Archivio Luce",
+          "total": "31"
+        },
+        {
+          "tema": "Território, cidade e patrimônio",
+          "plataforma": "Archivio Luce",
+          "total": "18"
+        },
+        {
+          "tema": "Registro audiovisual em arquivo fílmico",
+          "plataforma": "Archivio Luce",
+          "total": "4"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "Archivio Luce",
+          "total": "3"
+        },
+        {
+          "tema": "Educação, ciência e natureza",
+          "plataforma": "Archivio Luce",
+          "total": "2"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "Archivio Luce",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/luce_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "luce",
+          "observation_key": "luce:2026-06-18T16:59:35Z",
+          "snapshot_generated_at": "2026-06-18T16:59:35Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-18T16:59:35Z",
+          "analytic_outputs_last_modified_at": "2026-06-18T16:59:34Z",
+          "generated_by": "scripts/run_luce_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "59",
+          "videos_in_curatorial_catalog": "59",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "luce",
+          "observation_key": "luce:2026-06-18T17:00:54Z",
+          "snapshot_generated_at": "2026-06-18T17:00:54Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-18T17:00:54Z",
+          "analytic_outputs_last_modified_at": "2026-06-18T17:00:54Z",
+          "generated_by": "scripts/run_luce_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "59",
+          "videos_in_curatorial_catalog": "59",
+          "visibility_categories": "1",
+          "theme_categories": "6",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "luce",
+          "observation_key": "luce:2026-06-18T17:06:54Z",
+          "snapshot_generated_at": "2026-06-18T17:06:54Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-18T17:06:54Z",
+          "analytic_outputs_last_modified_at": "2026-06-18T17:06:53Z",
+          "generated_by": "scripts/run_luce_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "59",
+          "videos_in_curatorial_catalog": "59",
+          "visibility_categories": "1",
+          "theme_categories": "6",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "murnau_stiftung": {
+    "tema_pais": {
+      "source": "data/output/murnau_stiftung_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Germany",
+          "total": "3880"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "Germany",
+          "total": "5"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "Germany",
+          "total": "4"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/murnau_stiftung_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Murnau-Stiftung Filmsuche",
+          "total": "3880"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "Murnau-Stiftung Filmsuche",
+          "total": "5"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "Murnau-Stiftung Filmsuche",
+          "total": "4"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/murnau_stiftung_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "murnau_stiftung",
+          "observation_key": "murnau_stiftung:2026-09-30T23:16:37Z",
+          "snapshot_generated_at": "2026-09-30T23:16:38Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-09-30T23:16:37Z",
+          "analytic_outputs_last_modified_at": "2026-09-30T23:16:35Z",
+          "generated_by": "scripts/run_murnau_stiftung_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "3889",
+          "videos_in_curatorial_catalog": "3889",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "murnau_stiftung",
+          "observation_key": "murnau_stiftung:2026-09-30T23:22:08Z",
+          "snapshot_generated_at": "2026-09-30T23:22:09Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-09-30T23:22:08Z",
+          "analytic_outputs_last_modified_at": "2026-09-30T23:22:06Z",
+          "generated_by": "scripts/run_murnau_stiftung_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "3889",
+          "videos_in_curatorial_catalog": "3889",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "pares": {
+    "tema_pais": {
+      "source": "data/output/pares_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "pais": "Spain",
+          "total": "44"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Spain",
+          "total": "21"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "Spain",
+          "total": "7"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Spain",
+          "total": "2"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Spain",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/pares_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "plataforma": "PARES",
+          "total": "44"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "PARES",
+          "total": "21"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "plataforma": "PARES",
+          "total": "7"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "PARES",
+          "total": "2"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "PARES",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/pares_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "pares",
+          "observation_key": "pares:2026-05-14T17:52:45Z",
+          "snapshot_generated_at": "2026-05-14T17:52:45Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-14T17:52:45Z",
+          "analytic_outputs_last_modified_at": "2026-05-14T17:52:45Z",
+          "generated_by": "scripts/run_pares_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "100",
+          "videos_in_curatorial_catalog": "100",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "pares",
+          "observation_key": "pares:2026-05-14T17:54:33Z",
+          "snapshot_generated_at": "2026-05-14T17:54:33Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-14T17:54:33Z",
+          "analytic_outputs_last_modified_at": "2026-05-14T17:54:32Z",
+          "generated_by": "scripts/run_pares_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "100",
+          "videos_in_curatorial_catalog": "100",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "pares",
+          "observation_key": "pares:2026-05-14T17:55:12Z",
+          "snapshot_generated_at": "2026-05-14T18:03:48Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-14T17:55:12Z",
+          "analytic_outputs_last_modified_at": "2026-05-14T18:03:48Z",
+          "generated_by": "scripts/build_pares_analytics.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "100",
+          "videos_in_curatorial_catalog": "100",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "pares",
+          "observation_key": "pares:2026-05-22T17:51:55Z",
+          "snapshot_generated_at": "2026-05-27T16:48:07Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-22T17:51:55Z",
+          "analytic_outputs_last_modified_at": "2026-05-27T16:48:07Z",
+          "generated_by": "scripts/build_pares_analytics.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "75",
+          "videos_in_curatorial_catalog": "75",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "ppa": {
+    "tema_pais": {
+      "source": "data/output/ppa_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "História e pesquisa",
+          "pais": "Portugal",
+          "total": "37"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "Portugal",
+          "total": "24"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Portugal",
+          "total": "17"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "Portugal",
+          "total": "6"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Portugal",
+          "total": "4"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Portugal",
+          "total": "2"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "Portugal",
+          "total": "2"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Portugal",
+          "total": "1"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "Portugal",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/ppa_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "Portal Português de Arquivos",
+          "total": "37"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "plataforma": "Portal Português de Arquivos",
+          "total": "24"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Portal Português de Arquivos",
+          "total": "17"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "Portal Português de Arquivos",
+          "total": "6"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Portal Português de Arquivos",
+          "total": "4"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "Portal Português de Arquivos",
+          "total": "2"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "Portal Português de Arquivos",
+          "total": "2"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Portal Português de Arquivos",
+          "total": "1"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "plataforma": "Portal Português de Arquivos",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/ppa_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "portal-portugues-arquivos",
+          "observation_key": "portal-portugues-arquivos:2026-05-19T17:08:18Z",
+          "snapshot_generated_at": "2026-05-19T17:08:18Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-19T17:08:18Z",
+          "analytic_outputs_last_modified_at": "2026-05-19T17:08:18Z",
+          "generated_by": "scripts/run_ppa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "110",
+          "videos_in_curatorial_catalog": "110",
+          "visibility_categories": "1",
+          "theme_categories": "8",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "portal-portugues-arquivos",
+          "observation_key": "portal-portugues-arquivos:2026-05-19T17:08:56Z",
+          "snapshot_generated_at": "2026-05-19T17:08:56Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-19T17:08:56Z",
+          "analytic_outputs_last_modified_at": "2026-05-19T17:08:56Z",
+          "generated_by": "scripts/run_ppa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "110",
+          "videos_in_curatorial_catalog": "110",
+          "visibility_categories": "1",
+          "theme_categories": "8",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "portal-portugues-arquivos",
+          "observation_key": "portal-portugues-arquivos:2026-05-19T17:15:29Z",
+          "snapshot_generated_at": "2026-05-19T17:15:29Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-19T17:15:29Z",
+          "analytic_outputs_last_modified_at": "2026-05-19T17:15:29Z",
+          "generated_by": "scripts/run_ppa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "110",
+          "videos_in_curatorial_catalog": "110",
+          "visibility_categories": "1",
+          "theme_categories": "8",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "portal-portugues-arquivos",
+          "observation_key": "portal-portugues-arquivos:2026-05-22T17:51:38Z",
+          "snapshot_generated_at": "2026-05-27T16:48:08Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-22T17:51:38Z",
+          "analytic_outputs_last_modified_at": "2026-05-27T16:48:08Z",
+          "generated_by": "scripts/build_ppa_analytics.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "94",
+          "videos_in_curatorial_catalog": "94",
+          "visibility_categories": "1",
+          "theme_categories": "9",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
