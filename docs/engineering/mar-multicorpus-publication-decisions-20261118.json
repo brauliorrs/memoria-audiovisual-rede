@@ -7,24 +7,7 @@
       "corpus": "eye",
       "technicalCI": "passed",
       "sourceDocumentChecks": {
-        "confirmed": 1,
-        "unverified": 1
-      },
-      "authorization": "not_issued",
-      "publicationAllowed": false,
-      "decision": "HOLD",
-      "blockingReasons": [
-        "exact URL for first pilot record not externally verified",
-        "metadata republication permissions not documented",
-        "dataset-wide review not completed"
-      ],
-      "evidence": "docs/engineering/mar-multicorpus-external-validation-20261118.md"
-    },
-    {
-      "corpus": "czech",
-      "technicalCI": "passed",
-      "sourceDocumentChecks": {
-        "confirmed": 2,
+        "confirmed": 7,
         "unverified": 0
       },
       "authorization": "not_issued",
@@ -36,8 +19,27 @@
         "scientific sign-off not issued"
       ],
       "evidence": "docs/engineering/mar-multicorpus-external-validation-20261118.md"
+    },
+    {
+      "corpus": "czech",
+      "technicalCI": "passed",
+      "sourceDocumentChecks": {
+        "confirmed": 7,
+        "unverified": 0
+      },
+      "authorization": "not_issued",
+      "publicationAllowed": false,
+      "decision": "HOLD",
+      "blockingReasons": [
+        "metadata republication permissions not documented",
+        "dataset-wide review not completed",
+        "production year vs publication date requires separate mapping",
+        "scientific sign-off not issued"
+      ],
+      "evidence": "docs/engineering/mar-multicorpus-external-validation-20261118.md"
     }
   ],
   "streamlitRetained": true,
-  "publicCatalogChangesAllowed": false
+  "publicCatalogChangesAllowed": false,
+  "evidenceAmendment": "docs/engineering/mar-multicorpus-expanded-sample-20261118.md"
 }
