@@ -49,6 +49,8 @@ jobs:
       - name: Review generated multilingual title frequencies
         working-directory: .
         run: |
+          # Bad/corrupt title source must fail; only a valid but stale aggregate may wait for the bot PR.
+          python3 scripts/build_mar_title_wordcloud.py --stdout >/dev/null
           if python3 scripts/build_mar_title_wordcloud.py --check; then
             echo "Title statistics match the versioned source files."
           else
