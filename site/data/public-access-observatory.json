@@ -33,9 +33,12 @@
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "humanAccessEvidence": "institutional_route_observed",
+      "humanAccessNote": "AAPB oferece busca pública e filtros 'All Digitized', 'All Records' e Online Reading Room; acesso ao audiovisual e direitos variam conforme registro. As 28 fichas históricas não foram verificadas individualmente.",
+      "sampleSourceUrl": "https://americanarchive.org/search",
+      "rightsPolicyUrl": "https://americanarchive.org/legal/orr-rules",
+      "rightsAssessment": "metadata_reuse_terms_unverified",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "archipop",
@@ -210,9 +213,12 @@
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "humanAccessEvidence": "institutional_route_observed",
+      "humanAccessNote": "BFI oferece busca do acervo, acesso online selecionado e consulta por mediatecas/pesquisa presencial, sem garantir reprodução pública de todo título. As 702 linhas históricas não foram revalidadas individualmente.",
+      "sampleSourceUrl": "https://www.bfi.org.uk/bfi-national-archive/search-bfi-archive",
+      "rightsPolicyUrl": null,
+      "rightsAssessment": "metadata_reuse_terms_unverified",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "bnfa",
@@ -753,10 +759,13 @@
       "inventoryStatus": "historical_observation_not_publication_permission",
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
-      "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "reviewReason": "Política CC0 dos metadados identificada; conferir que as 20 fichas históricas derivam efetivamente da Europeana e manter audiovisual separado.",
+      "humanAccessEvidence": "portal_search_interface_observed",
+      "humanAccessNote": "Europeana informa consulta pública e fornece política de uso de metadados CC0. Não foram revalidadas as 20 fichas do snapshot histórico; imagens e demais conteúdos continuam sujeitos aos direitos próprios.",
+      "sampleSourceUrl": "https://www.europeana.eu/en/rights/europeana-data-sources",
+      "rightsPolicyUrl": "https://www.europeana.eu/en/rights/terms-of-use",
+      "rightsAssessment": "cc0_metadata_policy_source_record_validation_pending",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "euscreen",
@@ -773,9 +782,12 @@
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "humanAccessEvidence": "institutional_route_observed",
+      "humanAccessNote": "EUscreen disponibiliza coleções e busca pública de milhares de itens; a ajuda distingue direitos de vídeo que pertencem às instituições participantes. Não testada a disponibilidade de cada uma das 133 fichas históricas.",
+      "sampleSourceUrl": "https://euscreen.eu/collections/",
+      "rightsPolicyUrl": "https://euscreen.eu/help/",
+      "rightsAssessment": "metadata_reuse_terms_unverified",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "eye",
@@ -1191,9 +1203,12 @@
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "access_restricted",
       "reviewReason": "Registros classificados como Catálogo comercial de licenciamento.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "humanAccessEvidence": "institutional_route_observed",
+      "humanAccessNote": "INA oferece interfaces de catálogo e consulta, com modalidades distintas de acesso e licenciamento. O índice histórico inclui registros restritos; esta rodada não comprovou que as fichas possam ser republicadas.",
+      "sampleSourceUrl": "https://catalogue.ina.fr/index/WEB-MEDIA/Inatheque",
+      "rightsPolicyUrl": null,
+      "rightsAssessment": "metadata_reuse_terms_unverified",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "pares",
