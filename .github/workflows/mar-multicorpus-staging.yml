@@ -4,6 +4,8 @@ on:
     paths:
       - 'scripts/import_mar_multicorpus.py'
       - 'tests/test_mar_multicorpus_staging.py'
+      - 'tests/test_mar_multicorpus_integrity.py'
+      - 'scripts/audit_mar_multicorpus_integrity.py'
       - '.github/workflows/mar-multicorpus-staging.yml'
       - 'data/output/eye_catalogo_videos_analitico.csv'
       - 'data/output/czech_tv_catalogo_videos_analitico.csv'
@@ -27,5 +29,15 @@ jobs:
         run: python scripts/import_mar_multicorpus.py --corpus eye --limit 2
       - name: Second technical pilot — Czech Television
         run: python scripts/import_mar_multicorpus.py --corpus czech --limit 2
+      - name: Test full historical dataset integrity scanner
+        run: python -m unittest discover -s tests -p 'test_mar_multicorpus_integrity.py' -v
+      - name: Audit ALL Eye and Czech CSV records (offline)
+        run: python scripts/audit_mar_multicorpus_integrity.py --output /tmp/mar-full-integrity-audit.json
+      - name: Upload quarantined audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mar-eye-czech-integrity-audit
+          path: /tmp/mar-full-integrity-audit.json
+          retention-days: 30
       - name: Protect existing authorized KAVI projection
         run: python scripts/check_mar_site_index.py
