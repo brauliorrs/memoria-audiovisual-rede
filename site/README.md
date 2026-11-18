@@ -35,11 +35,26 @@ python scripts/check_mar_site_index.py
 python -m unittest discover -s tests -p 'test_mar_site_public_pages.py' -v
 \`\`\`
 
-## Vercel
+## Vercel — projeto existente e domínio único
 
-Criar um **novo projeto**, sem reutilizar \`mar-p0-recovery-lab\`, apontando para o repositório \`brauliorrs/memoria-audiovisual-rede\`, **Root Directory \`site\`**, framework **Next.js**. Usar Preview inicialmente. O app é estático nesta fase e não exige secrets. **Não transferir o domínio do Streamlit antes de um teste funcional no preview**.
+As atualizações deste site são implantadas **somente** no projeto Vercel existente `mar-public-site` (projeto `prj_ynSzKPjTZ4dvgermfa86UcyZN1ou`), usando o domínio canônico `https://mar-public-site.vercel.app/`.
 
-O plano Hobby é permitido apenas para uso pessoal não comercial; confirmar enquadramento com os termos antes de uso institucional/comercial. Não é necessário contratar plano para desenvolver ou validar o MVP.
+- Não criar projeto ou domínio adicional para novos módulos ou publicações incrementais;
+- Origem `brauliorrs/memoria-audiovisual-rede`, branch `main`, diretório `site`, framework Next.js;
+- O fluxo de PR e a CI antecedem cada promoção. Quando o deploy Git do projeto existente não estiver vinculado, usar apenas uma implantação explícita no **mesmo projeto**, sem fingir que existe deploy automático;
+- O Streamlit permanece ativo até a equivalência funcional e a validação do acesso público;
+- Os produtos científicos agregados e os objetos de terceiros possuem critérios de publicação distintos. Os corpora sob HOLD não são liberados pela existência de telas no Vercel;
+- A aplicação não necessita de APIs de IA, de APIs pagas ou de banco operacional para consultar os snapshots já publicados.
+
+### Recursos de pesquisa migrados
+
+- `/observatorio/`: panorama de corpora e instituições;
+- `/temas/`: temas e cortes de país/plataforma **por fonte**;
+- `/series/`: observações longitudinais históricas **por fonte**;
+- `/comparar/`: nova bancada comparativa de até três fontes, gráficos temporais não sincronizados e exportação CSV **de agregados**, não de fichas individuais;
+- `/instituicoes/pesquisa/`: fichas institucionais de pesquisa;
+- `/acervo/`: catálogo de fichas KAVI que passaram pelo gate específico;
+- `/casos/`: casos institucionais documentados.
 
 ## Sequência de migração
 
