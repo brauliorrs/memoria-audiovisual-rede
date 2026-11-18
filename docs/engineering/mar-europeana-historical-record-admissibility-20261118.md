@@ -5,7 +5,7 @@
 ## Material efetivamente auditado
 - `data/output/europeana_catalogo_videos_analitico.csv` · SHA-256 `a6aa7ee8a2ce02667932a854a695ff5a26a16754d42c9cc2d9ab6f52a8c8978e`.
 - **20/20** linhas inspecionadas por regra determinística, identificadores `/item/<dataset>/<id>` extraídos de 20 links Europeana distintos; nenhuma duplicata exata no snapshot.
-- Anomalias não mutuamente exclusivas: **7** registros sem tipo audiovisual comprovado no campo de tipo histórico; **10** títulos ausentes/genéricos; **17** registros exigem revisão independente da declaração dos direitos do objeto.
+- Anomalias não mutuamente exclusivas: **7** registros sem tipo audiovisual comprovado no campo de tipo histórico; **10** títulos ausentes/genéricos; **20** registros exigem revisão independente da declaração dos direitos do objeto.
 - Direitos do objeto declarados na descrição histórica: 3 menções CC BY-SA; 1 menção CC restritiva; 3 direitos/copyright restritivos; 1 declaração diversa; **12 sem declaração**. As descrições são históricos não revalidados.
 - Item de 566/urn___mint_think_code_io_europeana_cyprus_AMAYN013 contém texto de restrição em grego, e item do INA tem copyright reservado; tais direitos se referem ao **objeto**, não invalidam automaticamente CC0 dos metadados da Europeana.
 - Há itens identificados como `Image`, `Text`, `Monograph`, `film stills` etc. Não classificá-los como filmes sem confirmação externa.
