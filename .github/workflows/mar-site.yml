@@ -5,10 +5,12 @@ on:
     paths:
       - "site/**"
       - "tests/test_mar_site_public_pages.py"
+      - "tests/test_mar_title_wordcloud.py"
       - "tests/test_mar_site_public_access_observatory.py"
       - "tests/test_mar_scientific_site_migration.py"
       - "tests/test_mar_research_dimensions.py"
       - "scripts/check_mar_site_index.py"
+      - "scripts/build_mar_title_wordcloud.py"
       - "scripts/build_mar_title_wordcloud.py"
       - ".github/workflows/mar-site.yml"
       - "data/output/kavi_mar_metadata_links.csv"
@@ -49,6 +51,9 @@ jobs:
           else
             python3 scripts/build_mar_title_wordcloud.py --stdout
           fi
+      - name: Test homepage word-cloud integrity and publication boundary
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p "test_mar_title_wordcloud.py" -v
       - name: Test permanent documentary routes and publication boundaries
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_site_public_pages.py" -v
