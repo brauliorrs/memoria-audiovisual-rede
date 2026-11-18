@@ -1,17 +1,22 @@
 name: MAR Historical Title Word Cloud
 
 on:
+  workflow_dispatch:
   pull_request:
     paths:
       - "scripts/build_mar_title_wordcloud.py"
       - "site/data/title-wordcloud.json"
       - "site/components/title-wordcloud.tsx"
+      - "tests/test_mar_wordcloud_growth.py"
+      - "tests/test_mar_title_wordcloud.py"
       - ".github/workflows/mar-title-wordcloud.yml"
   push:
     branches: [main]
     paths:
       - "scripts/build_mar_title_wordcloud.py"
       - "site/data/title-wordcloud.json"
+      - "data/output/*_catalogo_videos_analitico.csv"
+      - "site/data/kavi-public.json"
       - ".github/workflows/mar-title-wordcloud.yml"
 
 permissions:
@@ -30,10 +35,16 @@ jobs:
           python-version: "3.12"
       - name: Audit historical titles and emit aggregated candidate
         run: python scripts/build_mar_title_wordcloud.py --stdout
-      - name: Check approved aggregate against deterministic source generation
+      - name: Check incremental source updates
+        run: python3 -m unittest discover -s tests -p "test_mar_wordcloud_growth.py" -v
+      - name: Check generated aggregate or acknowledge pending source refresh
         run: |
-          if test -f site/data/title-wordcloud.json; then
+          if test "${{ github.event_name }}" = "push"; then
+            echo "Pushes of source snapshots can precede the automated aggregate PR."
+            echo "The MAR Auto-refresh workflow opens a checked PR when frequencies change."
+          elif test -f site/data/title-wordcloud.json; then
             python scripts/build_mar_title_wordcloud.py --check
           else
-            echo "Candidate is not committed yet. Review generated aggregate before publishing."
+            echo "::error::Approved title-wordcloud.json is missing"
+            exit 1
           fi
