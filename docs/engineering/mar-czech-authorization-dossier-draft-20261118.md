@@ -20,6 +20,14 @@
 - Separar data do episódio ou de publicação do ano de produção da obra.
 - A amostra contempla diferentes séries e tipos documentais.
 
+
+## Verificação de políticas institucionais (18/11/2026)
+- https://www.ceskatelevize.cz/vse-o-ct/spoluprace/archiv-ct/co-delame/: arquivo declara acesso a pesquisadores e trabalho de descrição, correção e organização de metadados. Acesso para pesquisa não é licença de republicação dos metadados.
+- https://www.ceskatelevize.cz/vse-o-ct/jak-sledovat/napoveda-k-internetovemu-vysilani/: a reprodução de programas no iVysílání está sujeita a direitos e limitações variáveis; estes direitos não devem ser confundidos com direitos sobre dados descritivos.
+- https://www.ceskatelevize.cz/vse-o-ct/english/production-services/: licenciamento de conteúdo audiovisual tratado por setores específicos. Não é uma autorização de reutilização de metadados.
+- A referência indexada https://www.ceskatelevize.cz/api/docs não pôde ser aberta na consulta atual (resposta 410): não tratar documentação técnica antiga como autorização válida de uso de API ou de redistribuição.
+- **Conclusão jurídica documental:** não localizada licença aberta inequívoca de republicação dos metadados do iVysílání. Verificar condições e eventuais direitos sobre base de dados ou obter autorização específica. HOLD mantido.
+
 ## Critérios ainda não cumpridos
 - [ ] Documentar base legal/termos/licença que permitam republicação de metadados no MAR.
 - [ ] Amostra estratificada e reproduzível de fichas por período, formato e estado de acesso.
