@@ -20,6 +20,13 @@
 - A URL antes pendente `als-het-verleden-spreekt` foi recuperada pela navegação institucional.
 - O ano de produção das obras não deve ser inferido a partir de campos vazios no CSV.
 
+
+## Verificação de políticas institucionais (18/11/2026)
+- https://www.eyefilm.nl/en/collection/eye-catalogue: catálogo aberto à consulta, mas o Eye declara que fora da instituição filmes e imagens são protegidos por direitos autorais; o próprio catálogo pode conter omissões e inexatidões. Não constitui licença aberta de republicação de metadados.
+- https://www.eyefilm.nl/en/collection/research: serviços de investigação, bases e projetos com acessos distintos; não foi localizada, nesta verificação, licença explícita para republicar em massa as descrições do Film Database.
+- O projeto MAR propõe publicar informações factuais mínimas e links, não filmes nem imagens. A possível utilização de fatos isolados deve ser avaliada distintamente da extração/reutilização substancial da base ou de descrições autorais.
+- **Conclusão jurídica documental:** reutilização do conjunto completo ainda não demonstrada. Exigir parecer sobre direitos de base de dados/extração e termos efetivamente incidentes ou permissão explícita da instituição. HOLD mantido.
+
 ## Critérios ainda não cumpridos
 - [ ] Documentar base legal/termos/licença que permitam republicação de metadados no MAR.
 - [ ] Amostra estratificada e reproduzível de fichas por período, formato e estado de acesso.
