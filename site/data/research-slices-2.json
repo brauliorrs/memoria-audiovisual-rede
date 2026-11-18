@@ -1,0 +1,519 @@
+{
+  "barch": {
+    "tema_pais": {
+      "source": "data/output/barch_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Germany",
+          "total": "130"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "pais": "Germany",
+          "total": "37"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Germany",
+          "total": "9"
+        },
+        {
+          "tema": "Animação",
+          "pais": "Germany",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/barch_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "European Film Gateway",
+          "total": "130"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "plataforma": "European Film Gateway",
+          "total": "37"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "European Film Gateway",
+          "total": "9"
+        },
+        {
+          "tema": "Animação",
+          "plataforma": "European Film Gateway",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/barch_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "barch",
+          "observation_key": "barch:2026-06-15T18:49:54Z",
+          "snapshot_generated_at": "2026-06-15T18:49:54Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-15T18:49:54Z",
+          "analytic_outputs_last_modified_at": "2026-06-15T18:49:53Z",
+          "generated_by": "scripts/run_barch_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "176",
+          "videos_in_curatorial_catalog": "176",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "barch",
+          "observation_key": "barch:2026-06-15T18:53:52Z",
+          "snapshot_generated_at": "2026-06-15T18:53:52Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-15T18:53:52Z",
+          "analytic_outputs_last_modified_at": "2026-06-15T18:53:51Z",
+          "generated_by": "scripts/run_barch_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "177",
+          "videos_in_curatorial_catalog": "177",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "barch",
+          "observation_key": "barch:2026-06-15T19:00:32Z",
+          "snapshot_generated_at": "2026-06-15T19:00:32Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-15T19:00:32Z",
+          "analytic_outputs_last_modified_at": "2026-06-15T19:00:31Z",
+          "generated_by": "scripts/run_barch_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "177",
+          "videos_in_curatorial_catalog": "177",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "bbc": {
+    "tema_pais": {
+      "source": "data/output/bbc_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Registro audiovisual de acervo televisivo",
+          "pais": "United Kingdom",
+          "total": "354"
+        },
+        {
+          "tema": "Cotidiano, território e sociedade",
+          "pais": "United Kingdom",
+          "total": "135"
+        },
+        {
+          "tema": "Programação televisiva e memória da mídia",
+          "pais": "United Kingdom",
+          "total": "95"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "pais": "United Kingdom",
+          "total": "94"
+        },
+        {
+          "tema": "Artes, cultura e entretenimento",
+          "pais": "United Kingdom",
+          "total": "41"
+        },
+        {
+          "tema": "Tecnologia, ciência e inovação",
+          "pais": "United Kingdom",
+          "total": "40"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "pais": "United Kingdom",
+          "total": "36"
+        },
+        {
+          "tema": "Música e cultura popular",
+          "pais": "United Kingdom",
+          "total": "22"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/bbc_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Registro audiovisual de acervo televisivo",
+          "plataforma": "BBC Archive",
+          "total": "354"
+        },
+        {
+          "tema": "Cotidiano, território e sociedade",
+          "plataforma": "BBC Archive",
+          "total": "135"
+        },
+        {
+          "tema": "Programação televisiva e memória da mídia",
+          "plataforma": "BBC Archive",
+          "total": "95"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "plataforma": "BBC Archive",
+          "total": "94"
+        },
+        {
+          "tema": "Artes, cultura e entretenimento",
+          "plataforma": "BBC Archive",
+          "total": "41"
+        },
+        {
+          "tema": "Tecnologia, ciência e inovação",
+          "plataforma": "BBC Archive",
+          "total": "40"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "plataforma": "BBC Archive",
+          "total": "36"
+        },
+        {
+          "tema": "Música e cultura popular",
+          "plataforma": "BBC Archive",
+          "total": "22"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/bbc_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "bbc",
+          "observation_key": "bbc:2026-06-12T18:30:10Z",
+          "snapshot_generated_at": "2026-06-12T18:30:10Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T18:30:10Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T18:30:09Z",
+          "generated_by": "scripts/run_bbc_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "817",
+          "videos_in_curatorial_catalog": "817",
+          "visibility_categories": "1",
+          "theme_categories": "7",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "bbc",
+          "observation_key": "bbc:2026-06-12T18:33:25Z",
+          "snapshot_generated_at": "2026-06-12T18:33:25Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T18:33:25Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T18:33:24Z",
+          "generated_by": "scripts/run_bbc_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "817",
+          "videos_in_curatorial_catalog": "817",
+          "visibility_categories": "1",
+          "theme_categories": "8",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "bbc",
+          "observation_key": "bbc:2026-06-12T18:37:41Z",
+          "snapshot_generated_at": "2026-06-12T18:37:41Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T18:37:41Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T18:37:40Z",
+          "generated_by": "scripts/run_bbc_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "817",
+          "videos_in_curatorial_catalog": "817",
+          "visibility_categories": "1",
+          "theme_categories": "8",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "bfi": {
+    "tema_pais": {
+      "source": "data/output/bfi_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Documentário, cotidiano e memória local",
+          "pais": "United Kingdom",
+          "total": "385"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "pais": "United Kingdom",
+          "total": "255"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "United Kingdom",
+          "total": "35"
+        },
+        {
+          "tema": "Registro audiovisual em arquivo fílmico",
+          "pais": "United Kingdom",
+          "total": "8"
+        },
+        {
+          "tema": "Publicidade e comunicação pública",
+          "pais": "United Kingdom",
+          "total": "7"
+        },
+        {
+          "tema": "Artes, música e experimentação",
+          "pais": "United Kingdom",
+          "total": "6"
+        },
+        {
+          "tema": "Animação",
+          "pais": "United Kingdom",
+          "total": "4"
+        },
+        {
+          "tema": "Entrevista, debate e memória cinematográfica",
+          "pais": "United Kingdom",
+          "total": "1"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "pais": "United Kingdom",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/bfi_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Documentário, cotidiano e memória local",
+          "plataforma": "BFI Replay",
+          "total": "385"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "plataforma": "BFI Replay",
+          "total": "255"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "BFI Replay",
+          "total": "35"
+        },
+        {
+          "tema": "Registro audiovisual em arquivo fílmico",
+          "plataforma": "BFI Replay",
+          "total": "8"
+        },
+        {
+          "tema": "Publicidade e comunicação pública",
+          "plataforma": "BFI Replay",
+          "total": "7"
+        },
+        {
+          "tema": "Artes, música e experimentação",
+          "plataforma": "BFI Replay",
+          "total": "6"
+        },
+        {
+          "tema": "Animação",
+          "plataforma": "BFI Replay",
+          "total": "4"
+        },
+        {
+          "tema": "Entrevista, debate e memória cinematográfica",
+          "plataforma": "BFI Replay",
+          "total": "1"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "plataforma": "BFI Replay",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/bfi_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "bfi",
+          "observation_key": "bfi:2026-06-12T19:11:30Z",
+          "snapshot_generated_at": "2026-06-12T19:11:30Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T19:11:30Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T19:11:29Z",
+          "generated_by": "scripts/run_bfi_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "702",
+          "videos_in_curatorial_catalog": "702",
+          "visibility_categories": "1",
+          "theme_categories": "9",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "bfi",
+          "observation_key": "bfi:2026-06-12T19:14:46Z",
+          "snapshot_generated_at": "2026-06-12T19:14:46Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T19:14:46Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T19:14:45Z",
+          "generated_by": "scripts/run_bfi_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "702",
+          "videos_in_curatorial_catalog": "702",
+          "visibility_categories": "1",
+          "theme_categories": "9",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "bfi",
+          "observation_key": "bfi:2026-06-12T19:20:46Z",
+          "snapshot_generated_at": "2026-06-12T19:20:46Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T19:20:46Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T19:20:45Z",
+          "generated_by": "scripts/run_bfi_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "702",
+          "videos_in_curatorial_catalog": "702",
+          "visibility_categories": "1",
+          "theme_categories": "9",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "bnfa": {
+    "tema_pais": {
+      "source": "data/output/bnfa_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Bulgaria",
+          "total": "163"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "pais": "Bulgaria",
+          "total": "3"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Bulgaria",
+          "total": "2"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/bnfa_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "European Film Gateway",
+          "total": "163"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "plataforma": "European Film Gateway",
+          "total": "3"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "European Film Gateway",
+          "total": "2"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/bnfa_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "bnfa",
+          "observation_key": "bnfa:2026-06-15T18:24:18Z",
+          "snapshot_generated_at": "2026-06-15T18:24:18Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-15T18:24:18Z",
+          "analytic_outputs_last_modified_at": "2026-06-15T18:24:18Z",
+          "generated_by": "scripts/run_bnfa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "168",
+          "videos_in_curatorial_catalog": "168",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "bnfa",
+          "observation_key": "bnfa:2026-06-15T18:31:25Z",
+          "snapshot_generated_at": "2026-06-15T18:31:25Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-15T18:31:25Z",
+          "analytic_outputs_last_modified_at": "2026-06-15T18:31:25Z",
+          "generated_by": "scripts/run_bnfa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "168",
+          "videos_in_curatorial_catalog": "168",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
