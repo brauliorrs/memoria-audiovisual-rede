@@ -28,7 +28,7 @@ export function ScientificDashboard() {
     if (access === "public" && item.historicalPublicSurfaceRecords <= 0) return false;
     if (access === "restricted" && item.historicalRestrictedRecords <= 0) return false;
     if (access === "without" && item.historicalTotal > 0) return false;
-    const terms = [item.name, item.code, item.shortLabel, item.country, item.category, item.continent].filter(Boolean).join(" ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const terms = [item.name, item.code, item.shortLabel, item.category, item.continent].filter(Boolean).join(" ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const q = query.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
     return !q || terms.includes(q);
   }), [access, continent, query]);
