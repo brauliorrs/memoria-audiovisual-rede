@@ -110,7 +110,7 @@ function SourceSeries({data,formatNumber,formatDate,labels}:{
         <text x="35" y="214" fontSize="14" fill="currentColor">{formatNumber(min)}</text>
       </svg>
       <p>{labels.change}: <strong>{delta>0?"+":""}{formatNumber(delta)}</strong></p>
-    </> : <p>{labels.timelineNoData.replace(/No historical observations for this source\.|Nenhuma observação temporal neste corpus\.|No hay observaciones temporales para esta fuente\./,"")}{labels.points}: 1</p>}
+    </> : <p>{labels.singleWarning}</p>}
     {data.sourcePath&&<p className="compare-provenance"><a href={"https://github.com/brauliorrs/memoria-audiovisual-rede/blob/main/"+data.sourcePath} target="_blank" rel="noopener noreferrer">{labels.provenance}</a></p>}
   </article>;
 }
