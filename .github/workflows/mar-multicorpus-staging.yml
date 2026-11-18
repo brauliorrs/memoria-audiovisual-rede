@@ -1,0 +1,43 @@
+name: MAR Multicorpus Staging
+on:
+  pull_request:
+    paths:
+      - 'scripts/import_mar_multicorpus.py'
+      - 'tests/test_mar_multicorpus_staging.py'
+      - 'tests/test_mar_multicorpus_integrity.py'
+      - 'scripts/audit_mar_multicorpus_integrity.py'
+      - '.github/workflows/mar-multicorpus-staging.yml'
+      - 'data/output/eye_catalogo_videos_analitico.csv'
+      - 'data/output/czech_tv_catalogo_videos_analitico.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stage-eye-then-czech:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate normalization and denied-publication contracts
+        run: python -m unittest discover -s tests -p 'test_mar_multicorpus_staging.py' -v
+      - name: First technical pilot — Eye Filmmuseum
+        run: python scripts/import_mar_multicorpus.py --corpus eye --limit 2
+      - name: Second technical pilot — Czech Television
+        run: python scripts/import_mar_multicorpus.py --corpus czech --limit 2
+      - name: Test full historical dataset integrity scanner
+        run: python -m unittest discover -s tests -p 'test_mar_multicorpus_integrity.py' -v
+      - name: Audit ALL Eye and Czech CSV records (offline)
+        run: python scripts/audit_mar_multicorpus_integrity.py --output /tmp/mar-full-integrity-audit.json
+      - name: Upload quarantined audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mar-eye-czech-integrity-audit
+          path: /tmp/mar-full-integrity-audit.json
+          retention-days: 30
+      - name: Protect existing authorized KAVI projection
+        run: python scripts/check_mar_site_index.py
