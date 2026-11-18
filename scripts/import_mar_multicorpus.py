@@ -49,7 +49,7 @@ def normalize(row: dict[str, str], corpus: str) -> dict:
         raise ValueError("institution mismatch")
     identity = hashlib.sha256(url.encode("utf-8")).hexdigest()[:24]
     date = (row.get("video_date_display") or row.get("video_published_at") or "").strip()
-    year_match = re.match(r"^(\\d{4})(?:-|$)", date)
+    year_match = re.match(r"^([0-9]{4})(?:-|$)", date)
     year = year_match.group(1) if year_match else None
     return {
         "id": corpus + "." + identity,
