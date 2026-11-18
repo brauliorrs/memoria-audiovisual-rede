@@ -271,3 +271,19 @@ h1,h2,h3 {font-family:Manrope,"DM Sans",sans-serif;line-height:1.16;letter-spaci
 .research-institution-fields dd{margin:2px 0 0;font-size:14px;overflow-wrap:anywhere}
 @media(max-width:900px){.institution-research-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.institution-research-grid{grid-template-columns:1fr}.research-workbench .ob-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.research-workbench .ob-filter-panel{grid-template-columns:1fr}}
+
+
+/* Historical title-word cloud, based on aggregate counts rather than individual fichas. */
+.hero-wordcloud{width:100%;max-width:490px;min-height:405px;margin-right:0;aspect-ratio:auto}
+.title-cloud{display:flex;flex-direction:column;justify-content:center;align-items:stretch;width:100%;min-height:405px;margin:0;padding:25px 19px 23px;border:1px solid #8cd9b22a;border-radius:48% 52% 45% 55% / 42% 50% 50% 58%;background:radial-gradient(ellipse at 45% 43%,#317b6655 0%,#185c5040 52%,transparent 76%);box-shadow:inset 0 0 80px #a7efcc08}
+.title-cloud-heading{font-size:10px;font-weight:800;letter-spacing:.16em;color:#b4e8cc;text-align:center;margin:0 0 8px}
+.title-cloud-words{display:flex;flex-wrap:wrap;align-content:center;align-items:baseline;justify-content:center;column-gap:13px;row-gap:7px;min-height:285px;max-width:100%;padding:7px 5px;text-align:center}
+.title-cloud-term{display:inline-block;max-width:100%;overflow-wrap:anywhere;line-height:1.04;font-family:Manrope,"DM Sans",sans-serif;font-weight:800;letter-spacing:-.042em;text-shadow:0 2px 15px #032e2770;cursor:help;transition:color .18s,filter .18s;white-space:nowrap}
+.title-cloud-term:hover{color:#fff;filter:brightness(1.13)}
+.title-cloud-tone-0{color:#e1fbe8}.title-cloud-tone-1{color:#9de9c5}.title-cloud-tone-2{color:#c5e5ed}.title-cloud-tone-3{color:#f0dec8}.title-cloud-tone-4{color:#81cfad}
+.title-cloud-footnote{max-width:350px;font-size:10px;line-height:1.6;color:#c6ddcf;text-align:center;margin:9px auto 0}
+.title-cloud-footnote span{color:#9fcaba}
+@media(max-width:1040px){.hero-wordcloud{max-width:430px}.title-cloud{min-height:370px;padding:18px 12px}.title-cloud-words{column-gap:9px;row-gap:7px}}
+@media(max-width:760px){.hero-wordcloud{max-width:520px;min-height:auto;margin:0 auto 28px}.title-cloud{min-height:340px}.title-cloud-words{min-height:245px}}
+@media(max-width:460px){.title-cloud{border-radius:30px;padding:15px 9px}.title-cloud-words{column-gap:7px;row-gap:6px}.title-cloud-term{font-size:clamp(12px,3.7vw,26px)!important}.title-cloud-footnote{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.title-cloud-term{transition:none}}
