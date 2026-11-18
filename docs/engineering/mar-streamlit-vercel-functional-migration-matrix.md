@@ -9,9 +9,11 @@
 | Pesquisa global de fichas | `/acervo/` | Já disponível, 200 fichas KAVI |
 | Visão geral do Observatório | `/observatorio/` | **Implementado nesta etapa**: cartões e painel comparativo |
 | Categorias e agregadores | `/observatorio/` | **Implementado nesta etapa**: filtros e agrupamento por categoria |
-| Territórios e distribuição | `/observatorio/` | **Implementado nesta etapa**: recortes por continente; mapas e país são próxima etapa |
+| Territórios e distribuição | `/observatorio/`, `/territorios/` | **Implementado (agregado):** mapa mundial Natural Earth 1:110m de distribuições tema×país para fonte selecionada; regiões muito pequenas sem polígono aparecem apenas na tabela; não geolocaliza obras |
 | Instituições e unidades | `/observatorio/[code]/` | **Implementado nesta etapa**: 63 perfis históricos com acesso, evidência e limites |
-| Pesquisa comparativa multícorpus | `/comparar/` | **Implementado nesta etapa:** até três fontes, temas/países/plataformas, séries independentes, filtros e CSV agregado |\n| Índice de Dados Públicos | `/indice-acesso/` | Integrado e implantado em fase anterior |
+| Pesquisa comparativa multícorpus | `/comparar/` | **Implementado nesta etapa:** até três fontes, temas/países/plataformas, séries independentes, filtros e CSV agregado |
+| Recortes científicos reproduzíveis | `/comparar/?a=...&b=...&view=...` | **Implementado nesta etapa:** filtros salvos em URL, cópia de link e proveniência fixada por commit no CSV e nos links dos insumos |
+| Índice de Dados Públicos | `/indice-acesso/` | Integrado e implantado em fase anterior |
 | Casos documentados | `/casos/` | **Implementado nesta etapa**: 17 casos explicativos |
 | Síntese por corpus (integridade, disponibilidade, plataformas) | `/observatorio/[code]/` | **Implementado (agregado)**: 62 relatórios da fonte com indicadores de instituições, sites, integridade e plataformas |
 | Instituições com vídeo e evidência | `/observatorio/[code]/` | **Parcial**: instituições com sinal de vídeo agregadas por fonte; tabelas individuais pendentes |
@@ -20,7 +22,7 @@
 | Tabelas, download de indicadores e dados | `/observatorio/`, `/comparar/` | **Parcial**: tabelas comparativas e exportação CSV **somente de indicadores agregados**, filtros, proveniência; exportação de metadados individuais sob HOLD vedada |
 | Ficha institucional detalhada | `/instituicoes/pesquisa/`, `/instituicoes/pesquisa/[source]/[entry]/` | **Parcial**: perfis institucionais estáticos com proveniência e paginação; atualização dinâmica e integração completa pendentes |
 | Fundamentação/metodologia | `/metodologia/` e perfis | Parcial; detalhamento científico será expandido |
-| Alternância de idiomas | Seletor global e módulos de pesquisa | **Parcial**: seletor PT/EN/ES e páginas de pesquisa comparativa traduzidas; páginas científicas legadas ainda contêm textos fixos em português |
+| Alternância de idiomas | Seletor global, comparação e mapa | **Parcial:** módulos comparativo e cartográfico em PT/EN/ES, cabeçalho traduzido; páginas científicas legadas ainda têm conteúdo em português e tradução integral permanece pendente |
 | Ciclo de coleta, descoberta, atualização e governança | Área analítica e documentação | **Pendente**: visualização de relatórios operacionais sem credenciais |
 | Comparação longitudinal e linha do tempo | `/series/`, `/comparar/` | **Implementado em snapshots**: gráficos por fonte e comparação separada de até três corpora, sem alinhamento artificial das datas; atualização ao vivo pendente |
 | Exportação de fichas individuais de fontes sob HOLD | Catálogo | **Bloqueado**, não é requisito para liberar painéis agregados |
@@ -36,8 +38,8 @@
 ## Próxima ordem de execução
 1. **Concluído neste PR:** migrados 62 relatórios agregados, com indicadores de disponibilidade, instituições e plataformas por fonte.
 2. Cruzamentos de temas, países, visibilidade e tipos por corpus.
-3. Séries históricas e comparação territorial mais fina.
-4. **Em curso**: busca científica e comparação de até três corpora no módulo `/comparar/`; expansão a consultas mais profundas permanece pendente.
+3. **Parcial**: séries históricas e novo mapa mundial por país (1:110m); geometrias de pequenos territórios e georreferenciamento de obras não disponíveis.
+4. **Parcial**: comparação de até três corpora com filtros reproduzíveis em URL e proveniência Git fixada; futuras hipóteses e recortes com autenticação/perfis permanecem pendentes.
 5. **Parcial**: PT/EN/ES em módulos de pesquisa, download CSV agregado, testes e navegação. Falta traduzir integralmente o site e validar acessibilidade visual.
 6. Substituir o Streamlit somente depois da equivalência funcional e da revisão de operação.
 

@@ -12,6 +12,7 @@ export function SiteHeader(){
     <Link href="/observatorio/">{t("navObservatory")}</Link>
     <Link href="/comparar/">{locale==="pt"?"Comparar":locale==="es"?"Comparar":"Compare"}</Link>
     <Link href="/temas/">{t("navThemes")}</Link>
+    <Link href="/territorios/">{t("navTerritories")}</Link>
     <Link href="/series/">{t("navTimeline")}</Link>
     <Link href="/analises/">{t("navAnalyses")}</Link>
     <Link href="/instituicoes/pesquisa/">{t("navInstitutions")}</Link>
