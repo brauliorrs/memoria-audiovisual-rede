@@ -48,7 +48,8 @@ class MulticorpusStagingTests(unittest.TestCase):
                 record = result["records"][0]
                 self.assertTrue(record["id"].startswith(corpus + "."))
                 self.assertFalse(record["publicationApproved"])
-                self.assertEqual(record["year"], "1922" if corpus == "eye" else "2026")
+                self.assertIsNone(record["year"])
+                self.assertEqual(record["sourcePublishedAt"], "1922" if corpus == "eye" else "2026-07-07")
                 self.assertEqual(record["mediaAccess"], "Não verificado pelo MAR")
 
     def test_reject_unsafe_hosts_and_wrong_institution(self):
