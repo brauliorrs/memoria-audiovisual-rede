@@ -34,7 +34,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "archipop",
@@ -52,7 +53,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "ape",
@@ -70,7 +72,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "hold_new_access_unverified",
-      "humanAccessNote": "Há registros no índice histórico, mas a fonte permanece em HOLD no desenvolvimento recente por falta de acesso oficial verificável; não considerar as 412 linhas como acesso atual."
+      "humanAccessNote": "Há registros no índice histórico, mas a fonte permanece em HOLD no desenvolvimento recente por falta de acesso oficial verificável; não considerar as 412 linhas como acesso atual.",
+      "sampleSourceUrl": null
     },
     {
       "code": "aamod",
@@ -88,7 +91,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "sfa",
@@ -106,7 +110,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "anf",
@@ -124,7 +129,8 @@
       "restrictionKind": "access_restricted",
       "reviewReason": "Registros com preço, compra/login ou acesso autenticado indicado na descrição.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "aqshf",
@@ -142,7 +148,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "asim",
@@ -160,7 +167,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "bbc",
@@ -178,7 +186,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "bfi",
@@ -196,7 +205,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "bnfa",
@@ -214,7 +224,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "bnt",
@@ -232,7 +243,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "barch",
@@ -250,7 +262,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cna",
@@ -268,7 +281,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "ciclic",
@@ -286,7 +300,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cinearchives",
@@ -304,7 +319,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cineam",
@@ -322,7 +338,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "luce",
@@ -340,7 +357,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cinemateca-portuguesa",
@@ -358,7 +376,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cinematheque-bretagne",
@@ -376,7 +395,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cdna",
@@ -394,7 +414,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "saint-etienne",
@@ -412,7 +433,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cpsa",
@@ -430,7 +452,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cinematheque-francaise",
@@ -448,7 +471,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cinematek",
@@ -466,7 +490,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cinematheque-suisse",
@@ -484,7 +509,8 @@
       "restrictionKind": "restricted_or_unquantified",
       "reviewReason": "A rota Memobase retornou registros Film e metadados públicos do conjunto `csa-001`, mas os objetos digitais aparecem com acesso local/autorizado e uso sujeito a direitos. Não foi identificado vídeo público incorporável ao corpus ativo.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "cinememoire",
@@ -502,7 +528,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "ccma",
@@ -520,7 +547,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "crnogorska-kinoteka",
@@ -538,7 +566,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "czech-television",
@@ -575,7 +604,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "dhm",
@@ -593,7 +623,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "dff",
@@ -611,7 +642,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "dr",
@@ -629,7 +661,8 @@
       "restrictionKind": "access_restricted",
       "reviewReason": "Registros com preço, compra/login ou acesso autenticado indicado na descrição.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "ecpad",
@@ -647,7 +680,8 @@
       "restrictionKind": "access_restricted",
       "reviewReason": "Registros com metadados públicos e mídia indicada como acesso onsite/autorizado.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "ert",
@@ -665,7 +699,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "european-film-gateway",
@@ -683,7 +718,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "europeana",
@@ -701,7 +737,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "euscreen",
@@ -719,7 +756,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "eye",
@@ -756,7 +794,8 @@
       "restrictionKind": "access_restricted",
       "reviewReason": "Registros com preço, compra/login ou acesso autenticado indicado na descrição.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "filmarchiv_austria",
@@ -774,7 +813,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "filmmuseum_dusseldorf",
@@ -792,7 +832,8 @@
       "restrictionKind": "access_restricted",
       "reviewReason": "Registros com metadados públicos e mídia indicada como acesso onsite/autorizado.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "filmoteca_catalunya",
@@ -810,7 +851,8 @@
       "restrictionKind": "access_restricted",
       "reviewReason": "Registros com preço, compra/login ou acesso autenticado indicado na descrição.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "filmoteca_espanola",
@@ -828,7 +870,8 @@
       "restrictionKind": "access_restricted",
       "reviewReason": "Registros com preço, compra/login ou acesso autenticado indicado na descrição.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "filmoteca_valenciana",
@@ -846,7 +889,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "filmoteca-vasca",
@@ -864,7 +908,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "fina",
@@ -882,7 +927,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "autrefois",
@@ -900,7 +946,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "csc-cineteca-nazionale",
@@ -918,7 +965,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "fiaf-cineteca-bologna",
@@ -936,7 +984,8 @@
       "restrictionKind": "restricted_or_unquantified",
       "reviewReason": "O site confirma acervo fílmico de mais de 90.000 elementos e rota pública de catálogo audiovisual. O AJAX retorna 12 registros por página e total de 3.290 páginas; a REST pública retorna 401. As fichas testadas trazem metadados, duração/formato quando disponíveis e ausência de player público.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "fiaf-cineteca-italiana",
@@ -954,7 +1003,8 @@
       "restrictionKind": "restricted_or_unquantified",
       "reviewReason": "A página institucional confirma acervo fílmico de cerca de 40.000 títulos em película. A seção Film e o endpoint `film` funcionam como programação de sala. O endpoint `streaming` expõe registros protegidos, sem conteúdo público. A visita ao Arquivo Film é presencial. O feed YouTube é público, mas representa canal institucional recente, não catálogo público integral do acervo.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "home-movies-memoryscapes",
@@ -972,7 +1022,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "far",
@@ -990,7 +1041,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "murnau_stiftung",
@@ -1008,7 +1060,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "gosfilmofond",
@@ -1026,7 +1079,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "ifi_archive_player",
@@ -1044,7 +1098,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "image_est",
@@ -1062,7 +1117,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "iwm_film",
@@ -1080,7 +1136,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "iam",
@@ -1098,7 +1155,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "ina",
@@ -1116,7 +1174,8 @@
       "restrictionKind": "access_restricted",
       "reviewReason": "Registros classificados como Catálogo comercial de licenciamento.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "pares",
@@ -1134,7 +1193,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     },
     {
       "code": "portal-portugues-arquivos",
@@ -1152,7 +1212,8 @@
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
       "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem."
+      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
+      "sampleSourceUrl": null
     }
   ]
 }
