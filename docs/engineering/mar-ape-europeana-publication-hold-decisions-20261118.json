@@ -1,0 +1,52 @@
+{
+  "schema": "mar-item-documentary-admissibility-v1",
+  "reviewDate": "2026-11-18",
+  "mode": "deterministic_offline_historical_records",
+  "recordCounts": {
+    "europeana": 20,
+    "ape": 412
+  },
+  "auditAction": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44373486227",
+  "auditEvidence": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44373486227/artifacts/14460306077",
+  "decisions": [
+    {
+      "corpus": "europeana",
+      "decision": "HOLD",
+      "technicalDatasetReviewed": true,
+      "individualOriginPagesCurrentlyVerified": false,
+      "metadataPolicy": "CC0 for Europeana-published metadata",
+      "objectMediaRightsApproved": false,
+      "publicationAllowed": false,
+      "scientificApprovalIssued": false,
+      "dossier": "docs/engineering/mar-europeana-historical-record-admissibility-20261118.md",
+      "blockingReasons": [
+        "7 records without proven audiovisual type",
+        "10 records with missing or generic title",
+        "20 object rights statements require independent confirmation",
+        "each source record needs a current item page/provenance check",
+        "independent scientific sign-off absent"
+      ]
+    },
+    {
+      "corpus": "ape",
+      "decision": "HOLD",
+      "technicalDatasetReviewed": true,
+      "individualOriginPagesCurrentlyVerified": false,
+      "metadataPolicy": "CC BY-SA 4.0 default for APE-published metadata unless stated otherwise",
+      "objectMediaRightsApproved": false,
+      "publicationAllowed": false,
+      "scientificApprovalIssued": false,
+      "dossier": "docs/engineering/mar-ape-historical-record-admissibility-20261118.md",
+      "blockingReasons": [
+        "412 historical rows link third-party media not APE archival items",
+        "16 additional exact duplicate occurrences",
+        "141 absent or generic titles",
+        "no APE archival item identifier in 412 historical rows",
+        "external-media licensing unverified and scientific sign-off absent"
+      ]
+    }
+  ],
+  "mainCatalogKaviApprovedRecords": 200,
+  "publicIndexChangeAuthorized": false,
+  "streamlitReplacementAuthorized": false
+}
