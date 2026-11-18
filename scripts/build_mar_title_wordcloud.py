@@ -11,6 +11,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import re
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -43,6 +44,8 @@ documentary documentário dokumentti documentaire documento documents
 record registro records recording footage collection collections coleção
 collections catalogue catalogo catálogo catalog catalogued public
 episode episódio episodi programa program programme series serie
+sujet cassette partie presentation présentation juillet juin janvier février mars avril mai août septembre octobre novembre décembre
+january february march april may june july august september october november december
 youtube vimeo instagram facebook unknown untitled none title trailer
 part parte bölüm bölümünde clip clips short shorts
 série década parte edição temporada épisode replay full
@@ -139,10 +142,13 @@ def build() -> dict:
     ranked = sorted(
         ((word, count, spread[word]) for word, count in frequency.items()
          if count >= 20 and spread[word] >= 2),
-        key=lambda item: (-item[1], -item[2], item[0]),
+        # A massive single institution must not crowd out recurring themes across
+        # the *network*. Preserve raw count while balancing with corpus breadth.
+        key=lambda item: (-math.log1p(item[1]) * math.log1p(item[2]), -item[1], item[0]),
     )
     words = [
-        {"text": text, "count": count, "corpora": number}
+        {"text": text, "count": count, "corpora": number,
+         "score": round(math.log1p(count) * math.log1p(number), 5)}
         for text, count, number in ranked[:38]
     ]
     if len(words) < 18:
@@ -151,6 +157,7 @@ def build() -> dict:
         "schema": "mar-title-wordcloud-v1",
         "source": "Streamlit historical audiovisual title snapshots + approved KAVI index",
         "measure": "Number of distinct titles containing each term; title repetitions excluded within a corpus",
+        "ranking": "log(1 + distinct-title frequency) multiplied by log(1 + number of corpora); shows raw counts separately",
         "stopwordPolicy": "multilingual PT/EN/ES/FR/IT/DE/NL/SV/FI; removes generic media words and short tokens",
         "minimumDistinctTitlesPerTerm": 20,
         "minimumCorporaPerTerm": 2,
