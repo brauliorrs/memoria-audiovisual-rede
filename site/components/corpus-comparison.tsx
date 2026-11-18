@@ -21,7 +21,7 @@ const copy = {
     more:"Mostrar mais",shown:"termos encontrados",noResults:"Nenhum termo encontrado neste recorte.",
     noData:"Esta fonte não tem observações agregadas para a dimensão escolhida.",
     timelineNoData:"Nenhuma observação temporal neste corpus.",
-    sourceCoverage:"Cobertura por fonte",labels:"termos",observed:"ocorrências",
+    sourceCoverage:"Cobertura por fonte",labels:"termos",observed:"ocorrências",singleWarning:"Uma observação não demonstra tendência.",
     firstDate:"Primeira coleta",lastDate:"Última coleta",points:"observações",change:"Variação entre primeira e última",
     note:"As distribuições usam denominadores independentes por fonte. A mesma obra pode existir em mais de um catálogo; as classificações podem diferir. As porcentagens mostram a participação de cada termo dentro de sua própria fonte, não uma comparação estatística representativa do mundo. País e plataforma não são cruzados entre si.",
     timeNote:"Cada gráfico tem sua própria escala e datas de coleta. É incorreto interpretar linhas de fontes diferentes como uma série sincronizada; datas de coleta não são datas de produção dos filmes. Uma observação isolada não constitui tendência.",
@@ -41,7 +41,7 @@ const copy = {
     more:"Show more",shown:"matching terms",noResults:"No terms match this selection.",
     noData:"This source has no historical aggregates for this dimension.",
     timelineNoData:"No historical observations for this source.",
-    sourceCoverage:"Coverage by source",labels:"labels",observed:"occurrences",
+    sourceCoverage:"Coverage by source",labels:"labels",observed:"occurrences",singleWarning:"A single observation cannot establish a trend.",
     firstDate:"First observation",lastDate:"Latest observation",points:"observations",change:"Change from first to latest",
     note:"Each source uses its own denominator. The same work may appear in more than one catalogue, and classifications can differ. Percentages are within-source shares, not a representative worldwide comparison. Country and platform are independent dimensions.",
     timeNote:"Each chart has its own scale and collection dates. Lines from different sources are not synchronized; observation dates are not film production dates. A single observation cannot establish a trend.",
@@ -61,7 +61,7 @@ const copy = {
     more:"Mostrar más",shown:"términos encontrados",noResults:"No hay términos para esta selección.",
     noData:"Esta fuente no tiene indicadores agregados en la dimensión elegida.",
     timelineNoData:"No hay observaciones temporales para esta fuente.",
-    sourceCoverage:"Cobertura por fuente",labels:"términos",observed:"ocurrencias",
+    sourceCoverage:"Cobertura por fuente",labels:"términos",observed:"ocurrencias",singleWarning:"Una observación no demuestra una tendencia.",
     firstDate:"Primera observación",lastDate:"Última observación",points:"observaciones",change:"Cambio entre primera y última",
     note:"Cada fuente utiliza su propio denominador. Una obra puede aparecer en varios catálogos y las clasificaciones pueden diferir. Los porcentajes son proporciones dentro de cada fuente, no una comparación mundial representativa. País y plataforma son dimensiones independientes.",
     timeNote:"Cada gráfico tiene su propia escala y fechas de recopilación. Las fuentes no forman una serie sincronizada; las fechas de recopilación no son de producción de películas. Una sola observación no muestra tendencias.",
@@ -84,7 +84,7 @@ function SourceSeries({data,formatNumber,formatDate,labels}:{
   data:HistoricalSeries;
   formatNumber:(n:number)=>string;
   formatDate:(date:string)=>string;
-  labels:typeof copy["pt"];
+  labels:{timelineNoData:string;firstDate:string;lastDate:string;points:string;change:string;provenance:string;singleWarning:string};
 }){
   const {points}=data;
   if (!points.length) return <article className="ob-panel"><h3>{data.code.toUpperCase()}</h3><p>{labels.timelineNoData}</p></article>;
