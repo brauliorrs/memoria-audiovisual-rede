@@ -39,7 +39,7 @@ test("institutional restrictions and provenance remain explicit in all languages
     assert.match(c.obCatalogAfter,/200/);
     assert.match(c.metDesc1,/SHA-256/);
     assert.match(c.profFootnote,/2026/);
-    assert.match(c.profNotReleased, /fichas|records|fichas/);
+    assert.match(c.profNotReleased, /fichas|records/i);
     assert.ok(c.anNoSum.length>=35);
     assert.ok(c.casesWarning.length>=100);
     assert.ok(c.profSourceText.length>=35);
