@@ -7,7 +7,8 @@ export default function InstitutionsPage() {
   return <div className="shell page-shell">
     <p className="eyebrow">MAPEAMENTO INSTITUCIONAL</p>
     <h1>Instituições e corpora</h1>
-    <p className="page-lede">Distinguir a existência de um conector técnico da autorização documental é parte central da governança do MAR. Apenas as fichas explicitamente publicadas entram na pesquisa.</p>
+    <p className="page-lede">Distinguir a existência de um conector técnico da autorização documental é parte central da governança do MAR. Apenas as fichas explicitamente publicadas entram na pesquisa. O inventário histórico de outras instituições, incluindo aquelas com restrição ou sem dados exibidos, está no Índice de Dados Públicos.</p>
+    <p><Link href="/indice-acesso/">Consultar todos os corpora identificados e o índice de acesso ↗</Link></p>
     <div className="institution-grid">
       {institutions.map((item) => (
         <article className="institution-card" key={item.code}>
