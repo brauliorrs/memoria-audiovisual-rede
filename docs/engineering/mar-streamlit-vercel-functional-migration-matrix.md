@@ -13,10 +13,10 @@
 | Instituições e unidades | `/observatorio/[code]/` | **Implementado nesta etapa**: 63 perfis históricos com acesso, evidência e limites |
 | Índice de Dados Públicos | `/indice-acesso/` | Integrado e implantado em fase anterior |
 | Casos documentados | `/casos/` | **Implementado nesta etapa**: 17 casos explicativos |
-| Síntese por corpus (integridade, disponibilidade, plataformas) | `/observatorio/[code]/` | **Parcial**: métricas de acesso; relatórios de 62 fontes exigem exportação analítica |
-| Instituições com vídeo e evidência | `/observatorio/[code]/` | **Pendente**: tabelas agregadas com direitos segregados |
+| Síntese por corpus (integridade, disponibilidade, plataformas) | `/observatorio/[code]/` | **Implementado (agregado)**: 62 relatórios da fonte com indicadores de instituições, sites, integridade e plataformas |
+| Instituições com vídeo e evidência | `/observatorio/[code]/` | **Parcial**: instituições com sinal de vídeo agregadas por fonte; tabelas individuais pendentes |
 | Vídeos e temas | `/observatorio/[code]/` | **Pendente**: sumarização e cruzamentos sem publicar títulos protegidos |
-| Países, temas por plataforma, tipos de arquivo | `/observatorio/[code]/` | **Pendente**: exportações analíticas versionadas |
+| Países, temas por plataforma, tipos de arquivo | `/observatorio/[code]/` | **Parcial**: distribuição por plataformas e continentes; temas por plataforma/país ainda pendentes |
 | Tabelas, download de indicadores e dados | `/observatorio/` | **Parcial**: tabelas navegáveis; exportação CSV pública sob revisão de escopo |
 | Ficha institucional detalhada | `/observatorio/[code]/` | **Parcial**: perfil e evidência; indicadores institucionais completos pendentes |
 | Fundamentação/metodologia | `/metodologia/` e perfis | Parcial; detalhamento científico será expandido |
@@ -34,7 +34,7 @@
 - Acesso por navegador a um catálogo institucional não autoriza reprodução do filme.
 
 ## Próxima ordem de execução
-1. Migrar os 62 relatórios analíticos agregados, com indicadores de disponibilidade, instituições e plataformas por fonte.
+1. **Concluído neste PR:** migrados 62 relatórios agregados, com indicadores de disponibilidade, instituições e plataformas por fonte.
 2. Cruzamentos de temas, países, visibilidade e tipos por corpus.
 3. Séries históricas e comparação territorial mais fina.
 4. Busca científica multícorpus separada do catálogo de fichas autorizadas.
