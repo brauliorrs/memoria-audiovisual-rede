@@ -5,6 +5,7 @@ on:
     paths:
       - "site/**"
       - "tests/test_mar_site_public_pages.py"
+      - "tests/test_mar_site_public_access_observatory.py"
       - "scripts/check_mar_site_index.py"
       - ".github/workflows/mar-site.yml"
       - "data/output/kavi_mar_metadata_links.csv"
@@ -40,6 +41,9 @@ jobs:
       - name: Test permanent documentary routes and publication boundaries
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_site_public_pages.py" -v
+      - name: Test historical access index without record publication
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p "test_mar_site_public_access_observatory.py" -v
       - name: Install pinned frontend dependencies
         run: npm install --no-audit --no-fund
       - name: Typecheck
@@ -53,6 +57,7 @@ jobs:
           test -f out/instituicoes/index.html
           test -f out/instituicoes/kavi/index.html
           test -f out/metodologia/index.html
+          test -f out/indice-acesso/index.html
           test -f out/acervo/kavi/kavi.elonet_elokuva_112915/index.html
           count="$(find out/acervo/kavi -mindepth 2 -maxdepth 2 -type f -name index.html | wc -l | tr -d '[:space:]')"
           test "$count" = "200"
