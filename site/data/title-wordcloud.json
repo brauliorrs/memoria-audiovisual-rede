@@ -1,0 +1,624 @@
+{
+  "schema": "mar-title-wordcloud-v1",
+  "source": "Streamlit historical audiovisual title snapshots + approved KAVI index",
+  "measure": "Number of distinct titles containing each term; title repetitions excluded within a corpus",
+  "ranking": "log(1 + distinct-title frequency) multiplied by log(1 + number of corpora); shows raw counts separately",
+  "stopwordPolicy": "multilingual PT/EN/ES/FR/IT/DE/NL/SV/FI; removes generic media words and short tokens",
+  "minimumDistinctTitlesPerTerm": 20,
+  "minimumCorporaPerTerm": 2,
+  "corporaProcessed": 63,
+  "titlesExamined": 194696,
+  "distinctTitlesWithTerms": 83763,
+  "sourceProvenance": [
+    {
+      "code": "aamod",
+      "rows": 6,
+      "titlesWithTerms": 6,
+      "sha256": "05a1c0b2c76fb6aab76c35c2eb6086f1498131defc3ccdbefb2e8af7a05ac217"
+    },
+    {
+      "code": "aapb",
+      "rows": 28,
+      "titlesWithTerms": 16,
+      "sha256": "0c0dbde04d8ceb28ad085cf200ac6b8d4940268ab84469155dc2e0ebfc49abbb"
+    },
+    {
+      "code": "anf",
+      "rows": 8,
+      "titlesWithTerms": 8,
+      "sha256": "4a487114f375665acf5066320510b21b8209c8e5b277d52187f2a18d4f43ba8f"
+    },
+    {
+      "code": "ape",
+      "rows": 412,
+      "titlesWithTerms": 230,
+      "sha256": "78de164d22d75e4e1117f06e76cc995f55979e89838f6ff141327bf07fcb9f68"
+    },
+    {
+      "code": "aqshf",
+      "rows": 2736,
+      "titlesWithTerms": 2677,
+      "sha256": "a2527a4d115fcfb0232991dd1f32208b809138d6db5662e778040b80c9e0e143"
+    },
+    {
+      "code": "archipop",
+      "rows": 58,
+      "titlesWithTerms": 56,
+      "sha256": "a44be6243baae2d91689093c8683cb6c707e85e97419c0752e61b47a5bacc6ee"
+    },
+    {
+      "code": "asim",
+      "rows": 97,
+      "titlesWithTerms": 97,
+      "sha256": "6362774d7f4350ffa90fdd6a7400d9c03ea14259d94fc6ee9f6cffddfcee832b"
+    },
+    {
+      "code": "autrefois",
+      "rows": 8,
+      "titlesWithTerms": 8,
+      "sha256": "7cd9329d81cb24496798cf117e75711acf7840b40707857b8540bbf5a4c1bb59"
+    },
+    {
+      "code": "barch",
+      "rows": 177,
+      "titlesWithTerms": 176,
+      "sha256": "902c4e814ef4686b1747b09d395e117f81c483938463a36441436bba1896c798"
+    },
+    {
+      "code": "bbc",
+      "rows": 817,
+      "titlesWithTerms": 813,
+      "sha256": "edd5dd2f0f4ad6078203a5beb85305ea341c5322c7bcd17826ede3d73995a900"
+    },
+    {
+      "code": "bfi",
+      "rows": 702,
+      "titlesWithTerms": 698,
+      "sha256": "2d2022656e750c0063a316f3ffa5516c20f4cc6f632c80ac04060655d64b62da"
+    },
+    {
+      "code": "bnfa",
+      "rows": 168,
+      "titlesWithTerms": 163,
+      "sha256": "9364b8b58d1ea4b8e9f6b9e28bf2fb655584acc044e165771b0fb61ac2c91182"
+    },
+    {
+      "code": "bnt",
+      "rows": 45,
+      "titlesWithTerms": 44,
+      "sha256": "b158ac72afeda83581f33da0dfbbaf9452b1058e04b143ed8fb0ff6818e095a9"
+    },
+    {
+      "code": "ccma",
+      "rows": 16,
+      "titlesWithTerms": 15,
+      "sha256": "f82ed2142a1e5fd01fab48d6bbae423429d48c2a6896fb55b65317b5f0d7db2b"
+    },
+    {
+      "code": "cdna",
+      "rows": 72,
+      "titlesWithTerms": 72,
+      "sha256": "97d71ddcb0f813a9b5a621eaaf2322b828cb5c6421e182788fd05a63c731a0cc"
+    },
+    {
+      "code": "ciclic",
+      "rows": 39,
+      "titlesWithTerms": 32,
+      "sha256": "d25cc6d42655ec864133f946e67a808dd7dd23c0010dccf6d8fa6771be5f26c5"
+    },
+    {
+      "code": "cineam",
+      "rows": 36,
+      "titlesWithTerms": 35,
+      "sha256": "f25557ded190e61924709bae96c576324d0990603746eafa5884714bf137ba78"
+    },
+    {
+      "code": "cinearchives",
+      "rows": 48,
+      "titlesWithTerms": 46,
+      "sha256": "4c9db3cfd6ad89dd6b594976da879bacb967efd0e5ab48c2123c499e88b73b84"
+    },
+    {
+      "code": "cinemateca_pt",
+      "rows": 50,
+      "titlesWithTerms": 30,
+      "sha256": "357bc7fc6e25eb11c86685ef28d7ad3a9c6fee1595aca6d4e19a69d9dcef45a2"
+    },
+    {
+      "code": "cinematek",
+      "rows": 20,
+      "titlesWithTerms": 19,
+      "sha256": "a45cb607a3f9a47b2e188075adbf300e3fb289722d1e92f5797c620767a7ac77"
+    },
+    {
+      "code": "cinematheque_bretagne",
+      "rows": 30,
+      "titlesWithTerms": 30,
+      "sha256": "27b167cec80ac0c43bcdd45efc3f1f4a2ab6f92afc56917ae69257f98907324c"
+    },
+    {
+      "code": "cinematheque_francaise",
+      "rows": 255,
+      "titlesWithTerms": 254,
+      "sha256": "8f3f730e4d8f3f619048096686171b8df48b0dbe9f017c0d822eb3b701e01c76"
+    },
+    {
+      "code": "cinematheque_suisse",
+      "rows": 298,
+      "titlesWithTerms": 292,
+      "sha256": "e516d0579879fe5eef2e96e4a125d43b440e48ce789fd4d645fe11b43a44e3b8"
+    },
+    {
+      "code": "cinememoire",
+      "rows": 20,
+      "titlesWithTerms": 20,
+      "sha256": "bb68cc49f1f4916b1273a09b01fb5f8757077ad3a357c8fe05e15671606e6c54"
+    },
+    {
+      "code": "cna",
+      "rows": 79,
+      "titlesWithTerms": 39,
+      "sha256": "afc17528fc4f0788eadfe7029db1c82ac24eb1465eeb6705eefd4afaaa263095"
+    },
+    {
+      "code": "cnc_aff",
+      "rows": 141,
+      "titlesWithTerms": 140,
+      "sha256": "0b77e71ce5485e0686b8387500f253cb6fcff71d49937bd4ea47587d94773fb7"
+    },
+    {
+      "code": "cpsa",
+      "rows": 23,
+      "titlesWithTerms": 23,
+      "sha256": "21e8cf7cbc38aff4b663dfbb26f006398a4782c94d0241e66dd0db82db029723"
+    },
+    {
+      "code": "crnogorska_kinoteka",
+      "rows": 1,
+      "titlesWithTerms": 1,
+      "sha256": "b183e13b27d8547c0b445cb2a38cd2f9ccbf135b14965d79200d61c58000ce79"
+    },
+    {
+      "code": "csc_cineteca",
+      "rows": 80,
+      "titlesWithTerms": 79,
+      "sha256": "74dc83f20ad12d693d502880282d4f97057f4a9691f6a74a24e22a7d2ca170bb"
+    },
+    {
+      "code": "czech_tv",
+      "rows": 10,
+      "titlesWithTerms": 10,
+      "sha256": "eeea2152efdce800cefb2587c35500a6913a86d93e1b951460c16e6f14eaf1eb"
+    },
+    {
+      "code": "deutsche_kinemathek",
+      "rows": 9,
+      "titlesWithTerms": 8,
+      "sha256": "3f487436d4153a7e355a333123d3892a0e17a9d7fcc5db541bfc0034b8a1e3b3"
+    },
+    {
+      "code": "dff",
+      "rows": 32,
+      "titlesWithTerms": 32,
+      "sha256": "2f15eb17a81b6eb108aca6ce242157e57a444cc8a92b8f805ebb1057563c526a"
+    },
+    {
+      "code": "dhm",
+      "rows": 34,
+      "titlesWithTerms": 34,
+      "sha256": "df539cfb393a94f5c01be36d733bca7322caf042a680eec69e5b92c7f329a9b3"
+    },
+    {
+      "code": "dr",
+      "rows": 453,
+      "titlesWithTerms": 449,
+      "sha256": "4f9632d231673f2411b62c876155201edb81f6bd5293da31afe2e5bf20dacd16"
+    },
+    {
+      "code": "ecpad",
+      "rows": 36026,
+      "titlesWithTerms": 32003,
+      "sha256": "5a4d9a033b634df144ea84afac5625fcbd7e70c036a7f12de2ac2233cc1ceb8c"
+    },
+    {
+      "code": "efa_estonia",
+      "rows": 3839,
+      "titlesWithTerms": 3674,
+      "sha256": "d0a4f541ee2d6a4bfa0dfba627d73b4848a4b31c5d8b3c5d2376651e2a524ff3"
+    },
+    {
+      "code": "efg",
+      "rows": 0,
+      "titlesWithTerms": 0,
+      "sha256": "f4bba43d0edea12ce8b7cbc8d0766a9cad40398b4004c4b6b14349ce17778df1"
+    },
+    {
+      "code": "ert",
+      "rows": 28456,
+      "titlesWithTerms": 22920,
+      "sha256": "5919e5b22e80b64fe65fbd1f2c35d0c19c287b3e5f750c710902d9ab2de0f458"
+    },
+    {
+      "code": "europeana",
+      "rows": 20,
+      "titlesWithTerms": 10,
+      "sha256": "a6aa7ee8a2ce02667932a854a695ff5a26a16754d42c9cc2d9ab6f52a8c8978e"
+    },
+    {
+      "code": "euscreen",
+      "rows": 133,
+      "titlesWithTerms": 130,
+      "sha256": "2faefc68303654f33fb0f8cb981628693a45054bf76f5db3af938742a25021e7"
+    },
+    {
+      "code": "eye",
+      "rows": 630,
+      "titlesWithTerms": 621,
+      "sha256": "222d16e0ac744c79ef21823b9e9cf22bb576faebe6a32ae87382bfc42f9fcf7a"
+    },
+    {
+      "code": "far",
+      "rows": 479,
+      "titlesWithTerms": 463,
+      "sha256": "b71fce5bd875ba15902738907c9ae4e60c6ead02833057e25972b509ae2b7ad9"
+    },
+    {
+      "code": "filmarchiv_austria",
+      "rows": 529,
+      "titlesWithTerms": 528,
+      "sha256": "42096fa7cd5ef2453767cbc666afb5eafff55bce98f802c27a006b8a93a4a4d9"
+    },
+    {
+      "code": "filmmuseum_dusseldorf",
+      "rows": 300,
+      "titlesWithTerms": 292,
+      "sha256": "cca7f19ebd78e1457848b604ca499cd32e38a8209e8477bbc85c024b533ac826"
+    },
+    {
+      "code": "filmoteca_catalunya",
+      "rows": 10,
+      "titlesWithTerms": 10,
+      "sha256": "b1b40f11e6282b2dc67fc23859640978c33524b40a02715a831bbadc92914044"
+    },
+    {
+      "code": "filmoteca_espanola",
+      "rows": 344,
+      "titlesWithTerms": 337,
+      "sha256": "ee58418a1a2bd02f2ad565e3887a9ca946e74010a2f4f9dc0d029ffd90a592db"
+    },
+    {
+      "code": "filmoteca_valenciana",
+      "rows": 70,
+      "titlesWithTerms": 70,
+      "sha256": "f09cd1193640cdd7e0b2daa40aa6fb5317105d17dcb40a19d2a2a21f2ce2c3fc"
+    },
+    {
+      "code": "filmoteca_vasca",
+      "rows": 149,
+      "titlesWithTerms": 100,
+      "sha256": "11285c4f5fe606c737853f7d734dafcba70d6b790bda74a72a31e3dfad0ecf9d"
+    },
+    {
+      "code": "fina",
+      "rows": 2766,
+      "titlesWithTerms": 2762,
+      "sha256": "cfa8d18feb457a80d9d7f4e80ae79d2a7c327ea80aebd7b0693fa75d10372a6d"
+    },
+    {
+      "code": "gosfilmofond",
+      "rows": 59733,
+      "titlesWithTerms": 422,
+      "sha256": "bdc104842b72247956411cba58d3c97dbfabfe815d5503505c1cb7331faa6210"
+    },
+    {
+      "code": "home_movies",
+      "rows": 4593,
+      "titlesWithTerms": 4402,
+      "sha256": "004a8e3f6017f73e4cdd45668c831036688c46f62f7c717c12de3afd1df6cba4"
+    },
+    {
+      "code": "iam",
+      "rows": 173,
+      "titlesWithTerms": 171,
+      "sha256": "66ead792149f23d73820e384b5020a70a20335a6d5d5b7593c154ccaf8129032"
+    },
+    {
+      "code": "ifi_archive_player",
+      "rows": 1115,
+      "titlesWithTerms": 1093,
+      "sha256": "dc508ec38cea9b25f11e13985672c997041d336cce40401674359c24bfb6a112"
+    },
+    {
+      "code": "image_est",
+      "rows": 3040,
+      "titlesWithTerms": 2850,
+      "sha256": "0ca6fb4eb501e5b6dd5f1e7a85fe32cb6514050bd7610d1eed9d035fe5aa1e67"
+    },
+    {
+      "code": "ina",
+      "rows": 73,
+      "titlesWithTerms": 59,
+      "sha256": "bfaff02ac0ea259ce8c972ff4452a0d857aac3d294666c4fffe375dac18bfe60"
+    },
+    {
+      "code": "iwm_film",
+      "rows": 40877,
+      "titlesWithTerms": 23,
+      "sha256": "5e52c1826bd08ef1c80679b77ae97551c1ce2b1670fb2730c955d7f40088406c"
+    },
+    {
+      "code": "luce",
+      "rows": 59,
+      "titlesWithTerms": 58,
+      "sha256": "31211ae67f5f1c19c3512331d69d5d31bf8247f0e94af06b69da1b0493343bbf"
+    },
+    {
+      "code": "murnau_stiftung",
+      "rows": 3889,
+      "titlesWithTerms": 3755,
+      "sha256": "1c3063d7e82c89d8012441bab0c6097f8a337571d078eb6b3a870181053010e7"
+    },
+    {
+      "code": "pares",
+      "rows": 75,
+      "titlesWithTerms": 62,
+      "sha256": "3b3b885c437995d3b75bd2866b4b6af591c0c25df9906a02b919229e1eb4f59c"
+    },
+    {
+      "code": "ppa",
+      "rows": 94,
+      "titlesWithTerms": 84,
+      "sha256": "7e905c3c5e576c0c7e0ec20f58336b7a3a92b44ff0ba568f7ac0886241b5eaeb"
+    },
+    {
+      "code": "saint_etienne",
+      "rows": 8,
+      "titlesWithTerms": 8,
+      "sha256": "45eecdca6ac42586ce93534ba017f8047763f9b0f5711282424e49222166b654"
+    },
+    {
+      "code": "sfa",
+      "rows": 8,
+      "titlesWithTerms": 8,
+      "sha256": "3e1350122d5f9179c08c46514ad47514a28eb52c3db627ee9f71c1ffadb3440f"
+    },
+    {
+      "code": "kavi",
+      "rows": 200,
+      "titlesWithTerms": 196,
+      "sha256": "9870f39572bc547316586b43698fb4c1ce517a3641bcd9f520ee3fd28333a3f5"
+    }
+  ],
+  "words": [
+    {
+      "text": "saint",
+      "count": 627,
+      "corpora": 20,
+      "score": 19.61446
+    },
+    {
+      "text": "paris",
+      "count": 534,
+      "corpora": 15,
+      "score": 17.41814
+    },
+    {
+      "text": "visite",
+      "count": 1096,
+      "corpora": 11,
+      "score": 17.39518
+    },
+    {
+      "text": "france",
+      "count": 797,
+      "corpora": 11,
+      "score": 16.60442
+    },
+    {
+      "text": "voyage",
+      "count": 357,
+      "corpora": 14,
+      "score": 15.92478
+    },
+    {
+      "text": "berlin",
+      "count": 248,
+      "corpora": 12,
+      "score": 14.15199
+    },
+    {
+      "text": "service",
+      "count": 595,
+      "corpora": 8,
+      "score": 14.04079
+    },
+    {
+      "text": "militaire",
+      "count": 843,
+      "corpora": 7,
+      "score": 14.01159
+    },
+    {
+      "text": "tour",
+      "count": 125,
+      "corpora": 17,
+      "score": 13.97865
+    },
+    {
+      "text": "interview",
+      "count": 569,
+      "corpora": 8,
+      "score": 13.94279
+    },
+    {
+      "text": "jean",
+      "count": 421,
+      "corpora": 9,
+      "score": 13.91914
+    },
+    {
+      "text": "grand",
+      "count": 192,
+      "corpora": 13,
+      "score": 13.88854
+    },
+    {
+      "text": "port",
+      "count": 186,
+      "corpora": 13,
+      "score": 13.8052
+    },
+    {
+      "text": "centre",
+      "count": 532,
+      "corpora": 8,
+      "score": 13.79532
+    },
+    {
+      "text": "festival",
+      "count": 121,
+      "corpora": 16,
+      "score": 13.61082
+    },
+    {
+      "text": "fête",
+      "count": 230,
+      "corpora": 11,
+      "score": 13.5239
+    },
+    {
+      "text": "camp",
+      "count": 322,
+      "corpora": 9,
+      "score": 13.30354
+    },
+    {
+      "text": "construction",
+      "count": 195,
+      "corpora": 11,
+      "score": 13.11562
+    },
+    {
+      "text": "marie",
+      "count": 187,
+      "corpora": 11,
+      "score": 13.01207
+    },
+    {
+      "text": "guerre",
+      "count": 794,
+      "corpora": 6,
+      "score": 12.99545
+    },
+    {
+      "text": "sport",
+      "count": 113,
+      "corpora": 14,
+      "score": 12.82586
+    },
+    {
+      "text": "international",
+      "count": 147,
+      "corpora": 12,
+      "score": 12.8176
+    },
+    {
+      "text": "terre",
+      "count": 456,
+      "corpora": 7,
+      "score": 12.73592
+    },
+    {
+      "text": "paul",
+      "count": 107,
+      "corpora": 14,
+      "score": 12.67945
+    },
+    {
+      "text": "national",
+      "count": 316,
+      "corpora": 8,
+      "score": 12.6536
+    },
+    {
+      "text": "europe",
+      "count": 112,
+      "corpora": 13,
+      "score": 12.47585
+    },
+    {
+      "text": "sous",
+      "count": 380,
+      "corpora": 7,
+      "score": 12.3577
+    },
+    {
+      "text": "city",
+      "count": 138,
+      "corpora": 11,
+      "score": 12.26171
+    },
+    {
+      "text": "défilé",
+      "count": 346,
+      "corpora": 7,
+      "score": 12.16333
+    },
+    {
+      "text": "pierre",
+      "count": 340,
+      "corpora": 7,
+      "score": 12.12706
+    },
+    {
+      "text": "club",
+      "count": 76,
+      "corpora": 15,
+      "score": 12.04359
+    },
+    {
+      "text": "front",
+      "count": 239,
+      "corpora": 8,
+      "score": 12.04219
+    },
+    {
+      "text": "famille",
+      "count": 184,
+      "corpora": 9,
+      "score": 12.02031
+    },
+    {
+      "text": "bord",
+      "count": 229,
+      "corpora": 8,
+      "score": 11.94868
+    },
+    {
+      "text": "mission",
+      "count": 301,
+      "corpora": 7,
+      "score": 11.8745
+    },
+    {
+      "text": "ville",
+      "count": 138,
+      "corpora": 10,
+      "score": 11.83235
+    },
+    {
+      "text": "vacances",
+      "count": 160,
+      "corpora": 9,
+      "score": 11.70037
+    },
+    {
+      "text": "inauguration",
+      "count": 271,
+      "corpora": 7,
+      "score": 11.65694
+    }
+  ],
+  "rawTitlesPublished": false,
+  "individualRecordsPublished": false
+}

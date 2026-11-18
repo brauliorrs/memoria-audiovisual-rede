@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CatalogSearch } from "@/components/catalog-search";
+import { TitleWordCloud } from "@/components/title-wordcloud";
 import { publicIndex, records } from "@/lib/catalog";
 
 export default function HomePage() {
@@ -16,12 +17,8 @@ export default function HomePage() {
               <Link className="button button-outline" href="/temas/">Explorar temas e territórios <span aria-hidden="true">→</span></Link>
             </div>
           </div>
-          <div className="hero-visual" aria-hidden="true">
-            <div className="orbit orbit-one" /><div className="orbit orbit-two" /><div className="orbit orbit-three" />
-            <div className="orbit-core">MAR</div>
-            <div className="orbit-label orbit-label-one">METADADOS</div>
-            <div className="orbit-label orbit-label-two">MEMÓRIA</div>
-            <div className="orbit-label orbit-label-three">ORIGEM</div>
+          <div className="hero-visual hero-wordcloud">
+            <TitleWordCloud />
           </div>
         </div>
       </section>
