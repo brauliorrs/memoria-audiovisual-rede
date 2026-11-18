@@ -21,8 +21,8 @@
 | Países, temas por plataforma, tipos de arquivo | `/temas/`, `/pesquisa/[code]/`, `/comparar/` | **Implementado em nível agregado:** cruzamentos tema×país e tema×plataforma, mais comparação entre até três corpora; **não** inferir país×plataforma |
 | Tabelas, download de indicadores e dados | `/observatorio/`, `/comparar/` | **Parcial**: tabelas comparativas e exportação CSV **somente de indicadores agregados**, filtros, proveniência; exportação de metadados individuais sob HOLD vedada |
 | Ficha institucional detalhada | `/instituicoes/pesquisa/`, `/instituicoes/pesquisa/[source]/[entry]/` | **Parcial**: perfis institucionais estáticos com proveniência e paginação; atualização dinâmica e integração completa pendentes |
-| Fundamentação/metodologia | `/metodologia/` e perfis | Parcial; detalhamento científico será expandido |
-| Alternância de idiomas | Seletor global, comparação e mapa | **Parcial:** módulos comparativo e cartográfico em PT/EN/ES, cabeçalho traduzido; páginas científicas legadas ainda têm conteúdo em português e tradução integral permanece pendente |
+| Fundamentação/metodologia | `/metodologia/` e perfis | **Parcial:** quatro critérios científicos traduzidos PT/EN/ES, relatórios de acesso e proveniência preservados; fundamentação metodológica aprofundada continua pendente |
+| Alternância de idiomas | Seletor global PT/EN/ES e núcleo científico | **Ampliado nesta etapa:** Observatório, tabelas de 62 relatórios, 63 perfis de corpus (estrutura), metodologia, casos, introdução do catálogo e rótulos de fichas institucionais; fontes documentais originais continuam no idioma de origem; índice de acesso, pesquisa de fichas e descrições institucionais ainda não têm tradução completa |
 | Ciclo de coleta, descoberta, atualização e governança | Área analítica e documentação | **Pendente**: visualização de relatórios operacionais sem credenciais |
 | Comparação longitudinal e linha do tempo | `/series/`, `/comparar/` | **Implementado em snapshots**: gráficos por fonte e comparação separada de até três corpora, sem alinhamento artificial das datas; atualização ao vivo pendente |
 | Exportação de fichas individuais de fontes sob HOLD | Catálogo | **Bloqueado**, não é requisito para liberar painéis agregados |
@@ -40,7 +40,7 @@
 2. Cruzamentos de temas, países, visibilidade e tipos por corpus.
 3. **Parcial**: séries históricas e novo mapa mundial por país (1:110m); geometrias de pequenos territórios e georreferenciamento de obras não disponíveis.
 4. **Parcial**: comparação de até três corpora com filtros reproduzíveis em URL e proveniência Git fixada; futuras hipóteses e recortes com autenticação/perfis permanecem pendentes.
-5. **Parcial**: PT/EN/ES em módulos de pesquisa, download CSV agregado, testes e navegação. Falta traduzir integralmente o site e validar acessibilidade visual.
+5. **Parcial, ampliado**: núcleo científico de Observatório, comparações, análises por fonte, metodologia, casos, mapa e introdução do catálogo PT/EN/ES, com testes. Faltam tradução do índice de acesso, controles do catálogo e descrições de fontes, conteúdo integral das fichas e auditoria visual/acessibilidade.
 6. Substituir o Streamlit somente depois da equivalência funcional e da revisão de operação.
 
 **Não usar “migração completa” até cada linha desta matriz ter implementação e validação demonstradas.**
