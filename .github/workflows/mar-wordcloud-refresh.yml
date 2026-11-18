@@ -82,11 +82,12 @@ jobs:
 
           PR="$(gh pr list --state open --head "$BRANCH" --json number --jq '.[0].number // empty')"
           if test -z "$PR"; then
-            PR="$(gh pr create --base main --head "$BRANCH" \
+            gh pr create --base main --head "$BRANCH" \
               --title "data(MAR): atualizar nuvem após incorporação de títulos" \
-              --body "Atualização automática dos **termos agregados** da nuvem da página inicial, acionada por novos/alterados catálogos do MAR. O único arquivo modificado é \u0060site/data/title-wordcloud.json\u0060. Fonte: 62+ instantâneos analíticos e índice KAVI aprovado. Nenhum título, ID, URL de mídia ou ficha é republicado. A publicação ocorre somente pelo PR, após checagens de reprodução, integridade e CI, no mesmo projeto Vercel." \
-              --json number --jq '.number')"
+              --body "Atualização automática dos termos estatísticos agregados da nuvem, acionada por catálogos do MAR. Apenas site/data/title-wordcloud.json foi modificado. Nenhum título, ID, URL de mídia ou ficha é republicado. A publicação ocorre pelo PR, após CI, no projeto Vercel existente."
+            PR="$(gh pr list --state open --head "$BRANCH" --json number --jq '.[0].number // empty')"
           fi
+          test -n "$PR" || { echo "::error::Bot PR was not created"; exit 1; }
           echo "Aggregate-only PR #$PR updated."
 
           # GitHub prevents PR-triggered CI events created with GITHUB_TOKEN.
