@@ -1,0 +1,467 @@
+{
+  "bnt": {
+    "tema_pais": {
+      "source": "data/output/bnt_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Esporte e cultura física",
+          "pais": "Bulgaria",
+          "total": "25"
+        },
+        {
+          "tema": "Cultura, música e artes",
+          "pais": "Bulgaria",
+          "total": "9"
+        },
+        {
+          "tema": "História, memória e patrimônio",
+          "pais": "Bulgaria",
+          "total": "9"
+        },
+        {
+          "tema": "Cotidiano, saúde e território",
+          "pais": "Bulgaria",
+          "total": "1"
+        },
+        {
+          "tema": "Registro audiovisual televisivo público",
+          "pais": "Bulgaria",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/bnt_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Esporte e cultura física",
+          "plataforma": "BNT.bg",
+          "total": "25"
+        },
+        {
+          "tema": "Cultura, música e artes",
+          "plataforma": "BNT.bg",
+          "total": "9"
+        },
+        {
+          "tema": "História, memória e patrimônio",
+          "plataforma": "BNT.bg",
+          "total": "9"
+        },
+        {
+          "tema": "Cotidiano, saúde e território",
+          "plataforma": "BNT.bg",
+          "total": "1"
+        },
+        {
+          "tema": "Registro audiovisual televisivo público",
+          "plataforma": "BNT.bg",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/bnt_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "bnt",
+          "observation_key": "bnt:2026-06-12T19:36:51Z",
+          "snapshot_generated_at": "2026-06-12T19:36:51Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T19:36:51Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T19:36:51Z",
+          "generated_by": "scripts/run_bnt_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "45",
+          "videos_in_curatorial_catalog": "45",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "bnt",
+          "observation_key": "bnt:2026-06-12T19:39:42Z",
+          "snapshot_generated_at": "2026-06-12T19:39:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T19:39:42Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T19:39:42Z",
+          "generated_by": "scripts/run_bnt_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "45",
+          "videos_in_curatorial_catalog": "45",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "bnt",
+          "observation_key": "bnt:2026-06-12T19:46:31Z",
+          "snapshot_generated_at": "2026-06-12T19:46:31Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T19:46:31Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T19:46:31Z",
+          "generated_by": "scripts/run_bnt_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "45",
+          "videos_in_curatorial_catalog": "45",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "bnt",
+          "observation_key": "bnt:2026-06-12T19:51:02Z",
+          "snapshot_generated_at": "2026-06-12T19:51:02Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T19:51:02Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T19:51:02Z",
+          "generated_by": "scripts/run_bnt_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "45",
+          "videos_in_curatorial_catalog": "45",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "bnt",
+          "observation_key": "bnt:2026-06-12T20:02:17Z",
+          "snapshot_generated_at": "2026-06-12T20:02:17Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-12T20:02:17Z",
+          "analytic_outputs_last_modified_at": "2026-06-12T20:02:17Z",
+          "generated_by": "scripts/run_bnt_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "45",
+          "videos_in_curatorial_catalog": "45",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "ccma": {
+    "tema_pais": {
+      "source": "data/output/ccma_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Memória televisiva e arquivo público",
+          "pais": "Spain",
+          "total": "16"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/ccma_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Memória televisiva e arquivo público",
+          "plataforma": "3Cat",
+          "total": "16"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/ccma_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "ccma",
+          "observation_key": "ccma:2026-07-07T13:14:44Z",
+          "snapshot_generated_at": "2026-07-07T13:14:44Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-07T13:14:44Z",
+          "analytic_outputs_last_modified_at": "2026-07-07T13:14:43Z",
+          "generated_by": "scripts/run_ccma_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "16",
+          "videos_in_curatorial_catalog": "16",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ccma",
+          "observation_key": "ccma:2026-07-07T13:15:23Z",
+          "snapshot_generated_at": "2026-07-07T13:15:23Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-07T13:15:23Z",
+          "analytic_outputs_last_modified_at": "2026-07-07T13:15:23Z",
+          "generated_by": "scripts/run_ccma_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "16",
+          "videos_in_curatorial_catalog": "16",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "cdna": {
+    "tema_pais": {
+      "source": "data/output/cdna_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e memória local",
+          "pais": "France",
+          "total": "27"
+        },
+        {
+          "tema": "Arquivo audiovisual regional",
+          "pais": "France",
+          "total": "18"
+        },
+        {
+          "tema": "Documentário, cotidiano e memória local",
+          "pais": "France",
+          "total": "17"
+        },
+        {
+          "tema": "Filme amador e memória local",
+          "pais": "France",
+          "total": "9"
+        },
+        {
+          "tema": "Patrimônio cinematográfico regional",
+          "pais": "France",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cdna_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e memória local",
+          "plataforma": "Cinémathèque de Nouvelle-Aquitaine",
+          "total": "27"
+        },
+        {
+          "tema": "Arquivo audiovisual regional",
+          "plataforma": "Cinémathèque de Nouvelle-Aquitaine",
+          "total": "18"
+        },
+        {
+          "tema": "Documentário, cotidiano e memória local",
+          "plataforma": "Cinémathèque de Nouvelle-Aquitaine",
+          "total": "17"
+        },
+        {
+          "tema": "Filme amador e memória local",
+          "plataforma": "Cinémathèque de Nouvelle-Aquitaine",
+          "total": "9"
+        },
+        {
+          "tema": "Patrimônio cinematográfico regional",
+          "plataforma": "Cinémathèque de Nouvelle-Aquitaine",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cdna_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cdna",
+          "observation_key": "cdna:2026-06-19T17:54:06Z",
+          "snapshot_generated_at": "2026-06-19T17:54:06Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T17:54:06Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T17:54:06Z",
+          "generated_by": "scripts/run_cdna_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "72",
+          "videos_in_curatorial_catalog": "72",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cdna",
+          "observation_key": "cdna:2026-06-19T17:54:22Z",
+          "snapshot_generated_at": "2026-06-19T17:54:22Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T17:54:22Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T17:54:22Z",
+          "generated_by": "scripts/run_cdna_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "72",
+          "videos_in_curatorial_catalog": "72",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cdna",
+          "observation_key": "cdna:2026-06-19T17:54:52Z",
+          "snapshot_generated_at": "2026-06-19T17:54:52Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T17:54:52Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T17:54:51Z",
+          "generated_by": "scripts/run_cdna_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "72",
+          "videos_in_curatorial_catalog": "72",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cdna",
+          "observation_key": "cdna:2026-06-19T18:01:42Z",
+          "snapshot_generated_at": "2026-06-19T18:01:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T18:01:42Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T18:01:42Z",
+          "generated_by": "scripts/run_cdna_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "72",
+          "videos_in_curatorial_catalog": "72",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "ciclic": {
+    "tema_pais": {
+      "source": "data/output/ciclic_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Filme amador e memória local",
+          "pais": "France",
+          "total": "20"
+        },
+        {
+          "tema": "Arquivo audiovisual regional",
+          "pais": "France",
+          "total": "11"
+        },
+        {
+          "tema": "Documentário, cotidiano e memória local",
+          "pais": "France",
+          "total": "7"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "France",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/ciclic_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Filme amador e memória local",
+          "plataforma": "Ciclic Mémoire",
+          "total": "20"
+        },
+        {
+          "tema": "Arquivo audiovisual regional",
+          "plataforma": "Ciclic Mémoire",
+          "total": "11"
+        },
+        {
+          "tema": "Documentário, cotidiano e memória local",
+          "plataforma": "Ciclic Mémoire",
+          "total": "7"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "Ciclic Mémoire",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/ciclic_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "ciclic",
+          "observation_key": "ciclic:2026-06-16T19:25:18Z",
+          "snapshot_generated_at": "2026-06-16T19:25:18Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-16T19:25:18Z",
+          "analytic_outputs_last_modified_at": "2026-06-16T19:25:17Z",
+          "generated_by": "scripts/run_ciclic_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "39",
+          "videos_in_curatorial_catalog": "39",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ciclic",
+          "observation_key": "ciclic:2026-06-16T19:28:02Z",
+          "snapshot_generated_at": "2026-06-16T19:28:02Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-16T19:28:02Z",
+          "analytic_outputs_last_modified_at": "2026-06-16T19:28:02Z",
+          "generated_by": "scripts/run_ciclic_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "39",
+          "videos_in_curatorial_catalog": "39",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
