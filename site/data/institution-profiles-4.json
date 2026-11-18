@@ -1,0 +1,152 @@
+{
+  "eye": {
+    "source": "data/output/eye_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "eye:1",
+        "name": "Eye Filmmuseum",
+        "country": "Netherlands",
+        "continent": "Europe",
+        "type": "National film museum with public film-fragment catalogue",
+        "repositoryCode": "NL-EYE",
+        "originUrl": "https://filmdatabase.eyefilm.nl/en/collection/film-history/film/all/all?f%5B0%5D=field_cm_media_filter%3Awith%20film%20fragment"
+      }
+    ]
+  },
+  "far": {
+    "source": "data/output/far_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "far:1",
+        "name": "Fonds Audiovisuel de Recherche",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Local audiovisual archive with public film catalog",
+        "repositoryCode": "FR-FAR",
+        "originUrl": "https://far.memoirefilmiquenouvelleaquitaine.fr/films"
+      }
+    ]
+  },
+  "filmarchiv_austria": {
+    "source": "data/output/filmarchiv_austria_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "filmarchiv_austria:1",
+        "name": "Filmarchiv Austria",
+        "country": "Austria",
+        "continent": "Europe",
+        "type": "National film archive with public Filmarchiv ON streaming surface",
+        "repositoryCode": "AT-FILMARCHIV-AUSTRIA",
+        "originUrl": "https://www.filmarchiv.at/de/filmarchiv-on"
+      }
+    ]
+  },
+  "filmmuseum_dusseldorf": {
+    "source": "data/output/filmmuseum_dusseldorf_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "filmmuseum_dusseldorf:1",
+        "name": "Filmmuseum Düsseldorf",
+        "country": "Germany",
+        "continent": "Europe",
+        "type": "Film museum archive with public metadata catalogue and restricted media access",
+        "repositoryCode": "DE-FILMMUSEUM-DUSSELDORF",
+        "originUrl": "https://emuseum.duesseldorf.de/collections/56457/audiovisuelle-dokumente-zu-dusseldorf"
+      }
+    ]
+  },
+  "filmoteca_catalunya": {
+    "source": "data/output/filmoteca_catalunya_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "filmoteca_catalunya:1",
+        "name": "Filmoteca de Catalunya",
+        "country": "Spain",
+        "continent": "Europe",
+        "type": "Film archive with restricted institutional catalogue and public PLATFO FILMO subset",
+        "repositoryCode": "ES-CT-FILMOTECA-CATALUNYA",
+        "originUrl": "https://filmo.platfo.es/pages/home"
+      }
+    ]
+  },
+  "filmoteca_espanola": {
+    "source": "data/output/filmoteca_espanola_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "filmoteca_espanola:1",
+        "name": "Filmoteca Española",
+        "country": "Spain",
+        "continent": "Europe",
+        "type": "National film archive with public PLATFO FILMO metadata and registration-gated streaming",
+        "repositoryCode": "ES-FILMOTECA-ESPANOLA",
+        "originUrl": "https://filmo.platfo.es/pages/home"
+      }
+    ]
+  },
+  "filmoteca_valenciana": {
+    "source": "data/output/filmoteca_valenciana_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "filmoteca_valenciana:1",
+        "name": "Filmoteca Valenciana",
+        "country": "Spain",
+        "continent": "Europe",
+        "type": "Film archive with public restored-film streaming subset and larger restricted catalogue",
+        "repositoryCode": "ES-VC-FILMOTECA-VALENCIANA",
+        "originUrl": "https://www.restauracionesfilmoteca.com/"
+      }
+    ]
+  },
+  "filmoteca_vasca": {
+    "source": "data/output/filmoteca_vasca_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "filmoteca_vasca:1",
+        "name": "Filmoteca Vasca",
+        "country": "Spain",
+        "continent": "Europe",
+        "type": "Film archive with public multimedia collection",
+        "repositoryCode": "ES-PV-FILMOTECA-VASCA",
+        "originUrl": "https://filmoteka.eus/es/coleccion/multimedia"
+      }
+    ]
+  },
+  "fina": {
+    "source": "data/output/fina_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "fina:1",
+        "name": "Filmoteka Narodowa - Instytut Audiowizualny",
+        "country": "Poland",
+        "continent": "Europe",
+        "type": "National film and audiovisual archive with public Ninateka VOD platform",
+        "repositoryCode": "PL-FINA",
+        "originUrl": "https://ninateka.pl/ogladaj"
+      }
+    ]
+  },
+  "gosfilmofond": {
+    "source": "data/output/gosfilmofond_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "gosfilmofond:1",
+        "name": "Gosfilmofond of Russia",
+        "country": "Russia",
+        "continent": "Europe",
+        "type": "National film archive",
+        "repositoryCode": "RU-GOSFILMOFOND",
+        "originUrl": "https://gosfilmofond.ru/films/"
+      }
+    ]
+  }
+}
