@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { corpusList, formatNumber, getHistoricalCorpus } from "@/lib/scientific-observatory";
+import { getAnalyticReport } from "@/lib/historical-analytics";
+import { CorpusHistoricalAnalytics } from "@/components/corpus-historical-analytics";
 
 export function generateStaticParams() {
   return corpusList.map(item => ({ code: item.code }));
@@ -17,6 +19,7 @@ export default async function CorpusAnalysisPage({ params }: { params: Promise<{
   const { code } = await params;
   const corpus = getHistoricalCorpus(code);
   if (!corpus) notFound();
+  const report = getAnalyticReport(code);
   const percent = corpus.historicalTotal ? (100 * corpus.historicalPublicSurfaceRecords / corpus.historicalTotal).toFixed(1) : null;
 
   return <main className="shell page-shell">
@@ -46,6 +49,7 @@ export default async function CorpusAnalysisPage({ params }: { params: Promise<{
         <p><strong>Publicação individual:</strong> fichas não liberadas por este inventário.</p>
       </article>
     </section>
+    {report && <CorpusHistoricalAnalytics report={report}/>}
     <section className="ob-panel">
       <h2>Questões de pesquisa para este corpus</h2>
       <p>Em que extensão os registros são documentados publicamente? Como os regimes de acesso afetam a visibilidade histórica? Qual a relação entre o acervo identificado, os metadados em superfície pública e o patrimônio audiovisual efetivamente consultável? O MAR preserva a distinção entre evidência e inferência para orientar a investigação.</p>
