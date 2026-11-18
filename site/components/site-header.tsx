@@ -14,9 +14,11 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav aria-label="Menu principal" className="main-nav">
+          <Link href="/observatorio/">Observatório</Link>
           <Link href="/acervo/">Explorar acervo</Link>
           <Link href="/instituicoes/">Instituições</Link>
           <Link href="/indice-acesso/">Índice de acesso</Link>
+          <Link href="/casos/">Casos</Link>
           <Link href="/metodologia/">Metodologia</Link>
         </nav>
         <Link className="header-action" href="/acervo/">Abrir catálogo <span aria-hidden="true">↗</span></Link>
