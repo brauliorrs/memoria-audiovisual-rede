@@ -30,7 +30,7 @@ const copy = {
     note:"As distribuições usam denominadores independentes por fonte. A mesma obra pode existir em mais de um catálogo; as classificações podem diferir. As porcentagens mostram a participação de cada termo dentro de sua própria fonte, não uma comparação estatística representativa do mundo. País e plataforma não são cruzados entre si.",
     timeNote:"Cada gráfico tem sua própria escala e datas de coleta. É incorreto interpretar linhas de fontes diferentes como uma série sincronizada; datas de coleta não são datas de produção dos filmes. Uma observação isolada não constitui tendência.",
     disclaimer:"A pesquisa utiliza exclusivamente estatísticas e snapshots históricos. Nenhum título individual, mídia ou ficha de fontes sob HOLD é publicado.",
-    provenance:"Arquivo agregado de origem",return:"Voltar ao observatório",
+    provenance:"Arquivo agregado de origem",return:"Voltar ao observatório",territoryLink:"Explorar mapa territorial",
     metricVideo:"Links detectados",metricInstitutions:"Instituições",metricWithVideo:"Instituições com links",
     metricCatalogue:"Itens em catálogo histórico",metricCountries:"Países com registros",
   },
@@ -52,7 +52,7 @@ const copy = {
     note:"Each source uses its own denominator. The same work may appear in more than one catalogue, and classifications can differ. Percentages are within-source shares, not a representative worldwide comparison. Country and platform are independent dimensions.",
     timeNote:"Each chart has its own scale and collection dates. Lines from different sources are not synchronized; observation dates are not film production dates. A single observation cannot establish a trend.",
     disclaimer:"This study uses historical aggregate counts and snapshots only. No restricted item titles, media, or individual records are published.",
-    provenance:"Source aggregate file",return:"Back to observatory",
+    provenance:"Source aggregate file",return:"Back to observatory",territoryLink:"Explore territories map",
     metricVideo:"Detected links",metricInstitutions:"Institutions",metricWithVideo:"Institutions with links",
     metricCatalogue:"Items in historical catalogue",metricCountries:"Countries with records",
   },
@@ -74,7 +74,7 @@ const copy = {
     note:"Cada fuente utiliza su propio denominador. Una obra puede aparecer en varios catálogos y las clasificaciones pueden diferir. Los porcentajes son proporciones dentro de cada fuente, no una comparación mundial representativa. País y plataforma son dimensiones independientes.",
     timeNote:"Cada gráfico tiene su propia escala y fechas de recopilación. Las fuentes no forman una serie sincronizada; las fechas de recopilación no son de producción de películas. Una sola observación no muestra tendencias.",
     disclaimer:"La investigación utiliza recuentos y snapshots históricos agregados. No se publican títulos, medios ni fichas individuales de fuentes bloqueadas.",
-    provenance:"Archivo agregado de origen",return:"Volver al observatorio",
+    provenance:"Archivo agregado de origen",return:"Volver al observatorio",territoryLink:"Explorar mapa territorial",
     metricVideo:"Enlaces detectados",metricInstitutions:"Instituciones",metricWithVideo:"Instituciones con enlaces",
     metricCatalogue:"Ítems en catálogo histórico",metricCountries:"Países con registros",
   },
@@ -287,6 +287,6 @@ export function CorpusComparison() {
       <p className="disclaimer">{t.timeNote}</p>
     </>}
     <p className="disclaimer">{t.disclaimer}</p>
-    <p><Link href="/observatorio/">{t.return}</Link></p>
+    <p><Link href="/observatorio/">{t.return}</Link> · <Link href="/territorios/">{t.territoryLink}</Link></p>
   </section>;
 }
