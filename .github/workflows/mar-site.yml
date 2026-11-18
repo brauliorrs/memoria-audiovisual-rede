@@ -13,6 +13,7 @@ on:
       - "tests/test_mar_research_dimensions.py"
       - "tests/test_mar_cross_corpus_comparison.py"
       - "tests/test_mar_geographic_permalinks.py"
+      - "tests/test_mar_scientific_i18n.py"
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
       - ".github/workflows/mar-site.yml"
@@ -86,6 +87,11 @@ jobs:
       - name: Validate geographic sources and permalink scientific contracts
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_geographic_permalinks.py" -v
+      - name: Validate core scientific PT EN ES editorial copy parity
+        run: npm run test:scientific-i18n
+      - name: Confirm original evidence and public-record gates preserved
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p "test_mar_scientific_i18n.py" -v
       - name: Typecheck
         run: npm run typecheck
       - name: Build static Next.js site
