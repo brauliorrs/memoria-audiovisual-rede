@@ -133,8 +133,9 @@ def audit(code: str, root: Path = ROOT) -> dict:
             if not any(word in declared_type.casefold() for word in ("video", "moving", "audiovisual", "vídeo")):
                 issues.append("audiovisual_type_not_proven")
             rights = rights_category(description)
-            if rights != "object_cc_by_sa_claim_in_snapshot":
-                issues.append("object_rights_require_independent_review")
+            # Even a rights statement that appears permissive in a historical
+            # description is an unverified claim about an object, not approval.
+            issues.append("object_rights_require_independent_review")
             identifier = item
             licence = "CC0 general metadata policy; individual object rights distinct"
         else:
