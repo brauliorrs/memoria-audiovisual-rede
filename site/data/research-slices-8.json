@@ -1,0 +1,546 @@
+{
+  "dhm": {
+    "tema_pais": {
+      "source": "data/output/dhm_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Reconstrução econômica, infraestrutura e trabalho",
+          "pais": "Germany",
+          "total": "12"
+        },
+        {
+          "tema": "Plano Marshall e memória audiovisual europeia",
+          "pais": "Germany",
+          "total": "10"
+        },
+        {
+          "tema": "Filmes educativos e publicidade institucional",
+          "pais": "Germany",
+          "total": "6"
+        },
+        {
+          "tema": "História, reconstrução e memória política",
+          "pais": "Germany",
+          "total": "6"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/dhm_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Reconstrução econômica, infraestrutura e trabalho",
+          "plataforma": "DHM Zeughauskino online",
+          "total": "12"
+        },
+        {
+          "tema": "Plano Marshall e memória audiovisual europeia",
+          "plataforma": "DHM Zeughauskino online",
+          "total": "10"
+        },
+        {
+          "tema": "Filmes educativos e publicidade institucional",
+          "plataforma": "DHM Zeughauskino online",
+          "total": "6"
+        },
+        {
+          "tema": "História, reconstrução e memória política",
+          "plataforma": "DHM Zeughauskino online",
+          "total": "6"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/dhm_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "dhm",
+          "observation_key": "dhm:2026-07-13T18:58:54Z",
+          "snapshot_generated_at": "2026-07-13T18:58:54Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-13T18:58:54Z",
+          "analytic_outputs_last_modified_at": "2026-07-13T18:58:54Z",
+          "generated_by": "scripts/run_dhm_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "34",
+          "videos_in_curatorial_catalog": "34",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "dhm",
+          "observation_key": "dhm:2026-07-13T19:00:12Z",
+          "snapshot_generated_at": "2026-07-13T19:00:12Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-13T19:00:12Z",
+          "analytic_outputs_last_modified_at": "2026-07-13T19:00:12Z",
+          "generated_by": "scripts/run_dhm_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "34",
+          "videos_in_curatorial_catalog": "34",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "dr": {
+    "tema_pais": {
+      "source": "data/output/dr_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Cultura, artes e patrimônio audiovisual",
+          "pais": "Denmark",
+          "total": "217"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Denmark",
+          "total": "124"
+        },
+        {
+          "tema": "Arquivo televisivo público",
+          "pais": "Denmark",
+          "total": "56"
+        },
+        {
+          "tema": "Televisão, entretenimento e memória popular",
+          "pais": "Denmark",
+          "total": "56"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/dr_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Cultura, artes e patrimônio audiovisual",
+          "plataforma": "DRTV/Gensyn",
+          "total": "217"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "DRTV/Gensyn",
+          "total": "124"
+        },
+        {
+          "tema": "Arquivo televisivo público",
+          "plataforma": "DRTV/Gensyn",
+          "total": "56"
+        },
+        {
+          "tema": "Televisão, entretenimento e memória popular",
+          "plataforma": "DRTV/Gensyn",
+          "total": "56"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/dr_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "dr",
+          "observation_key": "dr:2026-07-13T18:09:04Z",
+          "snapshot_generated_at": "2026-07-13T18:09:05Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-13T18:09:04Z",
+          "analytic_outputs_last_modified_at": "2026-07-13T18:09:04Z",
+          "generated_by": "scripts/run_dr_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "453",
+          "videos_in_curatorial_catalog": "453",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "dr",
+          "observation_key": "dr:2026-07-13T18:12:07Z",
+          "snapshot_generated_at": "2026-07-13T18:12:07Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-13T18:12:07Z",
+          "analytic_outputs_last_modified_at": "2026-07-13T18:12:06Z",
+          "generated_by": "scripts/run_dr_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "453",
+          "videos_in_curatorial_catalog": "453",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "ecpad": {
+    "tema_pais": {
+      "source": "data/output/ecpad_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Memória audiovisual militar e institucional",
+          "pais": "France",
+          "total": "16088"
+        },
+        {
+          "tema": "Conflitos, defesa e operações militares",
+          "pais": "France",
+          "total": "7307"
+        },
+        {
+          "tema": "Tecnologia, armamentos e infraestrutura militar",
+          "pais": "France",
+          "total": "4363"
+        },
+        {
+          "tema": "Memória militar, cerimônias e comemorações",
+          "pais": "France",
+          "total": "3714"
+        },
+        {
+          "tema": "Treinamento, doutrina e vida militar",
+          "pais": "France",
+          "total": "3625"
+        },
+        {
+          "tema": "Fundos cinematográficos, memória privada e colonial",
+          "pais": "France",
+          "total": "929"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/ecpad_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Memória audiovisual militar e institucional",
+          "plataforma": "ECPAD Archives",
+          "total": "16088"
+        },
+        {
+          "tema": "Conflitos, defesa e operações militares",
+          "plataforma": "ECPAD Archives",
+          "total": "7307"
+        },
+        {
+          "tema": "Tecnologia, armamentos e infraestrutura militar",
+          "plataforma": "ECPAD Archives",
+          "total": "4363"
+        },
+        {
+          "tema": "Memória militar, cerimônias e comemorações",
+          "plataforma": "ECPAD Archives",
+          "total": "3714"
+        },
+        {
+          "tema": "Treinamento, doutrina e vida militar",
+          "plataforma": "ECPAD Archives",
+          "total": "3625"
+        },
+        {
+          "tema": "Fundos cinematográficos, memória privada e colonial",
+          "plataforma": "ECPAD Archives",
+          "total": "929"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/ecpad_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "ecpad",
+          "observation_key": "ecpad:2026-07-13T19:32:04Z",
+          "snapshot_generated_at": "2026-07-13T19:32:04Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-13T19:32:04Z",
+          "analytic_outputs_last_modified_at": "2026-07-13T19:32:03Z",
+          "generated_by": "scripts/run_ecpad_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "10",
+          "videos_in_curatorial_catalog": "10",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ecpad",
+          "observation_key": "ecpad:2026-07-14T17:11:04Z",
+          "snapshot_generated_at": "2026-07-14T17:11:04Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-14T17:11:04Z",
+          "analytic_outputs_last_modified_at": "2026-07-14T17:11:04Z",
+          "generated_by": "scripts/run_ecpad_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "10",
+          "videos_in_curatorial_catalog": "10",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ecpad",
+          "observation_key": "ecpad:2026-07-14T17:43:22Z",
+          "snapshot_generated_at": "2026-07-14T17:43:22Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-14T17:43:22Z",
+          "analytic_outputs_last_modified_at": "2026-07-14T17:43:22Z",
+          "generated_by": "scripts/run_ecpad_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "10",
+          "videos_in_curatorial_catalog": "10",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ecpad",
+          "observation_key": "ecpad:2026-07-14T17:52:52Z",
+          "snapshot_generated_at": "2026-07-14T17:52:54Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-14T17:52:52Z",
+          "analytic_outputs_last_modified_at": "2026-07-14T17:52:26Z",
+          "generated_by": "scripts/run_ecpad_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "36029",
+          "videos_in_curatorial_catalog": "36029",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ecpad",
+          "observation_key": "ecpad:2026-07-14T18:15:47Z",
+          "snapshot_generated_at": "2026-07-14T18:15:50Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-14T18:15:47Z",
+          "analytic_outputs_last_modified_at": "2026-07-14T18:15:21Z",
+          "generated_by": "scripts/run_ecpad_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "36301",
+          "videos_in_curatorial_catalog": "36301",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ecpad",
+          "observation_key": "ecpad:2026-07-14T18:37:25Z",
+          "snapshot_generated_at": "2026-07-14T18:37:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-14T18:37:25Z",
+          "analytic_outputs_last_modified_at": "2026-07-14T18:36:47Z",
+          "generated_by": "scripts/run_ecpad_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "36026",
+          "videos_in_curatorial_catalog": "36026",
+          "visibility_categories": "1",
+          "theme_categories": "6",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "efa_estonia": {
+    "tema_pais": {
+      "source": "data/output/efa_estonia_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Cinejornal, atualidades e história pública",
+          "pais": "Estonia",
+          "total": "2569"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Estonia",
+          "total": "556"
+        },
+        {
+          "tema": "Animação",
+          "pais": "Estonia",
+          "total": "327"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Estonia",
+          "total": "203"
+        },
+        {
+          "tema": "Patrimônio fílmico estoniano",
+          "pais": "Estonia",
+          "total": "90"
+        },
+        {
+          "tema": "Publicidade e cultura comercial",
+          "pais": "Estonia",
+          "total": "50"
+        },
+        {
+          "tema": "Cinema experimental, curta e formação",
+          "pais": "Estonia",
+          "total": "44"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/efa_estonia_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Cinejornal, atualidades e história pública",
+          "plataforma": "Arkaader",
+          "total": "2569"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "Arkaader",
+          "total": "556"
+        },
+        {
+          "tema": "Animação",
+          "plataforma": "Arkaader",
+          "total": "327"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "Arkaader",
+          "total": "203"
+        },
+        {
+          "tema": "Patrimônio fílmico estoniano",
+          "plataforma": "Arkaader",
+          "total": "90"
+        },
+        {
+          "tema": "Publicidade e cultura comercial",
+          "plataforma": "Arkaader",
+          "total": "50"
+        },
+        {
+          "tema": "Cinema experimental, curta e formação",
+          "plataforma": "Arkaader",
+          "total": "44"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/efa_estonia_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "estonian_film_archive",
+          "observation_key": "estonian_film_archive:2026-07-15T19:31:10Z",
+          "snapshot_generated_at": "2026-07-15T19:31:12Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-15T19:31:10Z",
+          "analytic_outputs_last_modified_at": "2026-07-15T19:31:06Z",
+          "generated_by": "scripts/run_estonian_film_archive_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "3839",
+          "videos_in_curatorial_catalog": "3839",
+          "visibility_categories": "1",
+          "theme_categories": "7",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "estonian_film_archive",
+          "observation_key": "estonian_film_archive:2026-07-15T19:32:42Z",
+          "snapshot_generated_at": "2026-07-15T19:32:45Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-15T19:32:42Z",
+          "analytic_outputs_last_modified_at": "2026-07-15T19:32:38Z",
+          "generated_by": "scripts/run_estonian_film_archive_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "3839",
+          "videos_in_curatorial_catalog": "3839",
+          "visibility_categories": "1",
+          "theme_categories": "7",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "estonian_film_archive",
+          "observation_key": "estonian_film_archive:2026-07-15T19:33:49Z",
+          "snapshot_generated_at": "2026-07-15T19:33:52Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-15T19:33:49Z",
+          "analytic_outputs_last_modified_at": "2026-07-15T19:33:44Z",
+          "generated_by": "scripts/run_estonian_film_archive_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "3839",
+          "videos_in_curatorial_catalog": "3839",
+          "visibility_categories": "1",
+          "theme_categories": "7",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "estonian_film_archive",
+          "observation_key": "estonian_film_archive:2026-07-15T19:38:42Z",
+          "snapshot_generated_at": "2026-07-15T19:38:45Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-15T19:38:42Z",
+          "analytic_outputs_last_modified_at": "2026-07-15T19:38:38Z",
+          "generated_by": "scripts/run_estonian_film_archive_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "3839",
+          "videos_in_curatorial_catalog": "3839",
+          "visibility_categories": "1",
+          "theme_categories": "7",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
