@@ -10,7 +10,6 @@ import argparse
 import csv
 import hashlib
 import json
-import re
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
@@ -49,13 +48,11 @@ def normalize(row: dict[str, str], corpus: str) -> dict:
         raise ValueError("institution mismatch")
     identity = hashlib.sha256(url.encode("utf-8")).hexdigest()[:24]
     date = (row.get("video_date_display") or row.get("video_published_at") or "").strip()
-    year_match = re.match(r"^([0-9]{4})(?:-|$)", date)
-    year = None  # Source publication date is not film/episode production year.
     return {
         "id": corpus + "." + identity,
         "corpus": corpus,
         "title": title,
-        "year": year,
+        "year": None,  # Production year is not independently mapped in this CSV.
         "sourcePublishedAt": date or None,
         "genres": (row.get("video_theme") or "").strip(),
         "subjects": (row.get("video_subject") or "").strip(),
