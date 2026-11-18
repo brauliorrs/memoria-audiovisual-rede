@@ -181,3 +181,46 @@ h1,h2,h3 {font-family:Manrope,"DM Sans",sans-serif;line-height:1.16;letter-spaci
 .access-metrics dd{font-size:20px;font-weight:800;margin:3px 0 0;color:var(--ink)}
 .access-category{font-size:11px;color:var(--muted);margin:0}
 @media(max-width:790px){.access-list{grid-template-columns:1fr}.access-controls{grid-template-columns:1fr}}
+
+
+/* MAR scientific observatory — Streamlit analytics migration */
+.ob-dashboard{margin-top:28px}
+.ob-filter-panel{display:grid;grid-template-columns:minmax(240px,1.5fr) repeat(2,minmax(150px,.7fr));gap:15px;padding:22px;background:#fff;border:1px solid var(--line);border-radius:13px;margin:20px 0}
+.ob-filter-panel label{display:block;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:7px}
+.ob-filter-panel input,.ob-filter-panel select,.ob-sort select{width:100%;min-height:44px;background:#f8faf8;border:1px solid #dfe8e1;padding:9px 12px;border-radius:8px;color:var(--ink)}
+.ob-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:25px 0 32px}
+.ob-kpis>div{background:#fff;padding:24px 20px;border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;gap:6px}
+.ob-kpis strong{font-size:clamp(21px,2.2vw,31px);line-height:1.1;color:var(--green);letter-spacing:-.04em;overflow-wrap:anywhere}
+.ob-kpis span{font-size:11px;color:var(--muted)}
+.ob-viewbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:25px 0 12px;flex-wrap:wrap}
+.ob-viewtabs{display:flex;gap:5px;flex-wrap:wrap}
+.ob-viewtabs button,.ob-case-toggle{border:1px solid #cfddd3;border-radius:8px;background:white;color:var(--ink);font-size:12px;font-weight:800;padding:10px 15px}
+.ob-viewtabs button[aria-pressed="true"]{background:var(--green);color:white;border-color:var(--green)}
+.ob-sort{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.ob-sort select{min-height:38px}
+.ob-table-scroll{overflow-x:auto;background:white;border-radius:12px;border:1px solid var(--line)}
+.ob-table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}
+.ob-table th{background:#eef4ee;color:#344b45;text-transform:uppercase;letter-spacing:.04em;font-size:10px;padding:16px}
+.ob-table td{border-top:1px solid var(--line);padding:17px 15px;vertical-align:middle}
+.ob-table td:first-child{min-width:220px}
+.ob-table td small{display:block;color:var(--muted);margin-top:4px}
+.ob-table td>a,.ob-panel a{color:var(--green);text-decoration:underline;text-underline-offset:3px;font-weight:700}
+.ob-meter{height:9px;display:flex;min-width:115px;background:#e7ece6;border-radius:20px;overflow:hidden}
+.ob-meter-public{background:#25957e}
+.ob-meter-restricted{background:#b99b6b}
+.ob-meter-empty{color:var(--muted);font-size:11px}
+.ob-group-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:14px 0 30px}
+.ob-group,.ob-panel{background:white;border:1px solid var(--line);border-radius:12px;padding:23px;min-width:0}
+.ob-group h2,.ob-panel h2{font-size:20px;margin-bottom:8px}
+.ob-group p,.ob-panel p{color:var(--muted);font-size:13px;line-height:1.75}
+.ob-group .ob-meter{margin:15px 0 8px}
+.ob-profile-tags{display:flex;flex-wrap:wrap;gap:8px;margin:23px 0}
+.ob-profile-tags span{background:#e8f0eb;border-radius:20px;padding:6px 11px;font-size:11px;font-weight:700}
+.ob-breadcrumb{display:flex;gap:9px;margin:0 0 24px;font-size:12px;color:var(--muted)}
+.ob-breadcrumb a{text-decoration:underline}
+.ob-profile-columns{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin:30px 0}
+.ob-case-toggle:hover{background:#edf6ef}
+.ob-case-detail{border-top:1px solid var(--line);margin-top:17px;padding-top:17px}
+.ob-case-detail h3{font-size:14px}
+@media(max-width:900px){.ob-filter-panel{grid-template-columns:repeat(2,minmax(0,1fr))}.ob-filter-panel>div:first-child{grid-column:1/-1}.ob-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.ob-filter-panel,.ob-group-list,.ob-profile-columns{grid-template-columns:1fr}.ob-filter-panel>div:first-child{grid-column:1}.ob-kpis{gap:8px}.ob-kpis>div{padding:16px 12px}.ob-viewbar{align-items:flex-start}}
