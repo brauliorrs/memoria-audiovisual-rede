@@ -1,0 +1,262 @@
+[
+  {
+    "code": "aamod",
+    "source": "data/output/aamod_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "YouTube": 4,
+      "AAMOD": 2
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "aapb",
+    "source": "data/output/aapb_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "American Archive of Public Broadcasting": 28
+    },
+    "continents": {
+      "North America": 1
+    },
+    "videoContinents": {
+      "North America": 1
+    }
+  },
+  {
+    "code": "anf",
+    "source": "data/output/anf_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Eventbook": 8
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "ape",
+    "source": "data/output/ape_relatorio.json",
+    "totalInstitutions": 1253,
+    "institutionsWithVideo": 105,
+    "withEmbeds": 154,
+    "siteStatus": {
+      "ok": 748,
+      "erro": 245,
+      "http_error": 118,
+      "sem_site": 73,
+      "restrito": 69
+    },
+    "integrity": {
+      "integro": 745,
+      "instavel": 245,
+      "quebrado": 118,
+      "sem_site": 73,
+      "restrito": 69,
+      "suspeito": 3
+    },
+    "platforms": {
+      "YouTube": 328,
+      "Vimeo": 48,
+      "Instagram": 34,
+      "Facebook": 5,
+      "Internet Archive": 3
+    },
+    "continents": {
+      "Europe": 1247,
+      "Asia": 3,
+      "South America": 1,
+      "Nao classificado": 1,
+      "Oceania": 1
+    },
+    "videoContinents": {
+      "Europe": 105
+    }
+  },
+  {
+    "code": "aqshf",
+    "source": "data/output/aqshf_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "AQSHF": 2736
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "archipop",
+    "source": "data/output/archipop_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Archipop": 58
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "asim",
+    "source": "data/output/asim_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "European Film Gateway": 97
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "autrefois",
+    "source": "data/output/autrefois_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Autrefois Genève": 8
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "barch",
+    "source": "data/output/barch_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "acessivel": 1
+    },
+    "platforms": {
+      "European Film Gateway": 177
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "bbc",
+    "source": "data/output/bbc_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "BBC Archive": 817
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "bfi",
+    "source": "data/output/bfi_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "acessivel": 1
+    },
+    "platforms": {
+      "BFI Replay": 702
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  }
+]

@@ -1,0 +1,245 @@
+[
+  {
+    "code": "bnfa",
+    "source": "data/output/bnfa_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "European Film Gateway": 168
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "bnt",
+    "source": "data/output/bnt_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "BNT.bg": 45
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "ccma",
+    "source": "data/output/ccma_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "3Cat": 16
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cdna",
+    "source": "data/output/cdna_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Cinémathèque de Nouvelle-Aquitaine": 72
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "ciclic",
+    "source": "data/output/ciclic_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Ciclic Mémoire": 39
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cineam",
+    "source": "data/output/cineam_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "CINÉAM": 36
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cinearchives",
+    "source": "data/output/cinearchives_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Ciné-Archives": 48
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cinemateca_pt",
+    "source": "data/output/cinemateca_pt_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Cinemateca Digital": 30,
+      "Vimeo": 20
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cinematek",
+    "source": "data/output/cinematek_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "CINEMATEK@HOME": 20
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cinematheque_bretagne",
+    "source": "data/output/cinematheque_bretagne_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Cinémathèque de Bretagne": 30
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cinematheque_francaise",
+    "source": "data/output/cinematheque_francaise_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "HENRI": 255
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  }
+]

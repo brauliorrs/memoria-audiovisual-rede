@@ -1,0 +1,240 @@
+[
+  {
+    "code": "dr",
+    "source": "data/output/dr_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "DRTV/Gensyn": 453
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "ecpad",
+    "source": "data/output/ecpad_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "parcial": 1
+    },
+    "platforms": {
+      "ECPAD Archives": 36026
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "efa_estonia",
+    "source": "data/output/efa_estonia_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Arkaader": 3839
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "efg",
+    "source": "data/output/efg_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 0,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "erro": 1
+    },
+    "integrity": {
+      "instavel": 1
+    },
+    "platforms": {},
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {}
+  },
+  {
+    "code": "ert",
+    "source": "data/output/ert_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "ERT Archive": 28456
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "europeana",
+    "source": "data/output/europeana_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Europeana": 20
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "euscreen",
+    "source": "data/output/euscreen_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "EUscreen": 133
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "eye",
+    "source": "data/output/eye_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Eye Filmdatabase": 630
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "far",
+    "source": "data/output/far_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "MFNA / FAR": 479
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "filmarchiv_austria",
+    "source": "data/output/filmarchiv_austria_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Filmarchiv ON": 529
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "filmmuseum_dusseldorf",
+    "source": "data/output/filmmuseum_dusseldorf_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "d:kult online": 300
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  }
+]

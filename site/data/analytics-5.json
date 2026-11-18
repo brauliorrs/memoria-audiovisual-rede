@@ -1,0 +1,156 @@
+[
+  {
+    "code": "iwm_film",
+    "source": "data/output/iwm_film_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "IWM Film": 40877
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "luce",
+    "source": "data/output/luce_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Archivio Luce": 59
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "murnau_stiftung",
+    "source": "data/output/murnau_stiftung_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Murnau-Stiftung Filmsuche": 3889
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "pares",
+    "source": "data/output/pares_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "PARES": 75
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "ppa",
+    "source": "data/output/ppa_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Portal Português de Arquivos": 94
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "saint_etienne",
+    "source": "data/output/saint_etienne_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Cinémathèque de Saint-Étienne": 8
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "sfa",
+    "source": "data/output/sfa_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "VAC": 8
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  }
+]

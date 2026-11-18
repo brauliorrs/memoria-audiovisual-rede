@@ -1,0 +1,245 @@
+[
+  {
+    "code": "cinematheque_suisse",
+    "source": "data/output/cinematheque_suisse_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Memobase LOD API": 298
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cinememoire",
+    "source": "data/output/cinememoire_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Cinémémoire": 20
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cna",
+    "source": "data/output/cna_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "CNAsearch": 79
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cnc_aff",
+    "source": "data/output/cnc_aff_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "acessivel": 1
+    },
+    "platforms": {
+      "European Film Gateway": 141
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "cpsa",
+    "source": "data/output/cpsa_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Cinémathèque des Pays de Savoie et de l'Ain": 23
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "crnogorska_kinoteka",
+    "source": "data/output/crnogorska_kinoteka_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "acessivel": 1
+    },
+    "platforms": {
+      "European Film Gateway": 1
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "csc_cineteca",
+    "source": "data/output/csc_cineteca_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "YouTube": 78,
+      "Vimeo": 2
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "czech_tv",
+    "source": "data/output/czech_tv_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Česká televize iVysílání": 10
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "deutsche_kinemathek",
+    "source": "data/output/deutsche_kinemathek_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "Deutsche Kinemathek Selects": 9
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "dff",
+    "source": "data/output/dff_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 1,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "filmportal.de": 32
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  },
+  {
+    "code": "dhm",
+    "source": "data/output/dhm_relatorio.json",
+    "totalInstitutions": 1,
+    "institutionsWithVideo": 1,
+    "withEmbeds": 0,
+    "siteStatus": {
+      "ok": 1
+    },
+    "integrity": {
+      "integro": 1
+    },
+    "platforms": {
+      "DHM Zeughauskino online": 34
+    },
+    "continents": {
+      "Europe": 1
+    },
+    "videoContinents": {
+      "Europe": 1
+    }
+  }
+]
