@@ -11,6 +11,7 @@ on:
       - "tests/test_mar_site_public_access_observatory.py"
       - "tests/test_mar_scientific_site_migration.py"
       - "tests/test_mar_research_dimensions.py"
+      - "tests/test_mar_cross_corpus_comparison.py"
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
       - ".github/workflows/mar-site.yml"
@@ -74,6 +75,9 @@ jobs:
       - name: Validate Streamlit research dimension source files
         working-directory: .
         run: python3 -m unittest discover -s tests -p 'test_mar_research_dimensions.py' -v
+      - name: Verify three-source comparative research stays aggregate-only
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p "test_mar_cross_corpus_comparison.py" -v
       - name: Install pinned frontend dependencies
         run: npm install --no-audit --no-fund
       - name: Typecheck
@@ -91,6 +95,7 @@ jobs:
           test -f out/observatorio/index.html
           test -f out/casos/index.html
           test -f out/analises/index.html
+          test -f out/comparar/index.html
           test -f out/pesquisa/eye/index.html
           test -f out/pesquisa/ape/index.html
           test -f out/pesquisa/europeana/index.html

@@ -14,7 +14,7 @@ export default function HomePage() {
             <p className="hero-description">Estude a circulação do audiovisual em rede: compare acervos, instituições e territórios, investigue condições de acesso e explore registros documentais na fonte original.</p>
             <div className="hero-actions">
               <Link className="button button-light" href="/observatorio/">Explorar o observatório <span aria-hidden="true">↗</span></Link>
-              <Link className="button button-outline" href="/temas/">Explorar temas e territórios <span aria-hidden="true">→</span></Link>
+              <Link className="button button-outline" href="/comparar/">Comparar acervos e fontes <span aria-hidden="true">→</span></Link>
             </div>
           </div>
           <div className="hero-visual hero-wordcloud">
