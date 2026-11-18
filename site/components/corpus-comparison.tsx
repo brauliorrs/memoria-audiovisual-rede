@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
+import {decodeResearchSlice, encodeResearchSlice} from "@/lib/research-permalink";
+import {researchSnapshotCommit} from "@/lib/research-snapshot";
 import {useSiteLocale} from "@/components/site-locale";
 import {
   compareDimensions, comparisonMetrics, comparisonSources, historicalSeries, toCsv,
@@ -19,6 +21,8 @@ const copy = {
     shared:"Somente termos em 2+ fontes",all:"Todos os termos",term:"Termo",
     occurrences:"Ocorrências",share:"Participação no recorte",download:"Exportar CSV do recorte",
     more:"Mostrar mais",shown:"termos encontrados",noResults:"Nenhum termo encontrado neste recorte.",
+    copyLink:"Copiar link desta pesquisa",copied:"Link copiado",copyFailed:"Não foi possível copiar. Use o endereço do navegador.",
+    reproducible:"Recorte reproduzível",snapshot:"Revisão das fontes",
     noData:"Esta fonte não tem observações agregadas para a dimensão escolhida.",
     timelineNoData:"Nenhuma observação temporal neste corpus.",
     sourceCoverage:"Cobertura por fonte",labels:"termos",observed:"ocorrências",singleWarning:"Uma observação não demonstra tendência.",
@@ -39,6 +43,8 @@ const copy = {
     shared:"Terms present in 2+ sources",all:"All terms",term:"Term",
     occurrences:"Occurrences",share:"Share of the source",download:"Export selected CSV",
     more:"Show more",shown:"matching terms",noResults:"No terms match this selection.",
+    copyLink:"Copy research link",copied:"Link copied",copyFailed:"Could not copy. Use your browser address bar.",
+    reproducible:"Reproducible research slice",snapshot:"Source revision",
     noData:"This source has no historical aggregates for this dimension.",
     timelineNoData:"No historical observations for this source.",
     sourceCoverage:"Coverage by source",labels:"labels",observed:"occurrences",singleWarning:"A single observation cannot establish a trend.",
@@ -59,6 +65,8 @@ const copy = {
     shared:"Términos presentes en 2+ fuentes",all:"Todos los términos",term:"Término",
     occurrences:"Ocurrencias",share:"Proporción dentro de la fuente",download:"Exportar CSV del recorte",
     more:"Mostrar más",shown:"términos encontrados",noResults:"No hay términos para esta selección.",
+    copyLink:"Copiar enlace de la investigación",copied:"Enlace copiado",copyFailed:"No se pudo copiar. Use la barra del navegador.",
+    reproducible:"Recorte reproducible",snapshot:"Revisión de fuentes",
     noData:"Esta fuente no tiene indicadores agregados en la dimensión elegida.",
     timelineNoData:"No hay observaciones temporales para esta fuente.",
     sourceCoverage:"Cobertura por fuente",labels:"términos",observed:"ocurrencias",singleWarning:"Una observación no demuestra una tendencia.",
@@ -111,12 +119,12 @@ function SourceSeries({data,formatNumber,formatDate,labels}:{
       </svg>
       <p>{labels.change}: <strong>{delta>0?"+":""}{formatNumber(delta)}</strong></p>
     </> : <p>{labels.singleWarning}</p>}
-    {data.sourcePath&&<p className="compare-provenance"><a href={"https://github.com/brauliorrs/memoria-audiovisual-rede/blob/main/"+data.sourcePath} target="_blank" rel="noopener noreferrer">{labels.provenance}</a></p>}
+    {data.sourcePath&&<p className="compare-provenance"><a href={"https://github.com/brauliorrs/memoria-audiovisual-rede/blob/"+researchSnapshotCommit+"/"+data.sourcePath} target="_blank" rel="noopener noreferrer">{labels.provenance}</a></p>}
   </article>;
 }
 
 export function CorpusComparison() {
-  const {locale}=useSiteLocale();
+  const {locale,setLocale}=useSiteLocale();
   const t=copy[locale];
   const number=new Intl.NumberFormat(locale==="pt"?"pt-BR":locale==="es"?"es-ES":"en-US");
   const dateFormatter=new Intl.DateTimeFormat(locale==="pt"?"pt-BR":locale==="es"?"es-ES":"en-GB",
@@ -133,6 +141,36 @@ export function CorpusComparison() {
   const [query,setQuery]=useState("");
   const [sharedOnly,setSharedOnly]=useState(false);
   const [shown,setShown]=useState(30);
+  const [urlReady,setUrlReady]=useState(false);
+  const [copyStatus,setCopyStatus]=useState<"idle"|"copied"|"failed">("idle");
+
+  // The same URL restores the entire filtered study without touching the server.
+  useEffect(()=>{
+    const params=new URLSearchParams(window.location.search);
+    if(params.has("a")||params.has("b")||params.has("c")||params.has("view")||params.has("dimension")){
+      const saved=decodeResearchSlice(params);
+      setSources(saved.sources);
+      setTab(saved.view);
+      setDimension(saved.dimension);
+      setMetric(saved.metric);
+      setQuery(saved.query);
+      setSharedOnly(saved.sharedOnly);
+      if(params.has("lang"))setLocale(saved.locale);
+    }
+    setUrlReady(true);
+  // Restore once on mount; later changes are synchronized in the effect below.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+  useEffect(()=>{
+    if(!urlReady)return;
+    const params=encodeResearchSlice({sources,view:tab,dimension,metric,query,sharedOnly,locale});
+    window.history.replaceState(window.history.state,"",window.location.pathname+"?"+params.toString()+window.location.hash);
+    setCopyStatus("idle");
+  },[urlReady,sources,tab,dimension,metric,query,sharedOnly,locale]);
+  const copyResearchLink=async()=>{
+    try{await navigator.clipboard.writeText(window.location.href);setCopyStatus("copied");}
+    catch{setCopyStatus("failed");}
+  };
   const selected=sources.filter(Boolean);
   const {distributions,entries}=useMemo(()=>compareDimensions(selected,dimension),[sources,dimension]);
   const search=query.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
@@ -147,18 +185,18 @@ export function CorpusComparison() {
   const exportAggregate=()=>{
     if(tab==="timeline"){
       const rows:(string|number|null|undefined)[][]=[
-        ["corpus","observation_date","metric","value","aggregate_source_file"],
+        ["corpus","observation_date","metric","value","aggregate_source_file","source_snapshot_commit"],
       ];
-      series.forEach(s=>s.points.forEach(p=>rows.push([s.code,p.date,metric,p.value,s.sourcePath])));
+      series.forEach(s=>s.points.forEach(p=>rows.push([s.code,p.date,metric,p.value,s.sourcePath,researchSnapshotCommit])));
       saveCsv("mar-comparacao-series.csv",rows);
     }else{
       const rows:(string|number|null|undefined)[][]=[
-        ["dimension","label","corpus","occurrences","share_within_corpus","source_denominator","source_file"],
+        ["dimension","label","corpus","occurrences","share_within_corpus","source_denominator","source_file","source_snapshot_commit"],
       ];
       filtered.forEach(row=>distributions.forEach(s=>{
         const cell=row.bySource[s.code];
         if(cell!==null&&cell!==undefined)rows.push([
-          dimension,row.label,s.code,cell.count,cell.share.toFixed(6),s.total,s.sourcePath
+          dimension,row.label,s.code,cell.count,cell.share.toFixed(6),s.total,s.sourcePath,researchSnapshotCommit
         ]);
       }));
       saveCsv("mar-comparacao-"+dimension+".csv",rows);
@@ -169,6 +207,11 @@ export function CorpusComparison() {
     <p className="eyebrow">{t.eyebrow}</p>
     <h1>{t.title}</h1>
     <p className="page-lede">{t.intro}</p>
+    <div className="compare-repro-box" aria-label={t.reproducible}>
+      <div><strong>{t.reproducible}</strong><span>{t.snapshot}: <code>{researchSnapshotCommit.slice(0,12)}</code></span></div>
+      <button type="button" className="ob-case-toggle" onClick={copyResearchLink}>{t.copyLink}</button>
+      {copyStatus!=="idle"&&<p role="status">{copyStatus==="copied"?t.copied:t.copyFailed}</p>}
+    </div>
     <div className="ob-filter-panel compare-source-selectors">
       {sources.map((source,index)=><div key={index}>
         <label htmlFor={"compare-source-"+index}>{[t.first,t.second,t.third][index]}</label>
@@ -206,7 +249,7 @@ export function CorpusComparison() {
           <h2>{source.code.toUpperCase().replaceAll("_"," ")}</h2>
           <p><strong>{formatNumber(source.labels)}</strong> {t.labels} · <strong>{formatNumber(source.total)}</strong> {t.observed}</p>
           {!source.available&&<p>{t.noData}</p>}
-          {source.sourcePath&&<a href={"https://github.com/brauliorrs/memoria-audiovisual-rede/blob/main/"+source.sourcePath}
+          {source.sourcePath&&<a href={"https://github.com/brauliorrs/memoria-audiovisual-rede/blob/"+researchSnapshotCommit+"/"+source.sourcePath}
             target="_blank" rel="noopener noreferrer">{t.provenance}</a>}
         </article>)}
       </div>
