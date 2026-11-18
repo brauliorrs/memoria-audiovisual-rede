@@ -30,6 +30,10 @@ class PublicAccessObservatoryTests(unittest.TestCase):
                 "not_revalidated_in_this_migration",
                 "official_sample_observed",
                 "hold_new_access_unverified",
+                "portal_search_interface_observed",
+                "institutional_route_observed",
+                "aggregator_profile_observed",
+                "environment_limited",
             })
             self.assertTrue(entry["humanAccessNote"])
             self.assertTrue(entry["reviewReason"])
@@ -41,7 +45,11 @@ class PublicAccessObservatoryTests(unittest.TestCase):
             self.assertEqual(item["humanAccessEvidence"], "official_sample_observed")
             self.assertTrue(item["sampleSourceUrl"].startswith("https://"))
             self.assertEqual(item["recordDisplay"], "not_authorized_for_new_site")
-        self.assertEqual(by_code["ape"]["humanAccessEvidence"], "hold_new_access_unverified")
+        self.assertEqual(by_code["ape"]["humanAccessEvidence"], "portal_search_interface_observed")
+        self.assertEqual(by_code["ape"]["rightsAssessment"], "conditional_open_metadata_policy_review_per_record")
+        self.assertEqual(by_code["ciclic"]["humanAccessEvidence"], "environment_limited")
+        for code in ("ape", "ciclic", "barch", "asim", "bnfa"):
+            self.assertEqual(by_code[code]["recordDisplay"], "not_authorized_for_new_site")
 
     def test_web_routes_and_migration_are_static(self):
         page = (SITE / "app/indice-acesso/page.tsx").read_text(encoding="utf-8")
