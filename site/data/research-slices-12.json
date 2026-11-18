@@ -1,0 +1,533 @@
+{
+  "fina": {
+    "tema_pais": {
+      "source": "data/output/fina_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "Poland",
+          "total": "1032"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Poland",
+          "total": "841"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Poland",
+          "total": "515"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Poland",
+          "total": "115"
+        },
+        {
+          "tema": "Memória, narrativa e testemunho",
+          "pais": "Poland",
+          "total": "78"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Poland",
+          "total": "65"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Poland",
+          "total": "40"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "Poland",
+          "total": "35"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "Poland",
+          "total": "24"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "Poland",
+          "total": "12"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "pais": "Poland",
+          "total": "9"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/fina_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "Ninateka",
+          "total": "1032"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Ninateka",
+          "total": "841"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "Ninateka",
+          "total": "515"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "Ninateka",
+          "total": "115"
+        },
+        {
+          "tema": "Memória, narrativa e testemunho",
+          "plataforma": "Ninateka",
+          "total": "78"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Ninateka",
+          "total": "65"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Ninateka",
+          "total": "40"
+        },
+        {
+          "tema": "Formação e mediação",
+          "plataforma": "Ninateka",
+          "total": "35"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "plataforma": "Ninateka",
+          "total": "24"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "Ninateka",
+          "total": "12"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "plataforma": "Ninateka",
+          "total": "9"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/fina_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "fina",
+          "observation_key": "fina:2026-07-17T18:30:26Z",
+          "snapshot_generated_at": "2026-07-17T18:30:28Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-17T18:30:26Z",
+          "analytic_outputs_last_modified_at": "2026-07-17T18:30:23Z",
+          "generated_by": "scripts/run_fina_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "2766",
+          "videos_in_curatorial_catalog": "2766",
+          "visibility_categories": "1",
+          "theme_categories": "11",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "gosfilmofond": {
+    "tema_pais": {
+      "source": "data/output/gosfilmofond_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Russia",
+          "total": "59658"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "Russia",
+          "total": "66"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "Russia",
+          "total": "4"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Russia",
+          "total": "3"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Russia",
+          "total": "2"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/gosfilmofond_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Gosfilmofond Film Catalogue",
+          "total": "59658"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "Gosfilmofond Film Catalogue",
+          "total": "66"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "Gosfilmofond Film Catalogue",
+          "total": "4"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Gosfilmofond Film Catalogue",
+          "total": "3"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Gosfilmofond Film Catalogue",
+          "total": "2"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/gosfilmofond_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "gosfilmofond",
+          "observation_key": "gosfilmofond:2026-10-01T18:33:54Z",
+          "snapshot_generated_at": "2026-10-01T18:34:10Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-10-01T18:33:54Z",
+          "analytic_outputs_last_modified_at": "2026-10-01T18:33:23Z",
+          "generated_by": "scripts/run_gosfilmofond_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "59733",
+          "videos_in_curatorial_catalog": "59733",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "gosfilmofond",
+          "observation_key": "gosfilmofond:2026-10-01T19:23:04Z",
+          "snapshot_generated_at": "2026-10-01T19:23:12Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-10-01T19:23:04Z",
+          "analytic_outputs_last_modified_at": "2026-10-01T19:22:41Z",
+          "generated_by": "scripts/run_gosfilmofond_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "59733",
+          "videos_in_curatorial_catalog": "59733",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "home_movies": {
+    "tema_pais": {
+      "source": "data/output/home_movies_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "Italy",
+          "total": "2845"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Italy",
+          "total": "458"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "Italy",
+          "total": "325"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Italy",
+          "total": "257"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "Italy",
+          "total": "164"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "Italy",
+          "total": "118"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Italy",
+          "total": "97"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "Italy",
+          "total": "86"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Italy",
+          "total": "79"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "pais": "Italy",
+          "total": "58"
+        },
+        {
+          "tema": "Memória, narrativa e testemunho",
+          "pais": "Italy",
+          "total": "48"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "pais": "Italy",
+          "total": "37"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Italy",
+          "total": "21"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/home_movies_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Acervo e patrimônio",
+          "plataforma": "Memoryscapes",
+          "total": "2845"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "Memoryscapes",
+          "total": "458"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "plataforma": "Memoryscapes",
+          "total": "325"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "Memoryscapes",
+          "total": "257"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "Memoryscapes",
+          "total": "164"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "Memoryscapes",
+          "total": "118"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Memoryscapes",
+          "total": "97"
+        },
+        {
+          "tema": "Formação e mediação",
+          "plataforma": "Memoryscapes",
+          "total": "86"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Memoryscapes",
+          "total": "79"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "plataforma": "Memoryscapes",
+          "total": "58"
+        },
+        {
+          "tema": "Memória, narrativa e testemunho",
+          "plataforma": "Memoryscapes",
+          "total": "48"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "plataforma": "Memoryscapes",
+          "total": "37"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Memoryscapes",
+          "total": "21"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/home_movies_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "home-movies-memoryscapes",
+          "observation_key": "home-movies-memoryscapes:2026-07-21T17:33:04Z",
+          "snapshot_generated_at": "2026-07-21T17:33:10Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-21T17:33:04Z",
+          "analytic_outputs_last_modified_at": "2026-07-21T17:32:55Z",
+          "generated_by": "scripts/run_home_movies_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "4593",
+          "videos_in_curatorial_catalog": "4593",
+          "visibility_categories": "1",
+          "theme_categories": "13",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "home-movies-memoryscapes",
+          "observation_key": "home-movies-memoryscapes:2026-07-21T17:55:35Z",
+          "snapshot_generated_at": "2026-07-21T17:55:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-21T17:55:35Z",
+          "analytic_outputs_last_modified_at": "2026-07-21T17:55:29Z",
+          "generated_by": "scripts/run_home_movies_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "4593",
+          "videos_in_curatorial_catalog": "4593",
+          "visibility_categories": "1",
+          "theme_categories": "13",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "iam": {
+    "tema_pais": {
+      "source": "data/output/iam_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e cotidiano",
+          "pais": "Monaco",
+          "total": "77"
+        },
+        {
+          "tema": "Cultura, artes e espetáculos",
+          "pais": "Monaco",
+          "total": "34"
+        },
+        {
+          "tema": "Esporte e automobilismo",
+          "pais": "Monaco",
+          "total": "32"
+        },
+        {
+          "tema": "Vida pública e política",
+          "pais": "Monaco",
+          "total": "30"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/iam_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e cotidiano",
+          "plataforma": "Institut audiovisuel de Monaco",
+          "total": "77"
+        },
+        {
+          "tema": "Cultura, artes e espetáculos",
+          "plataforma": "Institut audiovisuel de Monaco",
+          "total": "34"
+        },
+        {
+          "tema": "Esporte e automobilismo",
+          "plataforma": "Institut audiovisuel de Monaco",
+          "total": "32"
+        },
+        {
+          "tema": "Vida pública e política",
+          "plataforma": "Institut audiovisuel de Monaco",
+          "total": "30"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/iam_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "iam",
+          "observation_key": "iam:2026-06-11T17:34:14Z",
+          "snapshot_generated_at": "2026-06-11T17:34:14Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-11T17:34:14Z",
+          "analytic_outputs_last_modified_at": "2026-06-11T17:34:14Z",
+          "generated_by": "scripts/run_iam_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "173",
+          "videos_in_curatorial_catalog": "173",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "iam",
+          "observation_key": "iam:2026-06-11T17:41:35Z",
+          "snapshot_generated_at": "2026-06-11T17:41:35Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-11T17:41:35Z",
+          "analytic_outputs_last_modified_at": "2026-06-11T17:41:35Z",
+          "generated_by": "scripts/run_iam_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "173",
+          "videos_in_curatorial_catalog": "173",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
