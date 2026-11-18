@@ -761,7 +761,7 @@
       "inventoryStatus": "historical_observation_not_publication_permission",
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
-      "reviewReason": "Auditoria dos 20 itens Europeana: 7 com tipo audiovisual não comprovado, 10 títulos ausentes/genéricos, 17 exigem exame separado dos direitos do objeto. Metadados CC0 não autorizam mídia e não dispensam revisão científica individual.",
+      "reviewReason": "Auditoria dos 20 itens Europeana: 7 com tipo audiovisual não comprovado, 10 títulos ausentes/genéricos, 20 exigem exame separado dos direitos do objeto. Metadados CC0 não autorizam mídia e não dispensam revisão científica individual.",
       "humanAccessEvidence": "portal_search_interface_observed",
       "humanAccessNote": "Europeana informa consulta pública e fornece política de uso de metadados CC0. Não foram revalidadas as 20 fichas do snapshot histórico; imagens e demais conteúdos continuam sujeitos aos direitos próprios.",
       "sampleSourceUrl": "https://www.europeana.eu/en/rights/europeana-data-sources",
