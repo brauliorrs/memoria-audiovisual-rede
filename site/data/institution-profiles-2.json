@@ -1,0 +1,152 @@
+{
+  "cinematheque_bretagne": {
+    "source": "data/output/cinematheque_bretagne_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cinematheque_bretagne:1",
+        "name": "Cinémathèque de Bretagne",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Regional audiovisual and amateur film archive",
+        "repositoryCode": "FR-CINEMATHEQUE-BRETAGNE",
+        "originUrl": "https://www.cinematheque-bretagne.bzh/voir-les-films-426-0-0-0.html"
+      }
+    ]
+  },
+  "cinematheque_francaise": {
+    "source": "data/output/cinematheque_francaise_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cinematheque_francaise:1",
+        "name": "Cinémathèque française / Musée du cinéma",
+        "country": "France",
+        "continent": "Europe",
+        "type": "National cinematheque and online film streaming platform",
+        "repositoryCode": "FR-CINEMATHEQUE-FRANCAISE",
+        "originUrl": "https://www.cinematheque.fr/henri/"
+      }
+    ]
+  },
+  "cinematheque_suisse": {
+    "source": "data/output/cinematheque_suisse_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cinematheque_suisse:1",
+        "name": "Cinémathèque suisse",
+        "country": "Switzerland",
+        "continent": "Europe",
+        "type": "National cinematheque with public metadata and onsite/authorized media access",
+        "repositoryCode": "CH-CINEMATHEQUE-SUISSE",
+        "originUrl": "https://www.cinematheque.ch/"
+      }
+    ]
+  },
+  "cinememoire": {
+    "source": "data/output/cinememoire_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cinememoire:1",
+        "name": "Cinémémoire",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Institutional amateur and family film archive",
+        "repositoryCode": "FR-CINEMEMOIRE",
+        "originUrl": "https://cinememoire.net/recherche-simple"
+      }
+    ]
+  },
+  "cna": {
+    "source": "data/output/cna_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cna:1",
+        "name": "Centre national de l'audiovisuel (CNA)",
+        "country": "Luxembourg",
+        "continent": "Europe",
+        "type": "National audiovisual archive",
+        "repositoryCode": "LU-CNA",
+        "originUrl": "https://cnasearch.public.lu/searchprofiles/run/4/film"
+      }
+    ]
+  },
+  "cnc_aff": {
+    "source": "data/output/cnc_aff_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cnc_aff:1",
+        "name": "Centre national du cinéma et de l'image animée - Archives françaises du film",
+        "country": "France",
+        "continent": "Europe",
+        "type": "National film archive",
+        "repositoryCode": "FR-CNC-AFF",
+        "originUrl": "https://www.europeanfilmgateway.eu/content/archives-fran%C3%A7aises-du-film-du-cnc-bois-darcy"
+      }
+    ]
+  },
+  "cpsa": {
+    "source": "data/output/cpsa_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cpsa:1",
+        "name": "Cinémathèque des Pays de Savoie et de l'Ain",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Regional audiovisual and amateur film archive",
+        "repositoryCode": "FR-CPSA",
+        "originUrl": "https://www.letelepherique.org/le-catalogue-des-collections-527-0-0-0.html"
+      }
+    ]
+  },
+  "crnogorska_kinoteka": {
+    "source": "data/output/crnogorska_kinoteka_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "crnogorska_kinoteka:1",
+        "name": "Crnogorska Kinoteka",
+        "country": "Montenegro",
+        "continent": "Europe",
+        "type": "National film archive / cinematheque",
+        "repositoryCode": "ME-CK",
+        "originUrl": "https://kinoteka.me/"
+      }
+    ]
+  },
+  "csc_cineteca": {
+    "source": "data/output/csc_cineteca_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "csc_cineteca:1",
+        "name": "Fondazione Centro Sperimentale di Cinematografia - Cineteca Nazionale",
+        "country": "Italy",
+        "continent": "Europe",
+        "type": "National film archive with public video catalog",
+        "repositoryCode": "IT-CSC-CINETECA",
+        "originUrl": "https://www.fondazionecsc.it/video-cineteca/"
+      }
+    ]
+  },
+  "czech_tv": {
+    "source": "data/output/czech_tv_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "czech_tv:1",
+        "name": "Czech Television",
+        "country": "Czech Republic",
+        "continent": "Europe",
+        "type": "Public service broadcaster digital video archive",
+        "repositoryCode": "CZ-CT",
+        "originUrl": "https://www.ceskatelevize.cz/"
+      }
+    ]
+  }
+}
