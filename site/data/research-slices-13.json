@@ -1,0 +1,383 @@
+{
+  "ifi_archive_player": {
+    "tema_pais": {
+      "source": "data/output/ifi_archive_player_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Patrimônio fílmico irlandês em acesso público",
+          "pais": "Ireland",
+          "total": "1115"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/ifi_archive_player_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Patrimônio fílmico irlandês em acesso público",
+          "plataforma": "IFI Archive Player",
+          "total": "1115"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/ifi_archive_player_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "ifi_archive_player",
+          "observation_key": "ifi_archive_player:2026-10-02T18:34:44Z",
+          "snapshot_generated_at": "2026-10-02T18:34:44Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-10-02T18:34:44Z",
+          "analytic_outputs_last_modified_at": "2026-10-02T18:34:44Z",
+          "generated_by": "scripts/run_ifi_archive_player_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "1115",
+          "videos_in_curatorial_catalog": "1115",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "image_est": {
+    "tema_pais": {
+      "source": "data/output/image_est_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "France",
+          "total": "2917"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "France",
+          "total": "117"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "France",
+          "total": "4"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "France",
+          "total": "2"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/image_est_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Image'Est - Patrimoine",
+          "total": "2917"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "Image'Est - Patrimoine",
+          "total": "117"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Image'Est - Patrimoine",
+          "total": "4"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "Image'Est - Patrimoine",
+          "total": "2"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/image_est_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "image_est",
+          "observation_key": "image_est:2026-10-03T16:20:23Z",
+          "snapshot_generated_at": "2026-10-03T16:20:23Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-10-03T16:20:23Z",
+          "analytic_outputs_last_modified_at": "2026-10-03T16:20:21Z",
+          "generated_by": "scripts/run_image_est_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "3040",
+          "videos_in_curatorial_catalog": "3040",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "ina": {
+    "tema_pais": {
+      "source": "data/output/ina_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "France",
+          "total": "28"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "France",
+          "total": "23"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "France",
+          "total": "4"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "pais": "France",
+          "total": "3"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "France",
+          "total": "3"
+        },
+        {
+          "tema": "Tema não identificado",
+          "pais": "France",
+          "total": "3"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "France",
+          "total": "2"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "France",
+          "total": "2"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "France",
+          "total": "2"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "France",
+          "total": "2"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "France",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/ina_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Mediaclip INA",
+          "total": "28"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Madelen",
+          "total": "23"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "Madelen",
+          "total": "4"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "plataforma": "Madelen",
+          "total": "3"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "Madelen",
+          "total": "3"
+        },
+        {
+          "tema": "Tema não identificado",
+          "plataforma": "Mediaclip INA",
+          "total": "3"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Madelen",
+          "total": "2"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "plataforma": "Madelen",
+          "total": "2"
+        },
+        {
+          "tema": "Formação e mediação",
+          "plataforma": "Madelen",
+          "total": "2"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "Madelen",
+          "total": "2"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "plataforma": "Madelen",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/ina_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "ina",
+          "observation_key": "ina:2026-05-05T16:10:46Z",
+          "snapshot_generated_at": "2026-05-05T19:34:13Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-05T16:10:46Z",
+          "analytic_outputs_last_modified_at": "2026-05-05T19:34:13Z",
+          "generated_by": "scripts/build_ina_analytics.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "75",
+          "videos_in_curatorial_catalog": "75",
+          "visibility_categories": "1",
+          "theme_categories": "12",
+          "archive_type_categories": "1",
+          "platforms_detected": "4",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ina",
+          "observation_key": "ina:2026-05-08T18:41:39Z",
+          "snapshot_generated_at": "2026-05-08T18:41:39Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-08T18:41:39Z",
+          "analytic_outputs_last_modified_at": "2026-05-08T18:41:39Z",
+          "generated_by": "scripts/run_ina_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "77",
+          "videos_in_curatorial_catalog": "77",
+          "visibility_categories": "1",
+          "theme_categories": "12",
+          "archive_type_categories": "1",
+          "platforms_detected": "3",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ina",
+          "observation_key": "ina:2026-05-22T17:56:05Z",
+          "snapshot_generated_at": "2026-05-27T16:48:01Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-22T17:56:05Z",
+          "analytic_outputs_last_modified_at": "2026-05-27T16:48:01Z",
+          "generated_by": "scripts/build_ina_analytics.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "73",
+          "videos_in_curatorial_catalog": "73",
+          "visibility_categories": "1",
+          "theme_categories": "11",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "iwm_film": {
+    "tema_pais": {
+      "source": "data/output/iwm_film_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Registro filmográfico IWM — tema não identificado",
+          "pais": "United Kingdom",
+          "total": "40870"
+        },
+        {
+          "tema": "Guerra, forças armadas e conflito",
+          "pais": "United Kingdom",
+          "total": "7"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/iwm_film_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Registro filmográfico IWM — tema não identificado",
+          "plataforma": "IWM Film",
+          "total": "40870"
+        },
+        {
+          "tema": "Guerra, forças armadas e conflito",
+          "plataforma": "IWM Film",
+          "total": "7"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/iwm_film_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "iwm_film",
+          "observation_key": "iwm_film:2026-10-07T00:09:39Z",
+          "snapshot_generated_at": "2026-10-07T00:09:41Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-10-07T00:09:39Z",
+          "analytic_outputs_last_modified_at": "2026-10-07T00:09:20Z",
+          "generated_by": "scripts/run_iwm_film_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "40877",
+          "videos_in_curatorial_catalog": "40877",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "iwm_film",
+          "observation_key": "iwm_film:2026-10-08T16:45:49Z",
+          "snapshot_generated_at": "2026-10-08T16:45:51Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-10-08T16:45:49Z",
+          "analytic_outputs_last_modified_at": "2026-10-08T16:45:33Z",
+          "generated_by": "scripts/run_iwm_film_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "40877",
+          "videos_in_curatorial_catalog": "40877",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
