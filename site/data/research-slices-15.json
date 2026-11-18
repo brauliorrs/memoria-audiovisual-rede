@@ -1,0 +1,161 @@
+{
+  "saint_etienne": {
+    "tema_pais": {
+      "source": "data/output/saint_etienne_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e memória local",
+          "pais": "France",
+          "total": "8"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/saint_etienne_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e memória local",
+          "plataforma": "Cinémathèque de Saint-Étienne",
+          "total": "8"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/saint_etienne_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "saint_etienne",
+          "observation_key": "saint_etienne:2026-07-06T15:22:05Z",
+          "snapshot_generated_at": "2026-07-06T15:22:05Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-06T15:22:05Z",
+          "analytic_outputs_last_modified_at": "2026-07-06T15:22:05Z",
+          "generated_by": "scripts/run_saint_etienne_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "saint_etienne",
+          "observation_key": "saint_etienne:2026-07-06T15:22:49Z",
+          "snapshot_generated_at": "2026-07-06T15:22:49Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-06T15:22:49Z",
+          "analytic_outputs_last_modified_at": "2026-07-06T15:22:49Z",
+          "generated_by": "scripts/run_saint_etienne_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "sfa": {
+    "tema_pais": {
+      "source": "data/output/sfa_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Slovenia",
+          "total": "7"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Slovenia",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/sfa_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "VAC",
+          "total": "7"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "VAC",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/sfa_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "sfa",
+          "observation_key": "sfa:2026-06-08T16:27:35Z",
+          "snapshot_generated_at": "2026-06-08T16:27:35Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-08T16:27:35Z",
+          "analytic_outputs_last_modified_at": "2026-06-08T16:27:34Z",
+          "generated_by": "scripts/run_sfa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "sfa",
+          "observation_key": "sfa:2026-06-08T16:29:13Z",
+          "snapshot_generated_at": "2026-06-08T16:29:13Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-08T16:29:13Z",
+          "analytic_outputs_last_modified_at": "2026-06-08T16:29:13Z",
+          "generated_by": "scripts/run_sfa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "sfa",
+          "observation_key": "sfa:2026-06-08T16:31:59Z",
+          "snapshot_generated_at": "2026-06-08T16:31:59Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-08T16:31:59Z",
+          "analytic_outputs_last_modified_at": "2026-06-08T16:31:59Z",
+          "generated_by": "scripts/run_sfa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
