@@ -38,6 +38,7 @@ const CORPUS_TO_REPORT: Record<string,string> = {
   "saint-etienne":"saint_etienne",
   "csc-cineteca-nazionale":"csc_cineteca",
   "aqshf":"aqshf",
+  "portal-portugues-arquivos":"ppa",
   "image_est":"image_est",
   "cna":"cna",
   "sfa":"sfa",
