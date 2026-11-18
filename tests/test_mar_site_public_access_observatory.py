@@ -46,8 +46,11 @@ class PublicAccessObservatoryTests(unittest.TestCase):
             self.assertTrue(item["sampleSourceUrl"].startswith("https://"))
             self.assertEqual(item["recordDisplay"], "not_authorized_for_new_site")
         self.assertEqual(by_code["ape"]["humanAccessEvidence"], "portal_search_interface_observed")
-        self.assertEqual(by_code["ape"]["rightsAssessment"], "conditional_open_metadata_policy_review_per_record")
         self.assertEqual(by_code["ciclic"]["humanAccessEvidence"], "environment_limited")
+        self.assertEqual(by_code["ape"]["rightsAssessment"], "hold_reclassify_external_media_inventory")
+        self.assertEqual(by_code["europeana"]["rightsAssessment"], "hold_scientific_and_item_source_review")
+        self.assertIn("16 repetições", by_code["ape"]["reviewReason"])
+        self.assertIn("7 com tipo audiovisual", by_code["europeana"]["reviewReason"])
         for code in ("ape", "ciclic", "barch", "asim", "bnfa"):
             self.assertEqual(by_code[code]["recordDisplay"], "not_authorized_for_new_site")
 
