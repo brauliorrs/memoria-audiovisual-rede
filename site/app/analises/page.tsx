@@ -9,7 +9,7 @@ export default function AnalysesPage(){
   <p className="eyebrow">OBSERVATÓRIO · PESQUISA COMPARADA</p>
   <h1>Indicadores e relatórios por fonte</h1>
   <p className="page-lede">Explore os {historicalAnalyticReports.length} relatórios analíticos consolidados pela pesquisa original do Streamlit: instituições, sites, plataformas e evidências documentais. Compare fontes sem confundir volume coletado com cobertura integral dos arquivos.</p>
-  <p><Link href="/observatorio/">Visão integrada do observatório</Link> · <Link href="/temas/">Temas e territórios</Link> · <Link href="/series/">Séries temporais</Link> · <Link href="/casos/">Casos documentados</Link></p>
+  <p><Link href="/comparar/">Comparar fontes em uma investigação ↗</Link> · <Link href="/observatorio/">Visão integrada do observatório</Link> · <Link href="/temas/">Temas e territórios</Link> · <Link href="/series/">Séries temporais</Link> · <Link href="/casos/">Casos documentados</Link></p>
   <AnalyticsComparison/>
  </main>;
 }
