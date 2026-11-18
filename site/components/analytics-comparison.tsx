@@ -33,7 +33,7 @@ export function AnalyticsComparison() {
     <td>{formatNumber(report.totalInstitutions)}</td>
     <td>{formatNumber(report.institutionsWithVideo)}</td>
     <td>{formatNumber(report.withEmbeds)}</td>
-    <td>{linkFor(report.code)?<Link href={linkFor(report.code)!}>Analisar fonte</Link>:"Somente histórico"}</td>
+    <td><Link href={`/pesquisa/${report.code}/`}>Explorar dimensões</Link>{linkFor(report.code)&&<> · <Link href={linkFor(report.code)!}>Perfil</Link></>}</td>
    </tr>)}</tbody></table></div>
   <p className="disclaimer">* Relatórios gerados anteriormente no Streamlit e preservados como dados agregados; coberturas e denominadores variam por fonte, podendo existir instituições repetidas. <strong>Não somar as linhas como um total mundial de instituições ou obras.</strong> Indicadores de vídeo não constituem autorização para exibição de conteúdo.</p>
  </section>;
