@@ -1,11 +1,13 @@
 name: MAR Next.js Site
 
 on:
+  workflow_dispatch:
   pull_request:
     paths:
       - "site/**"
       - "tests/test_mar_site_public_pages.py"
       - "tests/test_mar_title_wordcloud.py"
+      - "tests/test_mar_wordcloud_growth.py"
       - "tests/test_mar_site_public_access_observatory.py"
       - "tests/test_mar_scientific_site_migration.py"
       - "tests/test_mar_research_dimensions.py"
@@ -52,6 +54,9 @@ jobs:
           else
             python3 scripts/build_mar_title_wordcloud.py --stdout
           fi
+      - name: Verify new corpus inclusion changes title frequencies
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p "test_mar_wordcloud_growth.py" -v
       - name: Test homepage word-cloud integrity and publication boundary
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_title_wordcloud.py" -v
