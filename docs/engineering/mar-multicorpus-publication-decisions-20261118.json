@@ -1,0 +1,43 @@
+{
+  "schema": "mar-corpus-publication-decision-v1",
+  "recordedOn": "2026-11-18",
+  "scope": "metadata_only_no_media",
+  "decisions": [
+    {
+      "corpus": "eye",
+      "technicalCI": "passed",
+      "sourceDocumentChecks": {
+        "confirmed": 1,
+        "unverified": 1
+      },
+      "authorization": "not_issued",
+      "publicationAllowed": false,
+      "decision": "HOLD",
+      "blockingReasons": [
+        "exact URL for first pilot record not externally verified",
+        "metadata republication permissions not documented",
+        "dataset-wide review not completed"
+      ],
+      "evidence": "docs/engineering/mar-multicorpus-external-validation-20261118.md"
+    },
+    {
+      "corpus": "czech",
+      "technicalCI": "passed",
+      "sourceDocumentChecks": {
+        "confirmed": 2,
+        "unverified": 0
+      },
+      "authorization": "not_issued",
+      "publicationAllowed": false,
+      "decision": "HOLD",
+      "blockingReasons": [
+        "metadata republication permissions not documented",
+        "dataset-wide review not completed",
+        "scientific sign-off not issued"
+      ],
+      "evidence": "docs/engineering/mar-multicorpus-external-validation-20261118.md"
+    }
+  ],
+  "streamlitRetained": true,
+  "publicCatalogChangesAllowed": false
+}
