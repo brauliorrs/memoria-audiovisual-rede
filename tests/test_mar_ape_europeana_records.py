@@ -33,7 +33,7 @@ class RecordReviewTests(unittest.TestCase):
         self.assertTrue(all(r["sourceItemIdentifier"] for r in report["records"]))
         self.assertTrue(all(r["urlHost"] == "www.europeana.eu" for r in report["records"]))
         self.assertTrue(all(r["metadataLicencePolicy"].startswith("CC0") for r in report["records"]))
-        self.assertIn("object_rights_require_independent_review", report["issues"])
+        self.assertEqual(report["issues"]["object_rights_require_independent_review"], 20)
         self.assertIn("audiovisual_type_not_proven", report["issues"])
 
     def test_ape_institutional_index_not_archival_item_metadata(self):
