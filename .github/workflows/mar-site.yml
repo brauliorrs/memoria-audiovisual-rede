@@ -12,6 +12,7 @@ on:
       - "tests/test_mar_scientific_site_migration.py"
       - "tests/test_mar_research_dimensions.py"
       - "tests/test_mar_cross_corpus_comparison.py"
+      - "tests/test_mar_geographic_permalinks.py"
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
       - ".github/workflows/mar-site.yml"
@@ -80,6 +81,11 @@ jobs:
         run: python3 -m unittest discover -s tests -p "test_mar_cross_corpus_comparison.py" -v
       - name: Install pinned frontend dependencies
         run: npm install --no-audit --no-fund
+      - name: Test reproducible source selections and country map
+        run: npm run test:permalink
+      - name: Validate geographic sources and permalink scientific contracts
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p "test_mar_geographic_permalinks.py" -v
       - name: Typecheck
         run: npm run typecheck
       - name: Build static Next.js site
@@ -96,6 +102,7 @@ jobs:
           test -f out/casos/index.html
           test -f out/analises/index.html
           test -f out/comparar/index.html
+          test -f out/territorios/index.html
           test -f out/pesquisa/eye/index.html
           test -f out/pesquisa/ape/index.html
           test -f out/pesquisa/europeana/index.html
