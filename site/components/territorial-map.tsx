@@ -4,7 +4,7 @@ import Link from "next/link";
 import {useMemo, useState} from "react";
 import world from "@/data/world-110m-geometry.json";
 import {useSiteLocale} from "@/components/site-locale";
-import {getResearchSlice, researchSourceCodes, summarizeTopics, verifiedCount} from "@/lib/research-slices";
+import {getResearchSlice, researchSourceCodes, verifiedCount} from "@/lib/research-slices";
 import {researchSnapshotCommit} from "@/lib/research-snapshot";
 
 const wording = {
@@ -53,7 +53,7 @@ export function TerritorialMap(){
   const [focusedCountry,setFocusedCountry]=useState("");
   const [showAll,setShowAll]=useState(false);
   const sourceSlice=getResearchSlice(source);
-  const themes=sourceSlice?summarizeTopics(sourceSlice):[];
+  const themes=sourceSlice?[...new Set(sourceSlice.tema_pais.rows.map(row=>row.tema))].filter(Boolean).sort().map(name=>({name})):[];
   const activeTheme=themes.some(item=>item.name===theme)?theme:"";
   const summary=useMemo(()=>{
     const counts=new Map<string,number>();
