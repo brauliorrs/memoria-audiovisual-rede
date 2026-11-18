@@ -36,7 +36,7 @@ export function TitleWordCloud() {
         ))}
       </div>
       <figcaption className="title-cloud-footnote">
-        ${formatter.format(titleTerms.titlesExamined)} registros analisados · ${titleTerms.corporaProcessed} fontes.
+        {formatter.format(titleTerms.titlesExamined)} registros analisados · {titleTerms.corporaProcessed} fontes.
         <span> Frequências agregadas; sem exposição de títulos ou filmes.</span>
       </figcaption>
     </figure>
