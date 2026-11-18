@@ -1,0 +1,520 @@
+{
+  "filmoteca_catalunya": {
+    "tema_pais": {
+      "source": "data/output/filmoteca_catalunya_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Memória política, trabalho e conflito social",
+          "pais": "Spain",
+          "total": "3"
+        },
+        {
+          "tema": "Mídia, censura e esfera pública",
+          "pais": "Spain",
+          "total": "3"
+        },
+        {
+          "tema": "Migração, cidade e memória social",
+          "pais": "Spain",
+          "total": "2"
+        },
+        {
+          "tema": "Ficção, ensaio e cinema experimental",
+          "pais": "Spain",
+          "total": "1"
+        },
+        {
+          "tema": "Trabalho, campo e território",
+          "pais": "Spain",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/filmoteca_catalunya_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Memória política, trabalho e conflito social",
+          "plataforma": "PLATFO FILMO",
+          "total": "3"
+        },
+        {
+          "tema": "Mídia, censura e esfera pública",
+          "plataforma": "PLATFO FILMO",
+          "total": "3"
+        },
+        {
+          "tema": "Migração, cidade e memória social",
+          "plataforma": "PLATFO FILMO",
+          "total": "2"
+        },
+        {
+          "tema": "Ficção, ensaio e cinema experimental",
+          "plataforma": "PLATFO FILMO",
+          "total": "1"
+        },
+        {
+          "tema": "Trabalho, campo e território",
+          "plataforma": "PLATFO FILMO",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/filmoteca_catalunya_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "filmoteca_catalunya",
+          "observation_key": "filmoteca_catalunya:2026-07-17T16:56:54Z",
+          "snapshot_generated_at": "2026-07-17T16:56:54Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-17T16:56:54Z",
+          "analytic_outputs_last_modified_at": "2026-07-17T16:56:53Z",
+          "generated_by": "scripts/run_filmoteca_catalunya_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "10",
+          "videos_in_curatorial_catalog": "10",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "filmoteca_catalunya",
+          "observation_key": "filmoteca_catalunya:2026-07-17T17:08:04Z",
+          "snapshot_generated_at": "2026-07-17T17:08:04Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-17T17:08:04Z",
+          "analytic_outputs_last_modified_at": "2026-07-17T17:08:04Z",
+          "generated_by": "scripts/run_filmoteca_catalunya_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "10",
+          "videos_in_curatorial_catalog": "10",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "filmoteca_catalunya",
+          "observation_key": "filmoteca_catalunya:2026-07-17T17:09:08Z",
+          "snapshot_generated_at": "2026-07-17T17:09:08Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-17T17:09:08Z",
+          "analytic_outputs_last_modified_at": "2026-07-17T17:09:08Z",
+          "generated_by": "scripts/run_filmoteca_catalunya_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "10",
+          "videos_in_curatorial_catalog": "10",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "filmoteca_espanola": {
+    "tema_pais": {
+      "source": "data/output/filmoteca_espanola_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "História e pesquisa",
+          "pais": "Spain",
+          "total": "220"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Spain",
+          "total": "41"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "Spain",
+          "total": "21"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "pais": "Spain",
+          "total": "19"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Spain",
+          "total": "16"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Spain",
+          "total": "15"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "Spain",
+          "total": "5"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "Spain",
+          "total": "3"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "Spain",
+          "total": "2"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Spain",
+          "total": "2"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/filmoteca_espanola_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "PLATFO FILMO",
+          "total": "220"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "PLATFO FILMO",
+          "total": "41"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "plataforma": "PLATFO FILMO",
+          "total": "21"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "plataforma": "PLATFO FILMO",
+          "total": "19"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "PLATFO FILMO",
+          "total": "16"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "PLATFO FILMO",
+          "total": "15"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "PLATFO FILMO",
+          "total": "5"
+        },
+        {
+          "tema": "Formação e mediação",
+          "plataforma": "PLATFO FILMO",
+          "total": "3"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "plataforma": "PLATFO FILMO",
+          "total": "2"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "PLATFO FILMO",
+          "total": "2"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/filmoteca_espanola_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "filmoteca_espanola",
+          "observation_key": "filmoteca_espanola:2026-07-16T19:34:10Z",
+          "snapshot_generated_at": "2026-07-16T19:34:10Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-16T19:34:10Z",
+          "analytic_outputs_last_modified_at": "2026-07-16T19:34:09Z",
+          "generated_by": "scripts/run_filmoteca_espanola_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "344",
+          "videos_in_curatorial_catalog": "344",
+          "visibility_categories": "1",
+          "theme_categories": "10",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "filmoteca_espanola",
+          "observation_key": "filmoteca_espanola:2026-07-16T19:37:57Z",
+          "snapshot_generated_at": "2026-07-16T19:37:58Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-16T19:37:57Z",
+          "analytic_outputs_last_modified_at": "2026-07-16T19:37:56Z",
+          "generated_by": "scripts/run_filmoteca_espanola_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "344",
+          "videos_in_curatorial_catalog": "344",
+          "visibility_categories": "1",
+          "theme_categories": "10",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "filmoteca_valenciana": {
+    "tema_pais": {
+      "source": "data/output/filmoteca_valenciana_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Spain",
+          "total": "45"
+        },
+        {
+          "tema": "Festas, cultura popular e memória local",
+          "pais": "Spain",
+          "total": "10"
+        },
+        {
+          "tema": "Trabalho, indústria e território",
+          "pais": "Spain",
+          "total": "6"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "pais": "Spain",
+          "total": "5"
+        },
+        {
+          "tema": "Cinema doméstico e memória familiar",
+          "pais": "Spain",
+          "total": "4"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/filmoteca_valenciana_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "Vimeo / Restauraciones Filmoteca Valenciana",
+          "total": "45"
+        },
+        {
+          "tema": "Festas, cultura popular e memória local",
+          "plataforma": "Vimeo / Restauraciones Filmoteca Valenciana",
+          "total": "10"
+        },
+        {
+          "tema": "Trabalho, indústria e território",
+          "plataforma": "Vimeo / Restauraciones Filmoteca Valenciana",
+          "total": "6"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "plataforma": "Vimeo / Restauraciones Filmoteca Valenciana",
+          "total": "5"
+        },
+        {
+          "tema": "Cinema doméstico e memória familiar",
+          "plataforma": "Vimeo / Restauraciones Filmoteca Valenciana",
+          "total": "4"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/filmoteca_valenciana_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "filmoteca_valenciana",
+          "observation_key": "filmoteca_valenciana:2026-07-16T19:57:29Z",
+          "snapshot_generated_at": "2026-07-16T19:57:29Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-16T19:57:29Z",
+          "analytic_outputs_last_modified_at": "2026-07-16T19:57:28Z",
+          "generated_by": "scripts/run_filmoteca_valenciana_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "70",
+          "videos_in_curatorial_catalog": "70",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "filmoteca_valenciana",
+          "observation_key": "filmoteca_valenciana:2026-07-16T20:00:49Z",
+          "snapshot_generated_at": "2026-07-16T20:00:49Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-16T20:00:49Z",
+          "analytic_outputs_last_modified_at": "2026-07-16T20:00:48Z",
+          "generated_by": "scripts/run_filmoteca_valenciana_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "70",
+          "videos_in_curatorial_catalog": "70",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "filmoteca_vasca": {
+    "tema_pais": {
+      "source": "data/output/filmoteca_vasca_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Esporte e cultura física",
+          "pais": "Spain",
+          "total": "92"
+        },
+        {
+          "tema": "Patrimônio cinematográfico regional",
+          "pais": "Spain",
+          "total": "22"
+        },
+        {
+          "tema": "Cotidiano, território e memória local",
+          "pais": "Spain",
+          "total": "21"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "pais": "Spain",
+          "total": "7"
+        },
+        {
+          "tema": "Guerra, memória política e história",
+          "pais": "Spain",
+          "total": "6"
+        },
+        {
+          "tema": "Cinema basco e memória cultural",
+          "pais": "Spain",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/filmoteca_vasca_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Esporte e cultura física",
+          "plataforma": "Vimeo",
+          "total": "92"
+        },
+        {
+          "tema": "Patrimônio cinematográfico regional",
+          "plataforma": "Vimeo",
+          "total": "22"
+        },
+        {
+          "tema": "Cotidiano, território e memória local",
+          "plataforma": "Vimeo",
+          "total": "21"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "plataforma": "Vimeo",
+          "total": "7"
+        },
+        {
+          "tema": "Guerra, memória política e história",
+          "plataforma": "Vimeo",
+          "total": "6"
+        },
+        {
+          "tema": "Cinema basco e memória cultural",
+          "plataforma": "Vimeo",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/filmoteca_vasca_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "filmoteca-vasca",
+          "observation_key": "filmoteca-vasca:2026-07-15T18:22:58Z",
+          "snapshot_generated_at": "2026-07-15T18:22:58Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-15T18:22:58Z",
+          "analytic_outputs_last_modified_at": "2026-07-15T18:22:58Z",
+          "generated_by": "scripts/run_filmoteca_vasca_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "149",
+          "videos_in_curatorial_catalog": "149",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "filmoteca-vasca",
+          "observation_key": "filmoteca-vasca:2026-07-15T18:25:59Z",
+          "snapshot_generated_at": "2026-07-15T18:25:59Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-15T18:25:59Z",
+          "analytic_outputs_last_modified_at": "2026-07-15T18:25:58Z",
+          "generated_by": "scripts/run_filmoteca_vasca_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "149",
+          "videos_in_curatorial_catalog": "149",
+          "visibility_categories": "1",
+          "theme_categories": "6",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "filmoteca-vasca",
+          "observation_key": "filmoteca-vasca:2026-07-15T18:32:49Z",
+          "snapshot_generated_at": "2026-07-15T18:32:49Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-15T18:32:49Z",
+          "analytic_outputs_last_modified_at": "2026-07-15T18:32:49Z",
+          "generated_by": "scripts/run_filmoteca_vasca_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "149",
+          "videos_in_curatorial_catalog": "149",
+          "visibility_categories": "1",
+          "theme_categories": "6",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
