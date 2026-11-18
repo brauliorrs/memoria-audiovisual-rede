@@ -130,3 +130,31 @@ h1,h2,h3 {font-family:Manrope,"DM Sans",sans-serif;line-height:1.16;letter-spaci
 .footer-grid,.footer-bottom{flex-direction:column}.method-rows article{grid-template-columns:40px 1fr}.method-cta{flex-direction:column;align-items:flex-start}
 }
 @media(prefers-reduced-motion:reduce){.orbit-one{animation:none}*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+/* Research facets and permanent documentary record pages */
+.search-fields-advanced{grid-template-columns:minmax(220px,1.6fr) repeat(3,minmax(150px,1fr));align-items:end}
+.search-hints{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:15px}
+.search-hints .search-helper{margin:0}
+.search-hints .text-button{white-space:nowrap;font-size:12px}
+.record-card h3 a:hover{text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:4px}
+.record-detail h1{max-width:950px;overflow-wrap:anywhere}
+.record-breadcrumb{display:flex;align-items:center;flex-wrap:wrap;gap:10px;color:#59796b;font-size:12px;margin-bottom:43px}
+.record-breadcrumb a{font-weight:700;color:var(--green)}
+.record-breadcrumb a:hover{text-decoration:underline}
+.record-detail-grid{display:grid;grid-template-columns:1.24fr .76fr;gap:22px;align-items:start}
+.detail-panel{background:white;border:1px solid var(--line);border-radius:14px;padding:30px;min-width:0}
+.detail-panel h2{font-size:23px;margin-bottom:22px}
+.metadata-list{margin:0}
+.metadata-list>div{padding:14px 0;border-bottom:1px solid #e4eae4;display:grid;grid-template-columns:minmax(120px,.45fr) minmax(0,1fr);gap:16px}
+.metadata-list dt{font-size:12px;font-weight:700;color:#647a70}
+.metadata-list dd{font-size:14px;margin:0;overflow-wrap:anywhere}
+.detail-source-link{margin-top:28px}
+.detail-external-note{font-size:11px;color:#6a8176;margin:12px 0 0}
+.detail-provenance{background:#eef6ee}
+.document-pill{display:inline-block;background:#dceee0;color:#275c40;border-radius:40px;font-weight:800;font-size:11px;padding:7px 12px;margin:0 0 18px}
+.provenance-hash{margin:25px 0 0;display:flex;flex-direction:column;gap:6px;font-size:11px;color:#51695b}
+.provenance-hash code{font-size:10px;overflow-wrap:anywhere;line-height:1.7}
+.detail-bottom-link{margin:28px 0 0;font-size:13px;font-weight:800;color:var(--green)}
+@media(max-width:1030px){.search-fields-advanced{grid-template-columns:repeat(3,minmax(0,1fr))}.search-input-wrap{grid-column:1/-1}}
+@media(max-width:850px){.record-detail-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.search-fields-advanced{grid-template-columns:1fr}.search-input-wrap{grid-column:auto}.search-hints{align-items:flex-start;flex-direction:column}.detail-panel{padding:21px}.metadata-list>div{grid-template-columns:1fr;gap:4px}.record-breadcrumb{margin-bottom:24px}}
