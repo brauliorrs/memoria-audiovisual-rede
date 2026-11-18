@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {ScientificText} from "@/components/scientific-i18n";
 
 export const metadata: Metadata = { title: "Metodologia" };
 export default function MethodologyPage() {
   return <div className="shell page-shell methodology">
-    <p className="eyebrow">CRITÉRIOS CIENTÍFICOS</p>
-    <h1>Uma plataforma para pesquisar, não apropriar.</h1>
-    <p className="page-lede">O MAR organiza fichas e fontes documentais com rastreabilidade. Publicar um registro não significa disponibilizar um filme nem validar direitos autorais.</p>
+    <p className="eyebrow"><ScientificText id="metEyebrow"/></p>
+    <h1><ScientificText id="metTitle"/></h1>
+    <p className="page-lede"><ScientificText id="metIntro"/></p>
     <div className="method-rows">
-      <article><span>01</span><div><h2>Proveniência verificável</h2><p>Metadados publicados por conjuntos aprovados e associados a uma origem institucional identificável. O índice inicial KAVI possui manifesto com SHA-256.</p></div></article>
-      <article><span>02</span><div><h2>Aprovação documental independente</h2><p>O motor de coleta, o banco de auditoria e a autorização científica são domínios diferentes. Nenhuma inserção técnica aprova automaticamente a publicação de um corpus.</p></div></article>
-      <article><span>03</span><div><h2>Link de origem, sem hospedagem de mídia</h2><p>O MAR direciona para fichas institucionais externas. Não incorpora vídeos, não baixa filmes e não afirma que um link documental oferece reprodução pública.</p></div></article>
-      <article><span>04</span><div><h2>Expansão controlada</h2><p>Instituições podem entrar no inventário de acesso mesmo quando suas fichas não podem ser exibidas. A publicação de registros é independente e depende de revisão científica e base jurídica adequada. Falhas técnicas de consulta não provam indisponibilidade institucional.</p></div></article>
+      <article><span>01</span><div><h2><ScientificText id="metHeading1"/></h2><p><ScientificText id="metDesc1"/></p></div></article>
+      <article><span>02</span><div><h2><ScientificText id="metHeading2"/></h2><p><ScientificText id="metDesc2"/></p></div></article>
+      <article><span>03</span><div><h2><ScientificText id="metHeading3"/></h2><p><ScientificText id="metDesc3"/></p></div></article>
+      <article><span>04</span><div><h2><ScientificText id="metHeading4"/></h2><p><ScientificText id="metDesc4"/></p></div></article>
     </div>
-    <div className="method-cta"><p>Consulte os metadados publicados e examine as fichas na origem.</p><Link className="button button-dark" href="/acervo/">Explorar o catálogo ↗</Link></div>
+    <div className="method-cta"><p><ScientificText id="metCta"/></p><Link className="button button-dark" href="/acervo/"><ScientificText id="metButton"/></Link></div>
   </div>;
 }
