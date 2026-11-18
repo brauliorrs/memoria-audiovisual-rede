@@ -1,0 +1,573 @@
+{
+  "efg": {
+    "tema_pais": {
+      "source": "data/output/efg_tema_pais.csv",
+      "rows": []
+    },
+    "tema_plataforma": {
+      "source": "data/output/efg_tema_plataforma.csv",
+      "rows": []
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/efg_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "european-film-gateway",
+          "observation_key": "european-film-gateway:2026-05-18T17:18:59Z",
+          "snapshot_generated_at": "2026-05-18T17:18:59Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-18T17:18:59Z",
+          "analytic_outputs_last_modified_at": "2026-05-18T17:18:59Z",
+          "generated_by": "scripts/run_european_film_gateway_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "0",
+          "institutions_with_video_links": "0",
+          "video_links_total": "0",
+          "videos_in_curatorial_catalog": "0",
+          "visibility_categories": "1",
+          "theme_categories": "0",
+          "archive_type_categories": "1",
+          "platforms_detected": "0",
+          "countries_with_videos": "0"
+        },
+        {
+          "dataset": "european-film-gateway",
+          "observation_key": "european-film-gateway:2026-05-18T17:27:52Z",
+          "snapshot_generated_at": "2026-05-27T16:48:04Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-18T17:27:52Z",
+          "analytic_outputs_last_modified_at": "2026-05-27T16:48:04Z",
+          "generated_by": "scripts/build_european_film_gateway_analytics.py",
+          "institutions": "1",
+          "institutions_with_website": "0",
+          "institutions_with_video_links": "0",
+          "video_links_total": "0",
+          "videos_in_curatorial_catalog": "0",
+          "visibility_categories": "1",
+          "theme_categories": "0",
+          "archive_type_categories": "1",
+          "platforms_detected": "0",
+          "countries_with_videos": "0"
+        }
+      ]
+    }
+  },
+  "ert": {
+    "tema_pais": {
+      "source": "data/output/ert_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Arquivo televisivo público",
+          "pais": "Greece",
+          "total": "23196"
+        },
+        {
+          "tema": "Cinejornal, notícias e atualidades",
+          "pais": "Greece",
+          "total": "2658"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Greece",
+          "total": "2593"
+        },
+        {
+          "tema": "Cultura, artes e memória pública",
+          "pais": "Greece",
+          "total": "7"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "pais": "Greece",
+          "total": "2"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/ert_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Arquivo televisivo público",
+          "plataforma": "ERT Archive",
+          "total": "23196"
+        },
+        {
+          "tema": "Cinejornal, notícias e atualidades",
+          "plataforma": "ERT Archive",
+          "total": "2658"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "ERT Archive",
+          "total": "2593"
+        },
+        {
+          "tema": "Cultura, artes e memória pública",
+          "plataforma": "ERT Archive",
+          "total": "7"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "plataforma": "ERT Archive",
+          "total": "2"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/ert_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "ert",
+          "observation_key": "ert:2026-07-14T18:33:55Z",
+          "snapshot_generated_at": "2026-07-14T18:33:55Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-14T18:33:55Z",
+          "analytic_outputs_last_modified_at": "2026-07-14T18:33:54Z",
+          "generated_by": "scripts/run_ert_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "94",
+          "videos_in_curatorial_catalog": "94",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ert",
+          "observation_key": "ert:2026-07-14T18:34:33Z",
+          "snapshot_generated_at": "2026-07-14T18:34:33Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-14T18:34:33Z",
+          "analytic_outputs_last_modified_at": "2026-07-14T18:34:33Z",
+          "generated_by": "scripts/run_ert_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "94",
+          "videos_in_curatorial_catalog": "94",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ert",
+          "observation_key": "ert:2026-07-14T18:40:19Z",
+          "snapshot_generated_at": "2026-07-14T18:40:19Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-14T18:40:19Z",
+          "analytic_outputs_last_modified_at": "2026-07-14T18:40:18Z",
+          "generated_by": "scripts/run_ert_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "192",
+          "videos_in_curatorial_catalog": "192",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "ert",
+          "observation_key": "ert:2026-07-14T18:54:25Z",
+          "snapshot_generated_at": "2026-07-14T18:54:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-14T18:54:25Z",
+          "analytic_outputs_last_modified_at": "2026-07-14T18:53:58Z",
+          "generated_by": "scripts/run_ert_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "28456",
+          "videos_in_curatorial_catalog": "28456",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "europeana": {
+    "tema_pais": {
+      "source": "data/output/europeana_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Sweden",
+          "total": "8"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Spain",
+          "total": "5"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Cyprus",
+          "total": "1"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "pais": "Germany",
+          "total": "1"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "pais": "Poland",
+          "total": "1"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "pais": "Spain",
+          "total": "1"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "France",
+          "total": "1"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Netherlands",
+          "total": "1"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Belgium",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/europeana_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Europeana",
+          "total": "14"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "plataforma": "Europeana",
+          "total": "3"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Europeana",
+          "total": "1"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Europeana",
+          "total": "1"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "Europeana",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/europeana_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "europeana",
+          "observation_key": "europeana:2026-05-18T17:20:27Z",
+          "snapshot_generated_at": "2026-05-18T17:20:27Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-18T17:20:27Z",
+          "analytic_outputs_last_modified_at": "2026-05-18T17:20:27Z",
+          "generated_by": "scripts/run_europeana_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "32",
+          "videos_in_curatorial_catalog": "32",
+          "visibility_categories": "1",
+          "theme_categories": "6",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "11"
+        },
+        {
+          "dataset": "europeana",
+          "observation_key": "europeana:2026-05-18T17:21:41Z",
+          "snapshot_generated_at": "2026-05-18T17:21:41Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-18T17:21:41Z",
+          "analytic_outputs_last_modified_at": "2026-05-18T17:21:41Z",
+          "generated_by": "scripts/run_europeana_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "27",
+          "videos_in_curatorial_catalog": "27",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "9"
+        },
+        {
+          "dataset": "europeana",
+          "observation_key": "europeana:2026-05-18T17:23:10Z",
+          "snapshot_generated_at": "2026-05-18T17:23:10Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-18T17:23:10Z",
+          "analytic_outputs_last_modified_at": "2026-05-18T17:23:10Z",
+          "generated_by": "scripts/run_europeana_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "27",
+          "videos_in_curatorial_catalog": "27",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "9"
+        },
+        {
+          "dataset": "europeana",
+          "observation_key": "europeana:2026-05-18T17:28:44Z",
+          "snapshot_generated_at": "2026-05-18T17:28:44Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-18T17:28:44Z",
+          "analytic_outputs_last_modified_at": "2026-05-18T17:28:44Z",
+          "generated_by": "scripts/run_europeana_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "27",
+          "videos_in_curatorial_catalog": "27",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "9"
+        },
+        {
+          "dataset": "europeana",
+          "observation_key": "europeana:2026-05-22T17:52:25Z",
+          "snapshot_generated_at": "2026-05-27T16:48:05Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-22T17:52:25Z",
+          "analytic_outputs_last_modified_at": "2026-05-27T16:48:05Z",
+          "generated_by": "scripts/build_europeana_analytics.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "20",
+          "videos_in_curatorial_catalog": "20",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "8"
+        }
+      ]
+    }
+  },
+  "euscreen": {
+    "tema_pais": {
+      "source": "data/output/euscreen_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Netherlands",
+          "total": "60"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Netherlands",
+          "total": "23"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "Netherlands",
+          "total": "12"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "Netherlands",
+          "total": "10"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Netherlands",
+          "total": "6"
+        },
+        {
+          "tema": "Memória, narrativa e testemunho",
+          "pais": "Netherlands",
+          "total": "6"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "Netherlands",
+          "total": "6"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "pais": "Netherlands",
+          "total": "5"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "Netherlands",
+          "total": "3"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Netherlands",
+          "total": "2"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/euscreen_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "EUscreen",
+          "total": "60"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "EUscreen",
+          "total": "23"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "EUscreen",
+          "total": "12"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "plataforma": "EUscreen",
+          "total": "10"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "EUscreen",
+          "total": "6"
+        },
+        {
+          "tema": "Memória, narrativa e testemunho",
+          "plataforma": "EUscreen",
+          "total": "6"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "EUscreen",
+          "total": "6"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "plataforma": "EUscreen",
+          "total": "5"
+        },
+        {
+          "tema": "Formação e mediação",
+          "plataforma": "EUscreen",
+          "total": "3"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "EUscreen",
+          "total": "2"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/euscreen_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "euscreen",
+          "observation_key": "euscreen:2026-05-13T17:39:05Z",
+          "snapshot_generated_at": "2026-05-13T17:39:05Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-13T17:39:05Z",
+          "analytic_outputs_last_modified_at": "2026-05-13T17:39:05Z",
+          "generated_by": "scripts/run_euscreen_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "132",
+          "videos_in_curatorial_catalog": "131",
+          "visibility_categories": "1",
+          "theme_categories": "10",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "euscreen",
+          "observation_key": "euscreen:2026-05-13T17:39:28Z",
+          "snapshot_generated_at": "2026-05-13T17:43:49Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-13T17:39:28Z",
+          "analytic_outputs_last_modified_at": "2026-05-13T17:43:49Z",
+          "generated_by": "scripts/build_euscreen_analytics.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "132",
+          "videos_in_curatorial_catalog": "132",
+          "visibility_categories": "1",
+          "theme_categories": "10",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "euscreen",
+          "observation_key": "euscreen:2026-05-13T17:44:08Z",
+          "snapshot_generated_at": "2026-05-13T17:44:08Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-13T17:44:08Z",
+          "analytic_outputs_last_modified_at": "2026-05-13T17:44:08Z",
+          "generated_by": "scripts/run_euscreen_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "132",
+          "videos_in_curatorial_catalog": "132",
+          "visibility_categories": "1",
+          "theme_categories": "10",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "euscreen",
+          "observation_key": "euscreen:2026-05-14T16:49:45Z",
+          "snapshot_generated_at": "2026-05-27T16:48:03Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-14T16:49:45Z",
+          "analytic_outputs_last_modified_at": "2026-05-27T16:48:03Z",
+          "generated_by": "scripts/build_euscreen_analytics.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "133",
+          "videos_in_curatorial_catalog": "133",
+          "visibility_categories": "1",
+          "theme_categories": "10",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
