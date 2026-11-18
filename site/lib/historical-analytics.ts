@@ -20,7 +20,7 @@ export type HistoricalAnalyticReport = {
 
 export const historicalAnalyticReports: HistoricalAnalyticReport[] = [
   ...reports0,...reports1,...reports2,...reports3,...reports4,...reports5
-] as HistoricalAnalyticReport[];
+] as unknown as HistoricalAnalyticReport[];
 
 const CORPUS_TO_REPORT: Record<string,string> = {
   "czech-television":"czech_tv",
