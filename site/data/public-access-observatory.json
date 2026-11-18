@@ -70,10 +70,13 @@
       "inventoryStatus": "historical_observation_not_publication_permission",
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
-      "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "hold_new_access_unverified",
-      "humanAccessNote": "Há registros no índice histórico, mas a fonte permanece em HOLD no desenvolvimento recente por falta de acesso oficial verificável; não considerar as 412 linhas como acesso atual.",
-      "sampleSourceUrl": null
+      "reviewReason": "Metadados com regra geral CC BY-SA 4.0 salvo exceções; ainda não revalidada a fonte de cada registro, atribuição e compliance de reutilização. HOLD da ingestão permanece.",
+      "humanAccessEvidence": "portal_search_interface_observed",
+      "humanAccessNote": "Portal APE com interface e orientações públicas de pesquisa acessíveis. Política geral de metadados CC BY-SA 4.0, salvo exceção declarada por conjunto. Não foi realizada consulta/revalidação das 412 fichas históricas; bloqueio operacional de ingestão permanece.",
+      "sampleSourceUrl": "https://www.archivesportaleurope.net/tools/for-users/",
+      "rightsPolicyUrl": "https://www.archivesportaleurope.net/metadata-usage-guidelines/",
+      "rightsAssessment": "conditional_open_metadata_policy_review_per_record",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "aamod",
@@ -166,9 +169,12 @@
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "humanAccessEvidence": "institutional_route_observed",
+      "humanAccessNote": "Página oficial do Consell de Mallorca informa consulta gratuita presencial e amostras online em plataformas parceiras. Página institucional acessível; acesso online a fichas individualizadas ainda não confirmado nesta rodada.",
+      "sampleSourceUrl": "https://www.conselldemallorca.es/es/asim",
+      "rightsPolicyUrl": null,
+      "rightsAssessment": "not_assessed",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "bbc",
@@ -223,9 +229,12 @@
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "humanAccessEvidence": "aggregator_profile_observed",
+      "humanAccessNote": "Perfil institucional BNFA acessível no European Film Gateway, com acesso indicado à coleção. A tentativa de abrir a rota específica da coleção retornou 403 na ferramenta; fichas individuais não confirmadas nesta rodada.",
+      "sampleSourceUrl": "https://europeanfilmgateway.eu/about_efg/partners_contributors/bulgarian-national-film-archive",
+      "rightsPolicyUrl": null,
+      "rightsAssessment": "not_assessed",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "bnt",
@@ -261,9 +270,12 @@
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "humanAccessEvidence": "institutional_route_observed",
+      "humanAccessNote": "Página oficial do Bundesarchiv confirma que o Digitaler Lesesaal substitui os antigos sistemas Filmothek/Benutzungsmedien; o acesso à aplicação de busca terminou em timeout da ferramenta. Não foram inspecionadas fichas individuais.",
+      "sampleSourceUrl": "https://www.bundesarchiv.de/im-archiv-recherchieren/archivgut-recherchieren/recherchesysteme/digitaler-lesesaal/",
+      "rightsPolicyUrl": null,
+      "rightsAssessment": "not_assessed",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "cna",
@@ -299,9 +311,12 @@
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "humanAccessEvidence": "environment_limited",
+      "humanAccessNote": "CICLIC documenta publicamente consulta e busca em Mémoire; a ferramenta encontrou HTTP 403 ao abrir a rota investigada. Acesso humano às fichas nesta rodada não confirmado: não confundir bloqueio local com restrição institucional.",
+      "sampleSourceUrl": "https://memoire.ciclic.fr/les-memoires-filmees-catalogue",
+      "rightsPolicyUrl": null,
+      "rightsAssessment": "not_assessed",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "cinearchives",
@@ -717,9 +732,12 @@
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
       "reviewReason": "Registros do levantamento histórico; republicação de fichas individuais ainda sem autorização documentada.",
-      "humanAccessEvidence": "not_revalidated_in_this_migration",
-      "humanAccessNote": "O levantamento histórico registra a classificação de acesso, mas esta migração ainda não repetiu a navegação pública na origem.",
-      "sampleSourceUrl": null
+      "humanAccessEvidence": "aggregator_profile_observed",
+      "humanAccessNote": "Perfis de instituições participantes acessíveis no EFG (ex.: BNFA e ASIM); uma rota de coleção BNFA devolveu 403 à ferramenta. Não significa indisponibilidade de todo o portal nem autorização de republicação de metadados.",
+      "sampleSourceUrl": "https://europeanfilmgateway.eu/about_efg/partners_contributors/bulgarian-national-film-archive",
+      "rightsPolicyUrl": null,
+      "rightsAssessment": "not_assessed",
+      "reassessmentDate": "2026-11-18"
     },
     {
       "code": "europeana",
