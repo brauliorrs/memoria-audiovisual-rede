@@ -2,16 +2,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ScientificDashboard } from "@/components/scientific-dashboard";
 import { historicalSnapshot } from "@/lib/scientific-observatory";
+import {ScientificText, ScientificNumber} from "@/components/scientific-i18n";
 
 export const metadata: Metadata = { title: "Observatório científico — análises e corpora" };
 
 export default function ObservatoryPage() {
   return <main className="shell page-shell">
-    <p className="eyebrow">PESQUISA CIENTÍFICA · AUDIOVISUAL EM REDE</p>
-    <h1>Observatório de memória audiovisual</h1>
-    <p className="page-lede">Investigue a distribuição documental dos acervos identificados, compare instituições e territórios, e examine limites de acesso. Esta é a transposição dos painéis analíticos do Streamlit para o MAR no Vercel.</p>
-    <div className="access-explainer"><p><strong>Leitura dos indicadores:</strong> o levantamento histórico contém {new Intl.NumberFormat("pt-BR").format(historicalSnapshot.summary.historicalMaterializedTotal)} registros materializados. Trata-se de um recorte de pesquisa, não do tamanho total dos acervos e nem da quantidade de fichas autorizadas para reprodução.</p><p><strong>Três camadas independentes:</strong> acervo identificado, registros consultáveis na origem e fichas autorizadas para publicação no MAR. A pesquisa científica usa as contagens e estados históricos; a <Link href="/acervo/">pesquisa de fichas</Link> mostra apenas as 200 KAVI aprovadas.</p></div>
-    <p><Link href="/territorios/">Mapa territorial ↗</Link> · <Link href="/comparar/">Comparar duas ou três fontes ↗</Link> · <Link href="/temas/">Cruzar temas, países e plataformas ↗</Link> · <Link href="/series/">Explorar séries temporais ↗</Link> · <Link href="/instituicoes/pesquisa/">Estudar instituições ↗</Link></p>
+    <p className="eyebrow"><ScientificText id="obEyebrow"/></p>
+    <h1><ScientificText id="obTitle"/></h1>
+    <p className="page-lede"><ScientificText id="obIntro"/></p>
+    <div className="access-explainer">
+      <p><strong><ScientificText id="obSnapshotLead"/></strong> <ScientificNumber value={historicalSnapshot.summary.historicalMaterializedTotal}/> <ScientificText id="obSnapshotAfter"/></p>
+      <p><strong><ScientificText id="obLayersLead"/></strong> <ScientificText id="obLayers"/> <Link href="/acervo/"><ScientificText id="obCatalogLink"/></Link> <ScientificText id="obCatalogAfter"/></p>
+    </div>
+    <p><Link href="/territorios/"><ScientificText id="obGoMap"/></Link> · <Link href="/comparar/"><ScientificText id="obGoCompare"/></Link> · <Link href="/temas/"><ScientificText id="obGoThemes"/></Link> · <Link href="/series/"><ScientificText id="obGoTimeline"/></Link> · <Link href="/instituicoes/pesquisa/"><ScientificText id="obGoInstitutions"/></Link></p>
     <ScientificDashboard/>
   </main>;
 }
