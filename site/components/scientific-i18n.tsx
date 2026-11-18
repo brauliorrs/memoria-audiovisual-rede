@@ -232,6 +232,12 @@ export function ScientificText({id}:{id:ScientificCopyKey}) {
   return <>{copy[id]}</>;
 }
 
+export function ScientificNumber({value}:{value:number}) {
+  const {locale}=useSiteLocale();
+  const lang=locale==="pt"?"pt-BR":locale==="es"?"es-ES":"en-US";
+  return <>{new Intl.NumberFormat(lang).format(value)}</>;
+}
+
 /** Localize UI geographic groups, not original source metadata or citations. */
 export function localizeTerritory(value:string,locale:SiteLocale){
   const values:Record<string,Record<SiteLocale,string>>={
