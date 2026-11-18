@@ -1,5 +1,8 @@
 # MAR — Evidências externas e decisão de homologação (18/11/2026)
 
+> **Atualização posterior (18/11/2026):** a URL Eye anteriormente não verificada foi aberta com sucesso navegando pela filmografia oficial da produtora. Houve ampliação para 7 fichas Eye e 7 Czech, todas localizadas. Consulte `mar-multicorpus-expanded-sample-20261118.md` e a decisão JSON atualizada. O relato abaixo permanece como evidência histórica da primeira tentativa, não como estado atual.
+
+
 ## Escopo
 Auditoria de 2 URLs Eye e 2 URLs Czech Television presentes nos CSVs históricos de julho de 2026. Inspeção pública de HTML/metadados documentais; não reproduz mídia, não testa licença e não faz coleta incremental. Os workflows `MAR Multicorpus Staging` (44358253929) e `Quality Checks` (44358254086) concluíram com sucesso no PR #105, executando Eye, depois Czech, e integridade KAVI.
 
