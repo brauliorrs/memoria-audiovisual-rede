@@ -3,6 +3,7 @@ import Link from "next/link";
 import {notFound} from "next/navigation";
 import {institutionalProfiles,findInstitution,institutionGroups} from "@/lib/institutional-profiles";
 import {LocalizedText} from "@/components/site-locale";
+import {ScientificText} from "@/components/scientific-i18n";
 export const dynamicParams=false;
 export function generateStaticParams(){return institutionalProfiles.map(i=>({source:i.source,entry:i.id.split(":")[1]}));}
 export async function generateMetadata({params}:{params:Promise<{source:string;entry:string}>}):Promise<Metadata>{const {source,entry}=await params;const p=findInstitution(source,entry);return {title:p?`${p.name} — Perfil institucional`:"Instituição não identificada"};}
@@ -13,7 +14,7 @@ export default async function InstitutionalProfilePage({params}:{params:Promise<
  const group=institutionGroups[source];
  return <main className="shell page-shell">
   <nav className="ob-breadcrumb" aria-label="Breadcrumb"><Link href="/instituicoes/pesquisa/"><LocalizedText id="navInstitutions"/></Link><span>/</span><span>{source.toUpperCase()}</span></nav>
-  <p className="eyebrow">MAR · INSTITUTIONAL PROFILE</p>
+  <p className="eyebrow"><ScientificText id="instEyebrow"/></p>
   <h1>{profile.name}</h1>
   <p className="page-lede"><LocalizedText id="institutionIntro"/></p>
   <div className="ob-profile-tags"><span>{source.toUpperCase()}</span><span>{profile.country||"—"}</span>{profile.continent&&<span>{profile.continent}</span>}</div>
@@ -22,15 +23,15 @@ export default async function InstitutionalProfilePage({params}:{params:Promise<
     <dl className="research-institution-fields">
      <div><dt><LocalizedText id="source"/></dt><dd>{source.toUpperCase()}</dd></div>
      <div><dt><LocalizedText id="country"/></dt><dd>{profile.country||"—"}</dd></div>
-     <div><dt>Institution type / Tipo</dt><dd>{profile.type||"—"}</dd></div>
-     <div><dt>Source ID / Identificador</dt><dd>{profile.repositoryCode||"—"}</dd></div>
+     <div><dt><ScientificText id="instType"/></dt><dd>{profile.type||"—"}</dd></div>
+     <div><dt><ScientificText id="instSourceId"/></dt><dd>{profile.repositoryCode||"—"}</dd></div>
     </dl>
    </article>
    <article className="ob-panel"><h2><LocalizedText id="origin"/></h2>
     {profile.originUrl?<p><a href={profile.originUrl} target="_blank" rel="noopener noreferrer"><LocalizedText id="origin"/> ↗</a></p>:<p>—</p>}
     <p><LocalizedText id="snapshotOnly"/></p>
-    <p><strong>Data source:</strong> {group.source}</p>
-    {group.licencePolicy&&<p><a href={group.licencePolicy} rel="noopener noreferrer" target="_blank">APE metadata policy / Política de metadados ↗</a></p>}
+    <p><strong><ScientificText id="instDataSource"/>:</strong> {group.source}</p>
+    {group.licencePolicy&&<p><a href={group.licencePolicy} rel="noopener noreferrer" target="_blank"><ScientificText id="instPolicy"/></a></p>}
     {group.attribution&&<p>{group.attribution}</p>}
    </article>
   </section>
