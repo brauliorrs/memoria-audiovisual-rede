@@ -44,7 +44,7 @@ export function PublicAccessInventory() {
         <div className="access-entry-head"><div><p className="eyebrow">{item.continent === "Europe" ? "Europa" : item.continent === "North America" ? "América do Norte" : "Região não classificada"} · {item.code}</p><h2>{item.name}</h2></div>
         <span className="access-state">{item.historicalTotal === 0 ? "Identificado · sem volume quantificado" : "Identificado · fichas não exibidas"}</span></div>
         <p className="access-reason"><strong>Motivo da não exibição:</strong> {displayReason(item)}</p>
-        <p className="access-reason"><strong>Acesso como visitante comum:</strong> {item.humanAccessNote} {item.sampleSourceUrl && <a href={item.sampleSourceUrl} target="_blank" rel="noopener noreferrer">Exemplo de ficha oficial ↗</a>}</p>
+        <p className="access-reason"><strong>Acesso como visitante comum:</strong> {item.humanAccessNote} {item.sampleSourceUrl && <a href={item.sampleSourceUrl} target="_blank" rel="noopener noreferrer">Consultar fonte institucional ↗</a>} {item.rightsPolicyUrl && <a href={item.rightsPolicyUrl} target="_blank" rel="noopener noreferrer">Política de metadados ↗</a>}</p>
         <dl className="access-metrics">
           <div><dt>Registros em superfície pública*</dt><dd>{item.historicalPublicSurfaceRecords.toLocaleString("pt-BR")}</dd></div>
           <div><dt>Registros classificados como restritos*</dt><dd>{item.historicalRestrictedRecords.toLocaleString("pt-BR")}</dd></div>
