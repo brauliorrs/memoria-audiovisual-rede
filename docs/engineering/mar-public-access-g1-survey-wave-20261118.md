@@ -32,3 +32,20 @@ A política publicada declara metadados sob **CC BY-SA 4.0 salvo indicação con
 4. Texto com CC BY-SA no APE vs autorização indiscriminada para exportar registros sem conferir exceções.
 
 Os estados desta rodada foram transcritos para `site/data/public-access-observatory.json`; `recordDisplay` permanece `not_authorized_for_new_site` e o contador KAVI permanece 200. O Streamlit e corpora científicos congelados permanecem inalterados.
+
+
+## Segunda leva — cinco interfaces e orientações adicionais
+| Corpus | Fonte | Resultado | Ponto de licença |
+|---|---|---|---|
+| Europeana | https://www.europeana.eu/en/rights/europeana-data-sources | Política institucional acessível; pesquisa pública documentada | Metadados publicados pela Europeana sob CC0; imagens, vídeos e outros conteúdos não se tornam CC0 automaticamente. Conferir origem das 20 fichas do CSV antes de projetá-las |
+| EUscreen | https://euscreen.eu/collections/ | Coleções e pesquisa públicas documentadas | Direitos de audiovisual permanecem com arquivos parceiros; licença para republicar metadados não verificada |
+| American Archive of Public Broadcasting | https://americanarchive.org/search | Busca e filtros de Online Reading Room e All Records documentados | Consulta e acesso a conteúdo não são licenças irrestritas para republicar descrições |
+| BFI National Archive | https://www.bfi.org.uk/bfi-national-archive/search-bfi-archive | Busca pública de coleção documentada; parte das mídias livre no BFI Replay, outra parte presencial/restrita | Termos de reutilização de metadados não avaliados |
+| Institut national de l'audiovisuel (INA) | https://catalogue.ina.fr/index/WEB-MEDIA/Inatheque | Interface pública especializada de consulta identificada | Acesso às obras e licença de metadados permanecem pendentes; índice histórico aponta 31 registros restritos |
+
+Fontes adicionais: https://www.europeana.eu/en/rights/terms-of-use ; https://euscreen.eu/help/ ; https://americanarchive.org/legal/orr-rules ; https://www.bfi.org.uk/bfi-national-archive/inside-archive/bfi-national-archive-faq .
+
+**Decisão:** nenhum novo registro incorporado; somente estados e evidências G1 do inventário. CC0 da Europeana e CC BY-SA do APE criam caminhos jurídicos **condicionais à proveniência e às exceções**, não dispensam validação científica por registro.
+
+## Totais desta rodada
+Foram atualizados **11 registros de corpora/unidades** no inventário (APE, CICLIC, Bundesarchiv, ASIM, BNFA, EFG, Europeana, EUscreen, AAPB, BFI e INA). Os demais permanecem classificados como não revalidados nesta migração.
