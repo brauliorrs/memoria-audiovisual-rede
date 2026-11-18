@@ -1,0 +1,32 @@
+{
+  "saint_etienne": {
+    "source": "data/output/saint_etienne_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "saint_etienne:1",
+        "name": "Cinémathèque de Saint-Étienne",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Municipal cinematheque and regional film archive",
+        "repositoryCode": "FR-CINEMATHEQUE-SAINT-ETIENNE",
+        "originUrl": "https://cinematheque.saint-etienne.fr/"
+      }
+    ]
+  },
+  "sfa": {
+    "source": "data/output/sfa_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "sfa:1",
+        "name": "Arhiv Republike Slovenije - Slovenski filmski arhiv",
+        "country": "Slovenia",
+        "continent": "Europe",
+        "type": "Institutional film archive",
+        "repositoryCode": "SI-AS-1086",
+        "originUrl": "https://vac.sjas.gov.si/vac/search/details?id=25366"
+      }
+    ]
+  }
+}

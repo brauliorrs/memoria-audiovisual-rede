@@ -7,6 +7,7 @@ on:
       - "tests/test_mar_site_public_pages.py"
       - "tests/test_mar_site_public_access_observatory.py"
       - "tests/test_mar_scientific_site_migration.py"
+      - "tests/test_mar_research_dimensions.py"
       - "scripts/check_mar_site_index.py"
       - ".github/workflows/mar-site.yml"
       - "data/output/kavi_mar_metadata_links.csv"
@@ -48,6 +49,9 @@ jobs:
       - name: Verify migrated scientific dashboard contracts
         working-directory: .
         run: python3 -m unittest discover -s tests -p 'test_mar_scientific_site_migration.py' -v
+      - name: Validate Streamlit research dimension source files
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p 'test_mar_research_dimensions.py' -v
       - name: Install pinned frontend dependencies
         run: npm install --no-audit --no-fund
       - name: Typecheck
@@ -65,6 +69,9 @@ jobs:
           test -f out/observatorio/index.html
           test -f out/casos/index.html
           test -f out/analises/index.html
+          test -f out/pesquisa/eye/index.html
+          test -f out/pesquisa/ape/index.html
+          test -f out/pesquisa/europeana/index.html
           test -f out/observatorio/eye/index.html
           count_profiles="$(find out/observatorio -mindepth 2 -maxdepth 2 -type f -name index.html | wc -l | tr -d '[:space:]')"
           test "$count_profiles" = "63"

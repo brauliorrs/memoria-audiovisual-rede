@@ -33,6 +33,6 @@ export function CorpusHistoricalAnalytics({report}:{report:HistoricalAnalyticRep
       <Distribution title="Instituições por continente" values={report.continents}/>
     </div>
     <p className="disclaimer">* Indicadores históricos do relatório <code>{report.source}</code>. Uma ocorrência de plataforma, incorporação ou link não comprova reprodução pública, direitos de uso ou licença para publicar uma ficha individual.</p>
-    <p><Link href="/analises/">Comparar todos os relatórios históricos →</Link></p>
+    <p><Link href={`/pesquisa/${report.code}/`}>Explorar temas, países, plataformas e série de observações →</Link></p><p><Link href="/analises/">Comparar todos os relatórios históricos →</Link></p>
   </section>;
 }

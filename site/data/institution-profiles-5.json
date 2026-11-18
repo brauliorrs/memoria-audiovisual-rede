@@ -1,0 +1,152 @@
+{
+  "home_movies": {
+    "source": "data/output/home_movies_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "home_movies:1",
+        "name": "Fondazione Home Movies / Archivio Nazionale del Film di Famiglia",
+        "country": "Italy",
+        "continent": "Europe",
+        "type": "Home movie and private film archive with public digital platform",
+        "repositoryCode": "IT-HOME-MOVIES-MEMORYSCAPES",
+        "originUrl": "https://www.memoryscapes.it/en/archive"
+      }
+    ]
+  },
+  "iam": {
+    "source": "data/output/iam_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "iam:1",
+        "name": "Institut audiovisuel de Monaco",
+        "country": "Monaco",
+        "continent": "Europe",
+        "type": "Institutional audiovisual archive",
+        "repositoryCode": "MC-IAM",
+        "originUrl": "https://institut-audiovisuel.mc/"
+      }
+    ]
+  },
+  "ifi_archive_player": {
+    "source": "data/output/ifi_archive_player_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "ifi_archive_player:1",
+        "name": "IFI Irish Film Archive",
+        "country": "Ireland",
+        "continent": "Europe",
+        "type": "National film archive",
+        "repositoryCode": "IE-IFI-IFA",
+        "originUrl": "https://ifiarchiveplayer.ie/"
+      }
+    ]
+  },
+  "image_est": {
+    "source": "data/output/image_est_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "image_est:1",
+        "name": "Image'Est",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Regional audiovisual heritage archive",
+        "repositoryCode": "FR-IMAGE-EST",
+        "originUrl": "https://www.image-est.fr/"
+      }
+    ]
+  },
+  "ina": {
+    "source": "data/output/ina_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "ina:1",
+        "name": "Institut national de l'audiovisuel (INA)",
+        "country": "France",
+        "continent": "Europe",
+        "type": "National audiovisual archive",
+        "repositoryCode": "FR-INA",
+        "originUrl": "https://www.ina.fr/"
+      }
+    ]
+  },
+  "iwm_film": {
+    "source": "data/output/iwm_film_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "iwm_film:1",
+        "name": "Imperial War Museums",
+        "country": "United Kingdom",
+        "continent": "Europe",
+        "type": "National museum film archive",
+        "repositoryCode": "GB-IWM-FILM",
+        "originUrl": "https://film.iwmcollections.org.uk/"
+      }
+    ]
+  },
+  "luce": {
+    "source": "data/output/luce_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "luce:1",
+        "name": "Cinecittà - Archivio Luce",
+        "country": "Italy",
+        "continent": "Europe",
+        "type": "Historical film and audiovisual archive",
+        "repositoryCode": "IT-CINECITTA-LUCE",
+        "originUrl": "https://patrimonio.archivioluce.com/luce-web/search/result.html?query=&jsonVal=%7B%22jsonVal%22%3A%7B%22startDate%22%3A%22%22%2C%22endDate%22%3A%22%22%2C%22fieldDate%22%3A%22dataNormal%22%2C%22_perPage%22%3A20%2C%22archiveType_string%22%3A%22%5C%22xDamsCineLuce%5C%22%22%7D%7D&activeFilter=archiveType_string"
+      }
+    ]
+  },
+  "murnau_stiftung": {
+    "source": "data/output/murnau_stiftung_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "murnau_stiftung:1",
+        "name": "Friedrich-Wilhelm-Murnau-Stiftung",
+        "country": "Germany",
+        "continent": "Europe",
+        "type": "Film archive and rights-holding foundation with public film database",
+        "repositoryCode": "DE-FW-MURNAU-STIFTUNG",
+        "originUrl": "https://www.murnau-stiftung.de/movie_search"
+      }
+    ]
+  },
+  "pares": {
+    "source": "data/output/pares_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "pares:1",
+        "name": "PARES",
+        "country": "Spain",
+        "continent": "Europe",
+        "type": "National archival aggregator",
+        "repositoryCode": "ES-PARES",
+        "originUrl": "https://pares.cultura.gob.es/"
+      }
+    ]
+  },
+  "ppa": {
+    "source": "data/output/ppa_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "ppa:1",
+        "name": "Portal Português de Arquivos",
+        "country": "Portugal",
+        "continent": "Europe",
+        "type": "National archival aggregator",
+        "repositoryCode": "PT-PPA",
+        "originUrl": "https://portal.arquivos.pt/"
+      }
+    ]
+  }
+}

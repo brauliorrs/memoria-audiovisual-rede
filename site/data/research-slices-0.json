@@ -1,0 +1,1016 @@
+{
+  "aamod": {
+    "tema_pais": {
+      "source": "data/output/aamod_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Música e performance",
+          "pais": "Italy",
+          "total": "5"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Italy",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/aamod_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Música e performance",
+          "plataforma": "YouTube",
+          "total": "3"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "AAMOD",
+          "total": "2"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "YouTube",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/aamod_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "aamod",
+          "observation_key": "aamod:2026-05-29T17:26:42Z",
+          "snapshot_generated_at": "2026-05-29T17:26:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-29T17:26:42Z",
+          "analytic_outputs_last_modified_at": "2026-05-29T17:26:42Z",
+          "generated_by": "scripts/run_aamod_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "6",
+          "videos_in_curatorial_catalog": "6",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aamod",
+          "observation_key": "aamod:2026-05-29T17:29:11Z",
+          "snapshot_generated_at": "2026-05-29T17:29:11Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-29T17:29:11Z",
+          "analytic_outputs_last_modified_at": "2026-05-29T17:29:10Z",
+          "generated_by": "scripts/run_aamod_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "6",
+          "videos_in_curatorial_catalog": "6",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aamod",
+          "observation_key": "aamod:2026-05-29T17:35:36Z",
+          "snapshot_generated_at": "2026-05-29T17:35:36Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-29T17:35:36Z",
+          "analytic_outputs_last_modified_at": "2026-05-29T17:35:36Z",
+          "generated_by": "scripts/run_aamod_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "6",
+          "videos_in_curatorial_catalog": "6",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aamod",
+          "observation_key": "aamod:2026-05-29T17:36:25Z",
+          "snapshot_generated_at": "2026-05-29T17:36:25Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-29T17:36:25Z",
+          "analytic_outputs_last_modified_at": "2026-05-29T17:36:25Z",
+          "generated_by": "scripts/run_aamod_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "6",
+          "videos_in_curatorial_catalog": "6",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aamod",
+          "observation_key": "aamod:2026-05-29T17:38:20Z",
+          "snapshot_generated_at": "2026-05-29T17:38:20Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-29T17:38:20Z",
+          "analytic_outputs_last_modified_at": "2026-05-29T17:38:20Z",
+          "generated_by": "scripts/run_aamod_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "6",
+          "videos_in_curatorial_catalog": "6",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "aapb": {
+    "tema_pais": {
+      "source": "data/output/aapb_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "pais": "United States",
+          "total": "16"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "United States",
+          "total": "8"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "United States",
+          "total": "2"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "United States",
+          "total": "1"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "United States",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/aapb_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "American Archive of Public Broadcasting",
+          "total": "16"
+        },
+        {
+          "tema": "Formação e mediação",
+          "plataforma": "American Archive of Public Broadcasting",
+          "total": "8"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "American Archive of Public Broadcasting",
+          "total": "2"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "American Archive of Public Broadcasting",
+          "total": "1"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "American Archive of Public Broadcasting",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/aapb_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "aapb",
+          "observation_key": "aapb:2026-05-20T16:49:02Z",
+          "snapshot_generated_at": "2026-05-20T16:49:02Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-20T16:49:02Z",
+          "analytic_outputs_last_modified_at": "2026-05-20T16:49:01Z",
+          "generated_by": "scripts/run_aapb_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "60",
+          "videos_in_curatorial_catalog": "60",
+          "visibility_categories": "1",
+          "theme_categories": "8",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aapb",
+          "observation_key": "aapb:2026-05-20T16:53:46Z",
+          "snapshot_generated_at": "2026-05-20T16:53:46Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-20T16:53:46Z",
+          "analytic_outputs_last_modified_at": "2026-05-20T16:53:46Z",
+          "generated_by": "scripts/run_aapb_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "60",
+          "videos_in_curatorial_catalog": "60",
+          "visibility_categories": "1",
+          "theme_categories": "8",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aapb",
+          "observation_key": "aapb:2026-05-20T17:07:40Z",
+          "snapshot_generated_at": "2026-05-20T17:07:40Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-20T17:07:40Z",
+          "analytic_outputs_last_modified_at": "2026-05-20T17:07:40Z",
+          "generated_by": "scripts/run_aapb_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "60",
+          "videos_in_curatorial_catalog": "60",
+          "visibility_categories": "1",
+          "theme_categories": "8",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aapb",
+          "observation_key": "aapb:2026-05-22T17:51:33Z",
+          "snapshot_generated_at": "2026-05-22T17:51:33Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-22T17:51:33Z",
+          "analytic_outputs_last_modified_at": "2026-05-22T17:51:33Z",
+          "generated_by": "scripts/run_aapb_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "36",
+          "videos_in_curatorial_catalog": "36",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aapb",
+          "observation_key": "aapb:2026-05-22T18:01:10Z",
+          "snapshot_generated_at": "2026-05-22T18:01:10Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-22T18:01:10Z",
+          "analytic_outputs_last_modified_at": "2026-05-22T18:01:10Z",
+          "generated_by": "scripts/run_aapb_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "36",
+          "videos_in_curatorial_catalog": "36",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aapb",
+          "observation_key": "aapb:2026-05-22T18:03:01Z",
+          "snapshot_generated_at": "2026-05-22T18:03:01Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-22T18:03:01Z",
+          "analytic_outputs_last_modified_at": "2026-05-22T18:03:00Z",
+          "generated_by": "scripts/run_aapb_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "28",
+          "videos_in_curatorial_catalog": "28",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aapb",
+          "observation_key": "aapb:2026-05-22T18:07:48Z",
+          "snapshot_generated_at": "2026-05-22T18:07:48Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-22T18:07:48Z",
+          "analytic_outputs_last_modified_at": "2026-05-22T18:07:47Z",
+          "generated_by": "scripts/run_aapb_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "28",
+          "videos_in_curatorial_catalog": "28",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "anf": {
+    "tema_pais": {
+      "source": "data/output/anf_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Romania",
+          "total": "5"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Romania",
+          "total": "3"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/anf_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "Eventbook",
+          "total": "5"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "Eventbook",
+          "total": "3"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/anf_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "anf",
+          "observation_key": "anf:2026-06-08T16:50:05Z",
+          "snapshot_generated_at": "2026-06-08T16:50:05Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-08T16:50:05Z",
+          "analytic_outputs_last_modified_at": "2026-06-08T16:50:05Z",
+          "generated_by": "scripts/run_anf_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "anf",
+          "observation_key": "anf:2026-06-08T16:51:39Z",
+          "snapshot_generated_at": "2026-06-08T16:51:39Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-08T16:51:39Z",
+          "analytic_outputs_last_modified_at": "2026-06-08T16:51:39Z",
+          "generated_by": "scripts/run_anf_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "anf",
+          "observation_key": "anf:2026-06-08T16:52:39Z",
+          "snapshot_generated_at": "2026-06-08T16:52:39Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-08T16:52:39Z",
+          "analytic_outputs_last_modified_at": "2026-06-08T16:52:39Z",
+          "generated_by": "scripts/run_anf_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "anf",
+          "observation_key": "anf:2026-06-08T16:55:31Z",
+          "snapshot_generated_at": "2026-06-08T16:55:31Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-08T16:55:31Z",
+          "analytic_outputs_last_modified_at": "2026-06-08T16:55:31Z",
+          "generated_by": "scripts/run_anf_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "anf",
+          "observation_key": "anf:2026-06-08T17:08:48Z",
+          "snapshot_generated_at": "2026-06-08T17:08:48Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-08T17:08:48Z",
+          "analytic_outputs_last_modified_at": "2026-06-08T17:08:48Z",
+          "generated_by": "scripts/run_anf_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "anf",
+          "observation_key": "anf:2026-06-11T17:13:23Z",
+          "snapshot_generated_at": "2026-06-11T17:13:23Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-11T17:13:23Z",
+          "analytic_outputs_last_modified_at": "2026-06-11T17:13:23Z",
+          "generated_by": "scripts/run_anf_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "ape": {
+    "tema_pais": {
+      "source": "data/output/ape_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "pais": "United Kingdom",
+          "total": "76"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Greece",
+          "total": "36"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Sweden",
+          "total": "35"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Hungary",
+          "total": "32"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Norway",
+          "total": "25"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Belgium",
+          "total": "18"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "France",
+          "total": "13"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Germany",
+          "total": "11"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "Spain",
+          "total": "8"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Italy",
+          "total": "8"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "United Kingdom",
+          "total": "7"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "United Kingdom",
+          "total": "7"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "pais": "United Kingdom",
+          "total": "6"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Italy",
+          "total": "6"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "United Kingdom",
+          "total": "6"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Germany",
+          "total": "6"
+        },
+        {
+          "tema": "Tema não identificado",
+          "pais": "United Kingdom",
+          "total": "6"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "United Kingdom",
+          "total": "5"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Switzerland",
+          "total": "5"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Germany",
+          "total": "5"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Hungary",
+          "total": "5"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Norway",
+          "total": "5"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Poland",
+          "total": "4"
+        },
+        {
+          "tema": "Tema não identificado",
+          "pais": "Spain",
+          "total": "4"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "Germany",
+          "total": "3"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Portugal",
+          "total": "3"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Italy",
+          "total": "3"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "Poland",
+          "total": "3"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "pais": "United Kingdom",
+          "total": "3"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Poland",
+          "total": "3"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "pais": "Spain",
+          "total": "3"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "United Kingdom",
+          "total": "3"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "Italy",
+          "total": "2"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "United Kingdom",
+          "total": "2"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Austria",
+          "total": "2"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Netherlands",
+          "total": "2"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Spain",
+          "total": "2"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "France",
+          "total": "2"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "Norway",
+          "total": "2"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Spain",
+          "total": "2"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Switzerland",
+          "total": "2"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "United Kingdom",
+          "total": "2"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Greece",
+          "total": "2"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "pais": "France",
+          "total": "2"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "pais": "Norway",
+          "total": "2"
+        },
+        {
+          "tema": "Tema não identificado",
+          "pais": "Belgium",
+          "total": "2"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "France",
+          "total": "2"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "Hungary",
+          "total": "1"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "Germany",
+          "total": "1"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "pais": "Greece",
+          "total": "1"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Czech Republic",
+          "total": "1"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Iceland",
+          "total": "1"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Ireland",
+          "total": "1"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Isle of Man",
+          "total": "1"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "Norway",
+          "total": "1"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "Belgium",
+          "total": "1"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "Italy",
+          "total": "1"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "United Kingdom",
+          "total": "1"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Greece",
+          "total": "1"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Norway",
+          "total": "1"
+        },
+        {
+          "tema": "História e pesquisa",
+          "pais": "Sweden",
+          "total": "1"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Germany",
+          "total": "1"
+        },
+        {
+          "tema": "Música e performance",
+          "pais": "Spain",
+          "total": "1"
+        },
+        {
+          "tema": "Tema não identificado",
+          "pais": "France",
+          "total": "1"
+        },
+        {
+          "tema": "Tema não identificado",
+          "pais": "Germany",
+          "total": "1"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "Germany",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/ape_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "YouTube",
+          "total": "203"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "YouTube",
+          "total": "30"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Vimeo",
+          "total": "29"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "YouTube",
+          "total": "27"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "YouTube",
+          "total": "14"
+        },
+        {
+          "tema": "Tema não identificado",
+          "plataforma": "Vimeo",
+          "total": "14"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "plataforma": "YouTube",
+          "total": "12"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Instagram",
+          "total": "11"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "YouTube",
+          "total": "8"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "plataforma": "YouTube",
+          "total": "7"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "plataforma": "YouTube",
+          "total": "6"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "YouTube",
+          "total": "5"
+        },
+        {
+          "tema": "Formação e mediação",
+          "plataforma": "YouTube",
+          "total": "5"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "plataforma": "Instagram",
+          "total": "4"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "YouTube",
+          "total": "4"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "plataforma": "Instagram",
+          "total": "3"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Instagram",
+          "total": "3"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "plataforma": "Instagram",
+          "total": "3"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "plataforma": "YouTube",
+          "total": "3"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Facebook",
+          "total": "3"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "Instagram",
+          "total": "3"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Facebook",
+          "total": "2"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Instagram",
+          "total": "2"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Internet Archive",
+          "total": "2"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "Instagram",
+          "total": "2"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "plataforma": "Internet Archive",
+          "total": "1"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "plataforma": "Vimeo",
+          "total": "1"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Vimeo",
+          "total": "1"
+        },
+        {
+          "tema": "Divulgação de serviços e projetos",
+          "plataforma": "Instagram",
+          "total": "1"
+        },
+        {
+          "tema": "História e pesquisa",
+          "plataforma": "Vimeo",
+          "total": "1"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "Instagram",
+          "total": "1"
+        },
+        {
+          "tema": "Música e performance",
+          "plataforma": "Vimeo",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/ape_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "ape",
+          "observation_key": "ape:2026-04-01T22:10:16Z",
+          "snapshot_generated_at": "2026-05-27T16:47:58Z",
+          "source_status_date": "2025-12-15",
+          "raw_outputs_last_modified_at": "2026-04-01T22:10:16Z",
+          "analytic_outputs_last_modified_at": "2026-05-27T16:47:58Z",
+          "generated_by": "scripts/build_ape_analytics.py",
+          "institutions": "1253",
+          "institutions_with_website": "1180",
+          "institutions_with_video_links": "103",
+          "video_links_total": "412",
+          "videos_in_curatorial_catalog": "412",
+          "visibility_categories": "5",
+          "theme_categories": "13",
+          "archive_type_categories": "17",
+          "platforms_detected": "5",
+          "countries_with_videos": "19"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,447 @@
+{
+  "cineam": {
+    "tema_pais": {
+      "source": "data/output/cineam_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Filme amador e memória familiar",
+          "pais": "France",
+          "total": "25"
+        },
+        {
+          "tema": "Documentário, cotidiano e memória local",
+          "pais": "France",
+          "total": "10"
+        },
+        {
+          "tema": "Território, cidade e memória local",
+          "pais": "France",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cineam_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Filme amador e memória familiar",
+          "plataforma": "CINÉAM",
+          "total": "25"
+        },
+        {
+          "tema": "Documentário, cotidiano e memória local",
+          "plataforma": "CINÉAM",
+          "total": "10"
+        },
+        {
+          "tema": "Território, cidade e memória local",
+          "plataforma": "CINÉAM",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cineam_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cineam",
+          "observation_key": "cineam:2026-06-16T19:47:24Z",
+          "snapshot_generated_at": "2026-06-16T19:47:24Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-16T19:47:24Z",
+          "analytic_outputs_last_modified_at": "2026-06-16T19:47:24Z",
+          "generated_by": "scripts/run_cineam_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "35",
+          "videos_in_curatorial_catalog": "35",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cineam",
+          "observation_key": "cineam:2026-06-16T19:51:05Z",
+          "snapshot_generated_at": "2026-06-16T19:51:05Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-16T19:51:05Z",
+          "analytic_outputs_last_modified_at": "2026-06-16T19:51:05Z",
+          "generated_by": "scripts/run_cineam_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "36",
+          "videos_in_curatorial_catalog": "36",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cineam",
+          "observation_key": "cineam:2026-06-16T19:52:46Z",
+          "snapshot_generated_at": "2026-06-16T19:52:46Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-16T19:52:46Z",
+          "analytic_outputs_last_modified_at": "2026-06-16T19:52:46Z",
+          "generated_by": "scripts/run_cineam_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "36",
+          "videos_in_curatorial_catalog": "36",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cineam",
+          "observation_key": "cineam:2026-06-16T19:54:47Z",
+          "snapshot_generated_at": "2026-06-16T19:54:47Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-16T19:54:47Z",
+          "analytic_outputs_last_modified_at": "2026-06-16T19:54:46Z",
+          "generated_by": "scripts/run_cineam_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "36",
+          "videos_in_curatorial_catalog": "36",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cineam",
+          "observation_key": "cineam:2026-06-16T19:56:11Z",
+          "snapshot_generated_at": "2026-06-16T19:56:11Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-16T19:56:11Z",
+          "analytic_outputs_last_modified_at": "2026-06-16T19:56:11Z",
+          "generated_by": "scripts/run_cineam_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "33",
+          "videos_in_curatorial_catalog": "33",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cineam",
+          "observation_key": "cineam:2026-06-16T19:57:46Z",
+          "snapshot_generated_at": "2026-06-16T19:57:46Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-16T19:57:46Z",
+          "analytic_outputs_last_modified_at": "2026-06-16T19:57:46Z",
+          "generated_by": "scripts/run_cineam_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "36",
+          "videos_in_curatorial_catalog": "36",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "cinearchives": {
+    "tema_pais": {
+      "source": "data/output/cinearchives_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Vida pública, política e história",
+          "pais": "France",
+          "total": "24"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "France",
+          "total": "14"
+        },
+        {
+          "tema": "Território, cidade e memória local",
+          "pais": "France",
+          "total": "10"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cinearchives_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Vida pública, política e história",
+          "plataforma": "Ciné-Archives",
+          "total": "24"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "Ciné-Archives",
+          "total": "14"
+        },
+        {
+          "tema": "Território, cidade e memória local",
+          "plataforma": "Ciné-Archives",
+          "total": "10"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cinearchives_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cinearchives",
+          "observation_key": "cinearchives:2026-06-18T18:02:42Z",
+          "snapshot_generated_at": "2026-06-18T18:02:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-18T18:02:42Z",
+          "analytic_outputs_last_modified_at": "2026-06-18T18:02:42Z",
+          "generated_by": "scripts/run_cinearchives_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "48",
+          "videos_in_curatorial_catalog": "48",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinearchives",
+          "observation_key": "cinearchives:2026-06-18T18:04:14Z",
+          "snapshot_generated_at": "2026-06-18T18:04:14Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-18T18:04:14Z",
+          "analytic_outputs_last_modified_at": "2026-06-18T18:04:14Z",
+          "generated_by": "scripts/run_cinearchives_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "48",
+          "videos_in_curatorial_catalog": "48",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinearchives",
+          "observation_key": "cinearchives:2026-06-18T18:10:26Z",
+          "snapshot_generated_at": "2026-06-18T18:10:26Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-18T18:10:26Z",
+          "analytic_outputs_last_modified_at": "2026-06-18T18:10:26Z",
+          "generated_by": "scripts/run_cinearchives_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "48",
+          "videos_in_curatorial_catalog": "48",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "cinemateca_pt": {
+    "tema_pais": {
+      "source": "data/output/cinemateca_pt_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Portugal",
+          "total": "16"
+        },
+        {
+          "tema": "Registro audiovisual em cinemateca digital",
+          "pais": "Portugal",
+          "total": "16"
+        },
+        {
+          "tema": "Território, cidade e patrimônio",
+          "pais": "Portugal",
+          "total": "9"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "pais": "Portugal",
+          "total": "8"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "pais": "Portugal",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cinemateca_pt_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "Vimeo",
+          "total": "16"
+        },
+        {
+          "tema": "Registro audiovisual em cinemateca digital",
+          "plataforma": "Cinemateca Digital",
+          "total": "16"
+        },
+        {
+          "tema": "Território, cidade e patrimônio",
+          "plataforma": "Cinemateca Digital",
+          "total": "7"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "plataforma": "Cinemateca Digital",
+          "total": "6"
+        },
+        {
+          "tema": "Território, cidade e patrimônio",
+          "plataforma": "Vimeo",
+          "total": "2"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "plataforma": "Vimeo",
+          "total": "2"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "plataforma": "Cinemateca Digital",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cinemateca_pt_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cinemateca-portuguesa",
+          "observation_key": "cinemateca-portuguesa:2026-06-18T17:38:37Z",
+          "snapshot_generated_at": "2026-06-18T17:38:37Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-18T17:38:37Z",
+          "analytic_outputs_last_modified_at": "2026-06-18T17:38:37Z",
+          "generated_by": "scripts/run_cinemateca_portuguesa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "50",
+          "videos_in_curatorial_catalog": "50",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinemateca-portuguesa",
+          "observation_key": "cinemateca-portuguesa:2026-06-18T17:42:57Z",
+          "snapshot_generated_at": "2026-06-18T17:42:57Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-18T17:42:57Z",
+          "analytic_outputs_last_modified_at": "2026-06-18T17:42:56Z",
+          "generated_by": "scripts/run_cinemateca_portuguesa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "50",
+          "videos_in_curatorial_catalog": "50",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinemateca-portuguesa",
+          "observation_key": "cinemateca-portuguesa:2026-06-18T17:50:58Z",
+          "snapshot_generated_at": "2026-06-18T17:50:58Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-18T17:50:58Z",
+          "analytic_outputs_last_modified_at": "2026-06-18T17:50:58Z",
+          "generated_by": "scripts/run_cinemateca_portuguesa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "50",
+          "videos_in_curatorial_catalog": "50",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "cinematek": {
+    "tema_pais": {
+      "source": "data/output/cinematek_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Patrimônio cinematográfico e cinefilia",
+          "pais": "Belgium",
+          "total": "20"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cinematek_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Patrimônio cinematográfico e cinefilia",
+          "plataforma": "CINEMATEK@HOME",
+          "total": "20"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cinematek_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cinematek",
+          "observation_key": "cinematek:2026-07-06T15:30:24Z",
+          "snapshot_generated_at": "2026-07-06T15:30:24Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-06T15:30:24Z",
+          "analytic_outputs_last_modified_at": "2026-07-06T15:30:24Z",
+          "generated_by": "scripts/run_cinematek_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "20",
+          "videos_in_curatorial_catalog": "20",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}

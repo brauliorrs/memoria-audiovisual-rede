@@ -1,29 +1,25 @@
-import Link from "next/link";
+"use client";
 
-export function SiteHeader() {
-  return (
-    <header className="site-header">
-      <div className="shell header-inner">
-        <Link className="brand" href="/" aria-label="MAR — início">
-          <span className="brand-mark" aria-hidden="true">
-            <span className="brand-mark-center" />
-          </span>
-          <span className="brand-name">
-            <strong>MAR<span className="brand-dot">.</span></strong>
-            <small>Memória Audiovisual em Rede</small>
-          </span>
-        </Link>
-        <nav aria-label="Menu principal" className="main-nav">
-          <Link href="/observatorio/">Observatório</Link>
-          <Link href="/analises/">Análises</Link>
-          <Link href="/acervo/">Explorar acervo</Link>
-          <Link href="/instituicoes/">Instituições</Link>
-          <Link href="/indice-acesso/">Índice de acesso</Link>
-          <Link href="/casos/">Casos</Link>
-          <Link href="/metodologia/">Metodologia</Link>
-        </nav>
-        <Link className="header-action" href="/acervo/">Abrir catálogo <span aria-hidden="true">↗</span></Link>
-      </div>
-    </header>
-  );
+import Link from "next/link";
+import {useSiteLocale,type SiteLocale} from "@/components/site-locale";
+
+export function SiteHeader(){
+ const {locale,setLocale,t}=useSiteLocale();
+ return <header className="site-header">
+  <div className="shell header-inner">
+   <Link className="brand" href="/" aria-label="MAR — home"><span className="brand-mark" aria-hidden="true"><span className="brand-mark-center"/></span><span className="brand-name"><strong>MAR<span className="brand-dot">.</span></strong><small>{t("brand")}</small></span></Link>
+   <nav aria-label="Navigation" className="main-nav">
+    <Link href="/observatorio/">{t("navObservatory")}</Link>
+    <Link href="/temas/">{t("navThemes")}</Link>
+    <Link href="/series/">{t("navTimeline")}</Link>
+    <Link href="/analises/">{t("navAnalyses")}</Link>
+    <Link href="/instituicoes/pesquisa/">{t("navInstitutions")}</Link>
+    <Link href="/acervo/">{t("navCatalog")}</Link>
+    <Link href="/indice-acesso/">{t("navAccess")}</Link>
+    <Link href="/casos/">{t("navCases")}</Link>
+    <Link href="/metodologia/">{t("navMethod")}</Link>
+   </nav>
+   <label className="locale-select"><span>{t("lang")}</span><select aria-label={t("changeLang")} value={locale} onChange={e=>setLocale(e.target.value as SiteLocale)}><option value="pt">PT</option><option value="en">EN</option><option value="es">ES</option></select></label>
+  </div>
+ </header>;
 }

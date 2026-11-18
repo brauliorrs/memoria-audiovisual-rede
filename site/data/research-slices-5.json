@@ -1,0 +1,340 @@
+{
+  "cinematheque_bretagne": {
+    "tema_pais": {
+      "source": "data/output/cinematheque_bretagne_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e memória local",
+          "pais": "France",
+          "total": "30"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cinematheque_bretagne_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e memória local",
+          "plataforma": "Cinémathèque de Bretagne",
+          "total": "30"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cinematheque_bretagne_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cinematheque_bretagne",
+          "observation_key": "cinematheque_bretagne:2026-06-19T17:02:40Z",
+          "snapshot_generated_at": "2026-06-19T17:02:40Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T17:02:40Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T17:02:40Z",
+          "generated_by": "scripts/run_cinematheque_bretagne_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "15",
+          "videos_in_curatorial_catalog": "15",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinematheque_bretagne",
+          "observation_key": "cinematheque_bretagne:2026-06-19T17:05:21Z",
+          "snapshot_generated_at": "2026-06-19T17:05:21Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T17:05:21Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T17:05:21Z",
+          "generated_by": "scripts/run_cinematheque_bretagne_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "30",
+          "videos_in_curatorial_catalog": "30",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinematheque_bretagne",
+          "observation_key": "cinematheque_bretagne:2026-06-19T17:13:50Z",
+          "snapshot_generated_at": "2026-06-19T17:13:50Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T17:13:50Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T17:13:50Z",
+          "generated_by": "scripts/run_cinematheque_bretagne_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "30",
+          "videos_in_curatorial_catalog": "30",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinematheque_bretagne",
+          "observation_key": "cinematheque_bretagne:2026-06-19T17:16:47Z",
+          "snapshot_generated_at": "2026-06-19T17:16:47Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T17:16:47Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T17:16:47Z",
+          "generated_by": "scripts/run_cinematheque_bretagne_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "30",
+          "videos_in_curatorial_catalog": "30",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinematheque_bretagne",
+          "observation_key": "cinematheque_bretagne:2026-06-19T17:25:41Z",
+          "snapshot_generated_at": "2026-06-19T17:25:41Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T17:25:41Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T17:25:41Z",
+          "generated_by": "scripts/run_cinematheque_bretagne_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "30",
+          "videos_in_curatorial_catalog": "30",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinematheque_bretagne",
+          "observation_key": "cinematheque_bretagne:2026-06-19T17:33:10Z",
+          "snapshot_generated_at": "2026-06-19T17:33:10Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-19T17:33:10Z",
+          "analytic_outputs_last_modified_at": "2026-06-19T17:33:10Z",
+          "generated_by": "scripts/run_cinematheque_bretagne_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "30",
+          "videos_in_curatorial_catalog": "30",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "cinematheque_francaise": {
+    "tema_pais": {
+      "source": "data/output/cinematheque_francaise_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Patrimônio cinematográfico e cinefilia",
+          "pais": "France",
+          "total": "255"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cinematheque_francaise_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Patrimônio cinematográfico e cinefilia",
+          "plataforma": "HENRI",
+          "total": "255"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cinematheque_francaise_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cinematheque_francaise",
+          "observation_key": "cinematheque_francaise:2026-07-06T15:15:21Z",
+          "snapshot_generated_at": "2026-07-06T15:15:21Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-06T15:15:21Z",
+          "analytic_outputs_last_modified_at": "2026-07-06T15:15:20Z",
+          "generated_by": "scripts/run_cinematheque_francaise_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "255",
+          "videos_in_curatorial_catalog": "255",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cinematheque_francaise",
+          "observation_key": "cinematheque_francaise:2026-07-06T15:15:43Z",
+          "snapshot_generated_at": "2026-07-06T15:15:43Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-06T15:15:43Z",
+          "analytic_outputs_last_modified_at": "2026-07-06T15:15:43Z",
+          "generated_by": "scripts/run_cinematheque_francaise_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "255",
+          "videos_in_curatorial_catalog": "255",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "cinematheque_suisse": {
+    "tema_pais": {
+      "source": "data/output/cinematheque_suisse_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Switzerland",
+          "total": "112"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Switzerland",
+          "total": "85"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "pais": "Switzerland",
+          "total": "52"
+        },
+        {
+          "tema": "Animação",
+          "pais": "Switzerland",
+          "total": "48"
+        },
+        {
+          "tema": "Cinejornal e atualidades",
+          "pais": "Switzerland",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cinematheque_suisse_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "Memobase LOD API",
+          "total": "112"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "Memobase LOD API",
+          "total": "85"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "plataforma": "Memobase LOD API",
+          "total": "52"
+        },
+        {
+          "tema": "Animação",
+          "plataforma": "Memobase LOD API",
+          "total": "48"
+        },
+        {
+          "tema": "Cinejornal e atualidades",
+          "plataforma": "Memobase LOD API",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cinematheque_suisse_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cinematheque-suisse",
+          "observation_key": "cinematheque-suisse:2026-07-06T15:54:52Z",
+          "snapshot_generated_at": "2026-07-06T15:54:52Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-06T15:54:52Z",
+          "analytic_outputs_last_modified_at": "2026-07-06T15:54:51Z",
+          "generated_by": "scripts/run_cinematheque_suisse_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "298",
+          "videos_in_curatorial_catalog": "298",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "cinememoire": {
+    "tema_pais": {
+      "source": "data/output/cinememoire_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Filme amador e memória familiar",
+          "pais": "France",
+          "total": "20"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cinememoire_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Filme amador e memória familiar",
+          "plataforma": "Cinémémoire",
+          "total": "20"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cinememoire_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cinememoire",
+          "observation_key": "cinememoire:2026-07-07T12:58:52Z",
+          "snapshot_generated_at": "2026-07-07T12:58:53Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-07T12:58:52Z",
+          "analytic_outputs_last_modified_at": "2026-07-07T12:58:52Z",
+          "generated_by": "scripts/run_cinememoire_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "20",
+          "videos_in_curatorial_catalog": "20",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}

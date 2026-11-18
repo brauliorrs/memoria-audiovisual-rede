@@ -1,0 +1,333 @@
+{
+  "cna": {
+    "tema_pais": {
+      "source": "data/output/cna_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Trabalho, indústria e infraestrutura",
+          "pais": "Luxembourg",
+          "total": "32"
+        },
+        {
+          "tema": "Programação televisiva e memória da mídia",
+          "pais": "Luxembourg",
+          "total": "12"
+        },
+        {
+          "tema": "Catálogo audiovisual nacional",
+          "pais": "Luxembourg",
+          "total": "11"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "pais": "Luxembourg",
+          "total": "11"
+        },
+        {
+          "tema": "Território, cidade e memória nacional",
+          "pais": "Luxembourg",
+          "total": "7"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "pais": "Luxembourg",
+          "total": "6"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cna_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Trabalho, indústria e infraestrutura",
+          "plataforma": "CNAsearch",
+          "total": "32"
+        },
+        {
+          "tema": "Programação televisiva e memória da mídia",
+          "plataforma": "CNAsearch",
+          "total": "12"
+        },
+        {
+          "tema": "Catálogo audiovisual nacional",
+          "plataforma": "CNAsearch",
+          "total": "11"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "plataforma": "CNAsearch",
+          "total": "11"
+        },
+        {
+          "tema": "Território, cidade e memória nacional",
+          "plataforma": "CNAsearch",
+          "total": "7"
+        },
+        {
+          "tema": "Esporte e cultura física",
+          "plataforma": "CNAsearch",
+          "total": "6"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cna_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cna",
+          "observation_key": "cna:2026-06-17T17:55:42Z",
+          "snapshot_generated_at": "2026-06-17T17:55:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-17T17:55:42Z",
+          "analytic_outputs_last_modified_at": "2026-06-17T17:55:42Z",
+          "generated_by": "scripts/run_cna_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "79",
+          "videos_in_curatorial_catalog": "79",
+          "visibility_categories": "1",
+          "theme_categories": "6",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cna",
+          "observation_key": "cna:2026-06-17T17:59:51Z",
+          "snapshot_generated_at": "2026-06-17T17:59:51Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-17T17:59:51Z",
+          "analytic_outputs_last_modified_at": "2026-06-17T17:59:51Z",
+          "generated_by": "scripts/run_cna_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "79",
+          "videos_in_curatorial_catalog": "79",
+          "visibility_categories": "1",
+          "theme_categories": "6",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "cnc_aff": {
+    "tema_pais": {
+      "source": "data/output/cnc_aff_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "France",
+          "total": "48"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "pais": "France",
+          "total": "47"
+        },
+        {
+          "tema": "Cinejornal e atualidades",
+          "pais": "France",
+          "total": "40"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "France",
+          "total": "5"
+        },
+        {
+          "tema": "Animação",
+          "pais": "France",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cnc_aff_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "European Film Gateway",
+          "total": "48"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "plataforma": "European Film Gateway",
+          "total": "47"
+        },
+        {
+          "tema": "Cinejornal e atualidades",
+          "plataforma": "European Film Gateway",
+          "total": "40"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "European Film Gateway",
+          "total": "5"
+        },
+        {
+          "tema": "Animação",
+          "plataforma": "European Film Gateway",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cnc_aff_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cnc-aff",
+          "observation_key": "cnc-aff:2026-06-17T18:29:42Z",
+          "snapshot_generated_at": "2026-06-17T18:29:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-17T18:29:42Z",
+          "analytic_outputs_last_modified_at": "2026-06-17T18:29:41Z",
+          "generated_by": "scripts/run_cnc_aff_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "141",
+          "videos_in_curatorial_catalog": "141",
+          "visibility_categories": "1",
+          "theme_categories": "5",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "cpsa": {
+    "tema_pais": {
+      "source": "data/output/cpsa_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e memória local",
+          "pais": "France",
+          "total": "23"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/cpsa_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Território, cidade e memória local",
+          "plataforma": "Cinémathèque des Pays de Savoie et de l'Ain",
+          "total": "23"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/cpsa_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "cpsa",
+          "observation_key": "cpsa:2026-07-06T14:51:01Z",
+          "snapshot_generated_at": "2026-07-06T14:51:01Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-06T14:51:01Z",
+          "analytic_outputs_last_modified_at": "2026-07-06T14:51:01Z",
+          "generated_by": "scripts/run_cpsa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "0",
+          "video_links_total": "0",
+          "videos_in_curatorial_catalog": "0",
+          "visibility_categories": "1",
+          "theme_categories": "0",
+          "archive_type_categories": "1",
+          "platforms_detected": "0",
+          "countries_with_videos": "0"
+        },
+        {
+          "dataset": "cpsa",
+          "observation_key": "cpsa:2026-07-06T14:53:28Z",
+          "snapshot_generated_at": "2026-07-06T14:53:28Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-06T14:53:28Z",
+          "analytic_outputs_last_modified_at": "2026-07-06T14:53:27Z",
+          "generated_by": "scripts/run_cpsa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "23",
+          "videos_in_curatorial_catalog": "23",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "cpsa",
+          "observation_key": "cpsa:2026-07-06T15:00:33Z",
+          "snapshot_generated_at": "2026-07-06T15:00:33Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-06T15:00:33Z",
+          "analytic_outputs_last_modified_at": "2026-07-06T15:00:33Z",
+          "generated_by": "scripts/run_cpsa_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "23",
+          "videos_in_curatorial_catalog": "23",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "crnogorska_kinoteka": {
+    "tema_pais": {
+      "source": "data/output/crnogorska_kinoteka_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Montenegro",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/crnogorska_kinoteka_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "European Film Gateway",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/crnogorska_kinoteka_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "crnogorska-kinoteka",
+          "observation_key": "crnogorska-kinoteka:2026-07-07T18:21:21Z",
+          "snapshot_generated_at": "2026-07-07T18:21:21Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-07T18:21:21Z",
+          "analytic_outputs_last_modified_at": "2026-07-07T18:21:21Z",
+          "generated_by": "scripts/run_crnogorska_kinoteka_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "1",
+          "videos_in_curatorial_catalog": "1",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}

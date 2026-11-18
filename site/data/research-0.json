@@ -1,0 +1,852 @@
+[
+  {
+    "code": "aamod",
+    "themes": [
+      {
+        "theme": "Música e performance",
+        "value": 5
+      },
+      {
+        "theme": "Comunicação institucional",
+        "value": 1
+      }
+    ],
+    "countries": [
+      {
+        "theme": "Música e performance",
+        "country": "Italy",
+        "value": 5
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Italy",
+        "value": 1
+      }
+    ],
+    "platforms": [
+      {
+        "theme": "Música e performance",
+        "platform": "YouTube",
+        "value": 3
+      },
+      {
+        "theme": "Música e performance",
+        "platform": "AAMOD",
+        "value": 2
+      },
+      {
+        "theme": "Comunicação institucional",
+        "platform": "YouTube",
+        "value": 1
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-05-29T17:26:42Z",
+        "observationKey": "aamod:2026-05-29T17:26:42Z",
+        "videoLinks": 6,
+        "institutions": 1,
+        "curatorialCount": 6
+      },
+      {
+        "date": "2026-05-29T17:29:11Z",
+        "observationKey": "aamod:2026-05-29T17:29:11Z",
+        "videoLinks": 6,
+        "institutions": 1,
+        "curatorialCount": 6
+      },
+      {
+        "date": "2026-05-29T17:35:36Z",
+        "observationKey": "aamod:2026-05-29T17:35:36Z",
+        "videoLinks": 6,
+        "institutions": 1,
+        "curatorialCount": 6
+      },
+      {
+        "date": "2026-05-29T17:36:25Z",
+        "observationKey": "aamod:2026-05-29T17:36:25Z",
+        "videoLinks": 6,
+        "institutions": 1,
+        "curatorialCount": 6
+      },
+      {
+        "date": "2026-05-29T17:38:20Z",
+        "observationKey": "aamod:2026-05-29T17:38:20Z",
+        "videoLinks": 6,
+        "institutions": 1,
+        "curatorialCount": 6
+      }
+    ]
+  },
+  {
+    "code": "aapb",
+    "themes": [
+      {
+        "theme": "Comunicação institucional",
+        "value": 16
+      },
+      {
+        "theme": "Formação e mediação",
+        "value": 8
+      },
+      {
+        "theme": "História e pesquisa",
+        "value": 2
+      },
+      {
+        "theme": "Música e performance",
+        "value": 1
+      },
+      {
+        "theme": "Divulgação de serviços e projetos",
+        "value": 1
+      }
+    ],
+    "countries": [
+      {
+        "theme": "Comunicação institucional",
+        "country": "United States",
+        "value": 16
+      },
+      {
+        "theme": "Formação e mediação",
+        "country": "United States",
+        "value": 8
+      },
+      {
+        "theme": "História e pesquisa",
+        "country": "United States",
+        "value": 2
+      },
+      {
+        "theme": "Divulgação de serviços e projetos",
+        "country": "United States",
+        "value": 1
+      },
+      {
+        "theme": "Música e performance",
+        "country": "United States",
+        "value": 1
+      }
+    ],
+    "platforms": [
+      {
+        "theme": "Comunicação institucional",
+        "platform": "American Archive of Public Broadcasting",
+        "value": 16
+      },
+      {
+        "theme": "Formação e mediação",
+        "platform": "American Archive of Public Broadcasting",
+        "value": 8
+      },
+      {
+        "theme": "História e pesquisa",
+        "platform": "American Archive of Public Broadcasting",
+        "value": 2
+      },
+      {
+        "theme": "Divulgação de serviços e projetos",
+        "platform": "American Archive of Public Broadcasting",
+        "value": 1
+      },
+      {
+        "theme": "Música e performance",
+        "platform": "American Archive of Public Broadcasting",
+        "value": 1
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-05-20T16:49:02Z",
+        "observationKey": "aapb:2026-05-20T16:49:02Z",
+        "videoLinks": 60,
+        "institutions": 1,
+        "curatorialCount": 60
+      },
+      {
+        "date": "2026-05-20T16:53:46Z",
+        "observationKey": "aapb:2026-05-20T16:53:46Z",
+        "videoLinks": 60,
+        "institutions": 1,
+        "curatorialCount": 60
+      },
+      {
+        "date": "2026-05-20T17:07:40Z",
+        "observationKey": "aapb:2026-05-20T17:07:40Z",
+        "videoLinks": 60,
+        "institutions": 1,
+        "curatorialCount": 60
+      },
+      {
+        "date": "2026-05-22T17:51:33Z",
+        "observationKey": "aapb:2026-05-22T17:51:33Z",
+        "videoLinks": 36,
+        "institutions": 1,
+        "curatorialCount": 36
+      },
+      {
+        "date": "2026-05-22T18:01:10Z",
+        "observationKey": "aapb:2026-05-22T18:01:10Z",
+        "videoLinks": 36,
+        "institutions": 1,
+        "curatorialCount": 36
+      },
+      {
+        "date": "2026-05-22T18:03:01Z",
+        "observationKey": "aapb:2026-05-22T18:03:01Z",
+        "videoLinks": 28,
+        "institutions": 1,
+        "curatorialCount": 28
+      },
+      {
+        "date": "2026-05-22T18:07:48Z",
+        "observationKey": "aapb:2026-05-22T18:07:48Z",
+        "videoLinks": 28,
+        "institutions": 1,
+        "curatorialCount": 28
+      }
+    ]
+  },
+  {
+    "code": "anf",
+    "themes": [
+      {
+        "theme": "Ficção cinematográfica",
+        "value": 5
+      },
+      {
+        "theme": "Documentário e registro histórico",
+        "value": 3
+      }
+    ],
+    "countries": [
+      {
+        "theme": "Ficção cinematográfica",
+        "country": "Romania",
+        "value": 5
+      },
+      {
+        "theme": "Documentário e registro histórico",
+        "country": "Romania",
+        "value": 3
+      }
+    ],
+    "platforms": [
+      {
+        "theme": "Ficção cinematográfica",
+        "platform": "Eventbook",
+        "value": 5
+      },
+      {
+        "theme": "Documentário e registro histórico",
+        "platform": "Eventbook",
+        "value": 3
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-06-08T16:50:05Z",
+        "observationKey": "anf:2026-06-08T16:50:05Z",
+        "videoLinks": 8,
+        "institutions": 1,
+        "curatorialCount": 8
+      },
+      {
+        "date": "2026-06-08T16:51:39Z",
+        "observationKey": "anf:2026-06-08T16:51:39Z",
+        "videoLinks": 8,
+        "institutions": 1,
+        "curatorialCount": 8
+      },
+      {
+        "date": "2026-06-08T16:52:39Z",
+        "observationKey": "anf:2026-06-08T16:52:39Z",
+        "videoLinks": 8,
+        "institutions": 1,
+        "curatorialCount": 8
+      },
+      {
+        "date": "2026-06-08T16:55:31Z",
+        "observationKey": "anf:2026-06-08T16:55:31Z",
+        "videoLinks": 8,
+        "institutions": 1,
+        "curatorialCount": 8
+      },
+      {
+        "date": "2026-06-08T17:08:48Z",
+        "observationKey": "anf:2026-06-08T17:08:48Z",
+        "videoLinks": 8,
+        "institutions": 1,
+        "curatorialCount": 8
+      },
+      {
+        "date": "2026-06-11T17:13:23Z",
+        "observationKey": "anf:2026-06-11T17:13:23Z",
+        "videoLinks": 8,
+        "institutions": 1,
+        "curatorialCount": 8
+      }
+    ]
+  },
+  {
+    "code": "ape",
+    "themes": [
+      {
+        "theme": "Comunicação institucional",
+        "value": 246
+      },
+      {
+        "theme": "Digitalização e acesso",
+        "value": 35
+      },
+      {
+        "theme": "Música e performance",
+        "value": 29
+      },
+      {
+        "theme": "História e pesquisa",
+        "value": 18
+      },
+      {
+        "theme": "Acervo e patrimônio",
+        "value": 16
+      },
+      {
+        "theme": "Tema não identificado",
+        "value": 14
+      },
+      {
+        "theme": "Apresentação institucional",
+        "value": 13
+      },
+      {
+        "theme": "Exposições e eventos",
+        "value": 10
+      },
+      {
+        "theme": "Preservação e conservação",
+        "value": 7
+      },
+      {
+        "theme": "Coleções e serviços",
+        "value": 7
+      },
+      {
+        "theme": "Visita e descoberta do arquivo",
+        "value": 6
+      },
+      {
+        "theme": "Divulgação de serviços e projetos",
+        "value": 6
+      },
+      {
+        "theme": "Formação e mediação",
+        "value": 5
+      }
+    ],
+    "countries": [
+      {
+        "theme": "Comunicação institucional",
+        "country": "United Kingdom",
+        "value": 76
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Greece",
+        "value": 36
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Sweden",
+        "value": 35
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Hungary",
+        "value": 32
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Norway",
+        "value": 25
+      },
+      {
+        "theme": "Digitalização e acesso",
+        "country": "Belgium",
+        "value": 18
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "France",
+        "value": 13
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Germany",
+        "value": 11
+      },
+      {
+        "theme": "Acervo e patrimônio",
+        "country": "Spain",
+        "value": 8
+      },
+      {
+        "theme": "Música e performance",
+        "country": "Italy",
+        "value": 8
+      },
+      {
+        "theme": "Exposições e eventos",
+        "country": "United Kingdom",
+        "value": 7
+      },
+      {
+        "theme": "Música e performance",
+        "country": "United Kingdom",
+        "value": 7
+      },
+      {
+        "theme": "Coleções e serviços",
+        "country": "United Kingdom",
+        "value": 6
+      },
+      {
+        "theme": "Digitalização e acesso",
+        "country": "Italy",
+        "value": 6
+      },
+      {
+        "theme": "Digitalização e acesso",
+        "country": "United Kingdom",
+        "value": 6
+      },
+      {
+        "theme": "História e pesquisa",
+        "country": "Germany",
+        "value": 6
+      },
+      {
+        "theme": "Tema não identificado",
+        "country": "United Kingdom",
+        "value": 6
+      },
+      {
+        "theme": "Apresentação institucional",
+        "country": "United Kingdom",
+        "value": 5
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Switzerland",
+        "value": 5
+      },
+      {
+        "theme": "Digitalização e acesso",
+        "country": "Germany",
+        "value": 5
+      },
+      {
+        "theme": "Música e performance",
+        "country": "Hungary",
+        "value": 5
+      },
+      {
+        "theme": "Música e performance",
+        "country": "Norway",
+        "value": 5
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Poland",
+        "value": 4
+      },
+      {
+        "theme": "Tema não identificado",
+        "country": "Spain",
+        "value": 4
+      },
+      {
+        "theme": "Acervo e patrimônio",
+        "country": "Germany",
+        "value": 3
+      },
+      {
+        "theme": "Apresentação institucional",
+        "country": "Portugal",
+        "value": 3
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Italy",
+        "value": 3
+      },
+      {
+        "theme": "Divulgação de serviços e projetos",
+        "country": "Poland",
+        "value": 3
+      },
+      {
+        "theme": "Divulgação de serviços e projetos",
+        "country": "United Kingdom",
+        "value": 3
+      },
+      {
+        "theme": "História e pesquisa",
+        "country": "Poland",
+        "value": 3
+      },
+      {
+        "theme": "Preservação e conservação",
+        "country": "Spain",
+        "value": 3
+      },
+      {
+        "theme": "Visita e descoberta do arquivo",
+        "country": "United Kingdom",
+        "value": 3
+      },
+      {
+        "theme": "Acervo e patrimônio",
+        "country": "Italy",
+        "value": 2
+      },
+      {
+        "theme": "Acervo e patrimônio",
+        "country": "United Kingdom",
+        "value": 2
+      },
+      {
+        "theme": "Apresentação institucional",
+        "country": "Austria",
+        "value": 2
+      },
+      {
+        "theme": "Apresentação institucional",
+        "country": "Netherlands",
+        "value": 2
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Spain",
+        "value": 2
+      },
+      {
+        "theme": "Exposições e eventos",
+        "country": "France",
+        "value": 2
+      },
+      {
+        "theme": "Formação e mediação",
+        "country": "Norway",
+        "value": 2
+      },
+      {
+        "theme": "História e pesquisa",
+        "country": "Spain",
+        "value": 2
+      },
+      {
+        "theme": "História e pesquisa",
+        "country": "Switzerland",
+        "value": 2
+      },
+      {
+        "theme": "História e pesquisa",
+        "country": "United Kingdom",
+        "value": 2
+      },
+      {
+        "theme": "Música e performance",
+        "country": "Greece",
+        "value": 2
+      },
+      {
+        "theme": "Preservação e conservação",
+        "country": "France",
+        "value": 2
+      },
+      {
+        "theme": "Preservação e conservação",
+        "country": "Norway",
+        "value": 2
+      },
+      {
+        "theme": "Tema não identificado",
+        "country": "Belgium",
+        "value": 2
+      },
+      {
+        "theme": "Visita e descoberta do arquivo",
+        "country": "France",
+        "value": 2
+      },
+      {
+        "theme": "Acervo e patrimônio",
+        "country": "Hungary",
+        "value": 1
+      },
+      {
+        "theme": "Apresentação institucional",
+        "country": "Germany",
+        "value": 1
+      },
+      {
+        "theme": "Coleções e serviços",
+        "country": "Greece",
+        "value": 1
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Czech Republic",
+        "value": 1
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Iceland",
+        "value": 1
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Ireland",
+        "value": 1
+      },
+      {
+        "theme": "Comunicação institucional",
+        "country": "Isle of Man",
+        "value": 1
+      },
+      {
+        "theme": "Exposições e eventos",
+        "country": "Norway",
+        "value": 1
+      },
+      {
+        "theme": "Formação e mediação",
+        "country": "Belgium",
+        "value": 1
+      },
+      {
+        "theme": "Formação e mediação",
+        "country": "Italy",
+        "value": 1
+      },
+      {
+        "theme": "Formação e mediação",
+        "country": "United Kingdom",
+        "value": 1
+      },
+      {
+        "theme": "História e pesquisa",
+        "country": "Greece",
+        "value": 1
+      },
+      {
+        "theme": "História e pesquisa",
+        "country": "Norway",
+        "value": 1
+      },
+      {
+        "theme": "História e pesquisa",
+        "country": "Sweden",
+        "value": 1
+      },
+      {
+        "theme": "Música e performance",
+        "country": "Germany",
+        "value": 1
+      },
+      {
+        "theme": "Música e performance",
+        "country": "Spain",
+        "value": 1
+      },
+      {
+        "theme": "Tema não identificado",
+        "country": "France",
+        "value": 1
+      },
+      {
+        "theme": "Tema não identificado",
+        "country": "Germany",
+        "value": 1
+      },
+      {
+        "theme": "Visita e descoberta do arquivo",
+        "country": "Germany",
+        "value": 1
+      }
+    ],
+    "platforms": [
+      {
+        "theme": "Comunicação institucional",
+        "platform": "YouTube",
+        "value": 203
+      },
+      {
+        "theme": "Digitalização e acesso",
+        "platform": "YouTube",
+        "value": 30
+      },
+      {
+        "theme": "Comunicação institucional",
+        "platform": "Vimeo",
+        "value": 29
+      },
+      {
+        "theme": "Música e performance",
+        "platform": "YouTube",
+        "value": 27
+      },
+      {
+        "theme": "História e pesquisa",
+        "platform": "YouTube",
+        "value": 14
+      },
+      {
+        "theme": "Tema não identificado",
+        "platform": "Vimeo",
+        "value": 14
+      },
+      {
+        "theme": "Acervo e patrimônio",
+        "platform": "YouTube",
+        "value": 12
+      },
+      {
+        "theme": "Comunicação institucional",
+        "platform": "Instagram",
+        "value": 11
+      },
+      {
+        "theme": "Apresentação institucional",
+        "platform": "YouTube",
+        "value": 8
+      },
+      {
+        "theme": "Preservação e conservação",
+        "platform": "YouTube",
+        "value": 7
+      },
+      {
+        "theme": "Exposições e eventos",
+        "platform": "YouTube",
+        "value": 6
+      },
+      {
+        "theme": "Divulgação de serviços e projetos",
+        "platform": "YouTube",
+        "value": 5
+      },
+      {
+        "theme": "Formação e mediação",
+        "platform": "YouTube",
+        "value": 5
+      },
+      {
+        "theme": "Exposições e eventos",
+        "platform": "Instagram",
+        "value": 4
+      },
+      {
+        "theme": "Visita e descoberta do arquivo",
+        "platform": "YouTube",
+        "value": 4
+      },
+      {
+        "theme": "Acervo e patrimônio",
+        "platform": "Instagram",
+        "value": 3
+      },
+      {
+        "theme": "Apresentação institucional",
+        "platform": "Instagram",
+        "value": 3
+      },
+      {
+        "theme": "Coleções e serviços",
+        "platform": "Instagram",
+        "value": 3
+      },
+      {
+        "theme": "Coleções e serviços",
+        "platform": "YouTube",
+        "value": 3
+      },
+      {
+        "theme": "Comunicação institucional",
+        "platform": "Facebook",
+        "value": 3
+      },
+      {
+        "theme": "História e pesquisa",
+        "platform": "Instagram",
+        "value": 3
+      },
+      {
+        "theme": "Apresentação institucional",
+        "platform": "Facebook",
+        "value": 2
+      },
+      {
+        "theme": "Digitalização e acesso",
+        "platform": "Instagram",
+        "value": 2
+      },
+      {
+        "theme": "Digitalização e acesso",
+        "platform": "Internet Archive",
+        "value": 2
+      },
+      {
+        "theme": "Visita e descoberta do arquivo",
+        "platform": "Instagram",
+        "value": 2
+      },
+      {
+        "theme": "Acervo e patrimônio",
+        "platform": "Internet Archive",
+        "value": 1
+      },
+      {
+        "theme": "Coleções e serviços",
+        "platform": "Vimeo",
+        "value": 1
+      },
+      {
+        "theme": "Digitalização e acesso",
+        "platform": "Vimeo",
+        "value": 1
+      },
+      {
+        "theme": "Divulgação de serviços e projetos",
+        "platform": "Instagram",
+        "value": 1
+      },
+      {
+        "theme": "História e pesquisa",
+        "platform": "Vimeo",
+        "value": 1
+      },
+      {
+        "theme": "Música e performance",
+        "platform": "Instagram",
+        "value": 1
+      },
+      {
+        "theme": "Música e performance",
+        "platform": "Vimeo",
+        "value": 1
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-05-27T16:47:58Z",
+        "observationKey": "ape:2026-04-01T22:10:16Z",
+        "videoLinks": 412,
+        "institutions": 1253,
+        "curatorialCount": 412
+      }
+    ]
+  }
+]

@@ -1,0 +1,422 @@
+{
+  "aqshf": {
+    "tema_pais": {
+      "source": "data/output/aqshf_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Albania",
+          "total": "2273"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Albania",
+          "total": "258"
+        },
+        {
+          "tema": "Animação",
+          "pais": "Albania",
+          "total": "200"
+        },
+        {
+          "tema": "Catálogo filmográfico e metadados de acervo",
+          "pais": "Albania",
+          "total": "5"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/aqshf_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "AQSHF",
+          "total": "2273"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "AQSHF",
+          "total": "258"
+        },
+        {
+          "tema": "Animação",
+          "plataforma": "AQSHF",
+          "total": "200"
+        },
+        {
+          "tema": "Catálogo filmográfico e metadados de acervo",
+          "plataforma": "AQSHF",
+          "total": "5"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/aqshf_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "aqshf",
+          "observation_key": "aqshf:2026-06-10T16:56:13Z",
+          "snapshot_generated_at": "2026-06-10T16:56:14Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-10T16:56:13Z",
+          "analytic_outputs_last_modified_at": "2026-06-10T16:56:11Z",
+          "generated_by": "scripts/run_aqshf_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "2736",
+          "videos_in_curatorial_catalog": "2736",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aqshf",
+          "observation_key": "aqshf:2026-06-10T16:58:31Z",
+          "snapshot_generated_at": "2026-06-10T16:58:33Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-10T16:58:31Z",
+          "analytic_outputs_last_modified_at": "2026-06-10T16:58:28Z",
+          "generated_by": "scripts/run_aqshf_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "2736",
+          "videos_in_curatorial_catalog": "2736",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "aqshf",
+          "observation_key": "aqshf:2026-06-10T17:06:14Z",
+          "snapshot_generated_at": "2026-06-10T17:06:15Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-10T17:06:14Z",
+          "analytic_outputs_last_modified_at": "2026-06-10T17:06:12Z",
+          "generated_by": "scripts/run_aqshf_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "2736",
+          "videos_in_curatorial_catalog": "2736",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "archipop": {
+    "tema_pais": {
+      "source": "data/output/archipop_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "pais": "France",
+          "total": "19"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "pais": "France",
+          "total": "17"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "pais": "France",
+          "total": "5"
+        },
+        {
+          "tema": "Formação e mediação",
+          "pais": "France",
+          "total": "5"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "pais": "France",
+          "total": "4"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "pais": "France",
+          "total": "4"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "pais": "France",
+          "total": "2"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "pais": "France",
+          "total": "1"
+        },
+        {
+          "tema": "Memória, narrativa e testemunho",
+          "pais": "France",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/archipop_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "Archipop",
+          "total": "19"
+        },
+        {
+          "tema": "Visita e descoberta do arquivo",
+          "plataforma": "Archipop",
+          "total": "17"
+        },
+        {
+          "tema": "Apresentação institucional",
+          "plataforma": "Archipop",
+          "total": "5"
+        },
+        {
+          "tema": "Formação e mediação",
+          "plataforma": "Archipop",
+          "total": "5"
+        },
+        {
+          "tema": "Coleções e serviços",
+          "plataforma": "Archipop",
+          "total": "4"
+        },
+        {
+          "tema": "Exposições e eventos",
+          "plataforma": "Archipop",
+          "total": "4"
+        },
+        {
+          "tema": "Preservação e conservação",
+          "plataforma": "Archipop",
+          "total": "2"
+        },
+        {
+          "tema": "Acervo e patrimônio",
+          "plataforma": "Archipop",
+          "total": "1"
+        },
+        {
+          "tema": "Memória, narrativa e testemunho",
+          "plataforma": "Archipop",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/archipop_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "archipop",
+          "observation_key": "archipop:2026-05-29T16:48:33Z",
+          "snapshot_generated_at": "2026-05-29T16:48:33Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-29T16:48:33Z",
+          "analytic_outputs_last_modified_at": "2026-05-29T16:48:33Z",
+          "generated_by": "scripts/run_archipop_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "57",
+          "videos_in_curatorial_catalog": "57",
+          "visibility_categories": "1",
+          "theme_categories": "11",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "archipop",
+          "observation_key": "archipop:2026-05-29T16:52:58Z",
+          "snapshot_generated_at": "2026-05-29T16:52:58Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-05-29T16:52:58Z",
+          "analytic_outputs_last_modified_at": "2026-05-29T16:52:58Z",
+          "generated_by": "scripts/run_archipop_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "58",
+          "videos_in_curatorial_catalog": "58",
+          "visibility_categories": "1",
+          "theme_categories": "9",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "asim": {
+    "tema_pais": {
+      "source": "data/output/asim_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Spain",
+          "total": "66"
+        },
+        {
+          "tema": "Filme amador e memória familiar",
+          "pais": "Spain",
+          "total": "26"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "pais": "Spain",
+          "total": "3"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "pais": "Spain",
+          "total": "2"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/asim_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "European Film Gateway",
+          "total": "66"
+        },
+        {
+          "tema": "Filme amador e memória familiar",
+          "plataforma": "European Film Gateway",
+          "total": "26"
+        },
+        {
+          "tema": "Ficção cinematográfica",
+          "plataforma": "European Film Gateway",
+          "total": "3"
+        },
+        {
+          "tema": "Registro audiovisual em catálogo",
+          "plataforma": "European Film Gateway",
+          "total": "2"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/asim_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "asim",
+          "observation_key": "asim:2026-06-10T18:34:39Z",
+          "snapshot_generated_at": "2026-06-10T18:34:39Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-10T18:34:39Z",
+          "analytic_outputs_last_modified_at": "2026-06-10T18:34:38Z",
+          "generated_by": "scripts/run_asim_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "96",
+          "videos_in_curatorial_catalog": "96",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "asim",
+          "observation_key": "asim:2026-06-10T18:36:44Z",
+          "snapshot_generated_at": "2026-06-10T18:36:44Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-10T18:36:44Z",
+          "analytic_outputs_last_modified_at": "2026-06-10T18:36:44Z",
+          "generated_by": "scripts/run_asim_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "97",
+          "videos_in_curatorial_catalog": "97",
+          "visibility_categories": "1",
+          "theme_categories": "4",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "autrefois": {
+    "tema_pais": {
+      "source": "data/output/autrefois_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Infraestrutura urbana e serviços públicos",
+          "pais": "Switzerland",
+          "total": "4"
+        },
+        {
+          "tema": "Trabalho, indústria e ofícios",
+          "pais": "Switzerland",
+          "total": "3"
+        },
+        {
+          "tema": "Território, cidade e infraestrutura",
+          "pais": "Switzerland",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/autrefois_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Infraestrutura urbana e serviços públicos",
+          "plataforma": "Autrefois Genève",
+          "total": "4"
+        },
+        {
+          "tema": "Trabalho, indústria e ofícios",
+          "plataforma": "Autrefois Genève",
+          "total": "3"
+        },
+        {
+          "tema": "Território, cidade e infraestrutura",
+          "plataforma": "Autrefois Genève",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/autrefois_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "autrefois",
+          "observation_key": "autrefois:2026-06-11T18:06:18Z",
+          "snapshot_generated_at": "2026-06-11T18:06:18Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-06-11T18:06:18Z",
+          "analytic_outputs_last_modified_at": "2026-06-11T18:06:18Z",
+          "generated_by": "scripts/run_autrefois_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "8",
+          "videos_in_curatorial_catalog": "8",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
