@@ -224,3 +224,16 @@ h1,h2,h3 {font-family:Manrope,"DM Sans",sans-serif;line-height:1.16;letter-spaci
 .ob-case-detail h3{font-size:14px}
 @media(max-width:900px){.ob-filter-panel{grid-template-columns:repeat(2,minmax(0,1fr))}.ob-filter-panel>div:first-child{grid-column:1/-1}.ob-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.ob-filter-panel,.ob-group-list,.ob-profile-columns{grid-template-columns:1fr}.ob-filter-panel>div:first-child{grid-column:1}.ob-kpis{gap:8px}.ob-kpis>div{padding:16px 12px}.ob-viewbar{align-items:flex-start}}
+
+
+/* Analyses sourced from Streamlit's historic per-corpus reports. */
+.ob-analytic-section{margin:36px 0}
+.ob-analytic-section>h2{font-size:29px}
+.ob-analytic-section>p:not(.eyebrow):not(.disclaimer){color:var(--muted);max-width:900px}
+.ob-analytic-section .ob-panel h3{font-size:17px;margin:0 0 22px}
+.ob-bars{display:grid;gap:15px}
+.ob-bar-label{display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:12px;color:var(--ink);margin-bottom:6px;overflow-wrap:anywhere}
+.ob-bar-label strong{white-space:nowrap}
+.ob-bar-track{background:#e7eee9;border-radius:999px;overflow:hidden;height:9px}
+.ob-bar-track span{display:block;background:#248772;height:100%;border-radius:999px}
+.ob-analytic-section .disclaimer{margin-top:10px}
