@@ -1,0 +1,152 @@
+{
+  "deutsche_kinemathek": {
+    "source": "data/output/deutsche_kinemathek_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "deutsche_kinemathek:1",
+        "name": "Deutsche Kinemathek / Museum für Film und Fernsehen",
+        "country": "Germany",
+        "continent": "Europe",
+        "type": "Film archive and museum with public curatorial streaming program",
+        "repositoryCode": "DE-DEUTSCHE-KINEMATHEK",
+        "originUrl": "https://www.deutsche-kinemathek.de/en"
+      }
+    ]
+  },
+  "dff": {
+    "source": "data/output/dff_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "dff:1",
+        "name": "DFF - Deutsches Filminstitut & Filmmuseum",
+        "country": "Germany",
+        "continent": "Europe",
+        "type": "Film institute and museum with public film portal",
+        "repositoryCode": "DE-DFF",
+        "originUrl": "https://www.dff.film/en/"
+      }
+    ]
+  },
+  "dhm": {
+    "source": "data/output/dhm_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "dhm:1",
+        "name": "Deutsches Historisches Museum / Zeughauskino",
+        "country": "Germany",
+        "continent": "Europe",
+        "type": "Museum film archive with public descriptive online film selection",
+        "repositoryCode": "DE-DHM",
+        "originUrl": "https://www.dhm.de/"
+      }
+    ]
+  },
+  "dr": {
+    "source": "data/output/dr_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "dr:1",
+        "name": "DR - Danmarks Radio",
+        "country": "Denmark",
+        "continent": "Europe",
+        "type": "Public service broadcaster audiovisual archive with authenticated streaming",
+        "repositoryCode": "DK-DR",
+        "originUrl": "https://www.dr.dk/"
+      }
+    ]
+  },
+  "ecpad": {
+    "source": "data/output/ecpad_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "ecpad:1",
+        "name": "ECPAD - Établissement de communication et de production audiovisuelle de la Défense",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Institutional military audiovisual archive with public Arkothèque catalog",
+        "repositoryCode": "FR-ECPAD",
+        "originUrl": "https://archives.ecpad.fr/archives/consulter-les-archives-en-ligne"
+      }
+    ]
+  },
+  "efa_estonia": {
+    "source": "data/output/efa_estonia_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "efa_estonia:1",
+        "name": "Film Archive of the National Archives of Estonia",
+        "country": "Estonia",
+        "continent": "Europe",
+        "type": "National film archive with public audiovisual streaming catalogue",
+        "repositoryCode": "EE-RA-EFA",
+        "originUrl": "https://arkaader.ee/landing/br/rHczO7kKnl/pbOiQfMOLr"
+      }
+    ]
+  },
+  "efg": {
+    "source": "data/output/efg_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "efg:1",
+        "name": "European Film Gateway",
+        "country": "Europa",
+        "continent": "Europe",
+        "type": "European film and audiovisual aggregator",
+        "repositoryCode": "EU-EFG",
+        "originUrl": "https://www.europeanfilmgateway.eu/"
+      }
+    ]
+  },
+  "ert": {
+    "source": "data/output/ert_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "ert:1",
+        "name": "ERT - Hellenic Broadcasting Corporation Archive",
+        "country": "Greece",
+        "continent": "Europe",
+        "type": "Public service broadcaster audiovisual archive",
+        "repositoryCode": "GR-ERT",
+        "originUrl": "https://archive.ert.gr/"
+      }
+    ]
+  },
+  "europeana": {
+    "source": "data/output/europeana_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "europeana:1",
+        "name": "Europeana",
+        "country": "Netherlands",
+        "continent": "Europe",
+        "type": "European cultural aggregator with audiovisual records",
+        "repositoryCode": "EU-EUROPEANA",
+        "originUrl": "https://www.europeana.eu/"
+      }
+    ]
+  },
+  "euscreen": {
+    "source": "data/output/euscreen_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "euscreen:1",
+        "name": "EUscreen",
+        "country": "Netherlands",
+        "continent": "Europe",
+        "type": "European audiovisual aggregator",
+        "repositoryCode": "EU-EUSCREEN",
+        "originUrl": "https://euscreen.eu/"
+      }
+    ]
+  }
+}
