@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "site/**"
+      - "tests/test_mar_site_public_pages.py"
       - "scripts/check_mar_site_index.py"
       - ".github/workflows/mar-site.yml"
       - "data/output/kavi_mar_metadata_links.csv"
@@ -12,6 +13,7 @@ on:
     branches: [main]
     paths:
       - "site/**"
+      - "tests/test_mar_site_public_pages.py"
       - "scripts/check_mar_site_index.py"
       - ".github/workflows/mar-site.yml"
 
@@ -35,6 +37,9 @@ jobs:
       - name: Verify approved publication index against source and SHA256
         working-directory: .
         run: python3 scripts/check_mar_site_index.py
+      - name: Test permanent documentary routes and publication boundaries
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p "test_mar_site_public_pages.py" -v
       - name: Install pinned frontend dependencies
         run: npm install --no-audit --no-fund
       - name: Typecheck
@@ -48,3 +53,6 @@ jobs:
           test -f out/instituicoes/index.html
           test -f out/instituicoes/kavi/index.html
           test -f out/metodologia/index.html
+          test -f out/acervo/kavi/kavi.elonet_elokuva_112915/index.html
+          count="$(find out/acervo/kavi -mindepth 2 -maxdepth 2 -type f -name index.html | wc -l | tr -d '[:space:]')"
+          test "$count" = "200"
