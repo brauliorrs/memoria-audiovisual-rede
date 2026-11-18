@@ -1,0 +1,337 @@
+{
+  "csc_cineteca": {
+    "tema_pais": {
+      "source": "data/output/csc_cineteca_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "pais": "Italy",
+          "total": "79"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "pais": "Italy",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/csc_cineteca_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "YouTube",
+          "total": "77"
+        },
+        {
+          "tema": "Digitalização e acesso",
+          "plataforma": "Vimeo",
+          "total": "2"
+        },
+        {
+          "tema": "Comunicação institucional",
+          "plataforma": "YouTube",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/csc_cineteca_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "csc-cineteca-nazionale",
+          "observation_key": "csc-cineteca-nazionale:2026-07-17T19:21:55Z",
+          "snapshot_generated_at": "2026-07-17T19:21:55Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-17T19:21:55Z",
+          "analytic_outputs_last_modified_at": "2026-07-17T19:21:54Z",
+          "generated_by": "scripts/run_csc_cineteca_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "1",
+          "videos_in_curatorial_catalog": "1",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "csc-cineteca-nazionale",
+          "observation_key": "csc-cineteca-nazionale:2026-07-17T19:24:27Z",
+          "snapshot_generated_at": "2026-07-17T19:24:27Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-17T19:24:27Z",
+          "analytic_outputs_last_modified_at": "2026-07-17T19:24:26Z",
+          "generated_by": "scripts/run_csc_cineteca_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "80",
+          "videos_in_curatorial_catalog": "80",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "csc-cineteca-nazionale",
+          "observation_key": "csc-cineteca-nazionale:2026-07-17T19:29:42Z",
+          "snapshot_generated_at": "2026-07-17T19:29:42Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-17T19:29:42Z",
+          "analytic_outputs_last_modified_at": "2026-07-17T19:29:42Z",
+          "generated_by": "scripts/run_csc_cineteca_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "80",
+          "videos_in_curatorial_catalog": "80",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "2",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "czech_tv": {
+    "tema_pais": {
+      "source": "data/output/czech_tv_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Cultura, artes e memória pública",
+          "pais": "Czech Republic",
+          "total": "4"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "pais": "Czech Republic",
+          "total": "4"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "pais": "Czech Republic",
+          "total": "2"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/czech_tv_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Cultura, artes e memória pública",
+          "plataforma": "Česká televize iVysílání",
+          "total": "4"
+        },
+        {
+          "tema": "Documentário e registro histórico",
+          "plataforma": "Česká televize iVysílání",
+          "total": "4"
+        },
+        {
+          "tema": "Vida pública, política e história",
+          "plataforma": "Česká televize iVysílání",
+          "total": "2"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/czech_tv_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "czech-television",
+          "observation_key": "czech-television:2026-07-07T18:41:29Z",
+          "snapshot_generated_at": "2026-07-07T18:41:29Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-07T18:41:29Z",
+          "analytic_outputs_last_modified_at": "2026-07-07T18:41:28Z",
+          "generated_by": "scripts/run_czech_television_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "10",
+          "videos_in_curatorial_catalog": "10",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "deutsche_kinemathek": {
+    "tema_pais": {
+      "source": "data/output/deutsche_kinemathek_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Documentário, cotidiano e memória cultural",
+          "pais": "Germany",
+          "total": "4"
+        },
+        {
+          "tema": "Cinema, identidade e memória cultural",
+          "pais": "Germany",
+          "total": "3"
+        },
+        {
+          "tema": "Patrimônio cinematográfico e cinefilia",
+          "pais": "Germany",
+          "total": "2"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/deutsche_kinemathek_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Documentário, cotidiano e memória cultural",
+          "plataforma": "Deutsche Kinemathek Selects",
+          "total": "4"
+        },
+        {
+          "tema": "Cinema, identidade e memória cultural",
+          "plataforma": "Deutsche Kinemathek Selects",
+          "total": "3"
+        },
+        {
+          "tema": "Patrimônio cinematográfico e cinefilia",
+          "plataforma": "Deutsche Kinemathek Selects",
+          "total": "2"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/deutsche_kinemathek_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "deutsche-kinemathek",
+          "observation_key": "deutsche-kinemathek:2026-07-13T18:34:04Z",
+          "snapshot_generated_at": "2026-07-13T18:34:04Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-13T18:34:04Z",
+          "analytic_outputs_last_modified_at": "2026-07-13T18:34:04Z",
+          "generated_by": "scripts/run_deutsche_kinemathek_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "9",
+          "videos_in_curatorial_catalog": "9",
+          "visibility_categories": "1",
+          "theme_categories": "1",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "deutsche-kinemathek",
+          "observation_key": "deutsche-kinemathek:2026-07-13T18:35:17Z",
+          "snapshot_generated_at": "2026-07-13T18:35:17Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-13T18:35:17Z",
+          "analytic_outputs_last_modified_at": "2026-07-13T18:35:17Z",
+          "generated_by": "scripts/run_deutsche_kinemathek_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "9",
+          "videos_in_curatorial_catalog": "9",
+          "visibility_categories": "1",
+          "theme_categories": "2",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        },
+        {
+          "dataset": "deutsche-kinemathek",
+          "observation_key": "deutsche-kinemathek:2026-07-13T18:36:03Z",
+          "snapshot_generated_at": "2026-07-13T18:36:03Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-13T18:36:03Z",
+          "analytic_outputs_last_modified_at": "2026-07-13T18:36:03Z",
+          "generated_by": "scripts/run_deutsche_kinemathek_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "9",
+          "videos_in_curatorial_catalog": "9",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  },
+  "dff": {
+    "tema_pais": {
+      "source": "data/output/dff_tema_pais.csv",
+      "rows": [
+        {
+          "tema": "Entrevista, debate e memória cinematográfica",
+          "pais": "Germany",
+          "total": "20"
+        },
+        {
+          "tema": "Trailer e divulgação cinematográfica",
+          "pais": "Germany",
+          "total": "11"
+        },
+        {
+          "tema": "Trecho de filme e patrimônio cinematográfico",
+          "pais": "Germany",
+          "total": "1"
+        }
+      ]
+    },
+    "tema_plataforma": {
+      "source": "data/output/dff_tema_plataforma.csv",
+      "rows": [
+        {
+          "tema": "Entrevista, debate e memória cinematográfica",
+          "plataforma": "filmportal.de",
+          "total": "20"
+        },
+        {
+          "tema": "Trailer e divulgação cinematográfica",
+          "plataforma": "filmportal.de",
+          "total": "11"
+        },
+        {
+          "tema": "Trecho de filme e patrimônio cinematográfico",
+          "plataforma": "filmportal.de",
+          "total": "1"
+        }
+      ]
+    },
+    "linha_do_tempo_corpus": {
+      "source": "data/output/dff_linha_do_tempo_corpus.csv",
+      "rows": [
+        {
+          "dataset": "dff",
+          "observation_key": "dff:2026-07-13T17:49:00Z",
+          "snapshot_generated_at": "2026-07-13T17:49:00Z",
+          "source_status_date": "",
+          "raw_outputs_last_modified_at": "2026-07-13T17:49:00Z",
+          "analytic_outputs_last_modified_at": "2026-07-13T17:49:00Z",
+          "generated_by": "scripts/run_dff_pipeline.py",
+          "institutions": "1",
+          "institutions_with_website": "1",
+          "institutions_with_video_links": "1",
+          "video_links_total": "32",
+          "videos_in_curatorial_catalog": "32",
+          "visibility_categories": "1",
+          "theme_categories": "3",
+          "archive_type_categories": "1",
+          "platforms_detected": "1",
+          "countries_with_videos": "1"
+        }
+      ]
+    }
+  }
+}
