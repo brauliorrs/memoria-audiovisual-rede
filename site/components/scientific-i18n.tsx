@@ -376,6 +376,18 @@ export function ScientificNumber({value}:{value:number}) {
   return <>{new Intl.NumberFormat(lang).format(value)}</>;
 }
 
+export function ScientificPercent({part,total}:{part:number;total:number}) {
+  const {locale}=useSiteLocale();
+  if(total<=0)return <>—</>;
+  const lang=locale==="pt"?"pt-BR":locale==="es"?"es-ES":"en-US";
+  return <>{new Intl.NumberFormat(lang,{style:"percent",minimumFractionDigits:1,maximumFractionDigits:1}).format(part/total)}</>;
+}
+
+export function ScientificTerritory({value}:{value:string}) {
+  const {locale}=useSiteLocale();
+  return <>{localizeTerritory(value,locale)}</>;
+}
+
 /** Localize UI geographic groups, not original source metadata or citations. */
 export function localizeTerritory(value:string,locale:SiteLocale){
   const values:Record<string,Record<SiteLocale,string>>={
