@@ -5,6 +5,8 @@ Este diretório inaugura a migração gradual da interface Streamlit para um **s
 ## Escopo da fase 1
 
 - Catálogo central pesquisável e responsivo, 200 fichas **KAVI/Finna** previamente aprovadas para publicação de metadados;
+- Fichas individuais em **200 URLs estáticas** `/acervo/kavi/<id>/`, com proveniência, SHA-256 e estados de revisão, direitos e reprodução;
+- Pesquisa com filtro por década, tema/gênero, ordenação por título/ano e paginação incremental;
 - Páginas próprias: \`/\`, \`/acervo/\`, \`/instituicoes/\`, \`/instituicoes/kavi/\`, \`/metodologia/\`;
 - Rotas institucionais e estados de validação, sem promover conectores técnicos a acervos autorizados;
 - Links na origem, sem vídeos, player, cookies de login ou API paga;
@@ -22,6 +24,7 @@ cd site
 npm install
 npm run typecheck
 npm run build
+# Verifica também 200 rotas HTML de fichas individuais
 npm run dev
 \`\`\`
 
@@ -29,6 +32,7 @@ A verificação de proveniência na raiz exige apenas Python 3:
 
 \`\`\`sh
 python scripts/check_mar_site_index.py
+python -m unittest discover -s tests -p 'test_mar_site_public_pages.py' -v
 \`\`\`
 
 ## Vercel
