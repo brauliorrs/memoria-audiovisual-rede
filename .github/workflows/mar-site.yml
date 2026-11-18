@@ -65,6 +65,9 @@ jobs:
           test -f out/observatorio/index.html
           test -f out/casos/index.html
           test -f out/analises/index.html
+          test -f out/pesquisa/eye/index.html
+          test -f out/pesquisa/ape/index.html
+          test -f out/pesquisa/europeana/index.html
           test -f out/observatorio/eye/index.html
           count_profiles="$(find out/observatorio -mindepth 2 -maxdepth 2 -type f -name index.html | wc -l | tr -d '[:space:]')"
           test "$count_profiles" = "63"
