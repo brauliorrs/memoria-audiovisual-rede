@@ -1,17 +1,22 @@
 name: MAR Historical Title Word Cloud
 
 on:
+  workflow_dispatch:
   pull_request:
     paths:
       - "scripts/build_mar_title_wordcloud.py"
       - "site/data/title-wordcloud.json"
       - "site/components/title-wordcloud.tsx"
+      - "tests/test_mar_wordcloud_growth.py"
+      - "tests/test_mar_title_wordcloud.py"
       - ".github/workflows/mar-title-wordcloud.yml"
   push:
     branches: [main]
     paths:
       - "scripts/build_mar_title_wordcloud.py"
       - "site/data/title-wordcloud.json"
+      - "data/output/*_catalogo_videos_analitico.csv"
+      - "site/data/kavi-public.json"
       - ".github/workflows/mar-title-wordcloud.yml"
 
 permissions:
@@ -30,6 +35,8 @@ jobs:
           python-version: "3.12"
       - name: Audit historical titles and emit aggregated candidate
         run: python scripts/build_mar_title_wordcloud.py --stdout
+      - name: Check incremental source updates
+        run: python3 -m unittest discover -s tests -p "test_mar_wordcloud_growth.py" -v
       - name: Check approved aggregate against deterministic source generation
         run: |
           if test -f site/data/title-wordcloud.json; then
