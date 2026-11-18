@@ -11,7 +11,6 @@ on:
       - "tests/test_mar_research_dimensions.py"
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
-      - "scripts/build_mar_title_wordcloud.py"
       - ".github/workflows/mar-site.yml"
       - "data/output/kavi_mar_metadata_links.csv"
       - "data/output/kavi_mar_metadata_links_manifest.json"
@@ -20,7 +19,9 @@ on:
     paths:
       - "site/**"
       - "tests/test_mar_site_public_pages.py"
+      - "tests/test_mar_title_wordcloud.py"
       - "scripts/check_mar_site_index.py"
+      - "scripts/build_mar_title_wordcloud.py"
       - ".github/workflows/mar-site.yml"
 
 permissions:
