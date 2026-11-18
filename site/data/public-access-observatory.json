@@ -73,13 +73,15 @@
       "inventoryStatus": "historical_observation_not_publication_permission",
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
-      "reviewReason": "Metadados com regra geral CC BY-SA 4.0 salvo exceções; ainda não revalidada a fonte de cada registro, atribuição e compliance de reutilização. HOLD da ingestão permanece.",
+      "reviewReason": "Auditoria de 412 linhas: links de mídia externa vinculados a instituições, sem identificadores de item arquivístico APE; 16 repetições exatas adicionais, títulos genéricos e direitos de terceiros não verificados. Licença CC BY-SA de metadados APE não se transfere a esses vídeos.",
       "humanAccessEvidence": "portal_search_interface_observed",
       "humanAccessNote": "Portal APE com interface e orientações públicas de pesquisa acessíveis. Política geral de metadados CC BY-SA 4.0, salvo exceção declarada por conjunto. Não foi realizada consulta/revalidação das 412 fichas históricas; bloqueio operacional de ingestão permanece.",
       "sampleSourceUrl": "https://www.archivesportaleurope.net/tools/for-users/",
       "rightsPolicyUrl": "https://www.archivesportaleurope.net/metadata-usage-guidelines/",
-      "rightsAssessment": "conditional_open_metadata_policy_review_per_record",
-      "reassessmentDate": "2026-11-18"
+      "rightsAssessment": "hold_reclassify_external_media_inventory",
+      "reassessmentDate": "2026-11-18",
+      "historicalDatasetIntegrity": "432_record_review_complete_2026-11-18",
+      "reviewDossier": "docs/engineering/mar-ape-historical-record-admissibility-20261118.md"
     },
     {
       "code": "aamod",
@@ -759,13 +761,15 @@
       "inventoryStatus": "historical_observation_not_publication_permission",
       "recordDisplay": "not_authorized_for_new_site",
       "restrictionKind": "not_determined",
-      "reviewReason": "Política CC0 dos metadados identificada; conferir que as 20 fichas históricas derivam efetivamente da Europeana e manter audiovisual separado.",
+      "reviewReason": "Auditoria dos 20 itens Europeana: 7 com tipo audiovisual não comprovado, 10 títulos ausentes/genéricos, 17 exigem exame separado dos direitos do objeto. Metadados CC0 não autorizam mídia e não dispensam revisão científica individual.",
       "humanAccessEvidence": "portal_search_interface_observed",
       "humanAccessNote": "Europeana informa consulta pública e fornece política de uso de metadados CC0. Não foram revalidadas as 20 fichas do snapshot histórico; imagens e demais conteúdos continuam sujeitos aos direitos próprios.",
       "sampleSourceUrl": "https://www.europeana.eu/en/rights/europeana-data-sources",
       "rightsPolicyUrl": "https://www.europeana.eu/en/rights/terms-of-use",
-      "rightsAssessment": "cc0_metadata_policy_source_record_validation_pending",
-      "reassessmentDate": "2026-11-18"
+      "rightsAssessment": "hold_scientific_and_item_source_review",
+      "reassessmentDate": "2026-11-18",
+      "historicalDatasetIntegrity": "432_record_review_complete_2026-11-18",
+      "reviewDossier": "docs/engineering/mar-europeana-historical-record-admissibility-20261118.md"
     },
     {
       "code": "euscreen",
