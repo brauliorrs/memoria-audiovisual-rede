@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { corpusList, formatNumber, getHistoricalCorpus } from "@/lib/scientific-observatory";
+import { corpusList, getHistoricalCorpus } from "@/lib/scientific-observatory";
+import {ScientificText,ScientificNumber,ScientificPercent,ScientificTerritory} from "@/components/scientific-i18n";
 import { getAnalyticReport } from "@/lib/historical-analytics";
 import { CorpusHistoricalAnalytics } from "@/components/corpus-historical-analytics";
 import {CorpusResearchSections} from "@/components/corpus-research-sections";
@@ -23,43 +24,42 @@ export default async function CorpusAnalysisPage({ params }: { params: Promise<{
   const corpus = getHistoricalCorpus(code);
   if (!corpus) notFound();
   const report = getAnalyticReport(code);
-  const percent = corpus.historicalTotal ? (100 * corpus.historicalPublicSurfaceRecords / corpus.historicalTotal).toFixed(1) : null;
 
   return <main className="shell page-shell">
-    <nav className="ob-breadcrumb" aria-label="Localização"><Link href="/observatorio/">Observatório</Link><span aria-hidden="true">/</span><span>{corpus.shortLabel}</span></nav>
-    <p className="eyebrow">FICHA DE ESTUDO · INSTITUIÇÃO / CORPUS</p>
+    <nav className="ob-breadcrumb" aria-label="Breadcrumb"><Link href="/observatorio/"><ScientificText id="profBreadcrumb"/></Link><span aria-hidden="true">/</span><span>{corpus.shortLabel}</span></nav>
+    <p className="eyebrow"><ScientificText id="profEyebrow"/></p>
     <h1>{corpus.name}</h1>
-    <p className="page-lede">Perfil de análise documental histórica. A existência de registros no inventário não representa autorização de republicação de metadados ou acesso audiovisual integral.</p>
-    <div className="ob-profile-tags"><span>{corpus.category}</span><span>{corpus.continent === "Europe" ? "Europa" : corpus.continent === "North America" ? "América do Norte" : "Localização não classificada"}</span><span>Identificador: {corpus.code}</span></div>
+    <p className="page-lede"><ScientificText id="profIntro"/></p>
+    <div className="ob-profile-tags"><span>{corpus.category}</span><span><ScientificTerritory value={corpus.continent||"Nao classificado"}/></span><span><ScientificText id="profIdentifier"/>: {corpus.code}</span></div>
     <div className="ob-kpis">
-      <div><strong>{formatNumber(corpus.historicalTotal)}</strong><span>Registros materializados*</span></div>
-      <div><strong>{formatNumber(corpus.historicalPublicSurfaceRecords)}</strong><span>Superfície pública*</span></div>
-      <div><strong>{formatNumber(corpus.historicalRestrictedRecords)}</strong><span>Classificação restrita*</span></div>
-      <div><strong>{percent === null ? "—" : percent + "%"}</strong><span>Fração pública do recorte*</span></div>
+      <div><strong><ScientificNumber value={corpus.historicalTotal}/></strong><span><ScientificText id="profMaterialized"/></span></div>
+      <div><strong><ScientificNumber value={corpus.historicalPublicSurfaceRecords}/></strong><span><ScientificText id="profPublic"/></span></div>
+      <div><strong><ScientificNumber value={corpus.historicalRestrictedRecords}/></strong><span><ScientificText id="profRestricted"/></span></div>
+      <div><strong><ScientificPercent part={corpus.historicalPublicSurfaceRecords} total={corpus.historicalTotal}/></strong><span><ScientificText id="profFraction"/></span></div>
     </div>
     <section className="ob-profile-columns">
       <article className="ob-panel">
-        <h2>Acesso e consulta como visitante</h2>
-        <p>{corpus.humanAccessNote}</p>
-        {corpus.sampleSourceUrl && <p><a href={corpus.sampleSourceUrl} rel="noopener noreferrer" target="_blank">Consultar a rota institucional ↗</a></p>}
-        <p><strong>Estado documental:</strong> {corpus.humanAccessEvidence.replaceAll("_", " ")}</p>
+        <h2><ScientificText id="profAccess"/></h2>
+        <p className="disclaimer"><ScientificText id="profSourceText"/></p><p>{corpus.humanAccessNote}</p>
+        {corpus.sampleSourceUrl && <p><a href={corpus.sampleSourceUrl} rel="noopener noreferrer" target="_blank"><ScientificText id="profInstitutionalSource"/></a></p>}
+        <p><strong><ScientificText id="profEvidence"/>:</strong> {corpus.humanAccessEvidence.replaceAll("_", " ")}</p>
       </article>
       <article className="ob-panel">
-        <h2>Visibilidade e limites de reutilização</h2>
+        <h2><ScientificText id="profVisibility"/></h2>
         <p>{corpus.reviewReason}</p>
-        {corpus.restrictionEvidence && <p><strong>Restrição histórica:</strong> {corpus.restrictionEvidence}</p>}
-        {corpus.rightsPolicyUrl && <p><a href={corpus.rightsPolicyUrl} target="_blank" rel="noopener noreferrer">Examinar a política da fonte ↗</a></p>}
-        <p><strong>Publicação individual:</strong> fichas não liberadas por este inventário.</p>
+        {corpus.restrictionEvidence && <p><strong><ScientificText id="profHistoricalRestriction"/>:</strong> {corpus.restrictionEvidence}</p>}
+        {corpus.rightsPolicyUrl && <p><a href={corpus.rightsPolicyUrl} target="_blank" rel="noopener noreferrer"><ScientificText id="profRights"/></a></p>}
+        <p><strong><ScientificText id="profIndividual"/>:</strong> <ScientificText id="profNotReleased"/></p>
       </article>
     </section>
     {report && <CorpusHistoricalAnalytics report={report}/>}
     {getResearchSlice(code) && <CorpusResearchSections code={code}/>}
-    {getInstitutionGroup(code) && <p><Link href="/instituicoes/pesquisa/">Consultar fichas institucionais de pesquisa ↗</Link></p>}
+    {getInstitutionGroup(code) && <p><Link href="/instituicoes/pesquisa/"><ScientificText id="profInstitutionBrowse"/></Link></p>}
     <section className="ob-panel">
-      <h2>Questões de pesquisa para este corpus</h2>
-      <p>Em que extensão os registros são documentados publicamente? Como os regimes de acesso afetam a visibilidade histórica? Qual a relação entre o acervo identificado, os metadados em superfície pública e o patrimônio audiovisual efetivamente consultável? O MAR preserva a distinção entre evidência e inferência para orientar a investigação.</p>
-      <p><Link href="/indice-acesso/">Consultar Índice de Dados Públicos</Link> · <Link href="/metodologia/">Metodologia de pesquisa</Link></p>
+      <h2><ScientificText id="profResearchTitle"/></h2>
+      <p><ScientificText id="profResearchQuestion"/></p>
+      <p><Link href="/indice-acesso/"><ScientificText id="profAccessIndex"/></Link> · <Link href="/metodologia/"><ScientificText id="profMethodology"/></Link></p>
     </section>
-    <p className="disclaimer">* Dados históricos do Observatório (junho de 2026). O denominador considera somente registros materializados nesse snapshot. Não houve nova validação individual de mídia nem liberação de fichas ao criar esta página. Verificação de direitos e revisão científica permanecem específicas por fonte.</p>
+    <p className="disclaimer">* <ScientificText id="profFootnote"/></p>
   </main>;
 }
