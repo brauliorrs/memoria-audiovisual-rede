@@ -1,0 +1,152 @@
+{
+  "bfi": {
+    "source": "data/output/bfi_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "bfi:1",
+        "name": "BFI National Archive",
+        "country": "United Kingdom",
+        "continent": "Europe",
+        "type": "Film and television archive",
+        "repositoryCode": "GB-BFI-NATIONAL-ARCHIVE",
+        "originUrl": "https://www.bfi.org.uk/bfi-national-archive"
+      }
+    ]
+  },
+  "bnfa": {
+    "source": "data/output/bnfa_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "bnfa:1",
+        "name": "Bulgarian National Film Archive",
+        "country": "Bulgaria",
+        "continent": "Europe",
+        "type": "National film archive",
+        "repositoryCode": "BG-BNFA",
+        "originUrl": "https://www.europeanfilmgateway.eu/search-efg/bnfa"
+      }
+    ]
+  },
+  "bnt": {
+    "source": "data/output/bnt_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "bnt:1",
+        "name": "Bulgarian National Television",
+        "country": "Bulgaria",
+        "continent": "Europe",
+        "type": "Public television audiovisual archive",
+        "repositoryCode": "BG-BNT",
+        "originUrl": "https://bnt.bg/"
+      }
+    ]
+  },
+  "ccma": {
+    "source": "data/output/ccma_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "ccma:1",
+        "name": "Corporació Catalana de Mitjans Audiovisuals (CCMA) / 3Cat",
+        "country": "Spain",
+        "continent": "Europe",
+        "type": "Public service broadcaster digital video archive",
+        "repositoryCode": "ES-CCMA",
+        "originUrl": "https://www.3cat.cat/3cat/"
+      }
+    ]
+  },
+  "cdna": {
+    "source": "data/output/cdna_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cdna:1",
+        "name": "Cinémathèque de Nouvelle-Aquitaine",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Regional audiovisual and amateur film archive",
+        "repositoryCode": "FR-CDNA",
+        "originUrl": "https://cdna.memoirefilmiquenouvelleaquitaine.fr/films"
+      }
+    ]
+  },
+  "ciclic": {
+    "source": "data/output/ciclic_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "ciclic:1",
+        "name": "CICLIC - Centre-Val-de-Loire",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Institutional film and audiovisual archive",
+        "repositoryCode": "FR-CICLIC",
+        "originUrl": "https://memoire.ciclic.fr/"
+      }
+    ]
+  },
+  "cineam": {
+    "source": "data/output/cineam_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cineam:1",
+        "name": "CINÉAM",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Institutional amateur film and audiovisual archive",
+        "repositoryCode": "FR-CINEAM",
+        "originUrl": "https://www.cineam.asso.fr/exploration-905-0-0-0.html"
+      }
+    ]
+  },
+  "cinearchives": {
+    "source": "data/output/cinearchives_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cinearchives:1",
+        "name": "Ciné-Archives",
+        "country": "France",
+        "continent": "Europe",
+        "type": "Institutional film and labour movement audiovisual archive",
+        "repositoryCode": "FR-CINEARCHIVES",
+        "originUrl": "https://www.cinearchives.org/catalogue-1104-0-0-0.html"
+      }
+    ]
+  },
+  "cinemateca_pt": {
+    "source": "data/output/cinemateca_pt_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cinemateca_pt:1",
+        "name": "Cinemateca Portuguesa - Museu do Cinema",
+        "country": "Portugal",
+        "continent": "Europe",
+        "type": "National film and moving image archive",
+        "repositoryCode": "PT-CINEMATECA",
+        "originUrl": "https://www.cinemateca.pt/cinemateca-digital/video.aspx"
+      }
+    ]
+  },
+  "cinematek": {
+    "source": "data/output/cinematek_instituicoes.csv",
+    "sampled": false,
+    "rows": [
+      {
+        "id": "cinematek:1",
+        "name": "Cinémathèque royale de Belgique / CINEMATEK",
+        "country": "Belgium",
+        "continent": "Europe",
+        "type": "National cinematheque and external streaming access routes",
+        "repositoryCode": "BE-CINEMATEK",
+        "originUrl": "https://cinematek.be/en/collections/be-film"
+      }
+    ]
+  }
+}
