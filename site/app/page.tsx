@@ -10,9 +10,9 @@ export default function HomePage() {
           <div className="hero-copy">
             <p className="eyebrow eyebrow-light"><span className="live-dot" /> OBSERVATÓRIO CIENTÍFICO ABERTO</p>
             <h1>A memória audiovisual do mundo, <em>conectada.</em></h1>
-            <p className="hero-description">Explore registros documentais de instituições audiovisuais, acompanhe a proveniência das fichas e chegue à fonte original — sem confundir metadados com acesso ao filme.</p>
+            <p className="hero-description">Estude a circulação do audiovisual em rede: compare acervos, instituições e territórios, investigue condições de acesso e explore registros documentais na fonte original.</p>
             <div className="hero-actions">
-              <Link className="button button-light" href="/acervo/">Explorar o catálogo <span aria-hidden="true">↗</span></Link>
+              <Link className="button button-light" href="/observatorio/">Explorar o observatório <span aria-hidden="true">↗</span></Link>
               <Link className="button button-outline" href="/metodologia/">Conheça a metodologia <span aria-hidden="true">→</span></Link>
             </div>
           </div>
@@ -36,7 +36,7 @@ export default function HomePage() {
       <section className="shell intro-section">
         <div className="section-intro">
           <div><p className="eyebrow">PESQUISA DOCUMENTAL</p><h2>Explore o acervo publicado</h2></div>
-          <p>Começamos com um subconjunto público e verificável do KAVI/Finna. O motor universal permitirá expandir a busca conforme cada corpus passar por seus próprios critérios de admissão.</p>
+          <p>A análise integrada das instituições e a comparação entre corpora estão disponíveis no Observatório. O catálogo de fichas documentais permanece restrito às fontes com admissão comprovada.</p>
         </div>
         <CatalogSearch items={records} />
       </section>
