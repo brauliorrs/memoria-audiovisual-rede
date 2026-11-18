@@ -109,7 +109,7 @@ def audit(corpus: str, root: Path = ROOT):
         "source": relative,
         "sourceSha256": digest,
         "sourceRows": rows,
-        "validOfficialUrlRows": sum(1 for _ in ()) + rows - issues["invalid_or_nonofficial_url"] - issues["malformed_row"],
+        "validOfficialUrlRows": rows - issues["invalid_or_nonofficial_url"] - issues["malformed_row"],
         "uniqueExactURLs": len(urls),
         "uniqueCanonicalURLs": len(canonical_urls),
         "uniqueGeneratedIdentifiers": len(ids),
