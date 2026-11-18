@@ -50,12 +50,13 @@ def normalize(row: dict[str, str], corpus: str) -> dict:
     identity = hashlib.sha256(url.encode("utf-8")).hexdigest()[:24]
     date = (row.get("video_date_display") or row.get("video_published_at") or "").strip()
     year_match = re.match(r"^([0-9]{4})(?:-|$)", date)
-    year = year_match.group(1) if year_match else None
+    year = None  # Source publication date is not film/episode production year.
     return {
         "id": corpus + "." + identity,
         "corpus": corpus,
         "title": title,
         "year": year,
+        "sourcePublishedAt": date or None,
         "genres": (row.get("video_theme") or "").strip(),
         "subjects": (row.get("video_subject") or "").strip(),
         "languages": "",
