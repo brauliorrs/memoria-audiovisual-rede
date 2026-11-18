@@ -316,3 +316,24 @@ h1,h2,h3 {font-family:Manrope,"DM Sans",sans-serif;line-height:1.16;letter-spaci
 .compare-series-number span{font-size:11px;color:var(--muted)}
 @media(max-width:900px){.compare-source-selectors,.compare-coverage{grid-template-columns:repeat(2,minmax(0,1fr))}.compare-analysis-controls{grid-template-columns:1fr 1fr}.compare-series-grid{grid-template-columns:1fr}}
 @media(max-width:650px){.compare-source-selectors,.compare-analysis-controls,.compare-coverage{grid-template-columns:1fr}.compare-source-selectors>div:first-child,.compare-analysis-controls>div:first-child{grid-column:1}.compare-workbench .ob-viewbar{align-items:flex-start;flex-direction:column}.compare-table{min-width:690px}}
+
+
+/* Reproducible scientific slices and verified 1:110m Natural Earth cartography */
+.compare-repro-box{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;border:1px solid #bedcc9;background:#edf5ef;padding:14px 17px;border-radius:12px;margin:7px 0 23px}
+.compare-repro-box>div{display:flex;flex-direction:column;gap:3px}
+.compare-repro-box strong{font-size:13px;color:#165443}
+.compare-repro-box span{font-size:11px;color:#496e61}
+.compare-repro-box code{font-family:ui-monospace,monospace;color:#15554b}
+.compare-repro-box p{flex-basis:100%;margin:0;color:#176354;font-weight:700;font-size:12px}
+.territorial-workbench{min-width:0;max-width:100%}
+.territorial-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+.territorial-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+.territorial-map-panel{margin:22px 0 26px}
+.territorial-map-panel h2{font-size:22px}
+.territorial-svg{width:100%;max-height:520px;height:auto;display:block;border:1px solid #d9e8df;border-radius:12px}
+.territorial-svg path{transition:filter .12s;cursor:help;outline:0}
+.territorial-svg path:hover,.territorial-svg path:focus{stroke:#083f31;stroke-width:1.4px;filter:brightness(.9)}
+.territorial-selected{background:#e6f1e9;padding:10px 14px;border-radius:8px;color:#144f40;font-size:12px;margin:10px 0}
+.territorial-workbench .research-sources{overflow-wrap:anywhere}
+@media(max-width:650px){.territorial-filters,.territorial-kpis{grid-template-columns:1fr}.compare-repro-box{align-items:flex-start;flex-direction:column}.territorial-svg{min-width:590px}.territorial-map-panel{overflow-x:auto}}
+@media(prefers-reduced-motion:reduce){.territorial-svg path{transition:none}}
