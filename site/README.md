@@ -64,3 +64,13 @@ As atualizações deste site são implantadas **somente** no projeto Vercel exis
 4. Fase 4: transição gradual de URL, observabilidade e desativação controlada do Streamlit público.
 
 **Não confundir o cadastro de um conector no motor universal com autorização de publicação.**
+
+## Textos institucionais PT/EN/ES e SEO canônico (18/11/2026)
+
+- Página inicial, apresentação institucional, KAVI, abertura das análises por fonte, legenda da nuvem de palavras e rodapé utilizam `components/institutional-i18n.tsx`. Somente textos editoriais são traduzidos; campos, nomes e links documentais mantêm sua forma original.
+- `lib/seo.ts` registra títulos e descrições científicos em PT/EN/ES para **14 rotas institucionais e analíticas existentes**. O HTML estático da rota canônica permanece em **pt-BR** e o seletor cliente traduz a interface para inglês e espanhol.
+- **Ainda não há indexação autônoma EN/ES:** não se emitem tags `hreflang` que apontem três línguas para a mesma URL. Essa etapa depende de versões HTML realmente renderizadas e endereçáveis por idioma, sem substituir as rotas legadas.
+- Cada rota estática existente usa um `rel=canonical` próprio no domínio único `https://mar-public-site.vercel.app/`; perfis e fichas mantêm os identificadores de origem. O `sitemap.xml` inclui apenas páginas já existentes e, para itens audiovisuais individuais, exclusivamente as **200 fichas KAVI aprovadas**.
+- `robots.txt` aponta somente ao mapa de URLs canônico; o mapa de URLs não constitui aprovação científica ou licença de acesso.
+- Sem novas fichas, players, mídia, download, APIs pagas, coleta automatizada ou ligação operacional com o Neon. O Streamlit permanece ativo.
+- Verificação: `npm run test:institutional-seo`, `npm run typecheck`, `npm run build` e contratos Python de publicação e proveniência.
