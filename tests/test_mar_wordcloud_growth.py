@@ -20,17 +20,22 @@ UNIQUE_TERMS = list(dict.fromkeys(VOCABULARY))
 class WordCloudGrowthTests(unittest.TestCase):
     def test_automatic_refresh_is_source_driven_and_publishes_via_pr(self):
         root = Path(__file__).resolve().parents[1]
-        workflow = (root / ".github/workflows/mar-wordcloud-refresh.yml").read_text(encoding="utf-8")
-        self.assertIn('data/output/*_catalogo_videos_analitico.csv', workflow)
-        self.assertIn('site/data/kavi-public.json', workflow)
-        self.assertIn('workflow_dispatch:', workflow)
-        self.assertIn('cron:', workflow)
-        self.assertIn('gh pr create', workflow)
-        self.assertIn('git add -- site/data/title-wordcloud.json', workflow)
-        self.assertIn('gh pr merge "$PR" --auto --merge', workflow)
-        self.assertIn('gh workflow run quality.yml', workflow)
-        self.assertIn('cancel-in-progress: false', workflow)
-
+        unified = (root / ".github/workflows/mar-site-projection-refresh.yml").read_text(encoding="utf-8")
+        legacy = (root / ".github/workflows/mar-wordcloud-refresh.yml").read_text(encoding="utf-8")
+        self.assertIn('"data/output/**"', unified)
+        self.assertIn('"site/data/kavi-public.json"', unified)
+        self.assertIn("workflow_dispatch:", unified)
+        self.assertIn("cron:", unified)
+        self.assertIn("python3 scripts/build_mar_title_wordcloud.py", unified)
+        self.assertIn("python3 scripts/build_mar_site_research_projections.py --write", unified)
+        self.assertIn("gh pr create --draft", unified)
+        self.assertIn("git add -- site/data/ site/lib/research-snapshot.ts", unified)
+        self.assertNotIn('gh pr merge "$PR"', unified)
+        self.assertIn("gh workflow run quality.yml", unified)
+        self.assertIn("cancel-in-progress: false", unified)
+        self.assertIn("workflow_dispatch:", legacy)
+        self.assertNotIn("  push:", legacy)
+        self.assertNotIn("  schedule:", legacy)
 
     def write_catalog(self, root: Path, code: str, size: int):
         path = root / "data" / "output" / f"{code}_catalogo_videos_analitico.csv"
