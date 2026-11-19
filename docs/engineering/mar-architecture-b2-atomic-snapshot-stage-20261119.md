@@ -24,3 +24,13 @@ O Next.js pode continuar como exportação estática sem perder atualização ci
 4. Fechamento da paridade Streamlit/Next.js e continuidade do fechamento europeu antes de abrir o acesso ao público.
 
 Nenhuma modificação de dados científicos, SSO, Neon, Streamlit, mídia, domínio Vercel, custos ou corpora sob HOLD.
+
+## Ensaio positivo ampliado — corpus sintético (19/11/2026)
+
+Os arquivos `scripts/mar_b2_synthetic_integration.py` e `tests/test_mar_b2_synthetic_integration.py` implementam uma simulação completamente isolada, usando os projetores Python reais de relatórios B1, recortes CSV B2 e nuvem de palavras MAR. A simulação inicial tem **62 corpora fictícios**, um conjunto de **200 registros KAVI inteiramente fictícios** para testar a imutabilidade do gate, e **62×21=1.302** registros sintéticos computados nas dimensões. Uma segunda versão acrescenta **um novo corpus fictício**, previamente sinalizado como admitido por revisão científica, acesso e exposição de agregados (não de fichas): **63 corpora, 1.323 registros sintéticos**.
+
+São verificados em conjunto: contagens dos relatórios, fichas institucionais fictícias, temas e plataformas, séries, recortes geográficos para o mapa, comparações por corpus sem denominador inventado, Índice de Dados Públicos com bloqueio de fichas, nuvem de palavras gerada pelo algoritmo MAR, invariância de decisões documentais e de 200 fichas KAVI fictícias. O caso de teste comprova acréscimo de 21 registros em Portugal, atualização do total e corpus adicional na nuvem. Confere o `epochSha256`, os hashes das saídas e a preservação do último bundle válido.
+
+Cenários de falha: ausência de autorização científica, ausência de revisão do inventário de acesso, tentativa de promover metadados/mídia, valor geográfico contraditório (999 contra 21), painel deliberadamente desatualizado com novo hash e falha de cópia de uma saída. A regra é **HOLD e nenhum staging parcial**. Um guard explícito recusa executar a geração de fixtures sobre o repositório real.
+
+**Limite de veracidade:** esta é uma prova funcional **em dados e projeções fictícios**, não uma nova incorporação científica real, nem uma compilação Next.js com uma ficha nova, nem a reimplementação universal dos 33 JSONs históricos. O gerador B2 de produção ainda precisa ser generalizado, ligado ao verdadeiro inventário curatorial e aprovado com um bundle inteiro e gate real de promoção Vercel. O estado do PR continua DRAFT e nenhuma mídia/ficha adicional é autorizada.
