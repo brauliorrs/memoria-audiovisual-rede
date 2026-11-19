@@ -37,8 +37,10 @@ A consulta live verificou adicionalmente ausência de membership escalável e de
 
 - login diferente do novo papel dedicado `mar_p0_backup_reader`; NOLOGIN, `SET ROLE` ou herança implícita;
 - poderes administrativos, `CREATE` no banco/`mar_p0`/`public`, associação a owner/`neon_superuser`/`pg_write_all_data`, **qualquer membership em outras roles** ou EXECUTE acessível em funções `SECURITY DEFINER` de `mar_p0`;
-- algum DML (`INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`, `REFERENCES`, `TRIGGER`) nas três tabelas;
+- algum DML de tabela **ou de coluna** (`INSERT`, `UPDATE`, `REFERENCES` por coluna; `INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`, `REFERENCES`, `TRIGGER` por tabela), **ou propriedade de qualquer tabela protegida**, ainda que grants ordinários tenham sido revogados;
 - menos/mais de três tabelas do P0, inventário inesperado, ausência de SELECT, respostas malformadas ou falhas de conexão.
+
+**Revisão adversarial adicional:** Codex identificou duas vias de falso aceite, grants de escrita **por coluna** e **ownership** de uma das tabelas, que permite ao proprietário reatribuir grants mesmo após um `REVOKE`. Ambas foram adicionadas à consulta SQL e aos testes, sem declarar PASS de segurança operacional. Reexecutada a nova consulta nas duas branches Neon com resultados de privilégio consistentes; nenhum dado científico foi lido.
 
 **Pré-requisito não realizado:** criar `mar_p0_backup_reader` como credencial efetiva **apenas na branch autorizada** e montar suas grants SELECT-only, sem herdar writer/owner. O código existente do PR #93 que fixa username=`mar_p0_limited` deverá ser **adaptado e testado** antes de qualquer ativação. A nova checagem, ainda que PASS, não é autorização de executar backup de produção ou de publicar dados.
 
