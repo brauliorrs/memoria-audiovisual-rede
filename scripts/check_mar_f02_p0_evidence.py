@@ -90,6 +90,25 @@ def validate_report(doc: object) -> list[str]:
                 continue
             if any(grants.get(privilege) is not False for privilege in DML):
                 errors.append(f"{table}: lab reader has write privileges")
+    reader = lab.get("dedicated_reader")
+    if not isinstance(reader, dict):
+        errors.append("dedicated read-only lab role evidence missing")
+    else:
+        required_reader = {
+            "name": "mar_p0_reader",
+            "created_in_isolated_lab_only": True,
+            "login": False,
+            "superuser": False,
+            "create_db": False,
+            "create_role": False,
+            "schema_usage": True,
+            "select_on_all_three_tables": True,
+            "dml_on_any_three_tables": False,
+            "production_login_provisioned": False,
+            "production_grants_applied": False,
+        }
+        if any(reader.get(key) != expected for key, expected in required_reader.items()):
+            errors.append("dedicated lab reader privilege or production scope overstated")
     if lab.get("authenticated_select_works") is not True:
         errors.append("isolated authenticated read test missing")
     if lab.get("per_table_content_digest_matches_parent") is not True:
