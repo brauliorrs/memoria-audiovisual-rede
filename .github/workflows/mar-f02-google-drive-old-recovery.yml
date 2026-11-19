@@ -1,0 +1,63 @@
+name: MAR F02 verify an older encrypted Drive backup
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 6 * * 0'
+permissions:
+  contents: read
+concurrency:
+  group: mar-f02-drive-old-recovery
+  cancel-in-progress: false
+jobs:
+  old-backup-restore:
+    if: >-
+      github.repository == 'brauliorrs/memoria-audiovisual-rede' &&
+      github.ref == 'refs/heads/main' &&
+      vars.MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED == 'true'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+    environment: mar-p0-drive-recovery
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Install recovery tools
+        run: |
+          bash scripts/mar_p0_install_pg18_ci.sh server
+          python -m pip install 'cryptography==50.0.2' 'google-api-python-client==2.187.0' 'google-auth==2.43.0' 'google-auth-httplib2==0.2.0'
+      - name: Recover an independently listed 24–192-hour-old Drive copy
+        env:
+          MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
+          MAR_P0_GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.MAR_P0_GOOGLE_DRIVE_FOLDER_ID }}
+          MAR_P0_DRIVE_OAUTH_CLIENT_ID: ${{ secrets.MAR_P0_DRIVE_OAUTH_CLIENT_ID }}
+          MAR_P0_DRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MAR_P0_DRIVE_OAUTH_CLIENT_SECRET }}
+          MAR_P0_DRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MAR_P0_DRIVE_OAUTH_REFRESH_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 0700 "$RUNNER_TEMP/mar-old"
+          python -m scripts.mar_p0_offsite_google_drive download --encrypted-file "$RUNNER_TEMP/mar-old/old.aesgcm" --min-age-hours 24 --max-age-hours 192 --execute > "$RUNNER_TEMP/old-download.json"
+          EXPECTED_SHA="$(python -c 'import json,os; d=json.load(open(os.environ["RUNNER_TEMP"]+"/old-download.json")); assert d["status"]=="drive_ciphertext_download_verified";print(d["sha256"])')"
+          RESTORE_PASSWORD="$(openssl rand -hex 24)"
+          RESTORE_DB="mar_p0_restore_$GITHUB_RUN_ID"
+          printf "CREATE ROLE mar_p0_restore LOGIN PASSWORD '%s';\n" "$RESTORE_PASSWORD" | sudo -u postgres psql -X -v ON_ERROR_STOP=1 postgres >/dev/null
+          sudo -u postgres createdb --owner=mar_p0_restore "$RESTORE_DB"
+          export MAR_P0_ISOLATED_RESTORE_DATABASE_URL="postgresql://mar_p0_restore:$RESTORE_PASSWORD@127.0.0.1/$RESTORE_DB"
+          unset RESTORE_PASSWORD
+          python -m scripts.mar_p0_offsite_pg_restore restore --encrypted-file "$RUNNER_TEMP/mar-old/old.aesgcm" --expected-sha256 "$EXPECTED_SHA" --execute > "$RUNNER_TEMP/old-restore.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          path=Path(os.environ["RUNNER_TEMP"])
+          report=json.loads((path/"old-restore.json").read_text())
+          assert report["status"]=="offsite_restored_and_verified"
+          assert report["rows_and_schema_sha256_equal"] is True
+          assert report["encrypted_sha256"]==os.environ["EXPECTED_SHA"]
+          print("PASS: older Google Drive ciphertext restored to separate local PostgreSQL.")
+          PY
+      - name: Purge recovered files
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/mar-old" "$RUNNER_TEMP/old-download.json" "$RUNNER_TEMP/old-restore.json"
