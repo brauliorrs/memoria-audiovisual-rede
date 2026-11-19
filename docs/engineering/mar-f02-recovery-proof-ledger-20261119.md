@@ -63,6 +63,12 @@ O comando não expõe segredos, mas **não configura** o ambiente nem cria role.
 
 **P0.3 — ainda HOLD:** provas pontuais de 12 e 13/11 continuam válidas como histórico; não se executou backup externo novo nesta verificação.
 
+## Escopo negativo entre schemas — prova complementar (19/11/2026)
+
+O LOGIN de backup `mar_p0_backup_reader`, testado na branch LAB `br-purple-art-b8p4uvdr`, encontrou **10 relações de usuário fora do schema `mar_p0`**, mas **0 relações com privilégio efetivo de leitura/escrita** (incluindo grants SELECT/INSERT/UPDATE/REFERENCES por coluna). Encontrou também **0 funções de usuário `SECURITY DEFINER` executáveis** fora de `mar_p0`. Resultado obtido com SELECT de catálogo sob o próprio login, sem varrer o conteúdo das outras tabelas.
+
+O pré-teste `scripts/mar_f02_readonly_preflight.py` passa a falhar fechado se qualquer relação de outro schema se tornar acessível ou se uma função `SECURITY DEFINER` externa for executável. Essa validação restringe o backup ao esquema P0 sem estender privilégios sobre corpora científicos. A prova continua restrita ao **LAB**, não à credencial de operação da GitHub Action.
+
 ## Decisões e gates ainda abertos (F02 não pode ser concluída)
 
 1. **P0.1:** credencial dedicada de **login** e segregação explícita writer/reader, com contrato real de execução e falha negativa no Neon isolado. Verificar secret manager e proteção GitHub Environments antes de rodar qualquer workflow.
