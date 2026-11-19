@@ -45,6 +45,11 @@ jobs:
           python scripts/check_mar_f02_p0_evidence.py
           python -m unittest discover -s tests -p 'test_mar_f02_p0_evidence.py' -v
 
+      - name: Validate F02 dedicated reader preflight (offline, no credentials)
+        run: |
+          python scripts/mar_f02_readonly_preflight.py
+          python -m unittest discover -s tests -p 'test_mar_f02_readonly_preflight.py' -v
+
       - name: Check dependency manifests
         run: python scripts/check_dependency_manifests.py
 
