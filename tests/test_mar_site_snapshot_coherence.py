@@ -152,5 +152,35 @@ class CoherenceContract(unittest.TestCase):
             run(self.root)
 
 
+    def test_restricted_units_may_overlap_existing_corpus(self):
+        out = self.root / "data/output"
+        web = self.root / "site/data/public-access-observatory.json"
+        write_csv(out / "observatorio_unidades_acesso_restrito_indice.csv",
+                  ["unit_code"], [{"unit_code": "sample"}, {"unit_code": "new-restricted-unit"}])
+        inventory = json.loads(web.read_text())
+        inventory["summary"]["additionalIdentifiedRestrictedUnits"] = 1
+        inventory["corpora"].append(
+            {"code": "new-restricted-unit", "recordDisplay": "not_authorized_for_new_site",
+             "historicalPublicSurfaceRecords": 0, "historicalRestrictedRecords": 0,
+             "historicalTotal": 0})
+        write_json(web, inventory)
+        run(self.root)
+
+
+class ProvenancePinContract(unittest.TestCase):
+    def test_explicit_source_sha_required_and_idempotent(self):
+        from scripts.pin_mar_site_research_snapshot import pin
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "research-snapshot.ts"
+            before = 'export const researchSnapshotCommit = "' + "1" * 40 + '" as const;\n'
+            path.write_text(before, encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "40-character"):
+                pin("bad-revision", path)
+            self.assertEqual(path.read_text(), before)
+            self.assertTrue(pin("a" * 40, path))
+            self.assertFalse(pin("a" * 40, path))
+            self.assertIn('"'+ "a" * 40 +'"', path.read_text())
+
+
 if __name__ == "__main__":
     unittest.main()
