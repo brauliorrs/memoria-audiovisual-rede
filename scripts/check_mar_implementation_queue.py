@@ -17,8 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs/engineering/mar-implementation-stage-gates.json"
 STAGES = tuple(f"F{i:02d}" for i in range(14))
 SHA = re.compile(r"^[0-9a-f]{40}$")
-PR_MARKER = re.compile(r"(?im)^[ \t]*MAR-STAGE:[ \t]*(F\d{2})[ \t]*$")
-QUEUE_COMPLETE_MARKER = re.compile(r"(?im)^[ \t]*MAR-QUEUE:[ \t]*(COMPLETE)[ \t]*$")
+CONTROL_LINE = re.compile(r"(?i)^MAR-(?:STAGE|QUEUE)\s*:")
 REPO_URL = "https://github.com/brauliorrs/memoria-audiovisual-rede/"
 ISSUE = REPO_URL + "issues/128"
 BASE_GATES = (
@@ -151,18 +150,18 @@ def validate_pull_request(body: str, active_stage: str | None) -> list[str]:
     after its manifest switches to the complete state. Later PRs must use
     MAR-QUEUE: COMPLETE. Neither label grants scientific approval.
     """
-    stages = PR_MARKER.findall(body)
-    complete = QUEUE_COMPLETE_MARKER.findall(body)
+    controls = [
+        line.strip() for line in body.splitlines()
+        if CONTROL_LINE.match(line.strip())
+    ]
     if active_stage is None:
-        if stages == ["F13"] and not complete:
-            return []
-        if complete == ["COMPLETE"] and not stages:
+        if controls in (["MAR-STAGE: F13"], ["MAR-QUEUE: COMPLETE"]):
             return []
         return ["completed queue requires exactly MAR-STAGE: F13 (closing PR) "
                 "or MAR-QUEUE: COMPLETE (later PR), never both"]
-    if stages != [active_stage] or complete:
+    if controls != [f"MAR-STAGE: {active_stage}"]:
         return [f"PR must contain exactly one line MAR-STAGE: {active_stage} "
-                "and no MAR-QUEUE marker"]
+                "and no other stage/queue markers"]
     return []
 
 
