@@ -30,7 +30,7 @@ from scripts.build_mar_site_bundle_b2 import (
 from scripts.build_mar_site_bundle_b2 import project_research_slices
 from scripts import build_mar_title_wordcloud as wordcloud
 
-PROJECTOR_SCHEMA = "mar-static-scientific-projection-review-v1"
+PROJECTOR_SCHEMA = "mar-scientific-release-v1"
 CURATED = (
     "site/data/kavi-public.json",
     "site/data/public-access-observatory.json",
@@ -282,10 +282,16 @@ def stage(root: Path, target: Path) -> dict:
             "status": "REVIEW_ONLY_NOT_PUBLICATION_AUTHORIZATION",
             "publicationAuthorized": False,
             "publicAccessAuthorized": False,
+            "publicationOfNewIndividualItemsAuthorized": False,
             "corpusCount": len(codes),
             "epochSha256": epoch,
-            "inputSha256": input_hashes,
+            "scientificSourceSha256": input_hashes,
             "outputSha256": output_hashes,
+            "review": {
+                "scientificAdmissionReference": None,
+                "curatorialAccessReference": None,
+                "approvedCommit": None,
+            },
             "curatedFrozen": list(CURATED),
             "staticGeometryExcluded": STATIC_GEOMETRY,
             "baselineCommit": read_json(root / "site/data/scientific-snapshot-lock.json")["baselineMainCommit"],
