@@ -1,6 +1,8 @@
+"use client";
+import {useSiteLocale} from "@/components/site-locale";
+import {institutionalDictionary} from "@/lib/institutional-dictionary";
 import titleTerms from "@/data/title-wordcloud.json";
 
-const formatter = new Intl.NumberFormat("pt-BR");
 const terms = titleTerms.words.slice(0, 32);
 const maxScore = Math.max(...terms.map((term) => term.score));
 const minScore = Math.min(...terms.map((term) => term.score));
@@ -18,26 +20,29 @@ function wordStyle(score: number, index: number) {
 
 /** Aggregated scientific visualization, never individual historical titles. */
 export function TitleWordCloud() {
+  const {locale}=useSiteLocale();
+  const copy=institutionalDictionary[locale];
+  const formatter=new Intl.NumberFormat(locale==="pt"?"pt-BR":locale==="en"?"en-US":"es-ES");
   return (
-    <figure className="title-cloud" aria-label="Nuvem de palavras frequentes nos títulos audiovisuais">
-      <figcaption className="title-cloud-heading">O QUE APARECE NOS TÍTULOS</figcaption>
-      <div className="title-cloud-words" role="list" aria-label="Termos recorrentes em múltiplas fontes">
+    <figure className="title-cloud" aria-label={copy.cloudAria}>
+      <figcaption className="title-cloud-heading">{copy.cloudTitle}</figcaption>
+      <div className="title-cloud-words" role="list" aria-label={copy.cloudList}>
         {terms.map((term, index) => (
           <span
             key={term.text}
             role="listitem"
             className={`title-cloud-term title-cloud-tone-${index % 5}`}
             style={wordStyle(term.score, index)}
-            title={`${term.text}: ${formatter.format(term.count)} títulos em ${formatter.format(term.corpora)} corpora`}
-            aria-label={`${term.text}, presente em ${formatter.format(term.count)} títulos de ${term.corpora} corpora`}
+            title={`${term.text}: ${formatter.format(term.count)} ${copy.cloudTitled} ${formatter.format(term.corpora)} ${copy.cloudCorpora}`}
+            aria-label={`${term.text}, ${formatter.format(term.count)} ${copy.cloudTitled} ${formatter.format(term.corpora)} ${copy.cloudCorpora}`}
           >
             {term.text}
           </span>
         ))}
       </div>
       <figcaption className="title-cloud-footnote">
-        {formatter.format(titleTerms.titlesExamined)} registros analisados · {titleTerms.corporaProcessed} fontes.
-        <span> Frequências agregadas; sem exposição de títulos ou filmes.</span>
+        {formatter.format(titleTerms.titlesExamined)} {copy.cloudExamined} · {titleTerms.corporaProcessed} {copy.cloudSources}.
+        <span> {copy.cloudNotice}</span>
       </figcaption>
     </figure>
   );
