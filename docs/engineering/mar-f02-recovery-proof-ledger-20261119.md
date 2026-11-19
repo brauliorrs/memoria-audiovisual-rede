@@ -29,14 +29,14 @@ Foi executada consulta **somente no catálogo PostgreSQL**, autenticada como `ma
 | validação `br-lingering-smoke-b8hjdnzb` | sim | **sim** | não | **HOLD** |
 | laboratório `br-purple-art-b8p4uvdr` | sim | não | não, permanece `mar_p0_limited` | **HOLD** |
 
-Na branch de laboratório do PR #137 há `mar_p0_reader` com **NOLOGIN**, somente privilégios de USAGE+SELECT — recurso de ensaio, não a credencial de execução de backup. Seria erro transformar a role antiga, possivelmente um escritor legítimo, em role somente leitura no ambiente original sem verificar consumidores.
+A consulta live verificou adicionalmente ausência de membership escalável e de funções `SECURITY DEFINER` executáveis em `mar_p0` nos dois ambientes. Na branch de laboratório do PR #137 há `mar_p0_reader` com **NOLOGIN**, somente privilégios de USAGE+SELECT — recurso de ensaio, não a credencial de execução de backup. Seria erro transformar a role antiga, possivelmente um escritor legítimo, em role somente leitura no ambiente original sem verificar consumidores.
 
 ## Novo gate executável de defesa antes de exportar
 
 `scripts/mar_f02_readonly_preflight.py`: por padrão **offline HOLD**, sem rede; com `--execute`, executa **apenas SELECT de catálogo** usando credenciais libpq previamente fornecidas pelo operador, sem imprimir senha, DSN, exceção do banco ou dados de tabelas. Rejeita todas as situações abaixo:
 
 - login diferente do novo papel dedicado `mar_p0_backup_reader`; NOLOGIN, `SET ROLE` ou herança implícita;
-- poderes administrativos, `CREATE` no banco/`mar_p0`/`public`, associação a owner/`neon_superuser`/`pg_write_all_data`;
+- poderes administrativos, `CREATE` no banco/`mar_p0`/`public`, associação a owner/`neon_superuser`/`pg_write_all_data`, **qualquer membership em outras roles** ou EXECUTE acessível em funções `SECURITY DEFINER` de `mar_p0`;
 - algum DML (`INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`, `REFERENCES`, `TRIGGER`) nas três tabelas;
 - menos/mais de três tabelas do P0, inventário inesperado, ausência de SELECT, respostas malformadas ou falhas de conexão.
 
