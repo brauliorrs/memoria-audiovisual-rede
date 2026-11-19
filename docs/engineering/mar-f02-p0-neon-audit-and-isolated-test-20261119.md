@@ -38,6 +38,22 @@ F02 exige: segregação operacional das credenciais, prova real de role somente 
 
 **Limite decisivo:** a criação de uma branch derivada verifica clonagem isolada e integridade comparada, **não constitui restauração independente de backup externo**. Não houve recuperação de snapshot, `pg_restore` em segundo executor, teste de ACL de storage, recuperação após exclusão, rotação de chaves nem prova de retenção de 30/90 dias. A F02 continua HOLD.
 
+## Ensaio de LOGIN realmente dedicado — concluído somente no laboratório
+
+Em 19/11/2026, foi criada, usando o conector oficial Neon e **somente** na branch `br-purple-art-b8p4uvdr`, a role LOGIN `mar_p0_backup_reader`, com `access=read_only`, `database=neondb` e `schemas=[mar_p0]`. O provedor devolveu senha gerada, que **não foi publicada, exibida nem registrada em código ou relatório**. A role foi ajustada com `ALTER ROLE mar_p0_backup_reader NOINHERIT` **no laboratório**. Uma credencial de uso operacional futuro precisará ser provisionada ou rotacionada no seu próprio secret manager.
+
+O pré-teste SQL real, autenticado sob esse papel, confirmou: LOGIN ativo, `current_user=session_user`, ausência de memberships, administração, CREATE, ownership nas três tabelas, execução `SECURITY DEFINER` do schema e DML de tabela/coluna. `SELECT` está permitido nas três tabelas e encontrou 4 checkpoints.
+
+Foram executados ensaios **sem mutação de dados** com `EXPLAIN INSERT`, `EXPLAIN UPDATE` e `EXPLAIN DELETE`; o PostgreSQL negou a permissão de cada um. A execução não acionou esses comandos DML, apenas verificou se o plano seria autorizado.
+
+**Resultado do subgate de laboratório:** privilégio mínimo do LOGIN de backup **comprovado nessa branch isolada**. **NÃO comprovado**: acesso por uma URL de aplicação real, GitHub Environment/Secret configurado, backup atual usando essa credencial ou concessão equivalente no banco principal. F02 permanece `active`, sem encerramento nem autorização pública.
+
+## Revalidação do armazenamento Vercel
+
+No projeto `mar-p0-recovery-lab`, `BLOB_STORE_ID` está presente nos metadados de Environment. Entretanto, consultas à API para recuperar o store pelo identificador retornaram **HTTP 404 tanto no escopo da conta quanto do time**. Isso **não distingue recurso inexistente de recurso inacessível por permissão/escopo**. Não houve upload, download, criação de novo store ou remoção de conteúdo. A prova histórica de restauração de 13/11/2026 não é prova de acesso hoje e não equivale a retenção imutável.
+
+**Gates seguintes:** verificar conta/team/integration correta ou reconfigurar armazenamento privado sob autorização do proprietário, sem expor tokens; comprovar retenção e custódia da chave; conectar o novo login dedicado em Environments protegidos de execução; só depois realizar backup cifrado e restauração independente de cópia atual e histórica.
+
 ## Como reproduzir a verificação sem vazar dados
 
 Executar **somente consultas SELECT**, primeiro na branch de validação e depois na branch de ensaio, sem imprimir payloads:
