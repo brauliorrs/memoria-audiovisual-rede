@@ -1,10 +1,11 @@
+import {publicPageMetadata} from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {PublicAccessInventory} from "@/components/public-access-inventory";
 import {ScientificText,ScientificNumber} from "@/components/scientific-i18n";
 import inventory from "@/data/public-access-observatory.json";
 
-export const metadata: Metadata = {title:"Índice de Dados Públicos e corpora não exibidos"};
+export const metadata=publicPageMetadata("/indice-acesso/","Índice de Dados Públicos","Inventário histórico das fontes audiovisuais, incluindo estados de acesso e razões de não publicação de fichas.");
 
 export default function AccessIndexPage(){
  const summary=inventory.summary;
