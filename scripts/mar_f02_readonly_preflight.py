@@ -20,7 +20,7 @@ EXPECTED_TABLES = ["checkpoint_pages", "checkpoints", "raw_artifacts"]
 # A role name is NOT sufficient to establish least privilege.
 SQL = """
 WITH tab AS (
- SELECT c.oid, c.relname
+ SELECT c.oid, c.relname, c.relowner
  FROM pg_class AS c JOIN pg_namespace AS n ON n.oid=c.relnamespace
  WHERE n.nspname='mar_p0' AND c.relkind IN ('r','p')
 ), rights AS (
@@ -33,8 +33,14 @@ WITH tab AS (
      has_table_privilege(current_user,oid,'DELETE') OR
      has_table_privilege(current_user,oid,'TRUNCATE') OR
      has_table_privilege(current_user,oid,'REFERENCES') OR
-     has_table_privilege(current_user,oid,'TRIGGER')
-   ),true) AS any_write
+     has_table_privilege(current_user,oid,'TRIGGER') OR
+     has_any_column_privilege(current_user,oid,'INSERT') OR
+     has_any_column_privilege(current_user,oid,'UPDATE') OR
+     has_any_column_privilege(current_user,oid,'REFERENCES')
+   ),true) AS any_write,
+   coalesce(bool_or(
+     relowner = (SELECT oid FROM pg_roles WHERE rolname=current_user)
+   ),true) AS owns_any_protected_table
  FROM tab
 )
 SELECT row_to_json(proof)::text FROM (
@@ -58,7 +64,8 @@ SELECT row_to_json(proof)::text FROM (
      WHERE n.nspname='mar_p0' AND p.prosecdef
        AND has_function_privilege(current_user,p.oid,'EXECUTE')
    ) AS executable_security_definer_in_mar_p0,
-   rights.table_count,rights.tables,rights.all_select,rights.any_write
+   rights.table_count,rights.tables,rights.all_select,rights.any_write,
+   rights.owns_any_protected_table
  FROM pg_roles AS r CROSS JOIN rights
  WHERE r.rolname=current_user
 ) AS proof;
@@ -78,6 +85,7 @@ def assess(report: object) -> list[str]:
         "neon_superuser_member", "pg_write_all_data_member",
         "database_owner_member", "member_of_other_roles",
         "executable_security_definer_in_mar_p0", "any_write",
+        "owns_any_protected_table",
     )
     for key in must_be_true:
         if report.get(key) is not True:
