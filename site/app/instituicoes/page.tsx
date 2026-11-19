@@ -1,9 +1,10 @@
+import {pageSeo} from "@/lib/seo";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {institutions} from "@/lib/catalog";
 import {InstitutionalText} from "@/components/institutional-i18n";
 
-export const metadata:Metadata={title:"Instituições e corpora"};
+export const metadata=pageSeo("/instituicoes/");
 
 export default function InstitutionsPage(){
  return <div className="shell page-shell">
