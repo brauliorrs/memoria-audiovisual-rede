@@ -1,6 +1,6 @@
 import {pageSeo} from "@/lib/seo";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/site-link";
 import { ScientificDashboard } from "@/components/scientific-dashboard";
 import { historicalSnapshot } from "@/lib/scientific-observatory";
 import {ScientificText, ScientificNumber} from "@/components/scientific-i18n";

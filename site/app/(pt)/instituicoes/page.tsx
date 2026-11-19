@@ -1,6 +1,6 @@
 import {pageSeo} from "@/lib/seo";
 import type {Metadata} from "next";
-import Link from "next/link";
+import Link from "@/components/site-link";
 import {institutions} from "@/lib/catalog";
 import {InstitutionalText,InstitutionalCountry} from "@/components/institutional-i18n";
 

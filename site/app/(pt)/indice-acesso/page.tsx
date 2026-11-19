@@ -1,6 +1,6 @@
 import {pageSeo} from "@/lib/seo";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/site-link";
 import {PublicAccessInventory} from "@/components/public-access-inventory";
 import {ScientificText,ScientificNumber} from "@/components/scientific-i18n";
 import inventory from "@/data/public-access-observatory.json";

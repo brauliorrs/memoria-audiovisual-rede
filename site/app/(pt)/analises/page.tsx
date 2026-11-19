@@ -1,6 +1,6 @@
 import {pageSeo} from "@/lib/seo";
 import type {Metadata} from "next";
-import Link from "next/link";
+import Link from "@/components/site-link";
 import {AnalyticsComparison} from "@/components/analytics-comparison";
 import {historicalAnalyticReports} from "@/lib/historical-analytics";
 import {ScientificText, ScientificNumber} from "@/components/scientific-i18n";
