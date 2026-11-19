@@ -31,6 +31,11 @@ jobs:
             requirements.txt
             pyproject.toml
 
+      - name: Validate MAR serial implementation stage and evidence contract
+        run: |
+          python scripts/check_mar_implementation_queue.py --check-pr
+          python -m unittest discover -s tests -p 'test_mar_implementation_queue.py' -v
+
       - name: Check dependency manifests
         run: python scripts/check_dependency_manifests.py
 
