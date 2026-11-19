@@ -1,0 +1,162 @@
+name: MAR P0 durable encrypted daily backup and isolated restore
+
+# Cron is effective only when this reviewed workflow is merged into default main.
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mar-p0-durable-daily
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    if: >-
+      github.repository == 'brauliorrs/memoria-audiovisual-rede' &&
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-26.04
+    timeout-minutes: 25
+    environment: mar-p0-backup-automation
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      archive_key: ${{ steps.archive.outputs.archive_key }}
+      archive_version: ${{ steps.archive.outputs.archive_version }}
+      ciphertext_sha256: ${{ steps.archive.outputs.ciphertext_sha256 }}
+    steps:
+      - name: Checkout reviewed main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: PostgreSQL 18 client
+        run: bash scripts/mar_p0_install_pg18_ci.sh client
+      - name: Install pinned encryption and S3 SDK
+        run: python -m pip install --disable-pip-version-check cryptography==50.0.2 boto3==1.44.2
+      - name: Assume restricted S3 archive role (OIDC)
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.MAR_P0_AWS_UPLOAD_ROLE_ARN }}
+          aws-region: ${{ vars.MAR_P0_S3_REGION }}
+          role-session-name: marP0Export${{ github.run_id }}
+      - name: Export encrypted source and archive immutable ciphertext
+        id: archive
+        env:
+          MAR_P0_READONLY_DATABASE_URL: ${{ secrets.MAR_P0_READONLY_DATABASE_URL }}
+          MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
+          MAR_P0_S3_BUCKET: ${{ vars.MAR_P0_S3_BUCKET }}
+          MAR_P0_S3_REGION: ${{ vars.MAR_P0_S3_REGION }}
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 0700 "$RUNNER_TEMP/mar-p0-cipher"
+          python -m scripts.mar_p0_offsite_pg_restore backup \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-cipher/snapshot.aesgcm" --execute \
+            > "$RUNNER_TEMP/mar-p0-export.json"
+          export MAR_CIPHER_SHA="$(python -c 'import json,os;print(json.load(open(os.environ["RUNNER_TEMP"]+"/mar-p0-export.json"))["encrypted_sha256"])')"
+          python -m scripts.mar_p0_offsite_s3 upload \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-cipher/snapshot.aesgcm" \
+            --expected-sha256 "$MAR_CIPHER_SHA" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" --execute \
+            > "$RUNNER_TEMP/mar-p0-archive.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])
+          exp=json.loads((root/"mar-p0-export.json").read_text())
+          arc=json.loads((root/"mar-p0-archive.json").read_text())
+          assert exp["status"]=="encrypted_backup_exported"
+          assert arc["status"]=="ciphertext_archived"
+          assert exp["encrypted_sha256"]==arc["sha256"]
+          assert exp["production_gate"]==arc["production_gate"]=="HOLD"
+          with open(os.environ["GITHUB_OUTPUT"],"a",encoding="utf-8") as out:
+              out.write(f'archive_key={arc["key"]}\n')
+              out.write(f'archive_version={arc["version_id"]}\n')
+              out.write(f'ciphertext_sha256={arc["sha256"]}\n')
+          print("PASS: encrypted backup stored in immutable versioned external storage.")
+          PY
+      - name: Remove ephemeral export
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/mar-p0-cipher" "$RUNNER_TEMP/mar-p0-export.json" "$RUNNER_TEMP/mar-p0-archive.json"
+
+  same-day-recovery:
+    needs: [archive]
+    if: needs.archive.result == 'success'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 25
+    environment: mar-p0-restore-automation
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout reviewed main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: PostgreSQL 18 isolated server
+        run: bash scripts/mar_p0_install_pg18_ci.sh server
+      - name: Install pinned encryption and S3 SDK
+        run: python -m pip install --disable-pip-version-check cryptography==50.0.2 boto3==1.44.2
+      - name: Assume restricted S3 restore role (OIDC)
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.MAR_P0_AWS_RESTORE_ROLE_ARN }}
+          aws-region: ${{ vars.MAR_P0_S3_REGION }}
+          role-session-name: marP0Restore${{ github.run_id }}
+      - name: Read pinned object version and restore in fresh local Postgres
+        env:
+          MAR_P0_S3_BUCKET: ${{ vars.MAR_P0_S3_BUCKET }}
+          MAR_P0_S3_REGION: ${{ vars.MAR_P0_S3_REGION }}
+          MAR_P0_RESTORE_AES_KEY_HEX: ${{ secrets.MAR_P0_RESTORE_AES_KEY_HEX }}
+          EXPECTED_KEY: ${{ needs.archive.outputs.archive_key }}
+          EXPECTED_VERSION: ${{ needs.archive.outputs.archive_version }}
+          EXPECTED_SHA256: ${{ needs.archive.outputs.ciphertext_sha256 }}
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 0700 "$RUNNER_TEMP/mar-p0-recovery"
+          python -m scripts.mar_p0_offsite_s3 download \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-recovery/snapshot.aesgcm" \
+            --key "$EXPECTED_KEY" --version-id "$EXPECTED_VERSION" \
+            --expected-sha256 "$EXPECTED_SHA256" --execute \
+            > "$RUNNER_TEMP/mar-p0-download.json"
+          RESTORE_PASSWORD="$(openssl rand -hex 24)"
+          RESTORE_DB="mar_p0_restore_$GITHUB_RUN_ID"
+          printf "CREATE ROLE mar_p0_restore LOGIN PASSWORD '%s';\n" "$RESTORE_PASSWORD" \
+            | sudo -u postgres psql -X -v ON_ERROR_STOP=1 postgres >/dev/null
+          sudo -u postgres createdb --owner=mar_p0_restore "$RESTORE_DB"
+          export MAR_P0_ISOLATED_RESTORE_DATABASE_URL="postgresql://mar_p0_restore:$RESTORE_PASSWORD@127.0.0.1/$RESTORE_DB"
+          unset RESTORE_PASSWORD
+          python -m scripts.mar_p0_offsite_pg_restore restore \
+            --encrypted-file "$RUNNER_TEMP/mar-p0-recovery/snapshot.aesgcm" \
+            --expected-sha256 "$EXPECTED_SHA256" --execute \
+            > "$RUNNER_TEMP/mar-p0-recovered.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])
+          dl=json.loads((root/"mar-p0-download.json").read_text())
+          rs=json.loads((root/"mar-p0-recovered.json").read_text())
+          assert dl["status"]=="ciphertext_download_verified"
+          assert rs["status"]=="offsite_restored_and_verified"
+          assert dl["sha256"]==rs["encrypted_sha256"]==os.environ["EXPECTED_SHA256"]
+          assert rs["rows_and_schema_sha256_equal"] is True
+          assert rs["production_gate"]=="HOLD"
+          print("PASS: isolated restore reconciled MAR P0 row/schema fingerprints.")
+          PY
+      - name: Remove ephemeral recovery
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/mar-p0-recovery" "$RUNNER_TEMP/mar-p0-download.json" "$RUNNER_TEMP/mar-p0-recovered.json"
