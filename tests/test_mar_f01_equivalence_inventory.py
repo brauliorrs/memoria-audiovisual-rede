@@ -95,6 +95,32 @@ class F01InventoryTests(unittest.TestCase):
         del data["data_helper_coverage"]["build_research_video_catalog_frame"]
         self.assertTrue(audit.check_inventory(data))
 
+    def test_every_source_function_and_tab_is_assigned_to_audit_flow(self):
+        data = self.data()
+        self.assertEqual(len(data["render_function_coverage"]), 20)
+        self.assertEqual(len(data["data_helper_coverage"]), 18)
+        self.assertEqual(len(data["support_function_coverage"]), 26)
+        self.assertEqual(len(data["ui_tab_coverage"]), 13)
+        self.assertEqual(audit.check_inventory(data), [])
+
+    def test_support_function_can_not_disappear_from_audit(self):
+        data = self.data()
+        del data["support_function_coverage"]["filter_research_catalog"]
+        self.assertTrue(audit.check_inventory(data))
+
+    def test_tab_can_not_disappear_from_audit(self):
+        data = self.data()
+        key = next(iter(data["ui_tab_coverage"]))
+        del data["ui_tab_coverage"][key]
+        self.assertTrue(audit.check_inventory(data))
+
+    def test_tab_must_reference_real_flow(self):
+        data = self.data()
+        key = next(iter(data["ui_tab_coverage"]))
+        data["ui_tab_coverage"][key] = "M99"
+        self.assertTrue(audit.check_inventory(data))
+
+
 
 if __name__ == "__main__":
     unittest.main()
