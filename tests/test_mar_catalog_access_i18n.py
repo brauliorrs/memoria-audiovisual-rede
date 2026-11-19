@@ -39,7 +39,7 @@ class CatalogAndAccessI18n(unittest.TestCase):
             self.assertNotIn(forbidden,content)
 
     def test_index_controls_still_show_original_source_evidence(self):
-        page=(SITE/"app/indice-acesso/page.tsx").read_text(encoding="utf-8")
+        page=(SITE/"app/(pt)/indice-acesso/page.tsx").read_text(encoding="utf-8")
         content=(SITE/"components/public-access-inventory.tsx").read_text(encoding="utf-8")
         for term in ("ScientificText","ScientificNumber","summary.historicalMaterializedTotal",
                      "summary.historicalPublicSurfaceRecords",

@@ -55,7 +55,7 @@ class PublicAccessObservatoryTests(unittest.TestCase):
             self.assertEqual(by_code[code]["recordDisplay"], "not_authorized_for_new_site")
 
     def test_web_routes_and_migration_are_static(self):
-        page = (SITE / "app/indice-acesso/page.tsx").read_text(encoding="utf-8")
+        page = (SITE / "app/(pt)/indice-acesso/page.tsx").read_text(encoding="utf-8")
         component = (SITE / "components/public-access-inventory.tsx").read_text(encoding="utf-8")
         nav = (SITE / "components/site-header.tsx").read_text(encoding="utf-8")
         self.assertIn('"/indice-acesso/"', nav)

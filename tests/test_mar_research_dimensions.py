@@ -29,7 +29,7 @@ class ResearchDimensionsTests(unittest.TestCase):
       self.assertIn("snapshot_generated_at",rows.fieldnames)
 
  def test_no_record_level_media_or_secrets_in_research_pages(self):
-  for path in ("site/lib/research-dimensions.ts","site/components/research-explorer.tsx","site/app/pesquisa/[code]/page.tsx"):
+  for path in ("site/lib/research-dimensions.ts","site/components/research-explorer.tsx","site/app/(pt)/pesquisa/[code]/page.tsx"):
    content=(ROOT/path).read_text(encoding="utf-8")
    for banned in ("DATABASE_URL","<video","<iframe","fetch(","NEXT_PUBLIC_SECRET"):
     self.assertNotIn(banned,content)

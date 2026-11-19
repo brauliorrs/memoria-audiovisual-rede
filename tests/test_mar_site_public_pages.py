@@ -25,7 +25,7 @@ class MarSitePublicPagesTests(unittest.TestCase):
             self.assertEqual(url.path, "/Record/" + item["id"])
 
     def test_static_route_preserves_metadata_and_scientific_disclosure(self):
-        source = (SITE / "app/acervo/kavi/[id]/page.tsx").read_text(encoding="utf-8")
+        source = (SITE / "app/(pt)/acervo/kavi/[id]/page.tsx").read_text(encoding="utf-8")
         self.assertIn("generateStaticParams", source)
         self.assertIn("records.map((record) => ({ id: record.id }))", source)
         detail = (SITE / "components/kavi-record-detail.tsx").read_text(encoding="utf-8")

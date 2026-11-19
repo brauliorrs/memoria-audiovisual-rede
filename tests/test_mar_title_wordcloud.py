@@ -39,7 +39,7 @@ class HomepageTitleCloudTests(unittest.TestCase):
         self.assertTrue(all(set(item) == {"text", "count", "corpora", "score"} for item in items))
 
     def test_cloud_replaces_old_decorative_hero(self):
-        page = (SITE / "app/page.tsx").read_text(encoding="utf-8")
+        page = (SITE / "app/(pt)/page.tsx").read_text(encoding="utf-8")
         component = (SITE / "components/title-wordcloud.tsx").read_text(encoding="utf-8")
         css = (SITE / "app/globals.css").read_text(encoding="utf-8")
         self.assertIn("<TitleWordCloud />", page)

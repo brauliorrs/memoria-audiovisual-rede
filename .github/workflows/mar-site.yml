@@ -110,6 +110,16 @@ jobs:
         run: npm run build
       - name: Verify expected static routes
         run: |
+          # 14 localized pages are rendered to HTML, not translated only in the browser.
+          for locale in en es; do
+            for route in metodologia instituicoes instituicoes/kavi instituicoes/pesquisa observatorio acervo temas series comparar analises territorios casos indice-acesso; do
+              test -f "out/$locale/$route/index.html"
+            done
+            test -f "out/$locale/index.html"
+            grep -q "<html lang=\"$locale\"" "out/$locale/index.html"
+            grep -Eq 'hrefLang="en"|hreflang="en"' "out/$locale/index.html"
+            grep -Eq 'hrefLang="es"|hreflang="es"' "out/$locale/index.html"
+          done
           test -f out/index.html
           test -f out/sitemap.xml
           test -f out/robots.txt

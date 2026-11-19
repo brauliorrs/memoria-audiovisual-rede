@@ -35,11 +35,11 @@ class ScientificObservatoryTests(unittest.TestCase):
 
     def test_scientific_routes_and_separation_from_public_catalog(self):
         dashboard=(SITE/"components/scientific-dashboard.tsx").read_text(encoding="utf-8")
-        profile=(SITE/"app/observatorio/[code]/page.tsx").read_text(encoding="utf-8")
-        page=(SITE/"app/observatorio/page.tsx").read_text(encoding="utf-8")
-        cases=(SITE/"app/casos/page.tsx").read_text(encoding="utf-8")
+        profile=(SITE/"app/(pt)/observatorio/[code]/page.tsx").read_text(encoding="utf-8")
+        page=(SITE/"app/(pt)/observatorio/page.tsx").read_text(encoding="utf-8")
+        cases=(SITE/"app/(pt)/casos/page.tsx").read_text(encoding="utf-8")
         nav=(SITE/"components/site-header.tsx").read_text(encoding="utf-8")
-        analytics=(SITE/"app/analises/page.tsx").read_text(encoding="utf-8")
+        analytics=(SITE/"app/(pt)/analises/page.tsx").read_text(encoding="utf-8")
         corpus_analytics=(SITE/"components/corpus-historical-analytics.tsx").read_text(encoding="utf-8")
         self.assertIn("generateStaticParams",profile)
         self.assertIn("63",str(len(INVENTORY["corpora"])))
