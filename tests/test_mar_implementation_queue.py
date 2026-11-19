@@ -45,6 +45,7 @@ PROOF = {
 }
 OWNER_PROOF = {
     **PROOF,
+    "reference": gate.ISSUE + "#issuecomment-123",
     "reviewed_by": gate.PROJECT_OWNER,
     "review_mode": "owner_only",
     "independent": False,
@@ -151,6 +152,30 @@ class EngineeringQueueGateTests(unittest.TestCase):
         doc = complete_through(1)
         doc["stages"][1]["evidence"]["review"] = {
             **OWNER_PROOF, "reviewed_by": "github-actions"
+        }
+        self.assertTrue(gate.validate_manifest(doc))
+
+    def test_owner_review_requires_signed_issue_comment_reference(self):
+        doc = complete_through(1)
+        for invalid_ref in (
+            gate.ISSUE,
+            "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/123",
+            gate.ISSUE + "#pullrequestreview-123",
+        ):
+            with self.subTest(reference=invalid_ref):
+                doc["stages"][1]["evidence"]["review"] = {
+                    **OWNER_PROOF, "reference": invalid_ref
+                }
+                self.assertTrue(gate.validate_manifest(doc))
+
+    def test_codex_bot_cannot_be_registered_as_independent_human(self):
+        doc = complete_through(1)
+        doc["stages"][1]["evidence"]["review"] = {
+            **PROOF, "reviewed_by": "chatgpt-codex-connector",
+        }
+        self.assertTrue(gate.validate_manifest(doc))
+        doc["stages"][1]["evidence"]["review"] = {
+            **PROOF, "reviewed_by": "copilot[bot]",
         }
         self.assertTrue(gate.validate_manifest(doc))
 
