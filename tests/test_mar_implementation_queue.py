@@ -40,6 +40,16 @@ PROOF = {
     "commit_sha": SHA,
     "reviewed_by": "human-reviewer",
     "result": "accepted",
+    "review_mode": "independent",
+    "independent": True,
+}
+OWNER_PROOF = {
+    **PROOF,
+    "reviewed_by": gate.PROJECT_OWNER,
+    "review_mode": "owner_only",
+    "independent": False,
+    "owner_acknowledgement": True,
+    "independence_exception": gate.ISSUE,
 }
 
 
@@ -96,7 +106,7 @@ class EngineeringQueueGateTests(unittest.TestCase):
         doc["stages"][2]["status"] = "active"
         doc["active_stage"] = "F02"
         errors = gate.validate_manifest(doc)
-        self.assertTrue(any("completion missing independent gates" in e for e in errors))
+        self.assertTrue(any("completion missing mandatory gates" in e for e in errors))
 
     def test_all_f01_gates_can_allow_next_stage(self):
         doc = complete_through(1)
@@ -114,6 +124,48 @@ class EngineeringQueueGateTests(unittest.TestCase):
         doc["stages"][1]["evidence"]["functional_acceptance"] = {
             **PROOF, "reviewed_by": "github-actions"
         }
+        self.assertTrue(gate.validate_manifest(doc))
+
+    def test_owner_review_with_disclosed_exception_is_allowed(self):
+        doc = complete_through(1)
+        for name in ("review", "functional_acceptance", "migration_matrix"):
+            doc["stages"][1]["evidence"][name] = dict(OWNER_PROOF)
+        self.assertEqual(gate.validate_manifest(doc), [])
+
+    def test_owner_review_cannot_masquerade_as_independent(self):
+        doc = complete_through(1)
+        for altered in (
+            {"review_mode": "independent", "independent": True},
+            {"review_mode": "owner_only", "independent": True},
+            {"review_mode": "owner_only", "owner_acknowledgement": False},
+            {"review_mode": "owner_only", "independence_exception": ""},
+            {"review_mode": "owner_only", "owner_acknowledgement": None},
+        ):
+            with self.subTest(altered=altered):
+                doc["stages"][1]["evidence"]["review"] = {
+                    **OWNER_PROOF, **altered
+                }
+                self.assertTrue(gate.validate_manifest(doc))
+
+    def test_owner_signature_cannot_be_inferred_from_ci(self):
+        doc = complete_through(1)
+        doc["stages"][1]["evidence"]["review"] = {
+            **OWNER_PROOF, "reviewed_by": "github-actions"
+        }
+        self.assertTrue(gate.validate_manifest(doc))
+
+    def test_unknown_reviewer_cannot_claim_owner_exception(self):
+        doc = complete_through(1)
+        doc["stages"][1]["evidence"]["review"] = {
+            **OWNER_PROOF, "reviewed_by": "random-contributor"
+        }
+        self.assertTrue(gate.validate_manifest(doc))
+
+    def test_owner_missing_explicit_acknowledgement_is_not_a_review(self):
+        doc = complete_through(1)
+        proof = dict(OWNER_PROOF)
+        del proof["owner_acknowledgement"]
+        doc["stages"][1]["evidence"]["functional_acceptance"] = proof
         self.assertTrue(gate.validate_manifest(doc))
 
     def test_bad_sha_fails_closed(self):
