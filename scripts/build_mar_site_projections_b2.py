@@ -74,7 +74,9 @@ def _source_or_reviewed(raw: str | None, reviewed: str | None, field: str, code:
         raise BundleError(f"Institutional curated/source drift {code}:{i}.{field}")
     # Historical 'Nao classificado' source labels were deliberately hidden
     # in reviewed institutional pages. Do not silently expose them as places.
-    if raw in ("Nao classificado", "Não classificado") and previous == "":
+    if previous == "" and raw:
+        # An intentionally blank historical field requires human review;
+        # never populate it silently from a changing external source.
         return previous
     return raw or previous
 
@@ -125,7 +127,7 @@ def _int(row: dict, key: str) -> int:
     return n
 
 
-def project_research_pilot(code: str, slice_: dict) -> dict:
+def project_research_pilot(code: str, slice_: dict, reviewed: dict) -> dict:
     countries = [{
         "theme": row["tema"], "country": row["pais"], "value": _int(row, "total")
     } for row in slice_["tema_pais"]["rows"]]
@@ -140,6 +142,9 @@ def project_research_pilot(code: str, slice_: dict) -> dict:
     if not themes:
         for row in countries:
             themes[row["theme"]] = themes.get(row["theme"], 0) + row["value"]
+    historical_order = [r["theme"] for r in reviewed.get("themes", [])]
+    if len(set(historical_order)) != len(historical_order) or set(historical_order) != set(themes):
+        raise BundleError(f"Reviewed pilot topics differ from source: {code}")
     timeline = [{
         "date": r["snapshot_generated_at"],
         "observationKey": r["observation_key"],
@@ -149,7 +154,7 @@ def project_research_pilot(code: str, slice_: dict) -> dict:
     } for r in slice_["linha_do_tempo_corpus"]["rows"]]
     # Historical order is significant in the original presentation.
     return {
-        "code": code, "themes": [{"theme": k, "value": v} for k, v in themes.items()],
+        "code": code, "themes": [{"theme": k, "value": themes[k]} for k in historical_order],
         "countries": countries, "platforms": platforms, "timeline": timeline,
     }
 
@@ -190,7 +195,7 @@ def generated_documents(root: Path) -> tuple[dict[str, object], list[str]]:
     if not isinstance(pilot, list) or len({p["code"] for p in pilot}) != len(pilot):
         raise BundleError("Duplicate or invalid research pilot")
     payload["site/data/research-0.json"] = [
-        project_research_pilot(p["code"], slices[p["code"]]) for p in pilot
+        project_research_pilot(p["code"], slices[p["code"]], p) for p in pilot
     ]
 
     # Human-curated publication decisions remain byte-preserved dependencies.
