@@ -1,8 +1,9 @@
+import {publicPageMetadata} from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {ScientificText} from "@/components/scientific-i18n";
 
-export const metadata: Metadata = { title: "Metodologia" };
+export const metadata=publicPageMetadata("/metodologia/","Metodologia científica","Proveniência, revisão independente, estados de admissão documental e limites jurídicos de pesquisa do MAR.");
 export default function MethodologyPage() {
   return <div className="shell page-shell methodology">
     <p className="eyebrow"><ScientificText id="metEyebrow"/></p>
