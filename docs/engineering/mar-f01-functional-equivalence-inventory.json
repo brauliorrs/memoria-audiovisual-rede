@@ -501,5 +501,48 @@
       "acceptance_evidence": null,
       "gap": "Replay ARCHIPOP + 34 projecoes do baseline real provam integridade da versao atual, nao incorporacao real de novo corpus; F05."
     }
-  ]
+  ],
+  "render_function_coverage": {
+    "render_language_selector": "M15",
+    "render_integrity_badge": "M08",
+    "render_csv_download": "M13",
+    "render_json_download": "M18",
+    "render_protocolled_excluded_unit_tab": "M17",
+    "render_research_tab": "M01",
+    "render_scientific_parameters_section": "M14",
+    "render_observatory_overview_tab": "M04",
+    "render_category_tab": "M09",
+    "render_project_tab": "M08",
+    "render_panel_tab": "M08",
+    "render_sites_tab": "M10",
+    "render_videos_tab": "M10",
+    "render_geo_tab": "M05",
+    "render_data_tab": "M12",
+    "render_base_tab": "M10",
+    "render_institution_tab": "M11",
+    "render_kavi_kuvi_metadata_tab": "M20",
+    "render_corpus_tab": "M08",
+    "render_kavi_direct_view": "M02"
+  },
+  "data_helper_coverage": {
+    "load_csv": "M12",
+    "load_json": "M08",
+    "build_cross_corpus_history_frame": "M07",
+    "load_protocolled_excluded_units": "M17",
+    "load_unit_protocol_df": "M17",
+    "build_summary_display_df": "M08",
+    "build_video_catalog_display_df": "M10",
+    "load_dashboard_sources": "M08",
+    "build_corpus_runtime": "M08",
+    "build_corpus_overview_record": "M08",
+    "build_cross_corpus_breakdown": "M06",
+    "build_category_overview_record": "M09",
+    "build_category_combined_frames": "M09",
+    "build_category_summary_display_df": "M09",
+    "build_visitor_origin_column": "M01",
+    "build_category_video_display_df": "M10",
+    "build_research_video_catalog_frame": "M01",
+    "build_research_video_display_df": "M01"
+  },
+  "render_coverage_note": "All 20 top-level render_* and 18 top-level build_*/load_* functions in Streamlit are structurally assigned to audit flows, not functionally approved."
 }
