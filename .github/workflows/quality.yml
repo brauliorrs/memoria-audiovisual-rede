@@ -50,6 +50,11 @@ jobs:
           python scripts/mar_f02_readonly_preflight.py
           python -m unittest discover -s tests -p 'test_mar_f02_readonly_preflight.py' -v
 
+      - name: Validate selected Google Drive destination without claiming backup is live
+        run: |
+          python scripts/check_mar_f02_google_drive_personal_plan.py
+          python -m unittest discover -s tests -p 'test_mar_f02_google_drive_personal_plan.py' -v
+
       - name: Check dependency manifests
         run: python scripts/check_dependency_manifests.py
 
