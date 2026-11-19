@@ -17,7 +17,7 @@ F02 exige: segregação operacional das credenciais, prova real de role somente 
 | Snapshots | nenhum snapshot listado no projeto; agenda automática `[]` na main | **P0 aberto:** durabilidade e agendamento não demonstrados |
 | Roles da main | `neondb_owner`, com poderes administrativos; sem login somente leitura demonstrado ali | Não usar owner em consultas do futuro site/admin |
 | Branch de validação | `mar-p0-validation-20261021` (`br-lingering-smoke-b8hjdnzb`) | **P0 aberto:** `mar_p0_limited` NÃO era read-only |
-| Grants originais | `mar_p0_limited` possui SELECT e INSERT em `checkpoint_pages`, `checkpoints`, `raw_artifacts`; possui UPDATE em `checkpoints` | **Falha real** — o nome limited não prova privilégio de leitura |
+| Grants originais | `mar_p0_limited` possui SELECT e INSERT em `checkpoint_pages`, `checkpoints`, `raw_artifacts`; possui UPDATE em `checkpoints` | **Não é read-only**; esses privilégios podem ser apropriados a um escritor de checkpoints. O uso real desse papel ainda precisa ser confirmado antes de afirmar vulnerabilidade |
 | Outras permissões do papel | sem CREATE de schema no banco ou em `public`/`mar_p0`; com CONNECT e TEMP (concedido na base) | Acesso a temporárias **não** equivale a permissão de modificar tabelas científicas |
 | Snapshots não-root | tentativa na branch de validação recebeu `not allowed to snapshot non-root branch`; nenhum snapshot foi criado | **HOLD:** não realizar snapshot em main sem aprovação operacional |
 | PR de backup existente | [PR #93](https://github.com/brauliorrs/memoria-audiovisual-rede/pull/93) de Private Blob segue DRAFT; política de WORM/imutabilidade e segregação do token RW não comprovadas | Não integrar nem declarar backup externo confiável automaticamente |
@@ -32,6 +32,9 @@ F02 exige: segregação operacional das credenciais, prova real de role somente 
 
 4. Consultado o catálogo de privilégios da branch de ensaio: nas três tabelas, **SELECT=true** e **INSERT/UPDATE/DELETE/TRUNCATE=false**. O mesmo catálogo, na branch de validação original, ainda mostra os grants de escrita — a alteração **não** foi aplicada retroativamente.
 5. Consulta usando autenticação real como `mar_p0_limited` sobre `mar_p0.checkpoints` funcionou, retornando exclusivamente `current_user` e contagem de quatro linhas. A sessão mostrou `transaction_read_only=off`: é a **ACL de tabelas** que impede DML nelas; não declarar que a transação é globalmente read-only.
+
+6. Criado **apenas no laboratório** um papel independente `mar_p0_reader` com `NOLOGIN NOINHERIT NOCREATEDB NOCREATEROLE NOREPLICATION`. Concedidos somente `USAGE` no schema `mar_p0` e `SELECT` nas três tabelas. Consulta ao catálogo PostgreSQL confirmou `rolcanlogin=false`, `rolsuper=false`, `rolcreatedb=false`, `rolcreaterole=false`, `all_select=true`, `any_dml=false`. O papel é **NOLOGIN de propósito**: não existe senha, login de aplicação ou consumidor provisionado; esses passos só poderão ocorrer sob gates próprios.
+7. **Distinção importante:** o revogue sobre `mar_p0_limited` foi um ensaio de ACL na cópia. Se esse papel original foi concebido para gravar checkpoints, reproduzir a revogação em produção quebraria ingestão legítima. A implementação recomendada separa **writer mínimo** e **reader dedicado**, em vez de transformar automaticamente o escritor em leitor.
 
 **Limite decisivo:** a criação de uma branch derivada verifica clonagem isolada e integridade comparada, **não constitui restauração independente de backup externo**. Não houve recuperação de snapshot, `pg_restore` em segundo executor, teste de ACL de storage, recuperação após exclusão, rotação de chaves nem prova de retenção de 30/90 dias. A F02 continua HOLD.
 

@@ -97,7 +97,20 @@
     },
     "per_table_content_digest_matches_parent": true,
     "independent_restore_proven": false,
-    "backup_durability_proven": false
+    "backup_durability_proven": false,
+    "dedicated_reader": {
+      "name": "mar_p0_reader",
+      "created_in_isolated_lab_only": true,
+      "login": false,
+      "superuser": false,
+      "create_db": false,
+      "create_role": false,
+      "schema_usage": true,
+      "select_on_all_three_tables": true,
+      "dml_on_any_three_tables": false,
+      "production_login_provisioned": false,
+      "production_grants_applied": false
+    }
   },
   "snapshot_probe": {
     "source_branch": "br-lingering-smoke-b8hjdnzb",
@@ -115,11 +128,11 @@
     "rollback_end_to_end_verified": false
   },
   "risks": [
-    "MAR-F02-001: limited lab role has write grants, despite limited name",
+    "MAR-F02-001: mar_p0_limited in validation has write grants; purpose not independently established; not suitable for reader use without documented role contract",
     "MAR-F02-002: main branch is not protected",
     "MAR-F02-003: point-in-time retention 6h, no scheduled snapshots found",
     "MAR-F02-004: independent offsite restore and durable immutable backup unproven",
     "MAR-F02-005: encrypted external-backup PR #93 is draft and WORM/credential isolation remain HOLD"
   ],
-  "notes": "Authenticated Neon inspection and isolated lab test; JSON is a dated audit record, not live CI attestation. Clone/row digests are not a separate backup. No production branch, scientific corpus or Vercel access was changed. Follow F02 acceptance and explicit owner review before production changes."
+  "notes": "Authenticated Neon inspection and isolated lab test; JSON is a dated audit record, not live CI attestation. Clone/row digests are not a separate backup. No production branch, scientific corpus or Vercel access was changed. Follow F02 acceptance and explicit owner review before production changes. Dedicated NOLOGIN mar_p0_reader role was created and SELECT-only granted in the isolated lab, but no consumer login/production privileges were established."
 }
