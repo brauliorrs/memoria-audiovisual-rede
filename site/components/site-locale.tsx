@@ -27,9 +27,9 @@ type ContextValue={locale:SiteLocale;setLocale:(locale:SiteLocale)=>void;t:(key:
 const LocaleContext=createContext<ContextValue|null>(null);
 export function LocaleProvider({children}:{children:ReactNode}){
  const [locale,setCurrent]=useState<SiteLocale>("pt");
- useEffect(()=>{try{const saved=window.localStorage.getItem("mar-ui-lang");if(saved==="pt"||saved==="en"||saved==="es")setCurrent(saved)}catch{}},[]);
+ useEffect(()=>{try{const prefix=window.location.pathname.split("/")[1];if(prefix==="en"||prefix==="es"){setCurrent(prefix);return;}const saved=window.localStorage.getItem("mar-ui-lang");if(saved==="pt"||saved==="en"||saved==="es")setCurrent(saved)}catch{}},[]);
  useEffect(()=>{document.documentElement.lang=locale==="pt"?"pt-BR":locale;try{window.localStorage.setItem("mar-ui-lang",locale)}catch{}},[locale]);
- const setLocale=(next:SiteLocale)=>setCurrent(next);
+ const setLocale=(next:SiteLocale)=>{setCurrent(next);if(typeof window!=="undefined"&&["/","/en/","/es/"].includes(window.location.pathname)){const target=next==="pt"?"/":"/"+next+"/";if(window.location.pathname!==target)window.location.assign(target);}};
  return <LocaleContext.Provider value={{locale,setLocale,t:key=>translations[locale][key]}}>{children}</LocaleContext.Provider>;
 }
 export function useSiteLocale(){const c=useContext(LocaleContext);if(!c)throw new Error("LocaleProvider missing");return c;}
