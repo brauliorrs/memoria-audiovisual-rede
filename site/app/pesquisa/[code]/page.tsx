@@ -1,3 +1,4 @@
+import {recordSeo} from "@/lib/seo";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {notFound} from "next/navigation";
@@ -8,7 +9,9 @@ import {InstitutionalText} from "@/components/institutional-i18n";
 
 export function generateStaticParams(){return researchSourceCodes().map(code=>({code}));}
 export async function generateMetadata({params}:{params:Promise<{code:string}>}):Promise<Metadata>{
- const {code}=await params;return {title:`Pesquisa temática — ${code.toUpperCase()} — MAR`};
+ const {code}=await params;return recordSeo("/pesquisa/"+encodeURIComponent(code)+"/",
+  `Pesquisa temática — ${code.toUpperCase()} — MAR`,
+  "Indicadores agregados históricos por fonte, com proveniência documental e sem autorização de reprodução de obras.");
 }
 export default async function ResearchSourcePage({params}:{params:Promise<{code:string}>}){
  const {code}=await params;
