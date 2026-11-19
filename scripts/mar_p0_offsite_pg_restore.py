@@ -25,6 +25,7 @@ from urllib.parse import unquote, urlsplit
 
 from cryptography.exceptions import InvalidTag
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from scripts.mar_f02_readonly_preflight import SQL as F02_READER_SQL, assess as assess_f02_reader, EXPECTED_ROLE as F02_READER_ROLE
 
 MAGIC = b"MAR-P0-NEON-PGDUMP-AESGCM-V1\0"
 SCHEMA = "mar.p0.offsite-pgdump.v1"
@@ -75,9 +76,9 @@ def _postgres_env(variable, *, origin, env):
             not re.fullmatch(r"[A-Za-z0-9_]+", database)):
         raise RecoveryRejected("invalid_connection_url")
     if origin:
-        if (username != "mar_p0_limited" or hostname != SOURCE_HOST
+        if (username != F02_READER_ROLE or hostname != SOURCE_HOST
                 or database != "neondb"):
-            raise RecoveryRejected("source_must_be_limited_neon_validation_role")
+            raise RecoveryRejected("source_must_be_dedicated_neon_backup_reader")
     else:
         if hostname not in ("localhost", "127.0.0.1", "::1"):
             raise RecoveryRejected("restore_target_must_be_local_isolated_postgres")
@@ -263,9 +264,31 @@ def _write_exclusive(path, content):
         raise
 
 
+def _assert_source_readonly(source_env):
+    """Live, fail-closed grant audit before reading any scientific rows.
+
+    Identity/hostname pinning in _postgres_env is necessary but never enough:
+    verify DML at both table and column levels, ownership, membership and
+    executable SECURITY DEFINER privileges using the ACTUAL login.
+    """
+    try:
+        raw = _run(
+            ["psql", "-X", "-q", "-A", "-t", "-v", "ON_ERROR_STOP=1",
+             "-c", F02_READER_SQL],
+            env=source_env, output=True,
+        )
+        proof = json.loads(raw)
+    except (subprocess.SubprocessError, OSError, ValueError, TypeError) as exc:
+        # No SQL output, credentials, DSN or provider diagnostics in logs.
+        raise RecoveryRejected("source_reader_audit_unavailable") from None
+    if assess_f02_reader(proof):
+        raise RecoveryRejected("source_reader_not_select_only")
+
+
 def export_backup(output, env):
     source = _postgres_env("MAR_P0_READONLY_DATABASE_URL", origin=True, env=env)
     key = _key(env)
+    _assert_source_readonly(source)
     before, before_schema = _db_summary(source), _schema_summary(source)
     _integrity_summary(source)
     with tempfile.TemporaryDirectory(prefix="mar-p0-export-") as folder:
