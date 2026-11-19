@@ -1,3 +1,4 @@
+import {recordSeo} from "@/lib/seo";
 import type {Metadata} from "next";
 import {notFound} from "next/navigation";
 import {publicIndex,records} from "@/lib/catalog";
@@ -13,10 +14,9 @@ export async function generateMetadata({params}:Props):Promise<Metadata>{
   const {id}=await params;
   const record=records.find((item)=>item.id===id);
   if(!record)return {title:"Ficha não encontrada"};
-  return {
-    title:record.title+" — KAVI / Finna",
-    description:"Ficha documental publicada no MAR: "+record.title+". Metadados de origem, proveniência e situação de validação.",
-  };
+  return recordSeo("/acervo/kavi/"+encodeURIComponent(record.id)+"/",
+    record.title+" — KAVI / Finna",
+    "Ficha de metadados KAVI/Finna aprovada para publicação no MAR: "+record.title+". Direitos de mídia, reprodução e revisão científica individual não verificados.");
 }
 
 export default async function KaviRecordPage({params}:Props){
