@@ -108,7 +108,7 @@ def original_origin(row: dict):
     # A missing external_url is an observed lack of a direct public address.
     # Do NOT fill it with an aggregator detail URL: that is a distinct surface.
     if "external_url" in row:
-        return row["external_url"]
+        return row["external_url"].strip()
     for key, value in row.items():
         if key.endswith("_detail_url") and value:
             return value
@@ -127,6 +127,15 @@ def profile_projection(code: str, outputs: Path, previous: dict | None):
         item = {"id": record_id}
         for target, field in PROFILE_FIELDS.items():
             item[target] = original.get(field, "")
+        if not item["name"].strip():
+            # Historical APE already has a documented placeholder for an
+            # unnamed institution. Preserve that curated interpretation,
+            # not a possibly false original code/country attribution.
+            preserved = current_by_id.get(record_id)
+            if not preserved or not preserved.get("name", "").startswith("Instituição sem nome no snapshot"):
+                raise SnapshotDrift(f"unnamed institution requires review: {record_id}")
+            for label in ("name", "continent", "repositoryCode"):
+                item[label] = preserved[label]
         origin = original_origin(original)
         if not origin and record_id in current_by_id:
             origin = current_by_id[record_id].get("originUrl", "")
