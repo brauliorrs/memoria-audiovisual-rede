@@ -60,8 +60,12 @@ class PublicAccessObservatoryTests(unittest.TestCase):
         nav = (SITE / "components/site-header.tsx").read_text(encoding="utf-8")
         self.assertIn('"/indice-acesso/"', nav)
         self.assertIn("PublicAccessInventory", page)
-        self.assertIn("Motivo da não exibição", component)
-        self.assertIn("Acesso como visitante comum", component)
+        self.assertIn("copy.accessReasonLead", component)
+        self.assertIn("copy.accessPublicationHold", component)
+        self.assertIn("ScientificText", page)
+        self.assertIn("copy.accessVisitorLead", component)
+        self.assertIn("item.humanAccessNote", component)
+        self.assertIn("corpus.restrictionEvidence", component)
         self.assertIn("public-access-observatory.json", component)
         for code in (page, component):
             for unsafe in ("<iframe", "<video", "fetch(", "DATABASE_URL", "psycopg"):
