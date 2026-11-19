@@ -52,6 +52,12 @@ SELECT row_to_json(proof)::text FROM (
    coalesce(pg_has_role(current_user,to_regrole('pg_write_all_data'),'MEMBER'),false) AS pg_write_all_data_member,
    coalesce(pg_has_role(current_user,
      (SELECT datdba FROM pg_database WHERE datname=current_database()),'MEMBER'),false) AS database_owner_member,
+   EXISTS(SELECT 1 FROM pg_auth_members m WHERE m.member=r.oid) AS member_of_other_roles,
+   EXISTS(
+     SELECT 1 FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
+     WHERE n.nspname='mar_p0' AND p.prosecdef
+       AND has_function_privilege(current_user,p.oid,'EXECUTE')
+   ) AS executable_security_definer_in_mar_p0,
    rights.table_count,rights.tables,rights.all_select,rights.any_write
  FROM pg_roles AS r CROSS JOIN rights
  WHERE r.rolname=current_user
@@ -70,7 +76,8 @@ def assess(report: object) -> list[str]:
         "inherits_roles", "admin", "can_create_database_objects",
         "can_create_in_schema", "can_create_in_public",
         "neon_superuser_member", "pg_write_all_data_member",
-        "database_owner_member", "any_write",
+        "database_owner_member", "member_of_other_roles",
+        "executable_security_definer_in_mar_p0", "any_write",
     )
     for key in must_be_true:
         if report.get(key) is not True:
