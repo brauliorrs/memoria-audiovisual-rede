@@ -19,13 +19,13 @@ from unittest.mock import patch
 from scripts import build_mar_title_wordcloud as cloud
 from scripts.build_mar_site_analytics import project_report
 from scripts.build_mar_site_bundle_b2 import (
-    BundleError, STAGE_SCHEMA, atomic_stage_files, project_research_slices,
+    BundleError, ROOT as LIVE_ROOT, STAGE_SCHEMA, atomic_stage_files, project_research_slices,
 )
 
 BASE_COUNT = 62
 KAVI_COUNT = 200
 NEW_CODE = "fixture_new"
-NEW_TITLE_MARKER = "zzconfidentialsourceword"
+NEW_TITLE_MARKER = "unitsecretxyz"
 WORDS = (
     "memoria patrimonio infancia comunidade cultura historia territorio escola "
     "trabalho viagem paisagem fotografia musica festival movimento cidade natureza "
@@ -64,6 +64,10 @@ def corpus_codes(include_new: bool) -> list[str]:
 def populate_fake_sources(root: Path, include_new: bool) -> None:
     """Create a source tree from scratch. All values and organizations are fake."""
     root = root.resolve()
+    if root == LIVE_ROOT or LIVE_ROOT in root.parents or (root / ".git").exists() or (root / "src/memoria_audiovisual").exists():
+        raise BundleError("Synthetic fixture cannot write into the real MAR repository")
+    if root.exists() and any(root.iterdir()):
+        raise BundleError("Synthetic fixture destination must be empty")
     root.mkdir(parents=True, exist_ok=True)
     (root / ".mar-synthetic-only").write_text("NO-PRODUCTION-PUBLICATION\n", encoding="utf-8")
     output = root / "data/output"
