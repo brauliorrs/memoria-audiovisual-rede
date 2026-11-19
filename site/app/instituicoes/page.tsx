@@ -2,7 +2,7 @@ import {pageSeo} from "@/lib/seo";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {institutions} from "@/lib/catalog";
-import {InstitutionalText} from "@/components/institutional-i18n";
+import {InstitutionalText,InstitutionalCountry} from "@/components/institutional-i18n";
 
 export const metadata=pageSeo("/instituicoes/");
 
@@ -14,7 +14,7 @@ export default function InstitutionsPage(){
   <p><Link href="/instituicoes/pesquisa/"><InstitutionalText id="institutionsResearchLink"/> ↗</Link> · <Link href="/indice-acesso/"><InstitutionalText id="institutionsAccessLink"/> ↗</Link></p>
   <div className="institution-grid">
    {institutions.map(item=><article className="institution-card" key={item.code}>
-    <div className="institution-top"><span>{item.country}</span>
+    <div className="institution-top"><span><InstitutionalCountry name={item.country}/></span>
      <span className={item.stage==="metadata"?"state state-ready":"state state-waiting"}>
       <InstitutionalText id={item.stage==="metadata"?"institutionsPublished":"institutionsPending"}/>
      </span>
