@@ -49,6 +49,6 @@ O **workflow Quality Checks** integra os verificadores de ordem, inventário e o
 4. Registrar aceite **do inventário e de seu plano de remediação**, não aceite da equivalência total nem da publicação dos corpora.
 5. Garantir que cada lacuna crítica tenha etapa F03–F10 associada, sem criar trabalho paralelo e sem antecipar F02.
 6. Revisar a ausência de alterações em Neon principal, SSO Vercel, Streamlit, fontes científicas congeladas e direitos.
-7. Só depois de revisão e merge permitido adicionar evidências `impact`, `contracts`, `tests`, `negative_tests`, `functional_acceptance`, `rollback`, `review` e `migration_matrix` à F01 do manifesto, com URL, SHA de 40 caracteres e revisor humano; a issue #128 deve refletir o mesmo estado.
+7. Após aprovação humana do PR de auditoria, fazer o merge dos artefatos de F01 e, **em PR de fechamento separado**, adicionar as evidências `impact`, `contracts`, `tests`, `negative_tests`, `functional_acceptance`, `rollback`, `review` e `migration_matrix` à F01 do manifesto, com URL, SHA completo e revisor humano confirmado. No PR de fechamento registrar exatamente `MAR-STAGE: F01` e `MAR-TRANSITION: F01->F02`, de modo que o gate valide F01 concluída e F02 ativa na mesma revisão. Somente após aprovação e merge do PR de transição atualizar a issue #128; até esse momento F01 continua ativa. O checker valida estrutura, não autenticidade de revisores.
 
 **Decisão atual:** F01 **PENDENTE de aceite independente**. F02–F13 bloqueadas; sem alteração de banco, corpus, Vercel ou publicação.
