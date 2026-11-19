@@ -14,7 +14,7 @@ export default function InstitutionsPage() {
     <div className="institution-grid">
       {institutions.map((item) => (
         <article className="institution-card" key={item.code}>
-          <div className="institution-top"><span>{item.country}</span><span className={item.stage === "metadata" ? "state state-ready" : "state state-waiting"}>{item.stage === "metadata" ? <InstitutionalText id={item.stage === "metadata" ? "institutionPublished" : "institutionValidation"}/>}</span></div>
+          <div className="institution-top"><span>{item.country}</span><span className={item.stage === "metadata" ? "state state-ready" : "state state-waiting"}><InstitutionalText id={item.stage === "metadata" ? "institutionPublished" : "institutionValidation"}/></span></div>
           <h2>{item.name}</h2>
           <p>{item.stage === "metadata" ? item.source : <InstitutionalText id="institutionTechnical"/>}</p>
           <div className="institution-bottom"><span>{item.stage === "metadata" ? <>{item.count} <InstitutionalText id="institutionAvailable"/></> : <InstitutionalText id="institutionUnpublished"/>}</span>{item.stage === "metadata" && <Link href="/instituicoes/kavi/"><InstitutionalText id="institutionView"/> ↗</Link>}</div>
