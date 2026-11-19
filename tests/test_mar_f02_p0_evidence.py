@@ -79,6 +79,43 @@ class F02P0EvidenceTests(unittest.TestCase):
         doc["isolated_lab"]["rows"]["checkpoints"] += 1
         self.assertTrue(gate.validate_report(doc))
 
+    def test_missing_both_row_inventories_fails_closed(self):
+        doc = self.fixture()
+        del doc["validation_source"]["rows"]
+        del doc["isolated_lab"]["rows"]
+        self.assertTrue(gate.validate_report(doc))
+
+    def test_partial_matching_inventories_do_not_pass(self):
+        doc = self.fixture()
+        doc["validation_source"]["rows"] = {"checkpoints": 4}
+        doc["isolated_lab"]["rows"] = {"checkpoints": 4}
+        self.assertTrue(gate.validate_report(doc))
+
+    def test_fabricated_equal_empty_inventories_do_not_pass(self):
+        doc = self.fixture()
+        doc["validation_source"]["rows"] = {}
+        doc["isolated_lab"]["rows"] = {}
+        self.assertTrue(gate.validate_report(doc))
+
+    def test_fabricated_equal_wrong_counts_do_not_pass(self):
+        doc = self.fixture()
+        for label in ("validation_source", "isolated_lab"):
+            doc[label]["rows"]["checkpoints"] = 0
+        self.assertTrue(gate.validate_report(doc))
+
+    def test_malformed_row_count_values_do_not_pass(self):
+        for malformed in (True, "4", -1, None):
+            doc = self.fixture()
+            doc["validation_source"]["rows"]["checkpoints"] = malformed
+            doc["isolated_lab"]["rows"]["checkpoints"] = malformed
+            with self.subTest(malformed=malformed):
+                self.assertTrue(gate.validate_report(doc))
+
+    def test_malformed_original_grant_object_does_not_crash_or_pass(self):
+        doc = self.fixture()
+        doc["validation_source"]["grants_before"]["checkpoints"] = None
+        self.assertTrue(gate.validate_report(doc))
+
     def test_history_and_snapshot_absence_are_exposed(self):
         doc = self.fixture()
         doc["project"]["history_retention_seconds"] = 2592000
