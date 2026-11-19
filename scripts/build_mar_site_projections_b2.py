@@ -202,6 +202,25 @@ def generated_documents(root: Path) -> tuple[dict[str, object], list[str]]:
     return payload, codes
 
 
+
+def first_difference(expected, observed, location="root"):
+    if type(expected) is not type(observed):
+        return f"{location}: type {type(expected).__name__} vs {type(observed).__name__}"
+    if isinstance(expected, dict):
+        if set(expected) != set(observed):
+            return f"{location}: keys expected-only={list(set(expected)-set(observed))[:4]} observed-only={list(set(observed)-set(expected))[:4]}"
+        for key in expected:
+            if expected[key] != observed[key]:
+                return first_difference(expected[key], observed[key], f"{location}.{key}")
+    if isinstance(expected, list):
+        if len(expected) != len(observed):
+            return f"{location}: list sizes {len(expected)} vs {len(observed)}"
+        for i, (e, o) in enumerate(zip(expected, observed)):
+            if e != o:
+                return first_difference(e, o, f"{location}[{i}]")
+    return f"{location}: generator={str(expected)[:70]!r}, historical={str(observed)[:70]!r}"
+
+
 def semantic_parity(root: Path) -> list[str]:
     """Unlike file formatting checks, report exact scientific value drift."""
     generated, _ = generated_documents(root)
@@ -209,7 +228,7 @@ def semantic_parity(root: Path) -> list[str]:
     for rel, expected in generated.items():
         observed = read_json(root / rel)
         if expected != observed:
-            issues.append(f"Stale scientific JSON: {rel}")
+            issues.append(f"Stale scientific JSON: {rel}: {first_difference(expected, observed)}")
     return issues
 
 
