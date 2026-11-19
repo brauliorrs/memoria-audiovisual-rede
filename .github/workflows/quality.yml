@@ -64,6 +64,13 @@ jobs:
           pip install -r requirements.txt
           pip install -e ".[dev]"
 
+      - name: Validate F02 Drive cipher transport and isolated restore offline
+        run: |
+          python -m compileall -q scripts/mar_p0_offsite_pg_restore.py scripts/mar_p0_offsite_google_drive.py
+          python -m unittest discover -s tests -p 'test_mar_p0_offsite_pg_restore.py' -v
+          python -m unittest discover -s tests -p 'test_mar_p0_offsite_google_drive.py' -v
+          python -m unittest discover -s tests -p 'test_mar_f02_google_drive_personal_plan.py' -v
+
       - name: Lint canonical infrastructure
         run: |
           ruff check --select E9,F63,F7,F82 src/memoria_audiovisual/digital_infrastructure
