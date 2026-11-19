@@ -28,13 +28,27 @@ class MarSitePublicPagesTests(unittest.TestCase):
         source = (SITE / "app/acervo/kavi/[id]/page.tsx").read_text(encoding="utf-8")
         self.assertIn("generateStaticParams", source)
         self.assertIn("records.map((record) => ({ id: record.id }))", source)
-        self.assertIn("record.sourceUrl", source)
-        self.assertIn("Não concluída", source)
-        self.assertIn("Não verificados", source)
-        self.assertIn("Não verificada", source)
+        detail = (SITE / "components/kavi-record-detail.tsx").read_text(encoding="utf-8")
+        dictionary = (SITE / "components/scientific-i18n.tsx").read_text(encoding="utf-8")
+        self.assertIn("KaviRecordDetail", source)
+        self.assertIn("record={record}", source)
         self.assertIn("publicIndex.catalogSha256", source)
-        for forbidden in ("<video", "<iframe", "dangerouslySetInnerHTML", "fetch(", "psycopg", "DATABASE_URL"):
-            self.assertNotIn(forbidden, source)
+        self.assertIn("record.sourceUrl", detail)
+        self.assertIn("record.title", detail)
+        self.assertIn("record.id", detail)
+        self.assertIn("record.genres", detail)
+        self.assertIn("record.subjects", detail)
+        self.assertIn("record.languages", detail)
+        self.assertIn("copy.kaviReviewStatus", detail)
+        self.assertIn("copy.kaviPlaybackStatus", detail)
+        self.assertIn("copy.kaviMediaRightsStatus", detail)
+        self.assertIn("copy.kaviApprovedHash", detail)
+        self.assertIn("kaviReviewStatus", dictionary)
+        self.assertIn("kaviPlaybackStatus", dictionary)
+        self.assertIn("kaviMediaRightsStatus", dictionary)
+        for code in (source, detail):
+            for forbidden in ("<video", "<iframe", "dangerouslySetInnerHTML", "fetch(", "psycopg", "DATABASE_URL"):
+                self.assertNotIn(forbidden, code)
 
     def test_faceted_search_links_to_detail_pages(self):
         source = (SITE / "components/catalog-search.tsx").read_text(encoding="utf-8")
