@@ -18,18 +18,17 @@ UNIQUE_TERMS = list(dict.fromkeys(VOCABULARY))
 
 
 class WordCloudGrowthTests(unittest.TestCase):
-    def test_automatic_refresh_is_source_driven_and_publishes_via_pr(self):
+    def test_standalone_title_cloud_automation_is_suspended_until_atomic_b2(self):
         root = Path(__file__).resolve().parents[1]
         workflow = (root / ".github/workflows/mar-wordcloud-refresh.yml").read_text(encoding="utf-8")
-        self.assertIn('data/output/*_catalogo_videos_analitico.csv', workflow)
-        self.assertIn('site/data/kavi-public.json', workflow)
-        self.assertIn('workflow_dispatch:', workflow)
-        self.assertIn('cron:', workflow)
-        self.assertIn('gh pr create', workflow)
-        self.assertIn('git add -- site/data/title-wordcloud.json', workflow)
-        self.assertIn('gh pr merge "$PR" --auto --merge', workflow)
-        self.assertIn('gh workflow run quality.yml', workflow)
-        self.assertIn('cancel-in-progress: false', workflow)
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertIn("contents: read", workflow)
+        self.assertIn("scripts/build_mar_site_projections_b2.py --check", workflow)
+        self.assertIn("scripts/build_mar_title_wordcloud.py --check", workflow)
+        self.assertNotIn("gh pr create", workflow)
+        self.assertNotIn("git push", workflow)
+        self.assertNotIn("cron:", workflow)
+        self.assertNotIn("pull-requests: write", workflow)
 
 
     def write_catalog(self, root: Path, code: str, size: int):
