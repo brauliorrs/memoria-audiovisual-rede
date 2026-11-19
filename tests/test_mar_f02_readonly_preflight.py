@@ -22,6 +22,7 @@ OK = {
     "member_of_other_roles": False, "executable_security_definer_in_mar_p0": False,
     "table_count": 3, "tables": list(gate.EXPECTED_TABLES),
     "all_select": True, "any_write": False,
+    "owns_any_protected_table": False,
 }
 
 
@@ -43,6 +44,28 @@ class F02ReaderPreflightTests(unittest.TestCase):
         doc = self.doc()
         doc["any_write"] = True
         self.assertIn("any_write_must_be_false", gate.assess(doc))
+
+    def test_table_owner_cannot_pass_after_revoking_ordinary_dml(self):
+        doc = self.doc()
+        doc["owns_any_protected_table"] = True
+        doc["any_write"] = False
+        self.assertIn("owns_any_protected_table_must_be_false", gate.assess(doc))
+
+    def test_column_only_dml_grants_are_classified_as_write(self):
+        # The SQL folds table- and column-level privileges into any_write.
+        for permission in ("INSERT", "UPDATE", "REFERENCES"):
+            with self.subTest(permission=permission):
+                self.assertIn(
+                    "has_any_column_privilege(current_user,oid,'" + permission + "')",
+                    gate.SQL,
+                )
+                doc = self.doc()
+                doc["any_write"] = True
+                self.assertIn("any_write_must_be_false", gate.assess(doc))
+
+    def test_sql_checks_object_owner_not_just_database_owner(self):
+        self.assertIn("c.relowner", gate.SQL)
+        self.assertIn("rights.owns_any_protected_table", gate.SQL)
 
     def test_neon_superuser_or_owner_membership_blocks(self):
         for name in ("neon_superuser_member", "database_owner_member",
