@@ -31,7 +31,7 @@ A [norma de engenharia F01–F13](mar-enterprise-engineering-standard-20261119.m
 
 ## F01 — levantamento técnico inicial; ainda não homologado
 
-A verificação de código identificou **5.425 linhas** em `app/streamlit_app.py` e uma matriz histórica que trata majoritariamente da interface de pesquisa; há módulos operacionais que não estão representados como fluxos equivalentes. O inventário a seguir é **preliminar**. “Destino” identifica rota ou camada esperada, **não** prova que o comportamento foi migrado.
+A verificação de código identificou **5.425 linhas** em `app/streamlit_app.py`. O [inventário F01 completo desta rodada](mar-f01-functional-equivalence-inventory.json) liga **24 fluxos (20 do Streamlit, quatro de Python)** a arquivos existentes e às lacunas observadas. Todos os **20 renderizadores** e **18 helpers** top-level de interface têm vínculo auditável. Do total, seis fluxos possuem snapshots no site, 12 estão parciais e seis não têm integração operacional equivalente. **Nenhum tem aceite funcional independente registrado.** A tabela abaixo conserva 15 agrupamentos da triagem inicial como referência histórica; o JSON e a matriz funcional atualizada são as referências para a auditoria de 24 fluxos. “Destino” identifica rota ou camada esperada, **não** prova que o comportamento foi migrado.
 
 | Fluxo Streamlit | Origem com linha de referência | Destino/camada previsto | Hipótese inicial | Prova necessária |
 |---|---|---|---|---|
