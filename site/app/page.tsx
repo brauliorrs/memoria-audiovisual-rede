@@ -1,3 +1,4 @@
+import {pageSeo} from "@/lib/seo";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {CatalogSearch} from "@/components/catalog-search";
@@ -5,7 +6,7 @@ import {TitleWordCloud} from "@/components/title-wordcloud";
 import {InstitutionalText} from "@/components/institutional-i18n";
 import {publicIndex,records} from "@/lib/catalog";
 
-export const metadata:Metadata={title:"Memória Audiovisual em Rede — observatório científico"};
+export const metadata=pageSeo("/");
 
 export default function HomePage(){
  return <>
@@ -20,7 +21,7 @@ export default function HomePage(){
       <Link className="button button-outline" href="/comparar/"><InstitutionalText id="homeCompare"/> <span aria-hidden="true">→</span></Link>
      </div>
     </div>
-    <div className="hero-visual hero-wordcloud"><TitleWordCloud/></div>
+    <div className="hero-visual hero-wordcloud"><TitleWordCloud /></div>
    </div>
   </section>
   <section className="numbers"><div className="shell numbers-grid">
