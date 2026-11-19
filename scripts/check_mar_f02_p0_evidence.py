@@ -109,6 +109,54 @@ def validate_report(doc: object) -> list[str]:
         }
         if any(reader.get(key) != expected for key, expected in required_reader.items()):
             errors.append("dedicated lab reader privilege or production scope overstated")
+    login = lab.get("dedicated_backup_login")
+    login_expect = {
+        "name": "mar_p0_backup_reader",
+        "branch_id": "br-purple-art-b8p4uvdr",
+        "scope": "isolated_lab_only",
+        "created_with_neon_read_only_access": True,
+        "login": True,
+        "inherit_roles": False,
+        "admin": False,
+        "member_of_other_roles": False,
+        "database_create": False,
+        "schema_create": False,
+        "table_owner": False,
+        "any_table_or_column_dml": False,
+        "executable_security_definer_in_mar_p0": False,
+        "table_count": 3,
+        "select_on_all_tables": True,
+        "authenticated_read_count_checkpoints": 4,
+        "explain_insert_permission_denied": True,
+        "explain_update_permission_denied": True,
+        "explain_delete_permission_denied": True,
+        "negative_dml_test_mutated_records": False,
+        "secret_not_logged": True,
+        "production_login_provisioned": False,
+        "environment_secret_configured": False,
+        "backup_with_new_login_executed": False,
+    }
+    if not isinstance(login, dict) or any(
+        login.get(key) != expected for key, expected in login_expect.items()
+    ):
+        errors.append("isolated backup login evidence missing or overstated")
+    storage = doc.get("storage_current_probe")
+    storage_expect = {
+        "provider": "vercel",
+        "project": "mar-p0-recovery-lab",
+        "store_id_env_var_present": True,
+        "access_scope_account": "404_not_found_or_inaccessible",
+        "access_scope_team": "404_not_found_or_inaccessible",
+        "store_deletion_confirmed": False,
+        "current_blob_read_confirmed": False,
+        "provider_worm_90d_confirmed": False,
+        "current_backup_and_restore_confirmed": False,
+        "reasons_indeterminate": True,
+    }
+    if not isinstance(storage, dict) or any(
+        storage.get(key) != expected for key, expected in storage_expect.items()
+    ):
+        errors.append("storage 404 cannot establish deletion, retention or backup success")
     if lab.get("authenticated_select_works") is not True:
         errors.append("isolated authenticated read test missing")
     if lab.get("per_table_content_digest_matches_parent") is not True:
