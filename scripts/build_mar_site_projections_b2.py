@@ -232,7 +232,7 @@ def first_difference(expected, observed, location="root"):
         for i, (e, o) in enumerate(zip(expected, observed)):
             if e != o:
                 return first_difference(e, o, f"{location}[{i}]")
-    return f"{location}: generator={str(expected)[:70]!r}, historical={str(observed)[:70]!r}"
+    return f"{location}: source/projection value differs (content redacted)"
 
 
 def semantic_parity(root: Path) -> list[str]:
