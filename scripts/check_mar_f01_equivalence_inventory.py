@@ -99,6 +99,26 @@ def check_inventory(document: object, root: Path = ROOT) -> list[str]:
         issues.append("Streamlit migration source missing")
     if not any(row.get("source") != "app/streamlit_app.py" for row in rows if isinstance(row, dict)):
         issues.append("Python operational source missing")
+    legacy = root / "app/streamlit_app.py"
+    if legacy.is_file():
+        code = legacy.read_text(encoding="utf-8")
+        for key, expression in (
+            ("render_function_coverage", r"^def (render_[A-Za-z0-9_]+)\\("),
+            ("data_helper_coverage", r"^def ((?:build|load)_[A-Za-z0-9_]+)\\("),
+        ):
+            # Two backslashes in source would escape the literal backslash;
+            # reduce them to a single regex escape for the opening parenthesis.
+            expression = expression.replace(r"\\(", r"\(")
+            expected = set(re.findall(expression, code, flags=re.MULTILINE))
+            actual = document.get(key)
+            if not isinstance(actual, dict):
+                issues.append(f"{key}: missing coverage mapping")
+                continue
+            if set(actual) != expected:
+                issues.append(f"{key}: missing or extra symbols: "
+                              f"{sorted(expected ^ set(actual))}")
+            if any(value not in seen for value in actual.values()):
+                issues.append(f"{key}: coverage references unknown flow ID")
     return issues
 
 
