@@ -14,6 +14,7 @@ from scripts.build_mar_site_bundle_b2 import (
     load_reviewed_bundle,
     manifest,
     stage,
+    project_research_slices,
 )
 from scripts.check_mar_scientific_snapshot_lock import git_blob_sha, verify as verify_source_lock
 
@@ -63,6 +64,41 @@ class AtomicBundleTests(unittest.TestCase):
     def test_staging_cannot_write_into_live_site(self):
         with self.assertRaisesRegex(BundleError, "inside"):
             atomic_stage_files(self.root, self.root / "site/data/deploy", [self.rel], self.fake_manifest)
+
+    def test_synthetic_approved_aggregate_change_refreshes_research_dimensions(self):
+        # Positive no-network prototype: only aggregate research dimensions
+        # are rebuilt. This is not a new public corpus nor the final full B2.
+        out = self.root / "data/output"
+        out.mkdir(parents=True, exist_ok=True)
+        headers = {
+            "tema_pais": ["tema", "pais", "total"],
+            "tema_plataforma": ["tema", "plataforma", "total"],
+            "linha_do_tempo_corpus": ["dataset", "observation_key", "snapshot_generated_at", "video_links_total"],
+        }
+        records = {
+            "tema_pais": ["Memória", "Portugal", "2"],
+            "tema_plataforma": ["Memória", "Arquivo institucional", "2"],
+            "linha_do_tempo_corpus": ["fixture_lab", "fixture_lab:2026-11-01T12:00:00Z", "2026-11-01T12:00:00Z", "2"],
+        }
+        for dim, names in headers.items():
+            path = out / f"fixture_lab_{dim}.csv"
+            path.write_text(",".join(names) + "\n" + ",".join(records[dim]) + "\n", encoding="utf-8")
+        before = project_research_slices(self.root, "fixture_lab")
+        self.assertEqual(before["tema_pais"]["rows"][0]["total"], "2")
+        self.assertEqual(before["tema_plataforma"]["rows"][0]["total"], "2")
+        self.assertEqual(before["linha_do_tempo_corpus"]["rows"][0]["video_links_total"], "2")
+        for dim, names in headers.items():
+            path = out / f"fixture_lab_{dim}.csv"
+            path.write_text(",".join(names) + "\n" + ",".join(records[dim][:-1] + ["3"]) + "\n", encoding="utf-8")
+        after = project_research_slices(self.root, "fixture_lab")
+        for dim, count in (
+            ("tema_pais", "total"), ("tema_plataforma", "total"),
+            ("linha_do_tempo_corpus", "video_links_total")
+        ):
+            self.assertEqual(after[dim]["rows"][0][count], "3")
+        self.assertNotEqual(before, after)
+        self.assertNotIn("records", after)
+        self.assertEqual(self.source.read_bytes(), self.original)
 
     def test_synthetic_corpus_addition_invalidates_reviewed_source_lock(self):
         # This fixture proves fail-closed admission, not automatic authorisation.
