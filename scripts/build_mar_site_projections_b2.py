@@ -20,6 +20,7 @@ import sys
 import tempfile
 from collections import defaultdict
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.build_mar_site_analytics import ProjectionError, project_report
@@ -183,7 +184,7 @@ def generated_documents(root: Path) -> tuple[dict[str, object], list[str]]:
     # Human-curated publication decisions remain byte-preserved dependencies.
     for rel in CURATED:
         payload[rel] = read_json(root / rel)
-    with __import__("unittest").mock.patch.object(wordcloud, "ROOT", root):
+    with patch.object(wordcloud, "ROOT", root):
         payload["site/data/title-wordcloud.json"] = wordcloud.build()
 
     expected = {
