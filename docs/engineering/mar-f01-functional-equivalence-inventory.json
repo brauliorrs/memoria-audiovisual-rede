@@ -1,0 +1,505 @@
+{
+  "schema": "mar.f01.functional-equivalence-inventory.v1",
+  "based_on_commit": "66e79afa8755ca2ff12f1a8088c9ffc808a8a8a3",
+  "queue_issue": "https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128",
+  "scope": "audit_only_no_functional_acceptance",
+  "streamlit_line_count": 5425,
+  "release_authorized": false,
+  "evidence_notice": "Source paths, markers and existing tests prove structural presence only. Functional parity requires explicit independent review and a dedicated equivalence test for each flow.",
+  "flows": [
+    {
+      "id": "M01",
+      "name": "Pesquisa global multidimensional",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_research_tab",
+      "target": [
+        "site/app/(pt)/acervo/page.tsx",
+        "site/components/catalog-search.tsx",
+        "site/components/research-workbench.tsx"
+      ],
+      "data": [
+        "site/data/kavi-public.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_catalog_access_i18n.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Streamlit pesquisa multiplas unidades e dez dimensoes de filtro + checkbox de reproducao verificada; CatalogSearch oferece termo, decada, tema e ordenacao sobre 200 KAVI. Nao equivalem. Ampliar apenas com direitos/escopo permitidos em F09."
+    },
+    {
+      "id": "M02",
+      "name": "Fichas KAVI autorizadas",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_kavi_direct_view",
+      "target": [
+        "site/app/(pt)/acervo/kavi/[id]/page.tsx",
+        "site/components/kavi-record-detail.tsx"
+      ],
+      "data": [
+        "site/data/kavi-public.json"
+      ],
+      "status": "snapshot_supported",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_kavi_detail_i18n.py",
+        "tests/test_mar_scientific_site_migration.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "200 metadados catalogaveis; teste atual nao prova equivalencia de todos os detalhes interativos do Streamlit. Reproducao e direitos de midia nao verificados."
+    },
+    {
+      "id": "M03",
+      "name": "Indice historico de acesso",
+      "source": "app/streamlit_app.py",
+      "anchor": "index_tab, corpus_index_tab, restricted_units_tab = st.tabs",
+      "target": [
+        "site/app/(pt)/indice-acesso/page.tsx",
+        "site/components/public-access-inventory.tsx"
+      ],
+      "data": [
+        "site/data/public-access-observatory.json"
+      ],
+      "status": "snapshot_supported",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_site_public_access_observatory.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Inventario historico e limites de republicacao; testes estruturais nao equivalem a atualizacao operacional."
+    },
+    {
+      "id": "M04",
+      "name": "Visao geral e categorias do observatorio",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_observatory_overview_tab",
+      "target": [
+        "site/app/(pt)/observatorio/page.tsx",
+        "site/components/scientific-dashboard.tsx"
+      ],
+      "data": [
+        "site/data/public-access-observatory.json"
+      ],
+      "status": "snapshot_supported",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_scientific_site_migration.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Consulta estatica existente; confirmar metricas, formulas, filtros, textos de metodologia e estados com casos de borda."
+    },
+    {
+      "id": "M05",
+      "name": "Mapa territorial de indicadores",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_panel_tab",
+      "target": [
+        "site/app/(pt)/territorios/page.tsx",
+        "site/components/territorial-map.tsx"
+      ],
+      "data": [
+        "site/data/world-110m-geometry.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_geographic_permalinks.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Mapa agregado 1:110m nao equivale a georreferenciamento individual. Verificar contagens e pequenos territorios."
+    },
+    {
+      "id": "M06",
+      "name": "Comparacao multicoRpus",
+      "source": "app/streamlit_app.py",
+      "anchor": "global_history_tab, global_signals_tab = st.tabs",
+      "target": [
+        "site/app/(pt)/comparar/page.tsx",
+        "site/components/corpus-comparison.tsx"
+      ],
+      "data": [
+        "site/data/research-slices-0.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_cross_corpus_comparison.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Comparacao de ate tres fontes por agregados; recortes detalhados/algoritmos do Streamlit requerem teste de comportamento."
+    },
+    {
+      "id": "M07",
+      "name": "Series historicas",
+      "source": "app/streamlit_app.py",
+      "anchor": "cycle_history_tab, cycle_results_tab, cycle_files_tab = st.tabs",
+      "target": [
+        "site/app/(pt)/series/page.tsx",
+        "site/components/research-workbench.tsx"
+      ],
+      "data": [
+        "site/data/research-slices-0.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_research_dimensions.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Series de observacao historicas existem; ciclo operacional atualizado e arquivos de rodada ainda separados."
+    },
+    {
+      "id": "M08",
+      "name": "Paineis por corpus",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_corpus_tab",
+      "target": [
+        "site/app/(pt)/observatorio/[code]/page.tsx",
+        "site/components/corpus-historical-analytics.tsx"
+      ],
+      "data": [
+        "site/data/analytics-0.json"
+      ],
+      "status": "snapshot_supported",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_scientific_site_migration.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "63 perfis de inventario e 62 relatorios historicos nao implicam 63 bases com itens autorizados. Conferir parity de abas."
+    },
+    {
+      "id": "M09",
+      "name": "Cruzamentos tematicos e plataformas",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_category_tab",
+      "target": [
+        "site/app/(pt)/temas/page.tsx",
+        "site/components/research-workbench.tsx"
+      ],
+      "data": [
+        "site/data/research-slices-0.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_research_dimensions.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Visoes agregadas tema/pais/plataforma; vetar inferencia nao sustentada de pais x plataforma."
+    },
+    {
+      "id": "M10",
+      "name": "Instituicoes e filtros da base",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_base_tab",
+      "target": [
+        "site/app/(pt)/instituicoes/pesquisa/page.tsx",
+        "site/components/institution-browser.tsx"
+      ],
+      "data": [
+        "site/data/institution-profiles-0.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_site_public_pages.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Browser Next.js filtra texto, fonte e pais; Streamlit tem recortes adicionais de integridade, acesso e visibilidade."
+    },
+    {
+      "id": "M11",
+      "name": "Ficha institucional detalhada",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_institution_tab",
+      "target": [
+        "site/app/(pt)/instituicoes/pesquisa/[source]/[entry]/page.tsx"
+      ],
+      "data": [
+        "site/data/institution-profiles-0.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_site_public_pages.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Perfil estatico exibe campos de origem; videos/paginas internas do Streamlit nao sao publicaveis sem direitos e evidencia."
+    },
+    {
+      "id": "M12",
+      "name": "Relatorios agregados de analise",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_data_tab",
+      "target": [
+        "site/app/(pt)/analises/page.tsx",
+        "site/components/analytics-comparison.tsx"
+      ],
+      "data": [
+        "site/data/analytics-0.json"
+      ],
+      "status": "snapshot_supported",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_scientific_site_migration.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "62 relatorios resumidos; faltam tabelas detalhadas permitidas, downloads e validacao de escopo."
+    },
+    {
+      "id": "M13",
+      "name": "Downloads e exportacoes",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_csv_download",
+      "target": [
+        "site/app/(pt)/comparar/page.tsx",
+        "site/components/corpus-comparison.tsx"
+      ],
+      "data": [
+        "site/data/research-slices-0.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_cross_corpus_comparison.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "CSV agregado no Next.js nao equivale a exportacao de fichas individuais do legado; nao copiar campos sob HOLD."
+    },
+    {
+      "id": "M14",
+      "name": "Fundamentacao e protocolos",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_scientific_parameters_section",
+      "target": [
+        "site/app/(pt)/metodologia/page.tsx"
+      ],
+      "data": [
+        "site/data/public-access-observatory.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_scientific_i18n.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Resumo metodologico em rotas Next.js; protocolo e fundamentacao detalhados precisam de checagem por secao."
+    },
+    {
+      "id": "M15",
+      "name": "Internacionalizacao PT EN ES",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_language_selector",
+      "target": [
+        "site/app/[lang]/acervo/page.tsx",
+        "site/app/[lang]/observatorio/page.tsx"
+      ],
+      "data": [
+        "site/data/kavi-public.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_multilingual_scientific_migration.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Rotas institucionais internacionalizadas; SEO e paginas dinamicas de ficha individuais tem cobertura de idiomas diferente."
+    },
+    {
+      "id": "M16",
+      "name": "Fila de descoberta e propostas",
+      "source": "app/streamlit_app.py",
+      "anchor": "discovery_summary_tab, discovery_queue_tab = st.tabs",
+      "target": [],
+      "data": [
+        "data/output/observatorio_fila_pesquisa_europa.csv"
+      ],
+      "status": "operational_missing",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Nao ha pagina Next.js administrativa equivalente; fila cientifica e governanca operacional ficam F04/F07, nunca publicacao automatica."
+    },
+    {
+      "id": "M17",
+      "name": "Fechamento de corpora europeus",
+      "source": "app/streamlit_app.py",
+      "anchor": "closure_tab_summary, closure_tab_matrix",
+      "target": [],
+      "data": [
+        "data/output/observatorio_fila_pesquisa_europa.csv"
+      ],
+      "status": "operational_missing",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Faltam controles de fechamento europeu, decisao e evidencias em interface autorizada; F10."
+    },
+    {
+      "id": "M18",
+      "name": "Historico de ciclos operacionais",
+      "source": "app/streamlit_app.py",
+      "anchor": "cycle_history_tab, cycle_results_tab, cycle_files_tab = st.tabs",
+      "target": [],
+      "data": [
+        "data/output/observatorio_fila_pesquisa_europa.csv"
+      ],
+      "status": "operational_missing",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Visualizacoes de observacoes historicas no site nao equivalem a monitoramento da execucao Python e checkpoints; F08."
+    },
+    {
+      "id": "M19",
+      "name": "Casos documentados",
+      "source": "app/streamlit_app.py",
+      "anchor": "case_id = st.selectbox",
+      "target": [
+        "site/app/(pt)/casos/page.tsx",
+        "site/components/documented-cases.tsx"
+      ],
+      "data": [
+        "site/data/documented-cases.json"
+      ],
+      "status": "snapshot_supported",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_scientific_site_migration.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "17 casos documentais estaticos; avaliar equivalencia de navegacao e proposito da consulta."
+    },
+    {
+      "id": "M20",
+      "name": "Completude de metadados KAVI",
+      "source": "app/streamlit_app.py",
+      "anchor": "def render_kavi_kuvi_metadata_tab",
+      "target": [
+        "site/app/(pt)/acervo/page.tsx"
+      ],
+      "data": [
+        "site/data/kavi-public.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_kavi_detail_i18n.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Faltam tabelas de completude e exportacao detalhada para fluxo curatorial protegido; dados individuais continuam limitados a KAVI aprovado."
+    },
+    {
+      "id": "B01",
+      "name": "Seletor de candidatos cientificos",
+      "source": "src/memoria_audiovisual/inclusion_queue.py",
+      "anchor": "def select_inclusion_candidates",
+      "target": [],
+      "data": [
+        "data/output/observatorio_fila_pesquisa_europa.csv"
+      ],
+      "status": "operational_missing",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Motor Python existente, sem integracao operacional homologada com Neon e /admin; F04."
+    },
+    {
+      "id": "B02",
+      "name": "Motor universal de admissao",
+      "source": "src/memoria_audiovisual/corpus_admission_engine.py",
+      "anchor": "",
+      "target": [],
+      "data": [],
+      "status": "operational_missing",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Validador Python e trilha de decisao nao implicam status cientifico aprovado ou publicacao; F03/F04."
+    },
+    {
+      "id": "B03",
+      "name": "Ciclo de atualizacao de corpora",
+      "source": "scripts/run_observatory_cycle.py",
+      "anchor": "",
+      "target": [],
+      "data": [],
+      "status": "operational_missing",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Motor de coleta existe; execucao observavel e controle de sincronizacao do site nao equivalentes; F06/F08."
+    },
+    {
+      "id": "B04",
+      "name": "Projetor e bundle cientifico",
+      "source": "scripts/build_mar_site_projections_b2.py",
+      "anchor": "",
+      "target": [
+        "site/scripts/verify-scientific-snapshot.cjs"
+      ],
+      "data": [
+        "site/data/analytics-0.json",
+        "site/data/research-slices-0.json"
+      ],
+      "status": "partial",
+      "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
+      "existing_tests": [
+        "tests/test_mar_archipop_real_b2_replay.py",
+        "tests/test_mar_real_site_projections_b2.py"
+      ],
+      "scientific_release_authorized": false,
+      "equivalence_accepted": false,
+      "acceptance_evidence": null,
+      "gap": "Replay ARCHIPOP + 34 projecoes do baseline real provam integridade da versao atual, nao incorporacao real de novo corpus; F05."
+    }
+  ]
+}
