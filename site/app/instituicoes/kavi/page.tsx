@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {InstitutionalText} from "@/components/institutional-copy";
+import {publicPageMetadata} from "@/lib/seo";
 import { CatalogSearch } from "@/components/catalog-search";
 import { publicIndex, records } from "@/lib/catalog";
 
-export const metadata: Metadata = { title: "KAVI / Finna" };
+export const metadata = publicPageMetadata("/instituicoes/kavi/","KAVI / Finna — catálogo de metadados","Índice parcial KAVI/Finna com fichas documentais autorizadas, SHA-256 de proveniência, reprodução e direitos não verificados.");
 export default function KaviPage() {
   return <div className="shell page-shell">
-    <Link href="/instituicoes/" className="back-link">← Todas as instituições</Link>
-    <p className="eyebrow">FINLÂNDIA · FINNA / ELONET</p>
+    <Link href="/instituicoes/" className="back-link">← <InstitutionalText id="kaviBack"/></Link>
+    <p className="eyebrow"><InstitutionalText id="kaviCountry"/></p>
     <h1>KAVI / Kuvi</h1>
-    <p className="page-lede">Kansallinen audiovisuaalinen instituutti. O índice inicial contém {publicIndex.total} fichas descritivas com links para registros de origem. Cobertura parcial e revisão individual não concluída.</p>
-    <div className="notice"><strong>Nota de integridade científica</strong><p>As fichas foram aprovadas para publicação como metadados. Isso não demonstra disponibilidade de reprodução, domínio público, custódia do filme ou conclusão da análise científica do corpus.</p><small>Referência da coleta: {publicIndex.observedOn} · SHA-256 do CSV original: {publicIndex.catalogSha256}</small></div>
+    <p className="page-lede"><InstitutionalText id="kaviIntroStart"/> {publicIndex.total} <InstitutionalText id="kaviIntroEnd"/></p>
+    <div className="notice"><strong><InstitutionalText id="kaviIntegrity"/></strong><p><InstitutionalText id="kaviWarning"/></p><small><InstitutionalText id="kaviObservation"/>: {publicIndex.observedOn} · <InstitutionalText id="kaviHash"/>: {publicIndex.catalogSha256}</small></div>
     <CatalogSearch items={records} />
   </div>;
 }
