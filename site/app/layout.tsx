@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { LocaleProvider, LocalizedText } from "@/components/site-locale";
+import {InstitutionalText} from "@/components/institutional-copy";
+import {PUBLIC_ORIGIN} from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase:new URL(PUBLIC_ORIGIN),
+  applicationName:"MAR — Memória Audiovisual em Rede",
+  openGraph:{type:"website",siteName:"MAR — Memória Audiovisual em Rede",locale:"pt_BR"},
   title: {
     default: "MAR — Memória Audiovisual em Rede",
     template: "%s | MAR",
@@ -18,7 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="pt-BR">
       <body>
         <LocaleProvider>
-        <a className="skip-link" href="#conteudo">Ir para o conteúdo</a>
+        <a className="skip-link" href="#conteudo"><InstitutionalText id="skipContent"/></a>
         <SiteHeader />
         <main id="conteudo">{children}</main>
         <footer className="footer">
@@ -32,12 +37,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <Link href="/acervo/"><LocalizedText id="navCatalog"/></Link>
               <Link href="/instituicoes/"><LocalizedText id="navInstitutions"/></Link>
               <Link href="/metodologia/"><LocalizedText id="navMethod"/></Link>
-              <a href="https://github.com/brauliorrs/memoria-audiovisual-rede" target="_blank" rel="noopener noreferrer">Código e auditoria ↗</a>
+              <a href="https://github.com/brauliorrs/memoria-audiovisual-rede" target="_blank" rel="noopener noreferrer"><InstitutionalText id="footerCode"/> ↗</a>
             </div>
           </div>
           <div className="shell footer-bottom">
             <span><LocalizedText id="historicalWarning"/></span>
-            <span>Não hospeda filmes, reproduções ou arquivos audiovisuais.</span>
+            <span><InstitutionalText id="footerNoMedia"/></span>
           </div>
         </footer>
         </LocaleProvider>
