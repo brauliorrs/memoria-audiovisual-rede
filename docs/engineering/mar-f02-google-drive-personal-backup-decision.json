@@ -1,0 +1,66 @@
+{
+  "schema": "mar.f02.google-drive-personal-backup-decision.v1",
+  "date": "2026-11-19",
+  "stage": "F02",
+  "decision": "owner_selected_personal_drive_as_encrypted_offsite_destination",
+  "status": "HOLD_NOT_DEPLOYED",
+  "destination": {
+    "provider": "google_drive_personal",
+    "same_account_as_engineering_memory": true,
+    "private_folder_verified": true,
+    "folder_owner_only": true,
+    "folder_created": true,
+    "folder_id_or_url_in_public_repository": false,
+    "folder_id_env_name": "MAR_P0_GOOGLE_DRIVE_FOLDER_ID",
+    "connection_to_github_actions_established": false,
+    "oauth_scope_target": "https://www.googleapis.com/auth/drive.file",
+    "folder_granted_to_backup_oauth_client": false,
+    "oauth_picker_authorization_completed": false,
+    "drive_storage_remaining_measured": false
+  },
+  "source": {
+    "provider": "neon_postgresql",
+    "project_id": "holy-bread-70461948",
+    "branch_intent": "validation_only",
+    "dedicated_login": "mar_p0_backup_reader",
+    "reader_proven_in_isolated_lab": true,
+    "reader_provisioned_in_source_branch": false,
+    "production_modified": false
+  },
+  "security": {
+    "encryption_before_upload": "AES-256-GCM",
+    "authenticated_backup_envelope_required": true,
+    "external_encryption_key_only": true,
+    "drive_token_or_key_in_repository": false,
+    "drive_token_or_key_in_drive": false,
+    "encrypted_backup_uploaded": false,
+    "upload_sha256_verified": false,
+    "isolated_restore_on_new_runner": false,
+    "old_backup_restore_tested": false,
+    "scope_to_mar_p0_only": true
+  },
+  "retention": {
+    "operational_target_days": 90,
+    "immutable_WORM_supported_by_selected_destination": false,
+    "immutability_proven": false,
+    "owner_risk_waiver_for_missing_WORM": false,
+    "retention_90_days_verified": false,
+    "automatic_deletion_enabled": false
+  },
+  "activation": {
+    "automatic_backup_enabled": false,
+    "scheduled_workflow_deployed": false,
+    "authorization_variable": "MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED",
+    "automation_secret_configured": false,
+    "stage_F02_closed": false,
+    "stage_F03_open": false,
+    "public_access_authorized": false
+  },
+  "notices": [
+    "Folder authorization in ChatGPT connector is not automatically reusable by a separate OAuth client in GitHub Actions",
+    "Google Drive personal is operational retention, NOT S3 Object Lock compliance",
+    "Use per-file OAuth drive.file with Picker/grant, or app-owned folder in same account upon explicit operator setup",
+    "Do not confuse creating an empty backup folder with backed-up or recoverable Neon data",
+    "Do not store encryption keys, tokens, connection URLs, or scientific data in engineering memory"
+  ]
+}
