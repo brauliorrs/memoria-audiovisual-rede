@@ -12,6 +12,7 @@ O Next.js pode continuar como exportação estática sem perder atualização ci
 - Define um epoch SHA-256 determinístico para os insumos e as 34 saídas consideradas (33 projeções mais nuvem); escreve manifesto com hashes individuais, commit de baseline e publicação explicitamente não autorizada.
 - Modo de checagem não escreve no repositório. O staging só é permitido em diretório novo e fora do repositório; grava em pasta temporária e faz rename atômico, sem substituir a versão anterior.
 - Os testes sintéticos garantem falha segura quando um corpus não aprovado é acrescentado ou um relatório é adulterado; verificam imutabilidade do site existente, inexistência de pacote parcial após erro e determinismo do manifesto.
+- O mesmo ensaio usa o projetor B1 para recalcular os indicadores de um relatório inteiramente fictício e o projetor B2 de recortes CSV para atualizar em conjunto tema×país, tema×plataforma e uma série temporal. Isso demonstra o recálculo positivo dessas **quatro superfícies**, sem fichas ou URLs de mídia. Não demonstra ainda atualização positiva do mapa, inventário, perfis completos, casos e nuvem em um bundle liberável.
 
 ## Limite crítico
 **O gerador integral B2 AINDA NÃO ESTÁ CONCLUÍDO.** Este PR implementa um envelope de revisão e travas sobre o baseline histórico; não reconstrói automaticamente todos os JSONs e ainda não demonstra a incorporação positiva de corpus validado em todos os indicadores. Os testes de corpus sintético comprovam bloqueio, não admissão positiva. O manifesto não autoriza publicação.
