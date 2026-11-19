@@ -175,6 +175,17 @@ class EngineeringQueueGateTests(unittest.TestCase):
             "MAR-STAGE: F01\nMAR-QUEUE: COMPLETE", "F01"
         ))
 
+    def test_malformed_extra_marker_cannot_bypass_review(self):
+        self.assertTrue(gate.validate_pull_request(
+            "MAR-STAGE: F01\nMAR-STAGE: INVALID", "F01"
+        ))
+        self.assertTrue(gate.validate_pull_request(
+            "MAR-STAGE: F13\nMAR-QUEUE: not-complete", None
+        ))
+        self.assertTrue(gate.validate_pull_request(
+            "MAR-STAGE: F01\nMAR-QUEUE: invalid", "F01"
+        ))
+
 
 if __name__ == "__main__":
     unittest.main()
