@@ -1,3 +1,4 @@
+export const dynamic="force-static";
 import type {MetadataRoute} from "next";
 import {SITE_ORIGIN,STATIC_ROUTES,canonicalPath} from "@/lib/seo";
 import {records} from "@/lib/catalog";
