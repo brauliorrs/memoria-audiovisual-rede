@@ -35,6 +35,9 @@ on:
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
       - "scripts/build_mar_site_bundle_b2.py"
+      - "scripts/build_mar_site_projections_b2.py"
+      - "site/scripts/verify-scientific-snapshot.cjs"
+      - "site/tests/scientific-build-gate.test.cjs"
       - "scripts/mar_b2_synthetic_integration.py"
       - "tests/test_mar_b2_synthetic_integration.py"
       - "tests/test_mar_site_bundle_b2.py"
@@ -65,6 +68,9 @@ on:
       - "data/output/observatorio_unidades_acesso_restrito_indice.csv"
       - "data/output/observatorio_unidades_identificadas_nao_incorporadas.csv"
       - "scripts/build_mar_site_bundle_b2.py"
+      - "scripts/build_mar_site_projections_b2.py"
+      - "site/scripts/verify-scientific-snapshot.cjs"
+      - "site/tests/scientific-build-gate.test.cjs"
       - "scripts/mar_b2_synthetic_integration.py"
       - "tests/test_mar_b2_synthetic_integration.py"
       - "tests/test_mar_site_bundle_b2.py"
@@ -105,6 +111,9 @@ jobs:
         run: |
           python3 scripts/build_mar_site_bundle_b2.py --check
           python3 -m unittest discover -s tests -p "test_mar_site_bundle_b2.py" -v
+      - name: Verify real B2 source-derived static projections and curation boundaries
+        working-directory: .
+        run: python3 scripts/build_mar_site_projections_b2.py --check
       - name: Rehearse full synthetic corpus admission and atomic rollback offline
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_b2_synthetic_integration.py" -v
@@ -139,6 +148,8 @@ jobs:
       - name: Verify three-source comparative research stays aggregate-only
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_cross_corpus_comparison.py" -v
+      - name: Test fail-closed deployment build gate against corrupt synthetic copies
+        run: node --test tests/scientific-build-gate.test.cjs
       - name: Install pinned frontend dependencies
         run: npm install --no-audit --no-fund
       - name: Test reproducible source selections and country map
