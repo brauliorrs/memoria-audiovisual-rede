@@ -102,6 +102,8 @@ jobs:
       - name: Verify unchanged KAVI record publication gate and detail route contracts
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_kavi_detail_i18n.py" -v
+      - name: Validate institutional PT EN ES and canonical SEO scientific safeguards
+        run: npm run test:institutional-seo
       - name: Typecheck
         run: npm run typecheck
       - name: Build static Next.js site
@@ -109,6 +111,8 @@ jobs:
       - name: Verify expected static routes
         run: |
           test -f out/index.html
+          test -f out/sitemap.xml
+          test -f out/robots.txt
           test -f out/acervo/index.html
           test -f out/instituicoes/index.html
           test -f out/instituicoes/kavi/index.html
