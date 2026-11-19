@@ -5,6 +5,19 @@ on:
   pull_request:
     paths:
       - "site/**"
+      - "scripts/check_mar_scientific_snapshot_lock.py"
+      - "tests/test_mar_scientific_snapshot_lock.py"
+      - "site/data/scientific-snapshot-lock.json"
+      - "data/output/*_relatorio.json"
+      - "data/output/*_instituicoes.csv"
+      - "data/output/*_tema_pais.csv"
+      - "data/output/*_tema_plataforma.csv"
+      - "data/output/*_linha_do_tempo_corpus.csv"
+      - "data/output/*_snapshot_metadata.json"
+      - "data/output/*_catalogo_videos_analitico.csv"
+      - "data/output/observatorio_indice_dados_publicos_por_corpus.csv"
+      - "data/output/observatorio_unidades_acesso_restrito_indice.csv"
+      - "data/output/observatorio_unidades_identificadas_nao_incorporadas.csv"
       - "tests/test_mar_site_public_pages.py"
       - "tests/test_mar_title_wordcloud.py"
       - "tests/test_mar_wordcloud_growth.py"
@@ -29,6 +42,19 @@ on:
       - "tests/test_mar_title_wordcloud.py"
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
+      - "scripts/check_mar_scientific_snapshot_lock.py"
+      - "tests/test_mar_scientific_snapshot_lock.py"
+      - "site/data/scientific-snapshot-lock.json"
+      - "data/output/*_relatorio.json"
+      - "data/output/*_instituicoes.csv"
+      - "data/output/*_tema_pais.csv"
+      - "data/output/*_tema_plataforma.csv"
+      - "data/output/*_linha_do_tempo_corpus.csv"
+      - "data/output/*_snapshot_metadata.json"
+      - "data/output/*_catalogo_videos_analitico.csv"
+      - "data/output/observatorio_indice_dados_publicos_por_corpus.csv"
+      - "data/output/observatorio_unidades_acesso_restrito_indice.csv"
+      - "data/output/observatorio_unidades_identificadas_nao_incorporadas.csv"
       - ".github/workflows/mar-site.yml"
 
 permissions:
@@ -51,6 +77,11 @@ jobs:
       - name: Verify approved publication index against source and SHA256
         working-directory: .
         run: python3 scripts/check_mar_site_index.py
+      - name: Block stale or partially updated scientific projections
+        working-directory: .
+        run: |
+          python3 scripts/check_mar_scientific_snapshot_lock.py
+          python3 -m unittest discover -s tests -p "test_mar_scientific_snapshot_lock.py" -v
       - name: Review generated multilingual title frequencies
         working-directory: .
         run: |
