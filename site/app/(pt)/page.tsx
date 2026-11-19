@@ -1,6 +1,6 @@
 import {pageSeo} from "@/lib/seo";
 import type {Metadata} from "next";
-import Link from "next/link";
+import Link from "@/components/site-link";
 import {CatalogSearch} from "@/components/catalog-search";
 import {TitleWordCloud} from "@/components/title-wordcloud";
 import {InstitutionalText} from "@/components/institutional-i18n";

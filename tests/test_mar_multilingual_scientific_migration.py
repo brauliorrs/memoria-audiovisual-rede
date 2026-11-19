@@ -67,19 +67,19 @@ class MultilingualScienceMigrationTests(unittest.TestCase):
     def test_routes_translation_and_data_boundaries(self):
         locale=(SITE/"components/site-locale.tsx").read_text(encoding="utf-8")
         header=(SITE/"components/site-header.tsx").read_text(encoding="utf-8")
-        layout=(SITE/"app/layout.tsx").read_text(encoding="utf-8")
+        layout=(SITE/"components/site-shell.tsx").read_text(encoding="utf-8")
         self.assertIn("LocaleProvider",layout)
         for key in ('pt:', 'en:', 'es:', '"mar-ui-lang"'):
             self.assertIn(key,locale)
         for path in ('"/temas/"','"/series/"','"/instituicoes/pesquisa/"'):
             self.assertIn(path,header)
-        for p in ("site/app/temas/page.tsx","site/app/series/page.tsx",
-                  "site/app/instituicoes/pesquisa/page.tsx",
-                  "site/app/instituicoes/pesquisa/[source]/[entry]/page.tsx"):
+        for p in ("site/app/(pt)/temas/page.tsx","site/app/(pt)/series/page.tsx",
+                  "site/app/(pt)/instituicoes/pesquisa/page.tsx",
+                  "site/app/(pt)/instituicoes/pesquisa/[source]/[entry]/page.tsx"):
             code=(ROOT/p).read_text(encoding="utf-8")
             for forbidden in ("fetch(", "<iframe", "<video", "DATABASE_URL", "api.finna.fi"):
                 self.assertNotIn(forbidden,code)
-        profiles=(SITE/"app/instituicoes/pesquisa/[source]/[entry]/page.tsx").read_text(encoding="utf-8")
+        profiles=(SITE/"app/(pt)/instituicoes/pesquisa/[source]/[entry]/page.tsx").read_text(encoding="utf-8")
         self.assertIn("generateStaticParams",profiles)
         self.assertIn("institutionalProfiles.map",profiles)
         workbench=(SITE/"components/research-workbench.tsx").read_text(encoding="utf-8")

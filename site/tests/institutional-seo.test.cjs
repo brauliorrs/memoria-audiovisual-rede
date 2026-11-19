@@ -35,23 +35,24 @@ test("institutional editorial keys match in PT EN ES",()=>{
  }
 });
 
-test("SEO copy exists in three languages, but current canonical remains PT",()=>{
+test("14 canonical static pages have real reciprocal PT EN ES hreflang",()=>{
  const routes=Array.from(seo.STATIC_ROUTES);
  assert.equal(new Set(routes).size,routes.length);
- assert.ok(routes.length>=14);
+ assert.equal(routes.length,14);
  assert.equal(seo.SITE_ORIGIN,"https://mar-public-site.vercel.app");
  for(const lang of ["pt","en","es"]){
   assert.deepEqual(Object.keys(seo.localizedSeo[lang]).sort(),routes.slice().sort());
   for(const route of routes){
    assert.ok(seo.localizedSeo[lang][route].description.length>55);
    assert.ok(seo.localizedSeo[lang][route].title.length>10);
+   const m=seo.localizedPageSeo(route,lang);
+   assert.equal(m.alternates.canonical,lang==="pt"?route:"/"+lang+route);
+   assert.equal(m.description,seo.localizedSeo[lang][route].description);
+   assert.equal(m.alternates.languages.en,"/en"+route);
+   assert.equal(m.alternates.languages.es,"/es"+route);
+   assert.equal(m.alternates.languages["pt-BR"],route);
+   assert.equal(m.alternates.languages["x-default"],route);
   }
- }
- for(const route of routes){
-  const m=seo.pageSeo(route);
-  assert.equal(m.alternates.canonical,route);
-  assert.equal(m.description,seo.localizedSeo.pt[route].description);
-  assert.ok(!m.alternates.languages,"no false hreflang to same URL");
  }
  assert.throws(()=>seo.canonicalPath("//other/"));
  assert.throws(()=>seo.canonicalPath("/acervo/?lang=en"));
@@ -72,18 +73,43 @@ test("sitemap never reads forbidden corpora to publish item records",()=>{
 });
 
 test("institutional routes and historical observations keep exact source links",()=>{
- const pages=["app/page.tsx","app/instituicoes/page.tsx","app/instituicoes/kavi/page.tsx","app/pesquisa/[code]/page.tsx"];
+ const pages=["app/(pt)/page.tsx","app/(pt)/instituicoes/page.tsx","app/(pt)/instituicoes/kavi/page.tsx","app/(pt)/pesquisa/[code]/page.tsx"];
  for(const name of pages){
   const content=fs.readFileSync(path.join(root,name),"utf8");
   assert.ok(content.includes("InstitutionalText"));
   assert.ok(!content.includes("dangerouslySetInnerHTML"));
   assert.ok(!content.includes("DATABASE_URL"));
  }
- const kavi=fs.readFileSync(path.join(root,"app/instituicoes/kavi/page.tsx"),"utf8");
+ const kavi=fs.readFileSync(path.join(root,"app/(pt)/instituicoes/kavi/page.tsx"),"utf8");
  assert.match(kavi,/publicIndex\.catalogSha256/);
  assert.match(kavi,/publicIndex\.observedOn/);
  assert.match(kavi,/CatalogSearch items=\{records\}/);
- const record=fs.readFileSync(path.join(root,"app/acervo/kavi/[id]/page.tsx"),"utf8");
+ const record=fs.readFileSync(path.join(root,"app/(pt)/acervo/kavi/[id]/page.tsx"),"utf8");
  assert.match(record,/record\.title/);
  assert.match(record,/recordSeo/);
+});
+
+
+test("independent localized HTML roots and 14 route modules exist",()=>{
+ const localizedRoot=fs.readFileSync(path.join(root,"app/[lang]/layout.tsx"),"utf8");
+ const ptRoot=fs.readFileSync(path.join(root,"app/(pt)/layout.tsx"),"utf8");
+ const shell=fs.readFileSync(path.join(root,"components/site-shell.tsx"),"utf8");
+ assert.match(localizedRoot,/<html lang=\{lang\}>/);
+ assert.match(ptRoot,/<html lang="pt-BR">/);
+ assert.match(shell,/initialLocale=\{locale\}/);
+ assert.match(shell,/routeBound/);
+ for(const route of seo.STATIC_ROUTES){
+  const file=route==="/"
+   ?path.join(root,"app/[lang]/page.tsx")
+   :path.join(root,"app/[lang]",route.slice(1),"page.tsx");
+  const content=fs.readFileSync(file,"utf8");
+  assert.match(content,/localizedPageSeo/);
+  assert.match(content,/OriginalPage/);
+  assert.ok(!content.includes("kavi-public.json"));
+ }
+ const sitemap=fs.readFileSync(path.join(root,"app/sitemap.ts"),"utf8");
+ assert.match(sitemap,/STATIC_ROUTES\.flatMap/);
+ assert.match(sitemap,/localePagePath/);
+ assert.ok(!sitemap.includes("/en/acervo/kavi/"));
+ assert.ok(!sitemap.includes("/es/acervo/kavi/"));
 });

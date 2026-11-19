@@ -74,3 +74,13 @@ As atualizações deste site são implantadas **somente** no projeto Vercel exis
 - `robots.txt` aponta somente ao mapa de URLs canônico; o mapa de URLs não constitui aprovação científica ou licença de acesso.
 - Sem novas fichas, players, mídia, download, APIs pagas, coleta automatizada ou ligação operacional com o Neon. O Streamlit permanece ativo.
 - Verificação: `npm run test:institutional-seo`, `npm run typecheck`, `npm run build` e contratos Python de publicação e proveniência.
+
+
+## HTML indexável por idioma — rotas institucionais e científicas
+
+- O grupo de rotas PT conserva **todos os caminhos existentes**, incluindo 200 fichas KAVI e perfis dinâmicos.
+- O grupo EN/ES gera HTML independente para as **14 rotas estáticas** de pesquisa e instituições. Cada URL possui `html lang`, metadados localizados, canonical próprio e `hreflang` recíproco.
+- O seletor de idioma e links estáticos internos direcionam às URLs geradas, sem criar novos projetos ou domínios Vercel.
+- As **200 fichas KAVI individuais continuam apenas nas URLs originais nesta etapa**: não há URLs ou tags `hreflang` individuais inexistentes. A rastreabilidade científica, os hashes, a revisão individual pendente e os links da fonte são preservados.
+- O sitemap publica somente as 14 rotas em três idiomas, as 200 fichas aprovadas e os demais perfis históricos já existentes. Perfis históricos não significam publicação de fichas de obras em HOLD.
+- Indexação por buscadores também depende do site ser acessível anonimamente. Verificar as configurações de proteção Vercel antes de declarar indexação externa.

@@ -1,10 +1,19 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/site-link";
+import {usePathname,useRouter} from "next/navigation";
+import {localizedHref} from "@/lib/locale-routes";
 import {useSiteLocale,type SiteLocale} from "@/components/site-locale";
 
 export function SiteHeader(){
  const {locale,setLocale,t}=useSiteLocale();
+ const pathname=usePathname();
+ const router=useRouter();
+ function changeLocale(next:SiteLocale){
+  const destination=localizedHref(pathname||"/",next);
+  if(destination!==pathname){setLocale(next);router.push(destination);}
+  else setLocale(next);
+ }
  return <header className="site-header">
   <div className="shell header-inner">
    <Link className="brand" href="/" aria-label="MAR — home"><span className="brand-mark" aria-hidden="true"><span className="brand-mark-center"/></span><span className="brand-name"><strong>MAR<span className="brand-dot">.</span></strong><small>{t("brand")}</small></span></Link>
@@ -21,7 +30,7 @@ export function SiteHeader(){
     <Link href="/casos/">{t("navCases")}</Link>
     <Link href="/metodologia/">{t("navMethod")}</Link>
    </nav>
-   <label className="locale-select"><span>{t("lang")}</span><select aria-label={t("changeLang")} value={locale} onChange={e=>setLocale(e.target.value as SiteLocale)}><option value="pt">PT</option><option value="en">EN</option><option value="es">ES</option></select></label>
+   <label className="locale-select"><span>{t("lang")}</span><select aria-label={t("changeLang")} value={locale} onChange={e=>changeLocale(e.target.value as SiteLocale)}><option value="pt">PT</option><option value="en">EN</option><option value="es">ES</option></select></label>
   </div>
  </header>;
 }

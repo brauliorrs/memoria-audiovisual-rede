@@ -9,7 +9,7 @@ DATA=json.loads((SITE/"data/kavi-public.json").read_text(encoding="utf-8"))
 
 class KaviRecordI18nTests(unittest.TestCase):
     def test_all_200_individual_static_routes_and_scope_are_unchanged(self):
-        route=(SITE/"app/acervo/kavi/[id]/page.tsx").read_text(encoding="utf-8")
+        route=(SITE/"app/(pt)/acervo/kavi/[id]/page.tsx").read_text(encoding="utf-8")
         detail=(SITE/"components/kavi-record-detail.tsx").read_text(encoding="utf-8")
         self.assertEqual(len(DATA["records"]),200)
         self.assertEqual(DATA["total"],200)

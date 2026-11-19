@@ -42,7 +42,7 @@ class CrossCorpusComparisonTests(unittest.TestCase):
     def test_comparison_is_independent_per_source_with_no_raw_media(self):
         helper=(SITE/"lib/corpus-comparison.ts").read_text(encoding="utf-8")
         ui=(SITE/"components/corpus-comparison.tsx").read_text(encoding="utf-8")
-        page=(SITE/"app/comparar/page.tsx").read_text(encoding="utf-8")
+        page=(SITE/"app/(pt)/comparar/page.tsx").read_text(encoding="utf-8")
         self.assertIn("compareDimensions",helper)
         self.assertIn("new Set(codes)",helper)
         self.assertIn(".slice(0, 3)",helper)
@@ -61,10 +61,10 @@ class CrossCorpusComparisonTests(unittest.TestCase):
             self.assertNotIn(forbidden,ui)
 
     def test_site_navigation_discovery_and_canonical_site(self):
-        pages=["site/components/site-header.tsx","site/app/analises/page.tsx","site/app/observatorio/page.tsx","site/app/page.tsx"]
+        pages=["site/components/site-header.tsx","site/app/(pt)/analises/page.tsx","site/app/(pt)/observatorio/page.tsx","site/app/(pt)/page.tsx"]
         for path in pages:
             self.assertIn("/comparar/",(ROOT/path).read_text(encoding="utf-8"))
-        self.assertNotIn("mar-new-site",(SITE/"app/comparar/page.tsx").read_text(encoding="utf-8"))
+        self.assertNotIn("mar-new-site",(SITE/"app/(pt)/comparar/page.tsx").read_text(encoding="utf-8"))
         self.assertEqual(json.loads((SITE/"data/kavi-public.json").read_text(encoding="utf-8"))["total"],200)
 
 

@@ -1,6 +1,6 @@
 import {pageSeo} from "@/lib/seo";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/site-link";
 import {ScientificText} from "@/components/scientific-i18n";
 
 export const metadata=pageSeo("/metodologia/");

@@ -14,13 +14,13 @@ class ScientificI18nTests(unittest.TestCase):
         self.assertIn("scientificCopy", dictionary)
         self.assertIn("ScientificText", dictionary)
         for page in [
-            "app/observatorio/page.tsx",
-            "app/analises/page.tsx",
-            "app/metodologia/page.tsx",
-            "app/casos/page.tsx",
-            "app/acervo/page.tsx",
-            "app/observatorio/[code]/page.tsx",
-            "app/instituicoes/pesquisa/[source]/[entry]/page.tsx",
+            "app/(pt)/observatorio/page.tsx",
+            "app/(pt)/analises/page.tsx",
+            "app/(pt)/metodologia/page.tsx",
+            "app/(pt)/casos/page.tsx",
+            "app/(pt)/acervo/page.tsx",
+            "app/(pt)/observatorio/[code]/page.tsx",
+            "app/(pt)/instituicoes/pesquisa/[source]/[entry]/page.tsx",
         ]:
             content=(SITE/page).read_text(encoding="utf-8")
             self.assertIn("ScientificText",content,page)
@@ -49,7 +49,7 @@ class ScientificI18nTests(unittest.TestCase):
         forbidden=["<iframe","<video","fetch(","DATABASE_URL","api.finna.fi","window.localStorage","video_title"]
         for entry in forbidden:
             self.assertNotIn(entry,text)
-        profile=(SITE/"app/observatorio/[code]/page.tsx").read_text(encoding="utf-8")
+        profile=(SITE/"app/(pt)/observatorio/[code]/page.tsx").read_text(encoding="utf-8")
         self.assertIn("corpus.humanAccessNote",profile)
         self.assertIn("corpus.reviewReason",profile)
         self.assertIn("corpus.rightsPolicyUrl",profile)

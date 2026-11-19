@@ -47,7 +47,7 @@ class ResearchMapAndPermalinkTests(unittest.TestCase):
 
     def test_map_is_nonidentifying_and_multilingual(self):
         component = (SITE / "components/territorial-map.tsx").read_text(encoding="utf-8")
-        route = (SITE / "app/territorios/page.tsx").read_text(encoding="utf-8")
+        route = (SITE / "app/(pt)/territorios/page.tsx").read_text(encoding="utf-8")
         self.assertIn("world.geometries.map", component)
         self.assertIn("sourceSlice.tema_pais.rows", component)
         self.assertIn("summary.unmapped", component)
