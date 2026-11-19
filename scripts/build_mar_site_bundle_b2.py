@@ -57,6 +57,31 @@ def checked_path(root: Path, rel: str, prefix: str) -> Path:
     return path
 
 
+
+def project_research_slices(root: Path, code: str):
+    """Reconstruct the three non-individual research dimensions from versioned CSV.
+
+    It makes no publication decision and does not list audiovisual items.
+    Synthetic fixtures can exercise this same projector with no live collection.
+    """
+    if not re.fullmatch(r"[a-z][a-z0-9_]*", code):
+        raise BundleError("Invalid scientific corpus code")
+    dimensions = ("tema_pais", "tema_plataforma", "linha_do_tempo_corpus")
+    result = {}
+    for dimension in dimensions:
+        rel = f"data/output/{code}_{dimension}.csv"
+        path = checked_path(root.resolve(), rel, "data/output/")
+        with path.open(encoding="utf-8-sig", newline="") as stream:
+            reader = csv.DictReader(stream)
+            if not reader.fieldnames or len(set(reader.fieldnames)) != len(reader.fieldnames):
+                raise BundleError(f"Invalid source columns: {rel}")
+            records = list(reader)
+        if any(None in row for row in records):
+            raise BundleError(f"CSV column mismatch: {rel}")
+        result[dimension] = {"source": rel, "rows": records}
+    return result
+
+
 def load_reviewed_bundle(root: Path):
     root = root.resolve()
     lock = read_json(root / LOCK_REL)
@@ -109,13 +134,12 @@ def load_reviewed_bundle(root: Path):
     # evidence of permission to republish individual audiovisual records.
     dimensions = ("tema_pais", "tema_plataforma", "linha_do_tempo_corpus")
     for code, sections in slices.items():
+        generated = project_research_slices(root, code)
         for dim in dimensions:
             info = sections.get(dim)
-            if not isinstance(info, dict) or info.get("source") != f"data/output/{code}_{dim}.csv":
+            if not isinstance(info, dict) or info.get("source") != generated[dim]["source"]:
                 raise BundleError(f"Unmatched scientific dimension source {code}:{dim}")
-            source_path = checked_path(root, info["source"], "data/output/")
-            with source_path.open(encoding="utf-8-sig", newline="") as handle:
-                source_rows = list(csv.DictReader(handle))
+            source_rows = generated[dim]["rows"]
             site_rows = info.get("rows")
             if not isinstance(site_rows, list) or len(source_rows) != len(site_rows):
                 raise BundleError(f"Scientific dimension row count drift {code}:{dim}")
