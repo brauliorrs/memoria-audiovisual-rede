@@ -3,18 +3,10 @@ name: MAR Auto-refresh Title Word Cloud
 # Source additions/updates arrive through the same versioned scientific catalogue
 # pipeline as Streamlit. Generated statistics, never item-level fichas, are proposed
 # for publication by a bot PR. Protected main is never written directly by this job.
+# Kept for manual/legacy diagnostics. The unified scientific refresh owns
+# automatic triggers and drafts both title frequencies and all projections.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "data/output/*_catalogo_videos_analitico.csv"
-      - "site/data/kavi-public.json"
-      - "scripts/build_mar_title_wordcloud.py"
-      - "tests/test_mar_title_wordcloud.py"
-      - ".github/workflows/mar-wordcloud-refresh.yml"
   workflow_dispatch:
-  schedule:
-    - cron: "17 4 * * 1"
 
 permissions:
   contents: write
