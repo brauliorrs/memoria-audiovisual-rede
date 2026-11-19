@@ -92,6 +92,69 @@ class F02P0EvidenceTests(unittest.TestCase):
         del doc["isolated_lab"]["dedicated_reader"]
         self.assertTrue(gate.validate_report(doc))
 
+    def test_backup_login_must_not_gain_owner_or_writer_permissions(self):
+        for key, value in (
+            ("inherit_roles", True), ("admin", True),
+            ("member_of_other_roles", True), ("table_owner", True),
+            ("any_table_or_column_dml", True),
+            ("database_create", True), ("schema_create", True),
+            ("executable_security_definer_in_mar_p0", True),
+        ):
+            with self.subTest(key=key):
+                doc = self.fixture()
+                doc["isolated_lab"]["dedicated_backup_login"][key] = value
+                self.assertTrue(gate.validate_report(doc))
+
+    def test_only_lab_login_may_be_claimed(self):
+        for key, value in (
+            ("branch_id", "br-raspy-river-b8qx9oo9"),
+            ("scope", "production"),
+            ("production_login_provisioned", True),
+            ("environment_secret_configured", True),
+            ("backup_with_new_login_executed", True),
+        ):
+            with self.subTest(key=key):
+                doc = self.fixture()
+                doc["isolated_lab"]["dedicated_backup_login"][key] = value
+                self.assertTrue(gate.validate_report(doc))
+
+    def test_direct_select_proof_and_negative_dml_required(self):
+        for key, value in (
+            ("authenticated_read_count_checkpoints", 0),
+            ("select_on_all_tables", False),
+            ("explain_insert_permission_denied", False),
+            ("explain_update_permission_denied", False),
+            ("explain_delete_permission_denied", False),
+            ("negative_dml_test_mutated_records", True),
+        ):
+            with self.subTest(key=key):
+                doc = self.fixture()
+                doc["isolated_lab"]["dedicated_backup_login"][key] = value
+                self.assertTrue(gate.validate_report(doc))
+
+    def test_private_blob_404_must_not_masquerade_as_backup_success(self):
+        for key, value in (
+            ("store_deletion_confirmed", True),
+            ("reasons_indeterminate", False),
+            ("current_blob_read_confirmed", True),
+            ("current_backup_and_restore_confirmed", True),
+            ("provider_worm_90d_confirmed", True),
+            ("access_scope_team", "200"),
+        ):
+            with self.subTest(key=key):
+                doc = self.fixture()
+                doc["storage_current_probe"][key] = value
+                self.assertTrue(gate.validate_report(doc))
+
+    def test_missing_live_proof_fails_closed(self):
+        for key in ("dedicated_backup_login",):
+            doc = self.fixture()
+            del doc["isolated_lab"][key]
+            self.assertTrue(gate.validate_report(doc))
+        doc = self.fixture()
+        del doc["storage_current_probe"]
+        self.assertTrue(gate.validate_report(doc))
+
     def test_unavailable_nonroot_snapshot_must_not_be_fabricated(self):
         doc = self.fixture()
         doc["snapshot_probe"]["created"] = True

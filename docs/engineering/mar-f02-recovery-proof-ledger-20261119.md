@@ -55,6 +55,14 @@ python scripts/mar_f02_readonly_preflight.py --execute
 ```
 O comando não expõe segredos, mas **não configura** o ambiente nem cria role. Falha com saída curta e código não zero se qualquer garantia faltar.
 
+## Atualização de evidências operacionais em 19/11/2026
+
+**P0.1 — parcialmente demonstrado:** `mar_p0_backup_reader` foi efetivamente criado como LOGIN SELECT-only na branch **isolada** `br-purple-art-b8p4uvdr`. O catálogo verificado como esse usuário retornou `rolinherit=false`, nenhum membership/admin/CREATE/owner, três SELECT permitidos e nenhum DML por tabela/coluna. A leitura real encontrou quatro checkpoints; `EXPLAIN INSERT/UPDATE/DELETE` foi negado sem modificações. Isso encerra **somente a demonstração de privilégio mínimo em laboratório**. A identidade não está instalada no workflow real, não tem Secret de execução validado e a consulta ao banco de produção não foi feita.
+
+**P0.2 — sem demonstração atual:** `BLOB_STORE_ID` consta nas variáveis do projeto Vercel `mar-p0-recovery-lab`, mas o recurso não pôde ser recuperado via API, que retornou 404 tanto sem quanto com o team ID. Não interpretar essa resposta como exclusão confirmada, nem como acesso ao backup. Sem validação do Private Blob atual e de sua retenção/WORM, nenhum backup pode ser promovido ou agendado.
+
+**P0.3 — ainda HOLD:** provas pontuais de 12 e 13/11 continuam válidas como histórico; não se executou backup externo novo nesta verificação.
+
 ## Decisões e gates ainda abertos (F02 não pode ser concluída)
 
 1. **P0.1:** credencial dedicada de **login** e segregação explícita writer/reader, com contrato real de execução e falha negativa no Neon isolado. Verificar secret manager e proteção GitHub Environments antes de rodar qualquer workflow.
