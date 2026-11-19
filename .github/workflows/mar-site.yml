@@ -19,6 +19,9 @@ on:
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
       - ".github/workflows/mar-site.yml"
+      - "scripts/build_mar_site_research_projections.py"
+      - "tests/test_mar_site_snapshot_coherence.py"
+      - "data/output/**"
       - "data/output/kavi_mar_metadata_links.csv"
       - "data/output/kavi_mar_metadata_links_manifest.json"
   push:
@@ -30,6 +33,9 @@ on:
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
       - ".github/workflows/mar-site.yml"
+      - "scripts/build_mar_site_research_projections.py"
+      - "tests/test_mar_site_snapshot_coherence.py"
+      - "data/output/**"
 
 permissions:
   contents: read
@@ -48,6 +54,11 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
+      - name: Verify research projections match versioned scientific sources
+        working-directory: .
+        run: |
+          python3 scripts/build_mar_site_research_projections.py
+          python3 -m unittest discover -s tests -p "test_mar_site_snapshot_coherence.py" -v
       - name: Verify approved publication index against source and SHA256
         working-directory: .
         run: python3 scripts/check_mar_site_index.py
