@@ -13,14 +13,22 @@ Fontes: [NIST SP 800-218 SSDF](https://csrc.nist.gov/pubs/sp/800/218/final), [OW
 | Gate | Momento | Evidência mínima exigida | Responsável pela decisão |
 |---|---|---|---|
 | G0 — Ready | Antes da implementação | ID ativo; finalidade; baseline SHA; inventário de impacto; contratos; riscos de dados, direitos e segurança; testes e rollback desenhados | Revisão técnica |
-| G1 — Implementação | Durante a etapa | PR de escopo único, alteração mínima, contratos e testes versionados; sem efeito colateral em corpora, Neon principal ou acesso público | Autor e revisor de código |
+| G1 — Implementação | Durante a etapa | PR de escopo único, alteração mínima, contratos e testes versionados; sem efeito colateral em corpora, Neon principal ou acesso público | Autor; em projeto de responsável único, autorrevisão identificada e CI, nunca revisão independente fictícia |
 | G2 — Verificação técnica | Antes da conclusão | Testes positivos e adversariais, lint/tipos no escopo, CI na revisão exata, provas de reprodutibilidade, acesso negado e rollback | CI + revisão das evidências |
-| G3 — Aceite funcional | Depois dos testes | Fluxo real ou ensaio controlado demonstrado, critérios da matriz cumpridos, divergências resolvidas e documentação atualizada | Revisor humano da funcionalidade |
-| G4 — Revisão científica/curatorial | Quando a etapa afeta método, corpus, indicadores, evidências ou direitos | Revisão humana independente documentada no escopo apropriado; manutenção de HOLD quando faltam provas | Responsável científico/curatorial, independente do CI |
-| G5 — Encerramento operacional | Depois de G0–G4 aplicáveis | PR revisado e integrado, SHA, testes, risco residual, rollback, observabilidade, registro na issue #128 e próximo gate desbloqueado | Revisor humano da etapa |
+| G3 — Aceite funcional | Depois dos testes | Fluxo real ou ensaio controlado demonstrado, critérios da matriz cumpridos, divergências resolvidas e documentação atualizada | Responsável pelo projeto, com decisão humana expressa e conflito de funções declarado |
+| G4 — Revisão científica/curatorial | Quando a etapa afeta método, corpus, indicadores, evidências ou direitos | Revisão científica/curatorial humana documentada e evidências verificáveis; independência somente se existir revisor distinto; HOLD diante de provas insuficientes | Responsável científico/curatorial, declarando autorrevisão quando também for autor |
+| G5 — Encerramento operacional | Depois de G0–G4 aplicáveis | PR revisado e integrado, SHA, testes, risco residual, rollback, observabilidade, registro na issue #128 e próximo gate desbloqueado | Responsável humano identificado; exceção de segregação de funções registrada quando sozinho |
 | G6 — Autorização pública | Somente F13 | Autorização expressa do responsável, revisão de direitos/segurança e versão exata do deploy | Responsável do projeto; jamais CI |
 
 **Regras inegociáveis:** teste verde significa somente teste verde; merge significa código integrado; uma tela existente não significa equivalência funcional; homologação técnica não concede validação científica; acesso público a catálogo de terceiros não concede licença de redistribuição; manifesto estático aprovado não libera mídia. A separação fica registrada como decisões distintas.
+
+## Governança com responsável único — exceção de segregação de funções
+
+**Fato declarado:** o responsável pelo MAR é seu **único revisor humano**, não havendo equipe de revisão independente. Isso não autoriza registrar ou sugerir que houve revisão independente. A exceção é pública na [issue #128](https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128) e limita a força do aceite: **revisão pelo autor/responsável** (self-review), não validação externa.
+
+Quando não houver segundo revisor, a decisão humana continua obrigatória e deve ser expressa pelo responsável **em comentário autenticado da issue #128**, indicando **etapa, versão SHA, escopo, decisão aceita ou rejeitada, riscos residuais, limitações de independência e manutenção dos HOLD**. O campo `reference` do gate manual de `brauliorrs` deve apontar para o comentário específico (`issues/128#issuecomment-ID`) e nunca apenas para o CI. CI, testes negativos e PRs revisáveis são controles técnicos complementares, **não substituem pessoa revisora**. Para etapas P0, permissões no Neon, direitos de terceiros, alterações científicas e abertura pública, exigir ensaio isolado, evidências dos gates específicos e registro dos riscos; não dispensar controles sob o pretexto de 'responsável único'. É prudente buscar revisão externa para decisões críticas quando possível, mas a ausência de uma equipe não deve ser ocultada nem transformada numa falsa assinatura.
+
+O aceite da **F01** se restringe à **completude, correção e rastreabilidade da auditoria de migração**. Não atesta equivalência funcional implementada, validade científica de novos corpora, direitos de mídia, funcionamento do Neon/admin ou autorização de acesso público; essas decisões pertencem a F02–F13.
 
 ## Definition of Ready — antes de codificar
 
@@ -35,7 +43,7 @@ Fontes: [NIST SP 800-218 SSDF](https://csrc.nist.gov/pubs/sp/800/218/final), [OW
 1. PR e diff revisáveis e rastreados por SHA; artefatos de engenharia na main.
 2. Matriz de impacto, contratos e estado de migração atualizados.
 3. Suite pertinente de testes positivos **e negativos** concluída no commit exato e sem ocultar testes falhos.
-4. Aceite funcional independente de CI registrado como decisão humana.
+4. Aceite funcional separado do CI, registrado como decisão humana expressa. Quando o proprietário for o único revisor, registrar essa limitação sem alegar independência.
 5. Plano e ensaio de reversão adequado ao risco anexados.
 6. Revisões extras de segurança, banco, recuperação, acessibilidade, cientificidade ou curadoria quando exigidas pela etapa.
 7. Links rastreáveis e revisão do que permanece em HOLD, sem promoção implícita de instrumento, corpus ou fichas.
@@ -50,7 +58,7 @@ Todo pull request **enquanto houver uma etapa ativa** deverá declarar **uma ún
 
 Os testes adversariais usam **fixtures fixas da fila F01** e casos sintéticos inteiramente evidenciados de avanço F02–F13, enquanto um teste separado verifica o manifesto real. Assim o avanço legítimo da fila não quebra falsamente o CI; a validade da fila real continua obrigatória.
 
-Cada evidência de conclusão deve estar associada a um documento ou execução rastreável no GitHub, SHA completo, resultado e ator identificável. Os gates manuais exigem reviewed_by humano e result accepted, nunca github-actions, bot ou automation. O script verifica forma e ordem; **não é assinatura criptográfica de autoria, não visita links, nem aprova cientificamente o conteúdo**. A autenticidade de evidências, independência efetiva de revisores e adequação metodológica dependem de revisão humana/controle de acesso no GitHub.
+Cada evidência de conclusão deve estar associada a um documento ou execução rastreável no GitHub, SHA completo, resultado e ator identificável. Os gates manuais exigem `reviewed_by` humano e `result: accepted`, nunca github-actions, bot ou automation. **Se o único revisor for o próprio responsável `brauliorrs`**, cada gate manual deverá conter `review_mode: owner_only`, `independent: false`, `owner_acknowledgement: true` e `independence_exception: https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128`, além de `reference` para o comentário exato da decisão na issue. Com revisor genuinamente distinto, registrar `review_mode: independent` e `independent: true`, mas exigir conferência da identidade por revisão humana. O script verifica apenas forma e ordem; **não autentica o autor de comentários, não visita links, não realiza revisão humana e não aprova cientificamente o conteúdo**. Uma mensagem de 'auditoria concluída' não equivale automaticamente a `result: accepted` sem decisão explícita. O estado real é acompanhado pela issue #128 e pelo histórico de PRs.
 
 O status humano é mantido na issue #128. O manifesto versionado representa o gate executável correspondente. Em toda transição, atualizar ambos no mesmo PR/checkpoint e verificar concordância; falta de concordância mantém HOLD.
 
