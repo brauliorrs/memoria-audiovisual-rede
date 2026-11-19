@@ -105,6 +105,18 @@ class F02P0EvidenceTests(unittest.TestCase):
                 doc["isolated_lab"]["dedicated_backup_login"][key] = value
                 self.assertTrue(gate.validate_report(doc))
 
+    def test_out_of_schema_reader_privileges_must_stay_zero(self):
+        for name, value in (
+            ("non_p0_relations_discovered", 0),
+            ("non_p0_relations_with_effective_access", 1),
+            ("non_p0_executable_security_definer", 1),
+            ("cross_schema_least_privilege_proven_in_lab", False),
+        ):
+            with self.subTest(name=name):
+                doc = self.fixture()
+                doc["isolated_lab"]["dedicated_backup_login"][name] = value
+                self.assertTrue(gate.validate_report(doc))
+
     def test_only_lab_login_may_be_claimed(self):
         for key, value in (
             ("branch_id", "br-raspy-river-b8qx9oo9"),
