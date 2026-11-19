@@ -40,18 +40,22 @@
         "site/components/kavi-record-detail.tsx"
       ],
       "data": [
-        "site/data/kavi-public.json"
+        "site/data/kavi-public.json",
+        "data/output/kavi_mar_metadata_links.csv",
+        "data/output/kavi_mar_metadata_links_manifest.json"
       ],
       "status": "snapshot_supported",
       "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
       "existing_tests": [
         "tests/test_mar_kavi_detail_i18n.py",
-        "tests/test_mar_scientific_site_migration.py"
+        "tests/test_mar_scientific_site_migration.py",
+        "tests/test_mar_f01_source_snapshot_parity.py"
       ],
       "scientific_release_authorized": false,
       "equivalence_accepted": false,
       "acceptance_evidence": null,
-      "gap": "200 metadados catalogaveis; teste atual nao prova equivalencia de todos os detalhes interativos do Streamlit. Reproducao e direitos de midia nao verificados."
+      "gap": "200 metadados catalogaveis; teste atual nao prova equivalencia de todos os detalhes interativos do Streamlit. Reproducao e direitos de midia nao verificados.",
+      "automated_data_contract_scope": "complete 200-record metadata source-to-site field and SHA contract, not playback or functional UI parity"
     },
     {
       "id": "M03",
@@ -63,17 +67,21 @@
         "site/components/public-access-inventory.tsx"
       ],
       "data": [
-        "site/data/public-access-observatory.json"
+        "site/data/public-access-observatory.json",
+        "data/output/observatorio_indice_dados_publicos.csv",
+        "data/output/observatorio_indice_dados_publicos_por_corpus.csv"
       ],
       "status": "snapshot_supported",
       "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
       "existing_tests": [
-        "tests/test_mar_site_public_access_observatory.py"
+        "tests/test_mar_site_public_access_observatory.py",
+        "tests/test_mar_f01_source_snapshot_parity.py"
       ],
       "scientific_release_authorized": false,
       "equivalence_accepted": false,
       "acceptance_evidence": null,
-      "gap": "Inventario historico e limites de republicacao; testes estruturais nao equivalem a atualizacao operacional."
+      "gap": "Inventario historico e limites de republicacao; testes estruturais nao equivalem a atualizacao operacional.",
+      "automated_data_contract_scope": "60 historical corpus rows, 3 additional restricted units, world totals and fail-closed rights; snapshot, not live status"
     },
     {
       "id": "M04",
@@ -260,17 +268,21 @@
         "site/components/analytics-comparison.tsx"
       ],
       "data": [
-        "site/data/analytics-0.json"
+        "site/data/analytics-0.json",
+        "data/output/archipop_relatorio.json"
       ],
       "status": "snapshot_supported",
       "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
       "existing_tests": [
-        "tests/test_mar_scientific_site_migration.py"
+        "tests/test_mar_scientific_site_migration.py",
+        "tests/test_mar_site_analytics_projector.py",
+        "tests/test_mar_real_site_projections_b2.py"
       ],
       "scientific_release_authorized": false,
       "equivalence_accepted": false,
       "acceptance_evidence": null,
-      "gap": "62 relatorios resumidos; faltam tabelas detalhadas permitidas, downloads e validacao de escopo."
+      "gap": "62 relatorios resumidos; faltam tabelas detalhadas permitidas, downloads e validacao de escopo.",
+      "automated_data_contract_scope": "62 report projector semantic parity baseline; does not prove table behavior or update sync"
     },
     {
       "id": "M13",
@@ -398,17 +410,20 @@
         "site/components/documented-cases.tsx"
       ],
       "data": [
-        "site/data/documented-cases.json"
+        "site/data/documented-cases.json",
+        "data/output/observatorio_unidades_identificadas_nao_incorporadas.csv"
       ],
       "status": "snapshot_supported",
       "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
       "existing_tests": [
-        "tests/test_mar_scientific_site_migration.py"
+        "tests/test_mar_scientific_site_migration.py",
+        "tests/test_mar_f01_source_snapshot_parity.py"
       ],
       "scientific_release_authorized": false,
       "equivalence_accepted": false,
       "acceptance_evidence": null,
-      "gap": "17 casos documentais estaticos; avaliar equivalencia de navegacao e proposito da consulta."
+      "gap": "17 casos documentais estaticos; avaliar equivalencia de navegacao e proposito da consulta.",
+      "automated_data_contract_scope": "17 reviewed cases mapped to excluded-unit evidence; no corpus inclusion approval"
     },
     {
       "id": "M20",
@@ -488,18 +503,21 @@
       ],
       "data": [
         "site/data/analytics-0.json",
-        "site/data/research-slices-0.json"
+        "site/data/research-slices-0.json",
+        "data/output/archipop_relatorio.json"
       ],
       "status": "partial",
       "evidence_level": "source_and_destination_inspected_not_equivalence_proven",
       "existing_tests": [
         "tests/test_mar_archipop_real_b2_replay.py",
-        "tests/test_mar_real_site_projections_b2.py"
+        "tests/test_mar_real_site_projections_b2.py",
+        "tests/test_mar_site_analytics_projector.py"
       ],
       "scientific_release_authorized": false,
       "equivalence_accepted": false,
       "acceptance_evidence": null,
-      "gap": "Replay ARCHIPOP + 34 projecoes do baseline real provam integridade da versao atual, nao incorporacao real de novo corpus; F05."
+      "gap": "Replay ARCHIPOP + 34 projecoes do baseline real provam integridade da versao atual, nao incorporacao real de novo corpus; F05.",
+      "automated_data_contract_scope": "baseline/projection replay; no live scientific admission or publication"
     }
   ],
   "render_function_coverage": {
