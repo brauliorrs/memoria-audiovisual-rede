@@ -1,0 +1,125 @@
+{
+  "schema": "mar.f02.p0.neon-evidence.v1",
+  "baseline_commit": "9f8e1059a01ea1ff2aa3fd0b4b31c3a473cc8d54",
+  "observation_date": "2026-11-19",
+  "stage": "F02",
+  "status": "HOLD",
+  "project": {
+    "id": "holy-bread-70461948",
+    "name": "neon-erin-field",
+    "pg_version": 18,
+    "history_retention_seconds": 21600,
+    "automatic_snapshots_count": 0,
+    "default_branch_snapshot_schedule_count": 0
+  },
+  "production": {
+    "branch_id": "br-raspy-river-b8qx9oo9",
+    "branch_name": "main",
+    "protected": false,
+    "default": true,
+    "production_integration_restricted_actions": true,
+    "roles": [
+      "neondb_owner"
+    ],
+    "read_only_role_demonstrated": false,
+    "modified": false
+  },
+  "validation_source": {
+    "branch_id": "br-lingering-smoke-b8hjdnzb",
+    "name": "mar-p0-validation-20261021",
+    "role": "mar_p0_limited",
+    "schema": "mar_p0",
+    "tables": [
+      "checkpoint_pages",
+      "checkpoints",
+      "raw_artifacts"
+    ],
+    "table_count": 3,
+    "rows": {
+      "checkpoints": 4,
+      "checkpoint_pages": 8,
+      "raw_artifacts": 4
+    },
+    "read_only": false,
+    "grants_before": {
+      "checkpoint_pages": {
+        "select": true,
+        "insert": true,
+        "update": false,
+        "delete": false
+      },
+      "checkpoints": {
+        "select": true,
+        "insert": true,
+        "update": true,
+        "delete": false
+      },
+      "raw_artifacts": {
+        "select": true,
+        "insert": true,
+        "update": false,
+        "delete": false
+      }
+    },
+    "modified": false
+  },
+  "isolated_lab": {
+    "branch_id": "br-purple-art-b8p4uvdr",
+    "name": "mar-f02-privilege-and-restore-lab-20261119",
+    "parent_id": "br-lingering-smoke-b8hjdnzb",
+    "modified_only_this_branch": true,
+    "operation": "REVOKE DML on mar_p0 tables from mar_p0_limited",
+    "grants_after": {
+      "checkpoint_pages": {
+        "select": true,
+        "insert": false,
+        "update": false,
+        "delete": false
+      },
+      "checkpoints": {
+        "select": true,
+        "insert": false,
+        "update": false,
+        "delete": false
+      },
+      "raw_artifacts": {
+        "select": true,
+        "insert": false,
+        "update": false,
+        "delete": false
+      }
+    },
+    "authenticated_select_works": true,
+    "rows": {
+      "checkpoints": 4,
+      "checkpoint_pages": 8,
+      "raw_artifacts": 4
+    },
+    "per_table_content_digest_matches_parent": true,
+    "independent_restore_proven": false,
+    "backup_durability_proven": false
+  },
+  "snapshot_probe": {
+    "source_branch": "br-lingering-smoke-b8hjdnzb",
+    "created": false,
+    "error_code": "not_allowed_to_snapshot_non_root_branch",
+    "production_branch_not_snapshotted": true
+  },
+  "p0_requirements": {
+    "owner_only_security_review_recorded": false,
+    "production_read_only_role_validated": false,
+    "default_branch_protection_verified": false,
+    "scheduled_backup_and_retention_verified": false,
+    "independent_snapshot_or_encrypted_offsite_restore_verified": false,
+    "secrets_in_ci_verified": false,
+    "rollback_end_to_end_verified": false
+  },
+  "risks": [
+    "MAR-F02-001: limited lab role has write grants, despite limited name",
+    "MAR-F02-002: main branch is not protected",
+    "MAR-F02-003: point-in-time retention 6h, no scheduled snapshots found",
+    "MAR-F02-004: independent offsite restore and durable immutable backup unproven",
+    "MAR-F02-005: encrypted external-backup PR #93 is draft and WORM/credential isolation remain HOLD"
+  ],
+  "notes": "Authenticated Neon inspection and isolated lab test; JSON is a dated audit record, not live CI attestation. Clone/row digests are not a separate backup. No production branch, scientific corpus or Vercel access was changed. Follow F02 acceptance and explicit owner review before production changes."
+}
