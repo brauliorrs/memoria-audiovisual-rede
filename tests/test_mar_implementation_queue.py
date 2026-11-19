@@ -175,6 +175,46 @@ class EngineeringQueueGateTests(unittest.TestCase):
             "MAR-STAGE: F01\nMAR-QUEUE: COMPLETE", "F01"
         ))
 
+    def test_completed_f01_can_be_closed_by_an_explicit_f01_to_f02_pr(self):
+        doc = complete_through(1)
+        self.assertEqual(gate.validate_manifest(doc), [])
+        closing = "MAR-STAGE: F01\nMAR-TRANSITION: F01->F02"
+        self.assertEqual(gate.validate_pull_request(closing, "F02", doc), [])
+        self.assertTrue(gate.validate_pull_request("MAR-STAGE: F01", "F02", doc))
+        self.assertEqual(gate.validate_pull_request("MAR-STAGE: F02", "F02", doc), [])
+
+    def test_transition_cannot_be_claimed_without_evidence(self):
+        doc = complete_through(1)
+        del doc["stages"][1]["evidence"]["functional_acceptance"]
+        closing = "MAR-STAGE: F01\nMAR-TRANSITION: F01->F02"
+        self.assertTrue(gate.validate_pull_request(closing, "F02", doc))
+
+    def test_transition_cannot_skip_or_revert_stages(self):
+        doc = complete_through(2)
+        for invalid in (
+            "MAR-STAGE: F01\nMAR-TRANSITION: F01->F03",
+            "MAR-STAGE: F01\nMAR-TRANSITION: F02->F03",
+            "MAR-STAGE: F02\nMAR-TRANSITION: F02->F04",
+            "MAR-STAGE: F02\nMAR-TRANSITION: F02->F01",
+            "MAR-TRANSITION: F02->F03",
+        ):
+            with self.subTest(marker=invalid):
+                self.assertTrue(gate.validate_pull_request(invalid, "F03", doc))
+
+    def test_transition_requires_manifest_to_prevent_marker_only_approval(self):
+        closing = "MAR-STAGE: F01\nMAR-TRANSITION: F01->F02"
+        self.assertTrue(gate.validate_pull_request(closing, "F02"))
+        self.assertTrue(gate.validate_pull_request(closing, "F02", self.fixture()))
+
+    def test_transition_checks_work_for_each_successive_stage(self):
+        for completed in range(1, len(gate.STAGES) - 1):
+            doc = complete_through(completed)
+            outgoing = gate.STAGES[completed]
+            incoming = gate.STAGES[completed + 1]
+            label = f"MAR-STAGE: {outgoing}\nMAR-TRANSITION: {outgoing}->{incoming}"
+            with self.subTest(from_stage=outgoing):
+                self.assertEqual(gate.validate_pull_request(label, incoming, doc), [])
+
     def test_malformed_extra_marker_cannot_bypass_review(self):
         self.assertTrue(gate.validate_pull_request(
             "MAR-STAGE: F01\nMAR-STAGE: INVALID", "F01"
