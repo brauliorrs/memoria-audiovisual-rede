@@ -1,10 +1,11 @@
+import {publicPageMetadata} from "@/lib/seo";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {AnalyticsComparison} from "@/components/analytics-comparison";
 import {historicalAnalyticReports} from "@/lib/historical-analytics";
 import {ScientificText, ScientificNumber} from "@/components/scientific-i18n";
 
-export const metadata:Metadata={title:"Comparação de fontes e relatórios — MAR"};
+export const metadata=publicPageMetadata("/analises/","Análises por fonte","Relatórios históricos agregados do Streamlit com proveniência, coberturas independentes e limites de publicação.");
 export default function AnalysesPage(){
  return <main className="shell page-shell">
   <p className="eyebrow"><ScientificText id="anEyebrow"/></p>
