@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Fail-closed structural gate for MAR's serial implementation queue.
 
-It verifies evidence metadata; only an independent human review can establish
-that referenced evidence is authentic and that a scientific decision is valid.
+It verifies evidence metadata. A documented owner-only acceptance is allowed
+when no independent reviewer exists; it is NOT an independent review, and
+neither code nor CI verifies actual scientific merit or evidence authenticity.
 """
 from __future__ import annotations
 
@@ -50,6 +51,8 @@ MANUAL_GATES = {
     "database_permissions_review",
 }
 AUTOMATED_ACTORS = {"ci", "automation", "github-actions", "bot", "auto"}
+PROJECT_OWNER = "brauliorrs"
+OWNER_EXCEPTION_REF = ISSUE
 
 
 def _valid_evidence(item: object, gate: str) -> bool:
@@ -68,7 +71,20 @@ def _valid_evidence(item: object, gate: str) -> bool:
     if not isinstance(decision, str) or decision not in {"accepted", "passed"}:
         return False
     if gate in MANUAL_GATES:
-        if actor.strip().lower() in AUTOMATED_ACTORS or decision != "accepted":
+        identity = actor.strip().lower()
+        if identity in AUTOMATED_ACTORS or decision != "accepted":
+            return False
+        # A sole-maintainer project may document self-review. Never call it
+        # independent; link the explicit exception to the canonical issue.
+        # Metadata alone cannot authenticate an owner or another reviewer.
+        if identity == PROJECT_OWNER:
+            if (item.get("review_mode") != "owner_only"
+                    or item.get("independent") is not False
+                    or item.get("owner_acknowledgement") is not True
+                    or item.get("independence_exception") != OWNER_EXCEPTION_REF):
+                return False
+        elif (item.get("review_mode") != "independent"
+              or item.get("independent") is not True):
             return False
     return True
 
@@ -115,11 +131,11 @@ def validate_manifest(doc: object) -> list[str]:
             errors.append(f"{sid}: unknown evidence gates {sorted(unexpected)}")
         for gate, value in evidence.items():
             if gate in permitted and not _valid_evidence(value, gate):
-                errors.append(f"{sid}: invalid or non-human evidence for {gate}")
+                errors.append(f"{sid}: invalid gate evidence or reviewer disclosure for {gate}")
         if status == "completed" and sid != "F00":
             missing = permitted - set(evidence)
             if missing:
-                errors.append(f"{sid}: completion missing independent gates {sorted(missing)}")
+                errors.append(f"{sid}: completion missing mandatory gates {sorted(missing)}")
     pending = next((i for i, status in enumerate(statuses) if status != "completed"), len(statuses))
     if statuses[0] != "completed":
         errors.append("F00 must remain completed")
@@ -150,8 +166,9 @@ def validate_pull_request(
 
     A transition PR closes one stage and opens the immediately following
     stage; it must name BOTH the outgoing and incoming stages explicitly.
-    The manifest still needs independently reviewed evidence and a human
-    GitHub approval. This checker verifies structure, not the review's merit.
+    The manifest still needs authenticated human acceptance, either a
+    documented owner-only exception or a genuinely independent review.
+    This checker verifies metadata and structure, never review merit.
     """
     controls = [
         line.strip() for line in body.splitlines()
