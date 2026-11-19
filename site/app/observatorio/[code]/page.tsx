@@ -1,3 +1,4 @@
+import {recordSeo} from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -16,7 +17,10 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ code: string }> }): Promise<Metadata> {
   const { code } = await params;
   const corpus = getHistoricalCorpus(code);
-  return { title: corpus ? `Análise documental — ${corpus.name}` : "Corpus não identificado" };
+  return corpus ? recordSeo("/observatorio/"+encodeURIComponent(code)+"/",
+    `Análise documental — ${corpus.name}`,
+    "Indicadores históricos agregados por fonte; não constitui autorização para publicar fichas individuais ou reproduzir obras.") :
+    {title:"Corpus não identificado",robots:{index:false}};
 }
 
 export default async function CorpusAnalysisPage({ params }: { params: Promise<{ code: string }> }) {

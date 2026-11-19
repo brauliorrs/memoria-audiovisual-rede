@@ -1,10 +1,11 @@
+import {pageSeo} from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {PublicAccessInventory} from "@/components/public-access-inventory";
 import {ScientificText,ScientificNumber} from "@/components/scientific-i18n";
 import inventory from "@/data/public-access-observatory.json";
 
-export const metadata: Metadata = {title:"Índice de Dados Públicos e corpora não exibidos"};
+export const metadata=pageSeo("/indice-acesso/");
 
 export default function AccessIndexPage(){
  const summary=inventory.summary;

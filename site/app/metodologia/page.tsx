@@ -1,8 +1,9 @@
+import {pageSeo} from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {ScientificText} from "@/components/scientific-i18n";
 
-export const metadata: Metadata = { title: "Metodologia" };
+export const metadata=pageSeo("/metodologia/");
 export default function MethodologyPage() {
   return <div className="shell page-shell methodology">
     <p className="eyebrow"><ScientificText id="metEyebrow"/></p>

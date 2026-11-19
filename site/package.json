@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit",
     "test:permalink": "node --test tests/research-permalink.test.cjs",
     "test:scientific-i18n": "node --test tests/scientific-i18n.test.cjs",
-    "test:kavi-detail": "node --test tests/kavi-record-detail.test.cjs"
+    "test:kavi-detail": "node --test tests/kavi-record-detail.test.cjs",
+    "test:institutional-seo": "node --test tests/institutional-seo.test.cjs"
   },
   "dependencies": {
     "next": "16.4.6",

@@ -1,3 +1,4 @@
+import {recordSeo} from "@/lib/seo";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {notFound} from "next/navigation";
@@ -6,7 +7,11 @@ import {LocalizedText} from "@/components/site-locale";
 import {ScientificText} from "@/components/scientific-i18n";
 export const dynamicParams=false;
 export function generateStaticParams(){return institutionalProfiles.map(i=>({source:i.source,entry:i.id.split(":")[1]}));}
-export async function generateMetadata({params}:{params:Promise<{source:string;entry:string}>}):Promise<Metadata>{const {source,entry}=await params;const p=findInstitution(source,entry);return {title:p?`${p.name} — Perfil institucional`:"Instituição não identificada"};}
+export async function generateMetadata({params}:{params:Promise<{source:string;entry:string}>}):Promise<Metadata>{const {source,entry}=await params;const p=findInstitution(source,entry);
+ return p?recordSeo("/instituicoes/pesquisa/"+encodeURIComponent(source)+"/"+encodeURIComponent(entry)+"/",
+  `${p.name} — Perfil institucional`,
+  "Perfil institucional de pesquisa histórica no MAR: fontes e links de origem; acesso atual e direitos de mídia não verificados.") :
+  {title:"Instituição não identificada",robots:{index:false}};}
 export default async function InstitutionalProfilePage({params}:{params:Promise<{source:string;entry:string}>}){
  const {source,entry}=await params;
  const profile=findInstitution(source,entry);
