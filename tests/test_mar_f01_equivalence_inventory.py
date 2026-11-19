@@ -81,6 +81,20 @@ class F01InventoryTests(unittest.TestCase):
         data["flows"][0]["target"] = ["../../etc/passwd"]
         self.assertTrue(audit.check_inventory(data))
 
+    def test_all_streamlit_renderers_mapped(self):
+        self.assertEqual(len(BASE["render_function_coverage"]), 20)
+        self.assertEqual(len(BASE["data_helper_coverage"]), 18)
+
+    def test_unmapped_renderer_is_blocked(self):
+        data = self.data()
+        del data["render_function_coverage"]["render_videos_tab"]
+        self.assertTrue(audit.check_inventory(data))
+
+    def test_unmapped_helper_is_blocked(self):
+        data = self.data()
+        del data["data_helper_coverage"]["build_research_video_catalog_frame"]
+        self.assertTrue(audit.check_inventory(data))
+
 
 if __name__ == "__main__":
     unittest.main()
