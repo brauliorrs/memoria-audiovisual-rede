@@ -2,9 +2,6 @@
 
 **Objetivo:** transferir a experiência de estudo do audiovisual em rede para o Next.js. A regra de design é considerar o Streamlit como **referência funcional**, não como produto público definitivo. Migração e publicação são processos distintos: indicadores agregados e análises científicas podem ser expostos com contextualização, enquanto fichas/objetos de terceiros exigem portas específicas de admissão.
 
-
-> **F01 — auditoria de equivalência (19/11/2026):** esta matriz histórica descreve páginas e *snapshots* disponibilizados. Expressões como “implementado” abaixo **não comprovam paridade funcional, integração operacional, admissão científica ou autorização de divulgação**. A auditoria rastreável está em [mar-f01-functional-equivalence-inventory.json](mar-f01-functional-equivalence-inventory.json), submetida ao controle da [fila #128](https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128). O aceite de F01 continua pendente de testes por fluxo, revisão independente e registro de conclusão.
-
 ## Matriz de cobertura funcional (origem: app/streamlit_app.py, 5.425 linhas)
 
 | Experiência Streamlit | Destino Next.js | Situação após esta etapa |
@@ -47,44 +44,3 @@
 6. Substituir o Streamlit somente depois da equivalência funcional e da revisão de operação.
 
 **Não usar “migração completa” até cada linha desta matriz ter implementação e validação demonstradas.**
-
-## F01 — índice auditável de fluxos (sem aceite funcional)
-
-Inventário estrutural fechado nesta revisão: **24 fluxos** (20 de interface Streamlit e 4 operacionais Python), incluindo referência explícita a **64 funções top-level**: 20 `render_*`, 18 `build_*/load_*` e 26 helpers adicionais; também **13 grupos de abas `st.tabs`**. Identificação dos símbolos e caminhos validada contra o código do SHA `66e79afa8755ca2ff12f1a8088c9ffc808a8a8a3`. A cobertura é **de rastreabilidade**, não de testes de comportamento equivalentes.
-
-| ID | Fluxo | Situação de equivalência | Origem |
-|---|---|---|---|
-| `M01` | Pesquisa global multidimensional | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M02` | Fichas KAVI autorizadas | Snapshot presente; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M03` | Indice historico de acesso | Snapshot presente; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M04` | Visao geral e categorias do observatorio | Snapshot presente; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M05` | Mapa territorial de indicadores | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M06` | Comparacao multicoRpus | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M07` | Series historicas | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M08` | Paineis por corpus | Snapshot presente; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M09` | Cruzamentos tematicos e plataformas | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M10` | Instituicoes e filtros da base | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M11` | Ficha institucional detalhada | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M12` | Relatorios agregados de analise | Snapshot presente; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M13` | Downloads e exportacoes | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M14` | Fundamentacao e protocolos | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M15` | Internacionalizacao PT EN ES | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M16` | Fila de descoberta e propostas | Integração operacional pendente | `app/streamlit_app.py` |
-| `M17` | Fechamento de corpora europeus | Integração operacional pendente | `app/streamlit_app.py` |
-| `M18` | Historico de ciclos operacionais | Integração operacional pendente | `app/streamlit_app.py` |
-| `M19` | Casos documentados | Snapshot presente; equivalência não demonstrada | `app/streamlit_app.py` |
-| `M20` | Completude de metadados KAVI | Cobertura parcial; equivalência não demonstrada | `app/streamlit_app.py` |
-| `B01` | Seletor de candidatos cientificos | Integração operacional pendente | `src/memoria_audiovisual/inclusion_queue.py` |
-| `B02` | Motor universal de admissao | Integração operacional pendente | `src/memoria_audiovisual/corpus_admission_engine.py` |
-| `B03` | Ciclo de atualizacao de corpora | Integração operacional pendente | `scripts/run_observatory_cycle.py` |
-| `B04` | Projetor e bundle cientifico | Cobertura parcial; equivalência não demonstrada | `scripts/build_mar_site_projections_b2.py` |
-
-### Lacunas que bloqueiam o aceite integral
-
-- **Pesquisa global:** Streamlit permite dez filtros dimensionais e uma seleção de reprodução verificada; o catálogo Next.js é o subconjunto de 200 fichas KAVI com pesquisa, década, tema e ordenação. Ampliar somente após discriminar dados realmente autorizados; não reaproveitar a exportação integral do legado em site público.
-- **Administração:** descoberta e fila de candidatos, fechamento europeu, ciclos e checkpoints **não têm equivalente operacional integrado** no site; precisam de Neon governado e autenticação efetiva nas etapas F03–F08, sem alterar a ordem da fila.
-- **Detalhes e direitos:** fichas institucionais, vídeos na origem, dados detalhados e downloads exigem separação por nível de acesso e direitos; a presença de 63 perfis ou 62 relatórios não autoriza publicação de fichas dos corpora correspondentes.
-- **Projeções e sincronização:** o replay real ARCHIPOP e 34 projeções do baseline comprovam a reconstrução do estado atual, mas não a admissão científica de um corpus novo nem o sincronismo operacional em produção.
-- **Aceite:** executar e vincular testes positivos/negativos específicos de cada comportamento, auditoria visual e de dados, revisão humana e registro no gate F01; CI verde e existência de rota são insuficientes.
-
-A verificação automática `scripts/check_mar_f01_equivalence_inventory.py` e seus testes de contrato impedem perda silenciosa de símbolos, referências ou marcas de HOLD. O validador só inspeciona rastreabilidade e **não pode declarar conclusão nem aprovação científica**.
