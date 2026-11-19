@@ -53,6 +53,7 @@ MANUAL_GATES = {
 AUTOMATED_ACTORS = {"ci", "automation", "github-actions", "bot", "auto"}
 PROJECT_OWNER = "brauliorrs"
 OWNER_EXCEPTION_REF = ISSUE
+OWNER_SIGNOFF_REF_PREFIX = ISSUE + "#issuecomment-"
 
 
 def _valid_evidence(item: object, gate: str) -> bool:
@@ -72,7 +73,10 @@ def _valid_evidence(item: object, gate: str) -> bool:
         return False
     if gate in MANUAL_GATES:
         identity = actor.strip().lower()
-        if identity in AUTOMATED_ACTORS or decision != "accepted":
+        if (identity in AUTOMATED_ACTORS
+                or identity.endswith(("[bot]", "-bot"))
+                or identity.startswith("chatgpt-codex")
+                or decision != "accepted"):
             return False
         # A sole-maintainer project may document self-review. Never call it
         # independent; link the explicit exception to the canonical issue.
@@ -81,7 +85,8 @@ def _valid_evidence(item: object, gate: str) -> bool:
             if (item.get("review_mode") != "owner_only"
                     or item.get("independent") is not False
                     or item.get("owner_acknowledgement") is not True
-                    or item.get("independence_exception") != OWNER_EXCEPTION_REF):
+                    or item.get("independence_exception") != OWNER_EXCEPTION_REF
+                    or not ref.startswith(OWNER_SIGNOFF_REF_PREFIX)):
                 return False
         elif (item.get("review_mode") != "independent"
               or item.get("independent") is not True):
