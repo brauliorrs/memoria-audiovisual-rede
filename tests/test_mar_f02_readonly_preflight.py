@@ -23,6 +23,8 @@ OK = {
     "table_count": 3, "tables": list(gate.EXPECTED_TABLES),
     "all_select": True, "any_write": False,
     "owns_any_protected_table": False,
+    "out_of_scope_relations_accessible": 0,
+    "out_of_scope_security_definer_executable": 0,
 }
 
 
@@ -90,6 +92,28 @@ class F02ReaderPreflightTests(unittest.TestCase):
                 doc = self.doc()
                 doc[name] = False
                 self.assertTrue(gate.assess(doc))
+
+    def test_cross_schema_table_or_column_access_must_fail(self):
+        for key in (
+            "out_of_scope_relations_accessible",
+            "out_of_scope_security_definer_executable",
+        ):
+            for invalid in (1, 10, True, "0", None):
+                with self.subTest(key=key, invalid=invalid):
+                    doc = self.doc()
+                    doc[key] = invalid
+                    self.assertTrue(gate.assess(doc))
+
+    def test_cross_schema_access_sql_includes_column_grants(self):
+        self.assertIn("AS out_of_scope_relations_accessible", gate.SQL)
+        self.assertIn("AS out_of_scope_security_definer_executable", gate.SQL)
+        for privilege in ("SELECT", "INSERT", "UPDATE", "REFERENCES"):
+            self.assertIn(
+                "has_any_column_privilege(current_user,c.oid,'" + privilege + "')",
+                gate.SQL,
+            )
+        self.assertIn("n.nspname NOT IN ('pg_catalog','information_schema','mar_p0')", gate.SQL)
+        self.assertIn("f.prosecdef AND has_function_privilege", gate.SQL)
 
     def test_missing_or_extra_tables_fail_closed(self):
         for tables in (

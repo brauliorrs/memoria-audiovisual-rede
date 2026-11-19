@@ -135,7 +135,11 @@
       "secret_not_logged": true,
       "production_login_provisioned": false,
       "environment_secret_configured": false,
-      "backup_with_new_login_executed": false
+      "backup_with_new_login_executed": false,
+      "non_p0_relations_discovered": 10,
+      "non_p0_relations_with_effective_access": 0,
+      "non_p0_executable_security_definer": 0,
+      "cross_schema_least_privilege_proven_in_lab": true
     }
   },
   "snapshot_probe": {
@@ -162,7 +166,7 @@
     "MAR-F02-006: dedicated login tested in isolated lab only; production credential and protected secret not provisioned",
     "MAR-F02-007: Vercel store ID present in project environment, but account and team lookups both returned 404; access vs deletion unresolved"
   ],
-  "notes": "Authenticated Neon inspection and isolated lab test; JSON is a dated audit record, not live CI attestation. Clone/row digests are not a separate backup. No production branch, scientific corpus or Vercel access was changed. Follow F02 acceptance and explicit owner review before production changes. Dedicated NOLOGIN mar_p0_reader role was created and SELECT-only granted in the isolated lab, but no consumer login/production privileges were established.",
+  "notes": "Authenticated Neon inspection and isolated lab test; JSON is a dated audit record, not live CI attestation. Clone/row digests are not a separate backup. No production branch, scientific corpus or Vercel access was changed. Follow F02 acceptance and explicit owner review before production changes. Dedicated NOLOGIN mar_p0_reader role was created and SELECT-only granted in the isolated lab, but no consumer login/production privileges were established. The dedicated LAB login can access no non-mar_p0 user relations and no executable user SECURITY DEFINER functions, confirmed by live catalog read. This is not operational runtime proof.",
   "storage_current_probe": {
     "provider": "vercel",
     "project": "mar-p0-recovery-lab",
