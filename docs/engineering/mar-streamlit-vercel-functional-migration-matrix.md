@@ -50,7 +50,7 @@
 
 ## F01 — índice auditável de fluxos (sem aceite funcional)
 
-Inventário estrutural fechado nesta revisão: **24 fluxos** (20 de interface Streamlit e 4 operacionais Python), incluindo referência explícita a **20 funções `render_*`** e **18 helpers `build_*/load_*`**. Identificação dos símbolos e caminhos validada contra o código do SHA `66e79afa8755ca2ff12f1a8088c9ffc808a8a8a3`. A cobertura é **de rastreabilidade**, não de testes de comportamento equivalentes.
+Inventário estrutural fechado nesta revisão: **24 fluxos** (20 de interface Streamlit e 4 operacionais Python), incluindo referência explícita a **64 funções top-level**: 20 `render_*`, 18 `build_*/load_*` e 26 helpers adicionais; também **13 grupos de abas `st.tabs`**. Identificação dos símbolos e caminhos validada contra o código do SHA `66e79afa8755ca2ff12f1a8088c9ffc808a8a8a3`. A cobertura é **de rastreabilidade**, não de testes de comportamento equivalentes.
 
 | ID | Fluxo | Situação de equivalência | Origem |
 |---|---|---|---|
