@@ -262,6 +262,16 @@ def run(root: Path, write: bool = False):
         expected_slices[code] = slices_projection(code, outputs)
         expected_profiles[code] = profile_projection(code, outputs, actual_profiles.get(code))
 
+    # Only pre-existing scientific reports are grandfathered from the historical
+    # snapshot. A NEW report requires an explicit inventoried source entry first;
+    # a workflow cannot create its own G0/G1 curatorial authority.
+    current_reports = flatten(shards(site, "analytics"), "analytics")
+    new_codes = set(expected_reports) - set(current_reports)
+    inventoried = {row["code"] for row in read_json(site / "data/public-access-observatory.json")["corpora"]}
+    unauthorized = new_codes - inventoried
+    if unauthorized:
+        raise SnapshotDrift(f"new corpus missing curatorial inventory (corpus coverage): {sorted(unauthorized)}")
+
     # Verify human-curated access gates BEFORE any file is written.
     # New corpus inclusion must be reviewed independently, never synthesized here.
     verify_access_inventory(outputs, site)
