@@ -3,10 +3,14 @@ name: MAR Scientific Site Projection Refresh
 # A draft PR for derived aggregates only. Never merges, publishes objects or runs a collector.
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * 1"
   push:
     branches: [main]
     paths:
       - "data/output/**"
+      - "site/data/kavi-public.json"
+      - "scripts/build_mar_title_wordcloud.py"
       - "scripts/build_mar_site_research_projections.py"
       - ".github/workflows/mar-site-projection-refresh.yml"
 
@@ -43,6 +47,13 @@ jobs:
           python3 scripts/build_mar_title_wordcloud.py --check
           python3 scripts/check_mar_site_index.py
           python3 -m unittest discover -s tests -p 'test_mar_site_snapshot_coherence.py' -v
+      - name: Pin source commit for updated scientific slices
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          if ! git diff --quiet -- site/data/analytics-*.json site/data/research-slices-*.json site/data/institution-profiles-*.json; then
+            python3 scripts/pin_mar_site_research_snapshot.py --source-sha "$SOURCE_SHA"
+          fi
       - name: Restrict generated changes
         id: generated
         shell: bash
@@ -54,7 +65,37 @@ jobs:
           fi
           echo "changed=true" >> "$GITHUB_OUTPUT"
           git diff --name-only > /tmp/mar-site-changed
-          if grep -Ev '^site/data/(analytics-[0-9]+|research-slices-[0-9]+|institution-profiles-[0-9]+|title-wordcloud)\.json$' /tmp/mar-site-changed; then
+          if grep -Ev '^site/(data/(analytics-[0-9]+|research-slices-[0-9]+|institution-profiles-[0-9]+|title-wordcloud)\.json|lib/research-snapshot\.ts) /tmp/mar-site-changed; then
+            echo "::error::Unexpected generated path"
+            exit 1
+          fi
+      - name: Open human-reviewed draft PR, never auto-merge
+        if: steps.generated.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH="automation/mar-scientific-site-projections"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH" || true
+          git switch -C "$BRANCH" "$GITHUB_SHA"
+          git add -- site/data/ site/lib/research-snapshot.ts
+          git diff --cached --name-only > /tmp/mar-site-staged
+          if grep -Ev '^site/data/(analytics-[0-9]+|research-slices-[0-9]+|institution-profiles-[0-9]+|title-wordcloud)\.json$' /tmp/mar-site-staged; then
+            echo "::error::Unexpected staged file"
+            exit 1
+          fi
+          git commit -m "data(MAR): refresh audited scientific site projections"
+          git push --force-with-lease origin "HEAD:refs/heads/$BRANCH"
+          PR="$(gh pr list --state open --head "$BRANCH" --json number --jq '.[0].number // empty')"
+          if test -z "$PR"; then
+            gh pr create --draft --base main --head "$BRANCH" \
+              --title "data(MAR): revisar projeções científicas estáticas" \
+              --body "PR de indicadores, tabelas e perfis derivados dos snapshots versionados. REVISÃO HUMANA obrigatória antes de integrar. Não publica fichas sob HOLD, não autoriza mídia, não remove proteção SSO e não cria projeto Vercel. Conferir diffs, licenças, números, hashes e proveniência."
+          fi
+ /tmp/mar-site-changed; then
             echo "::error::Unexpected generated path"
             exit 1
           fi
@@ -72,7 +113,19 @@ jobs:
           git switch -C "$BRANCH" "$GITHUB_SHA"
           git add -- site/data/
           git diff --cached --name-only > /tmp/mar-site-staged
-          if grep -Ev '^site/data/(analytics-[0-9]+|research-slices-[0-9]+|institution-profiles-[0-9]+|title-wordcloud)\.json$' /tmp/mar-site-staged; then
+          if grep -Ev '^site/(data/(analytics-[0-9]+|research-slices-[0-9]+|institution-profiles-[0-9]+|title-wordcloud)\.json|lib/research-snapshot\.ts) /tmp/mar-site-staged; then
+            echo "::error::Unexpected staged file"
+            exit 1
+          fi
+          git commit -m "data(MAR): refresh audited scientific site projections"
+          git push --force-with-lease origin "HEAD:refs/heads/$BRANCH"
+          PR="$(gh pr list --state open --head "$BRANCH" --json number --jq '.[0].number // empty')"
+          if test -z "$PR"; then
+            gh pr create --draft --base main --head "$BRANCH" \
+              --title "data(MAR): revisar projeções científicas estáticas" \
+              --body "PR de indicadores, tabelas e perfis derivados dos snapshots versionados. REVISÃO HUMANA obrigatória antes de integrar. Não publica fichas sob HOLD, não autoriza mídia, não remove proteção SSO e não cria projeto Vercel. Conferir diffs, licenças, números, hashes e proveniência."
+          fi
+ /tmp/mar-site-staged; then
             echo "::error::Unexpected staged file"
             exit 1
           fi
