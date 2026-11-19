@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs/engineering/mar-implementation-stage-gates.json"
 STAGES = tuple(f"F{i:02d}" for i in range(14))
 SHA = re.compile(r"^[0-9a-f]{40}$")
-CONTROL_LINE = re.compile(r"(?i)^MAR-(?:STAGE|QUEUE)\s*:")
+CONTROL_LINE = re.compile(r"(?i)^MAR-(?:STAGE|QUEUE|TRANSITION)\s*:")
 REPO_URL = "https://github.com/brauliorrs/memoria-audiovisual-rede/"
 ISSUE = REPO_URL + "issues/128"
 BASE_GATES = (
@@ -143,12 +143,15 @@ def validate_manifest(doc: object) -> list[str]:
     return errors
 
 
-def validate_pull_request(body: str, active_stage: str | None) -> list[str]:
-    """Match the live stage, or explicitly label a PR after F13 is complete.
+def validate_pull_request(
+    body: str, active_stage: str | None, manifest: dict | None = None
+) -> list[str]:
+    """Require exact scope markers for normal PRs and controlled queue closing.
 
-    The final F13 completion PR may still be labelled MAR-STAGE: F13 even
-    after its manifest switches to the complete state. Later PRs must use
-    MAR-QUEUE: COMPLETE. Neither label grants scientific approval.
+    A transition PR closes one stage and opens the immediately following
+    stage; it must name BOTH the outgoing and incoming stages explicitly.
+    The manifest still needs independently reviewed evidence and a human
+    GitHub approval. This checker verifies structure, not the review's merit.
     """
     controls = [
         line.strip() for line in body.splitlines()
@@ -159,11 +162,32 @@ def validate_pull_request(body: str, active_stage: str | None) -> list[str]:
             return []
         return ["completed queue requires exactly MAR-STAGE: F13 (closing PR) "
                 "or MAR-QUEUE: COMPLETE (later PR), never both"]
-    if controls != [f"MAR-STAGE: {active_stage}"]:
-        return [f"PR must contain exactly one line MAR-STAGE: {active_stage} "
-                "and no other stage/queue markers"]
-    return []
 
+    if controls == [f"MAR-STAGE: {active_stage}"]:
+        return []
+
+    if active_stage in STAGES[2:]:
+        incoming = STAGES.index(active_stage)
+        outgoing = STAGES[incoming - 1]
+        expected = [
+            f"MAR-STAGE: {outgoing}",
+            f"MAR-TRANSITION: {outgoing}->{active_stage}",
+        ]
+        if controls == expected:
+            if not isinstance(manifest, dict):
+                return ["transition PR requires the complete queue manifest"]
+            stages = manifest.get("stages")
+            if not isinstance(stages, list) or len(stages) != len(STAGES):
+                return ["transition PR has incomplete stage manifest"]
+            if (stages[incoming - 1].get("status") == "completed"
+                    and stages[incoming].get("status") in ("active", "hold")
+                    and manifest.get("active_stage") == active_stage
+                    and not validate_manifest(manifest)):
+                return []
+
+    return [f"PR must declare MAR-STAGE: {active_stage}, or use a valid "
+            "MAR-STAGE / MAR-TRANSITION pair for the immediately previous "
+            "completed stage; no extra markers"]
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -181,7 +205,7 @@ def main(argv: list[str] | None = None) -> int:
             event_path = Path(os.environ["GITHUB_EVENT_PATH"])
             event = json.loads(event_path.read_text(encoding="utf-8"))
             pr = event["pull_request"]
-            errors.extend(validate_pull_request(pr.get("body") or "", doc["active_stage"]))
+            errors.extend(validate_pull_request(pr.get("body") or "", doc["active_stage"], doc))
         except (KeyError, OSError, ValueError, TypeError) as exc:
             errors.append(f"cannot verify pull request stage: {exc}")
     for err in errors:
