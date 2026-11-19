@@ -6,6 +6,9 @@ import {useSiteLocale, type SiteLocale} from "@/components/site-locale";
 export const institutionalCopy = {
   pt: {
     homeEyebrow:"OBSERVATÓRIO CIENTÍFICO ABERTO",
+    themesEyebrow:"MAR · PESQUISA TEMÁTICA",
+    seriesEyebrow:"MAR · OBSERVAÇÕES HISTÓRICAS",
+    institutionalResearchEyebrow:"MAR · PESQUISA INSTITUCIONAL",
     homeTitleLead:"A memória audiovisual do mundo,",
     homeTitleEm:"conectada.",
     homeIntro:"Investigue a circulação documental do audiovisual em rede: compare acervos, instituições e territórios, examine condições de acesso e consulte registros na instituição de origem.",
@@ -64,6 +67,9 @@ export const institutionalCopy = {
   },
   en: {
     homeEyebrow:"OPEN SCIENTIFIC OBSERVATORY",
+    themesEyebrow:"MAR · THEMATIC RESEARCH",
+    seriesEyebrow:"MAR · HISTORICAL OBSERVATIONS",
+    institutionalResearchEyebrow:"MAR · INSTITUTIONAL RESEARCH",
     homeTitleLead:"The world's audiovisual memory,",
     homeTitleEm:"connected.",
     homeIntro:"Explore audiovisual documentary circulation across networks: compare collections, institutions and territories, examine access conditions, and consult records at their original institutions.",
@@ -122,6 +128,9 @@ export const institutionalCopy = {
   },
   es: {
     homeEyebrow:"OBSERVATORIO CIENTÍFICO ABIERTO",
+    themesEyebrow:"MAR · INVESTIGACIÓN TEMÁTICA",
+    seriesEyebrow:"MAR · OBSERVACIONES HISTÓRICAS",
+    institutionalResearchEyebrow:"MAR · INVESTIGACIÓN INSTITUCIONAL",
     homeTitleLead:"La memoria audiovisual del mundo,",
     homeTitleEm:"conectada.",
     homeIntro:"Investigue la circulación documental del audiovisual en red: compare colecciones, instituciones y territorios, examine las condiciones de acceso y consulte registros en las instituciones de origen.",
@@ -183,4 +192,18 @@ export type InstitutionalKey=keyof typeof institutionalCopy.pt;
 export function InstitutionalText({id}:{id:InstitutionalKey}){
   const {locale}=useSiteLocale();
   return <>{institutionalCopy[locale][id]}</>;
+}
+
+/** Countries here are presentation labels from the institutional landing page, not source record fields. */
+const presentationCountries:Record<string,Record<SiteLocale,string>>={
+ "Finlândia":{pt:"Finlândia",en:"Finland",es:"Finlandia"},
+ "Países Baixos":{pt:"Países Baixos",en:"Netherlands",es:"Países Bajos"},
+ "Tchéquia":{pt:"Tchéquia",en:"Czechia",es:"Chequia"},
+ "França":{pt:"França",en:"France",es:"Francia"},
+ "Espanha":{pt:"Espanha",en:"Spain",es:"España"},
+ "Bulgária":{pt:"Bulgária",en:"Bulgaria",es:"Bulgaria"},
+};
+export function InstitutionalCountry({name}:{name:string}){
+ const {locale}=useSiteLocale();
+ return <>{presentationCountries[name]?.[locale]??name}</>;
 }
