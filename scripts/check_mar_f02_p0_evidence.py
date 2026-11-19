@@ -135,6 +135,10 @@ def validate_report(doc: object) -> list[str]:
         "production_login_provisioned": False,
         "environment_secret_configured": False,
         "backup_with_new_login_executed": False,
+        "non_p0_relations_discovered": 10,
+        "non_p0_relations_with_effective_access": 0,
+        "non_p0_executable_security_definer": 0,
+        "cross_schema_least_privilege_proven_in_lab": True,
     }
     if not isinstance(login, dict) or any(
         login.get(key) != expected for key, expected in login_expect.items()
