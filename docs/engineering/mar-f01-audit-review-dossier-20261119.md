@@ -1,6 +1,6 @@
 # MAR — F01: dossiê de auditoria e decisão de saída
 
-**Escopo:** somente F01 da [fila de implantação #128](https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128). **Referência científica e de interface:** `main` no SHA `66e79afa8755ca2ff12f1a8088c9ffc808a8a8a3`. **Trabalho em revisão:** [PR #127](https://github.com/brauliorrs/memoria-audiovisual-rede/pull/127). **Estado deste dossiê: EM REVISÃO; não aprovado.**
+**Escopo:** somente F01 da [fila de implantação #128](https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128). **Referência científica e de interface:** `main` no SHA `66e79afa8755ca2ff12f1a8088c9ffc808a8a8a3`. **Trabalho auditado:** [PR #127](https://github.com/brauliorrs/memoria-audiovisual-rede/pull/127), integrado à `main` pelo proprietário no merge commit `1ff9758c835c703205f38e79c5d3cdc75c6f3af1`. **Situação de aceite:** auditoria manual declarada concluída pelo responsável único; atestado de aceite F01 ainda precisa ser registrado como decisão de escopo explícita na issue #128. O merge e o CI não representam revisão independente.
 
 ## Propósito e fronteira de aceite
 
@@ -41,7 +41,7 @@ O **workflow Quality Checks** integra os verificadores de ordem, inventário e o
 | Exports do legado | CSV agregado permitido não equivale à exportação de registros individuais com direitos não validados | Proibição intencional; não considerar erro de migração |
 | Programa de liberação pública | Vercel privada e Streamlit preservado durante auditoria; nenhum deploy READY é autorização | F11–F13 |
 
-## Checklist de revisão independente de F01
+## Checklist de decisão do responsável único — F01 (autorrevisão declarada)
 
 1. Verificar se a matriz e o JSON enumeram todos os fluxos operacionais reais e não descrevem páginas como prova de comportamento.
 2. Conferir por amostragem cada grupo com o código de origem, a rota Next.js e os arquivos científicos, inclusive caminhos com HOLD.
@@ -49,6 +49,6 @@ O **workflow Quality Checks** integra os verificadores de ordem, inventário e o
 4. Registrar aceite **do inventário e de seu plano de remediação**, não aceite da equivalência total nem da publicação dos corpora.
 5. Garantir que cada lacuna crítica tenha etapa F03–F10 associada, sem criar trabalho paralelo e sem antecipar F02.
 6. Revisar a ausência de alterações em Neon principal, SSO Vercel, Streamlit, fontes científicas congeladas e direitos.
-7. Após aprovação humana do PR de auditoria, fazer o merge dos artefatos de F01 e, **em PR de fechamento separado**, adicionar as evidências `impact`, `contracts`, `tests`, `negative_tests`, `functional_acceptance`, `rollback`, `review` e `migration_matrix` à F01 do manifesto, com URL, SHA completo e revisor humano confirmado. No PR de fechamento registrar exatamente `MAR-STAGE: F01` e `MAR-TRANSITION: F01->F02`, de modo que o gate valide F01 concluída e F02 ativa na mesma revisão. Somente após aprovação e merge do PR de transição atualizar a issue #128; até esse momento F01 continua ativa. O checker valida estrutura, não autenticidade de revisores.
+7. O PR #127 foi integrado à `main` pelo próprio responsável, sem outro revisor: registrar como **exceção de segregação de funções**, não como aprovação independente. **Em PR de fechamento separado**, adicionar as evidências `impact`, `contracts`, `tests`, `negative_tests`, `functional_acceptance`, `rollback`, `review` e `migration_matrix` à F01 do manifesto, com URL, SHA completo e revisor humano identificado como responsável único, incluindo `review_mode: owner_only`, `independent: false`, `owner_acknowledgement: true` e link para a exceção na issue #128. No PR de fechamento registrar exatamente `MAR-STAGE: F01` e `MAR-TRANSITION: F01->F02`, de modo que o gate valide F01 concluída e F02 ativa na mesma revisão. Somente após aceite explícito do responsável, verificações do PR de transição e seu merge atualizar a issue #128; até esse momento F01 continua ativa. O checker valida estrutura, não autenticidade de revisores.
 
-**Decisão atual:** F01 **PENDENTE de aceite independente**. F02–F13 bloqueadas; sem alteração de banco, corpus, Vercel ou publicação.
+**Decisão atual:** revisão manual **declarada concluída** pelo único revisor; F01 ainda **pendente de atestado formal de aceite e encerramento do gate de transição**. Não existe revisão independente e ela não deve ser presumida. F02–F13 bloqueadas; sem alteração de banco, corpus, Vercel ou publicação.
