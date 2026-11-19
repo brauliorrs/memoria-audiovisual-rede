@@ -19,6 +19,7 @@ OK = {
     "schema_usage": True, "can_create_in_schema": False,
     "can_create_in_public": False, "neon_superuser_member": False,
     "pg_write_all_data_member": False, "database_owner_member": False,
+    "member_of_other_roles": False, "executable_security_definer_in_mar_p0": False,
     "table_count": 3, "tables": list(gate.EXPECTED_TABLES),
     "all_select": True, "any_write": False,
 }
@@ -44,7 +45,9 @@ class F02ReaderPreflightTests(unittest.TestCase):
         self.assertIn("any_write_must_be_false", gate.assess(doc))
 
     def test_neon_superuser_or_owner_membership_blocks(self):
-        for name in ("neon_superuser_member", "database_owner_member", "pg_write_all_data_member"):
+        for name in ("neon_superuser_member", "database_owner_member",
+                     "pg_write_all_data_member", "member_of_other_roles",
+                     "executable_security_definer_in_mar_p0"):
             with self.subTest(name=name):
                 doc = self.doc()
                 doc[name] = True
