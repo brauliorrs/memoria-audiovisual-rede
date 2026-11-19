@@ -15,6 +15,7 @@ on:
       - "tests/test_mar_geographic_permalinks.py"
       - "tests/test_mar_scientific_i18n.py"
       - "tests/test_mar_catalog_access_i18n.py"
+      - "tests/test_mar_kavi_detail_i18n.py"
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
       - ".github/workflows/mar-site.yml"
@@ -96,6 +97,11 @@ jobs:
       - name: Verify multilingual catalog and access-index publication safeguards
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_catalog_access_i18n.py" -v
+      - name: Verify original KAVI record values in three rendered languages
+        run: npm run test:kavi-detail
+      - name: Verify unchanged KAVI record publication gate and detail route contracts
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p "test_mar_kavi_detail_i18n.py" -v
       - name: Typecheck
         run: npm run typecheck
       - name: Build static Next.js site
