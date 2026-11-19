@@ -1,7 +1,7 @@
 {
   "schema": "mar.engineering.stage-gate.v1",
   "queue_issue": "https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128",
-  "active_stage": "F01",
+  "active_stage": "F02",
   "new_features_frozen": true,
   "public_access_authorized": false,
   "stages": [
@@ -14,32 +14,78 @@
     {
       "id": "F01",
       "title": "Auditoria de equivalencia funcional",
-      "status": "active",
+      "status": "completed",
       "evidence": {
+        "impact": {
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/blob/0b65f32366532bb24b8a9966f366c0ac85a2e8f7/docs/engineering/mar-f01-owner-only-closeout-20261119.md",
+          "commit_sha": "0b65f32366532bb24b8a9966f366c0ac85a2e8f7",
+          "reviewed_by": "brauliorrs",
+          "result": "accepted",
+          "review_mode": "owner_only",
+          "independent": false,
+          "owner_acknowledgement": true,
+          "independence_exception": "https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128"
+        },
         "contracts": {
-          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44568880673",
-          "commit_sha": "eb173cc58cb3a40176a37d00ace157066a8f8e71",
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44575573557",
+          "commit_sha": "0b65f32366532bb24b8a9966f366c0ac85a2e8f7",
           "reviewed_by": "github-actions",
           "result": "passed"
         },
         "tests": {
-          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44568880673",
-          "commit_sha": "eb173cc58cb3a40176a37d00ace157066a8f8e71",
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44575573557",
+          "commit_sha": "0b65f32366532bb24b8a9966f366c0ac85a2e8f7",
           "reviewed_by": "github-actions",
           "result": "passed"
         },
         "negative_tests": {
-          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44568880673",
-          "commit_sha": "eb173cc58cb3a40176a37d00ace157066a8f8e71",
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44575573557",
+          "commit_sha": "0b65f32366532bb24b8a9966f366c0ac85a2e8f7",
           "reviewed_by": "github-actions",
           "result": "passed"
+        },
+        "functional_acceptance": {
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128#issuecomment-7016739721",
+          "commit_sha": "0b65f32366532bb24b8a9966f366c0ac85a2e8f7",
+          "reviewed_by": "brauliorrs",
+          "result": "accepted",
+          "review_mode": "owner_only",
+          "independent": false,
+          "owner_acknowledgement": true,
+          "independence_exception": "https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128"
+        },
+        "rollback": {
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/commit/fc27ad6b8a64180d4fc1619f5b9f86d368acabac",
+          "commit_sha": "fc27ad6b8a64180d4fc1619f5b9f86d368acabac",
+          "reviewed_by": "github-tree-audit",
+          "result": "passed"
+        },
+        "review": {
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128#issuecomment-7016739721",
+          "commit_sha": "0b65f32366532bb24b8a9966f366c0ac85a2e8f7",
+          "reviewed_by": "brauliorrs",
+          "result": "accepted",
+          "review_mode": "owner_only",
+          "independent": false,
+          "owner_acknowledgement": true,
+          "independence_exception": "https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128"
+        },
+        "migration_matrix": {
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128#issuecomment-7016739721",
+          "commit_sha": "0b65f32366532bb24b8a9966f366c0ac85a2e8f7",
+          "reviewed_by": "brauliorrs",
+          "result": "accepted",
+          "review_mode": "owner_only",
+          "independent": false,
+          "owner_acknowledgement": true,
+          "independence_exception": "https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128"
         }
       }
     },
     {
       "id": "F02",
       "title": "Seguranca P0 e recuperacao",
-      "status": "blocked",
+      "status": "active",
       "evidence": {}
     },
     {
