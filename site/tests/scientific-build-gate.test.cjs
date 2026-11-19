@@ -39,6 +39,13 @@ test("Changing only one static report must fail during the actual build",t=>{
   assert.notEqual(x.status,0);
   assert.match(x.stderr,/Scientific site projection changed/);
 });
+test("Editing only the title word cloud must fail atomic build",t=>{
+  const root=setup(t);
+  fs.appendFileSync(path.join(root,"data/title-wordcloud.json")," ");
+  const x=exec(root);
+  assert.notEqual(x.status,0);
+  assert.match(x.stderr,/Standalone title-cloud refresh/);
+});
 test("Adding unreviewed corpus projection fails closed",t=>{
   const root=setup(t);
   fs.writeFileSync(path.join(root,"data/analytics-99.json"),"[]\n");
