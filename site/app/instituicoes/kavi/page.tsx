@@ -1,10 +1,11 @@
+import {pageSeo} from "@/lib/seo";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {CatalogSearch} from "@/components/catalog-search";
 import {InstitutionalText} from "@/components/institutional-i18n";
 import {publicIndex,records} from "@/lib/catalog";
 
-export const metadata:Metadata={title:"KAVI / Finna — fichas documentais"};
+export const metadata=pageSeo("/instituicoes/kavi/");
 
 export default function KaviPage(){
  return <div className="shell page-shell">
