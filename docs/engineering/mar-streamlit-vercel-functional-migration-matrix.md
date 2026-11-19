@@ -6,7 +6,7 @@
 
 | Experiência Streamlit | Destino Next.js | Situação após esta etapa |
 |---|---|---|
-| Pesquisa global de fichas | `/acervo/` | **Disponível:** 200 fichas KAVI autorizadas; filtros, ordenação, estados e paginação traduzidos PT/EN/ES. Detalhe da ficha e metadados específicos ainda não integralmente internacionalizados |
+| Pesquisa global de fichas | `/acervo/` e `/acervo/kavi/[id]/` | **Implementado PT/EN/ES:** filtros, resultados e agora 200 páginas detalhadas com rótulos, proveniência, estados de validação e alertas traduzidos. Títulos, campos e identificadores preservados na forma de origem. SEO da ficha continua inicialmente em português |
 | Visão geral do Observatório | `/observatorio/` | **Implementado nesta etapa**: cartões e painel comparativo |
 | Categorias e agregadores | `/observatorio/` | **Implementado nesta etapa**: filtros e agrupamento por categoria |
 | Territórios e distribuição | `/observatorio/`, `/territorios/` | **Implementado (agregado):** mapa mundial Natural Earth 1:110m de distribuições tema×país para fonte selecionada; regiões muito pequenas sem polígono aparecem apenas na tabela; não geolocaliza obras |
@@ -22,7 +22,7 @@
 | Tabelas, download de indicadores e dados | `/observatorio/`, `/comparar/` | **Parcial**: tabelas comparativas e exportação CSV **somente de indicadores agregados**, filtros, proveniência; exportação de metadados individuais sob HOLD vedada |
 | Ficha institucional detalhada | `/instituicoes/pesquisa/`, `/instituicoes/pesquisa/[source]/[entry]/` | **Parcial**: perfis institucionais estáticos com proveniência e paginação; atualização dinâmica e integração completa pendentes |
 | Fundamentação/metodologia | `/metodologia/` e perfis | **Parcial:** quatro critérios científicos traduzidos PT/EN/ES, relatórios de acesso e proveniência preservados; fundamentação metodológica aprofundada continua pendente |
-| Alternância de idiomas | Seletor global PT/EN/ES, catálogo, acesso e núcleo científico | **Ampliado nesta etapa:** filtros do catálogo autorizado e Índice de Dados Públicos traduzidos, além do Observatório, 62 relatórios, 63 perfis, metodologia e casos; textos documentais originais preservados. Fichas KAVI detalhadas e alguns textos da plataforma ainda não traduzidos |
+| Alternância de idiomas | Seletor global PT/EN/ES, fichas KAVI, catálogo, acesso e núcleo científico | **Ampliado nesta etapa:** as 200 fichas KAVI detalhadas traduzem a interface, metadados de campo, proveniência e avisos de não verificação, sem alterar valores de origem. Áreas institucionais legadas, SEO e traduções documentais revisadas continuam pendentes |
 | Ciclo de coleta, descoberta, atualização e governança | Área analítica e documentação | **Pendente**: visualização de relatórios operacionais sem credenciais |
 | Comparação longitudinal e linha do tempo | `/series/`, `/comparar/` | **Implementado em snapshots**: gráficos por fonte e comparação separada de até três corpora, sem alinhamento artificial das datas; atualização ao vivo pendente |
 | Exportação de fichas individuais de fontes sob HOLD | Catálogo | **Bloqueado**, não é requisito para liberar painéis agregados |
@@ -40,7 +40,7 @@
 2. Cruzamentos de temas, países, visibilidade e tipos por corpus.
 3. **Parcial**: séries históricas e novo mapa mundial por país (1:110m); geometrias de pequenos territórios e georreferenciamento de obras não disponíveis.
 4. **Parcial**: comparação de até três corpora com filtros reproduzíveis em URL e proveniência Git fixada; futuras hipóteses e recortes com autenticação/perfis permanecem pendentes.
-5. **Parcial, ampliado**: núcleo científico, filtros do catálogo KAVI e Índice de Dados Públicos com PT/EN/ES e testes. Faltam fichas detalhadas, partes das páginas institucional/catálogo, SEO internacionalizado, tradução humana de evidências e auditoria visual/acessibilidade.
+5. **Parcial, ampliado**: núcleo científico, catálogo KAVI (busca e 200 fichas detalhadas) e Índice de Dados Públicos em PT/EN/ES com testes. Restam algumas páginas institucionais legadas, SEO indexável por idioma, revisão humana das evidências documentais e auditoria visual/acessibilidade.
 6. Substituir o Streamlit somente depois da equivalência funcional e da revisão de operação.
 
 **Não usar “migração completa” até cada linha desta matriz ter implementação e validação demonstradas.**
