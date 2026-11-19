@@ -59,3 +59,27 @@ test("switching language changes scientific labels and regional numbers",()=>{
   assert.equal(ScientificNumber({value:194057}).props.children,"194.057");
   assert.equal(ScientificTerritory({value:"Europe"}).props.children,"Europa");
 });
+
+test("catalog and access-index labels change language but keep legal boundary",()=>{
+  const locales=["pt","en","es"];
+  const catalogTerms=[];
+  const indexTerms=[];
+  for(const loc of locales){
+    currentLocale=loc;
+    const copy=scientificCopy[loc];
+    assert.equal(ScientificText({id:"catalogSearchLabel"}).props.children,copy.catalogSearchLabel);
+    assert.equal(ScientificText({id:"accessTitle"}).props.children,copy.accessTitle);
+    assert.ok(copy.catalogSearchLabel.length>20);
+    assert.ok(copy.catalogMetadataNotice.length>15);
+    assert.ok(copy.catalogMoreRecords.length>8);
+    assert.ok(copy.accessPublicationHold.length>35);
+    assert.ok(copy.accessOriginalNote.length>65);
+    assert.ok(copy.accessFootnoteAfter.length>180);
+    assert.ok(copy.accessFallbackPublic.length>80);
+    assert.ok(copy.accessFallbackUnquantified.length>80);
+    catalogTerms.push(copy.catalogSearchLabel);
+    indexTerms.push(copy.accessPublicationHold);
+  }
+  assert.equal(new Set(catalogTerms).size,3);
+  assert.equal(new Set(indexTerms).size,3);
+});

@@ -6,14 +6,14 @@
 
 | Experiência Streamlit | Destino Next.js | Situação após esta etapa |
 |---|---|---|
-| Pesquisa global de fichas | `/acervo/` | Já disponível, 200 fichas KAVI |
+| Pesquisa global de fichas | `/acervo/` | **Disponível:** 200 fichas KAVI autorizadas; filtros, ordenação, estados e paginação traduzidos PT/EN/ES. Detalhe da ficha e metadados específicos ainda não integralmente internacionalizados |
 | Visão geral do Observatório | `/observatorio/` | **Implementado nesta etapa**: cartões e painel comparativo |
 | Categorias e agregadores | `/observatorio/` | **Implementado nesta etapa**: filtros e agrupamento por categoria |
 | Territórios e distribuição | `/observatorio/`, `/territorios/` | **Implementado (agregado):** mapa mundial Natural Earth 1:110m de distribuições tema×país para fonte selecionada; regiões muito pequenas sem polígono aparecem apenas na tabela; não geolocaliza obras |
 | Instituições e unidades | `/observatorio/[code]/` | **Implementado nesta etapa**: 63 perfis históricos com acesso, evidência e limites |
 | Pesquisa comparativa multícorpus | `/comparar/` | **Implementado nesta etapa:** até três fontes, temas/países/plataformas, séries independentes, filtros e CSV agregado |
 | Recortes científicos reproduzíveis | `/comparar/?a=...&b=...&view=...` | **Implementado nesta etapa:** filtros salvos em URL, cópia de link e proveniência fixada por commit no CSV e nos links dos insumos |
-| Índice de Dados Públicos | `/indice-acesso/` | Integrado e implantado em fase anterior |
+| Índice de Dados Públicos | `/indice-acesso/` | **Implementado PT/EN/ES:** introdução, números históricos, filtros, estados, motivos, limites jurídicos e acesso por fonte; mantém 63 corpora no inventário e zero novas fichas liberadas |
 | Casos documentados | `/casos/` | **Implementado nesta etapa**: 17 casos explicativos |
 | Síntese por corpus (integridade, disponibilidade, plataformas) | `/observatorio/[code]/` | **Implementado (agregado)**: 62 relatórios da fonte com indicadores de instituições, sites, integridade e plataformas |
 | Instituições com vídeo e evidência | `/observatorio/[code]/` | **Parcial**: instituições com sinal de vídeo agregadas por fonte; tabelas individuais pendentes |
@@ -22,7 +22,7 @@
 | Tabelas, download de indicadores e dados | `/observatorio/`, `/comparar/` | **Parcial**: tabelas comparativas e exportação CSV **somente de indicadores agregados**, filtros, proveniência; exportação de metadados individuais sob HOLD vedada |
 | Ficha institucional detalhada | `/instituicoes/pesquisa/`, `/instituicoes/pesquisa/[source]/[entry]/` | **Parcial**: perfis institucionais estáticos com proveniência e paginação; atualização dinâmica e integração completa pendentes |
 | Fundamentação/metodologia | `/metodologia/` e perfis | **Parcial:** quatro critérios científicos traduzidos PT/EN/ES, relatórios de acesso e proveniência preservados; fundamentação metodológica aprofundada continua pendente |
-| Alternância de idiomas | Seletor global PT/EN/ES e núcleo científico | **Ampliado nesta etapa:** Observatório, tabelas de 62 relatórios, 63 perfis de corpus (estrutura), metodologia, casos, introdução do catálogo e rótulos de fichas institucionais; fontes documentais originais continuam no idioma de origem; índice de acesso, pesquisa de fichas e descrições institucionais ainda não têm tradução completa |
+| Alternância de idiomas | Seletor global PT/EN/ES, catálogo, acesso e núcleo científico | **Ampliado nesta etapa:** filtros do catálogo autorizado e Índice de Dados Públicos traduzidos, além do Observatório, 62 relatórios, 63 perfis, metodologia e casos; textos documentais originais preservados. Fichas KAVI detalhadas e alguns textos da plataforma ainda não traduzidos |
 | Ciclo de coleta, descoberta, atualização e governança | Área analítica e documentação | **Pendente**: visualização de relatórios operacionais sem credenciais |
 | Comparação longitudinal e linha do tempo | `/series/`, `/comparar/` | **Implementado em snapshots**: gráficos por fonte e comparação separada de até três corpora, sem alinhamento artificial das datas; atualização ao vivo pendente |
 | Exportação de fichas individuais de fontes sob HOLD | Catálogo | **Bloqueado**, não é requisito para liberar painéis agregados |
@@ -40,7 +40,7 @@
 2. Cruzamentos de temas, países, visibilidade e tipos por corpus.
 3. **Parcial**: séries históricas e novo mapa mundial por país (1:110m); geometrias de pequenos territórios e georreferenciamento de obras não disponíveis.
 4. **Parcial**: comparação de até três corpora com filtros reproduzíveis em URL e proveniência Git fixada; futuras hipóteses e recortes com autenticação/perfis permanecem pendentes.
-5. **Parcial, ampliado**: núcleo científico de Observatório, comparações, análises por fonte, metodologia, casos, mapa e introdução do catálogo PT/EN/ES, com testes. Faltam tradução do índice de acesso, controles do catálogo e descrições de fontes, conteúdo integral das fichas e auditoria visual/acessibilidade.
+5. **Parcial, ampliado**: núcleo científico, filtros do catálogo KAVI e Índice de Dados Públicos com PT/EN/ES e testes. Faltam fichas detalhadas, partes das páginas institucional/catálogo, SEO internacionalizado, tradução humana de evidências e auditoria visual/acessibilidade.
 6. Substituir o Streamlit somente depois da equivalência funcional e da revisão de operação.
 
 **Não usar “migração completa” até cada linha desta matriz ter implementação e validação demonstradas.**

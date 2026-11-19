@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { RecordItem } from "@/lib/catalog";
+import {useScientificCopy} from "@/components/scientific-i18n";
+import {useSiteLocale} from "@/components/site-locale";
 
 const PAGE_SIZE = 18;
 function fold(text: string) {
@@ -15,6 +17,9 @@ function topicsOf(item: RecordItem): string[] {
 }
 
 export function CatalogSearch({ items }: { items: RecordItem[] }) {
+  const copy=useScientificCopy();
+  const {locale}=useSiteLocale();
+  const format=(value:number)=>new Intl.NumberFormat(locale==="pt"?"pt-BR":locale==="es"?"es-ES":"en-US").format(value);
   const [term, setTerm] = useState("");
   const [decade, setDecade] = useState("all");
   const [topic, setTopic] = useState("all");
@@ -56,9 +61,9 @@ export function CatalogSearch({ items }: { items: RecordItem[] }) {
   }
 
   return (
-    <section className="search-module" aria-label="Pesquisa no acervo">
+    <section className="search-module" aria-label={copy.catalogSearchSection}>
       <div className="search-panel">
-        <label className="search-label" htmlFor="mar-search">Pesquisar por título, assunto, instituição ou identificador</label>
+        <label className="search-label" htmlFor="mar-search">{copy.catalogSearchLabel}</label>
         <div className="search-fields search-fields-advanced">
           <div className="search-input-wrap">
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
@@ -67,63 +72,63 @@ export function CatalogSearch({ items }: { items: RecordItem[] }) {
               type="search"
               value={term}
               onChange={(event) => { setTerm(event.target.value); setLimit(PAGE_SIZE); }}
-              placeholder="Ex.: Pojat, 1962, documentário..."
+              placeholder={copy.catalogSearchPlaceholder}
               autoComplete="off"
             />
           </div>
           <label className="filter-label" htmlFor="mar-decade">
-            Período
+            {copy.catalogPeriod}
             <select id="mar-decade" value={decade} onChange={(event) => { setDecade(event.target.value); setLimit(PAGE_SIZE); }}>
-              <option value="all">Todos os períodos</option>
+              <option value="all">{copy.catalogAllPeriods}</option>
               {decades.map((value) => <option value={String(value)} key={value}>{value}–{value + 9}</option>)}
             </select>
           </label>
           <label className="filter-label" htmlFor="mar-topic">
-            Tema / gênero
+            {copy.catalogTopicGenre}
             <select id="mar-topic" value={topic} onChange={(event) => { setTopic(event.target.value); setLimit(PAGE_SIZE); }}>
-              <option value="all">Todos os temas</option>
+              <option value="all">{copy.catalogAllTopics}</option>
               {topics.map((value) => <option value={value} key={value}>{value}</option>)}
             </select>
           </label>
           <label className="filter-label" htmlFor="mar-order">
-            Ordenação
+            {copy.catalogSort}
             <select id="mar-order" value={order} onChange={(event) => { setOrder(event.target.value); setLimit(PAGE_SIZE); }}>
-              <option value="title">Título (A–Z)</option>
-              <option value="newest">Ano (mais recente)</option>
-              <option value="oldest">Ano (mais antigo)</option>
+              <option value="title">{copy.catalogSortTitle}</option>
+              <option value="newest">{copy.catalogSortNewest}</option>
+              <option value="oldest">{copy.catalogSortOldest}</option>
             </select>
           </label>
         </div>
         <div className="search-hints">
-          <p className="search-helper">Acervo publicado: <strong>KAVI / Kuvi · Finna</strong> <span aria-hidden="true">·</span> <strong>cobertura parcial</strong>, mídia não verificada.</p>
-          <button type="button" className="text-button" onClick={reset}>Limpar filtros</button>
+          <p className="search-helper">{copy.catalogPublished} <strong>KAVI / Kuvi · Finna</strong> <span aria-hidden="true">·</span> <strong>{copy.catalogPartial}</strong>, {copy.catalogMediaUnverified}.</p>
+          <button type="button" className="text-button" onClick={reset}>{copy.catalogClearFilters}</button>
         </div>
       </div>
       <div className="results-head" role="status" aria-live="polite">
         <div>
-          <p className="eyebrow">REGISTROS DOCUMENTAIS</p>
-          <h2>{matches.length} {matches.length === 1 ? "ficha encontrada" : "fichas encontradas"}</h2>
+          <p className="eyebrow">{copy.catalogDocuments}</p>
+          <h2>{format(matches.length)} {matches.length === 1 ? copy.catalogFoundOne : copy.catalogFoundMany}</h2>
         </div>
-        <span className="results-chip">Metadados · reprodução não verificada</span>
+        <span className="results-chip">{copy.catalogMetadataNotice}</span>
       </div>
       {visible.length === 0 ? (
         <div className="empty-state">
-          <strong>Nenhuma ficha corresponde aos filtros.</strong>
-          <p>Experimente outro termo, período ou tema.</p>
-          <button type="button" className="text-button" onClick={reset}>Limpar pesquisa e filtros</button>
+          <strong>{copy.catalogEmpty}</strong>
+          <p>{copy.catalogTryAgain}</p>
+          <button type="button" className="text-button" onClick={reset}>{copy.catalogClearSearch}</button>
         </div>
       ) : (
         <div className="record-grid">
           {visible.map((item) => (
             <article className="record-card" key={item.id}>
-              <div className="record-meta"><span>KAVI / FINNA</span><span>{item.year ?? "Ano não informado"}</span></div>
+              <div className="record-meta"><span>KAVI / FINNA</span><span>{item.year ?? copy.catalogYearUnavailable}</span></div>
               <div className="record-icon" aria-hidden="true">▣</div>
               <h3><Link href={"/acervo/kavi/" + encodeURIComponent(item.id) + "/"}>{item.title}</Link></h3>
-              <p className="record-subject">{item.genres || item.subjects || "Assuntos não informados no registro."}</p>
+              <p className="record-subject">{item.genres || item.subjects || copy.catalogSubjectsUnavailable}</p>
               <p className="record-id">{item.id}</p>
               <div className="record-footer">
-                <span className="record-status">Ficha documental</span>
-                <Link href={"/acervo/kavi/" + encodeURIComponent(item.id) + "/"} aria-label={"Ver ficha documental de " + item.title}>Consultar ficha ↗</Link>
+                <span className="record-status">{copy.catalogRecordType}</span>
+                <Link href={"/acervo/kavi/" + encodeURIComponent(item.id) + "/"} aria-label={copy.catalogViewLabel+" "+item.title}>{copy.catalogViewRecord}</Link>
               </div>
             </article>
           ))}
@@ -132,7 +137,7 @@ export function CatalogSearch({ items }: { items: RecordItem[] }) {
       {matches.length > visible.length && (
         <div className="load-more">
           <button type="button" onClick={() => setLimit((value) => value + PAGE_SIZE)}>
-            Mostrar mais fichas <span>({matches.length - visible.length} restantes)</span>
+            {copy.catalogMoreRecords} <span>({format(matches.length - visible.length)} {copy.catalogRemaining})</span>
           </button>
         </div>
       )}
