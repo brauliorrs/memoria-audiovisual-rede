@@ -15,7 +15,26 @@
       "id": "F01",
       "title": "Auditoria de equivalencia funcional",
       "status": "active",
-      "evidence": {}
+      "evidence": {
+        "contracts": {
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44568880673",
+          "commit_sha": "eb173cc58cb3a40176a37d00ace157066a8f8e71",
+          "reviewed_by": "github-actions",
+          "result": "passed"
+        },
+        "tests": {
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44568880673",
+          "commit_sha": "eb173cc58cb3a40176a37d00ace157066a8f8e71",
+          "reviewed_by": "github-actions",
+          "result": "passed"
+        },
+        "negative_tests": {
+          "reference": "https://github.com/brauliorrs/memoria-audiovisual-rede/actions/runs/44568880673",
+          "commit_sha": "eb173cc58cb3a40176a37d00ace157066a8f8e71",
+          "reviewed_by": "github-actions",
+          "result": "passed"
+        }
+      }
     },
     {
       "id": "F02",
