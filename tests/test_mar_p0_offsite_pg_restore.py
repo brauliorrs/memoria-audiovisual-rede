@@ -47,6 +47,14 @@ class OffsiteEncryptedRecoveryTests(unittest.TestCase):
         self.assertEqual(safe["PGCHANNELBINDING"], "require")
         self.assertEqual(safe["PGSSLROOTCERT"], "system")
 
+    def test_legacy_checkpoint_writer_is_not_allowed_as_backup_reader(self):
+        legacy_url = SOURCE_URI.replace("mar_p0_backup_reader", "mar_p0_limited")
+        with self.assertRaises(RecoveryRejected):
+            _postgres_env(
+                "MAR_P0_READONLY_DATABASE_URL", origin=True,
+                env={"MAR_P0_READONLY_DATABASE_URL": legacy_url},
+            )
+
     def test_restore_target_only_isolated_local_database(self):
         for url in (
             "postgresql://operator:secret@ep-test.neon.tech/mar_p0_restore_test",
