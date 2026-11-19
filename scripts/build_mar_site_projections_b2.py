@@ -100,8 +100,11 @@ def project_institutions(root: Path, code: str, approved: dict | None) -> dict:
             "repositoryCode": _source_or_reviewed(source.get("repository_code"), reviewed.get("repositoryCode"), "repositoryCode", code, index),
             "originUrl": _source_or_reviewed(source.get("external_url"), reviewed.get("originUrl"), "originUrl", code, index),
         }
-        if not row["name"] or not row["country"]:
-            raise BundleError(f"Missing approved institution name/country: {code}:{index}")
+        # Some historical APE source records contain genuinely empty fields.
+        # Preserve the reviewed blank instead of inventing an institution or
+        # country. Admission/new publication must separately resolve these.
+        if not row["name"] and (source.get("institution") or reviewed.get("name")):
+            raise BundleError(f"Institution name unexpectedly missing: {code}:{index}")
         rows.append(row)
     result = {key: approved[key] for key in ("source", "sampled", "licencePolicy", "attribution") if key in approved}
     result["rows"] = rows
