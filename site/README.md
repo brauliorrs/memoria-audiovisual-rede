@@ -64,3 +64,7 @@ As atualizações deste site são implantadas **somente** no projeto Vercel exis
 4. Fase 4: transição gradual de URL, observabilidade e desativação controlada do Streamlit público.
 
 **Não confundir o cadastro de um conector no motor universal com autorização de publicação.**
+
+## Etapa editorial e SEO PT/EN/ES (novembro de 2026)
+
+Os textos institucionais da homepage, lista de instituições, página KAVI, rodapé e nuvem científica estão disponíveis em PT/EN/ES. As rotas funcionais permanecem as mesmas. Há entradas HTML editoriais /en/ e /es/ para indexação correta da apresentação do projeto; as fichas individuais continuam canônicas em seus URLs originais e sem hreflang fictício. Sitemap e robots referenciam apenas o mesmo domínio. Consulte docs/engineering/mar-editorial-seo-multilingual-20261118.md para gates e limitações.
