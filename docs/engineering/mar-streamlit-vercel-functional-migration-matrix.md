@@ -44,3 +44,7 @@
 6. Substituir o Streamlit somente depois da equivalência funcional e da revisão de operação.
 
 **Não usar “migração completa” até cada linha desta matriz ter implementação e validação demonstradas.**
+
+## Etapa posterior — redação institucional e SEO (18/11/2026)
+
+**Implementado na branch desta etapa:** textos institucionais restantes e nuvem de termos em PT/EN/ES; metadados canônicos das páginas originais, SEO institucional e duas entradas estáticas de apresentação em EN/ES com hreflang fundamentado. Sitemap restringe registros individuais aos 200 KAVI já admitidos; os perfis históricos de outras fontes não são liberados como itens. **Ainda pendente:** revisão humana de evidências documentais, SEO com HTML de idioma dedicado em todos os painéis/fichas e auditoria visual/deploy de produção no único Vercel existente. O Streamlit e as políticas HOLD não mudam. Detalhes em docs/engineering/mar-editorial-seo-multilingual-20261118.md.
