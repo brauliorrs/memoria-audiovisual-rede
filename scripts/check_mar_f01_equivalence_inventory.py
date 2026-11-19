@@ -102,7 +102,7 @@ def check_inventory(document: object, root: Path = ROOT) -> list[str]:
     legacy = root / "app/streamlit_app.py"
     if legacy.is_file():
         code = legacy.read_text(encoding="utf-8")
-        definitions = set(re.findall(r"^def ([A-Za-z_][A-Za-z0-9_]*)\\(", code, flags=re.MULTILINE))
+        definitions = set(re.findall(r"^def ([A-Za-z_][A-Za-z0-9_]*)\(", code, flags=re.MULTILINE))
         expected = {
             "render_function_coverage": {
                 fn for fn in definitions if fn.startswith("render_")
