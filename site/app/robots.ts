@@ -1,3 +1,4 @@
+export const dynamic="force-static";
 import type {MetadataRoute} from "next";
 import {SITE_ORIGIN} from "@/lib/seo";
 
