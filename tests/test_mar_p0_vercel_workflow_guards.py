@@ -20,6 +20,12 @@ class ScheduledPrivateBlobTests(unittest.TestCase):
                 self.assertNotIn("  pull_request:", body, workflow.name)
         self.assertFalse((workflow_dir / "mar-p0-vercel-private-proof-gated.yml").exists())
 
+    def test_live_crons_require_explicit_opt_in_flag(self):
+        for workflow in (DAILY, WEEKLY):
+            self.assertIn("vars.MAR_P0_BACKUP_ENABLED == 'true'", workflow)
+        self.assertNotIn("workflow_run:", DAILY)
+        self.assertNotIn("pull_request_target:", WEEKLY)
+
     def test_only_reviewed_main_can_schedule_daily(self):
         self.assertIn("cron: '17 3 * * *'", DAILY)
         self.assertIn("github.ref == 'refs/heads/main'", DAILY)
