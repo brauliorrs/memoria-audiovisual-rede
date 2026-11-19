@@ -35,6 +35,8 @@ on:
       - "scripts/check_mar_site_index.py"
       - "scripts/build_mar_title_wordcloud.py"
       - "scripts/build_mar_site_bundle_b2.py"
+      - "scripts/mar_b2_synthetic_integration.py"
+      - "tests/test_mar_b2_synthetic_integration.py"
       - "tests/test_mar_site_bundle_b2.py"
       - ".github/workflows/mar-site.yml"
       - "data/output/kavi_mar_metadata_links.csv"
@@ -63,6 +65,8 @@ on:
       - "data/output/observatorio_unidades_acesso_restrito_indice.csv"
       - "data/output/observatorio_unidades_identificadas_nao_incorporadas.csv"
       - "scripts/build_mar_site_bundle_b2.py"
+      - "scripts/mar_b2_synthetic_integration.py"
+      - "tests/test_mar_b2_synthetic_integration.py"
       - "tests/test_mar_site_bundle_b2.py"
       - ".github/workflows/mar-site.yml"
 
@@ -101,6 +105,9 @@ jobs:
         run: |
           python3 scripts/build_mar_site_bundle_b2.py --check
           python3 -m unittest discover -s tests -p "test_mar_site_bundle_b2.py" -v
+      - name: Rehearse full synthetic corpus admission and atomic rollback offline
+        working-directory: .
+        run: python3 -m unittest discover -s tests -p "test_mar_b2_synthetic_integration.py" -v
       - name: Review generated multilingual title frequencies
         working-directory: .
         run: |
