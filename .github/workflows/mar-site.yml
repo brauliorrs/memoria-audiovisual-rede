@@ -91,6 +91,8 @@ jobs:
         run: python3 -m unittest discover -s tests -p "test_mar_geographic_permalinks.py" -v
       - name: Validate core scientific PT EN ES editorial copy parity
         run: npm run test:scientific-i18n
+      - name: Validate institutional translations, canonical URLs and SEO publication boundaries
+        run: npm run test:editorial-seo
       - name: Confirm original evidence and public-record gates preserved
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_scientific_i18n.py" -v
@@ -109,6 +111,10 @@ jobs:
       - name: Verify expected static routes
         run: |
           test -f out/index.html
+          test -f out/en/index.html
+          test -f out/es/index.html
+          test -f out/sitemap.xml
+          test -f out/robots.txt
           test -f out/acervo/index.html
           test -f out/instituicoes/index.html
           test -f out/instituicoes/kavi/index.html
