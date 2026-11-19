@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - "scripts/build_mar_site_analytics.py"
+      - "tests/test_mar_site_analytics_projector.py"
+      - "docs/engineering/mar-architecture-b-analytics-projection-20261118.md"
       - "site/**"
       - "scripts/check_mar_scientific_snapshot_lock.py"
       - "tests/test_mar_scientific_snapshot_lock.py"
@@ -37,6 +40,8 @@ on:
   push:
     branches: [main]
     paths:
+      - "scripts/build_mar_site_analytics.py"
+      - "tests/test_mar_site_analytics_projector.py"
       - "site/**"
       - "tests/test_mar_site_public_pages.py"
       - "tests/test_mar_title_wordcloud.py"
@@ -82,6 +87,11 @@ jobs:
         run: |
           python3 scripts/check_mar_scientific_snapshot_lock.py
           python3 -m unittest discover -s tests -p "test_mar_scientific_snapshot_lock.py" -v
+      - name: Verify deterministic Python-to-Next.js analytics projection (Architecture B1)
+        working-directory: .
+        run: |
+          python3 -m unittest discover -s tests -p "test_mar_site_analytics_projector.py" -v
+          python3 scripts/build_mar_site_analytics.py --check
       - name: Review generated multilingual title frequencies
         working-directory: .
         run: |
