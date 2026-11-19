@@ -18,6 +18,7 @@ MANIFEST = ROOT / "docs/engineering/mar-implementation-stage-gates.json"
 STAGES = tuple(f"F{i:02d}" for i in range(14))
 SHA = re.compile(r"^[0-9a-f]{40}$")
 PR_MARKER = re.compile(r"(?im)^[ \t]*MAR-STAGE:[ \t]*(F\d{2})[ \t]*$")
+QUEUE_COMPLETE_MARKER = re.compile(r"(?im)^[ \t]*MAR-QUEUE:[ \t]*(COMPLETE)[ \t]*$")
 REPO_URL = "https://github.com/brauliorrs/memoria-audiovisual-rede/"
 ISSUE = REPO_URL + "issues/128"
 BASE_GATES = (
@@ -143,11 +144,25 @@ def validate_manifest(doc: object) -> list[str]:
     return errors
 
 
-def validate_pull_request(body: str, active_stage: str) -> list[str]:
-    """All PRs must declare the ONE active queue item; scope still needs review."""
-    matches = PR_MARKER.findall(body)
-    if matches != [active_stage]:
-        return [f"PR must contain exactly one line MAR-STAGE: {active_stage}"]
+def validate_pull_request(body: str, active_stage: str | None) -> list[str]:
+    """Match the live stage, or explicitly label a PR after F13 is complete.
+
+    The final F13 completion PR may still be labelled MAR-STAGE: F13 even
+    after its manifest switches to the complete state. Later PRs must use
+    MAR-QUEUE: COMPLETE. Neither label grants scientific approval.
+    """
+    stages = PR_MARKER.findall(body)
+    complete = QUEUE_COMPLETE_MARKER.findall(body)
+    if active_stage is None:
+        if stages == ["F13"] and not complete:
+            return []
+        if complete == ["COMPLETE"] and not stages:
+            return []
+        return ["completed queue requires exactly MAR-STAGE: F13 (closing PR) "
+                "or MAR-QUEUE: COMPLETE (later PR), never both"]
+    if stages != [active_stage] or complete:
+        return [f"PR must contain exactly one line MAR-STAGE: {active_stage} "
+                "and no MAR-QUEUE marker"]
     return []
 
 
