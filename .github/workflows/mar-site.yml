@@ -36,6 +36,8 @@ on:
       - "scripts/build_mar_title_wordcloud.py"
       - "scripts/build_mar_site_bundle_b2.py"
       - "scripts/build_mar_site_projections_b2.py"
+      - "tests/test_mar_real_site_projections_b2.py"
+      - ".github/workflows/mar-wordcloud-refresh.yml"
       - "site/scripts/verify-scientific-snapshot.cjs"
       - "site/tests/scientific-build-gate.test.cjs"
       - "scripts/mar_b2_synthetic_integration.py"
@@ -69,6 +71,8 @@ on:
       - "data/output/observatorio_unidades_identificadas_nao_incorporadas.csv"
       - "scripts/build_mar_site_bundle_b2.py"
       - "scripts/build_mar_site_projections_b2.py"
+      - "tests/test_mar_real_site_projections_b2.py"
+      - ".github/workflows/mar-wordcloud-refresh.yml"
       - "site/scripts/verify-scientific-snapshot.cjs"
       - "site/tests/scientific-build-gate.test.cjs"
       - "scripts/mar_b2_synthetic_integration.py"
@@ -113,7 +117,9 @@ jobs:
           python3 -m unittest discover -s tests -p "test_mar_site_bundle_b2.py" -v
       - name: Verify real B2 source-derived static projections and curation boundaries
         working-directory: .
-        run: python3 scripts/build_mar_site_projections_b2.py --check
+        run: |
+          python3 scripts/build_mar_site_projections_b2.py --check
+          python3 -m unittest discover -s tests -p "test_mar_real_site_projections_b2.py" -v
       - name: Rehearse full synthetic corpus admission and atomic rollback offline
         working-directory: .
         run: python3 -m unittest discover -s tests -p "test_mar_b2_synthetic_integration.py" -v
