@@ -11,7 +11,7 @@ export const metadata:Metadata={
  title:{default:"MAR — Memória Audiovisual em Rede",template:"%s | MAR"},
  description:"Observatório científico de memória audiovisual com fontes institucionais, metadados documentais, rastreabilidade e acesso na origem.",
  robots:{index:true,follow:true},
- openGraph:{type:"website",siteName:"MAR — Memória Audiovisual em Rede",locale:"pt_BR",alternateLocale:["en_US","es_ES"]},
+ openGraph:{type:"website",siteName:"MAR — Memória Audiovisual em Rede",locale:"pt_BR"},
 };
 
 export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){
