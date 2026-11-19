@@ -105,9 +105,10 @@ def slices_projection(code: str, outputs: Path):
 
 
 def original_origin(row: dict):
-    candidate = row.get("external_url", "")
-    if candidate:
-        return candidate
+    # A missing external_url is an observed lack of a direct public address.
+    # Do NOT fill it with an aggregator detail URL: that is a distinct surface.
+    if "external_url" in row:
+        return row["external_url"]
     for key, value in row.items():
         if key.endswith("_detail_url") and value:
             return value
@@ -129,7 +130,7 @@ def profile_projection(code: str, outputs: Path, previous: dict | None):
         origin = original_origin(original)
         if not origin and record_id in current_by_id:
             origin = current_by_id[record_id].get("originUrl", "")
-        if not origin or urlsplit(origin).scheme not in ("http", "https"):
+        if origin and urlsplit(origin).scheme not in ("http", "https"):
             raise SnapshotDrift(f"invalid institutional origin: {record_id}")
         item["originUrl"] = origin
         projected.append(item)
