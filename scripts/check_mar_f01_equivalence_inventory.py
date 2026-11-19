@@ -102,23 +102,40 @@ def check_inventory(document: object, root: Path = ROOT) -> list[str]:
     legacy = root / "app/streamlit_app.py"
     if legacy.is_file():
         code = legacy.read_text(encoding="utf-8")
-        for key, expression in (
-            ("render_function_coverage", r"^def (render_[A-Za-z0-9_]+)\\("),
-            ("data_helper_coverage", r"^def ((?:build|load)_[A-Za-z0-9_]+)\\("),
-        ):
-            # Two backslashes in source would escape the literal backslash;
-            # reduce them to a single regex escape for the opening parenthesis.
-            expression = expression.replace(r"\\(", r"\(")
-            expected = set(re.findall(expression, code, flags=re.MULTILINE))
+        definitions = set(re.findall(r"^def ([A-Za-z_][A-Za-z0-9_]*)\\(", code, flags=re.MULTILINE))
+        expected = {
+            "render_function_coverage": {
+                fn for fn in definitions if fn.startswith("render_")
+            },
+            "data_helper_coverage": {
+                fn for fn in definitions
+                if fn.startswith(("build_", "load_"))
+            },
+        }
+        expected["support_function_coverage"] = (
+            definitions - expected["render_function_coverage"]
+            - expected["data_helper_coverage"]
+        )
+        for key, symbols in expected.items():
             actual = document.get(key)
             if not isinstance(actual, dict):
                 issues.append(f"{key}: missing coverage mapping")
                 continue
-            if set(actual) != expected:
+            if set(actual) != symbols:
                 issues.append(f"{key}: missing or extra symbols: "
-                              f"{sorted(expected ^ set(actual))}")
+                              f"{sorted(symbols ^ set(actual))}")
             if any(value not in seen for value in actual.values()):
                 issues.append(f"{key}: coverage references unknown flow ID")
+        expected_tabs = {line.strip() for line in code.splitlines() if "st.tabs(" in line}
+        actual_tabs = document.get("ui_tab_coverage")
+        if not isinstance(actual_tabs, dict):
+            issues.append("ui_tab_coverage: missing tab mapping")
+        else:
+            if set(actual_tabs) != expected_tabs:
+                issues.append("ui_tab_coverage: missing or extra tabs: "
+                              f"{sorted(expected_tabs ^ set(actual_tabs))}")
+            if any(value not in seen for value in actual_tabs.values()):
+                issues.append("ui_tab_coverage: unknown flow ID")
     return issues
 
 
