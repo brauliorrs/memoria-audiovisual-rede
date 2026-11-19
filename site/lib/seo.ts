@@ -11,12 +11,7 @@ export const STATIC_ROUTES=[
 export type StaticRoute=typeof STATIC_ROUTES[number];
 type SeoDescription={title:string;description:string};
 
-/**
- * Language-specific editorial metadata drafts. The canonical HTML for existing
- * static routes is currently pt-BR; EN/ES are client-side translations.
- * Do NOT emit hreflang pointing three languages to one URL: when actual
- * crawlable locale-specific paths exist, use these strings there.
- */
+/** Metadata for actual, distinct static PT/EN/ES HTML routes. */
 export const localizedSeo:Record<SiteLocale,Record<StaticRoute,SeoDescription>>={
  pt:{
  "/":{title:"Memória Audiovisual em Rede — observatório científico",description:"Explore fontes institucionais, indicadores históricos e o catálogo documental autorizado do MAR, com transparência metodológica e rastreabilidade."},
@@ -73,14 +68,34 @@ export function canonicalPath(path:string):string{
  return path.endsWith("/")?path:path+"/";
 }
 
-export function pageSeo(path:StaticRoute):Metadata{
- const copy=localizedSeo.pt[path];
+export function localePagePath(path:StaticRoute,locale:SiteLocale):string{
+ return locale==="pt"?path:"/"+locale+path;
+}
+
+export function localizedPageSeo(path:StaticRoute,locale:SiteLocale):Metadata{
+ const copy=localizedSeo[locale][path];
+ const canonical=localePagePath(path,locale);
  return {
   title:copy.title,
   description:copy.description,
-  alternates:{canonical:canonicalPath(path)},
-  openGraph:{type:"website",url:canonicalPath(path),title:copy.title,description:copy.description},
+  alternates:{
+   canonical,
+   languages:{
+    "pt-BR":localePagePath(path,"pt"),
+    "en":localePagePath(path,"en"),
+    "es":localePagePath(path,"es"),
+    "x-default":localePagePath(path,"pt"),
+   },
+  },
+  openGraph:{
+   type:"website",url:canonical,title:copy.title,description:copy.description,
+   locale:locale==="pt"?"pt_BR":locale==="en"?"en_US":"es_ES",
+  },
  };
+}
+
+export function pageSeo(path:StaticRoute):Metadata{
+ return localizedPageSeo(path,"pt");
 }
 
 /** Canonical for already published, static dynamic routes (source IDs preserved). */

@@ -25,9 +25,9 @@ const translations={
 export type LocaleKey=keyof typeof translations.pt;
 type ContextValue={locale:SiteLocale;setLocale:(locale:SiteLocale)=>void;t:(key:LocaleKey)=>string};
 const LocaleContext=createContext<ContextValue|null>(null);
-export function LocaleProvider({children}:{children:ReactNode}){
- const [locale,setCurrent]=useState<SiteLocale>("pt");
- useEffect(()=>{try{const saved=window.localStorage.getItem("mar-ui-lang");if(saved==="pt"||saved==="en"||saved==="es")setCurrent(saved)}catch{}},[]);
+export function LocaleProvider({children,initialLocale="pt",routeBound=false}:{children:ReactNode;initialLocale?:SiteLocale;routeBound?:boolean}){
+ const [locale,setCurrent]=useState<SiteLocale>(initialLocale);
+ useEffect(()=>{if(routeBound)return;try{const saved=window.localStorage.getItem("mar-ui-lang");if(saved==="pt"||saved==="en"||saved==="es")setCurrent(saved)}catch{}},[routeBound]);
  useEffect(()=>{document.documentElement.lang=locale==="pt"?"pt-BR":locale;try{window.localStorage.setItem("mar-ui-lang",locale)}catch{}},[locale]);
  const setLocale=(next:SiteLocale)=>setCurrent(next);
  return <LocaleContext.Provider value={{locale,setLocale,t:key=>translations[locale][key]}}>{children}</LocaleContext.Provider>;
