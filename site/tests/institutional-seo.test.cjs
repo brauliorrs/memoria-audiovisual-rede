@@ -16,7 +16,7 @@ test("institutional editorial translations match across PT EN ES",()=>{
   assert.deepEqual(Object.keys(copy[lang]).sort(),keys);
   assert.ok(Object.values(copy[lang]).every(s=>typeof s==="string"&&s.trim().length>=4));
   assert.match(copy[lang].kaviHash,/SHA-256/);
-  assert.match(copy[lang].kaviWarning,/reproduc|playback/i);
+  assert.match(copy[lang].kaviWarning,/reprod|playback/i);
  }
 });
 test("indexable language landing paths are distinct from client-only translations",()=>{
