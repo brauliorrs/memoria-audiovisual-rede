@@ -1,24 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {InstitutionalText} from "@/components/institutional-copy";
+import {publicPageMetadata} from "@/lib/seo";
 import { institutions } from "@/lib/catalog";
 
-export const metadata: Metadata = { title: "Instituições" };
+export const metadata = publicPageMetadata("/instituicoes/","Instituições e corpora","Inventário institucional audiovisual com estados de validação e limites de publicação dos metadados no MAR.");
 export default function InstitutionsPage() {
   return <div className="shell page-shell">
-    <p className="eyebrow">MAPEAMENTO INSTITUCIONAL</p>
-    <h1>Instituições e corpora</h1>
-    <p className="page-lede">Distinguir a existência de um conector técnico da autorização documental é parte central da governança do MAR. Apenas as fichas explicitamente publicadas entram na pesquisa. O inventário histórico de outras instituições, incluindo aquelas com restrição ou sem dados exibidos, está no Índice de Dados Públicos.</p>
-    <p><Link href="/instituicoes/pesquisa/">Pesquisar fichas institucionais e países ↗</Link> · <Link href="/indice-acesso/">Consultar o índice de acesso ↗</Link></p>
+    <p className="eyebrow"><InstitutionalText id="institutionEyebrow"/></p>
+    <h1><InstitutionalText id="institutionTitle"/></h1>
+    <p className="page-lede"><InstitutionalText id="institutionIntro"/></p>
+    <p><Link href="/instituicoes/pesquisa/"><InstitutionalText id="institutionResearch"/> ↗</Link> · <Link href="/indice-acesso/"><InstitutionalText id="institutionAccess"/> ↗</Link></p>
     <div className="institution-grid">
       {institutions.map((item) => (
         <article className="institution-card" key={item.code}>
-          <div className="institution-top"><span>{item.country}</span><span className={item.stage === "metadata" ? "state state-ready" : "state state-waiting"}>{item.stage === "metadata" ? "Metadados publicados" : "Em validação"}</span></div>
+          <div className="institution-top"><span>{item.country}</span><span className={item.stage === "metadata" ? "state state-ready" : "state state-waiting"}>{item.stage === "metadata" ? <InstitutionalText id={item.stage === "metadata" ? "institutionPublished" : "institutionValidation"}/>}</span></div>
           <h2>{item.name}</h2>
-          <p>{item.source}</p>
-          <div className="institution-bottom"><span>{item.stage === "metadata" ? item.count + " fichas disponíveis" : "Sem fichas publicadas neste site"}</span>{item.stage === "metadata" && <Link href="/instituicoes/kavi/">Consultar ↗</Link>}</div>
+          <p>{item.stage === "metadata" ? item.source : <InstitutionalText id="institutionTechnical"/>}</p>
+          <div className="institution-bottom"><span>{item.stage === "metadata" ? <>{item.count} <InstitutionalText id="institutionAvailable"/></> : <InstitutionalText id="institutionUnpublished"/>}</span>{item.stage === "metadata" && <Link href="/instituicoes/kavi/"><InstitutionalText id="institutionView"/> ↗</Link>}</div>
         </article>
       ))}
     </div>
-    <p className="disclaimer">Nota: a situação mostrada nesta página descreve a publicação no novo site experimental, não a totalidade de registros históricos do observatório nem uma autorização de coleta.</p>
+    <p className="disclaimer"><InstitutionalText id="institutionNotice"/></p>
   </div>;
 }
