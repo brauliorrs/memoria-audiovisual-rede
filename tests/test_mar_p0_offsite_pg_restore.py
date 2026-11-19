@@ -185,8 +185,18 @@ class OffsiteEncryptedRecoveryTests(unittest.TestCase):
             "table_count": 3, "tables": list(EXPECTED_TABLES),
             "all_select": True, "any_write": False,
             "owns_any_protected_table": False,
+            "out_of_scope_relations_accessible": 0,
+            "out_of_scope_security_definer_executable": 0,
         }
-        for changed in ({"any_write": True}, {"owns_any_protected_table": True}):
+        with patch("scripts.mar_p0_offsite_pg_restore._run",
+                   return_value=__import__("json").dumps(proof)):
+            self.assertIsNone(_assert_source_readonly({"PGUSER": "mar_p0_backup_reader"}))
+        for changed in (
+            {"any_write": True},
+            {"owns_any_protected_table": True},
+            {"out_of_scope_relations_accessible": 1},
+            {"out_of_scope_security_definer_executable": 1},
+        ):
             with self.subTest(changed=changed):
                 with patch("scripts.mar_p0_offsite_pg_restore._run",
                            return_value=__import__("json").dumps({**proof, **changed})), \
