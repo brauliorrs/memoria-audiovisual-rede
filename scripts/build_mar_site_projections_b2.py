@@ -72,6 +72,10 @@ def _source_or_reviewed(raw: str | None, reviewed: str | None, field: str, code:
     previous = reviewed if isinstance(reviewed, str) else ""
     if raw and previous and raw != previous:
         raise BundleError(f"Institutional curated/source drift {code}:{i}.{field}")
+    # Historical 'Nao classificado' source labels were deliberately hidden
+    # in reviewed institutional pages. Do not silently expose them as places.
+    if raw in ("Nao classificado", "Não classificado") and previous == "":
+        return previous
     return raw or previous
 
 
@@ -125,12 +129,17 @@ def project_research_pilot(code: str, slice_: dict) -> dict:
     countries = [{
         "theme": row["tema"], "country": row["pais"], "value": _int(row, "total")
     } for row in slice_["tema_pais"]["rows"]]
-    themes: dict[str, int] = {}
-    for row in countries:
-        themes[row["theme"]] = themes.get(row["theme"], 0) + row["value"]
     platforms = [{
         "theme": row["tema"], "platform": row["plataforma"], "value": _int(row, "total")
     } for row in slice_["tema_plataforma"]["rows"]]
+    # The original Streamlit-derived pilot orders topics by platform rows.
+    # Deriving order from country CSVs changes the historical chart order.
+    themes: dict[str, int] = {}
+    for row in platforms:
+        themes[row["theme"]] = themes.get(row["theme"], 0) + row["value"]
+    if not themes:
+        for row in countries:
+            themes[row["theme"]] = themes.get(row["theme"], 0) + row["value"]
     timeline = [{
         "date": r["snapshot_generated_at"],
         "observationKey": r["observation_key"],
