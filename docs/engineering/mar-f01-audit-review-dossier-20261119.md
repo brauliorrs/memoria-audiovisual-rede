@@ -8,7 +8,7 @@ F01 é uma **auditoria e um diagnóstico de equivalência**, não a implementaç
 
 ## Base inspecionada e cobertura rastreável
 
-- Código original: `app/streamlit_app.py`, 5.425 linhas; todos os **20 renderizadores top-level `render_*`** e **18 helpers `build_*/load_*`** ligados a IDs da auditoria.
+- Código original: `app/streamlit_app.py`, 5.425 linhas; todos os **64 símbolos top-level** (20 renderizadores `render_*`, 18 helpers `build_*/load_*` e 26 funções auxiliares adicionais), bem como as **13 declarações `st.tabs`**, vinculados a IDs da auditoria.
 - [Inventário auditável](mar-f01-functional-equivalence-inventory.json): 24 fluxos, dos quais **6 têm snapshot disponível no site** (sem aceite de UI), **12 possuem equivalência parcial**, e **6 não têm integração operacional equivalente**.
 - [Matriz histórica reconciliada](mar-streamlit-vercel-functional-migration-matrix.md) distingue página pronta, dados agregados presentes, comportamento legado, direitos, atualização científica e lacunas.
 - Site: arquivos Next.js e JSON históricos versionados. A estrutura estática atual não oferece diretamente operações seguras de Neon nem um `/admin` dinâmico.
