@@ -83,6 +83,19 @@ class AtomicBundleTests(unittest.TestCase):
         for dim, names in headers.items():
             path = out / f"fixture_lab_{dim}.csv"
             path.write_text(",".join(names) + "\n" + ",".join(records[dim]) + "\n", encoding="utf-8")
+        from scripts.build_mar_site_analytics import project_report
+        report_path = out / "fixture_lab_relatorio.json"
+        scientific = {
+            "total_institutions": 1, "with_video_count": 2, "with_embeds_count": 0,
+            "status_summary": {"ok": 1}, "integrity_summary": {"integro": 1},
+            "platform_summary": {"Arquivo institucional": 2},
+            "continent_summary": {"Europe": 1}, "video_continent_summary": {"Europe": 1},
+            "top_institutions": [{"video_url": "https://example.test/hidden-film.mp4"}],
+        }
+        report_path.write_text(json.dumps(scientific), encoding="utf-8")
+        before_agg = project_report(report_path, self.root)
+        self.assertEqual(before_agg["institutionsWithVideo"], 2)
+        self.assertNotIn("hidden-film", json.dumps(before_agg))
         before = project_research_slices(self.root, "fixture_lab")
         self.assertEqual(before["tema_pais"]["rows"][0]["total"], "2")
         self.assertEqual(before["tema_plataforma"]["rows"][0]["total"], "2")
@@ -91,6 +104,12 @@ class AtomicBundleTests(unittest.TestCase):
             path = out / f"fixture_lab_{dim}.csv"
             path.write_text(",".join(names) + "\n" + ",".join(records[dim][:-1] + ["3"]) + "\n", encoding="utf-8")
         after = project_research_slices(self.root, "fixture_lab")
+        scientific["with_video_count"] = 3
+        scientific["platform_summary"]["Arquivo institucional"] = 3
+        report_path.write_text(json.dumps(scientific), encoding="utf-8")
+        after_agg = project_report(report_path, self.root)
+        self.assertEqual(after_agg["institutionsWithVideo"], 3)
+        self.assertEqual(after_agg["platforms"]["Arquivo institucional"], 3)
         for dim, count in (
             ("tema_pais", "total"), ("tema_plataforma", "total"),
             ("linha_do_tempo_corpus", "video_links_total")
