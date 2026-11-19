@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "docs/engineering/mar-f02-p0-neon-evidence-20261119.json"
 TABLES = frozenset({"checkpoint_pages", "checkpoints", "raw_artifacts"})
 DML = ("insert", "update", "delete")
+BASELINE_ROWS = {"checkpoints": 4, "checkpoint_pages": 8, "raw_artifacts": 4}
 REQUIRED = frozenset({
     "owner_only_security_review_recorded",
     "production_read_only_role_validated",
@@ -65,11 +66,14 @@ def validate_report(doc: object) -> list[str]:
     if not isinstance(before, dict) or set(before) != TABLES:
         errors.append("original three-table grants absent")
     else:
-        if not all(before[t].get("select") is True for t in TABLES):
-            errors.append("original SELECT capability missing")
-        if not (before["checkpoints"].get("update") is True
-                and all(before[t].get("insert") is True for t in TABLES)):
-            errors.append("actual DML exposure not disclosed")
+        if not all(isinstance(before[t], dict) for t in TABLES):
+            errors.append("original grants must be objects")
+        else:
+            if not all(before[t].get("select") is True for t in TABLES):
+                errors.append("original SELECT capability missing")
+            if not (before["checkpoints"].get("update") is True
+                    and all(before[t].get("insert") is True for t in TABLES)):
+                errors.append("actual DML exposure not disclosed")
     if (lab.get("parent_id") != original.get("branch_id")
             or lab.get("branch_id") != "br-purple-art-b8p4uvdr"
             or lab.get("modified_only_this_branch") is not True
@@ -90,7 +94,20 @@ def validate_report(doc: object) -> list[str]:
         errors.append("isolated authenticated read test missing")
     if lab.get("per_table_content_digest_matches_parent") is not True:
         errors.append("clone content equality is not demonstrated")
-    if lab.get("rows") != original.get("rows"):
+    source_rows = original.get("rows")
+    clone_rows = lab.get("rows")
+    for label, inventory in (("source", source_rows), ("clone", clone_rows)):
+        if not isinstance(inventory, dict) or set(inventory) != TABLES:
+            errors.append(f"{label}: complete three-table row inventory required")
+        elif any(
+            not isinstance(inventory[key], int)
+            or isinstance(inventory[key], bool)
+            or inventory[key] != expected
+            for key, expected in BASELINE_ROWS.items()
+        ):
+            errors.append(f"{label}: recorded baseline row counts inconsistent")
+    if (isinstance(source_rows, dict) and isinstance(clone_rows, dict)
+            and source_rows != clone_rows):
         errors.append("clone and source count mismatch")
     if (probe.get("created") is not False
             or probe.get("production_branch_not_snapshotted") is not True
