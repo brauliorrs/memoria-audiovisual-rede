@@ -2,6 +2,10 @@
 
 **Congelamento do escopo:** 19/11/2026. **Fonte canônica de status:** [GitHub issue #128](https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128). Este arquivo fixa o protocolo e as primeiras evidências; **não** manter uma segunda fila independente ou concorrente. A arquitetura-alvo está documentada em `mar-definitive-architecture-control-plane-20261119.md` (PR #127); a matriz funcional de base permanece `mar-streamlit-vercel-functional-migration-matrix.md`.
 
+## Padrão obrigatório de engenharia
+
+A [norma de engenharia F01–F13](mar-enterprise-engineering-standard-20261119.md) define DoR/DoD, revisão humana e distinção entre software aprovado, equivalência funcional, validação científica e publicação. O [manifesto executável](mar-implementation-stage-gates.json) e o verificador [scripts/check_mar_implementation_queue.py](../../scripts/check_mar_implementation_queue.py) implementam bloqueios estruturais no workflow Quality Checks. Resultado verde do CI **não encerra F01** nem aprova um corpus.
+
 ## Regra de serialização
 
 **F00 concluído (fila registrada). F01 ATIVA. F02–F13 BLOQUEADAS.** Apenas uma etapa pode estar ativa. A criação de código ou de PR sem revisão não fecha uma etapa. O próximo item só é iniciado quando o anterior cumpre todos os testes, revisão e aceites, com registro na issue #128. Alterações de escopo funcional não entram antes de F13, mesmo que atraentes. Bloqueios de segurança/científicos implicam HOLD da etapa corrente, não atalho.
