@@ -192,6 +192,8 @@ def download(service, *, receipt: dict, target: Path, folder_id: str) -> dict:
             or type(expected_size) is not int or expected_size <= 0
             or expected_size > MAX_FILE_BYTES):
         raise DriveBackupRejected("receipt_invalid")
+    if NAME_PATTERN.fullmatch(name).group(1) != expected_sha:
+        raise DriveBackupRejected("receipt_filename_sha_mismatch")
     check_local(target, exists=False)
     verify_folder(service, folder_id)
     raw = fetch_cipher(service, file_id, folder_id, name, expected_sha, expected_size)
@@ -307,6 +309,8 @@ def main(argv: list[str] | None = None, env=None, *, service=None, now=None) -> 
                     now=now or datetime.now(timezone.utc),
                     min_age_hours=args.min_age_hours, max_age_hours=args.max_age_hours,
                 )
+            if args.expected_sha256 is not None and receipt.get("sha256") != args.expected_sha256:
+                raise DriveBackupRejected("independent_cipher_sha_mismatch")
             result = download(client, receipt=receipt, target=args.encrypted_file, folder_id=folder_id)
     except Exception:
         # Deliberately suppress raw provider exceptions and all credentials.
