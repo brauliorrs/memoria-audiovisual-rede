@@ -40,6 +40,11 @@ jobs:
           python scripts/check_mar_f01_source_snapshot_parity.py
           python -m unittest discover -s tests -p 'test_mar_f01_source_snapshot_parity.py' -v
 
+      - name: Validate F02 Neon P0 evidence is honestly blocked
+        run: |
+          python scripts/check_mar_f02_p0_evidence.py
+          python -m unittest discover -s tests -p 'test_mar_f02_p0_evidence.py' -v
+
       - name: Check dependency manifests
         run: python scripts/check_dependency_manifests.py
 
