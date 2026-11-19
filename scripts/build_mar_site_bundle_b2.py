@@ -18,6 +18,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from scripts.build_mar_site_analytics import verify as verify_analytics
 from scripts.check_mar_scientific_snapshot_lock import verify as verify_lock
 
