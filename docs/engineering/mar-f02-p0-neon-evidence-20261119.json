@@ -110,6 +110,32 @@
       "dml_on_any_three_tables": false,
       "production_login_provisioned": false,
       "production_grants_applied": false
+    },
+    "dedicated_backup_login": {
+      "name": "mar_p0_backup_reader",
+      "branch_id": "br-purple-art-b8p4uvdr",
+      "scope": "isolated_lab_only",
+      "created_with_neon_read_only_access": true,
+      "login": true,
+      "inherit_roles": false,
+      "admin": false,
+      "member_of_other_roles": false,
+      "database_create": false,
+      "schema_create": false,
+      "table_owner": false,
+      "any_table_or_column_dml": false,
+      "executable_security_definer_in_mar_p0": false,
+      "table_count": 3,
+      "select_on_all_tables": true,
+      "authenticated_read_count_checkpoints": 4,
+      "explain_insert_permission_denied": true,
+      "explain_update_permission_denied": true,
+      "explain_delete_permission_denied": true,
+      "negative_dml_test_mutated_records": false,
+      "secret_not_logged": true,
+      "production_login_provisioned": false,
+      "environment_secret_configured": false,
+      "backup_with_new_login_executed": false
     }
   },
   "snapshot_probe": {
@@ -132,7 +158,21 @@
     "MAR-F02-002: main branch is not protected",
     "MAR-F02-003: point-in-time retention 6h, no scheduled snapshots found",
     "MAR-F02-004: independent offsite restore and durable immutable backup unproven",
-    "MAR-F02-005: encrypted external-backup PR #93 is draft and WORM/credential isolation remain HOLD"
+    "MAR-F02-005: encrypted external-backup PR #93 is draft and WORM/credential isolation remain HOLD",
+    "MAR-F02-006: dedicated login tested in isolated lab only; production credential and protected secret not provisioned",
+    "MAR-F02-007: Vercel store ID present in project environment, but account and team lookups both returned 404; access vs deletion unresolved"
   ],
-  "notes": "Authenticated Neon inspection and isolated lab test; JSON is a dated audit record, not live CI attestation. Clone/row digests are not a separate backup. No production branch, scientific corpus or Vercel access was changed. Follow F02 acceptance and explicit owner review before production changes. Dedicated NOLOGIN mar_p0_reader role was created and SELECT-only granted in the isolated lab, but no consumer login/production privileges were established."
+  "notes": "Authenticated Neon inspection and isolated lab test; JSON is a dated audit record, not live CI attestation. Clone/row digests are not a separate backup. No production branch, scientific corpus or Vercel access was changed. Follow F02 acceptance and explicit owner review before production changes. Dedicated NOLOGIN mar_p0_reader role was created and SELECT-only granted in the isolated lab, but no consumer login/production privileges were established.",
+  "storage_current_probe": {
+    "provider": "vercel",
+    "project": "mar-p0-recovery-lab",
+    "store_id_env_var_present": true,
+    "access_scope_account": "404_not_found_or_inaccessible",
+    "access_scope_team": "404_not_found_or_inaccessible",
+    "store_deletion_confirmed": false,
+    "current_blob_read_confirmed": false,
+    "provider_worm_90d_confirmed": false,
+    "current_backup_and_restore_confirmed": false,
+    "reasons_indeterminate": true
+  }
 }
