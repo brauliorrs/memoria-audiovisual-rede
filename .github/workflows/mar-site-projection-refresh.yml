@@ -14,6 +14,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write
 concurrency:
   group: mar-scientific-site-projections
   cancel-in-progress: false
@@ -87,4 +88,8 @@ jobs:
             gh pr create --draft --base main --head "$BRANCH" \
               --title "data(MAR): revisar projeções científicas do site" \
               --body "Revisão humana obrigatória. Apenas indicadores agregados e perfis institucionais, sem fichas sob HOLD, mídia, novas permissões ou abertura pública. Conferir diffs, SHA, política de direitos e proveniência."
+          # PRs opened with GITHUB_TOKEN do not start pull_request CI automatically.
+          gh workflow run mar-site.yml --ref "$BRANCH"
+          gh workflow run quality.yml --ref "$BRANCH"
+          gh workflow run mar-title-wordcloud.yml --ref "$BRANCH"
           fi
