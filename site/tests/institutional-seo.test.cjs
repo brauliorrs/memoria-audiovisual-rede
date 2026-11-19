@@ -10,7 +10,7 @@ function transpile(modulePath,requireStub=()=>{throw Error("unexpected dependenc
  const filename=path.join(root,modulePath);
  const code=ts.transpileModule(fs.readFileSync(filename,"utf8"),{
   fileName:filename,
-  compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJS,target:ts.ScriptTarget.ES2020}
+  compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2020}
  }).outputText;
  const moduleRef={exports:{}};
  vm.runInNewContext(code,{module:moduleRef,exports:moduleRef.exports,require:requireStub,URL,Intl},{filename});
