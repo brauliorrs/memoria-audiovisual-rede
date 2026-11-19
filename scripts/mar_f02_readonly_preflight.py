@@ -65,7 +65,34 @@ SELECT row_to_json(proof)::text FROM (
        AND has_function_privilege(current_user,p.oid,'EXECUTE')
    ) AS executable_security_definer_in_mar_p0,
    rights.table_count,rights.tables,rights.all_select,rights.any_write,
-   rights.owns_any_protected_table
+   rights.owns_any_protected_table,
+   (SELECT count(*)::integer
+     FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+     WHERE n.nspname NOT IN ('pg_catalog','information_schema','mar_p0')
+       AND n.nspname NOT LIKE 'pg_toast%'
+       AND n.nspname NOT LIKE 'pg_temp_%'
+       AND c.relkind IN ('r','p','v','m','f')
+       AND (
+         has_table_privilege(current_user,c.oid,'SELECT') OR
+         has_table_privilege(current_user,c.oid,'INSERT') OR
+         has_table_privilege(current_user,c.oid,'UPDATE') OR
+         has_table_privilege(current_user,c.oid,'DELETE') OR
+         has_table_privilege(current_user,c.oid,'TRUNCATE') OR
+         has_table_privilege(current_user,c.oid,'REFERENCES') OR
+         has_table_privilege(current_user,c.oid,'TRIGGER') OR
+         has_any_column_privilege(current_user,c.oid,'SELECT') OR
+         has_any_column_privilege(current_user,c.oid,'INSERT') OR
+         has_any_column_privilege(current_user,c.oid,'UPDATE') OR
+         has_any_column_privilege(current_user,c.oid,'REFERENCES')
+       )
+   ) AS out_of_scope_relations_accessible,
+   (SELECT count(*)::integer
+     FROM pg_proc f JOIN pg_namespace n ON n.oid=f.pronamespace
+     WHERE n.nspname NOT IN ('pg_catalog','information_schema','mar_p0')
+       AND n.nspname NOT LIKE 'pg_toast%'
+       AND n.nspname NOT LIKE 'pg_temp_%'
+       AND f.prosecdef AND has_function_privilege(current_user,f.oid,'EXECUTE')
+   ) AS out_of_scope_security_definer_executable
  FROM pg_roles AS r CROSS JOIN rights
  WHERE r.rolname=current_user
 ) AS proof;
@@ -95,6 +122,13 @@ def assess(report: object) -> list[str]:
             errors.append(key + "_must_be_false")
     if type(report.get("table_count")) is not int or report["table_count"] != 3:
         errors.append("expected_exactly_three_mar_p0_tables")
+    for key in (
+        "out_of_scope_relations_accessible",
+        "out_of_scope_security_definer_executable",
+    ):
+        value = report.get(key)
+        if type(value) is not int or value != 0:
+            errors.append(key + "_must_be_zero")
     names = report.get("tables")
     if not isinstance(names, list) or names != EXPECTED_TABLES:
         errors.append("unexpected_mar_p0_table_inventory")
