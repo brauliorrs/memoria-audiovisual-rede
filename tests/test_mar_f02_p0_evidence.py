@@ -62,6 +62,36 @@ class F02P0EvidenceTests(unittest.TestCase):
         doc["isolated_lab"]["independent_restore_proven"] = True
         self.assertTrue(gate.validate_report(doc))
 
+    def test_dedicated_reader_cannot_be_a_login_or_admin(self):
+        for prop in ("login", "superuser", "create_db", "create_role"):
+            doc = self.fixture()
+            doc["isolated_lab"]["dedicated_reader"][prop] = True
+            with self.subTest(property=prop):
+                self.assertTrue(gate.validate_report(doc))
+
+    def test_dedicated_reader_must_have_only_select_on_mar_p0(self):
+        for prop, value in (
+            ("select_on_all_three_tables", False),
+            ("dml_on_any_three_tables", True),
+            ("schema_usage", False),
+        ):
+            doc = self.fixture()
+            doc["isolated_lab"]["dedicated_reader"][prop] = value
+            with self.subTest(property=prop):
+                self.assertTrue(gate.validate_report(doc))
+
+    def test_dedicated_reader_must_not_claim_production_changes(self):
+        for prop in ("production_grants_applied", "production_login_provisioned"):
+            doc = self.fixture()
+            doc["isolated_lab"]["dedicated_reader"][prop] = True
+            with self.subTest(property=prop):
+                self.assertTrue(gate.validate_report(doc))
+
+    def test_missing_dedicated_reader_cannot_pass(self):
+        doc = self.fixture()
+        del doc["isolated_lab"]["dedicated_reader"]
+        self.assertTrue(gate.validate_report(doc))
+
     def test_unavailable_nonroot_snapshot_must_not_be_fabricated(self):
         doc = self.fixture()
         doc["snapshot_probe"]["created"] = True
