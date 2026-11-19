@@ -4,9 +4,10 @@ import {notFound} from "next/navigation";
 import {institutionalProfiles,findInstitution,institutionGroups} from "@/lib/institutional-profiles";
 import {LocalizedText} from "@/components/site-locale";
 import {ScientificText} from "@/components/scientific-i18n";
+import {publicPageMetadata} from "@/lib/seo";
 export const dynamicParams=false;
 export function generateStaticParams(){return institutionalProfiles.map(i=>({source:i.source,entry:i.id.split(":")[1]}));}
-export async function generateMetadata({params}:{params:Promise<{source:string;entry:string}>}):Promise<Metadata>{const {source,entry}=await params;const p=findInstitution(source,entry);return {title:p?`${p.name} — Perfil institucional`:"Instituição não identificada"};}
+export async function generateMetadata({params}:{params:Promise<{source:string;entry:string}>}):Promise<Metadata>{const {source,entry}=await params;const p=findInstitution(source,entry);return p?publicPageMetadata("/instituicoes/pesquisa/"+encodeURIComponent(source)+"/"+encodeURIComponent(entry)+"/",p.name+" — Perfil institucional","Perfil institucional do inventário histórico MAR: origem e limites de consulta; a presença da instituição não autoriza a publicação de obras audiovisuais."):{title:"Instituição não identificada",robots:{index:false}};}
 export default async function InstitutionalProfilePage({params}:{params:Promise<{source:string;entry:string}>}){
  const {source,entry}=await params;
  const profile=findInstitution(source,entry);
