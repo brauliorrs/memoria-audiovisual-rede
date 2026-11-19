@@ -16,6 +16,7 @@ jobs:
   recover-prior-private-blob:
     if: >-
       github.repository == 'brauliorrs/memoria-audiovisual-rede' &&
+      vars.MAR_P0_BACKUP_ENABLED == 'true' &&
       github.ref == 'refs/heads/main' &&
       (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-26.04
