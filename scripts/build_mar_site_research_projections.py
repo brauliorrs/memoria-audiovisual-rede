@@ -149,13 +149,18 @@ def verify_access_inventory(outputs: Path, site: Path):
         raise SnapshotDrift("access inventory may not authorize item publication")
     rows = read_csv(outputs / "observatorio_indice_dados_publicos_por_corpus.csv")
     extras = read_csv(outputs / "observatorio_unidades_acesso_restrito_indice.csv")
-    source_codes = [row["corpus_code"] for row in rows] + [row["unit_code"] for row in extras]
+    corpus_codes = [row["corpus_code"] for row in rows]
+    restricted_codes = [row["unit_code"] for row in extras]
+    # The restricted-unit inventory includes existing active corpora AND 3
+    # separately identified units. This overlap is expected, not duplication.
+    if len(set(corpus_codes)) != len(corpus_codes) or len(set(restricted_codes)) != len(restricted_codes):
+        raise SnapshotDrift("duplicate codes within access source")
+    source_codes = set(corpus_codes) | set(restricted_codes)
+    additional_units = set(restricted_codes) - set(corpus_codes)
     items = inventory["corpora"]
     site_codes = [item["code"] for item in items]
-    if len(set(source_codes)) != len(source_codes):
-        raise SnapshotDrift("duplicated access inventory source code")
-    if len(set(site_codes)) != len(site_codes) or set(site_codes) != set(source_codes):
-        raise SnapshotDrift("access inventory needs human reconcilation (corpus coverage)")
+    if len(set(site_codes)) != len(site_codes) or set(site_codes) != source_codes:
+        raise SnapshotDrift("access inventory needs human reconciliation (corpus coverage)")
     published = {item["code"]: item for item in items}
     for row in rows:
         item = published[row["corpus_code"]]
@@ -179,7 +184,7 @@ def verify_access_inventory(outputs: Path, site: Path):
         or summary["historicalRestrictedRecords"] != expected_restricted
         or summary["historicalMaterializedTotal"] != expected_public + expected_restricted
         or summary["historicalCorpusRows"] != len(rows)
-        or summary["additionalIdentifiedRestrictedUnits"] != len(extras)
+        or summary["additionalIdentifiedRestrictedUnits"] != len(additional_units)
     ):
         raise SnapshotDrift("public access summary drift; requires human-reviewed update")
     cases = read_json(site / "data/documented-cases.json")
