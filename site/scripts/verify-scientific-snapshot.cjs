@@ -10,6 +10,8 @@ const crypto = require("node:crypto");
 const data = path.resolve(__dirname,"..","data");
 const lockFile = path.join(data,"scientific-snapshot-lock.json");
 const releaseFile = path.join(data,"scientific-release-manifest.json");
+// Historical cloud is frozen too, until it joins a human-approved atomic bundle.
+const FROZEN_CLOUD_GIT_BLOB = "8770f061c67454c6d940c82f0681bf14bfa8caf2";
 function fail(reason) { throw new Error("MAR STATIC BUILD HOLD: " + reason); }
 function json(file) {
   try { return JSON.parse(fs.readFileSync(file,"utf8")); }
@@ -69,6 +71,8 @@ function verifyFrozen() {
       fail("Scientific site projection changed without atomic review: "+rel);
     }
   }
+  if (gitBlob(fs.readFileSync(path.join(data,"title-wordcloud.json"))) !== FROZEN_CLOUD_GIT_BLOB)
+    fail("Standalone title-cloud refresh requires a reviewed atomic bundle");
   return "FROZEN_HISTORICAL";
 }
 function canonicalSHA256(inputs,outputs) {
