@@ -200,14 +200,77 @@ def download(service, *, receipt: dict, target: Path, folder_id: str) -> dict:
             "size": len(raw), "production_gate": "HOLD"}
 
 
+
+def select_older(service, *, folder_id: str, now: datetime, min_age_hours: int = 24, max_age_hours: int = 192) -> dict:
+    """Independent runner can recover from Drive alone; no local receipt needed."""
+    from datetime import timedelta
+    if (not isinstance(now, datetime) or now.tzinfo is None
+            or type(min_age_hours) is not int or type(max_age_hours) is not int
+            or not 0 <= min_age_hours <= max_age_hours <= 24 * 90):
+        raise DriveBackupRejected("recovery_window_invalid")
+    verify_folder(service, folder_id)
+    page_token = None
+    matches = []
+    count = 0
+    for _ in range(50):
+        params = {
+            "q": f"'{folder_id}' in parents and trashed = false",
+            "fields": "nextPageToken,files(id,name,mimeType,parents,trashed,size,createdTime,appProperties)",
+            "pageSize": 1000, "orderBy": "createdTime desc",
+        }
+        if page_token is not None:
+            params["pageToken"] = page_token
+        response = service.files().list(**params).execute()
+        if not isinstance(response, dict) or not isinstance(response.get("files"), list):
+            raise DriveBackupRejected("drive_list_invalid")
+        for item in response["files"]:
+            count += 1
+            if count > 50000:
+                raise DriveBackupRejected("drive_listing_limit")
+            if not isinstance(item, dict):
+                continue
+            name = item.get("name")
+            match = NAME_PATTERN.fullmatch(name) if isinstance(name, str) else None
+            if not match or item.get("mimeType") != FILE_MIME or item.get("parents") != [folder_id]:
+                continue
+            if item.get("trashed") is not False or item.get("appProperties", {}).get("sha256") != match.group(1):
+                continue
+            try:
+                size = int(item["size"])
+                when = datetime.fromisoformat(item["createdTime"].replace("Z", "+00:00"))
+                check_id(item["id"])
+            except (ValueError, TypeError, KeyError, AttributeError, DriveBackupRejected):
+                continue
+            if (when.tzinfo is None or not 0 < size <= MAX_FILE_BYTES
+                    or when > now or not now - timedelta(hours=max_age_hours) <= when <= now - timedelta(hours=min_age_hours)):
+                continue
+            matches.append((when, {
+                "file_id": item["id"], "file_name": name, "folder_id": folder_id,
+                "sha256": match.group(1), "size": size,
+                "provider": "google_drive_personal", "verified": True,
+            }))
+        page_token = response.get("nextPageToken")
+        if not page_token:
+            break
+        if not isinstance(page_token, str):
+            raise DriveBackupRejected("drive_page_token_invalid")
+    else:
+        raise DriveBackupRejected("drive_listing_pages_exceeded")
+    if not matches:
+        raise DriveBackupRejected("older_ciphertext_not_found")
+    return max(matches, key=lambda x: (x[0], x[1]["file_name"]))[1]
+
+
 def main(argv: list[str] | None = None, env=None, *, service=None, now=None) -> int:
     parser = argparse.ArgumentParser(description="F02: Google Drive encrypted transport, never plaintext")
     parser.add_argument("action", choices=("upload", "download"))
     parser.add_argument("--encrypted-file", required=True, type=Path)
-    parser.add_argument("--receipt-file", required=True, type=Path)
+    parser.add_argument("--receipt-file", type=Path)
     parser.add_argument("--expected-sha256")
     parser.add_argument("--run-id")
     parser.add_argument("--attempt", default="1")
+    parser.add_argument("--min-age-hours", type=int, default=24)
+    parser.add_argument("--max-age-hours", type=int, default=192)
     parser.add_argument("--execute", action="store_true")
     args = parser.parse_args(argv)
     if not args.execute:
@@ -218,6 +281,8 @@ def main(argv: list[str] | None = None, env=None, *, service=None, now=None) -> 
         folder_id = check_id(runtime.get("MAR_P0_GOOGLE_DRIVE_FOLDER_ID"))
         client = service if service is not None else get_service(runtime)
         if args.action == "upload":
+            if args.receipt_file is None:
+                raise DriveBackupRejected("receipt_target_required")
             check_local(args.receipt_file, exists=False)
             report = upload(
                 client, folder_id=folder_id, path=args.encrypted_file,
@@ -233,8 +298,15 @@ def main(argv: list[str] | None = None, env=None, *, service=None, now=None) -> 
                       "sha256": report["sha256"], "size": report["size"],
                       "receipt_private": True, "worm_proven": False, "production_gate": "HOLD"}
         else:
-            check_local(args.receipt_file, exists=True)
-            receipt = json.loads(args.receipt_file.read_text(encoding="utf-8"))
+            if args.receipt_file is not None:
+                check_local(args.receipt_file, exists=True)
+                receipt = json.loads(args.receipt_file.read_text(encoding="utf-8"))
+            else:
+                receipt = select_older(
+                    client, folder_id=folder_id,
+                    now=now or datetime.now(timezone.utc),
+                    min_age_hours=args.min_age_hours, max_age_hours=args.max_age_hours,
+                )
             result = download(client, receipt=receipt, target=args.encrypted_file, folder_id=folder_id)
     except Exception:
         # Deliberately suppress raw provider exceptions and all credentials.
