@@ -68,6 +68,19 @@ class DriveOAuthBootstrapTests(unittest.TestCase):
             with self.assertRaises(DriveBackupRejected):
                 check_private_file(client)
 
+    def test_manual_homologation_does_not_enable_scheduled_backup(self):
+        workflows = [
+            ROOT / ".github/workflows/mar-f02-google-drive-backup.yml",
+            ROOT / ".github/workflows/mar-f02-google-drive-old-recovery.yml",
+        ]
+        for workflow in workflows:
+            with self.subTest(workflow=str(workflow.name)):
+                content = workflow.read_text(encoding="utf-8")
+                self.assertIn("github.event_name == 'workflow_dispatch' && vars.MAR_P0_GOOGLE_DRIVE_BACKUP_TEST_ENABLED == 'true'", content)
+                self.assertIn("github.event_name == 'schedule' && vars.MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED == 'true'", content)
+                self.assertIn("github.ref == 'refs/heads/main'", content)
+                self.assertIn("permissions:\\n  contents: read", content)
+
     def test_output_requires_existing_private_directory(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
