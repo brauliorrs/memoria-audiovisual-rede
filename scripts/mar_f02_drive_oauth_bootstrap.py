@@ -29,8 +29,11 @@ def check_private_file(path: Path) -> None:
         raise DriveBackupRejected("oauth_client_json_inside_git_project")
     if path.is_symlink() or not path.is_file():
         raise DriveBackupRejected("oauth_client_json_invalid")
-    if os.name == "posix" and stat.S_IMODE(path.stat().st_mode) & 0o077:
-        raise DriveBackupRejected("oauth_client_json_permissions_not_private")
+    if os.name == "posix":
+        if stat.S_IMODE(path.stat().st_mode) & 0o077:
+            raise DriveBackupRejected("oauth_client_json_permissions_not_private")
+        if stat.S_IMODE(path.parent.stat().st_mode) & 0o077:
+            raise DriveBackupRejected("oauth_client_directory_not_private")
 
 
 def check_output_file(path: Path) -> None:
