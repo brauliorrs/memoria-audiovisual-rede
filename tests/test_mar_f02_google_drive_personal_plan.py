@@ -52,9 +52,38 @@ class DrivePersonalF02PlanTests(unittest.TestCase):
                 record["retention"][field] = True
                 self.assertTrue(gate.validate(record))
 
-    def test_owner_choice_is_not_risk_acceptance_for_missing_immutability(self):
+    def test_explicit_owner_risk_acceptance_is_scoped_and_does_not_prove_worm(self):
         record = self.fresh()
-        record["retention"]["owner_risk_waiver_for_missing_WORM"] = True
+        self.assertTrue(record["retention"]["owner_risk_waiver_for_missing_WORM"])
+        self.assertFalse(record["retention"]["immutable_WORM_supported_by_selected_destination"])
+        self.assertFalse(record["retention"]["immutability_proven"])
+        self.assertFalse(record["retention"]["retention_90_days_verified"])
+        self.assertFalse(record["activation"]["automatic_backup_enabled"])
+        self.assertFalse(record["activation"]["stage_F02_closed"])
+        self.assertEqual(gate.validate(record), [])
+
+        record["retention"]["owner_risk_waiver_for_missing_WORM"] = False
+        self.assertTrue(gate.validate(record))
+
+    def test_risk_acceptance_requires_explicit_date_scope_and_limits(self):
+        base = self.fresh()
+        for key, bad in (
+            ("date", "2026-11-18"),
+            ("decision", "inferred_from_folder_choice"),
+            ("scope", "production_and_public"),
+            ("destination", "any_cloud_provider"),
+            ("risk", "unknown"),
+            ("controls", []),
+            ("controls", ["ciphertext_only_AES_256_GCM"]),
+            ("does_not_prove", []),
+            ("does_not_authorize", []),
+        ):
+            record = self.fresh()
+            record["retention"]["owner_risk_acceptance"][key] = bad
+            with self.subTest(key=key, bad=bad):
+                self.assertTrue(gate.validate(record))
+        record = self.fresh()
+        del record["retention"]["owner_risk_acceptance"]
         self.assertTrue(gate.validate(record))
 
     def test_never_auto_delete_90_day_backups_early(self):
