@@ -39,7 +39,8 @@ EXPECTED_FALSE = {
     ),
     "activation": (
         "automatic_backup_enabled",
-        "scheduled_workflow_deployed",
+        "scheduled_backups_operational",
+        "manual_test_enabled",
         "automation_secret_configured",
         "stage_F02_closed",
         "stage_F03_open",
@@ -55,6 +56,7 @@ EXPECTED_TRUE = {
         "folder_created",
     ),
     "source": ("reader_proven_in_isolated_lab", "reader_provisioned_in_source_branch", "live_reader_preflight_passed"),
+    "activation": ("scheduled_workflow_deployed",),
     "retention": ("owner_risk_waiver_for_missing_WORM",),
     "security": (
         "authenticated_backup_envelope_required",
@@ -172,6 +174,8 @@ def validate(doc: object) -> list[str]:
     if isinstance(activation, dict):
         if activation.get("authorization_variable") != "MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED":
             problems.append("opt_in_gate_missing")
+        if activation.get("manual_test_authorization_variable") != "MAR_P0_GOOGLE_DRIVE_BACKUP_TEST_ENABLED":
+            problems.append("manual_test_opt_in_gate_missing")
     notices = doc.get("notices")
     if not isinstance(notices, list) or len(notices) < 4 or any(
         not isinstance(x, str) or not x.strip() for x in notices
