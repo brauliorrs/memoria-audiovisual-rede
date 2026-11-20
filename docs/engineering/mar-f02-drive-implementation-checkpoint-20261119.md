@@ -1,6 +1,6 @@
 # MAR F02 — Implementação executável Drive-only / checkpoint 19-11-2026
 
-**Etapa:** F02 ACTIVE/HOLD, F03–F13 BLOCKED. **PR:** #142, DRAFT. **Fonte:** somente branch Neon VALIDATION, esquema `mar_p0`. **Destino:** Google Drive pessoal, previamente escolhido, com arquivos cifrados. Sem acesso público.
+**Etapa:** F02 ACTIVE/HOLD, F03–F13 BLOCKED. **PR:** #142 integrada à main; CI pós-merge SUCCESS (#44607738673). **Fonte:** somente branch Neon VALIDATION, esquema `mar_p0`. **Destino:** Google Drive pessoal, previamente escolhido, com arquivos cifrados. Sem acesso público.
 
 ## O que está implementado, mas ainda não ativado
 
@@ -16,12 +16,12 @@
 2. Provisionar `mar_p0_backup_reader` read-only **na branch de validação**; essa role foi validada somente no LAB. Não modificar Neon root nem reutilizar `mar_p0_limited` (escritor).
 3. Configurar Secrets restritos nos Environments `mar-p0-drive-export` e `mar-p0-drive-recovery` (URL da branch de validação, ID de pasta, OAuth Client ID/Secret/Refresh e chave AES), com aprovação e limitação à main. **Não colocar valores de Secret no Git/Drive/chat/log.**
 4. Homologar execução real, readback, SHA-256, restauração independente e recuperação após 24h, com retenção observada e quota monitorada.
-5. Registrar decisão humana explícita de risco residual: Drive pessoal não possui retenção WORM/Object Lock 90 dias. Política de 90 dias sem limpeza automática **não oferece imutabilidade**.
+5. **DECISÃO CONCLUÍDA EM 19/11/2026:** o responsável aceitou explicitamente o risco residual de exclusão no Drive sem WORM **somente durante o desenvolvimento preliminar**. Manter controles compensatórios e reavaliar imutabilidade antes de promover a produção. Isso não autoriza ativação do cron, dispensa de restore ou encerramento F02.
 6. Revisar demais achados P0 do Neon root (histórico 6h, proteção/snapshots não verificados como corrigidos). Alterações no banco principal requerem aprovação específica.
 
 ## Gate de encerramento
 
-**F02 somente pode mudar para DONE** quando #128 receber provas da execução real (run/HEAD/SAFETY PASS), restore independente atual e histórico, custódia/ACL verificada, plano de rollback e aceite explícito owner_only incluindo o risco do Drive. Até isso, PR #142 pode avançar tecnicamente, mas F02 permanece HOLD. Não habilitar publish/Neon root, não migrar F03 ou novos corpora.
+**F02 somente pode mudar para DONE** quando #128 receber provas da execução real (run/HEAD/SAFETY PASS), restore independente atual e histórico, custódia/ACL verificada, plano de rollback e aceite operacional final owner_only. O aceite **específico** do risco de ausência de WORM já está registrado; ele não equivale ao aceite operacional. A PR #142 foi integrada e testada, mas F02 permanece HOLD. Não habilitar publish/Neon root, não migrar F03 ou novos corpora.
 
 ## Reversão / falhas
 
