@@ -76,6 +76,17 @@ def new_name(expected_sha: str, *, run_id: str, attempt: str, now: datetime) -> 
     return f"mar-p0-{stamp}-run-{run_id}-a{attempt}-sha256-{expected_sha}.pgcustom.aesgcm"
 
 
+def verify_oauth_scopes(creds) -> None:
+    """Check requested file-only scope and explicit grants, when supplied."""
+    if set(creds.scopes or ()) != {SCOPE}:
+        raise DriveBackupRejected("oauth_requested_scope_not_exact")
+    granted = creds.granted_scopes
+    if granted and set(granted) != {SCOPE}:
+        raise DriveBackupRejected("oauth_granted_scope_not_exact")
+    if not creds.valid:
+        raise DriveBackupRejected("oauth_refresh_not_valid")
+
+
 def get_service(env: dict):
     """Obtain OAuth session; forbid silently extending scope to full Drive."""
     keys = (
@@ -98,10 +109,12 @@ def get_service(env: dict):
             scopes=[SCOPE],
         )
         creds.refresh(Request())
-        # A configured scope is NOT proof of the scopes actually issued.
-        # If Google omits granted_scopes, do not guess authorization.
-        if set(creds.granted_scopes or ()) != {SCOPE}:
-            raise DriveBackupRejected("oauth_granted_scope_not_exact")
+        # Google may omit 'scope' in a successful refresh response when
+        # requested and granted scopes coincide. An empty granted_scopes is
+        # therefore NOT a failure (google-auth's documented behavior).
+        # Reject a positive attestation of broader/different grants, and
+        # require the requesting Credentials object to be file-scoped.
+        verify_oauth_scopes(creds)
         return build("drive", "v3", credentials=creds, cache_discovery=False)
     except DriveBackupRejected:
         raise
@@ -203,13 +216,15 @@ def download(service, *, receipt: dict, target: Path, folder_id: str) -> dict:
 
 
 
-def select_older(service, *, folder_id: str, now: datetime, min_age_hours: int = 24, max_age_hours: int = 192) -> dict:
+def select_older(service, *, folder_id: str, now: datetime, min_age_hours: int = 24, max_age_hours: int = 192, expected_sha: str | None = None) -> dict:
     """Independent runner can recover from Drive alone; no local receipt needed."""
     from datetime import timedelta
     if (not isinstance(now, datetime) or now.tzinfo is None
             or type(min_age_hours) is not int or type(max_age_hours) is not int
             or not 0 <= min_age_hours <= max_age_hours <= 24 * 90):
         raise DriveBackupRejected("recovery_window_invalid")
+    if expected_sha is not None and (not isinstance(expected_sha, str) or SHA_PATTERN.fullmatch(expected_sha) is None):
+        raise DriveBackupRejected("invalid_expected_sha256")
     verify_folder(service, folder_id)
     page_token = None
     matches = []
@@ -234,6 +249,8 @@ def select_older(service, *, folder_id: str, now: datetime, min_age_hours: int =
             name = item.get("name")
             match = NAME_PATTERN.fullmatch(name) if isinstance(name, str) else None
             if not match or item.get("mimeType") != FILE_MIME or item.get("parents") != [folder_id]:
+                continue
+            if expected_sha is not None and match.group(1) != expected_sha:
                 continue
             if item.get("trashed") is not False or item.get("appProperties", {}).get("sha256") != match.group(1):
                 continue
@@ -308,6 +325,7 @@ def main(argv: list[str] | None = None, env=None, *, service=None, now=None) -> 
                     client, folder_id=folder_id,
                     now=now or datetime.now(timezone.utc),
                     min_age_hours=args.min_age_hours, max_age_hours=args.max_age_hours,
+                    expected_sha=args.expected_sha256,
                 )
             if args.expected_sha256 is not None and receipt.get("sha256") != args.expected_sha256:
                 raise DriveBackupRejected("independent_cipher_sha_mismatch")

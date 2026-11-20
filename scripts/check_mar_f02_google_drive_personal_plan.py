@@ -22,7 +22,7 @@ EXPECTED_FALSE = {
         "oauth_picker_authorization_completed",
         "drive_storage_remaining_measured",
     ),
-    "source": ("reader_provisioned_in_source_branch", "production_modified"),
+    "source": ("production_modified", "reader_secret_installed_in_protected_ci"),
     "security": (
         "drive_token_or_key_in_repository",
         "drive_token_or_key_in_drive",
@@ -39,7 +39,8 @@ EXPECTED_FALSE = {
     ),
     "activation": (
         "automatic_backup_enabled",
-        "scheduled_workflow_deployed",
+        "scheduled_backups_operational",
+        "manual_test_enabled",
         "automation_secret_configured",
         "stage_F02_closed",
         "stage_F03_open",
@@ -54,7 +55,8 @@ EXPECTED_TRUE = {
         "folder_owner_only",
         "folder_created",
     ),
-    "source": ("reader_proven_in_isolated_lab",),
+    "source": ("reader_proven_in_isolated_lab", "reader_provisioned_in_source_branch", "live_reader_preflight_passed"),
+    "activation": ("scheduled_workflow_deployed",),
     "retention": ("owner_risk_waiver_for_missing_WORM",),
     "security": (
         "authenticated_backup_envelope_required",
@@ -120,6 +122,8 @@ def validate(doc: object) -> list[str]:
         for key, expected in expected_source.items():
             if source.get(key) != expected:
                 problems.append(f"incorrect_source_{key}")
+        if type(source.get("live_reader_preflight_checks")) is not int or source.get("live_reader_preflight_checks") != 21:
+            problems.append("source_read_only_catalog_proof_missing")
     security = doc.get("security")
     if isinstance(security, dict):
         if security.get("encryption_before_upload") != "AES-256-GCM":
@@ -170,6 +174,8 @@ def validate(doc: object) -> list[str]:
     if isinstance(activation, dict):
         if activation.get("authorization_variable") != "MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED":
             problems.append("opt_in_gate_missing")
+        if activation.get("manual_test_authorization_variable") != "MAR_P0_GOOGLE_DRIVE_BACKUP_TEST_ENABLED":
+            problems.append("manual_test_opt_in_gate_missing")
     notices = doc.get("notices")
     if not isinstance(notices, list) or len(notices) < 4 or any(
         not isinstance(x, str) or not x.strip() for x in notices

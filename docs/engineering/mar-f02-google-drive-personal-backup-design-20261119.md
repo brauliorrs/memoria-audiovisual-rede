@@ -6,7 +6,7 @@
 
 ## Escopo explícito e invariante de direitos
 
-O backup cobre **somente metadados científicos e checkpoints autorizados** do schema `mar_p0` da branch de validação Neon; não contém mídia audiovisual, bytes de terceiros, arquivos sob HOLD, nem representa promoção de novos corpora. A branch principal Neon e o Vercel protegido ficam intocados. A fonte deverá usar login exclusivo `mar_p0_backup_reader`, com preflight live já testado em laboratório nos PRs #138/#140; **ainda não instalado** na branch de origem autorizada. Não reutilizar `mar_p0_limited` como leitor de backup.
+O backup cobre **somente metadados científicos e checkpoints autorizados** do schema `mar_p0` da branch de validação Neon; não contém mídia audiovisual, bytes de terceiros, arquivos sob HOLD, nem representa promoção de novos corpora. A branch principal Neon e o Vercel protegido ficam intocados. A fonte deverá usar login exclusivo `mar_p0_backup_reader`, com preflight live já testado em laboratório nos PRs #138/#140; **instalado e auditado em 19/11/2026** na branch original de validação `br-lingering-smoke-b8hjdnzb` (21/21 checagens do perfil SELECT-only). A senha temporária não foi armazenada e ainda precisa ser rotacionada e instalada como Secret exclusivo no GitHub Actions; não há backup real até a autenticação do runner. Não reutilizar `mar_p0_limited` como leitor de backup.
 
 ## Arquitetura selecionada
 
@@ -34,7 +34,7 @@ O backup cobre **somente metadados científicos e checkpoints autorizados** do s
 | --- | --- | --- |
 | Pasta privada do mesmo Drive | Metadados do Google Drive: proprietário único e não compartilhada | **VERIFICADO** |
 | Acesso OAuth à pasta pelo executor | Scope drive.file, Google Picker/ownership testado, sem acesso excessivo | **PENDENTE** |
-| Reader Neon no ambiente autorizado | Login separado, sem DML ou acesso extra em teste real | **Só LAB** |
+| Reader Neon no ambiente autorizado | Login separado, sem DML ou acesso extra em teste SQL autenticado | **VALIDADO NA VALIDAÇÃO — falta Secret no CI** |
 | Backup externo cifrado corrente | SHA-256 pós-upload e readback completos | **PENDENTE** |
 | Restauração independente atual/antiga | Runner diferente, `pg_restore`, esquema/contagens/digests | **PENDENTE** |
 | Retenção mínima 90 dias | Inspeção histórica, quota e rotina de detecção de perda | **PENDENTE** |

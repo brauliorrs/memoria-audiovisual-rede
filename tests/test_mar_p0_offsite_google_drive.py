@@ -15,7 +15,7 @@ import sys
 from scripts.mar_p0_offsite_google_drive import (
     DriveBackupRejected, FILE_MIME, FOLDER_MIME, MAGIC,
     check_cipher, download, main, new_name, select_older,
-    upload, verify_folder,
+    upload, verify_folder, verify_oauth_scopes, SCOPE,
 )
 
 UTC = timezone.utc
@@ -120,6 +120,35 @@ class DriveCipherTransportTests(unittest.TestCase):
         fake.items[0]["appProperties"] = {"sha256": SHA}
         with self.assertRaises(DriveBackupRejected):
             select_older(fake, folder_id=FOLDER, now=NOW, min_age_hours=72, max_age_hours=192)
+
+    def test_oauth_scope_validation_allows_omitted_scope_if_request_exact(self):
+        # Google OAuth refresh may omit granted_scopes when same as requested.
+        verify_oauth_scopes(types.SimpleNamespace(scopes=[SCOPE], granted_scopes=None, valid=True))
+        verify_oauth_scopes(types.SimpleNamespace(scopes=[SCOPE], granted_scopes=[], valid=True))
+        verify_oauth_scopes(types.SimpleNamespace(scopes=[SCOPE], granted_scopes=[SCOPE], valid=True))
+        for credentials in (
+            types.SimpleNamespace(scopes=[SCOPE], granted_scopes=[SCOPE, "https://www.googleapis.com/auth/drive"], valid=True),
+            types.SimpleNamespace(scopes=["https://www.googleapis.com/auth/drive"], granted_scopes=None, valid=True),
+            types.SimpleNamespace(scopes=[SCOPE], granted_scopes=[SCOPE], valid=False),
+        ):
+            with self.subTest(creds=credentials), self.assertRaises(DriveBackupRejected):
+                verify_oauth_scopes(credentials)
+
+    def test_independent_restore_selects_exact_digest_not_newest_unrelated_backup(self):
+        fake = FakeDriveFiles()
+        newest = dict(fake.file)
+        newest["id"] = "newest_file_CCCCCCCCCCCCCCCCC"
+        newest["createdTime"] = (NOW - timedelta(hours=25)).isoformat()
+        newest["name"] = new_name("a" * 64, run_id="12345", attempt="1", now=NOW)
+        newest["appProperties"] = {"sha256": "a" * 64}
+        fake.items = [newest, fake.file]
+        selected = select_older(fake, folder_id=FOLDER, now=NOW, expected_sha=SHA)
+        self.assertEqual(selected["sha256"], SHA)
+        self.assertEqual(selected["file_id"], FILE_ID)
+        with self.assertRaises(DriveBackupRejected):
+            select_older(fake, folder_id=FOLDER, now=NOW, expected_sha="b" * 64)
+        with self.assertRaises(DriveBackupRejected):
+            select_older(fake, folder_id=FOLDER, now=NOW, expected_sha="not-a-hash")
 
     def test_decrypt_is_not_attempted_during_transport_and_restore_target_exclusive(self):
         fake = FakeDriveFiles()

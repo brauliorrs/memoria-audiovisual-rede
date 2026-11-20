@@ -66,9 +66,10 @@ jobs:
 
       - name: Validate F02 Drive cipher transport and isolated restore offline
         run: |
-          python -m compileall -q scripts/mar_p0_offsite_pg_restore.py scripts/mar_p0_offsite_google_drive.py
+          python -m compileall -q scripts/mar_p0_offsite_pg_restore.py scripts/mar_p0_offsite_google_drive.py scripts/mar_f02_drive_oauth_bootstrap.py
           python -m unittest discover -s tests -p 'test_mar_p0_offsite_pg_restore.py' -v
           python -m unittest discover -s tests -p 'test_mar_p0_offsite_google_drive.py' -v
+          python -m unittest discover -s tests -p 'test_mar_f02_drive_oauth_bootstrap.py' -v
           python -m unittest discover -s tests -p 'test_mar_f02_google_drive_personal_plan.py' -v
 
       - name: Lint canonical infrastructure

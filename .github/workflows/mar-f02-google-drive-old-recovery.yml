@@ -13,7 +13,8 @@ jobs:
     if: >-
       github.repository == 'brauliorrs/memoria-audiovisual-rede' &&
       github.ref == 'refs/heads/main' &&
-      vars.MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED == 'true'
+      ((github.event_name == 'workflow_dispatch' && vars.MAR_P0_GOOGLE_DRIVE_BACKUP_TEST_ENABLED == 'true') ||
+       (github.event_name == 'schedule' && vars.MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED == 'true'))
     runs-on: ubuntu-26.04
     timeout-minutes: 30
     environment: mar-p0-drive-recovery

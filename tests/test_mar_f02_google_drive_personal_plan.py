@@ -25,11 +25,20 @@ class DrivePersonalF02PlanTests(unittest.TestCase):
         self.assertEqual(gate.validate(self.fresh()), [])
 
     def test_never_claim_scheduled_backup_just_from_existing_folder(self):
-        for field in ("automatic_backup_enabled", "scheduled_workflow_deployed"):
+        for field in ("automatic_backup_enabled", "scheduled_backups_operational", "manual_test_enabled"):
             with self.subTest(field=field):
                 record = self.fresh()
                 record["activation"][field] = True
                 self.assertTrue(gate.validate(record))
+
+    def test_schedule_workflow_definition_exists_but_jobs_are_not_live(self):
+        self.assertTrue(self.fresh()["activation"]["scheduled_workflow_deployed"])
+        bad = self.fresh()
+        bad["activation"]["scheduled_workflow_deployed"] = False
+        self.assertTrue(gate.validate(bad))
+        bad = self.fresh()
+        bad["activation"]["manual_test_authorization_variable"] = "MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED"
+        self.assertTrue(gate.validate(bad))
 
     def test_never_claim_uploaded_restorable_data(self):
         for field in (
@@ -102,13 +111,26 @@ class DrivePersonalF02PlanTests(unittest.TestCase):
                 record["destination"][field] = True
                 self.assertTrue(gate.validate(record))
 
-    def test_no_main_branch_mutation_or_new_reader_at_source(self):
+    def test_validation_reader_provisioned_and_proven_without_main_mutation(self):
         record = self.fresh()
-        record["source"]["production_modified"] = True
-        self.assertTrue(gate.validate(record))
-        record = self.fresh()
-        record["source"]["reader_provisioned_in_source_branch"] = True
-        self.assertTrue(gate.validate(record))
+        self.assertTrue(record["source"]["reader_provisioned_in_source_branch"])
+        self.assertTrue(record["source"]["live_reader_preflight_passed"])
+        self.assertEqual(record["source"]["live_reader_preflight_checks"], 21)
+        self.assertFalse(record["source"]["reader_secret_installed_in_protected_ci"])
+        self.assertFalse(record["source"]["production_modified"])
+        self.assertEqual(gate.validate(record), [])
+        for field, value in (
+            ("production_modified", True),
+            ("reader_provisioned_in_source_branch", False),
+            ("live_reader_preflight_passed", False),
+            ("live_reader_preflight_checks", 0),
+            ("live_reader_preflight_checks", True),
+            ("reader_secret_installed_in_protected_ci", True),
+        ):
+            bad = self.fresh()
+            bad["source"][field] = value
+            with self.subTest(field=field, value=value):
+                self.assertTrue(gate.validate(bad))
 
     def test_oauth_scope_must_stay_file_scoped(self):
         record = self.fresh()
