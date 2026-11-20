@@ -79,12 +79,15 @@
   },
   "activation": {
     "automatic_backup_enabled": false,
-    "scheduled_workflow_deployed": false,
+    "scheduled_workflow_deployed": true,
     "authorization_variable": "MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED",
     "automation_secret_configured": false,
     "stage_F02_closed": false,
     "stage_F03_open": false,
-    "public_access_authorized": false
+    "public_access_authorized": false,
+    "scheduled_backups_operational": false,
+    "manual_test_authorization_variable": "MAR_P0_GOOGLE_DRIVE_BACKUP_TEST_ENABLED",
+    "manual_test_enabled": false
   },
   "notices": [
     "Folder authorization in ChatGPT connector is not automatically reusable by a separate OAuth client in GitHub Actions",
@@ -94,6 +97,7 @@
     "Do not store encryption keys, tokens, connection URLs, or scientific data in engineering memory",
     "Owner explicitly accepted non-WORM deletion risk for preliminary development only on 2026-11-19; operational backup/restore and F02 remain HOLD",
     "Dedicated read-only role was provisioned only on Neon VALIDATION branch and 21 catalog checks were successfully executed as that role on 2026-11-19; no plaintext credential was persisted in engineering artifacts",
-    "A new operational database password must be securely rotated and added as GitHub Environment secret before enabling backups; existing role is not automatically connected to CI"
+    "A new operational database password must be securely rotated and added as GitHub Environment secret before enabling backups; existing role is not automatically connected to CI",
+    "Scheduled workflow definitions exist on main but cron jobs are gated by the false/unset production variable; a separate manual-only TEST variable is also unset"
   ]
 }
