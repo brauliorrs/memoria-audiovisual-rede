@@ -24,8 +24,11 @@
     "branch_intent": "validation_only",
     "dedicated_login": "mar_p0_backup_reader",
     "reader_proven_in_isolated_lab": true,
-    "reader_provisioned_in_source_branch": false,
-    "production_modified": false
+    "reader_provisioned_in_source_branch": true,
+    "production_modified": false,
+    "live_reader_preflight_passed": true,
+    "live_reader_preflight_checks": 21,
+    "reader_secret_installed_in_protected_ci": false
   },
   "security": {
     "encryption_before_upload": "AES-256-GCM",
@@ -89,6 +92,8 @@
     "Use per-file OAuth drive.file with Picker/grant, or app-owned folder in same account upon explicit operator setup",
     "Do not confuse creating an empty backup folder with backed-up or recoverable Neon data",
     "Do not store encryption keys, tokens, connection URLs, or scientific data in engineering memory",
-    "Owner explicitly accepted non-WORM deletion risk for preliminary development only on 2026-11-19; operational backup/restore and F02 remain HOLD"
+    "Owner explicitly accepted non-WORM deletion risk for preliminary development only on 2026-11-19; operational backup/restore and F02 remain HOLD",
+    "Dedicated read-only role was provisioned only on Neon VALIDATION branch and 21 catalog checks were successfully executed as that role on 2026-11-19; no plaintext credential was persisted in engineering artifacts",
+    "A new operational database password must be securely rotated and added as GitHub Environment secret before enabling backups; existing role is not automatically connected to CI"
   ]
 }
