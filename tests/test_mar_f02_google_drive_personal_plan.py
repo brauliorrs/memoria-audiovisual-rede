@@ -102,13 +102,26 @@ class DrivePersonalF02PlanTests(unittest.TestCase):
                 record["destination"][field] = True
                 self.assertTrue(gate.validate(record))
 
-    def test_no_main_branch_mutation_or_new_reader_at_source(self):
+    def test_validation_reader_provisioned_and_proven_without_main_mutation(self):
         record = self.fresh()
-        record["source"]["production_modified"] = True
-        self.assertTrue(gate.validate(record))
-        record = self.fresh()
-        record["source"]["reader_provisioned_in_source_branch"] = True
-        self.assertTrue(gate.validate(record))
+        self.assertTrue(record["source"]["reader_provisioned_in_source_branch"])
+        self.assertTrue(record["source"]["live_reader_preflight_passed"])
+        self.assertEqual(record["source"]["live_reader_preflight_checks"], 21)
+        self.assertFalse(record["source"]["reader_secret_installed_in_protected_ci"])
+        self.assertFalse(record["source"]["production_modified"])
+        self.assertEqual(gate.validate(record), [])
+        for field, value in (
+            ("production_modified", True),
+            ("reader_provisioned_in_source_branch", False),
+            ("live_reader_preflight_passed", False),
+            ("live_reader_preflight_checks", 0),
+            ("live_reader_preflight_checks", True),
+            ("reader_secret_installed_in_protected_ci", True),
+        ):
+            bad = self.fresh()
+            bad["source"][field] = value
+            with self.subTest(field=field, value=value):
+                self.assertTrue(gate.validate(bad))
 
     def test_oauth_scope_must_stay_file_scoped(self):
         record = self.fresh()
