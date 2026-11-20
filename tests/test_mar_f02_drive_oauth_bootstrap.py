@@ -81,6 +81,16 @@ class DriveOAuthBootstrapTests(unittest.TestCase):
                 self.assertIn("github.ref == 'refs/heads/main'", content)
                 self.assertIn("permissions:\\n  contents: read", content)
 
+    def test_client_json_requires_private_parent_directory(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            root.chmod(0o755)
+            client = root / "desktop.json"
+            client.write_text('{"installed": {}}', encoding="utf-8")
+            client.chmod(0o600)
+            with self.assertRaises(DriveBackupRejected):
+                check_private_file(client)
+
     def test_output_requires_existing_private_directory(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
