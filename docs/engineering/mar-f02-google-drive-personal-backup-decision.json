@@ -43,9 +43,36 @@
     "operational_target_days": 90,
     "immutable_WORM_supported_by_selected_destination": false,
     "immutability_proven": false,
-    "owner_risk_waiver_for_missing_WORM": false,
+    "owner_risk_waiver_for_missing_WORM": true,
     "retention_90_days_verified": false,
-    "automatic_deletion_enabled": false
+    "automatic_deletion_enabled": false,
+    "owner_risk_acceptance": {
+      "date": "2026-11-19",
+      "decision": "explicitly_accepted",
+      "scope": "preliminary_development_only",
+      "destination": "google_drive_personal_only",
+      "risk": "unauthorized_or_accidental_deletion_and_loss_of_recoverable_backups_without_WORM",
+      "controls": [
+        "ciphertext_only_AES_256_GCM",
+        "authenticated_readback_sha256",
+        "no_automatic_deletion",
+        "operational_target_90_days",
+        "independent_restore_required"
+      ],
+      "does_not_prove": [
+        "provider_WORM",
+        "backup_uploaded",
+        "successful_restore",
+        "90_days_observed"
+      ],
+      "does_not_authorize": [
+        "production_migration",
+        "publication",
+        "cron_activation",
+        "stage_F02_closure",
+        "stage_F03_open"
+      ]
+    }
   },
   "activation": {
     "automatic_backup_enabled": false,
@@ -61,6 +88,7 @@
     "Google Drive personal is operational retention, NOT S3 Object Lock compliance",
     "Use per-file OAuth drive.file with Picker/grant, or app-owned folder in same account upon explicit operator setup",
     "Do not confuse creating an empty backup folder with backed-up or recoverable Neon data",
-    "Do not store encryption keys, tokens, connection URLs, or scientific data in engineering memory"
+    "Do not store encryption keys, tokens, connection URLs, or scientific data in engineering memory",
+    "Owner explicitly accepted non-WORM deletion risk for preliminary development only on 2026-11-19; operational backup/restore and F02 remain HOLD"
   ]
 }

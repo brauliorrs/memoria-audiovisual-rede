@@ -34,7 +34,6 @@ EXPECTED_FALSE = {
     "retention": (
         "immutable_WORM_supported_by_selected_destination",
         "immutability_proven",
-        "owner_risk_waiver_for_missing_WORM",
         "retention_90_days_verified",
         "automatic_deletion_enabled",
     ),
@@ -56,6 +55,7 @@ EXPECTED_TRUE = {
         "folder_created",
     ),
     "source": ("reader_proven_in_isolated_lab",),
+    "retention": ("owner_risk_waiver_for_missing_WORM",),
     "security": (
         "authenticated_backup_envelope_required",
         "external_encryption_key_only",
@@ -129,6 +129,43 @@ def validate(doc: object) -> list[str]:
         days = retention.get("operational_target_days")
         if type(days) is not int or days != 90:
             problems.append("retention_target_not_90_days")
+    if isinstance(retention, dict):
+        acceptance = retention.get("owner_risk_acceptance")
+        if not isinstance(acceptance, dict):
+            problems.append("owner_risk_acceptance_record_missing")
+        else:
+            required = {
+                "date": "2026-11-19",
+                "decision": "explicitly_accepted",
+                "scope": "preliminary_development_only",
+                "destination": "google_drive_personal_only",
+                "risk": "unauthorized_or_accidental_deletion_and_loss_of_recoverable_backups_without_WORM",
+            }
+            for key, value in required.items():
+                if acceptance.get(key) != value:
+                    problems.append(f"incorrect_owner_risk_acceptance_{key}")
+            expected_controls = {
+                "ciphertext_only_AES_256_GCM", "authenticated_readback_sha256",
+                "no_automatic_deletion", "operational_target_90_days",
+                "independent_restore_required",
+            }
+            expected_not_proven = {
+                "provider_WORM", "backup_uploaded", "successful_restore", "90_days_observed",
+            }
+            expected_not_authorized = {
+                "production_migration", "publication", "cron_activation",
+                "stage_F02_closure", "stage_F03_open",
+            }
+            for key, required_items in (
+                ("controls", expected_controls),
+                ("does_not_prove", expected_not_proven),
+                ("does_not_authorize", expected_not_authorized),
+            ):
+                value = acceptance.get(key)
+                if (not isinstance(value, list) or len(value) != len(required_items)
+                        or any(type(item) is not str for item in value)
+                        or set(value) != required_items):
+                    problems.append(f"incorrect_owner_risk_acceptance_{key}")
     activation = doc.get("activation")
     if isinstance(activation, dict):
         if activation.get("authorization_variable") != "MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED":
@@ -152,7 +189,7 @@ def main() -> int:
         for issue in issues:
             print("MAR-F02: HOLD — " + issue, file=sys.stderr)
         return 1
-    print("MAR-F02: PASS — Drive selected, operational status remains HOLD")
+    print("MAR-F02: PASS — scoped Drive non-WORM risk accepted, operational status remains HOLD")
     return 0
 
 

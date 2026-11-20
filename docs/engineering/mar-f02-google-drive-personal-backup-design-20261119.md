@@ -24,8 +24,9 @@ O backup cobre **somente metadados científicos e checkpoints autorizados** do s
 **Google Drive pessoal não é WORM Object Lock Compliance.** Ser proprietário, manter revisões ou não excluir por política **não impede** que o titular da conta ou um agente com credenciais amplas apague arquivos. Portanto:
 
 - **Decidido:** Google Drive pessoal como destino de cópia externa cifrada e retenção **operacional** planejada para 90 dias.
-- **Não decidido:** dispensar a exigência original de **imutabilidade** de 90 dias. Usar o Drive não constitui por si aceite de risco residual, nem permite registrar `immutable_retention_proven=true`.
-- **Controle compensatório futuro:** optar por um segundo destino com Object Lock/WORM (PR #92, ainda DRAFT) ou obter **decisão humana específica e informada** de risco de exclusão, com medidas substitutivas e limites explícitos. Sem isso, o gate de imutabilidade da F02 fica HOLD. O PR #93 de Vercel Blob também segue DRAFT sem imutabilidade demonstrada.
+- **Aceite humano explícito em 19/11/2026:** o proprietário confirmou em resposta direta que aceita, **somente durante o desenvolvimento preliminar**, o risco de exclusão acidental, indevida ou maliciosa das cópias mantidas no Google Drive pessoal **sem WORM/Object Lock**. A decisão é limitada ao destino Drive selecionado e não inclui produção, abertura pública, mudança do Neon root ou integração de corpora. Registro versionado em `mar-f02-google-drive-personal-backup-decision.json` e [aceite explícito na issue #128](https://github.com/brauliorrs/memoria-audiovisual-rede/issues/128#issuecomment-7026093922).
+- **Controles compensatórios mantidos:** AES-256-GCM antes do upload, SHA-256 com readback, acesso mínimo, backups individuais, sem exclusão automática, retenção operacional pretendida de 90 dias e restauração independente comprovada. **Nada disso torna o Drive imutável ou prova retenção já observada.**
+- **Exceção de imutabilidade, não encerramento F02:** o requisito WORM fica **formalmente dispensado apenas para a fase preliminar**, por aceite explícito do risco residual. Os gates operacionais (OAuth, reader, backups atuais/antigos, restauração, quota, custódia, rollback e aceite final) continuam HOLD. PR #92 e #93 permanecem sem ativação e não constituem escolha operacional. Reavaliar imutabilidade antes da fase de produção.
 
 ## Gate F02: aceite técnico mínimo antes de cron
 
@@ -37,10 +38,10 @@ O backup cobre **somente metadados científicos e checkpoints autorizados** do s
 | Backup externo cifrado corrente | SHA-256 pós-upload e readback completos | **PENDENTE** |
 | Restauração independente atual/antiga | Runner diferente, `pg_restore`, esquema/contagens/digests | **PENDENTE** |
 | Retenção mínima 90 dias | Inspeção histórica, quota e rotina de detecção de perda | **PENDENTE** |
-| Imutabilidade 90 dias | WORM efetivo ou aceite humano explícito de exceção, jamais implícito | **NÃO ATENDIDA** |
+| Imutabilidade 90 dias | Drive sem WORM; risco residual aceito explicitamente pelo responsável somente para desenvolvimento preliminar | **EXCEÇÃO DOCUMENTADA — sem WORM** |
 | Autorização de cron | Opt-in, controles de Secrets/Environments, revisão owner_only | **PENDENTE** |
 
-**Não criar um "backup" fictício na pasta como prova operacional.** Um arquivo de demonstração cifrado pode testar o acesso quando OAuth estiver pronto, mas deve ser identificado como `test-vector`, nunca confundido com exportação de dados reais do MAR.
+**O aceite de risco não ativa o backup nem substitui restauração real.** Não criar um "backup" fictício na pasta como prova operacional. Um arquivo de demonstração cifrado pode testar o acesso quando OAuth estiver pronto, mas deve ser identificado como `test-vector`, nunca confundido com exportação de dados reais do MAR.
 
 ## Referências oficiais
 
