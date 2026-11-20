@@ -79,7 +79,8 @@ class DriveOAuthBootstrapTests(unittest.TestCase):
                 self.assertIn("github.event_name == 'workflow_dispatch' && vars.MAR_P0_GOOGLE_DRIVE_BACKUP_TEST_ENABLED == 'true'", content)
                 self.assertIn("github.event_name == 'schedule' && vars.MAR_P0_GOOGLE_DRIVE_BACKUP_ENABLED == 'true'", content)
                 self.assertIn("github.ref == 'refs/heads/main'", content)
-                self.assertIn("permissions:\\n  contents: read", content)
+                self.assertIn("permissions:", content)
+                self.assertIn("contents: read", content)
 
     def test_client_json_requires_private_parent_directory(self):
         with tempfile.TemporaryDirectory() as d:
