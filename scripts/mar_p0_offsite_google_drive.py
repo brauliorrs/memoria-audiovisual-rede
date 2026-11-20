@@ -76,6 +76,17 @@ def new_name(expected_sha: str, *, run_id: str, attempt: str, now: datetime) -> 
     return f"mar-p0-{stamp}-run-{run_id}-a{attempt}-sha256-{expected_sha}.pgcustom.aesgcm"
 
 
+def verify_oauth_scopes(creds) -> None:
+    """Check requested file-only scope and explicit grants, when supplied."""
+    if set(creds.scopes or ()) != {SCOPE}:
+        raise DriveBackupRejected("oauth_requested_scope_not_exact")
+    granted = creds.granted_scopes
+    if granted and set(granted) != {SCOPE}:
+        raise DriveBackupRejected("oauth_granted_scope_not_exact")
+    if not creds.valid:
+        raise DriveBackupRejected("oauth_refresh_not_valid")
+
+
 def get_service(env: dict):
     """Obtain OAuth session; forbid silently extending scope to full Drive."""
     keys = (
@@ -103,12 +114,7 @@ def get_service(env: dict):
         # therefore NOT a failure (google-auth's documented behavior).
         # Reject a positive attestation of broader/different grants, and
         # require the requesting Credentials object to be file-scoped.
-        if set(creds.scopes or ()) != {SCOPE}:
-            raise DriveBackupRejected("oauth_requested_scope_not_exact")
-        if creds.granted_scopes and set(creds.granted_scopes) != {SCOPE}:
-            raise DriveBackupRejected("oauth_granted_scope_not_exact")
-        if not creds.valid:
-            raise DriveBackupRejected("oauth_refresh_not_valid")
+        verify_oauth_scopes(creds)
         return build("drive", "v3", credentials=creds, cache_discovery=False)
     except DriveBackupRejected:
         raise
