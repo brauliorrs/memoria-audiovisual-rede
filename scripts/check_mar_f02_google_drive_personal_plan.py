@@ -22,7 +22,7 @@ EXPECTED_FALSE = {
         "oauth_picker_authorization_completed",
         "drive_storage_remaining_measured",
     ),
-    "source": ("reader_provisioned_in_source_branch", "production_modified"),
+    "source": ("production_modified", "reader_secret_installed_in_protected_ci"),
     "security": (
         "drive_token_or_key_in_repository",
         "drive_token_or_key_in_drive",
@@ -54,7 +54,7 @@ EXPECTED_TRUE = {
         "folder_owner_only",
         "folder_created",
     ),
-    "source": ("reader_proven_in_isolated_lab",),
+    "source": ("reader_proven_in_isolated_lab", "reader_provisioned_in_source_branch", "live_reader_preflight_passed"),
     "retention": ("owner_risk_waiver_for_missing_WORM",),
     "security": (
         "authenticated_backup_envelope_required",
@@ -120,6 +120,8 @@ def validate(doc: object) -> list[str]:
         for key, expected in expected_source.items():
             if source.get(key) != expected:
                 problems.append(f"incorrect_source_{key}")
+        if type(source.get("live_reader_preflight_checks")) is not int or source.get("live_reader_preflight_checks") != 21:
+            problems.append("source_read_only_catalog_proof_missing")
     security = doc.get("security")
     if isinstance(security, dict):
         if security.get("encryption_before_upload") != "AES-256-GCM":
