@@ -8,12 +8,21 @@ import unittest
 from unittest.mock import patch
 
 from scripts.mar_f02_drive_oauth_bootstrap import (
-    ROOT, check_output_file, check_private_file, main,
+    ROOT, check_output_file, check_private_file, main, require_verified_private_filesystem,
 )
 from scripts.mar_p0_offsite_google_drive import DriveBackupRejected
 
 
 class DriveOAuthBootstrapTests(unittest.TestCase):
+    def test_native_windows_must_not_write_oauth_secrets_without_acl_proof(self):
+        with patch("scripts.mar_f02_drive_oauth_bootstrap.os.name", "nt"):
+            with self.assertRaisesRegex(DriveBackupRejected, "oauth_bootstrap_requires_posix_private_permissions"):
+                require_verified_private_filesystem()
+
+    def test_posix_host_security_gate_passes_before_filesystem_checks(self):
+        with patch("scripts.mar_f02_drive_oauth_bootstrap.os.name", "posix"):
+            require_verified_private_filesystem()
+
     def test_dry_run_never_loads_google_libs_or_writes_anything(self):
         with patch("scripts.mar_f02_drive_oauth_bootstrap.authorize") as auth:
             code = main(["--client-json", "/absent/client.json",

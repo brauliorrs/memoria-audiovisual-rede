@@ -22,6 +22,17 @@ from scripts.mar_p0_offsite_pg_restore import _write_exclusive
 
 ROOT = Path(__file__).resolve().parents[1]
 
+def require_verified_private_filesystem() -> None:
+    """Do not handle OAuth refresh tokens where 0600/0700 cannot be verified.
+
+    The current implementation relies on POSIX permissions; os.open(mode=0600)
+    on native Windows does not establish a protective NTFS ACL.
+    """
+    if os.name != "posix":
+        raise DriveBackupRejected("oauth_bootstrap_requires_posix_private_permissions")
+
+
+
 
 def check_private_file(path: Path) -> None:
     source = path.resolve(strict=True)
@@ -49,6 +60,7 @@ def check_output_file(path: Path) -> None:
 
 
 def authorize(*, client_json: Path, output: Path, folder_id: str | None, create_folder: bool) -> dict:
+    require_verified_private_filesystem()
     check_private_file(client_json)
     check_output_file(output)
     if create_folder and folder_id:
