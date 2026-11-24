@@ -13,7 +13,7 @@
 
 1. No [Google Cloud Console](https://console.cloud.google.com/), criar ou selecionar um projeto OAuth sob a **mesma conta Google pessoal** do Drive já escolhido. Habilitar a **Google Drive API**.
 2. Configurar a tela de consentimento Google Auth Platform para o proprietário da conta, habilitando somente o escopo `https://www.googleapis.com/auth/drive.file`. Criar cliente **Desktop app** e baixar o arquivo de credenciais OAuth apenas para o próprio computador. Seguir as exigências de publicação/verificação do Google antes de confiar em refresh tokens para cron permanente; clientes em modo de teste podem ter tokens de curta duração.
-3. Em um computador de confiança com navegador e Python 3.11+, executar a preparação **local**, nunca no GitHub Actions público. Guardar o JSON do Google e o resultado somente numa pasta privada fora do repositório, protegida contra outros usuários locais:
+3. Em um computador de confiança com navegador e Python 3.11+ **executando Linux ou WSL2 no sistema de arquivos Linux**, executar a preparação **local**, nunca no GitHub Actions público. **No Windows nativo, este bootstrap bloqueia a gravação de tokens**: o atributo POSIX `0600` não comprova ACL privada no NTFS. Não executar em `/mnt/c`, OneDrive sincronizado ou volumes FAT/NTFS montados no WSL. Não contornar esse bloqueio; portar uma verificação explícita de ACL NTFS e seus testes antes de admitir execução nativa Windows. Guardar o JSON do Google e o resultado somente numa pasta privada fora do repositório, protegida contra outros usuários locais:
 
 ```bash
 python -m pip install 'google-auth-oauthlib>=1.2,<2' 'google-api-python-client>=2.187,<3' 'google-auth>=2.43,<3' 'cryptography>=50,<51'
