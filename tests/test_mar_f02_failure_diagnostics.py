@@ -26,7 +26,7 @@ class F02FailureDiagnosticsTests(unittest.TestCase):
         self.assertNotIn(sentinel, output.getvalue())
 
     def test_drive_rejection_reports_safe_code_not_secret(self):
-        sentinel = "F02_PRIVATE_FOLDER_SENTINEL"
+        sentinel = "F02_PRIVATE_FOLDER_SENTINEL!"
         output = io.StringIO()
         with redirect_stdout(output):
             rc = drive.main(
