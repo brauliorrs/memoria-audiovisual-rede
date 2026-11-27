@@ -56,6 +56,10 @@ SAFE_REJECTION_CODES = frozenset({
     "oauth_refresh_rejected",
     "oauth_refresh_network_unavailable",
     "oauth_session_unavailable",
+    "oauth_dependencies_unavailable",
+    "oauth_credentials_initialization_failed",
+    "oauth_refresh_unexpected_failure",
+    "oauth_drive_client_initialization_failed",
     "older_ciphertext_not_found",
     "private_directory_missing",
     "private_directory_mode_invalid",
@@ -161,7 +165,13 @@ def get_service(env: dict):
     try:
         from google.oauth2.credentials import Credentials
         from google.auth.transport.requests import Request
+        from google.auth.exceptions import RefreshError, TransportError
         from googleapiclient.discovery import build
+    except Exception:
+        # Restrict to fixed stage code, never log imports or module paths.
+        raise DriveBackupRejected("oauth_dependencies_unavailable") from None
+
+    try:
         creds = Credentials(
             token=None,
             refresh_token=env[keys[2]],
@@ -170,27 +180,26 @@ def get_service(env: dict):
             client_secret=env[keys[1]],
             scopes=[SCOPE],
         )
-        from google.auth.exceptions import RefreshError, TransportError
-        try:
-            creds.refresh(Request())
-        except RefreshError as error:
-            # google-auth supplies a structured error dict as the second argument.
-            # NEVER display the exception message/description: it can contain secrets.
-            raise DriveBackupRejected(safe_oauth_refresh_code(error)) from None
-        except TransportError:
-            raise DriveBackupRejected("oauth_refresh_network_unavailable") from None
-        # Google may omit 'scope' in a successful refresh response when
-        # requested and granted scopes coincide. An empty granted_scopes is
-        # therefore NOT a failure (google-auth's documented behavior).
-        # Reject a positive attestation of broader/different grants, and
-        # require the requesting Credentials object to be file-scoped.
-        verify_oauth_scopes(creds)
-        return build("drive", "v3", credentials=creds, cache_discovery=False)
-    except DriveBackupRejected:
-        raise
     except Exception:
-        # No raw API errors: they can carry identity or account information.
-        raise DriveBackupRejected("oauth_session_unavailable") from None
+        raise DriveBackupRejected("oauth_credentials_initialization_failed") from None
+
+    try:
+        creds.refresh(Request())
+    except RefreshError as error:
+        # Only the allowlisted provider code; no raw OAuth response or token.
+        raise DriveBackupRejected(safe_oauth_refresh_code(error)) from None
+    except TransportError:
+        raise DriveBackupRejected("oauth_refresh_network_unavailable") from None
+    except Exception:
+        raise DriveBackupRejected("oauth_refresh_unexpected_failure") from None
+
+    # Keep the exact narrow scope and reject nonfunctional credentials.
+    verify_oauth_scopes(creds)
+
+    try:
+        return build("drive", "v3", credentials=creds, cache_discovery=False)
+    except Exception:
+        raise DriveBackupRejected("oauth_drive_client_initialization_failed") from None
 
 
 def verify_folder(service, folder_id: str) -> None:
