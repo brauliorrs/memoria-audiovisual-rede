@@ -130,6 +130,25 @@ def verify_oauth_scopes(creds) -> None:
         raise DriveBackupRejected("oauth_refresh_not_valid")
 
 
+
+def safe_oauth_refresh_code(error: Exception) -> str:
+    """Only fixed provider error codes; never expose exception text or token data."""
+    details = error.args[1] if len(error.args) > 1 else None
+    error_code = details.get("error") if isinstance(details, dict) else None
+    fixed_codes = {
+        "invalid_grant": "oauth_invalid_grant",
+        "invalid_client": "oauth_invalid_client",
+        "unauthorized_client": "oauth_unauthorized_client",
+        "invalid_scope": "oauth_invalid_scope",
+        "access_denied": "oauth_access_denied",
+        "temporarily_unavailable": "oauth_provider_unavailable",
+        "server_error": "oauth_provider_unavailable",
+    }
+    if not isinstance(error_code, str):
+        return "oauth_refresh_rejected"
+    return fixed_codes.get(error_code, "oauth_refresh_rejected")
+
+
 def get_service(env: dict):
     """Obtain OAuth session; forbid silently extending scope to full Drive."""
     keys = (
@@ -157,21 +176,7 @@ def get_service(env: dict):
         except RefreshError as error:
             # google-auth supplies a structured error dict as the second argument.
             # NEVER display the exception message/description: it can contain secrets.
-            details = error.args[1] if len(error.args) > 1 else None
-            error_code = details.get("error") if isinstance(details, dict) else None
-            fixed_codes = {
-                "invalid_grant": "oauth_invalid_grant",
-                "invalid_client": "oauth_invalid_client",
-                "unauthorized_client": "oauth_unauthorized_client",
-                "invalid_scope": "oauth_invalid_scope",
-                "access_denied": "oauth_access_denied",
-                "temporarily_unavailable": "oauth_provider_unavailable",
-                "server_error": "oauth_provider_unavailable",
-            }
-            raise DriveBackupRejected(
-                fixed_codes.get(error_code, "oauth_refresh_rejected")
-                if isinstance(error_code, str) else "oauth_refresh_rejected"
-            ) from None
+            raise DriveBackupRejected(safe_oauth_refresh_code(error)) from None
         except TransportError:
             raise DriveBackupRejected("oauth_refresh_network_unavailable") from None
         # Google may omit 'scope' in a successful refresh response when
