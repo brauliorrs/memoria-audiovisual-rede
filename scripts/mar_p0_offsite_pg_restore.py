@@ -43,6 +43,34 @@ SOURCE_HOST = "ep-damp-term-b8wqhmz0.c-14.us-east-1.aws.neon.tech"
 class RecoveryRejected(ValueError):
     """Stable error class only: never include secret values or SQL payloads."""
 
+# Only fixed error identifiers reach logs; never provider messages or secrets.
+SAFE_REJECTION_CODES = frozenset({
+    "aes_key_not_provisioned",
+    "backup_fingerprints_not_present",
+    "backup_header_not_trusted",
+    "backup_output_must_be_new_in_existing_private_directory",
+    "dump_checksum_mismatch",
+    "encrypted_backup_authentication_failed",
+    "encrypted_backup_unavailable",
+    "fingerprint_query_invalid",
+    "header_too_large",
+    "invalid_backup_envelope",
+    "invalid_backup_header",
+    "invalid_backup_header_size",
+    "invalid_connection_url",
+    "missing_or_invalid_fingerprint",
+    "not_a_bounded_pg_custom_dump",
+    "restore_database_name_not_isolated",
+    "restore_target_must_be_local_isolated_postgres",
+    "restored_rows_or_schema_differ",
+    "source_changed_during_export",
+    "source_must_be_dedicated_neon_backup_reader",
+    "source_reader_audit_unavailable",
+    "source_reader_not_select_only",
+    "target_schema_already_exists",
+    "unexpected_tables",
+})
+
 
 def _sha(raw):
     return hashlib.sha256(raw).hexdigest()
@@ -370,8 +398,11 @@ def main(argv=None, environ=None):
             result = restore_backup(args.encrypted_file, env, args.expected_sha256)
     except (RecoveryRejected, OSError, subprocess.SubprocessError, KeyError,
             ValueError, TypeError, json.JSONDecodeError) as error:
+        reason = str(error) if isinstance(error, RecoveryRejected) else ""
+        if reason not in SAFE_REJECTION_CODES:
+            reason = "unclassified_failure"
         print(json.dumps({"status": "HOLD", "rejected_class": type(error).__name__,
-                          "production_gate": "HOLD"}))
+                          "rejected_code": reason, "production_gate": "HOLD"}))
         return 2
     print(json.dumps(result, sort_keys=True))
     return 0
