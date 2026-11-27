@@ -44,9 +44,39 @@ jobs:
           set -euo pipefail
           umask 077
           install -d -m 0700 "$RUNNER_TEMP/mar-drive"
-          python -m scripts.mar_p0_offsite_pg_restore backup --encrypted-file "$RUNNER_TEMP/mar-drive/backup.aesgcm" --execute > "$RUNNER_TEMP/export.json"
+          echo "F02 phase: neon_export"
+          if ! python -m scripts.mar_p0_offsite_pg_restore backup --encrypted-file "$RUNNER_TEMP/mar-drive/backup.aesgcm" --execute > "$RUNNER_TEMP/export.json"; then
+            python - "$RUNNER_TEMP/export.json" <<'PY'
+          import json,re,sys
+          from pathlib import Path
+          try:
+              data = json.loads(Path(sys.argv[1]).read_text())
+          except (OSError, ValueError):
+              data = {}
+          code = data.get("rejected_code", "unclassified_failure")
+          if not isinstance(code, str) or not re.fullmatch(r"[a-z_]{2,80}", code):
+              code = "unclassified_failure"
+          print("HOLD: neon_export rejected_code=" + code)
+          PY
+            exit 2
+          fi
           CIPHER_SHA="$(python -c 'import json,os; r=json.load(open(os.environ["RUNNER_TEMP"]+"/export.json")); assert r["status"]=="encrypted_backup_exported"; print(r["encrypted_sha256"])')"
-          python -m scripts.mar_p0_offsite_google_drive upload --encrypted-file "$RUNNER_TEMP/mar-drive/backup.aesgcm" --receipt-file "$RUNNER_TEMP/mar-drive/private-receipt.json" --expected-sha256 "$CIPHER_SHA" --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" --execute > "$RUNNER_TEMP/upload.json"
+          echo "F02 phase: drive_upload"
+          if ! python -m scripts.mar_p0_offsite_google_drive upload --encrypted-file "$RUNNER_TEMP/mar-drive/backup.aesgcm" --receipt-file "$RUNNER_TEMP/mar-drive/private-receipt.json" --expected-sha256 "$CIPHER_SHA" --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" --execute > "$RUNNER_TEMP/upload.json"; then
+            python - "$RUNNER_TEMP/upload.json" <<'PY'
+          import json,re,sys
+          from pathlib import Path
+          try:
+              data = json.loads(Path(sys.argv[1]).read_text())
+          except (OSError, ValueError):
+              data = {}
+          code = data.get("rejected_code", "provider_or_unclassified_failure")
+          if not isinstance(code, str) or not re.fullmatch(r"[a-z_]{2,80}", code):
+              code = "provider_or_unclassified_failure"
+          print("HOLD: drive_upload rejected_code=" + code)
+          PY
+            exit 2
+          fi
           python - <<'PY'
           import json,os
           from pathlib import Path

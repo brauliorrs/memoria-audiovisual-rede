@@ -32,6 +32,41 @@ NAME_PATTERN = re.compile(
 class DriveBackupRejected(ValueError):
     """Deliberately generic errors: do not propagate provider or auth details."""
 
+# Only fixed error identifiers reach logs; never provider messages or secrets.
+SAFE_REJECTION_CODES = frozenset({
+    "ciphertext_invalid",
+    "ciphertext_size_invalid",
+    "drive_id_invalid",
+    "drive_list_invalid",
+    "drive_listing_limit",
+    "drive_listing_pages_exceeded",
+    "drive_page_token_invalid",
+    "independent_cipher_sha_mismatch",
+    "no_overwrite_allowed",
+    "oauth_granted_scope_not_exact",
+    "oauth_refresh_not_valid",
+    "oauth_requested_scope_not_exact",
+    "oauth_secrets_unavailable",
+    "oauth_session_unavailable",
+    "older_ciphertext_not_found",
+    "private_directory_missing",
+    "private_directory_mode_invalid",
+    "private_folder_not_verified",
+    "receipt_filename_sha_mismatch",
+    "receipt_folder_mismatch",
+    "receipt_invalid",
+    "receipt_not_verified",
+    "receipt_target_required",
+    "recovery_window_invalid",
+    "remote_bytes_invalid",
+    "remote_ciphertext_metadata_invalid",
+    "remote_readback_mismatch",
+    "run_attempt_invalid",
+    "run_id_invalid",
+    "source_file_unavailable",
+    "utc_clock_required",
+})
+
 
 def sha256(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
@@ -330,9 +365,13 @@ def main(argv: list[str] | None = None, env=None, *, service=None, now=None) -> 
             if args.expected_sha256 is not None and receipt.get("sha256") != args.expected_sha256:
                 raise DriveBackupRejected("independent_cipher_sha_mismatch")
             result = download(client, receipt=receipt, target=args.encrypted_file, folder_id=folder_id)
-    except Exception:
+    except Exception as error:
         # Deliberately suppress raw provider exceptions and all credentials.
-        print(json.dumps({"status": "HOLD", "production_gate": "HOLD"}))
+        reason = str(error) if isinstance(error, DriveBackupRejected) else ""
+        if reason not in SAFE_REJECTION_CODES:
+            reason = "provider_or_unclassified_failure"
+        print(json.dumps({"status": "HOLD", "rejected_code": reason,
+                          "production_gate": "HOLD"}))
         return 2
     print(json.dumps(result, sort_keys=True))
     return 0
