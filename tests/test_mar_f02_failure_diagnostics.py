@@ -41,5 +41,34 @@ class F02FailureDiagnosticsTests(unittest.TestCase):
         self.assertNotIn(sentinel, output.getvalue())
 
 
+    def test_oauth_google_rejection_is_classified_without_raw_details(self):
+        from unittest.mock import patch
+        from google.auth.exceptions import RefreshError
+        from google.oauth2.credentials import Credentials
+
+        env = {
+            "MAR_P0_DRIVE_OAUTH_CLIENT_ID": "synthetic_client_id",
+            "MAR_P0_DRIVE_OAUTH_CLIENT_SECRET": "F02_HIDDEN_CLIENT_SECRET",
+            "MAR_P0_DRIVE_OAUTH_REFRESH_TOKEN": "F02_HIDDEN_REFRESH_TOKEN",
+        }
+        for error_code, expected in (
+            ("invalid_grant", "oauth_invalid_grant"),
+            ("invalid_client", "oauth_invalid_client"),
+            ("not_allowed", "oauth_refresh_rejected"),
+        ):
+            with self.subTest(google_code=error_code):
+                error = RefreshError(
+                    "F02_HIDDEN_PROVIDER_MESSAGE",
+                    {"error": error_code, "error_description": "F02_HIDDEN_RAW_RESPONSE"},
+                )
+                with patch.object(Credentials, "refresh", side_effect=error):
+                    with self.assertRaises(drive.DriveBackupRejected) as rejected:
+                        drive.get_service(env)
+                self.assertEqual(str(rejected.exception), expected)
+                for secret in ("F02_HIDDEN", "client_id", "refresh_token"):
+                    self.assertNotIn(secret, str(rejected.exception))
+
+
+
 if __name__ == "__main__":
     unittest.main()
