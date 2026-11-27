@@ -47,6 +47,14 @@ SAFE_REJECTION_CODES = frozenset({
     "oauth_refresh_not_valid",
     "oauth_requested_scope_not_exact",
     "oauth_secrets_unavailable",
+    "oauth_invalid_grant",
+    "oauth_invalid_client",
+    "oauth_unauthorized_client",
+    "oauth_invalid_scope",
+    "oauth_access_denied",
+    "oauth_provider_unavailable",
+    "oauth_refresh_rejected",
+    "oauth_refresh_network_unavailable",
     "oauth_session_unavailable",
     "older_ciphertext_not_found",
     "private_directory_missing",
@@ -143,7 +151,29 @@ def get_service(env: dict):
             client_secret=env[keys[1]],
             scopes=[SCOPE],
         )
-        creds.refresh(Request())
+        from google.auth.exceptions import RefreshError, TransportError
+        try:
+            creds.refresh(Request())
+        except RefreshError as error:
+            # google-auth supplies a structured error dict as the second argument.
+            # NEVER display the exception message/description: it can contain secrets.
+            details = error.args[1] if len(error.args) > 1 else None
+            error_code = details.get("error") if isinstance(details, dict) else None
+            fixed_codes = {
+                "invalid_grant": "oauth_invalid_grant",
+                "invalid_client": "oauth_invalid_client",
+                "unauthorized_client": "oauth_unauthorized_client",
+                "invalid_scope": "oauth_invalid_scope",
+                "access_denied": "oauth_access_denied",
+                "temporarily_unavailable": "oauth_provider_unavailable",
+                "server_error": "oauth_provider_unavailable",
+            }
+            raise DriveBackupRejected(
+                fixed_codes.get(error_code, "oauth_refresh_rejected")
+                if isinstance(error_code, str) else "oauth_refresh_rejected"
+            ) from None
+        except TransportError:
+            raise DriveBackupRejected("oauth_refresh_network_unavailable") from None
         # Google may omit 'scope' in a successful refresh response when
         # requested and granted scopes coincide. An empty granted_scopes is
         # therefore NOT a failure (google-auth's documented behavior).
