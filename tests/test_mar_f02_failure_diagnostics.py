@@ -59,5 +59,71 @@ class F02FailureDiagnosticsTests(unittest.TestCase):
                 self.assertNotIn("F02_HIDDEN", result)
 
 
+    def test_oauth_stage_failures_never_expose_exception_contents(self):
+        from types import ModuleType
+        from unittest.mock import patch
+        import sys
+
+        secret = "VERY_PRIVATE_OAUTH_TEST_SENTINEL"
+        env = {
+            "MAR_P0_DRIVE_OAUTH_CLIENT_ID": secret,
+            "MAR_P0_DRIVE_OAUTH_CLIENT_SECRET": secret,
+            "MAR_P0_DRIVE_OAUTH_REFRESH_TOKEN": secret,
+        }
+        names = (
+            "google", "google.oauth2", "google.oauth2.credentials",
+            "google.auth", "google.auth.transport", "google.auth.transport.requests",
+            "google.auth.exceptions", "googleapiclient", "googleapiclient.discovery",
+        )
+        modules = {name: ModuleType(name) for name in names}
+
+        class SyntheticRefreshError(Exception):
+            pass
+
+        class SyntheticTransportError(Exception):
+            pass
+
+        class WorkingCredentials:
+            def __init__(self, *args, **kwargs):
+                self.scopes = kwargs.get("scopes")
+                self.granted_scopes = None
+                self.valid = True
+
+            def refresh(self, request):
+                return None
+
+        modules["google.oauth2.credentials"].Credentials = WorkingCredentials
+        modules["google.auth.transport.requests"].Request = lambda: object()
+        modules["google.auth.exceptions"].RefreshError = SyntheticRefreshError
+        modules["google.auth.exceptions"].TransportError = SyntheticTransportError
+        modules["googleapiclient.discovery"].build = lambda *args, **kwargs: object()
+
+        with patch.dict(sys.modules, modules):
+            self.assertIsNotNone(drive.get_service(env))
+
+            class BadInit(WorkingCredentials):
+                def __init__(self, *args, **kwargs):
+                    raise RuntimeError(secret)
+
+            class BadRefresh(WorkingCredentials):
+                def refresh(self, request):
+                    raise RuntimeError(secret)
+
+            for credential_cls, build_fn, expected in (
+                (BadInit, lambda *args, **kwargs: object(), "oauth_credentials_initialization_failed"),
+                (BadRefresh, lambda *args, **kwargs: object(), "oauth_refresh_unexpected_failure"),
+                (WorkingCredentials, lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError(secret)),
+                 "oauth_drive_client_initialization_failed"),
+            ):
+                with self.subTest(reason=expected):
+                    modules["google.oauth2.credentials"].Credentials = credential_cls
+                    modules["googleapiclient.discovery"].build = build_fn
+                    with self.assertRaises(drive.DriveBackupRejected) as rejected:
+                        drive.get_service(env)
+                    self.assertEqual(str(rejected.exception), expected)
+                    self.assertNotIn(secret, str(rejected.exception))
+
+
+
 if __name__ == "__main__":
     unittest.main()
