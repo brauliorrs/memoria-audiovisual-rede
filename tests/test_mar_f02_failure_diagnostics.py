@@ -41,5 +41,23 @@ class F02FailureDiagnosticsTests(unittest.TestCase):
         self.assertNotIn(sentinel, output.getvalue())
 
 
+    def test_oauth_google_rejection_is_classified_without_raw_details(self):
+        for error_code, expected in (
+            ("invalid_grant", "oauth_invalid_grant"),
+            ("invalid_client", "oauth_invalid_client"),
+            ("not_allowed", "oauth_refresh_rejected"),
+        ):
+            with self.subTest(google_code=error_code):
+                # Synthetic exception emulates google-auth's (message, dict) args;
+                # imports no OAuth dependencies and makes no network requests.
+                error = RuntimeError(
+                    "F02_HIDDEN_PROVIDER_MESSAGE",
+                    {"error": error_code, "error_description": "F02_HIDDEN_RAW_RESPONSE"},
+                )
+                result = drive.safe_oauth_refresh_code(error)
+                self.assertEqual(result, expected)
+                self.assertNotIn("F02_HIDDEN", result)
+
+
 if __name__ == "__main__":
     unittest.main()
